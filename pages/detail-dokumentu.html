@@ -135,7 +135,7 @@
         }
 
         /* ===========================================
-           STYLY DETAILU DOKUMENTU
+           STYLY STRÁNKY
            =========================================== */
         * {
             margin: 0;
@@ -143,175 +143,158 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 13px;
-            color: #333;
-            background: #f5f5f5;
-            line-height: 1.5;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
+            font-size: 13px !important;
+            color: #333 !important;
+            background: #f5f5f5 !important;
+            line-height: 1.5 !important;
+            text-align: left !important;
         }
-        /* Reset Nicepage stylů */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Roboto', sans-serif !important;
-            letter-spacing: normal !important;
-            text-transform: none !important;
+        * {
+            text-align: left !important;
         }
-        /* Main content - full width bez sidebar */
+        .btn, .btn-primary, .btn-secondary, .btn-back {
+            text-align: center !important;
+        }
+        /* Main layout */
         .main-content {
             display: flex;
             flex-direction: column;
             min-height: calc(100vh - 56px);
         }
-        /* Document header - sticky */
-        .doc-header {
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 20px 32px;
-            position: sticky;
-            top: 56px;
-            z-index: 100;
+        /* Page header */
+        .page-header {
+            background: #fff !important;
+            border-bottom: 1px solid #e0e0e0 !important;
+            position: sticky !important;
+            top: 56px !important;
+            z-index: 100 !important;
         }
-        .doc-header-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 24px;
+        .page-header-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 24px !important;
+            padding: 16px 32px !important;
+            border-bottom: 1px solid #f0f0f0 !important;
         }
-        .doc-header-left {
-            display: flex;
-            align-items: flex-start;
-            flex-shrink: 0;
+        .page-header-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
         }
-        .doc-header-center {
-            flex: 1;
-            text-align: center;
-            padding: 0 16px;
-        }
-        .doc-header-right {
-            display: flex;
-            align-items: flex-start;
-            flex-shrink: 0;
-        }
-        /* Konzistentní tlačítko zpět */
         .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border: 1px solid #dadce0;
-            border-radius: 4px;
-            background: #fff;
-            color: #5f6368;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-decoration: none;
-            flex-shrink: 0;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 10px 16px !important;
+            border: 1px solid #dadce0 !important;
+            border-radius: 4px !important;
+            background: #fff !important;
+            color: #5f6368 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.15s !important;
+            text-decoration: none !important;
         }
         .btn-back:hover {
-            background: #f1f3f4;
-            border-color: #5f6368;
-            color: #202124;
+            background: #f1f3f4 !important;
+            border-color: #5f6368 !important;
         }
         .btn-back .material-icons-outlined {
-            font-size: 18px;
+            font-size: 18px !important;
         }
-        .doc-title {
-            font-family: 'Roboto', sans-serif !important;
-            font-size: 16px !important;
+        .page-title {
+            font-size: 18px !important;
             font-weight: 500 !important;
             color: #202124 !important;
-            margin-bottom: 6px !important;
-            line-height: 1.4 !important;
-            letter-spacing: normal !important;
-            text-transform: none !important;
+            font-style: normal !important;
         }
-        .doc-meta {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            font-size: 13px;
-            color: #5f6368;
+        .page-subtitle {
+            font-size: 13px !important;
+            color: #5f6368 !important;
+            margin-top: 2px !important;
+            font-style: normal !important;
         }
-        .doc-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        /* Header bottom row - document access */
+        .page-header-bottom {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding: 12px 32px !important;
+            background: #f8f9fa !important;
+            gap: 24px !important;
         }
-        .doc-meta-item .material-icons-outlined {
-            font-size: 18px;
+        /* Document access buttons */
+        .document-access-buttons {
+            display: flex !important;
+            gap: 8px !important;
         }
-        /* Action buttons - stejná velikost */
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            min-width: 140px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-            border: 1px solid;
-            text-decoration: none;
+        .doc-access-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 6px 12px !important;
+            background: #fff !important;
+            border: 1px solid #dadce0 !important;
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            color: #202124 !important;
+            cursor: pointer !important;
+            transition: all 0.15s !important;
+            text-decoration: none !important;
+            font-style: normal !important;
         }
-        .btn-action.primary {
-            background: #004289;
-            color: white;
-            border-color: #004289;
+        .doc-access-btn:hover {
+            background: #e8f4fd !important;
+            border-color: #004289 !important;
+            color: #004289 !important;
         }
-        .btn-action.primary:hover {
-            background: #003366;
-            border-color: #003366;
+        .doc-access-btn .material-icons-outlined {
+            font-size: 16px !important;
         }
-        .btn-action.secondary {
-            background: #fff;
-            color: #004289;
-            border-color: #004289;
-        }
-        .btn-action.secondary:hover {
-            background: #e8f4fd;
-        }
-        .btn-action .material-icons-outlined {
-            font-size: 18px;
+        .doc-access-btn .badge {
+            background: #e8f4fd !important;
+            color: #004289 !important;
+            padding: 2px 6px !important;
+            border-radius: 10px !important;
+            font-size: 10px !important;
+            font-weight: 500 !important;
         }
         /* Dropdown pro přidělení zpracovatele */
         .assignee-dropdown {
             position: relative;
         }
         .assignee-dropdown-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            min-width: 200px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-            border: 1px solid #004289;
-            background: #004289;
-            color: white;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            padding: 10px 16px !important;
+            border-radius: 4px !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.15s !important;
+            border: 1px solid #004289 !important;
+            background: #004289 !important;
+            color: white !important;
         }
         .assignee-dropdown-btn:hover {
-            background: #003366;
-            border-color: #003366;
+            background: #003366 !important;
+            border-color: #003366 !important;
         }
         .assignee-dropdown-btn.assigned {
-            background: #fff;
-            color: #004289;
-            border-color: #004289;
+            background: #fff !important;
+            color: #004289 !important;
+            border-color: #004289 !important;
         }
         .assignee-dropdown-btn.assigned:hover {
-            background: #e8f4fd;
+            background: #e8f4fd !important;
         }
         .assignee-dropdown-btn .material-icons-outlined {
-            font-size: 18px;
+            font-size: 18px !important;
         }
         .assignee-dropdown-menu {
             position: absolute;
@@ -380,226 +363,19 @@
             font-size: 12px;
             color: #5f6368;
         }
-        /* Documents quick access */
-        .documents-quick-access {
-            background: #f5f5f5;
-            padding: 20px 32px;
-            display: flex;
-            align-items: flex-end;
-            gap: 32px;
-        }
-        .document-preview-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #fff;
-            border: 2px solid #004289;
-            border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.15s;
-            flex-shrink: 0;
-        }
-        .document-preview-card:hover {
-            background: #e8f4fd;
-            border-color: #004289;
-        }
-        .document-preview-card.main-document {
-            border-color: #004289;
-            background: #fff;
-        }
-        .document-preview-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .document-preview-icon .material-icons-outlined {
-            font-size: 24px;
-            color: #004289;
-        }
-        .document-preview-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .document-preview-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #5f6368;
-            margin-bottom: 2px;
-        }
-        .document-preview-name {
-            font-size: 13px;
-            font-weight: 500;
-            color: #202124;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 250px;
-        }
-        .document-preview-action {
-            font-size: 20px;
-            color: #004289;
-            flex-shrink: 0;
-        }
-        .attachments-section {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            align-items: flex-end;
-            gap: 12px;
-        }
-        .attachments-label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #5f6368;
-            flex-shrink: 0;
-        }
-        .attachments-label .material-icons-outlined {
-            font-size: 18px;
-        }
-        .attachments-items {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 8px;
-            overflow: hidden;
-            flex: 1;
-            min-width: 0;
-            align-items: center;
-        }
-        .attachments-items.expanded {
-            flex-wrap: wrap;
-            overflow: visible;
-        }
-        .attachments-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 12px;
-            color: #004289;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .attachments-toggle:hover {
-            background: #e8f4fd;
-        }
-        .attachments-toggle .material-icons-outlined {
-            font-size: 18px;
-            transition: transform 0.2s;
-        }
-        .attachments-toggle.expanded .material-icons-outlined {
-            transform: rotate(180deg);
-        }
-        .attachment-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: #fff;
-            border: 1px solid #dadce0;
-            border-radius: 16px;
-            font-size: 12px;
-            color: #202124;
-            text-decoration: none;
-            transition: all 0.15s;
-            white-space: nowrap;
-        }
-        .attachment-chip:hover {
-            background: #e8f4fd;
-            border-color: #004289;
-            color: #004289;
-        }
-        .attachment-chip .material-icons-outlined {
-            font-size: 16px;
-            color: #5f6368;
-        }
-        .attachment-chip:hover .material-icons-outlined {
-            color: #004289;
-        }
-        /* Processing choice section - kompaktní verze */
-        .processing-choice {
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 20px 32px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .processing-choice-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #5f6368;
-            white-space: nowrap;
-        }
-        .processing-choice-label .material-icons-outlined {
-            font-size: 20px;
-        }
-        .processing-choice-options {
-            display: flex;
-            gap: 8px;
-        }
-        .processing-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-            border: 1px solid #dadce0;
-            background: #fff;
-            color: #5f6368;
-            text-decoration: none;
-        }
-        .processing-btn:hover {
-            background: #f1f3f4;
-            border-color: #5f6368;
-            color: #202124;
-        }
-        .processing-btn.recommended {
-            background: #004289;
-            color: white;
-            border-color: #004289;
-        }
-        .processing-btn.recommended:hover {
-            background: #003366;
-            border-color: #003366;
-        }
-        .processing-btn .material-icons-outlined {
-            font-size: 18px;
-        }
         /* Content area */
-        .doc-content {
+        .page-content {
             flex: 1;
-            padding: 24px 32px;
-            overflow-y: auto;
+            padding: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
         /* Two column layout */
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 380px;
+            grid-template-columns: 1fr 350px;
             gap: 24px;
-            max-width: 1600px;
         }
         .content-main {
             display: flex;
@@ -611,38 +387,40 @@
             flex-direction: column;
             gap: 20px;
         }
-        /* Cards */
-        .card {
+        /* Form card */
+        .form-card {
             background: #fff;
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid #e0e0e0;
             overflow: hidden;
+            margin-bottom: 0;
         }
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            border-bottom: 1px solid #f0f0f0;
+        .form-card-header {
+            padding: 16px 24px;
             background: #fafafa;
-        }
-        .card-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #202124;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
-        .card-title .material-icons-outlined {
-            font-size: 20px;
-            color: #5f6368;
+        .form-card-header .material-icons-outlined {
+            font-size: 24px;
+            color: #004289;
         }
-        .card-actions {
+        .form-card-title {
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            color: #202124 !important;
+        }
+        .form-card-body {
+            padding: 24px !important;
+        }
+        .form-card-actions {
             display: flex;
             gap: 4px;
+            margin-left: auto;
         }
-        .card-action-btn {
+        .form-card-action-btn {
             width: 32px;
             height: 32px;
             border: none;
@@ -654,12 +432,9 @@
             align-items: center;
             justify-content: center;
         }
-        .card-action-btn:hover {
+        .form-card-action-btn:hover {
             background: #e8eaed;
             color: #004289;
-        }
-        .card-body {
-            padding: 16px 20px;
         }
         /* Person compact layout */
         .person-compact {
@@ -750,7 +525,7 @@
         .expandable-content.expanded {
             display: block;
         }
-        /* Data grid - compact layout */
+        /* Data grid */
         .data-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -785,7 +560,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 14px 20px;
+            padding: 16px 24px;
             background: #fafafa;
             border: none;
             cursor: pointer;
@@ -795,16 +570,16 @@
             background: #f5f5f5;
         }
         .collapsed-card-header .card-title {
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
             color: #202124;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
         .collapsed-card-header .card-title .material-icons-outlined {
-            font-size: 20px;
-            color: #5f6368;
+            font-size: 24px;
+            color: #004289;
         }
         .collapse-icon {
             font-size: 20px;
@@ -821,7 +596,7 @@
         .collapsed-card-content.expanded {
             display: block;
         }
-        /* Processing info - compact */
+        /* Processing info */
         .processing-info {
             display: flex;
             flex-direction: column;
@@ -911,16 +686,59 @@
             font-size: 12px;
             color: #5f6368;
         }
-        /* Checkbox styled */
-        .checkbox-field {
+        /* Actions bar */
+        .actions-bar {
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            padding: 20px 32px;
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            position: sticky;
+            bottom: 0;
         }
-        .checkbox-field input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #004289;
+        .actions-left {
+            display: flex;
+            gap: 12px;
+        }
+        .actions-right {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            border: 1px solid;
+        }
+        .btn-primary {
+            background: #004289 !important;
+            color: #fff !important;
+            border-color: #004289 !important;
+        }
+        .btn-primary:hover {
+            background: #003366 !important;
+            border-color: #003366 !important;
+        }
+        .btn-secondary {
+            background: #fff !important;
+            color: #5f6368 !important;
+            border-color: #dadce0 !important;
+        }
+        .btn-secondary:hover {
+            background: #f5f5f5 !important;
+            border-color: #5f6368 !important;
+        }
+        .btn .material-icons-outlined {
+            font-size: 18px;
         }
         /* Modal */
         .modal-overlay {
@@ -942,7 +760,7 @@
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            max-width: 480px;
+            max-width: 500px;
             width: 90%;
             overflow: hidden;
         }
@@ -954,16 +772,16 @@
             border-bottom: 1px solid #e0e0e0;
         }
         .modal-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #202124;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            color: #202124 !important;
         }
         .modal-title .material-icons-outlined {
-            font-size: 24px;
-            color: #004289;
+            font-size: 24px !important;
+            color: #004289 !important;
         }
         .modal-close {
             width: 36px;
@@ -1009,89 +827,51 @@
             background: #fafafa;
         }
         /* Responsive */
-        @media (max-width: 1200px) {
+        @media (max-width: 1024px) {
             .content-grid {
                 grid-template-columns: 1fr;
             }
-            
             .content-aside {
                 flex-direction: row;
                 flex-wrap: wrap;
             }
-            
-            .content-aside .card {
+            .content-aside .form-card {
                 flex: 1;
-                min-width: 300px;
-            }
-            .documents-quick-access {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .document-preview-card {
-                width: 100%;
-            }
-            .processing-choice {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .processing-choice-options {
-                flex-wrap: wrap;
+                min-width: 280px;
             }
         }
         @media (max-width: 768px) {
-            .doc-header {
-                padding: 16px;
-                top: 56px;
-            }
-            
-            .doc-header-top {
+            .page-header-top {
                 flex-direction: column;
+                padding: 16px;
                 gap: 16px;
             }
-            .doc-header-left,
-            .doc-header-right {
+            .page-header-left {
                 width: 100%;
-            }
-            .doc-header-center {
-                order: -1;
-                padding: 0;
-            }
-            .assignee-dropdown-btn {
-                width: 100%;
-            }
-            
-            .btn-action {
-                flex: 1;
-                min-width: auto;
-            }
-            
-            .documents-quick-access {
-                padding: 16px;
                 flex-direction: column;
-                align-items: stretch;
+                align-items: flex-start;
             }
-            .attachments-section {
+            .page-header-bottom {
+                padding: 12px 16px;
                 flex-wrap: wrap;
             }
-            .document-preview-card {
-                width: 100%;
+            .document-access-buttons {
+                flex-wrap: wrap;
             }
-            .document-preview-name {
-                max-width: 180px;
-            }
-            .processing-choice {
+            .page-content {
                 padding: 16px;
             }
-            .processing-choice-options {
+            .actions-bar {
+                padding: 16px;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .actions-left,
+            .actions-right {
                 width: 100%;
             }
-            .processing-btn {
+            .btn {
                 flex: 1;
-                min-width: auto;
-            }
-            
-            .doc-content {
-                padding: 16px;
             }
         }
     </style>
@@ -1126,195 +906,104 @@
     </header>
 
     <main class="main-content">
-        <!-- Document header - sticky -->
-        <header class="doc-header" role="banner">
-            <div class="doc-header-top">
-                <div class="doc-header-left">
+        <!-- Page header - sticky -->
+        <header class="page-header">
+            <div class="page-header-top">
+                <div class="page-header-left">
                     <a href="../dokumenty.html" class="btn-back">
                         <span class="material-icons-outlined">arrow_back</span>
                         <span>Zpět na seznam</span>
                     </a>
-                </div>
-                
-                <div class="doc-header-center">
-                    <h1 class="doc-title">Novostavba RD včetně přípojek</h1>
-                    <div class="doc-meta">
-                        <span class="doc-meta-item">
-                            <span class="material-icons-outlined">tag</span>
-                            SR00X01HSU37
-                        </span>
-                        <span class="doc-meta-item">
-                            <span class="material-icons-outlined">description</span>
-                            Žádost o povolení stavby
-                        </span>
-                        <span class="doc-meta-item">
-                            <span class="material-icons-outlined">calendar_today</span>
-                            7. 1. 2026
-                        </span>
+                    <div>
+                        <h1 class="page-title">Detail dokumentu</h1>
+                        <div class="page-subtitle">Žádost o povolení stavby • SR00X01HSU37</div>
                     </div>
                 </div>
-                
-                <div class="doc-header-right">
-                    <!-- Dropdown pro přidělení zpracovatele -->
-                    <div class="assignee-dropdown">
-                        <button class="assignee-dropdown-btn" id="assigneeBtn" onclick="toggleAssigneeDropdown()">
-                            <span class="material-icons-outlined">person_add</span>
-                            <span id="assigneeBtnText">Přidělit zpracovateli</span>
-                            <span class="material-icons-outlined">expand_more</span>
-                        </button>
-                        <div class="assignee-dropdown-menu" id="assigneeMenu">
-                            <div class="assignee-dropdown-item highlight" onclick="assignTo('Přidělit sobě', 'EČ', 'Eva Čejchanová')">
-                                <div class="assignee-avatar">EČ</div>
-                                <div class="assignee-info">
-                                    <div class="assignee-name">Přidělit sobě</div>
-                                </div>
+                <div class="assignee-dropdown">
+                    <button class="assignee-dropdown-btn" id="assigneeBtn" onclick="toggleAssigneeDropdown()">
+                        <span class="material-icons-outlined">person_add</span>
+                        <span id="assigneeBtnText">Přidělit zpracovateli</span>
+                        <span class="material-icons-outlined">expand_more</span>
+                    </button>
+                    <div class="assignee-dropdown-menu" id="assigneeMenu">
+                        <div class="assignee-dropdown-item highlight" onclick="assignTo('Přidělit sobě', 'EČ', 'Eva Čejchanová')">
+                            <div class="assignee-avatar">EČ</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Přidělit sobě</div>
                             </div>
-                            <div class="assignee-dropdown-item" onclick="assignTo('Jan Novák', 'JN', 'Referent')">
-                                <div class="assignee-avatar">JN</div>
-                                <div class="assignee-info">
-                                    <div class="assignee-name">Jan Novák</div>
-                                    <div class="assignee-role">Referent</div>
-                                </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Jan Novák', 'JN', 'Referent')">
+                            <div class="assignee-avatar">JN</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Jan Novák</div>
+                                <div class="assignee-role">Referent</div>
                             </div>
-                            <div class="assignee-dropdown-item" onclick="assignTo('Marie Svobodová', 'MS', 'Referent')">
-                                <div class="assignee-avatar">MS</div>
-                                <div class="assignee-info">
-                                    <div class="assignee-name">Marie Svobodová</div>
-                                    <div class="assignee-role">Referent</div>
-                                </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Marie Svobodová', 'MS', 'Referent')">
+                            <div class="assignee-avatar">MS</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Marie Svobodová</div>
+                                <div class="assignee-role">Referent</div>
                             </div>
-                            <div class="assignee-dropdown-item" onclick="assignTo('Petr Dvořák', 'PD', 'Vedoucí oddělení')">
-                                <div class="assignee-avatar">PD</div>
-                                <div class="assignee-info">
-                                    <div class="assignee-name">Petr Dvořák</div>
-                                    <div class="assignee-role">Vedoucí oddělení</div>
-                                </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Petr Dvořák', 'PD', 'Vedoucí oddělení')">
+                            <div class="assignee-avatar">PD</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Petr Dvořák</div>
+                                <div class="assignee-role">Vedoucí oddělení</div>
                             </div>
-                            <div class="assignee-dropdown-item" onclick="assignTo('Lucie Horáková', 'LH', 'Referent')">
-                                <div class="assignee-avatar">LH</div>
-                                <div class="assignee-info">
-                                    <div class="assignee-name">Lucie Horáková</div>
-                                    <div class="assignee-role">Referent</div>
-                                </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Lucie Horáková', 'LH', 'Referent')">
+                            <div class="assignee-avatar">LH</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Lucie Horáková</div>
+                                <div class="assignee-role">Referent</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
-        <!-- Rychlý přístup k dokumentům -->
-        <div class="documents-quick-access">
-            <a href="#" class="document-preview-card main-document" onclick="openDocumentModal(); return false;">
-                <div class="document-preview-icon">
-                    <span class="material-icons-outlined">description</span>
-                </div>
-                <div class="document-preview-info">
-                    <div class="document-preview-label">Hlavní dokument</div>
-                    <div class="document-preview-name">Žádost o povolení stavby.pdf</div>
-                </div>
-                <span class="document-preview-action material-icons-outlined">open_in_new</span>
-            </a>
-            <div class="attachments-section">
-                <div class="attachments-label">
-                    <span class="material-icons-outlined">attach_file</span>
-                    Přílohy (12)
-                </div>
-                <div class="attachments-items" id="attachmentsList">
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Průvodní zpráva.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">image</span>
-                        Fotodokumentace.zip
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Vyjádření vlastníka.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Stanovisko DOSS - ŽP.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Stanovisko DOSS - PO.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Geometrický plán.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Výpis z katastru.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Plná moc.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">image</span>
-                        Situační výkres.dwg
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Technická zpráva.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
-                        <span class="material-icons-outlined">picture_as_pdf</span>
-                        Souhlasy sousedů.pdf
-                    </a>
-                    <a href="#" class="attachment-chip">
+            <div class="page-header-bottom">
+                <!-- Document access - stejné jako v povoleni-1 -->
+                <div class="document-access-buttons">
+                    <a href="#" class="doc-access-btn" onclick="openModal('zadostModal'); return false;">
                         <span class="material-icons-outlined">description</span>
-                        Seznam dotčených pozemků.xlsx
+                        Žádost
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openModal('prilohyModal'); return false;">
+                        <span class="material-icons-outlined">attach_file</span>
+                        Přílohy
+                        <span class="badge">12</span>
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openModal('eedModal'); return false;">
+                        <span class="material-icons-outlined">folder</span>
+                        El. dokumentace
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openModal('dokladyModal'); return false;">
+                        <span class="material-icons-outlined">fact_check</span>
+                        Dokladová část
                     </a>
                 </div>
-                <button class="attachments-toggle" id="attachmentsToggle" onclick="toggleAttachments()">
-                    <span>Zobrazit vše</span>
-                    <span class="material-icons-outlined">expand_more</span>
-                </button>
             </div>
-        </div>
-        <!-- Volba způsobu zpracování - kompaktní -->
-        <div class="processing-choice">
-            <div class="processing-choice-label">
-                <span class="material-icons-outlined">route</span>
-                <span>Způsob zpracování:</span>
-            </div>
-            <div class="processing-choice-options">
-                <a href="povoleni-1.html" class="processing-btn recommended">
-                    <span class="material-icons-outlined">add_circle</span>
-                    Založit nové řízení
-                </a>
-                <a href="vlozit-do-rizeni.html" class="processing-btn">
-                    <span class="material-icons-outlined">post_add</span>
-                    Vložit do existujícího řízení
-                </a>
-                <a href="vzit-na-vedomi.html" class="processing-btn">
-                    <span class="material-icons-outlined">inventory</span>
-                    Vzít na vědomí
-                </a>
-            </div>
-        </div>
+        </header>
+
         <!-- Content -->
-        <div class="doc-content">
+        <div class="page-content">
             <div class="content-grid">
                 <!-- Main content column -->
                 <div class="content-main">
-                    <!-- Odesílatel - kompaktní -->
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">
-                                <span class="material-icons-outlined">person</span>
-                                Odesílatel (žadatel)
-                            </span>
-                            <div class="card-actions">
-                                <button class="card-action-btn" title="Ověřit v registrech">
+                    <!-- Odesílatel -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <span class="material-icons-outlined">person</span>
+                            <span class="form-card-title">Odesílatel (žadatel)</span>
+                            <div class="form-card-actions">
+                                <button class="form-card-action-btn" title="Ověřit v registrech">
                                     <span class="material-icons-outlined">verified_user</span>
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="form-card-body">
                             <div class="person-compact">
                                 <div class="person-avatar">MV</div>
                                 <div class="person-main">
@@ -1370,8 +1059,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Identifikace a doručení - sbalené -->
-                    <div class="card collapsed-card">
+
+                    <!-- Identifikace a doručení -->
+                    <div class="form-card collapsed-card">
                         <button class="collapsed-card-header" onclick="toggleCard('docIdentification')">
                             <span class="card-title">
                                 <span class="material-icons-outlined">description</span>
@@ -1380,7 +1070,7 @@
                             <span class="collapse-icon material-icons-outlined" id="docIdentificationIcon">expand_more</span>
                         </button>
                         <div class="collapsed-card-content" id="docIdentification">
-                            <div class="card-body">
+                            <div class="form-card-body">
                                 <div class="data-grid">
                                     <div class="data-item">
                                         <span class="data-item-label">Jednoznačný identifikátor</span>
@@ -1418,8 +1108,9 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Auditní záznamy - sbalené -->
-                    <div class="card collapsed-card">
+
+                    <!-- Auditní záznamy -->
+                    <div class="form-card collapsed-card">
                         <button class="collapsed-card-header" onclick="toggleCard('auditRecords')">
                             <span class="card-title">
                                 <span class="material-icons-outlined">history</span>
@@ -1428,7 +1119,7 @@
                             <span class="collapse-icon material-icons-outlined" id="auditRecordsIcon">expand_more</span>
                         </button>
                         <div class="collapsed-card-content" id="auditRecords">
-                            <div class="card-body">
+                            <div class="form-card-body">
                                 <div class="audit-timeline">
                                     <div class="audit-item completed">
                                         <div class="audit-dot"></div>
@@ -1463,17 +1154,16 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Sidebar column -->
                 <div class="content-aside">
-                    <!-- Zpracování - kompaktní -->
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">
-                                <span class="material-icons-outlined">assignment_ind</span>
-                                Zpracování
-                            </span>
+                    <!-- Zpracování -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <span class="material-icons-outlined">assignment_ind</span>
+                            <span class="form-card-title">Zpracování</span>
                         </div>
-                        <div class="card-body">
+                        <div class="form-card-body">
                             <div class="processing-info">
                                 <div class="processing-status">
                                     <span class="pending status-badge">Ke zpracování</span>
@@ -1498,16 +1188,37 @@
                 </div>
             </div>
         </div>
+
+        <!-- Actions bar - sticky footer (stejné jako v povoleni-1) -->
+        <div class="actions-bar">
+            <div class="actions-left">
+                <a href="vzit-na-vedomi.html" class="btn btn-secondary">
+                    <span class="material-icons-outlined">inventory</span>
+                    Vzít na vědomí
+                </a>
+                <a href="vlozit-do-rizeni.html" class="btn btn-secondary">
+                    <span class="material-icons-outlined">post_add</span>
+                    Vložit do existujícího řízení
+                </a>
+            </div>
+            <div class="actions-right">
+                <a href="povoleni-1.html" class="btn btn-primary">
+                    <span class="material-icons-outlined">add_circle</span>
+                    Založit nové řízení
+                </a>
+            </div>
+        </div>
     </main>
-    <!-- Modal pro náhled dokumentu -->
-    <div class="modal-overlay" id="documentModal" onclick="closeDocumentModal(event)">
+
+    <!-- Modal: Žádost -->
+    <div class="modal-overlay" id="zadostModal" onclick="closeModal('zadostModal', event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">description</span>
-                    Žádost o povolení stavby.pdf
+                    Žádost o povolení stavby
                 </div>
-                <button class="modal-close" onclick="closeDocumentModal()">
+                <button class="modal-close" onclick="closeModal('zadostModal')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
@@ -1517,33 +1228,123 @@
                         <span class="material-icons-outlined" style="font-size: 48px;">preview</span>
                     </div>
                     <div class="modal-placeholder-text">
-                        V ostré verzi aplikace by se zde zobrazil<br>
-                        <strong>náhled hlavního dokumentu</strong><br>
-                        s možností stažení a tisku.
+                        V ostré verzi by se zde zobrazil<br>
+                        <strong>náhled žádosti o povolení stavby</strong><br>
+                        s možností stažení.
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn-action secondary" onclick="closeDocumentModal()">
-                    Zavřít
-                </button>
+                <button class="btn btn-secondary" onclick="closeModal('zadostModal')">Zavřít</button>
             </div>
         </div>
     </div>
+
+    <!-- Modal: Přílohy -->
+    <div class="modal-overlay" id="prilohyModal" onclick="closeModal('prilohyModal', event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">attach_file</span>
+                    Přílohy žádosti (12)
+                </div>
+                <button class="modal-close" onclick="closeModal('prilohyModal')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-placeholder">
+                    <div class="modal-placeholder-icon">
+                        <span class="material-icons-outlined" style="font-size: 48px;">folder_open</span>
+                    </div>
+                    <div class="modal-placeholder-text">
+                        V ostré verzi by se zde zobrazil<br>
+                        <strong>seznam příloh žádosti</strong><br>
+                        s možností náhledu a stažení.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('prilohyModal')">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Elektronická dokumentace -->
+    <div class="modal-overlay" id="eedModal" onclick="closeModal('eedModal', event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">folder</span>
+                    Elektronická dokumentace
+                </div>
+                <button class="modal-close" onclick="closeModal('eedModal')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-placeholder">
+                    <div class="modal-placeholder-icon">
+                        <span class="material-icons-outlined" style="font-size: 48px;">architecture</span>
+                    </div>
+                    <div class="modal-placeholder-text">
+                        V ostré verzi by se zde zobrazila<br>
+                        <strong>projektová dokumentace</strong><br>
+                        v evidenci elektronických dokumentací (EED).
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('eedModal')">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Dokladová část -->
+    <div class="modal-overlay" id="dokladyModal" onclick="closeModal('dokladyModal', event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">fact_check</span>
+                    Dokladová část
+                </div>
+                <button class="modal-close" onclick="closeModal('dokladyModal')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-placeholder">
+                    <div class="modal-placeholder-icon">
+                        <span class="material-icons-outlined" style="font-size: 48px;">checklist</span>
+                    </div>
+                    <div class="modal-placeholder-text">
+                        V ostré verzi by se zde zobrazila<br>
+                        <strong>dokladová část</strong><br>
+                        obsahující stanoviska DO a vyjádření správců sítí.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('dokladyModal')">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Dropdown pro přidělení zpracovatele
         let isAssigned = false;
+
         function toggleAssigneeDropdown() {
             const menu = document.getElementById('assigneeMenu');
             menu.classList.toggle('open');
         }
+
         function assignTo(name, initials, role) {
             const btn = document.getElementById('assigneeBtn');
             const btnText = document.getElementById('assigneeBtnText');
             const menu = document.getElementById('assigneeMenu');
             const sidebarAssignee = document.getElementById('sidebarAssignee');
             
-            // Změna tlačítka
             if (name === 'Přidělit sobě') {
                 btnText.textContent = 'Změnit zpracovatele';
                 sidebarAssignee.textContent = 'Eva Čejchanová';
@@ -1555,10 +1356,10 @@
             btn.classList.add('assigned');
             btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
             
-            // Zavřít menu
             menu.classList.remove('open');
             isAssigned = true;
         }
+
         // Zavřít dropdown při kliknutí mimo
         document.addEventListener('click', function(e) {
             const dropdown = document.querySelector('.assignee-dropdown');
@@ -1566,21 +1367,8 @@
                 document.getElementById('assigneeMenu').classList.remove('open');
             }
         });
-        // Toggle pro přílohy
-        function toggleAttachments() {
-            const items = document.getElementById('attachmentsList');
-            const toggle = document.getElementById('attachmentsToggle');
-            
-            items.classList.toggle('expanded');
-            toggle.classList.toggle('expanded');
-            
-            if (items.classList.contains('expanded')) {
-                toggle.querySelector('span:first-child').textContent = 'Skrýt';
-            } else {
-                toggle.querySelector('span:first-child').textContent = 'Zobrazit vše';
-            }
-        }
-        // Toggle pro expandable sekce (např. údaje o žadateli)
+
+        // Toggle pro expandable sekce
         function toggleSection(sectionId) {
             const content = document.getElementById(sectionId);
             const icon = document.getElementById(sectionId + 'Icon');
@@ -1589,6 +1377,7 @@
             content.classList.toggle('expanded');
             toggle.classList.toggle('expanded');
         }
+
         // Toggle pro collapsed karty
         function toggleCard(cardId) {
             const content = document.getElementById(cardId);
@@ -1598,23 +1387,28 @@
             content.classList.toggle('expanded');
             header.classList.toggle('expanded');
         }
-        // Modal pro náhled dokumentu
-        function openDocumentModal() {
-            document.getElementById('documentModal').classList.add('open');
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('open');
             document.body.style.overflow = 'hidden';
         }
-        function closeDocumentModal(event) {
+
+        function closeModal(modalId, event) {
             if (event && event.target !== event.currentTarget) return;
-            document.getElementById('documentModal').classList.remove('open');
+            document.getElementById(modalId).classList.remove('open');
             document.body.style.overflow = '';
         }
-        // Zavřít modal klávesou Escape
+
+        // Escape key closes modals
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeDocumentModal();
+                document.querySelectorAll('.modal-overlay.open').forEach(function(modal) {
+                    modal.classList.remove('open');
+                });
+                document.body.style.overflow = '';
             }
         });
-        // Inicializace - prázdné, vše funguje přes onclick
     </script>
 </body>
 </html>
