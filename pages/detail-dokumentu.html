@@ -1,245 +1,724 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISSŘ - Detail dokumentu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
-        /* ===========================================
-           ISSŘ HLAVIČKA
-           =========================================== */
-        .issr-header {
-            background-color: #004289;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            padding: 0 24px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
-        }
-
-        .issr-header__logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: white;
-        }
-
-        .issr-header__logo-img {
-            height: 40px;
-            width: auto;
-        }
-
-        .issr-header__title {
-            font-size: 12px;
-            font-weight: 400;
-            color: white;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-
-        .issr-header__search {
-            flex: 1;
-            max-width: 500px;
-            margin: 0 40px;
-        }
-
-        .issr-header__search-input {
-            width: 100%;
-            height: 32px;
-            padding: 0 16px;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .issr-header__actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-left: auto;
-        }
-
-        .issr-header__notification {
-            position: relative;
-            color: white;
-            cursor: pointer;
-        }
-
-        .issr-header__notification-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .issr-header__notification-badge {
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            background-color: #0066cc;
-            color: white;
-            font-size: 10px;
-            font-weight: 600;
-            min-width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .issr-header__user {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .issr-header__user-icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ===========================================
-           ZÁKLADNÍ STYLY
-           =========================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
         body {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             color: #333;
             background: #f5f5f5;
             line-height: 1.5;
         }
-
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
+        /* Reset Nicepage stylů */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
         }
-
-        .back-link {
+        /* Main content - full width bez sidebar */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* Document header - sticky */
+        .doc-header {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .doc-header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .doc-header-left {
+            display: flex;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+        .doc-header-center {
+            flex: 1;
+            text-align: center;
+            padding: 0 16px;
+        }
+        .doc-header-right {
+            display: flex;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+        /* Konzistentní tlačítko zpět */
+        .btn-back {
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            padding: 10px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background: #fff;
             color: #5f6368;
-            text-decoration: none;
             font-size: 13px;
-            margin-bottom: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            flex-shrink: 0;
         }
-
-        .back-link:hover {
-            color: #1a73e8;
+        .btn-back:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+            color: #202124;
         }
-
-        .back-link .material-icons-outlined {
+        .btn-back .material-icons-outlined {
             font-size: 18px;
         }
-
-        /* Document Header */
-        .doc-header {
-            background: white;
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .doc-header-center {
+            flex: 1;
+            text-align: center;
+            padding: 0 16px;
         }
-
-        .doc-header__top {
+        .doc-title {
+            font-family: 'Roboto', sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 500 !important;
+            color: #202124 !important;
+            margin-bottom: 6px !important;
+            line-height: 1.4 !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+        }
+        .doc-meta {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-
-        .doc-header__pid {
-            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            font-size: 13px;
             color: #5f6368;
-            font-family: 'Roboto Mono', monospace;
-            margin-bottom: 4px;
         }
-
-        .doc-header__title {
-            font-size: 24px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .doc-header__meta {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-
-        .doc-header__meta-item {
+        .doc-meta-item {
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 13px;
-            color: #5f6368;
         }
-
-        .doc-header__meta-item .material-icons-outlined {
+        .doc-meta-item .material-icons-outlined {
             font-size: 18px;
         }
-
-        .doc-header__actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .btn {
+        /* Action buttons - stejná velikost */
+        .btn-action {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            min-width: 140px;
             border-radius: 4px;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
+            border: 1px solid;
             text-decoration: none;
-            border: none;
         }
-
-        .btn-primary {
-            background: #1a73e8;
+        .btn-action.primary {
+            background: #2362A2;
             color: white;
+            border-color: #2362A2;
         }
-
-        .btn-primary:hover {
-            background: #1557b0;
+        .btn-action.primary:hover {
+            background: #1b4d7a;
+            border-color: #1b4d7a;
         }
-
-        .btn-secondary {
-            background: white;
-            color: #5f6368;
-            border: 1px solid #dadce0;
+        .btn-action.secondary {
+            background: #fff;
+            color: #2362A2;
+            border-color: #2362A2;
         }
-
-        .btn-secondary:hover {
-            background: #f8f9fa;
+        .btn-action.secondary:hover {
+            background: #e8f1fa;
         }
-
-        .btn .material-icons-outlined {
+        .btn-action .material-icons-outlined {
             font-size: 18px;
         }
-
-        /* Status Badge */
+        /* Dropdown pro přidělení zpracovatele */
+        .assignee-dropdown {
+            position: relative;
+        }
+        .assignee-dropdown-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            min-width: 200px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid #2362A2;
+            background: #2362A2;
+            color: white;
+        }
+        .assignee-dropdown-btn:hover {
+            background: #1b4d7a;
+            border-color: #1b4d7a;
+        }
+        .assignee-dropdown-btn.assigned {
+            background: #fff;
+            color: #2362A2;
+            border-color: #2362A2;
+        }
+        .assignee-dropdown-btn.assigned:hover {
+            background: #e8f1fa;
+        }
+        .assignee-dropdown-btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        .assignee-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            min-width: 280px;
+            z-index: 200;
+            display: none;
+            overflow: hidden;
+        }
+        .assignee-dropdown-menu.open {
+            display: block;
+        }
+        .assignee-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .assignee-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        .assignee-dropdown-item:hover {
+            background: #f8f9fa;
+        }
+        .assignee-dropdown-item.highlight {
+            background: #e8f1fa;
+        }
+        .assignee-dropdown-item.highlight:hover {
+            background: #c5d9f0;
+        }
+        .assignee-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e8f1fa;
+            color: #2362A2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .assignee-dropdown-item.highlight .assignee-avatar {
+            background: #2362A2;
+            color: #fff;
+        }
+        .assignee-info {
+            flex: 1;
+        }
+        .assignee-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .assignee-role {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        /* Documents quick access */
+        .documents-quick-access {
+            background: #f5f5f5;
+            padding: 20px 32px;
+            display: flex;
+            align-items: flex-end;
+            gap: 32px;
+        }
+        .document-preview-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #fff;
+            border: 2px solid #2362A2;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .document-preview-card:hover {
+            background: #e8f1fa;
+            border-color: #2362A2;
+        }
+        .document-preview-card.main-document {
+            border-color: #2362A2;
+            background: #fff;
+        }
+        .document-preview-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .document-preview-icon .material-icons-outlined {
+            font-size: 24px;
+            color: #2362A2;
+        }
+        .document-preview-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .document-preview-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #5f6368;
+            margin-bottom: 2px;
+        }
+        .document-preview-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 250px;
+        }
+        .document-preview-action {
+            font-size: 20px;
+            color: #2362A2;
+            flex-shrink: 0;
+        }
+        .attachments-section {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+        }
+        .attachments-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #5f6368;
+            flex-shrink: 0;
+        }
+        .attachments-label .material-icons-outlined {
+            font-size: 18px;
+        }
+        .attachments-items {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 8px;
+            overflow: hidden;
+            flex: 1;
+            min-width: 0;
+            align-items: center;
+        }
+        .attachments-items.expanded {
+            flex-wrap: wrap;
+            overflow: visible;
+        }
+        .attachments-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #2362A2;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .attachments-toggle:hover {
+            background: #e8f1fa;
+        }
+        .attachments-toggle .material-icons-outlined {
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
+        .attachments-toggle.expanded .material-icons-outlined {
+            transform: rotate(180deg);
+        }
+        .attachment-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #202124;
+            text-decoration: none;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .attachment-chip:hover {
+            background: #e8f1fa;
+            border-color: #2362A2;
+            color: #2362A2;
+        }
+        .attachment-chip .material-icons-outlined {
+            font-size: 16px;
+            color: #5f6368;
+        }
+        .attachment-chip:hover .material-icons-outlined {
+            color: #2362A2;
+        }
+        /* Processing choice section - kompaktní verze */
+        .processing-choice {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .processing-choice-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            white-space: nowrap;
+        }
+        .processing-choice-label .material-icons-outlined {
+            font-size: 20px;
+        }
+        .processing-choice-options {
+            display: flex;
+            gap: 8px;
+        }
+        .processing-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid #dadce0;
+            background: #fff;
+            color: #5f6368;
+            text-decoration: none;
+        }
+        .processing-btn:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+            color: #202124;
+        }
+        .processing-btn.recommended {
+            background: #2362A2;
+            color: white;
+            border-color: #2362A2;
+        }
+        .processing-btn.recommended:hover {
+            background: #1b4d7a;
+            border-color: #1b4d7a;
+        }
+        .processing-btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        /* Content area */
+        .doc-content {
+            flex: 1;
+            padding: 24px 32px;
+            overflow-y: auto;
+        }
+        /* Two column layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 24px;
+            max-width: 1600px;
+        }
+        .content-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .content-aside {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        /* Cards */
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .material-icons-outlined {
+            font-size: 20px;
+            color: #5f6368;
+        }
+        .card-actions {
+            display: flex;
+            gap: 4px;
+        }
+        .card-action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #5f6368;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-action-btn:hover {
+            background: #e8eaed;
+            color: #2362A2;
+        }
+        .card-body {
+            padding: 16px 20px;
+        }
+        /* Person compact layout */
+        .person-compact {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .person-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e8f1fa;
+            color: #2362A2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .person-main {
+            min-width: 150px;
+        }
+        .person-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .person-type {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .person-contacts {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #5f6368;
+            text-decoration: none;
+        }
+        .contact-link .material-icons-outlined {
+            font-size: 18px;
+        }
+        a.contact-link:hover {
+            color: #2362A2;
+        }
+        /* Expandable section inside card */
+        .expandable-section {
+            border-top: 1px solid #f0f0f0;
+            margin-top: 16px;
+            padding-top: 8px;
+        }
+        .expandable-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 8px 0;
+            background: none;
+            border: none;
+            font-size: 13px;
+            color: #5f6368;
+            cursor: pointer;
+        }
+        .expandable-toggle:hover {
+            color: #2362A2;
+        }
+        .expandable-toggle .material-icons-outlined {
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+        .expandable-toggle.expanded .material-icons-outlined {
+            transform: rotate(180deg);
+        }
+        .expandable-content {
+            display: none;
+            padding-top: 12px;
+        }
+        .expandable-content.expanded {
+            display: block;
+        }
+        /* Data grid - compact layout */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px 24px;
+        }
+        .data-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .data-item-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #9aa0a6;
+        }
+        .data-item-value {
+            font-size: 13px;
+            color: #202124;
+        }
+        .data-item-value.mono {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        /* Collapsed card */
+        .collapsed-card {
+            overflow: hidden;
+        }
+        .collapsed-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 14px 20px;
+            background: #fafafa;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+        .collapsed-card-header:hover {
+            background: #f5f5f5;
+        }
+        .collapsed-card-header .card-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .collapsed-card-header .card-title .material-icons-outlined {
+            font-size: 20px;
+            color: #5f6368;
+        }
+        .collapse-icon {
+            font-size: 20px;
+            color: #5f6368;
+            transition: transform 0.2s;
+        }
+        .collapsed-card-header.expanded .collapse-icon {
+            transform: rotate(180deg);
+        }
+        .collapsed-card-content {
+            display: none;
+            border-top: 1px solid #e0e0e0;
+        }
+        .collapsed-card-content.expanded {
+            display: block;
+        }
+        /* Processing info - compact */
+        .processing-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .processing-status {
+            margin-bottom: 4px;
+        }
+        .processing-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .processing-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #5f6368;
+        }
+        .processing-row .material-icons-outlined {
+            font-size: 18px;
+            color: #9aa0a6;
+        }
+        /* Status badge */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -249,274 +728,729 @@
             font-size: 12px;
             font-weight: 500;
         }
-
-        .status-badge--warning {
+        .status-badge.pending {
             background: #fef7e0;
             color: #b06000;
         }
-
-        .status-badge .material-icons-outlined {
-            font-size: 16px;
+        /* Auditní timeline */
+        .audit-timeline {
+            position: relative;
+            padding-left: 24px;
         }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #dadce0;
-            margin-bottom: 24px;
-            background: white;
-            border-radius: 8px 8px 0 0;
-            padding: 0 16px;
+        .audit-timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #e0e0e0;
         }
-
-        .tab {
-            padding: 16px 20px;
+        .audit-item {
+            position: relative;
+            padding-bottom: 16px;
+        }
+        .audit-item:last-child {
+            padding-bottom: 0;
+        }
+        .audit-dot {
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+        }
+        .audit-item.completed .audit-dot {
+            background: #34a853;
+            border-color: #34a853;
+        }
+        .audit-item.current .audit-dot {
+            background: #2362A2;
+            border-color: #2362A2;
+        }
+        .audit-item-content {
             font-size: 13px;
+        }
+        .audit-item-title {
             font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .audit-item-date {
+            font-size: 12px;
             color: #5f6368;
-            text-decoration: none;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -1px;
+        }
+        /* Checkbox styled */
+        .checkbox-field {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .tab:hover {
-            color: #1a73e8;
+        .checkbox-field input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2362A2;
         }
-
-        .tab.active {
-            color: #1a73e8;
-            border-bottom-color: #1a73e8;
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
         }
-
-        .tab .material-icons-outlined {
-            font-size: 18px;
-        }
-
-        .tab__badge {
-            background: #1a73e8;
-            color: white;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-
-        /* Content Card */
-        .content-card {
-            background: white;
-            border-radius: 0 0 8px 8px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        /* Info Rows */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .info-group {
+        .modal-overlay.open {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
         }
-
-        .info-row {
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 480px;
+            width: 90%;
+            overflow: hidden;
+        }
+        .modal-header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-size: 13px;
-            color: #5f6368;
-        }
-
-        .info-value {
-            font-size: 13px;
-            color: #333;
-            font-weight: 500;
-            text-align: right;
-        }
-
-        .info-value--mono {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 12px;
-        }
-
-        /* Section Title */
-        .section-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
+            padding: 16px 20px;
             border-bottom: 1px solid #e0e0e0;
         }
-
+        .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .modal-title .material-icons-outlined {
+            font-size: 24px;
+            color: #2362A2;
+        }
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #5f6368;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover {
+            background: #f1f3f4;
+        }
+        .modal-body {
+            padding: 24px 20px;
+        }
+        .modal-placeholder {
+            background: #f8f9fa;
+            border: 2px dashed #dadce0;
+            border-radius: 8px;
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .modal-placeholder-icon {
+            font-size: 48px;
+            color: #9aa0a6;
+            margin-bottom: 16px;
+        }
+        .modal-placeholder-text {
+            font-size: 14px;
+            color: #5f6368;
+            line-height: 1.6;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            background: #fafafa;
+        }
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-aside {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .content-aside .card {
+                flex: 1;
+                min-width: 300px;
+            }
+            .documents-quick-access {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .document-preview-card {
+                width: 100%;
+            }
+            .processing-choice {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .processing-choice-options {
+                flex-wrap: wrap;
+            }
+        }
         @media (max-width: 768px) {
-            .issr-header__search {
-                display: none;
+            .doc-header {
+                padding: 16px;
             }
             
-            .issr-header__title {
-                display: none;
-            }
-            
-            .doc-header__top {
+            .doc-header-top {
                 flex-direction: column;
                 gap: 16px;
             }
-            
-            .doc-header__actions {
+            .doc-header-left,
+            .doc-header-right {
+                width: 100%;
+            }
+            .doc-header-center {
+                order: -1;
+                padding: 0;
+            }
+            .assignee-dropdown-btn {
                 width: 100%;
             }
             
-            .btn {
+            .btn-action {
                 flex: 1;
-                justify-content: center;
+                min-width: auto;
+            }
+            
+            .documents-quick-access {
+                padding: 16px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .attachments-section {
+                flex-wrap: wrap;
+            }
+            .document-preview-card {
+                width: 100%;
+            }
+            .document-preview-name {
+                max-width: 180px;
+            }
+            .processing-choice {
+                padding: 16px;
+            }
+            .processing-choice-options {
+                width: 100%;
+            }
+            .processing-btn {
+                flex: 1;
+                min-width: auto;
+            }
+            
+            .doc-content {
+                padding: 16px;
             }
         }
     </style>
-</head>
-<body>
-    <!-- ISSŘ Hlavička -->
-    <header class="issr-header">
-        <a href="../dokumenty.html" class="issr-header__logo">
-            <img src="../images/logo-issr.png" alt="ISSŘ Logo" class="issr-header__logo-img">
-            <span class="issr-header__title">INFORMAČNÍ SYSTÉM STAVEBNÍHO ŘÍZENÍ</span>
-        </a>
-        
-        <div class="issr-header__search">
-            <input type="text" class="issr-header__search-input" placeholder="Hledat">
-        </div>
-        
-        <div class="issr-header__actions">
-            <div class="issr-header__notification">
-                <svg class="issr-header__notification-icon" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path>
-                </svg>
-                <span class="issr-header__notification-badge">2</span>
-            </div>
-            
-            <div class="issr-header__user">
-                <span>Aleš Krupa</span>
-                <svg class="issr-header__user-icon" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"></path>
-                </svg>
-            </div>
-        </div>
-    </header>
-
+    <!-- Zde bude Nicepage header -->
     <main class="main-content">
-        <a href="../dokumenty.html" class="back-link">
-            <span class="material-icons-outlined">arrow_back</span>
-            Zpět na seznam dokumentů
-        </a>
-
-        <!-- Document Header -->
-        <div class="doc-header">
-            <div class="doc-header__top">
-                <div>
-                    <div class="doc-header__pid">SR00X01HSU37</div>
-                    <h1 class="doc-header__title">Odstranění železničního přejezdu P1533</h1>
-                    <div class="doc-header__meta">
-                        <div class="doc-header__meta-item">
+        <!-- Document header - sticky -->
+        <header class="doc-header" role="banner">
+            <div class="doc-header-top">
+                <div class="doc-header-left">
+                    <a href="dokumenty-ke-zpracovani.html" class="btn-back">
+                        <span class="material-icons-outlined">arrow_back</span>
+                        <span>Zpět na seznam</span>
+                    </a>
+                </div>
+                
+                <div class="doc-header-center">
+                    <h1 class="doc-title">Novostavba RD včetně přípojek</h1>
+                    <div class="doc-meta">
+                        <span class="doc-meta-item">
+                            <span class="material-icons-outlined">tag</span>
+                            SR00X01HSU37
+                        </span>
+                        <span class="doc-meta-item">
                             <span class="material-icons-outlined">description</span>
-                            Žádost o povolení odstranění stavby
-                        </div>
-                        <div class="doc-header__meta-item">
-                            <span class="material-icons-outlined">person</span>
-                            Eva Čejchanová
-                        </div>
-                        <div class="doc-header__meta-item">
-                            <span class="material-icons-outlined">schedule</span>
-                            7. 1. 2026 11:13:17
-                        </div>
+                            Žádost o povolení stavby
+                        </span>
+                        <span class="doc-meta-item">
+                            <span class="material-icons-outlined">calendar_today</span>
+                            7. 1. 2026
+                        </span>
                     </div>
                 </div>
-                <div class="doc-header__actions">
-                    <span class="status-badge status-badge--warning">
-                        <span class="material-icons-outlined">hourglass_empty</span>
-                        Ke zpracování
-                    </span>
+                
+                <div class="doc-header-right">
+                    <!-- Dropdown pro přidělení zpracovatele -->
+                    <div class="assignee-dropdown">
+                        <button class="assignee-dropdown-btn" id="assigneeBtn" onclick="toggleAssigneeDropdown()">
+                            <span class="material-icons-outlined">person_add</span>
+                            <span id="assigneeBtnText">Přidělit zpracovateli</span>
+                            <span class="material-icons-outlined">expand_more</span>
+                        </button>
+                        <div class="assignee-dropdown-menu" id="assigneeMenu">
+                            <div class="assignee-dropdown-item highlight" onclick="assignTo('Přidělit sobě', 'EČ', 'Eva Čejchanová')">
+                                <div class="assignee-avatar">EČ</div>
+                                <div class="assignee-info">
+                                    <div class="assignee-name">Přidělit sobě</div>
+                                </div>
+                            </div>
+                            <div class="assignee-dropdown-item" onclick="assignTo('Jan Novák', 'JN', 'Referent')">
+                                <div class="assignee-avatar">JN</div>
+                                <div class="assignee-info">
+                                    <div class="assignee-name">Jan Novák</div>
+                                    <div class="assignee-role">Referent</div>
+                                </div>
+                            </div>
+                            <div class="assignee-dropdown-item" onclick="assignTo('Marie Svobodová', 'MS', 'Referent')">
+                                <div class="assignee-avatar">MS</div>
+                                <div class="assignee-info">
+                                    <div class="assignee-name">Marie Svobodová</div>
+                                    <div class="assignee-role">Referent</div>
+                                </div>
+                            </div>
+                            <div class="assignee-dropdown-item" onclick="assignTo('Petr Dvořák', 'PD', 'Vedoucí oddělení')">
+                                <div class="assignee-avatar">PD</div>
+                                <div class="assignee-info">
+                                    <div class="assignee-name">Petr Dvořák</div>
+                                    <div class="assignee-role">Vedoucí oddělení</div>
+                                </div>
+                            </div>
+                            <div class="assignee-dropdown-item" onclick="assignTo('Lucie Horáková', 'LH', 'Referent')">
+                                <div class="assignee-avatar">LH</div>
+                                <div class="assignee-info">
+                                    <div class="assignee-name">Lucie Horáková</div>
+                                    <div class="assignee-role">Referent</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </header>
+        <!-- Rychlý přístup k dokumentům -->
+        <div class="documents-quick-access">
+            <a href="#" class="document-preview-card main-document" onclick="openDocumentModal(); return false;">
+                <div class="document-preview-icon">
+                    <span class="material-icons-outlined">description</span>
+                </div>
+                <div class="document-preview-info">
+                    <div class="document-preview-label">Hlavní dokument</div>
+                    <div class="document-preview-name">Žádost o povolení stavby.pdf</div>
+                </div>
+                <span class="document-preview-action material-icons-outlined">open_in_new</span>
+            </a>
+            <div class="attachments-section">
+                <div class="attachments-label">
+                    <span class="material-icons-outlined">attach_file</span>
+                    Přílohy (12)
+                </div>
+                <div class="attachments-items" id="attachmentsList">
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Průvodní zpráva.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">image</span>
+                        Fotodokumentace.zip
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Vyjádření vlastníka.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Stanovisko DOSS - ŽP.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Stanovisko DOSS - PO.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Geometrický plán.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Výpis z katastru.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Plná moc.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">image</span>
+                        Situační výkres.dwg
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Technická zpráva.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">picture_as_pdf</span>
+                        Souhlasy sousedů.pdf
+                    </a>
+                    <a href="#" class="attachment-chip">
+                        <span class="material-icons-outlined">description</span>
+                        Seznam dotčených pozemků.xlsx
+                    </a>
+                </div>
+                <button class="attachments-toggle" id="attachmentsToggle" onclick="toggleAttachments()">
+                    <span>Zobrazit vše</span>
+                    <span class="material-icons-outlined">expand_more</span>
+                </button>
+            </div>
         </div>
-
-        <!-- Tabs -->
-        <div class="tabs">
-            <a href="#" class="tab active">
-                <span class="material-icons-outlined">info</span>
-                Přehled
-            </a>
-            <a href="#" class="tab">
-                <span class="material-icons-outlined">attach_file</span>
-                Přílohy
-                <span class="tab__badge">3</span>
-            </a>
-            <a href="#" class="tab">
-                <span class="material-icons-outlined">history</span>
-                Historie
-            </a>
-            <a href="#" class="tab">
-                <span class="material-icons-outlined">folder</span>
-                Spis
-            </a>
+        <!-- Volba způsobu zpracování - kompaktní -->
+        <div class="processing-choice">
+            <div class="processing-choice-label">
+                <span class="material-icons-outlined">route</span>
+                <span>Způsob zpracování:</span>
+            </div>
+            <div class="processing-choice-options">
+                <a href="povoleni_1.html" class="processing-btn recommended">
+                    <span class="material-icons-outlined">add_circle</span>
+                    Založit nové řízení
+                </a>
+                <a href="vlozit-do-rizeni.html" class="processing-btn">
+                    <span class="material-icons-outlined">post_add</span>
+                    Vložit do existujícího řízení
+                </a>
+                <a href="vzit-na-vedomi.html" class="processing-btn">
+                    <span class="material-icons-outlined">inventory</span>
+                    Vzít na vědomí
+                </a>
+            </div>
         </div>
-
         <!-- Content -->
-        <div class="content-card">
-            <div class="info-grid">
-                <div class="info-group">
-                    <h3 class="section-title">Základní údaje</h3>
-                    <div class="info-row">
-                        <span class="info-label">PID dokumentu</span>
-                        <span class="info-value info-value--mono">SR00X01HSU37</span>
+        <div class="doc-content">
+            <div class="content-grid">
+                <!-- Main content column -->
+                <div class="content-main">
+                    <!-- Odesílatel - kompaktní -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">
+                                <span class="material-icons-outlined">person</span>
+                                Odesílatel (žadatel)
+                            </span>
+                            <div class="card-actions">
+                                <button class="card-action-btn" title="Ověřit v registrech">
+                                    <span class="material-icons-outlined">verified_user</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="person-compact">
+                                <div class="person-avatar">MV</div>
+                                <div class="person-main">
+                                    <div class="person-name">MAREK VONDRUŠKA</div>
+                                    <div class="person-type">Fyzická osoba</div>
+                                </div>
+                                <div class="person-contacts">
+                                    <a href="mailto:marek.vondruska@email.cz" class="contact-link">
+                                        <span class="material-icons-outlined">email</span>
+                                        marek.vondruska@email.cz
+                                    </a>
+                                    <span class="contact-link">
+                                        <span class="material-icons-outlined">inbox</span>
+                                        DS: uadzjv
+                                    </span>
+                                    <span class="contact-link">
+                                        <span class="material-icons-outlined">location_on</span>
+                                        Nová 510, Veselí nad Lužnicí
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Rozbalitelné údaje o žadateli -->
+                            <div class="expandable-section">
+                                <button class="expandable-toggle" onclick="toggleSection('personDetails')">
+                                    <span>Další údaje o žadateli</span>
+                                    <span class="material-icons-outlined" id="personDetailsIcon">expand_more</span>
+                                </button>
+                                <div class="expandable-content" id="personDetails">
+                                    <div class="data-grid">
+                                        <div class="data-item">
+                                            <span class="data-item-label">Datum narození</span>
+                                            <span class="data-item-value">7. 2. 1978</span>
+                                        </div>
+                                        <div class="data-item">
+                                            <span class="data-item-label">Rodné jméno</span>
+                                            <span class="data-item-value">VONDRUŠKA</span>
+                                        </div>
+                                        <div class="data-item">
+                                            <span class="data-item-label">Státní příslušnost</span>
+                                            <span class="data-item-value">Česko</span>
+                                        </div>
+                                        <div class="data-item">
+                                            <span class="data-item-label">Ztotožnění</span>
+                                            <span class="data-item-value">7. 1. 2026 11:13</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">ID dokumentace</span>
-                        <span class="info-value info-value--mono">SR00X01HSU0M</span>
+                    <!-- Identifikace a doručení - sbalené -->
+                    <div class="card collapsed-card">
+                        <button class="collapsed-card-header" onclick="toggleCard('docIdentification')">
+                            <span class="card-title">
+                                <span class="material-icons-outlined">description</span>
+                                Identifikace a doručení dokumentu
+                            </span>
+                            <span class="collapse-icon material-icons-outlined" id="docIdentificationIcon">expand_more</span>
+                        </button>
+                        <div class="collapsed-card-content" id="docIdentification">
+                            <div class="card-body">
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <span class="data-item-label">Jednoznačný identifikátor</span>
+                                        <span class="data-item-value mono">SR00X01HSU37</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Číslo jednací</span>
+                                        <span class="data-item-value">—</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Druh dokumentu</span>
+                                        <span class="data-item-value">Žádost o povolení stavby</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Forma</span>
+                                        <span class="data-item-value">Digitální</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">ID dokumentace</span>
+                                        <span class="data-item-value mono">SR00X01HSU0M</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Založeno v systému</span>
+                                        <span class="data-item-value">Portál stavebníka</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Datum doručení</span>
+                                        <span class="data-item-value">7. 1. 2026</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Způsob doručení</span>
+                                        <span class="data-item-value">Portál stavebníka</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">Druh dokumentu</span>
-                        <span class="info-value">Žádost o povolení odstranění stavby</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Stav</span>
-                        <span class="info-value">Ke zpracování</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Zpracováno mimo ISSŘ</span>
-                        <span class="info-value">Ne</span>
+                    <!-- Auditní záznamy - sbalené -->
+                    <div class="card collapsed-card">
+                        <button class="collapsed-card-header" onclick="toggleCard('auditRecords')">
+                            <span class="card-title">
+                                <span class="material-icons-outlined">history</span>
+                                Auditní záznamy
+                            </span>
+                            <span class="collapse-icon material-icons-outlined" id="auditRecordsIcon">expand_more</span>
+                        </button>
+                        <div class="collapsed-card-content" id="auditRecords">
+                            <div class="card-body">
+                                <div class="audit-timeline">
+                                    <div class="audit-item completed">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Dokument vytvořen</div>
+                                            <div class="audit-item-date">7. 1. 2026 11:13 • Systém (Portál stavebníka)</div>
+                                        </div>
+                                    </div>
+                                    <div class="audit-item completed">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Doručeno na úřad</div>
+                                            <div class="audit-item-date">7. 1. 2026 11:13 • Systém</div>
+                                        </div>
+                                    </div>
+                                    <div class="audit-item completed">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Zaevidováno ve spisové službě</div>
+                                            <div class="audit-item-date">7. 1. 2026 9:47 • Systém</div>
+                                        </div>
+                                    </div>
+                                    <div class="audit-item current">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Čeká na zpracování</div>
+                                            <div class="audit-item-date">Nyní</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="info-group">
-                    <h3 class="section-title">Časové údaje</h3>
-                    <div class="info-row">
-                        <span class="info-label">Datum vytvoření</span>
-                        <span class="info-value">7. 1. 2026 11:13:17</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Datum poslední úpravy</span>
-                        <span class="info-value">7. 1. 2026 11:13:20</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Zpracovatel</span>
-                        <span class="info-value">Eva Čejchanová</span>
+                <!-- Sidebar column -->
+                <div class="content-aside">
+                    <!-- Zpracování - kompaktní -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">
+                                <span class="material-icons-outlined">assignment_ind</span>
+                                Zpracování
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="processing-info">
+                                <div class="processing-status">
+                                    <span class="pending status-badge">Ke zpracování</span>
+                                </div>
+                                <div class="processing-details">
+                                    <div class="processing-row">
+                                        <span class="material-icons-outlined">account_balance</span>
+                                        <span>Dopravní a energetický stavební úřad</span>
+                                    </div>
+                                    <div class="processing-row">
+                                        <span class="material-icons-outlined">person</span>
+                                        <span id="sidebarAssignee">Nepřidělen</span>
+                                    </div>
+                                    <div class="processing-row">
+                                        <span class="material-icons-outlined">schedule</span>
+                                        <span>Evidováno: 7. 1. 2026 9:47</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-</body>
-</html>
+    <!-- Modal pro náhled dokumentu -->
+    <div class="modal-overlay" id="documentModal" onclick="closeDocumentModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">description</span>
+                    Žádost o povolení stavby.pdf
+                </div>
+                <button class="modal-close" onclick="closeDocumentModal()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-placeholder">
+                    <div class="modal-placeholder-icon">
+                        <span class="material-icons-outlined" style="font-size: 48px;">preview</span>
+                    </div>
+                    <div class="modal-placeholder-text">
+                        V ostré verzi aplikace by se zde zobrazil<br>
+                        <strong>náhled hlavního dokumentu</strong><br>
+                        s možností stažení a tisku.
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-action secondary" onclick="closeDocumentModal()">
+                    Zavřít
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Dropdown pro přidělení zpracovatele
+        let isAssigned = false;
+        function toggleAssigneeDropdown() {
+            const menu = document.getElementById('assigneeMenu');
+            menu.classList.toggle('open');
+        }
+        function assignTo(name, initials, role) {
+            const btn = document.getElementById('assigneeBtn');
+            const btnText = document.getElementById('assigneeBtnText');
+            const menu = document.getElementById('assigneeMenu');
+            const sidebarAssignee = document.getElementById('sidebarAssignee');
+            
+            // Změna tlačítka
+            if (name === 'Přidělit sobě') {
+                btnText.textContent = 'Změnit zpracovatele';
+                sidebarAssignee.textContent = 'Eva Čejchanová';
+            } else {
+                btnText.textContent = 'Změnit zpracovatele';
+                sidebarAssignee.textContent = name;
+            }
+            
+            btn.classList.add('assigned');
+            btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
+            
+            // Zavřít menu
+            menu.classList.remove('open');
+            isAssigned = true;
+        }
+        // Zavřít dropdown při kliknutí mimo
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.assignee-dropdown');
+            if (!dropdown.contains(e.target)) {
+                document.getElementById('assigneeMenu').classList.remove('open');
+            }
+        });
+        // Toggle pro přílohy
+        function toggleAttachments() {
+            const items = document.getElementById('attachmentsList');
+            const toggle = document.getElementById('attachmentsToggle');
+            
+            items.classList.toggle('expanded');
+            toggle.classList.toggle('expanded');
+            
+            if (items.classList.contains('expanded')) {
+                toggle.querySelector('span:first-child').textContent = 'Skrýt';
+            } else {
+                toggle.querySelector('span:first-child').textContent = 'Zobrazit vše';
+            }
+        }
+        // Toggle pro expandable sekce (např. údaje o žadateli)
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = document.getElementById(sectionId + 'Icon');
+            const toggle = icon.closest('.expandable-toggle');
+            
+            content.classList.toggle('expanded');
+            toggle.classList.toggle('expanded');
+        }
+        // Toggle pro collapsed karty
+        function toggleCard(cardId) {
+            const content = document.getElementById(cardId);
+            const icon = document.getElementById(cardId + 'Icon');
+            const header = icon.closest('.collapsed-card-header');
+            
+            content.classList.toggle('expanded');
+            header.classList.toggle('expanded');
+        }
+        // Modal pro náhled dokumentu
+        function openDocumentModal() {
+            document.getElementById('documentModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDocumentModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('documentModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        // Zavřít modal klávesou Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDocumentModal();
+            }
+        });
+        // Inicializace - prázdné, vše funguje přes onclick
+    </script>
