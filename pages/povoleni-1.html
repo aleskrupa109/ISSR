@@ -988,7 +988,7 @@
                         <div class="form-grid-4">
                             <div class="data-display">
                                 <span class="data-display-label">E-mail</span>
-                                <span class="data-display-value">marek.vondruska@email.cz</span>
+                                <span class="data-display-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3b565a495e50154d54555f494e48505a7b5e565a5257155841">[email&#160;protected]</a></span>
                             </div>
                             <div class="data-display">
                                 <span class="data-display-label">Telefon</span>
@@ -1139,7 +1139,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Stav aplikace
         let isNespravnyTyp = false;
         // Modal functions
@@ -1198,9 +1198,8 @@
             if (isNespravnyTyp) {
                 // Přechod na flow zastavení řízení
                 alert('Řízení bude založeno a následně zastaveno z důvodu nesprávného typu žádosti.\n\nV ostré verzi by následovalo flow pro zastavení řízení s výzvou žadateli k podání správné žádosti.');
-                // window.location.href = 'zastaveni_rizeni.html';
             } else {
-                // Standardní průběh - přechod na dashboard
+                // Přechod na krok 2: Kontrola a zahájení
                 window.location.href = 'povoleni-2.html';
             }
         }

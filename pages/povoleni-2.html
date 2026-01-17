@@ -3967,7 +3967,7 @@
         <header class="case-header">
             <div class="case-header-main">
                 <div class="case-header-left">
-                    <a href="povoleni_1.html" class="btn-back" title="Zpět">
+                    <a href="povoleni-1.html" class="btn-back" title="Zpět">
                         <span class="material-icons-outlined">arrow_back</span>
                     </a>
                     <div class="case-info">
@@ -7596,7 +7596,8 @@
                 msg += '\nV ostré verzi by následovalo flow pro postoupení řízení.';
                 alert(msg);
             } else {
-                alert('Řízení zahájeno!\n\nDatum zahájení: 7. 1. 2026 (datum doručení bezvadné žádosti)\nLhůta pro rozhodnutí: 30 dnů (jednoduchá stavba)\n\nV ostré verzi by se přešlo na obrazovku probíhajícího řízení.');
+                // Přechod na krok 3: Projednání
+                window.location.href = 'povoleni-3.html';
             }
         }
 
