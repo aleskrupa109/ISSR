@@ -22,6 +22,41 @@
             letter-spacing: normal !important;
             text-transform: none !important;
         }
+        /* Site header */
+        .site-header {
+            background: #2362A2;
+            padding: 12px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-issr {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #fff;
+        }
+        .logo-issr svg {
+            width: 40px;
+            height: 40px;
+        }
+        .logo-issr span {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .site-nav {
+            display: flex;
+            gap: 24px;
+        }
+        .site-nav a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .site-nav a:hover {
+            color: #fff;
+        }
         /* Main content - full width bez sidebar */
         .main-content {
             display: flex;
@@ -964,15 +999,34 @@
             .doc-content {
                 padding: 16px;
             }
+            .site-header {
+                padding: 12px 16px;
+            }
+            .site-nav {
+                gap: 16px;
+            }
         }
     </style>
-    <!-- Zde bude Nicepage header -->
+    <!-- Site Header -->
+    <header class="site-header">
+        <a href="../index.html" class="logo-issr">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="40" height="40" rx="8" fill="white"/>
+                <path d="M10 12h20v2H10zM10 18h20v2H10zM10 24h20v2H10zM10 30h12v2H10z" fill="#2362A2"/>
+            </svg>
+            <span>ISSŘ</span>
+        </a>
+        <nav class="site-nav">
+            <a href="../index.html">Úvod</a>
+            <a href="../dokumenty.html">Dokumenty</a>
+        </nav>
+    </header>
     <main class="main-content">
         <!-- Document header - sticky -->
         <header class="doc-header" role="banner">
             <div class="doc-header-top">
                 <div class="doc-header-left">
-                    <a href="dokumenty-ke-zpracovani.html" class="btn-back">
+                    <a href="../dokumenty.html" class="btn-back">
                         <span class="material-icons-outlined">arrow_back</span>
                         <span>Zpět na seznam</span>
                     </a>
@@ -1167,6 +1221,10 @@
                                     <a href="mailto:marek.vondruska@email.cz" class="contact-link">
                                         <span class="material-icons-outlined">email</span>
                                         marek.vondruska@email.cz
+                                    </a>
+                                    <a href="tel:+420602123456" class="contact-link">
+                                        <span class="material-icons-outlined">phone</span>
+                                        +420 602 123 456
                                     </a>
                                     <span class="contact-link">
                                         <span class="material-icons-outlined">inbox</span>
