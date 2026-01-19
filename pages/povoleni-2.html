@@ -3809,6 +3809,842 @@
             color: #c62828;
         }
 
+        /* Rozšířená matice - 5 sloupců */
+        .matrix-header.extended {
+            grid-template-columns: 2fr 70px 70px 100px 80px;
+        }
+
+        .matrix-row.extended {
+            grid-template-columns: 2fr 70px 70px 100px 80px;
+        }
+
+        /* Výsledek dropdown */
+        .matrix-vysledek-select {
+            padding: 4px 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 11px;
+            background: #fff;
+            cursor: pointer;
+            min-width: 90px;
+        }
+
+        .matrix-vysledek-select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .matrix-vysledek-select.kladne {
+            background: #e6f4ea;
+            border-color: #ceead6;
+            color: #137333;
+        }
+
+        .matrix-vysledek-select.s-podminkami {
+            background: #e8f1fa;
+            border-color: #c2d9f2;
+            color: #004289;
+        }
+
+        .matrix-vysledek-select.zaporne {
+            background: #fce8e6;
+            border-color: #f5c6c3;
+            color: #c5221f;
+        }
+
+        /* Tlačítko podmínky */
+        .btn-podminky {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 4px 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background: #fff;
+            font-size: 11px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-podminky:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+        }
+
+        .btn-podminky.has-podminky {
+            background: #e8f1fa;
+            border-color: #004289;
+            color: #004289;
+        }
+
+        .btn-podminky .material-icons-outlined {
+            font-size: 14px;
+        }
+
+        .btn-podminky .podminky-count {
+            font-weight: 600;
+        }
+
+        /* Modal pro podmínky */
+        .podminky-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .podminky-modal-overlay.open {
+            display: flex;
+        }
+
+        .podminky-modal {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 700px;
+            max-width: 95%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .podminky-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .podminky-modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .podminky-modal-title .material-icons-outlined {
+            font-size: 24px;
+            color: #004289;
+        }
+
+        .podminky-modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #5f6368;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .podminky-modal-close:hover {
+            background: #e8eaed;
+        }
+
+        .podminky-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .podminky-modal-footer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            border-radius: 0 0 12px 12px;
+        }
+
+        /* Sekce v modalu */
+        .podminky-section {
+            margin-bottom: 20px;
+        }
+
+        .podminky-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .podminky-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+        }
+
+        /* Info o dokumentu */
+        .dokument-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 16px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .dokument-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .dokument-info-label {
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+        }
+
+        .dokument-info-value {
+            font-size: 13px;
+            color: #202124;
+        }
+
+        .dokument-info-value input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .dokument-info-value input:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        /* Výsledek v modalu */
+        .vysledek-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .vysledek-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .vysledek-option:hover {
+            border-color: #9aa0a6;
+        }
+
+        .vysledek-option.selected {
+            border-color: #004289;
+            background: #e8f1fa;
+        }
+
+        .vysledek-option.kladne.selected {
+            border-color: #137333;
+            background: #e6f4ea;
+        }
+
+        .vysledek-option.zaporne.selected {
+            border-color: #c5221f;
+            background: #fce8e6;
+        }
+
+        .vysledek-option input {
+            display: none;
+        }
+
+        .vysledek-option-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vysledek-option-icon .material-icons-outlined {
+            font-size: 16px;
+        }
+
+        .vysledek-option.kladne .vysledek-option-icon {
+            background: #e6f4ea;
+            color: #137333;
+        }
+
+        .vysledek-option.s-podminkami .vysledek-option-icon {
+            background: #e8f1fa;
+            color: #004289;
+        }
+
+        .vysledek-option.zaporne .vysledek-option-icon {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+
+        .vysledek-option-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        /* Seznam podmínek */
+        .podminky-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .podminka-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .podminka-item.inactive {
+            opacity: 0.5;
+            background: #f5f5f5;
+        }
+
+        .podminka-checkbox {
+            margin-top: 2px;
+        }
+
+        .podminka-text {
+            flex: 1;
+            font-size: 13px;
+            color: #202124;
+            line-height: 1.5;
+        }
+
+        .podminka-text textarea {
+            width: 100%;
+            min-height: 60px;
+            padding: 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .podminka-text textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .podminka-remove {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            color: #9aa0a6;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .podminka-remove:hover {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+
+        .podminka-remove .material-icons-outlined {
+            font-size: 18px;
+        }
+
+        /* Přidat podmínku */
+        .add-podminka-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .add-podminka-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .add-podminka-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .btn-add-podminka {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 16px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+        }
+
+        .btn-add-podminka:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+        }
+
+        .btn-add-podminka .material-icons-outlined {
+            font-size: 18px;
+        }
+
+        /* Poznámka úředníka */
+        .poznamka-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .poznamka-textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        /* Souhrn pro rozhodnutí */
+        .souhrn-rozhodnuti {
+            margin-top: 20px;
+            padding: 16px;
+            background: #f0f7ff;
+            border: 1px solid #c2d9f2;
+            border-radius: 10px;
+        }
+
+        .souhrn-rozhodnuti-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .souhrn-rozhodnuti-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #004289;
+        }
+
+        .souhrn-rozhodnuti-title .material-icons-outlined {
+            font-size: 20px;
+        }
+
+        .btn-report {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #004289;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-report:hover {
+            background: #003066;
+        }
+
+        .btn-report .material-icons-outlined {
+            font-size: 18px;
+        }
+
+        .souhrn-rozhodnuti-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .souhrn-rozhodnuti-actions .btn-report {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: #fff;
+            color: #004289;
+            border: 1px solid #004289;
+        }
+
+        .souhrn-rozhodnuti-actions .btn-report:hover {
+            background: #e8f1fa;
+        }
+
+        .souhrn-rozhodnuti-actions .btn-report .material-icons-outlined {
+            font-size: 16px;
+        }
+
+        .souhrn-stats {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Report modal */
+        .report-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .report-modal-overlay.open {
+            display: flex;
+        }
+
+        .report-modal {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 900px;
+            max-width: 95%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .report-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .report-modal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .report-modal-title .material-icons-outlined {
+            font-size: 24px;
+            color: #004289;
+        }
+
+        .report-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .report-modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #5f6368;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .report-modal-close:hover {
+            background: #e8eaed;
+        }
+
+        .report-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-download:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+        }
+
+        .btn-download .material-icons-outlined {
+            font-size: 18px;
+        }
+
+        /* Report content styles */
+        .report-content {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #202124;
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #004289;
+        }
+
+        .report-header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #004289;
+            margin: 0 0 8px 0;
+        }
+
+        .report-header .report-meta {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .report-section {
+            margin-bottom: 24px;
+        }
+
+        .report-section h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #202124;
+            margin: 0 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 12px;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 8px 10px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+            font-size: 12px;
+        }
+
+        .report-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #5f6368;
+        }
+
+        .report-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .report-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .report-status.kladne {
+            background: #e6f4ea;
+            color: #137333;
+        }
+
+        .report-status.s-podminkami {
+            background: #e8f1fa;
+            color: #004289;
+        }
+
+        .report-status.zaporne {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+
+        .report-status.chybi {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .report-podminky-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .report-podminky-list li {
+            margin-bottom: 4px;
+        }
+
+        .report-subjekt-block {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .report-subjekt-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .report-subjekt-name {
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .report-subjekt-meta {
+            font-size: 11px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+
+        .report-no-podminky {
+            font-style: italic;
+            color: #9aa0a6;
+            font-size: 12px;
+        }
+
+        .report-podminka-skupina {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .report-podminka-subjekt {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .report-podminka-subjekt strong {
+            color: #202124;
+        }
+
+        .report-podminka-subjekt span {
+            margin-left: 12px;
+            color: #5f6368;
+            font-size: 12px;
+        }
+
+        .report-podminka-list {
+            margin: 0;
+            padding-left: 24px;
+        }
+
+        .report-podminka-list li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .report-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #004289;
+            margin: 0 0 8px 0;
+        }
+
+        .report-header h3 {
+            color: #202124;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-top: 24px;
+            font-size: 14px;
+        }
+
+        .report-section h3 {
+            color: #202124;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin: 0 0 12px 0;
+            font-size: 14px;
+        }
+
+        .souhrn-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+
+        .souhrn-stat .material-icons-outlined {
+            font-size: 18px;
+        }
+
+        .souhrn-stat.ok {
+            color: #137333;
+        }
+
+        .souhrn-stat.podminky {
+            color: #004289;
+        }
+
+        .souhrn-stat.warning {
+            color: #b06000;
+        }
+
+        .souhrn-stat.error {
+            color: #c5221f;
+        }
+
         /* AI Control Section */
         .ai-control-section {
             background: linear-gradient(135deg, #f0e6ff 0%, #e6f0ff 100%);
@@ -4688,26 +5524,8 @@
                     </div>
                 </div>
 
-                <!-- 6. Identifikace DO a správců TDI -->
+                <!-- 6. Dokladová část (sloučeno z Identifikace DO a Dokladová část) -->
                 <div class="control-card status-waiting disabled" id="card-identifikace">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">hub</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Identifikace DO a TDI</div>
-                        <div class="control-card-desc">Identifikace dotčených orgánů a správců technické infrastruktury</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve pozemky
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 7. Dokladová část -->
-                <div class="control-card status-waiting disabled" id="card-doklady">
                     <div class="control-card-header">
                         <div class="control-card-icon">
                             <span class="material-icons-outlined">fact_check</span>
@@ -4716,15 +5534,15 @@
                     </div>
                     <div class="control-card-body">
                         <div class="control-card-title">Dokladová část</div>
-                        <div class="control-card-desc">Kontrola stanovisek DO a vyjádření správců sítí</div>
+                        <div class="control-card-desc">Stanoviska DO a vyjádření vlastníků sítí</div>
                         <button class="control-card-action">
                             <span class="material-icons-outlined">lock</span>
-                            Nejprve identifikace
+                            Nejprve pozemky
                         </button>
                     </div>
                 </div>
 
-                <!-- 8. Účastníci -->
+                <!-- 7. Účastníci -->
                 <div class="control-card status-waiting disabled" id="card-ucastnici">
                     <div class="control-card-header">
                         <div class="control-card-icon">
@@ -5942,26 +6760,27 @@
 
                     <!-- Porovnávací matice -->
                     <div class="control-section">
-                        <div class="control-section-title">Porovnání seznamů DO, VTI a VDI</div>
+                        <div class="control-section-title">Přehled stanovisek a vyjádření</div>
                         <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
-                            Směrodatný je sloupec <strong>Vyžadováno</strong> (úředník). Zaškrtněte subjekty, od kterých je třeba mít doklad.
+                            Zkontrolujte přiložené doklady, vyhodnoťte jejich obsah a zadejte podmínky pro rozhodnutí.
                         </p>
                     </div>
 
                     <div class="subjekty-matrix" id="subjektyMatrix">
                         <!-- Header -->
-                        <div class="matrix-header">
+                        <div class="matrix-header extended">
                             <div class="matrix-header-cell">Subjekt</div>
                             <div class="matrix-header-cell">Žádost</div>
                             <div class="matrix-header-cell">Přiloženo</div>
-                            <div class="matrix-header-cell">Vyžadováno</div>
+                            <div class="matrix-header-cell">Výsledek</div>
+                            <div class="matrix-header-cell">Podmínky</div>
                         </div>
 
                         <!-- DO skupina -->
                         <div class="matrix-group" data-group="do">
                             <div class="matrix-group-header">
                                 <span class="material-icons-outlined">account_balance</span>
-                                Dotčené orgány (DO)
+                                Dotčené orgány (DO) — závazná stanoviska
                                 <span class="group-count" id="countDO">3</span>
                             </div>
                             <div class="matrix-group-content" id="matrixDO">
@@ -5973,7 +6792,7 @@
                         <div class="matrix-group" data-group="vti">
                             <div class="matrix-group-header">
                                 <span class="material-icons-outlined">electric_bolt</span>
-                                Vlastníci technické infrastruktury (VTI)
+                                Vlastníci technické infrastruktury (VTI) — vyjádření
                                 <span class="group-count" id="countVTI">4</span>
                             </div>
                             <div class="matrix-group-content" id="matrixVTI">
@@ -5985,7 +6804,7 @@
                         <div class="matrix-group" data-group="vdi">
                             <div class="matrix-group-header">
                                 <span class="material-icons-outlined">directions_car</span>
-                                Vlastníci dopravní infrastruktury (VDI)
+                                Vlastníci dopravní infrastruktury (VDI) — vyjádření
                                 <span class="group-count" id="countVDI">1</span>
                             </div>
                             <div class="matrix-group-content" id="matrixVDI">
@@ -6005,6 +6824,33 @@
                                 <span class="material-icons-outlined">add</span>
                                 Přidat
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- Souhrn pro rozhodnutí -->
+                    <div class="souhrn-rozhodnuti" id="souhrnRozhodnuti">
+                        <div class="souhrn-rozhodnuti-header">
+                            <div class="souhrn-rozhodnuti-title">
+                                <span class="material-icons-outlined">description</span>
+                                Data pro rozhodnutí
+                            </div>
+                            <div class="souhrn-rozhodnuti-actions" id="reportActions" style="display: none;">
+                                <button class="btn-report" onclick="showReportModal()" title="Zobrazit náhled reportu">
+                                    <span class="material-icons-outlined">visibility</span>
+                                    Náhled
+                                </button>
+                                <button class="btn-report" onclick="downloadReport('json')" title="Stáhnout data jako JSON">
+                                    <span class="material-icons-outlined">data_object</span>
+                                    JSON
+                                </button>
+                                <button class="btn-report" onclick="downloadReport('txt')" title="Stáhnout textový report">
+                                    <span class="material-icons-outlined">download</span>
+                                    TXT
+                                </button>
+                            </div>
+                        </div>
+                        <div class="souhrn-stats" id="souhrnStats">
+                            <!-- Dynamicky renderováno -->
                         </div>
                     </div>
 
@@ -6039,116 +6885,6 @@
                             Uložit
                         </button>
                         <button class="btn btn-primary" id="btnConfirmIdentifikace" onclick="completeIdentifikace()">
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kontrola: Dokladová část -->
-    <div class="control-overlay" id="controlDoklady">
-        <div class="control-header">
-            <div class="control-header-left">
-                <button class="control-close" onclick="closeControl('controlDoklady')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-                <div class="control-title">
-                    <span class="material-icons-outlined">fact_check</span>
-                    Kontrola dokladové části
-                </div>
-            </div>
-        </div>
-        <div class="control-body">
-            <div class="control-viewer">
-                <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'doklady', 'dokladova')">
-                        <span class="material-icons-outlined">fact_check</span>
-                        Dokladová část
-                    </button>
-                </div>
-                <div class="viewer-content">
-                    <div class="viewer-placeholder" id="viewer-doklady">
-                        <span class="material-icons-outlined">checklist</span>
-                        <div class="viewer-placeholder-title">Dokladová část</div>
-                        <div class="viewer-placeholder-text">Stanoviska DO a vyjádření správců sítí</div>
-                    </div>
-                </div>
-            </div>
-            <div class="control-form">
-                <div class="control-form-body">
-                    <p style="font-size: 13px; color: #5f6368; margin-bottom: 20px; font-style: normal;">
-                        Zkontrolujte existenci a obsah vyjádření a stanovisek od subjektů identifikovaných v předchozím kroku 
-                        (3 DO, 5 správců infrastruktury).
-                    </p>
-                    
-                    <div class="control-section">
-                        <div class="control-section-title">Vyjádření správců sítí</div>
-                        <label class="control-option selected" onclick="selectOption(this); updateDokladyResult()">
-                            <input type="radio" name="vyjadreni_ss" value="kompletni" checked>
-                            <div class="control-option-content">
-                                <div class="control-option-label">Všechna vyjádření jsou k dispozici</div>
-                                <div class="control-option-desc">Vyjádření od všech 5 správců infrastruktury</div>
-                            </div>
-                        </label>
-                        <label class="control-option" onclick="selectOption(this, true); updateDokladyResult()">
-                            <input type="radio" name="vyjadreni_ss" value="chybi">
-                            <div class="control-option-content">
-                                <div class="control-option-label">Chybí vyjádření správců sítí</div>
-                                <div class="control-option-desc">Výzva k doplnění + přerušení řízení</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="control-section">
-                        <div class="control-section-title">Stanoviska dotčených orgánů</div>
-                        <label class="control-option selected" onclick="selectOption(this); updateDokladyResult()">
-                            <input type="radio" name="stanoviska_do" value="kompletni" checked>
-                            <div class="control-option-content">
-                                <div class="control-option-label">Všechna stanoviska jsou k dispozici a kladná</div>
-                                <div class="control-option-desc">Stanoviska od všech 3 dotčených orgánů</div>
-                            </div>
-                        </label>
-                        <label class="control-option" onclick="selectOption(this, true); updateDokladyResult()">
-                            <input type="radio" name="stanoviska_do" value="chybi">
-                            <div class="control-option-content">
-                                <div class="control-option-label">Chybí stanovisko DO</div>
-                                <div class="control-option-desc">SÚ si stanovisko vyžádá (běží lhůta 30 dnů)</div>
-                            </div>
-                        </label>
-                        <label class="control-option" onclick="selectOption(this, true); updateDokladyResult()">
-                            <input type="radio" name="stanoviska_do" value="zaporne">
-                            <div class="control-option-content">
-                                <div class="control-option-label">Stanovisko DO je záporné</div>
-                                <div class="control-option-desc">Řízení bude zastaveno</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div class="result-preview positive" id="resultDoklady">
-                        <div class="result-preview-title">
-                            <span class="material-icons-outlined">check_circle</span>
-                            Dokladová část v pořádku
-                        </div>
-                        <div class="result-preview-text">Všechna vyjádření a stanoviska jsou k dispozici.</div>
-                    </div>
-                </div>
-                <div class="control-form-footer">
-                    <div class="control-form-footer-left">
-                        <div class="auto-save-indicator saved" id="autoSaveDoklady">
-                            <span class="material-icons-outlined">cloud_done</span>
-                            <span>Automaticky uloženo</span>
-                        </div>
-                    </div>
-                    <div class="control-form-footer-right">
-                        <button class="btn btn-secondary" onclick="closeControl('controlDoklady')">Zrušit</button>
-                        <button class="btn-save-draft" onclick="saveDraft('doklady')" title="Uložit rozpracovanou kontrolu">
-                            <span class="material-icons-outlined">save</span>
-                            Uložit
-                        </button>
-                        <button class="btn btn-primary" onclick="completeDoklady()">
                             <span class="material-icons-outlined">check</span>
                             Potvrdit kontrolu
                         </button>
@@ -6739,6 +7475,138 @@
         </div>
     </div>
 
+    <!-- Modal pro editaci podmínek subjektu -->
+    <div class="podminky-modal-overlay" id="podminkyModal">
+        <div class="podminky-modal">
+            <div class="podminky-modal-header">
+                <div class="podminky-modal-title">
+                    <span class="material-icons-outlined">edit_note</span>
+                    <span id="podminkyModalTitle">Podmínky subjektu</span>
+                </div>
+                <button class="podminky-modal-close" onclick="closePodminkyModal()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="podminky-modal-body">
+                <!-- Info o dokumentu -->
+                <div class="podminky-section">
+                    <div class="podminky-section-title">Informace o dokladu</div>
+                    <div class="dokument-info">
+                        <div class="dokument-info-item">
+                            <div class="dokument-info-label">Typ dokladu</div>
+                            <div class="dokument-info-value" id="podminkyDokTyp">—</div>
+                        </div>
+                        <div class="dokument-info-item">
+                            <div class="dokument-info-label">Číslo jednací</div>
+                            <div class="dokument-info-value">
+                                <input type="text" id="podminkyDokCj" placeholder="Např. MMHK/349238/2025">
+                            </div>
+                        </div>
+                        <div class="dokument-info-item">
+                            <div class="dokument-info-label">Datum vydání</div>
+                            <div class="dokument-info-value">
+                                <input type="date" id="podminkyDokDatum">
+                            </div>
+                        </div>
+                        <div class="dokument-info-item">
+                            <div class="dokument-info-label">Soubor</div>
+                            <div class="dokument-info-value" id="podminkyDokSoubor">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Výsledek posouzení -->
+                <div class="podminky-section">
+                    <div class="podminky-section-title">Výsledek posouzení</div>
+                    <div class="vysledek-options" id="vysledekOptions">
+                        <label class="vysledek-option kladne">
+                            <input type="radio" name="vysledekRadio" value="kladne">
+                            <div class="vysledek-option-icon">
+                                <span class="material-icons-outlined">check_circle</span>
+                            </div>
+                            <span class="vysledek-option-label">Kladné</span>
+                        </label>
+                        <label class="vysledek-option s-podminkami">
+                            <input type="radio" name="vysledekRadio" value="kladne_s_podminkami">
+                            <div class="vysledek-option-icon">
+                                <span class="material-icons-outlined">task_alt</span>
+                            </div>
+                            <span class="vysledek-option-label">Kladné s podmínkami</span>
+                        </label>
+                        <label class="vysledek-option zaporne">
+                            <input type="radio" name="vysledekRadio" value="zaporne">
+                            <div class="vysledek-option-icon">
+                                <span class="material-icons-outlined">cancel</span>
+                            </div>
+                            <span class="vysledek-option-label">Záporné</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Seznam podmínek -->
+                <div class="podminky-section" id="podminkySectionList" style="display: none;">
+                    <div class="podminky-section-title">Podmínky pro rozhodnutí</div>
+                    <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                        Zadejte podmínky, které budou součástí rozhodnutí o povolení stavby.
+                    </p>
+                    <div class="podminky-list" id="podminkyList">
+                        <!-- Dynamicky renderováno -->
+                    </div>
+                    <div class="add-podminka-row">
+                        <input type="text" class="add-podminka-input" id="addPodminkaText" placeholder="Přidat novou podmínku..." onkeypress="if(event.key==='Enter') addPodminka()">
+                        <button class="btn-add-podminka" onclick="addPodminka()">
+                            <span class="material-icons-outlined">add</span>
+                            Přidat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Poznámka úředníka -->
+                <div class="podminky-section">
+                    <div class="podminky-section-title">Poznámka úředníka</div>
+                    <textarea class="poznamka-textarea" id="podminkyPoznamka" placeholder="Interní poznámka k tomuto subjektu..."></textarea>
+                </div>
+            </div>
+            <div class="podminky-modal-footer">
+                <button class="btn btn-secondary" onclick="closePodminkyModal()">Zrušit</button>
+                <button class="btn btn-primary" onclick="savePodminkyModal()">
+                    <span class="material-icons-outlined">check</span>
+                    Uložit změny
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pro report dat pro rozhodnutí -->
+    <div class="report-modal-overlay" id="reportModal">
+        <div class="report-modal">
+            <div class="report-modal-header">
+                <div class="report-modal-title">
+                    <span class="material-icons-outlined">summarize</span>
+                    Report dokladové části
+                </div>
+                <div class="report-modal-actions">
+                    <button class="btn-download" onclick="downloadReportHTML()">
+                        <span class="material-icons-outlined">download</span>
+                        Stáhnout HTML
+                    </button>
+                    <button class="btn-download" onclick="downloadReportJSON()">
+                        <span class="material-icons-outlined">data_object</span>
+                        Stáhnout JSON
+                    </button>
+                    <button class="report-modal-close" onclick="closeReportModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+            <div class="report-modal-body">
+                <div class="report-content" id="reportContent">
+                    <!-- Dynamicky generováno -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // State management
         const controls = {
@@ -6748,9 +7616,8 @@
             pozemky: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace'], result: 'ok' },
             up: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky'], result: 'ok' },
             identifikace: { done: false, depends: ['pozemky'], result: 'ok' },
-            doklady: { done: false, depends: ['identifikace'], result: 'ok' },
             ucastnici: { done: false, depends: ['pozemky'], result: 'ok' },
-            zrychlene: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky', 'up', 'identifikace', 'doklady', 'ucastnici'], result: 'ok' }
+            zrychlene: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky', 'up', 'identifikace', 'ucastnici'], result: 'ok' }
         };
 
         // Control overlay functions
@@ -8115,8 +8982,7 @@
                 dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Vykazuje vady' },
                 pozemky: { controlId: 'controlPozemky', readyText: 'Identifikovat pozemky', doneText: 'Identifikováno', doneTextNeg: 'Identifikováno' },
                 up: { controlId: 'controlUP', readyText: 'Provést kontrolu', doneText: 'V souladu', doneTextNeg: 'Nesoulad' },
-                identifikace: { controlId: 'controlIdentifikace', readyText: 'Identifikovat subjekty', doneText: 'Identifikováno', doneTextNeg: 'Identifikováno' },
-                doklady: { controlId: 'controlDoklady', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Chybí doklady' },
+                identifikace: { controlId: 'controlIdentifikace', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Chybí doklady' },
                 ucastnici: { controlId: 'controlUcastnici', readyText: 'Definovat účastníky', doneText: 'Kompletní', doneTextNeg: 'Kompletní' },
                 zrychlene: { controlId: 'controlZrychlene', readyText: 'Ověřit podmínky', doneText: 'Splněno', doneTextNeg: 'Nesplněno' }
             };
@@ -8212,24 +9078,81 @@
         }
 
         // ==========================================
-        // IDENTIFIKACE DO A TDI - Porovnávací matice
+        // DOKLADOVÁ ČÁST - DO, VTI, VDI
         // ==========================================
         let identifikaceState = {
             aiAnalyzaDone: false,
+            editingSubjektIndex: null,
             subjekty: [
                 // DO - Dotčené orgány
-                { id: 'hzs', typ: 'do', nazev: 'HZS Středočeského kraje', detail: 'Požární ochrana', zeZadosti: true, prilozeno: false, dokumenty: [], vyzadovano: true },
-                { id: 'khs', typ: 'do', nazev: 'KHS Středočeského kraje', detail: 'Hygiena', zeZadosti: true, prilozeno: false, dokumenty: [], vyzadovano: true },
-                { id: 'ozp', typ: 'do', nazev: 'OŽP - odbor živ. prostředí', detail: 'Obecní úřad', zeZadosti: false, prilozeno: false, dokumenty: [], vyzadovano: true },
+                { 
+                    id: 'hzs', typ: 'do', nazev: 'HZS Středočeského kraje', detail: 'Požární ochrana',
+                    zeZadosti: true, prilozeno: false, 
+                    dokument: { typ: 'zavazne_stanovisko', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null, // null | 'kladne' | 'kladne_s_podminkami' | 'zaporne'
+                    podminky: [],
+                    poznamka: ''
+                },
+                { 
+                    id: 'khs', typ: 'do', nazev: 'KHS Středočeského kraje', detail: 'Hygiena',
+                    zeZadosti: true, prilozeno: false,
+                    dokument: { typ: 'zavazne_stanovisko', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                },
+                { 
+                    id: 'ozp', typ: 'do', nazev: 'OŽP - odbor živ. prostředí', detail: 'Obecní úřad',
+                    zeZadosti: false, prilozeno: false,
+                    dokument: { typ: 'jes', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                },
                 
                 // VTI - Vlastníci technické infrastruktury
-                { id: 'cez', typ: 'vti', nazev: 'ČEZ Distribuce, a.s.', detail: 'Elektřina', zeZadosti: true, prilozeno: false, dokumenty: [], vyzadovano: true },
-                { id: 'gasnet', typ: 'vti', nazev: 'GasNet, s.r.o.', detail: 'Plyn', zeZadosti: true, prilozeno: false, dokumenty: [], vyzadovano: true },
-                { id: 'vak', typ: 'vti', nazev: 'Vodárny Kladno-Mělník', detail: 'Vodovod a kanalizace', zeZadosti: true, prilozeno: false, dokumenty: [], vyzadovano: true },
-                { id: 'cetin', typ: 'vti', nazev: 'CETIN, a.s.', detail: 'Telekomunikace', zeZadosti: false, prilozeno: false, dokumenty: [], vyzadovano: true },
+                { 
+                    id: 'cez', typ: 'vti', nazev: 'ČEZ Distribuce, a.s.', detail: 'Elektřina',
+                    zeZadosti: true, prilozeno: false,
+                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                },
+                { 
+                    id: 'gasnet', typ: 'vti', nazev: 'GasNet, s.r.o.', detail: 'Plyn',
+                    zeZadosti: true, prilozeno: false,
+                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                },
+                { 
+                    id: 'vak', typ: 'vti', nazev: 'Vodárny Kladno-Mělník', detail: 'Vodovod a kanalizace',
+                    zeZadosti: true, prilozeno: false,
+                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                },
+                { 
+                    id: 'cetin', typ: 'vti', nazev: 'CETIN, a.s.', detail: 'Telekomunikace',
+                    zeZadosti: false, prilozeno: false,
+                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                },
                 
                 // VDI - Vlastníci dopravní infrastruktury
-                { id: 'ksus', typ: 'vdi', nazev: 'KSÚS Středočeského kraje', detail: 'Silnice II. a III. třídy', zeZadosti: false, prilozeno: false, dokumenty: [], vyzadovano: true }
+                { 
+                    id: 'ksus', typ: 'vdi', nazev: 'KSÚS Středočeského kraje', detail: 'Silnice II. a III. třídy',
+                    zeZadosti: false, prilozeno: false,
+                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                    vysledek: null,
+                    podminky: [],
+                    poznamka: ''
+                }
             ]
         };
 
@@ -8237,6 +9160,7 @@
         function initIdentifikaceMatrix() {
             renderIdentifikaceMatrix();
             updateIdentifikaceResult();
+            updateSouhrnRozhodnuti();
         }
 
         function renderIdentifikaceMatrix() {
@@ -8255,41 +9179,68 @@
 
             // Renderovat každou skupinu
             for (const [typ, group] of Object.entries(groups)) {
-                group.countEl.textContent = group.items.filter(i => i.vyzadovano).length;
+                group.countEl.textContent = group.items.length;
                 
                 let html = '';
                 group.items.forEach(s => {
                     const rowClass = getRowStatusClass(s);
+                    
+                    // Sloupec Žádost
                     const zeZadostiCheck = s.zeZadosti 
                         ? '<div class="matrix-check yes"><span class="material-icons-outlined">check</span></div>'
                         : '<div class="matrix-check no"><span class="material-icons-outlined">remove</span></div>';
                     
+                    // Sloupec Přiloženo
                     let prilozenoCheck;
                     if (s.prilozeno) {
-                        prilozenoCheck = `
-                            <div class="matrix-check yes"><span class="material-icons-outlined">check</span></div>
-                            <button class="matrix-docs-btn" onclick="showDocsTooltip(${s.index}, this)" title="Zobrazit dokumenty">
-                                <span class="material-icons-outlined">description</span>
-                            </button>
-                        `;
-                    } else if (s.vyzadovano && identifikaceState.aiAnalyzaDone) {
+                        prilozenoCheck = '<div class="matrix-check yes"><span class="material-icons-outlined">check</span></div>';
+                    } else if (identifikaceState.aiAnalyzaDone) {
                         prilozenoCheck = '<div class="matrix-check missing"><span class="material-icons-outlined">close</span></div>';
                     } else {
                         prilozenoCheck = '<div class="matrix-check no"><span class="material-icons-outlined">remove</span></div>';
                     }
 
+                    // Sloupec Výsledek
+                    let vysledekHtml = '';
+                    if (s.prilozeno) {
+                        const vysledekClass = s.vysledek === 'kladne' ? 'kladne' : (s.vysledek === 'kladne_s_podminkami' ? 's-podminkami' : (s.vysledek === 'zaporne' ? 'zaporne' : ''));
+                        vysledekHtml = `
+                            <select class="matrix-vysledek-select ${vysledekClass}" onchange="setVysledek(${s.index}, this.value)">
+                                <option value="" ${!s.vysledek ? 'selected' : ''}>—</option>
+                                <option value="kladne" ${s.vysledek === 'kladne' ? 'selected' : ''}>Kladné</option>
+                                <option value="kladne_s_podminkami" ${s.vysledek === 'kladne_s_podminkami' ? 'selected' : ''}>S podmínkami</option>
+                                <option value="zaporne" ${s.vysledek === 'zaporne' ? 'selected' : ''}>Záporné</option>
+                            </select>
+                        `;
+                    } else {
+                        vysledekHtml = '<span style="color: #9aa0a6; font-size: 11px;">—</span>';
+                    }
+
+                    // Sloupec Podmínky
+                    let podminkyHtml = '';
+                    if (s.prilozeno) {
+                        const pocetPodminek = s.podminky.filter(p => p.aktivni).length;
+                        const hasClass = pocetPodminek > 0 ? 'has-podminky' : '';
+                        podminkyHtml = `
+                            <button class="btn-podminky ${hasClass}" onclick="openPodminkyModal(${s.index})">
+                                <span class="material-icons-outlined">edit_note</span>
+                                <span class="podminky-count">${pocetPodminek}</span>
+                            </button>
+                        `;
+                    } else {
+                        podminkyHtml = '<span style="color: #9aa0a6; font-size: 11px;">—</span>';
+                    }
+
                     html += `
-                        <div class="matrix-row ${rowClass}" data-index="${s.index}">
+                        <div class="matrix-row extended ${rowClass}" data-index="${s.index}">
                             <div class="matrix-subjekt">
                                 <div class="matrix-subjekt-name">${s.nazev}</div>
                                 <div class="matrix-subjekt-detail">${s.detail}</div>
                             </div>
                             <div class="matrix-cell">${zeZadostiCheck}</div>
                             <div class="matrix-cell">${prilozenoCheck}</div>
-                            <div class="matrix-cell">
-                                <input type="checkbox" class="matrix-checkbox" ${s.vyzadovano ? 'checked' : ''} 
-                                    onchange="toggleVyzadovano(${s.index}, this.checked)">
-                            </div>
+                            <div class="matrix-cell">${vysledekHtml}</div>
+                            <div class="matrix-cell">${podminkyHtml}</div>
                         </div>
                     `;
                 });
@@ -8298,18 +9249,158 @@
         }
 
         function getRowStatusClass(s) {
-            if (!s.vyzadovano) return 'status-not-required';
-            if (s.vyzadovano && s.prilozeno) return 'status-ok';
-            if (s.vyzadovano && !s.prilozeno && identifikaceState.aiAnalyzaDone) return 'status-missing';
-            if (!s.vyzadovano && s.prilozeno) return 'status-extra';
+            if (!s.prilozeno && identifikaceState.aiAnalyzaDone) return 'status-missing';
+            if (s.prilozeno && s.vysledek === 'zaporne') return 'status-missing';
+            if (s.prilozeno && s.vysledek === 'kladne_s_podminkami') return 'status-ok';
+            if (s.prilozeno && s.vysledek === 'kladne') return 'status-ok';
+            if (s.prilozeno && !s.vysledek) return 'status-extra';
             return '';
         }
 
-        function toggleVyzadovano(index, checked) {
-            identifikaceState.subjekty[index].vyzadovano = checked;
+        function setVysledek(index, value) {
+            identifikaceState.subjekty[index].vysledek = value || null;
             renderIdentifikaceMatrix();
             updateIdentifikaceResult();
+            updateSouhrnRozhodnuti();
         }
+
+        // Modal pro podmínky
+        function openPodminkyModal(index) {
+            identifikaceState.editingSubjektIndex = index;
+            const s = identifikaceState.subjekty[index];
+            
+            // Nastavit titulek
+            document.getElementById('podminkyModalTitle').textContent = s.nazev;
+            
+            // Typ dokladu
+            const typLabels = { jes: 'Jednotné environmentální stanovisko', zavazne_stanovisko: 'Závazné stanovisko', vyjadreni: 'Vyjádření' };
+            document.getElementById('podminkyDokTyp').textContent = typLabels[s.dokument.typ] || s.dokument.typ;
+            
+            // Metadata dokumentu
+            document.getElementById('podminkyDokCj').value = s.dokument.cisloJednaci || '';
+            document.getElementById('podminkyDokDatum').value = s.dokument.datumVydani || '';
+            document.getElementById('podminkyDokSoubor').textContent = s.dokument.nazevSouboru || '—';
+            
+            // Výsledek
+            document.querySelectorAll('#vysledekOptions .vysledek-option').forEach(opt => {
+                const input = opt.querySelector('input');
+                input.checked = input.value === s.vysledek;
+                opt.classList.toggle('selected', input.checked);
+            });
+            
+            // Podmínky section viditelnost
+            const showPodminky = s.vysledek === 'kladne_s_podminkami';
+            document.getElementById('podminkySectionList').style.display = showPodminky ? 'block' : 'none';
+            
+            // Renderovat podmínky
+            renderPodminkyList();
+            
+            // Poznámka
+            document.getElementById('podminkyPoznamka').value = s.poznamka || '';
+            
+            // Otevřít modal
+            document.getElementById('podminkyModal').classList.add('open');
+        }
+
+        function closePodminkyModal() {
+            document.getElementById('podminkyModal').classList.remove('open');
+            identifikaceState.editingSubjektIndex = null;
+        }
+
+        function renderPodminkyList() {
+            const index = identifikaceState.editingSubjektIndex;
+            if (index === null) return;
+            
+            const s = identifikaceState.subjekty[index];
+            const list = document.getElementById('podminkyList');
+            
+            if (s.podminky.length === 0) {
+                list.innerHTML = '<p style="color: #5f6368; font-size: 12px; font-style: italic;">Zatím nebyly přidány žádné podmínky.</p>';
+                return;
+            }
+            
+            let html = '';
+            s.podminky.forEach((p, i) => {
+                html += `
+                    <div class="podminka-item ${p.aktivni ? '' : 'inactive'}">
+                        <input type="checkbox" class="podminka-checkbox" ${p.aktivni ? 'checked' : ''} 
+                            onchange="togglePodminka(${i}, this.checked)">
+                        <div class="podminka-text">${p.text}</div>
+                        <button class="podminka-remove" onclick="removePodminka(${i})">
+                            <span class="material-icons-outlined">close</span>
+                        </button>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function addPodminka() {
+            const index = identifikaceState.editingSubjektIndex;
+            if (index === null) return;
+            
+            const input = document.getElementById('addPodminkaText');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            identifikaceState.subjekty[index].podminky.push({ text: text, aktivni: true });
+            input.value = '';
+            renderPodminkyList();
+        }
+
+        function removePodminka(podminkaIndex) {
+            const index = identifikaceState.editingSubjektIndex;
+            if (index === null) return;
+            
+            identifikaceState.subjekty[index].podminky.splice(podminkaIndex, 1);
+            renderPodminkyList();
+        }
+
+        function togglePodminka(podminkaIndex, checked) {
+            const index = identifikaceState.editingSubjektIndex;
+            if (index === null) return;
+            
+            identifikaceState.subjekty[index].podminky[podminkaIndex].aktivni = checked;
+            renderPodminkyList();
+        }
+
+        function savePodminkyModal() {
+            const index = identifikaceState.editingSubjektIndex;
+            if (index === null) return;
+            
+            const s = identifikaceState.subjekty[index];
+            
+            // Uložit metadata dokumentu
+            s.dokument.cisloJednaci = document.getElementById('podminkyDokCj').value;
+            s.dokument.datumVydani = document.getElementById('podminkyDokDatum').value;
+            
+            // Uložit výsledek
+            const selectedRadio = document.querySelector('#vysledekOptions input:checked');
+            s.vysledek = selectedRadio ? selectedRadio.value : null;
+            
+            // Uložit poznámku
+            s.poznamka = document.getElementById('podminkyPoznamka').value;
+            
+            closePodminkyModal();
+            renderIdentifikaceMatrix();
+            updateIdentifikaceResult();
+            updateSouhrnRozhodnuti();
+        }
+
+        // Event listener pro výsledek radio v modalu
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#vysledekOptions .vysledek-option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    document.querySelectorAll('#vysledekOptions .vysledek-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
+                    
+                    // Zobrazit/skrýt podmínky section
+                    const showPodminky = this.querySelector('input').value === 'kladne_s_podminkami';
+                    document.getElementById('podminkySectionList').style.display = showPodminky ? 'block' : 'none';
+                });
+            });
+        });
 
         function aiAnalyzeDoklady() {
             const btn = document.getElementById('btnAiAnalyzeDoklady');
@@ -8321,32 +9412,52 @@
             status.className = 'identifikace-ai-status';
 
             setTimeout(function() {
-                // Simulace AI výsledků - některé dokumenty nalezeny
+                // Simulace AI výsledků - dokumenty nalezeny s metadaty a podmínkami
                 identifikaceState.subjekty.forEach(s => {
                     if (s.id === 'hzs') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Stanovisko_HZS_2025-01-08.pdf'];
+                        s.dokument = { typ: 'zavazne_stanovisko', cisloJednaci: 'HSCR-2025-0147', datumVydani: '2025-01-08', nazevSouboru: 'Stanovisko_HZS_2025-01-08.pdf' };
+                        s.vysledek = 'kladne';
                     } else if (s.id === 'khs') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Vyjadreni_KHS_2025-01-05.pdf'];
+                        s.dokument = { typ: 'zavazne_stanovisko', cisloJednaci: 'KHS/2025/00891', datumVydani: '2025-01-05', nazevSouboru: 'Vyjadreni_KHS_2025-01-05.pdf' };
+                        s.vysledek = 'kladne_s_podminkami';
+                        s.podminky = [
+                            { text: 'K žádosti o kolaudační rozhodnutí předložit doklad o výsledku laboratorní kontroly vzorku pitné vody.', aktivni: true },
+                            { text: 'K žádosti o kolaudační rozhodnutí předložit doklad o měření intenzity el. osvětlení v prostoru kanceláře.', aktivni: true }
+                        ];
                     } else if (s.id === 'cez') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Vyjadreni_CEZ_2024-12-15.pdf'];
+                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'CEZ/2024/987654', datumVydani: '2024-12-15', nazevSouboru: 'Vyjadreni_CEZ_2024-12-15.pdf' };
+                        s.vysledek = 'kladne_s_podminkami';
+                        s.podminky = [
+                            { text: 'Při realizaci stavby dodržet ochranné pásmo elektrického vedení NN.', aktivni: true }
+                        ];
                     } else if (s.id === 'gasnet') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Vyjadreni_GasNet_2024-12-12.pdf'];
+                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'GN/5678/2024', datumVydani: '2024-12-12', nazevSouboru: 'Vyjadreni_GasNet_2024-12-12.pdf' };
+                        s.vysledek = 'kladne';
                     } else if (s.id === 'vak') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Vyjadreni_VaK_2024-12-20.pdf', 'Situace_pripojky_VaK.pdf'];
+                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'VKM/2024/12345', datumVydani: '2024-12-20', nazevSouboru: 'Vyjadreni_VaK_2024-12-20.pdf' };
+                        s.vysledek = 'kladne_s_podminkami';
+                        s.podminky = [
+                            { text: 'Přípojka vodovodu bude provedena podle přiložené situace.', aktivni: true },
+                            { text: 'Před záhozem bude provedena tlaková zkouška za účasti zástupce VaK.', aktivni: true }
+                        ];
                     } else if (s.id === 'cetin') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Vyjadreni_CETIN_2024-12-18.pdf'];
+                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'CETIN/2024/98765', datumVydani: '2024-12-18', nazevSouboru: 'Vyjadreni_CETIN_2024-12-18.pdf' };
+                        s.vysledek = 'kladne';
                     } else if (s.id === 'ksus') {
                         s.prilozeno = true;
-                        s.dokumenty = ['Stanovisko_KSUS_2025-01-02.pdf'];
+                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'KSUS/2025/001234', datumVydani: '2025-01-02', nazevSouboru: 'Stanovisko_KSUS_2025-01-02.pdf' };
+                        s.vysledek = 'kladne_s_podminkami';
+                        s.podminky = [
+                            { text: 'Sjezd bude proveden v souladu s ČSN 73 6110.', aktivni: true }
+                        ];
                     }
                     // ozp (DO) zůstává nepřiložen jako příklad chybějícího závazného stanoviska DO
-                    // SÚ si stanovisko vyžádá sám, staví se lhůta pro rozhodnutí
                 });
 
                 identifikaceState.aiAnalyzaDone = true;
@@ -8360,13 +9471,13 @@
 
                 renderIdentifikaceMatrix();
                 updateIdentifikaceResult();
+                updateSouhrnRozhodnuti();
             }, 2000);
         }
 
         function showDocsTooltip(index, btnEl) {
             const s = identifikaceState.subjekty[index];
-            // Pro demo jen alert, v produkci by byl tooltip
-            alert('Nalezené dokumenty pro ' + s.nazev + ':\n\n' + s.dokumenty.join('\n'));
+            alert('Dokument: ' + s.dokument.nazevSouboru + '\nČ.j.: ' + s.dokument.cisloJednaci + '\nDatum: ' + s.dokument.datumVydani);
         }
 
         function addSubjekt() {
@@ -8382,6 +9493,7 @@
             }
 
             const typLabels = { do: 'Dotčený orgán', vti: 'Technická infrastruktura', vdi: 'Dopravní infrastruktura' };
+            const dokTyp = typ === 'do' ? 'zavazne_stanovisko' : 'vyjadreni';
 
             identifikaceState.subjekty.push({
                 id: 'custom_' + Date.now(),
@@ -8390,36 +9502,409 @@
                 detail: typLabels[typ],
                 zeZadosti: false,
                 prilozeno: false,
-                dokumenty: [],
-                vyzadovano: true
+                dokument: { typ: dokTyp, cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                vysledek: null,
+                podminky: [],
+                poznamka: ''
             });
 
             nazevInput.value = '';
             renderIdentifikaceMatrix();
             updateIdentifikaceResult();
+            updateSouhrnRozhodnuti();
+        }
+
+        function updateSouhrnRozhodnuti() {
+            const stats = document.getElementById('souhrnStats');
+            const reportActions = document.getElementById('reportActions');
+            
+            const prilozene = identifikaceState.subjekty.filter(s => s.prilozeno);
+            const kladne = prilozene.filter(s => s.vysledek === 'kladne').length;
+            const sPodminkami = prilozene.filter(s => s.vysledek === 'kladne_s_podminkami').length;
+            const zaporne = prilozene.filter(s => s.vysledek === 'zaporne').length;
+            const celkemPodminek = identifikaceState.subjekty.reduce((sum, s) => sum + s.podminky.filter(p => p.aktivni).length, 0);
+            const chybiDO = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && s.typ === 'do').length;
+            const chybiVTI = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && (s.typ === 'vti' || s.typ === 'vdi')).length;
+            
+            // Zobrazit tlačítka reportu pokud jsou nějaká data
+            if (reportActions) {
+                reportActions.style.display = (identifikaceState.aiAnalyzaDone && prilozene.length > 0) ? 'flex' : 'none';
+            }
+            
+            let html = `
+                <div class="souhrn-stat ok">
+                    <span class="material-icons-outlined">check_circle</span>
+                    Kladné: ${kladne}
+                </div>
+                <div class="souhrn-stat podminky">
+                    <span class="material-icons-outlined">task_alt</span>
+                    S podmínkami: ${sPodminkami} (celkem ${celkemPodminek} podmínek)
+                </div>
+            `;
+            
+            if (zaporne > 0) {
+                html += `
+                    <div class="souhrn-stat error">
+                        <span class="material-icons-outlined">cancel</span>
+                        Záporné: ${zaporne}
+                    </div>
+                `;
+            }
+            
+            if (chybiDO > 0) {
+                html += `
+                    <div class="souhrn-stat warning">
+                        <span class="material-icons-outlined">schedule_send</span>
+                        Vyžádat DO: ${chybiDO}
+                    </div>
+                `;
+            }
+            
+            if (chybiVTI > 0) {
+                html += `
+                    <div class="souhrn-stat warning">
+                        <span class="material-icons-outlined">warning</span>
+                        Chybí VTI/VDI: ${chybiVTI}
+                    </div>
+                `;
+            }
+            
+            stats.innerHTML = html;
+        }
+
+        // ==========================================
+        // REPORT FUNCTIONS
+        // ==========================================
+        
+        function generateReportData() {
+            const typLabels = { do: 'Dotčený orgán', vti: 'Vlastník tech. infrastruktury', vdi: 'Vlastník dopr. infrastruktury' };
+            const vysledekLabels = { kladne: 'Kladné', kladne_s_podminkami: 'Kladné s podmínkami', zaporne: 'Záporné' };
+            const dokTypLabels = { jes: 'Jednotné environmentální stanovisko', zavazne_stanovisko: 'Závazné stanovisko', vyjadreni: 'Vyjádření' };
+            
+            return {
+                metadata: {
+                    datumVytvoreni: new Date().toISOString(),
+                    spisZn: 'SR00X01I35GT',
+                    nazevZameru: 'Novostavba RD včetně přípojek'
+                },
+                souhrn: {
+                    celkemSubjektu: identifikaceState.subjekty.length,
+                    prilozenoDokumentu: identifikaceState.subjekty.filter(s => s.prilozeno).length,
+                    kladnych: identifikaceState.subjekty.filter(s => s.vysledek === 'kladne').length,
+                    sPodminkami: identifikaceState.subjekty.filter(s => s.vysledek === 'kladne_s_podminkami').length,
+                    zapornych: identifikaceState.subjekty.filter(s => s.vysledek === 'zaporne').length,
+                    celkemPodminek: identifikaceState.subjekty.reduce((sum, s) => sum + s.podminky.filter(p => p.aktivni).length, 0),
+                    chybiDO: identifikaceState.subjekty.filter(s => !s.prilozeno && s.typ === 'do').map(s => s.nazev),
+                    chybiVTI_VDI: identifikaceState.subjekty.filter(s => !s.prilozeno && (s.typ === 'vti' || s.typ === 'vdi')).map(s => s.nazev)
+                },
+                subjekty: identifikaceState.subjekty.map(s => ({
+                    id: s.id,
+                    nazev: s.nazev,
+                    typ: s.typ,
+                    typLabel: typLabels[s.typ],
+                    detail: s.detail,
+                    prilozeno: s.prilozeno,
+                    dokument: s.dokument ? {
+                        typ: s.dokument.typ,
+                        typLabel: dokTypLabels[s.dokument.typ],
+                        cisloJednaci: s.dokument.cisloJednaci,
+                        datumVydani: s.dokument.datumVydani,
+                        nazevSouboru: s.dokument.nazevSouboru
+                    } : null,
+                    vysledek: s.vysledek,
+                    vysledekLabel: vysledekLabels[s.vysledek] || null,
+                    podminky: s.podminky.filter(p => p.aktivni).map(p => p.text),
+                    poznamka: s.poznamka
+                })),
+                podminkyProRozhodnuti: identifikaceState.subjekty
+                    .filter(s => s.podminky.some(p => p.aktivni))
+                    .map(s => ({
+                        subjekt: s.nazev,
+                        cisloJednaci: s.dokument?.cisloJednaci || '',
+                        datumVydani: s.dokument?.datumVydani || '',
+                        podminky: s.podminky.filter(p => p.aktivni).map(p => p.text)
+                    }))
+            };
+        }
+
+        function showReportModal() {
+            const data = generateReportData();
+            const content = document.getElementById('reportContent');
+            
+            let html = `
+                <div class="report-header">
+                    <h2>REPORT DOKLADOVÉ ČÁSTI</h2>
+                    <p>Spis. zn.: ${data.metadata.spisZn}</p>
+                    <p>${data.metadata.nazevZameru}</p>
+                    <p style="font-size: 11px; color: #5f6368;">Vygenerováno: ${new Date().toLocaleString('cs-CZ')}</p>
+                </div>
+
+                <div class="report-section">
+                    <h3>SOUHRN</h3>
+                    <table class="report-table">
+                        <tr><td>Celkem subjektů:</td><td><strong>${data.souhrn.celkemSubjektu}</strong></td></tr>
+                        <tr><td>Přiloženo dokumentů:</td><td><strong>${data.souhrn.prilozenoDokumentu}</strong></td></tr>
+                        <tr><td>Kladných:</td><td><strong style="color: #137333;">${data.souhrn.kladnych}</strong></td></tr>
+                        <tr><td>S podmínkami:</td><td><strong style="color: #004289;">${data.souhrn.sPodminkami}</strong></td></tr>
+                        <tr><td>Záporných:</td><td><strong style="color: #c5221f;">${data.souhrn.zapornych}</strong></td></tr>
+                        <tr><td>Celkem podmínek:</td><td><strong>${data.souhrn.celkemPodminek}</strong></td></tr>
+                    </table>
+            `;
+            
+            if (data.souhrn.chybiDO.length > 0) {
+                html += `<p style="color: #b06000; margin-top: 12px;"><strong>⚠ Chybí závazná stanoviska DO:</strong> ${data.souhrn.chybiDO.join(', ')}</p>`;
+            }
+            if (data.souhrn.chybiVTI_VDI.length > 0) {
+                html += `<p style="color: #b06000;"><strong>⚠ Chybí vyjádření VTI/VDI:</strong> ${data.souhrn.chybiVTI_VDI.join(', ')}</p>`;
+            }
+            
+            html += `</div>`;
+
+            // Přehled stanovisek a vyjádření
+            html += `
+                <div class="report-section">
+                    <h3>PŘEHLED STANOVISEK A VYJÁDŘENÍ</h3>
+                    <table class="report-table full-width">
+                        <thead>
+                            <tr>
+                                <th>Subjekt</th>
+                                <th>Typ</th>
+                                <th>Č.j.</th>
+                                <th>Datum</th>
+                                <th>Výsledek</th>
+                                <th>Podmínek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            data.subjekty.filter(s => s.prilozeno).forEach(s => {
+                const vysledekClass = s.vysledek === 'kladne' ? 'color: #137333;' : (s.vysledek === 'zaporne' ? 'color: #c5221f;' : 'color: #004289;');
+                html += `
+                    <tr>
+                        <td><strong>${s.nazev}</strong><br><small>${s.detail}</small></td>
+                        <td>${s.typLabel}</td>
+                        <td>${s.dokument?.cisloJednaci || '—'}</td>
+                        <td>${s.dokument?.datumVydani || '—'}</td>
+                        <td style="${vysledekClass}">${s.vysledekLabel || '—'}</td>
+                        <td>${s.podminky.length}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `</tbody></table></div>`;
+
+            // Podmínky pro rozhodnutí
+            if (data.podminkyProRozhodnuti.length > 0) {
+                html += `
+                    <div class="report-section">
+                        <h3>PODMÍNKY PRO ROZHODNUTÍ</h3>
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 16px;">
+                            Následující podmínky budou součástí rozhodnutí o povolení stavby.
+                        </p>
+                `;
+                
+                let podminkaIndex = 1;
+                data.podminkyProRozhodnuti.forEach((skupina, i) => {
+                    html += `
+                        <div class="report-podminka-skupina">
+                            <div class="report-podminka-subjekt">
+                                <strong>${skupina.subjekt}</strong>
+                                ${skupina.cisloJednaci ? `<span>č.j.: ${skupina.cisloJednaci}</span>` : ''}
+                                ${skupina.datumVydani ? `<span>ze dne ${skupina.datumVydani}</span>` : ''}
+                            </div>
+                            <ol class="report-podminka-list" start="${podminkaIndex}">
+                    `;
+                    skupina.podminky.forEach(p => {
+                        html += `<li>${p}</li>`;
+                        podminkaIndex++;
+                    });
+                    html += `</ol></div>`;
+                });
+                
+                html += `</div>`;
+            }
+
+            content.innerHTML = html;
+            document.getElementById('reportModal').classList.add('open');
+        }
+
+        function closeReportModal() {
+            document.getElementById('reportModal').classList.remove('open');
+        }
+
+        function downloadReport(format) {
+            const data = generateReportData();
+            
+            if (format === 'json') {
+                downloadReportJSON(data);
+            } else if (format === 'txt') {
+                downloadReportTXT(data);
+            }
+        }
+
+        function downloadReportJSON(data) {
+            if (!data) data = generateReportData();
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `report_dokladova_cast_${data.metadata.spisZn}_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadReportTXT(data) {
+            if (!data) data = generateReportData();
+            
+            let txt = `REPORT DOKLADOVÉ ČÁSTI
+${'='.repeat(60)}
+Spis. zn.: ${data.metadata.spisZn}
+Záměr: ${data.metadata.nazevZameru}
+Vygenerováno: ${new Date().toLocaleString('cs-CZ')}
+
+SOUHRN
+${'-'.repeat(60)}
+Celkem subjektů: ${data.souhrn.celkemSubjektu}
+Přiloženo dokumentů: ${data.souhrn.prilozenoDokumentu}
+Kladných: ${data.souhrn.kladnych}
+S podmínkami: ${data.souhrn.sPodminkami}
+Záporných: ${data.souhrn.zapornych}
+Celkem podmínek: ${data.souhrn.celkemPodminek}
+`;
+            
+            if (data.souhrn.chybiDO.length > 0) {
+                txt += `\n⚠ Chybí závazná stanoviska DO: ${data.souhrn.chybiDO.join(', ')}`;
+            }
+            if (data.souhrn.chybiVTI_VDI.length > 0) {
+                txt += `\n⚠ Chybí vyjádření VTI/VDI: ${data.souhrn.chybiVTI_VDI.join(', ')}`;
+            }
+
+            txt += `\n\nPŘEHLED STANOVISEK A VYJÁDŘENÍ
+${'-'.repeat(60)}\n`;
+            
+            data.subjekty.filter(s => s.prilozeno).forEach((s, i) => {
+                txt += `
+${i + 1}. ${s.nazev} (${s.typLabel})
+   Č.j.: ${s.dokument?.cisloJednaci || '—'}
+   Datum: ${s.dokument?.datumVydani || '—'}
+   Výsledek: ${s.vysledekLabel || '—'}
+   Podmínek: ${s.podminky.length}
+`;
+            });
+
+            if (data.podminkyProRozhodnuti.length > 0) {
+                txt += `\n\nPODMÍNKY PRO ROZHODNUTÍ
+${'-'.repeat(60)}
+Následující podmínky budou součástí rozhodnutí o povolení stavby:\n`;
+                
+                let podminkaIndex = 1;
+                data.podminkyProRozhodnuti.forEach(skupina => {
+                    txt += `\n${skupina.subjekt}`;
+                    if (skupina.cisloJednaci) txt += ` (č.j.: ${skupina.cisloJednaci}`;
+                    if (skupina.datumVydani) txt += ` ze dne ${skupina.datumVydani}`;
+                    if (skupina.cisloJednaci) txt += `)`;
+                    txt += `:\n`;
+                    
+                    skupina.podminky.forEach(p => {
+                        txt += `   ${podminkaIndex}. ${p}\n`;
+                        podminkaIndex++;
+                    });
+                });
+            }
+
+            txt += `\n${'='.repeat(60)}
+Konec reportu
+`;
+            
+            const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `report_dokladova_cast_${data.metadata.spisZn}_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadReportHTML() {
+            const data = generateReportData();
+            const reportContent = document.getElementById('reportContent').innerHTML;
+            
+            const html = `<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Report dokladové části - ${data.metadata.spisZn}</title>
+    <style>
+        body { font-family: 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; }
+        h2 { color: #004289; margin: 0; }
+        h3 { color: #202124; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; margin-top: 24px; }
+        table { border-collapse: collapse; margin: 12px 0; }
+        table.full-width { width: 100%; }
+        th, td { padding: 8px 12px; text-align: left; border: 1px solid #e0e0e0; }
+        th { background: #f8f9fa; font-weight: 600; }
+        .report-header { text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #004289; }
+        .report-section { margin-bottom: 24px; }
+        .report-podminka-skupina { margin-bottom: 16px; padding: 12px; background: #f8f9fa; border-radius: 8px; }
+        .report-podminka-subjekt { font-size: 14px; margin-bottom: 8px; }
+        .report-podminka-subjekt span { margin-left: 12px; color: #5f6368; font-size: 12px; }
+        .report-podminka-list { margin: 0; padding-left: 24px; }
+        .report-podminka-list li { margin-bottom: 6px; }
+        small { color: #5f6368; }
+    </style>
+</head>
+<body>
+${reportContent}
+</body>
+</html>`;
+            
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `report_dokladova_cast_${data.metadata.spisZn}_${new Date().toISOString().split('T')[0]}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         function updateIdentifikaceResult() {
             const resultItems = document.getElementById('identifikaceResultItems');
             const resultPreview = document.getElementById('resultIdentifikace');
             
-            const vyzadovane = identifikaceState.subjekty.filter(s => s.vyzadovano);
-            const vPoradku = vyzadovane.filter(s => s.prilozeno);
-            
-            // Rozlišení chybějících DO vs VTI/VDI
-            const chybiDO = vyzadovane.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && s.typ === 'do');
-            const chybiVTI_VDI = vyzadovane.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && (s.typ === 'vti' || s.typ === 'vdi'));
-            
-            const navic = identifikaceState.subjekty.filter(s => !s.vyzadovano && s.prilozeno);
+            const prilozene = identifikaceState.subjekty.filter(s => s.prilozeno);
+            const chybiDO = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && s.typ === 'do');
+            const chybiVTI_VDI = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && (s.typ === 'vti' || s.typ === 'vdi'));
+            const zaporne = prilozene.filter(s => s.vysledek === 'zaporne');
+            const bezVysledku = prilozene.filter(s => !s.vysledek);
 
             let html = '';
             
+            // Přiložené dokumenty
             html += `
                 <div class="identifikace-result-item ok">
-                    <span class="material-icons-outlined">check_circle</span>
-                    <span>V pořádku: <span class="count">${vPoradku.length}</span> subjektů</span>
+                    <span class="material-icons-outlined">description</span>
+                    <span>Přiloženo: <span class="count">${prilozene.length}</span> dokumentů</span>
                 </div>
             `;
+
+            // Záporné stanovisko
+            if (zaporne.length > 0) {
+                const zaporneNames = zaporne.map(s => s.nazev).join(', ');
+                html += `
+                    <div class="identifikace-result-item error">
+                        <span class="material-icons-outlined">cancel</span>
+                        <span>Záporné stanovisko: <span class="count">${zaporne.length}</span></span>
+                        <span class="detail">(${zaporneNames})</span>
+                    </div>
+                `;
+            }
 
             // Chybějící závazná stanoviska DO - SÚ si vyžádá sám
             if (chybiDO.length > 0) {
@@ -8453,21 +9938,22 @@
                 `;
             }
 
-            // Vše v pořádku
-            if (chybiDO.length === 0 && chybiVTI_VDI.length === 0 && identifikaceState.aiAnalyzaDone) {
+            // Dokumenty bez hodnocení
+            if (bezVysledku.length > 0 && identifikaceState.aiAnalyzaDone) {
                 html += `
-                    <div class="identifikace-result-item ok">
-                        <span class="material-icons-outlined">check_circle</span>
-                        <span>Všechny doklady přiloženy</span>
+                    <div class="identifikace-result-item info">
+                        <span class="material-icons-outlined">pending</span>
+                        <span>Čeká na vyhodnocení: <span class="count">${bezVysledku.length}</span></span>
                     </div>
                 `;
             }
 
-            if (navic.length > 0) {
+            // Vše v pořádku
+            if (chybiDO.length === 0 && chybiVTI_VDI.length === 0 && zaporne.length === 0 && bezVysledku.length === 0 && identifikaceState.aiAnalyzaDone) {
                 html += `
-                    <div class="identifikace-result-item info">
-                        <span class="material-icons-outlined">info</span>
-                        <span>Navíc přiloženo: <span class="count">${navic.length}</span></span>
+                    <div class="identifikace-result-item ok">
+                        <span class="material-icons-outlined">check_circle</span>
+                        <span>Kontrola dokladové části dokončena</span>
                     </div>
                 `;
             }
@@ -8482,72 +9968,105 @@
                         <span class="material-icons-outlined">info</span>
                         Čeká na AI analýzu
                     </div>
-                    <div class="result-preview-text">Spusťte AI analýzu dokladové části pro porovnání s vyžadovanými subjekty.</div>
+                    <div class="result-preview-text">Spusťte AI analýzu dokladové části pro automatické rozpoznání přiložených dokumentů.</div>
                 `;
-            } else if (chybiDO.length > 0 && chybiVTI_VDI.length > 0) {
-                // Chybí obojí
+            } else if (zaporne.length > 0) {
+                resultPreview.className = 'result-preview negative';
+                resultPreview.innerHTML = `
+                    <div class="result-preview-title">
+                        <span class="material-icons-outlined">cancel</span>
+                        Záporné stanovisko
+                    </div>
+                    <div class="result-preview-text">
+                        ${zaporne.map(s => s.nazev).join(', ')} vydal(y) záporné stanovisko.<br>
+                        Záměru nelze vyhovět nebo je třeba řešit rozpor.
+                    </div>
+                `;
+            } else if (chybiVTI_VDI.length > 0) {
                 resultPreview.className = 'result-preview warning';
                 resultPreview.innerHTML = `
                     <div class="result-preview-title">
                         <span class="material-icons-outlined">warning</span>
-                        Chybí doklady
+                        Chybí vyjádření VTI/VDI
                     </div>
                     <div class="result-preview-text">
-                        <strong>Závazná stanoviska DO (${chybiDO.length}):</strong> SÚ si vyžádá • staví se lhůta pro rozhodnutí<br>
-                        <strong>Vyjádření VTI/VDI (${chybiVTI_VDI.length}):</strong> Vada žádosti • výzva k doplnění stavebníkovi
+                        Chybí ${chybiVTI_VDI.length} vyjádření vlastníků sítí. Vada žádosti → výzva k doplnění.
                     </div>
                 `;
             } else if (chybiDO.length > 0) {
-                // Chybí pouze DO
                 resultPreview.className = 'result-preview warning';
                 resultPreview.innerHTML = `
                     <div class="result-preview-title">
                         <span class="material-icons-outlined">schedule_send</span>
-                        Chybí ${chybiDO.length} závazné ${chybiDO.length === 1 ? 'stanovisko' : 'stanoviska'} DO
+                        Vyžádat stanoviska DO
                     </div>
                     <div class="result-preview-text">
-                        SÚ si stanoviska vyžádá sám. Staví se lhůta pro vydání rozhodnutí.<br>
-                        DO mají 30 dnů na vydání stanoviska od doručení žádosti.
+                        Chybí ${chybiDO.length} závazné stanovisko DO. SÚ si vyžádá. Staví se lhůta.
                     </div>
                 `;
-            } else if (chybiVTI_VDI.length > 0) {
-                // Chybí pouze VTI/VDI
-                resultPreview.className = 'result-preview warning';
+            } else if (bezVysledku.length > 0) {
+                resultPreview.className = 'result-preview';
                 resultPreview.innerHTML = `
                     <div class="result-preview-title">
-                        <span class="material-icons-outlined">warning</span>
-                        Chybí ${chybiVTI_VDI.length} ${chybiVTI_VDI.length === 1 ? 'vyjádření' : 'vyjádření'} VTI/VDI
+                        <span class="material-icons-outlined">pending</span>
+                        Dokončete vyhodnocení
                     </div>
                     <div class="result-preview-text">
-                        Jedná se o vadu žádosti. Bude vydána výzva k doplnění stavebníkovi.
+                        ${bezVysledku.length} dokumentů čeká na vyhodnocení výsledku (kladné/záporné/s podmínkami).
                     </div>
                 `;
             } else {
+                const celkemPodminek = identifikaceState.subjekty.reduce((sum, s) => sum + s.podminky.filter(p => p.aktivni).length, 0);
                 resultPreview.className = 'result-preview positive';
                 resultPreview.innerHTML = `
                     <div class="result-preview-title">
                         <span class="material-icons-outlined">check_circle</span>
-                        Všechny doklady přiloženy
+                        Dokladová část v pořádku
                     </div>
-                    <div class="result-preview-text">Všech ${vPoradku.length} vyžadovaných dokumentů bylo nalezeno v dokladové části.</div>
+                    <div class="result-preview-text">
+                        Všechny dokumenty zkontrolovány. Celkem ${celkemPodminek} podmínek pro rozhodnutí.
+                    </div>
                 `;
             }
         }
 
         function completeIdentifikace() {
-            const chybiDO = identifikaceState.subjekty.filter(s => s.vyzadovano && !s.prilozeno && identifikaceState.aiAnalyzaDone && s.typ === 'do');
-            const chybiVTI_VDI = identifikaceState.subjekty.filter(s => s.vyzadovano && !s.prilozeno && identifikaceState.aiAnalyzaDone && (s.typ === 'vti' || s.typ === 'vdi'));
+            const chybiDO = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && s.typ === 'do');
+            const chybiVTI_VDI = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && (s.typ === 'vti' || s.typ === 'vdi'));
+            const zaporne = identifikaceState.subjekty.filter(s => s.vysledek === 'zaporne');
             
             controls.identifikace.done = true;
-            controls.identifikace.subjekty = identifikaceState.subjekty;
+            
+            // Uložit kompletní data pro generování rozhodnutí
+            controls.identifikace.subjekty = JSON.parse(JSON.stringify(identifikaceState.subjekty));
             controls.identifikace.chybiDO = chybiDO.map(s => s.nazev);
             controls.identifikace.chybiVTI_VDI = chybiVTI_VDI.map(s => s.nazev);
             
-            if (chybiVTI_VDI.length > 0) {
-                // Chybějící vyjádření VTI/VDI = vada žádosti
+            // Data pro rozhodnutí - podmínky seskupené podle subjektu
+            controls.identifikace.dataProRozhodnuti = {
+                stanoviskaAVyjadreni: identifikaceState.subjekty.filter(s => s.prilozeno).map(s => ({
+                    nazev: s.nazev,
+                    typ: s.typ,
+                    dokument: s.dokument,
+                    vysledek: s.vysledek,
+                    podminky: s.podminky.filter(p => p.aktivni).map(p => p.text)
+                })),
+                podminkyProRozhodnuti: identifikaceState.subjekty
+                    .filter(s => s.podminky.some(p => p.aktivni))
+                    .map(s => ({
+                        subjekt: s.nazev,
+                        cisloJednaci: s.dokument.cisloJednaci,
+                        datumVydani: s.dokument.datumVydani,
+                        podminky: s.podminky.filter(p => p.aktivni).map(p => p.text)
+                    }))
+            };
+            
+            // Určit výsledek kontroly
+            if (zaporne.length > 0) {
+                controls.identifikace.result = 'error';
+            } else if (chybiVTI_VDI.length > 0) {
                 controls.identifikace.result = 'vady';
             } else if (chybiDO.length > 0) {
-                // Chybějící stanoviska DO = SÚ si vyžádá, stavení lhůty (warning, ne vada)
                 controls.identifikace.result = 'vyzidat_do';
             } else {
                 controls.identifikace.result = 'ok';
@@ -8557,22 +10076,7 @@
             updateUI();
         }
 
-        function completeDoklady() {
-            const vyjadreni = document.querySelector('input[name="vyjadreni_ss"]:checked').value;
-            const stanoviska = document.querySelector('input[name="stanoviska_do"]:checked').value;
-            
-            controls.doklady.done = true;
-            if (vyjadreni === 'kompletni' && stanoviska === 'kompletni') {
-                controls.doklady.result = 'ok';
-            } else if (stanoviska === 'zaporne') {
-                controls.doklady.result = 'error';
-            } else {
-                controls.doklady.result = 'warning';
-            }
-            
-            closeControl('controlDoklady');
-            updateUI();
-        }
+        // Funkce completeDoklady již není potřeba - sloučena do completeIdentifikace
 
         function completeUP() {
             const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
