@@ -225,6 +225,14 @@
             margin-top: 2px !important;
             font-style: normal !important;
         }
+        .zamer-link {
+            color: #1a73e8 !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+        }
+        .zamer-link:hover {
+            text-decoration: underline !important;
+        }
         /* Header bottom row - document access */
         .page-header-bottom {
             display: flex !important;
@@ -926,6 +934,7 @@
                         <div class="page-label">Detail dokumentu</div>
                         <h1 class="page-title">Novostavba RD včetně přípojek</h1>
                         <div class="page-subtitle">Žádost o povolení stavby • SR00X01HSU37</div>
+                        <div class="page-subtitle">Záměr: <a href="detail-zameru.html" class="zamer-link">Z/2026/000142</a></div>
                     </div>
                 </div>
                 <div class="assignee-dropdown">
@@ -1020,9 +1029,9 @@
                                     <div class="person-type">Fyzická osoba</div>
                                 </div>
                                 <div class="person-contacts">
-                                    <a href="mailto:marek.vondruska@email.cz" class="contact-link">
+                                    <a href="/cdn-cgi/l/email-protection#573a3625323c79213839332522243c3617323a363e3b79342d" class="contact-link">
                                         <span class="material-icons-outlined">email</span>
-                                        marek.vondruska@email.cz
+                                        <span class="__cf_email__" data-cfemail="96fbf7e4f3fdb8e0f9f8f2e4e3e5fdf7d6f3fbf7fffab8f5ec">[email&#160;protected]</span>
                                     </a>
                                     <a href="tel:+420602123456" class="contact-link">
                                         <span class="material-icons-outlined">phone</span>
@@ -1184,7 +1193,7 @@
                                     </div>
                                     <div class="processing-row">
                                         <span class="material-icons-outlined">person</span>
-                                        <span id="sidebarAssignee">Nepřidělen</span>
+                                        <span id="sidebarAssignee">Eva Čejchanová</span>
                                     </div>
                                     <div class="processing-row">
                                         <span class="material-icons-outlined">schedule</span>
@@ -1339,7 +1348,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Dropdown pro přidělení zpracovatele
         let isAssigned = false;
 
@@ -1414,8 +1423,9 @@
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal-overlay.open').forEach(function(modal) {
                     modal.classList.remove('open');
+                    document.body.style.overflow = '';
                 });
-                document.body.style.overflow = '';
+                document.getElementById('assigneeMenu').classList.remove('open');
             }
         });
     </script>
