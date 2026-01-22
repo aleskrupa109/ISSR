@@ -451,6 +451,37 @@
             line-height: 1.5 !important;
             font-style: normal !important;
         }
+        /* Info box */
+        .info-box {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            padding: 16px !important;
+            background: #e8f0fe !important;
+            border-radius: 8px !important;
+            border: 1px solid #c2d9fc !important;
+        }
+        .info-box .material-icons-outlined {
+            font-size: 20px !important;
+            color: #1a73e8 !important;
+            flex-shrink: 0 !important;
+        }
+        .info-box-content {
+            flex: 1 !important;
+        }
+        .info-box-title {
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            color: #174ea6 !important;
+            margin-bottom: 4px !important;
+            font-style: normal !important;
+        }
+        .info-box-text {
+            font-size: 13px !important;
+            color: #174ea6 !important;
+            line-height: 1.5 !important;
+            font-style: normal !important;
+        }
         /* Form grid */
         .form-grid {
             display: grid;
@@ -915,49 +946,43 @@
                     </div>
                 </div>
             </div>
-            <!-- Typ řízení a druh stavby -->
+            <!-- Typ řízení -->
             <div class="form-card">
                 <div class="form-card-header">
                     <span class="material-icons-outlined">category</span>
-                    <span class="form-card-title">Typ řízení a druh stavby</span>
+                    <span class="form-card-title">Typ řízení</span>
                 </div>
                 <div class="form-card-body">
                     <div class="form-grid">
                         <div class="form-row">
                             <label class="form-label">
                                 Typ řízení
-                                <span class="form-label-hint">(dle žádosti)</span>
+                                <span class="form-label-hint">(dle žádosti, lze změnit)</span>
                             </label>
                             <select class="form-select" id="typRizeni" onchange="onTypRizeniChange()">
                                 <option value="povoleni" selected="">Povolení stavby</option>
-                                <option value="nespravny">Nesprávný typ žádosti</option>
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            <label class="form-label">
-                                Druh stavby
-                                <span class="form-label-hint">(dle žádosti, ovlivňuje lhůtu)</span>
-                            </label>
-                            <select class="form-select" id="druhStavby">
-                                <option value="jednoducha" selected="">Jednoduchá stavba (lhůta 30 dnů)</option>
-                                <option value="ostatni">Ostatní stavba (lhůta 60 dnů)</option>
+                                <option value="zmena-pred-dokoncenim">Povolení změny stavby před dokončením</option>
+                                <option value="zmena-uzivani">Povolení změny v užívání stavby</option>
+                                <option value="odstraneni">Povolení odstranění stavby</option>
+                                <option value="kolaudace">Kolaudační řízení</option>
                             </select>
                         </div>
                     </div>
                     
-                    <!-- Varování při nesprávném typu žádosti -->
-                    <div class="form-row" style="margin-top: 16px; display: none;" id="nespravnyTypWarning">
-                        <div class="error-box">
-                            <span class="material-icons-outlined">error</span>
-                            <div class="error-box-content">
-                                <div class="error-box-title">Nesprávný typ žádosti</div>
-                                <div class="error-box-text">
-                                    Žadatel použil nesprávný formulář žádosti. Po založení bude řízení zastaveno 
-                                    a žadatel bude informován o nutnosti podat správný typ žádosti.
+                    <!-- Info box při změně typu řízení -->
+                    <div class="form-row" style="margin-top: 16px; display: none;" id="zmenaTypuInfo">
+                        <div class="info-box">
+                            <span class="material-icons-outlined">info</span>
+                            <div class="info-box-content">
+                                <div class="info-box-title">Změna typu řízení</div>
+                                <div class="info-box-text">
+                                    Vybrali jste jiný typ řízení než odpovídá podané žádosti. Řízení bude vedeno 
+                                    jako <strong id="zmenaTypuText">-</strong>.
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="form-row" style="margin-top: 16px;" id="zrychleneRow">
                         <label class="form-label">
                             Zrychlené řízení
@@ -1141,7 +1166,17 @@
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Stav aplikace
-        let isNespravnyTyp = false;
+        const originalTyp = 'povoleni'; // Původní typ dle žádosti
+        
+        // Mapování hodnot na popisky
+        const typRizeniLabels = {
+            'povoleni': 'Povolení stavby',
+            'zmena-pred-dokoncenim': 'Povolení změny stavby před dokončením',
+            'zmena-uzivani': 'Povolení změny v užívání stavby',
+            'odstraneni': 'Povolení odstranění stavby',
+            'kolaudace': 'Kolaudační řízení'
+        };
+        
         // Modal functions
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('open');
@@ -1164,44 +1199,21 @@
         // Změna typu řízení
         function onTypRizeniChange() {
             const typRizeni = document.getElementById('typRizeni').value;
-            const warningBox = document.getElementById('nespravnyTypWarning');
-            const zrychleneRow = document.getElementById('zrychleneRow');
-            const druhStavby = document.getElementById('druhStavby');
-            const btnZalozit = document.querySelector('.actions-right .btn-primary');
+            const infoBox = document.getElementById('zmenaTypuInfo');
+            const zmenaTypuText = document.getElementById('zmenaTypuText');
             
-            if (typRizeni === 'nespravny') {
-                isNespravnyTyp = true;
-                warningBox.style.display = 'block';
-                zrychleneRow.style.display = 'none';
-                druhStavby.disabled = true;
-                druhStavby.style.opacity = '0.5';
-                
-                // Změna tlačítka
-                btnZalozit.classList.remove('btn-primary');
-                btnZalozit.classList.add('btn-danger');
-                btnZalozit.innerHTML = '<span class="material-icons-outlined">block</span>Založit a zastavit řízení';
+            // Zobrazit info box pokud byl změněn typ řízení
+            if (typRizeni !== originalTyp) {
+                infoBox.style.display = 'block';
+                zmenaTypuText.textContent = typRizeniLabels[typRizeni];
             } else {
-                isNespravnyTyp = false;
-                warningBox.style.display = 'none';
-                zrychleneRow.style.display = 'block';
-                druhStavby.disabled = false;
-                druhStavby.style.opacity = '1';
-                
-                // Vrácení tlačítka
-                btnZalozit.classList.remove('btn-danger');
-                btnZalozit.classList.add('btn-primary');
-                btnZalozit.innerHTML = '<span class="material-icons-outlined">add_circle</span>Založit řízení';
+                infoBox.style.display = 'none';
             }
         }
         // Založit řízení
         function zalozitRizeni() {
-            if (isNespravnyTyp) {
-                // Přechod na flow zastavení řízení
-                alert('Řízení bude založeno a následně zastaveno z důvodu nesprávného typu žádosti.\n\nV ostré verzi by následovalo flow pro zastavení řízení s výzvou žadateli k podání správné žádosti.');
-            } else {
-                // Přechod na krok 2: Kontrola a zahájení
-                window.location.href = 'povoleni-2.html';
-            }
+            // Přechod na krok 2: Kontrola a zahájení
+            window.location.href = 'povoleni-2.html';
         }
     </script>
 </body>
