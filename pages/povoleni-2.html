@@ -5488,7 +5488,7 @@
                     </div>
                 </div>
 
-                <!-- 4. Pozemky a sousedé -->
+                <!-- 4. Pozemky -->
                 <div class="control-card status-waiting disabled" id="card-pozemky">
                     <div class="control-card-header">
                         <div class="control-card-icon">
@@ -5497,7 +5497,7 @@
                         <span class="control-card-status">Čeká</span>
                     </div>
                     <div class="control-card-body">
-                        <div class="control-card-title">Pozemky a sousedé</div>
+                        <div class="control-card-title">Pozemky</div>
                         <div class="control-card-desc">Ověření pozemků záměru a identifikace sousedních parcel</div>
                         <button class="control-card-action">
                             <span class="material-icons-outlined">lock</span>
@@ -5506,7 +5506,7 @@
                     </div>
                 </div>
 
-                <!-- 5. Územní plán -->
+                <!-- 5. Soulad s ÚPD -->
                 <div class="control-card status-waiting disabled" id="card-up">
                     <div class="control-card-header">
                         <div class="control-card-icon">
@@ -5515,8 +5515,8 @@
                         <span class="control-card-status">Čeká</span>
                     </div>
                     <div class="control-card-body">
-                        <div class="control-card-title">Územní plán</div>
-                        <div class="control-card-desc">Kontrola souladu záměru s územním plánem</div>
+                        <div class="control-card-title">Soulad s ÚPD</div>
+                        <div class="control-card-desc">Kontrola souladu záměru s územně plánovací dokumentací</div>
                         <button class="control-card-action">
                             <span class="material-icons-outlined">lock</span>
                             Nejprve pozemky
@@ -6089,7 +6089,7 @@
         </div>
     </div>
 
-    <!-- Kontrola: Pozemky a sousedé -->
+    <!-- Kontrola: Pozemky -->
     <div class="control-overlay" id="controlPozemky">
         <div class="control-header">
             <div class="control-header-left">
@@ -6098,7 +6098,7 @@
                 </button>
                 <div class="control-title">
                     <span class="material-icons-outlined">terrain</span>
-                    Pozemky a sousedé
+                    Pozemky
                 </div>
             </div>
         </div>
@@ -6147,13 +6147,52 @@
                         <div id="pozemkyZameruList">
                             <!-- Dynamicky renderováno JavaScriptem -->
                         </div>
-                        <div class="pozemky-add-section">
-                            <div class="pozemky-add-row">
-                                <input type="text" class="pozemky-add-input" id="pozemekZameruInput" placeholder="Zadejte č. parcely (např. 248/3 nebo st. 142)...">
+                        
+                        <!-- Přidání pozemku - volba metody -->
+                        <p style="font-size: 12px; color: #5f6368; margin: 16px 0 8px 0; font-weight: 500;">
+                            Přidat pozemek:
+                        </p>
+                        <div class="neighbor-method-selector" style="margin-bottom: 12px;">
+                            <button class="neighbor-method-btn active" onclick="selectPozemekMethod('rucne')" data-method="rucne">
+                                <span class="material-icons-outlined">edit</span>
+                                <span>Ručně</span>
+                            </button>
+                            <button class="neighbor-method-btn" onclick="selectPozemekMethod('mapa')" data-method="mapa">
+                                <span class="material-icons-outlined">map</span>
+                                <span>Z mapy</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Ruční zadání -->
+                        <div class="pozemky-add-section" id="pozemekMethodRucne">
+                            <div class="pozemky-add-row" style="flex-wrap: wrap; gap: 8px;">
+                                <select class="pozemky-add-input" id="pozemekObec" style="flex: 1; min-width: 150px;" onchange="loadKatastralniUzemi()">
+                                    <option value="">Vyberte obec...</option>
+                                    <option value="veseli" selected>Veselí nad Lužnicí</option>
+                                    <option value="tabor">Tábor</option>
+                                    <option value="soběslav">Soběslav</option>
+                                    <option value="jiné">Jiná obec...</option>
+                                </select>
+                                <select class="pozemky-add-input" id="pozemekKU" style="flex: 1; min-width: 150px;">
+                                    <option value="">Vyberte k.ú....</option>
+                                    <option value="veseli-779091" selected>Veselí nad Lužnicí</option>
+                                    <option value="horusice-779091">Horusice</option>
+                                </select>
+                                <input type="text" class="pozemky-add-input" id="pozemekZameruInput" placeholder="Číslo parcely..." style="flex: 1; min-width: 120px;">
                                 <button class="btn-add-pozemek" onclick="addPozemekZameru()">
                                     <span class="material-icons-outlined">add</span>
                                     Přidat
                                 </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Z mapy -->
+                        <div class="pozemky-add-section" id="pozemekMethodMapa" style="display: none;">
+                            <div style="background: #f8f9fa; border: 1px dashed #dadce0; border-radius: 8px; padding: 16px; text-align: center;">
+                                <span class="material-icons-outlined" style="font-size: 32px; color: #5f6368; display: block; margin-bottom: 8px;">map</span>
+                                <p style="font-size: 12px; color: #5f6368; margin: 0;">
+                                    Kliknutím na parcelu v mapě vlevo ji přidáte do seznamu pozemků záměru.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -6173,22 +6212,22 @@
                         </p>
 
                         <!-- Metoda výběru -->
-                        <div class="neighbor-method-selector">
+                        <div class="neighbor-method-selector" id="sousedniMethodSelector">
                             <button class="neighbor-method-btn active" onclick="selectNeighborMethod('auto')" data-method="auto">
                                 <span class="material-icons-outlined">auto_awesome</span>
                                 <span>Automaticky</span>
                             </button>
-                            <button class="neighbor-method-btn" onclick="selectNeighborMethod('manual')" data-method="manual">
-                                <span class="material-icons-outlined">touch_app</span>
-                                <span>Ručně z mapy</span>
+                            <button class="neighbor-method-btn" onclick="selectNeighborMethod('rucne')" data-method="rucne">
+                                <span class="material-icons-outlined">edit</span>
+                                <span>Ručně</span>
                             </button>
-                            <button class="neighbor-method-btn" onclick="selectNeighborMethod('polygon')" data-method="polygon">
-                                <span class="material-icons-outlined">hexagon</span>
-                                <span>Ochranné pásmo</span>
+                            <button class="neighbor-method-btn" onclick="selectNeighborMethod('mapa')" data-method="mapa">
+                                <span class="material-icons-outlined">map</span>
+                                <span>Z mapy</span>
                             </button>
                         </div>
 
-                        <!-- Auto metoda -->
+                        <!-- Automatická metoda -->
                         <div class="neighbor-method-content" id="methodAuto">
                             <button class="btn-autodetect" onclick="autoDetectSousedni()" id="btnAutoDetect">
                                 <span class="material-icons-outlined">auto_awesome</span>
@@ -6197,31 +6236,35 @@
                         </div>
 
                         <!-- Ruční metoda -->
-                        <div class="neighbor-method-content" id="methodManual" style="display: none;">
-                            <div class="parcels-search-row">
-                                <input type="text" class="parcels-search-input" placeholder="Zadejte č. parcely nebo vyberte z mapy..." id="sousedniSearchInput">
-                                <button class="btn-search" onclick="searchSousedni()">
-                                    <span class="material-icons-outlined">search</span>
-                                </button>
-                                <button class="btn-map" onclick="openMapForSousedni()">
-                                    <span class="material-icons-outlined">map</span>
+                        <div class="neighbor-method-content" id="methodRucne" style="display: none;">
+                            <div class="pozemky-add-row" style="flex-wrap: wrap; gap: 8px;">
+                                <select class="pozemky-add-input" id="sousedObec" style="flex: 1; min-width: 150px;" onchange="loadSousedKatastralniUzemi()">
+                                    <option value="">Vyberte obec...</option>
+                                    <option value="veseli" selected>Veselí nad Lužnicí</option>
+                                    <option value="tabor">Tábor</option>
+                                    <option value="soběslav">Soběslav</option>
+                                    <option value="jiné">Jiná obec...</option>
+                                </select>
+                                <select class="pozemky-add-input" id="sousedKU" style="flex: 1; min-width: 150px;">
+                                    <option value="">Vyberte k.ú....</option>
+                                    <option value="veseli-779091" selected>Veselí nad Lužnicí</option>
+                                    <option value="horusice-779091">Horusice</option>
+                                </select>
+                                <input type="text" class="pozemky-add-input" id="sousedniSearchInput" placeholder="Číslo parcely..." style="flex: 1; min-width: 120px;">
+                                <button class="btn-add-pozemek" onclick="addSousedniRucne()">
+                                    <span class="material-icons-outlined">add</span>
+                                    Přidat
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Polygon metoda -->
-                        <div class="polygon-input-section" id="methodPolygon">
-                            <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
-                                Zadejte vzdálenost ochranného pásma od hranice pozemků záměru. Všechny pozemky v tomto pásmu budou označeny jako sousední.
-                            </p>
-                            <div class="polygon-input-row">
-                                <span class="polygon-input-label">Ochranné pásmo:</span>
-                                <input type="number" class="polygon-input" id="polygonDistance" value="50" min="1" max="500">
-                                <span class="polygon-input-unit">metrů</span>
-                                <button class="btn-generate-polygon" onclick="generatePolygonNeighbors()">
-                                    <span class="material-icons-outlined">hexagon</span>
-                                    Vygenerovat
-                                </button>
+                        <!-- Z mapy -->
+                        <div class="neighbor-method-content" id="methodMapa" style="display: none;">
+                            <div style="background: #f8f9fa; border: 1px dashed #dadce0; border-radius: 8px; padding: 16px; text-align: center;">
+                                <span class="material-icons-outlined" style="font-size: 32px; color: #5f6368; display: block; margin-bottom: 8px;">map</span>
+                                <p style="font-size: 12px; color: #5f6368; margin: 0;">
+                                    Kliknutím na parcely v mapě vlevo je přidáte do seznamu sousedních pozemků.
+                                </p>
                             </div>
                         </div>
 
@@ -6894,7 +6937,7 @@
         </div>
     </div>
 
-    <!-- Kontrola: Územní plán -->
+    <!-- Kontrola: Soulad s ÚPD -->
     <div class="control-overlay" id="controlUP">
         <div class="control-header">
             <div class="control-header-left">
@@ -6903,7 +6946,7 @@
                 </button>
                 <div class="control-title">
                     <span class="material-icons-outlined">map</span>
-                    Kontrola souladu s územním plánem
+                    Kontrola souladu s územně plánovací dokumentací
                 </div>
             </div>
         </div>
@@ -6923,7 +6966,7 @@
                     <div class="viewer-placeholder" id="viewer-up">
                         <span class="material-icons-outlined">architecture</span>
                         <div class="viewer-placeholder-title">Elektronická dokumentace</div>
-                        <div class="viewer-placeholder-text">Projektová dokumentace pro ověření souladu s ÚP</div>
+                        <div class="viewer-placeholder-text">Projektová dokumentace pro ověření souladu s ÚPD</div>
                     </div>
                 </div>
             </div>
@@ -6973,7 +7016,7 @@
                             <span>Automatická kontrola souladu</span>
                         </div>
                         <p style="font-size: 13px; color: #5f6368; margin-bottom: 16px; font-style: normal;">
-                            AI porovná projektovou dokumentaci s územním plánem a vytvoří compliance report.
+                            AI porovná projektovou dokumentaci s územně plánovací dokumentací a vytvoří compliance report.
                         </p>
                         <button class="btn btn-ai" id="btnAiKontrola" onclick="runAiCompliance()">
                             <span class="material-icons-outlined">auto_awesome</span>
@@ -7027,7 +7070,7 @@
                             <div class="ai-report-group">
                                 <div class="ai-report-group-title success">
                                     <span class="material-icons-outlined">check_circle</span>
-                                    V souladu s ÚP
+                                    V souladu s ÚPD
                                 </div>
                                 
                                 <div class="ai-report-item">
@@ -7134,28 +7177,37 @@
                     </div>
 
                     <div class="control-section" id="upVysledekSection">
-                        <div class="control-section-title">Výsledek kontroly souladu s ÚP</div>
+                        <div class="control-section-title">Výsledek kontroly souladu s ÚPD</div>
                         <label class="control-option selected" onclick="selectOption(this); updateUPResult()">
                             <input type="radio" name="up_vysledek" value="soulad" checked>
                             <div class="control-option-content">
-                                <div class="control-option-label">Záměr je v souladu s územním plánem</div>
+                                <div class="control-option-label">Záměr je v souladu s územně plánovací dokumentací</div>
                             </div>
                         </label>
                         <label class="control-option" onclick="selectOption(this, true); updateUPResult()">
                             <input type="radio" name="up_vysledek" value="nesoulad">
                             <div class="control-option-content">
-                                <div class="control-option-label">Záměr není v souladu s územním plánem</div>
+                                <div class="control-option-label">Záměr není v souladu s územně plánovací dokumentací</div>
                                 <div class="control-option-desc">Žádost bude zamítnuta</div>
                             </div>
                         </label>
+                        
+                        <!-- Poznámky pro rozhodnutí -->
+                        <div style="margin-top: 16px;">
+                            <label class="form-label" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #202124;">
+                                Poznámky pro rozhodnutí
+                                <span style="font-weight: 400; color: #5f6368;">(propíše se do dokumentu rozhodnutí)</span>
+                            </label>
+                            <textarea id="upPoznamky" class="form-textarea" rows="4" placeholder="Zadejte poznámky k posouzení souladu s územně plánovací dokumentací..." style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
+                        </div>
                     </div>
 
                     <div class="result-preview positive" id="resultUP">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
-                            Záměr je v souladu s ÚP
+                            Záměr je v souladu s ÚPD
                         </div>
-                        <div class="result-preview-text">Záměr je v souladu s platným územním plánem.</div>
+                        <div class="result-preview-text">Záměr je v souladu s platnou územně plánovací dokumentací.</div>
                     </div>
                 </div>
                 <div class="control-form-footer">
@@ -7772,23 +7824,106 @@
         }
 
         function addPozemekZameru() {
+            const obecSelect = document.getElementById('pozemekObec');
+            const kuSelect = document.getElementById('pozemekKU');
             const input = document.getElementById('pozemekZameruInput');
             const value = input.value.trim();
-            if (!value) return;
+            
+            if (!value) {
+                alert('Zadejte číslo parcely.');
+                return;
+            }
+            
+            // Určení katastrálního území
+            let katastr = 'Veselí nad Lužnicí';
+            let kod = '779091';
+            
+            if (kuSelect.value) {
+                katastr = kuSelect.options[kuSelect.selectedIndex].text;
+                kod = kuSelect.value.split('-')[1] || '779091';
+            }
             
             // Určení typu parcely podle čísla
             const isZastavena = value.toLowerCase().startsWith('st.');
             
             pozemkyState.pozemkyZameru.push({
                 cislo: value,
-                katastr: 'Radonice',
-                kod: '747076',
+                katastr: katastr,
+                kod: kod,
                 plocha: '—',
                 typ: isZastavena ? 'zastavena' : 'pozemkova'
             });
             
             renderPozemkyZameru();
             input.value = '';
+        }
+        
+        function selectPozemekMethod(method) {
+            // Update tlačítek - pouze pro pozemky záměru
+            const pozemkySection = document.getElementById('pozemekMethodRucne').closest('.pozemky-section');
+            pozemkySection.querySelectorAll('.neighbor-method-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.method === method);
+            });
+            
+            // Zobrazení správného obsahu
+            document.getElementById('pozemekMethodRucne').style.display = method === 'rucne' ? 'block' : 'none';
+            document.getElementById('pozemekMethodMapa').style.display = method === 'mapa' ? 'block' : 'none';
+            
+            // Při volbě Z mapy přepnout viewer na záložku Mapa
+            if (method === 'mapa') {
+                const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
+                if (mapTab) {
+                    switchPozemkyTab(mapTab, 'mapa');
+                }
+            }
+        }
+        
+        function loadKatastralniUzemi() {
+            const obecSelect = document.getElementById('pozemekObec');
+            const kuSelect = document.getElementById('pozemekKU');
+            const obec = obecSelect.value;
+            
+            // Reset k.ú. dropdown
+            kuSelect.innerHTML = '<option value="">Vyberte k.ú....</option>';
+            kuSelect.disabled = true;
+            
+            if (!obec) return;
+            
+            // Simulace načtení k.ú. podle obce
+            const katastry = {
+                'veseli': [
+                    { value: 'veseli-779091', text: 'Veselí nad Lužnicí' },
+                    { value: 'horusice-779091', text: 'Horusice' }
+                ],
+                'tabor': [
+                    { value: 'tabor-764621', text: 'Tábor' },
+                    { value: 'klokoty-764621', text: 'Klokoty' },
+                    { value: 'chotoviny-764621', text: 'Chotoviny' }
+                ],
+                'soběslav': [
+                    { value: 'sobeslav-752177', text: 'Soběslav' },
+                    { value: 'chlebov-752177', text: 'Chlebov' }
+                ]
+            };
+            
+            if (katastry[obec]) {
+                katastry[obec].forEach(ku => {
+                    const option = document.createElement('option');
+                    option.value = ku.value;
+                    option.textContent = ku.text;
+                    kuSelect.appendChild(option);
+                });
+                kuSelect.disabled = false;
+            }
+        }
+        
+        function openMapForPozemkyZameru() {
+            // Přepnutí na záložku Mapa ve vieweru
+            const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
+            if (mapTab) {
+                switchPozemkyTab(mapTab, 'mapa');
+            }
+            alert('V ostré verzi by se zde otevřela katastrální mapa pro výběr pozemků záměru kliknutím na parcely.');
         }
 
         function removePozemekZameru(index) {
@@ -7821,17 +7956,26 @@
         function selectNeighborMethod(method) {
             pozemkyState.method = method;
             
-            // Update tlačítek
-            document.querySelectorAll('.neighbor-method-btn').forEach(btn => {
+            // Update tlačítek - pouze pro sousední pozemky
+            const sousedniSelector = document.getElementById('sousedniMethodSelector');
+            sousedniSelector.querySelectorAll('.neighbor-method-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.method === method);
             });
             
             // Zobrazení správného obsahu
             document.getElementById('methodAuto').style.display = method === 'auto' ? 'block' : 'none';
-            document.getElementById('methodManual').style.display = method === 'manual' ? 'block' : 'none';
-            document.getElementById('methodPolygon').classList.toggle('visible', method === 'polygon');
+            document.getElementById('methodRucne').style.display = method === 'rucne' ? 'block' : 'none';
+            document.getElementById('methodMapa').style.display = method === 'mapa' ? 'block' : 'none';
+            
+            // Při volbě Z mapy přepnout viewer na záložku Mapa
+            if (method === 'mapa') {
+                const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
+                if (mapTab) {
+                    switchPozemkyTab(mapTab, 'mapa');
+                }
+            }
         }
-
+        
         function autoDetectSousedni() {
             const btn = document.getElementById('btnAutoDetect');
             btn.disabled = true;
@@ -7839,11 +7983,11 @@
             
             setTimeout(function() {
                 pozemkyState.sousedniParcely = [
-                    { cislo: '248/1', katastr: 'Radonice', kod: '747076', plocha: '890 m²' },
-                    { cislo: '248/2', katastr: 'Radonice', kod: '747076', plocha: '1 120 m²' },
-                    { cislo: '249', katastr: 'Radonice', kod: '747076', plocha: '2 340 m²' },
-                    { cislo: 'st. 141', katastr: 'Radonice', kod: '747076', plocha: '420 m²' },
-                    { cislo: 'st. 143', katastr: 'Radonice', kod: '747076', plocha: '380 m²' }
+                    { cislo: '248/1', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '890 m²' },
+                    { cislo: '248/2', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '1 120 m²' },
+                    { cislo: '249', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '2 340 m²' },
+                    { cislo: 'st. 141', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '420 m²' },
+                    { cislo: 'st. 143', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '380 m²' }
                 ];
                 
                 renderSousedniParcely();
@@ -7852,31 +7996,85 @@
                 updatePozemkyState();
             }, 2000);
         }
-
-        function generatePolygonNeighbors() {
-            const distance = document.getElementById('polygonDistance').value;
-            const btn = document.querySelector('.btn-generate-polygon');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="material-icons-outlined">hourglass_empty</span>Generuji...';
+        
+        function loadSousedKatastralniUzemi() {
+            const obecSelect = document.getElementById('sousedObec');
+            const kuSelect = document.getElementById('sousedKU');
+            const obec = obecSelect.value;
             
-            setTimeout(function() {
-                // Simulace - ochranné pásmo najde více parcel
-                pozemkyState.sousedniParcely = [
-                    { cislo: '248/1', katastr: 'Radonice', kod: '747076', plocha: '890 m²' },
-                    { cislo: '248/2', katastr: 'Radonice', kod: '747076', plocha: '1 120 m²' },
-                    { cislo: '249', katastr: 'Radonice', kod: '747076', plocha: '2 340 m²' },
-                    { cislo: 'st. 141', katastr: 'Radonice', kod: '747076', plocha: '420 m²' },
-                    { cislo: 'st. 143', katastr: 'Radonice', kod: '747076', plocha: '380 m²' },
-                    { cislo: '250/1', katastr: 'Radonice', kod: '747076', plocha: '1 560 m²' },
-                    { cislo: '250/2', katastr: 'Radonice', kod: '747076', plocha: '980 m²' },
-                    { cislo: '247', katastr: 'Radonice', kod: '747076', plocha: '3 200 m²' }
-                ];
-                
-                renderSousedniParcely();
-                btn.disabled = false;
-                btn.innerHTML = '<span class="material-icons-outlined">hexagon</span>Vygenerovat';
-                updatePozemkyState();
-            }, 1500);
+            // Reset k.ú. dropdown
+            kuSelect.innerHTML = '<option value="">Vyberte k.ú....</option>';
+            kuSelect.disabled = true;
+            
+            if (!obec) return;
+            
+            // Simulace načtení k.ú. podle obce
+            const katastry = {
+                'veseli': [
+                    { value: 'veseli-779091', text: 'Veselí nad Lužnicí' },
+                    { value: 'horusice-779091', text: 'Horusice' }
+                ],
+                'tabor': [
+                    { value: 'tabor-764621', text: 'Tábor' },
+                    { value: 'klokoty-764621', text: 'Klokoty' },
+                    { value: 'chotoviny-764621', text: 'Chotoviny' }
+                ],
+                'soběslav': [
+                    { value: 'sobeslav-752177', text: 'Soběslav' },
+                    { value: 'chlebov-752177', text: 'Chlebov' }
+                ]
+            };
+            
+            if (katastry[obec]) {
+                katastry[obec].forEach(ku => {
+                    const option = document.createElement('option');
+                    option.value = ku.value;
+                    option.textContent = ku.text;
+                    kuSelect.appendChild(option);
+                });
+                kuSelect.disabled = false;
+            }
+        }
+        
+        function addSousedniRucne() {
+            const obecSelect = document.getElementById('sousedObec');
+            const kuSelect = document.getElementById('sousedKU');
+            const input = document.getElementById('sousedniSearchInput');
+            const value = input.value.trim();
+            
+            if (!value) {
+                alert('Zadejte číslo parcely.');
+                return;
+            }
+            
+            // Určení katastrálního území
+            let katastr = 'Veselí nad Lužnicí';
+            let kod = '779091';
+            
+            if (kuSelect.value) {
+                katastr = kuSelect.options[kuSelect.selectedIndex].text;
+                kod = kuSelect.value.split('-')[1] || '779091';
+            }
+            
+            pozemkyState.sousedniParcely.push({
+                cislo: value,
+                katastr: katastr,
+                kod: kod,
+                plocha: '—'
+            });
+            
+            renderSousedniParcely();
+            updatePozemkyState();
+            input.value = '';
+        }
+        
+        function openMapForSousedni() {
+            // Přepnutí na záložku Mapa ve vieweru
+            const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
+            if (mapTab) {
+                switchPozemkyTab(mapTab, 'mapa');
+            }
+            alert('V ostré verzi by se zde otevřela katastrální mapa pro výběr sousedních pozemků kliknutím na parcely.');
         }
 
         function renderSousedniParcely() {
@@ -7934,13 +8132,6 @@
             renderSousedniParcely();
             input.value = '';
             updatePozemkyState();
-        }
-
-        function openMapForSousedni() {
-            const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
-            if (mapTab) {
-                switchPozemkyTab(mapTab, 'mapa');
-            }
         }
 
         function updatePozemkyState() {
@@ -8701,7 +8892,7 @@
         }
 
         // ==========================================
-        // ÚZEMNÍ PLÁN - update result
+        // ÚZEMNĚ PLÁNOVACÍ DOKUMENTACE - update result
         // ==========================================
         function updateUPResult() {
             const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
@@ -8712,18 +8903,18 @@
                 resultBox.innerHTML = `
                     <div class="result-preview-title">
                         <span class="material-icons-outlined">check_circle</span>
-                        Záměr je v souladu s ÚP
+                        Záměr je v souladu s ÚPD
                     </div>
-                    <div class="result-preview-text">Záměr je v souladu s platným územním plánem.</div>
+                    <div class="result-preview-text">Záměr je v souladu s platnou územně plánovací dokumentací.</div>
                 `;
             } else {
                 resultBox.className = 'result-preview negative';
                 resultBox.innerHTML = `
                     <div class="result-preview-title">
                         <span class="material-icons-outlined">cancel</span>
-                        Nesoulad s územním plánem
+                        Nesoulad s ÚPD
                     </div>
-                    <div class="result-preview-text">Žádost bude zamítnuta z důvodu nesouladu s územním plánem.</div>
+                    <div class="result-preview-text">Žádost bude zamítnuta z důvodu nesouladu s územně plánovací dokumentací.</div>
                 `;
             }
         }
