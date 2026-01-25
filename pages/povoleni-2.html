@@ -3633,6 +3633,677 @@
             color: #137333;
         }
 
+        /* ==========================================
+           ÚČASTNÍCI ŘÍZENÍ - STYLY
+           ========================================== */
+        .ucastnici-tabs {
+            display: flex;
+            gap: 0;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0;
+        }
+        
+        .ucastnici-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 20px;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .ucastnici-tab:hover {
+            background: #e8f1fa;
+            color: #004289;
+        }
+        
+        .ucastnici-tab.active {
+            background: #fff;
+            color: #004289;
+            border-bottom-color: #004289;
+        }
+        
+        .ucastnici-tab .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .ucastnici-tab-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            background: #e8eaed;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #5f6368;
+        }
+        
+        .ucastnici-tab.active .ucastnici-tab-badge {
+            background: #e8f1fa;
+            color: #004289;
+        }
+        
+        .ucastnici-panel {
+            display: none;
+            padding: 0;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .ucastnici-panel.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ucastnici-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .ucastnici-toolbar-left,
+        .ucastnici-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-ucastnici-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .btn-ucastnici-action:hover {
+            background: #f8f9fa;
+            border-color: #004289;
+            color: #004289;
+        }
+        
+        .btn-ucastnici-action.primary {
+            background: #004289;
+            border-color: #004289;
+            color: #fff;
+        }
+        
+        .btn-ucastnici-action.primary:hover {
+            background: #003570;
+        }
+        
+        .btn-ucastnici-action .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .ucastnici-checkbox {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #5f6368;
+            cursor: pointer;
+        }
+        
+        .ucastnici-checkbox input {
+            cursor: pointer;
+        }
+        
+        /* Skupiny účastníků */
+        .ucastnici-group {
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .ucastnici-group-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f8f9fa;
+        }
+        
+        .ucastnici-group-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+        }
+        
+        .ucastnici-group-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-add-ucastnik {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: #004289;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .btn-add-ucastnik:hover {
+            background: #003570;
+        }
+        
+        .btn-add-ucastnik.secondary {
+            background: #fff;
+            border: 1px solid #dadce0;
+            color: #5f6368;
+        }
+        
+        .btn-add-ucastnik.secondary:hover {
+            background: #f8f9fa;
+            border-color: #004289;
+            color: #004289;
+        }
+        
+        .btn-add-ucastnik .material-icons-outlined {
+            font-size: 14px;
+        }
+        
+        /* Tabulka účastníků */
+        .ucastnici-table {
+            width: 100%;
+        }
+        
+        .ucastnici-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            border-bottom: 1px solid #f1f3f4;
+            transition: background 0.1s;
+        }
+        
+        .ucastnici-row:hover {
+            background: #f8f9fa;
+        }
+        
+        .ucastnici-row:last-child {
+            border-bottom: none;
+        }
+        
+        .ucastnici-cell {
+            font-size: 13px;
+            color: #202124;
+        }
+        
+        .ucastnici-cell.status {
+            width: 30px;
+            flex-shrink: 0;
+        }
+        
+        .ucastnici-cell.type {
+            width: 100px;
+            flex-shrink: 0;
+            font-size: 11px;
+            color: #5f6368;
+        }
+        
+        .ucastnici-cell.name {
+            flex: 1;
+            font-weight: 500;
+            min-width: 150px;
+        }
+        
+        .ucastnici-cell.address {
+            flex: 1.5;
+            color: #5f6368;
+            font-size: 12px;
+        }
+        
+        .ucastnici-cell.actions {
+            display: flex;
+            gap: 4px;
+            justify-content: flex-end;
+            width: 150px;
+            flex-shrink: 0;
+        }
+        
+        .ucastnici-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+        }
+        
+        .ucastnici-status .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .ucastnici-status.verified {
+            color: #137333;
+        }
+        
+        .ucastnici-status.pending {
+            color: #f9ab00;
+        }
+        
+        .ucastnici-status.error {
+            color: #c5221f;
+        }
+        
+        .ucastnici-action-btn {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        
+        .ucastnici-action-btn:hover {
+            background: #e8eaed;
+            color: #202124;
+        }
+        
+        .ucastnici-action-btn.delete:hover {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .ucastnici-action-btn.favorited {
+            color: #f9ab00;
+        }
+        
+        .ucastnici-action-btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .ucastnici-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 24px;
+            color: #9aa0a6;
+            font-size: 13px;
+        }
+        
+        .ucastnici-empty .material-icons-outlined {
+            font-size: 20px;
+        }
+        
+        /* Tabulka zástupců a dalších osob */
+        .zastupci-table-wrapper {
+            overflow-x: auto;
+        }
+        
+        .zastupci-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .zastupci-table th {
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            font-weight: 500;
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .zastupci-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f3f4;
+            vertical-align: middle;
+        }
+        
+        .zastupci-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .zastupce-zastoupeni {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .zastupce-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            background: #e8f1fa;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #004289;
+        }
+        
+        .zastupce-role {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #f1f3f4;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #5f6368;
+        }
+        
+        .dalsi-osoba-poznamka {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #fff3e0;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #e65100;
+            font-style: italic;
+        }
+        
+        /* Toggle switch pro doručování */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #dadce0;
+            transition: 0.2s;
+            border-radius: 22px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.2s;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #004289;
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(18px);
+        }
+
+        /* ==========================================
+           OSOBY - KOMPAKTNÍ SEKCE POZEMKŮ
+           ========================================== */
+        .osoby-pozemky-section-compact {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .osoby-pozemky-header-compact {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 16px;
+            background: #004289;
+            color: #fff;
+        }
+        
+        .osoby-pozemky-title-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .osoby-pozemky-title-compact .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .osoby-pozemky-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            font-size: 12px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .stat-label {
+            opacity: 0.8;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+        }
+        
+        .stat-value.pending {
+            color: #ffd54f;
+        }
+        
+        .stat-value.verified {
+            color: #81c784;
+        }
+        
+        .stat-divider {
+            opacity: 0.4;
+        }
+        
+        .btn-overit-vse-compact {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #004289;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        
+        .btn-overit-vse-compact:hover {
+            background: #e8f1fa;
+        }
+        
+        .btn-overit-vse-compact .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .osoby-pozemky-list-compact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            padding: 8px 12px;
+            background: #fff;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+        
+        .pozemek-row-compact {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            width: calc(50% - 4px);
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 12px;
+        }
+        
+        .pozemek-row-compact:hover {
+            background: #f8f9fa;
+        }
+        
+        .pozemek-typ-badge {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .pozemek-typ-badge.zamer {
+            background: #e8f1fa;
+            color: #004289;
+        }
+        
+        .pozemek-typ-badge.soused {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .pozemek-parcela {
+            min-width: 90px;
+            color: #202124;
+        }
+        
+        .pozemek-parcela small {
+            color: #9aa0a6;
+            font-size: 10px;
+            margin-left: 4px;
+        }
+        
+        .pozemek-vlastnik {
+            flex: 1;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .pozemek-vlastnik.neoveren {
+            color: #bdbdbd;
+        }
+        
+        .pozemek-vlastnik.verified {
+            color: #137333;
+        }
+        
+        .pozemek-status-icon {
+            width: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pozemek-status-icon .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .pozemek-status-icon.pending {
+            color: #f9ab00;
+        }
+        
+        .pozemek-status-icon.verified {
+            color: #137333;
+        }
+        
+        .btn-overit-compact {
+            padding: 3px 10px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        
+        .btn-overit-compact:hover {
+            background: #e8f1fa;
+            border-color: #004289;
+            color: #004289;
+        }
+        
+        .btn-overit-compact.done {
+            background: #e6f4ea;
+            border-color: #137333;
+            color: #137333;
+            pointer-events: none;
+        }
+        
+        /* Sekce seznamu osob - flex: 1 pro maximální prostor */
+        .osoby-seznam-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden;
+        }
+        
+        /* Badge pro zdroj dat */
+        .group-source-badge {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 8px;
+            padding: 2px 8px;
+            background: #e6f4ea;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+            color: #137333;
+            text-transform: none;
+        }
+        
+        .group-source-badge.warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
         .btn-save-draft {
             display: inline-flex;
             align-items: center;
@@ -5735,6 +6406,28 @@
                 transform: translate(-50%, -20px);
             }
         }
+        
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+        }
 
         /* Modal styles - pro pomocné modály */
         .modal-overlay {
@@ -6328,7 +7021,7 @@
                     </div>
                 </div>
 
-                <!-- 7. Účastníci -->
+                <!-- 7. Osoby -->
                 <div class="control-card status-waiting disabled" id="card-ucastnici">
                     <div class="control-card-header">
                         <div class="control-card-icon">
@@ -6337,8 +7030,8 @@
                         <span class="control-card-status">Čeká</span>
                     </div>
                     <div class="control-card-body">
-                        <div class="control-card-title">Účastníci řízení</div>
-                        <div class="control-card-desc">Definice účastníků na základě pozemků a sousedů</div>
+                        <div class="control-card-title">Osoby</div>
+                        <div class="control-card-desc">Ověření vlastníků pozemků a definice osob v řízení</div>
                         <button class="control-card-action">
                             <span class="material-icons-outlined">lock</span>
                             Nejprve pozemky
@@ -7097,7 +7790,7 @@
                             <span class="material-icons-outlined">check_circle</span>
                             Pozemky identifikovány
                         </div>
-                        <div class="result-preview-text">Pozemky záměru a sousední pozemky byly identifikovány. Vlastníci budou určeni v části Účastníci řízení.</div>
+                        <div class="result-preview-text">Pozemky záměru a sousední pozemky byly identifikovány. Vlastníci budou určeni v části Osoby.</div>
                     </div>
                 </div>
                 <div class="control-form-footer">
@@ -8132,7 +8825,7 @@
         </div>
     </div>
 
-    <!-- Kontrola: Účastníci řízení -->
+    <!-- Kontrola: Osoby -->
     <div class="control-overlay" id="controlUcastnici">
         <div class="control-header">
             <div class="control-header-left">
@@ -8141,64 +8834,339 @@
                 </button>
                 <div class="control-title">
                     <span class="material-icons-outlined">groups</span>
-                    Účastníci řízení
+                    Osoby
                 </div>
             </div>
         </div>
-        <div class="control-body">
-            <div class="control-viewer">
-                <div class="viewer-tabs">
-                    <div class="viewer-tabs-left">
-                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'ucastnici', 'zadost')">
-                            <span class="material-icons-outlined">description</span>
-                            Žádost
-                        </button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'ucastnici', 'prilohy')">
-                            <span class="material-icons-outlined">attach_file</span>
-                            Přílohy
-                            <span class="badge">12</span>
-                        </button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'ucastnici', 'kn')">
-                            <span class="material-icons-outlined">terrain</span>
-                            Katastr nemovitostí
-                        </button>
-                    </div>
-                    <button class="viewer-open-external" onclick="openViewerExternal('ucastnici')" title="Otevřít v novém okně">
-                        <span class="material-icons-outlined">open_in_new</span>
-                    </button>
-                </div>
-                <div class="viewer-content">
-                    <div class="viewer-placeholder" id="viewer-ucastnici">
-                        <span class="material-icons-outlined">description</span>
-                        <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
-                        <div class="viewer-placeholder-text">Údaje o stavebníkovi a dalších osobách ze žádosti</div>
-                    </div>
-                </div>
-            </div>
-            <div class="control-form">
-                <div class="control-form-body">
-                    <div class="control-section">
-                        <div class="control-section-title">Stav účastníků řízení</div>
-                        <p style="font-size: 13px; color: #5f6368; margin-bottom: 16px; font-style: normal;">
-                            V ostré verzi by zde bylo rozhraní pro správu účastníků řízení 
-                            podle skupin (stavebník, vlastníci, sousedé, DO, další osoby).
-                        </p>
-                        <label class="control-option selected" onclick="selectOption(this)">
-                            <input type="radio" name="ucastnici_stav" value="komplet" checked>
-                            <div class="control-option-content">
-                                <div class="control-option-label">Seznam účastníků je kompletní</div>
-                                <div class="control-option-desc">Všichni účastníci jsou zadáni a ověřeni</div>
+        <div class="control-body" style="display: block;">
+            <!-- Celá šířka bez vieweru -->
+            <div class="control-form" style="width: 100%; border-left: none;">
+                <div class="control-form-body" style="padding: 0; display: flex; flex-direction: column;">
+                    
+                    <!-- ========== SEKCE 1: POZEMKY K OVĚŘENÍ (kompaktní) ========== -->
+                    <div class="osoby-pozemky-section-compact">
+                        <div class="osoby-pozemky-header-compact">
+                            <div class="osoby-pozemky-title-compact">
+                                <span class="material-icons-outlined">terrain</span>
+                                Ověření pozemků z KN
                             </div>
-                        </label>
-                    </div>
-
-                    <div class="result-preview positive" id="resultUcastnici">
-                        <div class="result-preview-title">
-                            <span class="material-icons-outlined">check_circle</span>
-                            Účastníci definováni
+                            <div class="osoby-pozemky-stats">
+                                <span class="stat-item" id="statPozemkyZameru">
+                                    <span class="stat-label">Pozemky záměru:</span>
+                                    <span class="stat-value pending">2 neověřeno</span>
+                                </span>
+                                <span class="stat-divider">|</span>
+                                <span class="stat-item" id="statSousedni">
+                                    <span class="stat-label">Sousední:</span>
+                                    <span class="stat-value pending">4 neověřeno</span>
+                                </span>
+                            </div>
+                            <button class="btn-overit-vse-compact" onclick="overitVsechnyPozemkyKN()">
+                                <span class="material-icons-outlined">verified</span>
+                                Ověřit vše z KN
+                            </button>
                         </div>
-                        <div class="result-preview-text">Seznam účastníků řízení je kompletní.</div>
+                        
+                        <div class="osoby-pozemky-list-compact" id="pozemkyListCompact">
+                            <!-- Pozemky záměru -->
+                            <div class="pozemek-row-compact" data-typ="zamer">
+                                <span class="pozemek-typ-badge zamer">Z</span>
+                                <span class="pozemek-parcela"><strong>st. 123</strong> <small>k.ú. Jaroměř</small></span>
+                                <span class="pozemek-vlastnik neoveren">—</span>
+                                <span class="pozemek-status-icon pending"><span class="material-icons-outlined">schedule</span></span>
+                                <button class="btn-overit-compact" onclick="overitPozemekKN('st. 123', 'Jaroměř')">Ověřit</button>
+                            </div>
+                            <div class="pozemek-row-compact" data-typ="zamer">
+                                <span class="pozemek-typ-badge zamer">Z</span>
+                                <span class="pozemek-parcela"><strong>456/1</strong> <small>k.ú. Jaroměř</small></span>
+                                <span class="pozemek-vlastnik neoveren">—</span>
+                                <span class="pozemek-status-icon pending"><span class="material-icons-outlined">schedule</span></span>
+                                <button class="btn-overit-compact" onclick="overitPozemekKN('456/1', 'Jaroměř')">Ověřit</button>
+                            </div>
+                            <!-- Sousední pozemky -->
+                            <div class="pozemek-row-compact" data-typ="soused">
+                                <span class="pozemek-typ-badge soused">S</span>
+                                <span class="pozemek-parcela"><strong>st. 122</strong> <small>k.ú. Jaroměř</small></span>
+                                <span class="pozemek-vlastnik neoveren">—</span>
+                                <span class="pozemek-status-icon pending"><span class="material-icons-outlined">schedule</span></span>
+                                <button class="btn-overit-compact" onclick="overitPozemekKN('st. 122', 'Jaroměř')">Ověřit</button>
+                            </div>
+                            <div class="pozemek-row-compact" data-typ="soused">
+                                <span class="pozemek-typ-badge soused">S</span>
+                                <span class="pozemek-parcela"><strong>st. 124</strong> <small>k.ú. Jaroměř</small></span>
+                                <span class="pozemek-vlastnik neoveren">—</span>
+                                <span class="pozemek-status-icon pending"><span class="material-icons-outlined">schedule</span></span>
+                                <button class="btn-overit-compact" onclick="overitPozemekKN('st. 124', 'Jaroměř')">Ověřit</button>
+                            </div>
+                            <div class="pozemek-row-compact" data-typ="soused">
+                                <span class="pozemek-typ-badge soused">S</span>
+                                <span class="pozemek-parcela"><strong>456/2</strong> <small>k.ú. Jaroměř</small></span>
+                                <span class="pozemek-vlastnik neoveren">—</span>
+                                <span class="pozemek-status-icon pending"><span class="material-icons-outlined">schedule</span></span>
+                                <button class="btn-overit-compact" onclick="overitPozemekKN('456/2', 'Jaroměř')">Ověřit</button>
+                            </div>
+                            <div class="pozemek-row-compact" data-typ="soused">
+                                <span class="pozemek-typ-badge soused">S</span>
+                                <span class="pozemek-parcela"><strong>457</strong> <small>k.ú. Jaroměř</small></span>
+                                <span class="pozemek-vlastnik neoveren">—</span>
+                                <span class="pozemek-status-icon pending"><span class="material-icons-outlined">schedule</span></span>
+                                <button class="btn-overit-compact" onclick="overitPozemekKN('457', 'Jaroměř')">Ověřit</button>
+                            </div>
+                        </div>
                     </div>
+                    
+                    <!-- ========== SEKCE 2: OSOBY V ŘÍZENÍ ========== -->
+                    <div class="osoby-seznam-section">
+                        <!-- Záložky: Účastníci | Zástupci | Další osoby -->
+                        <div class="ucastnici-tabs">
+                            <button class="ucastnici-tab active" onclick="switchUcastniciTab(this, 'ucastnici')">
+                                <span class="material-icons-outlined">people</span>
+                                Účastníci
+                                <span class="ucastnici-tab-badge" id="badgeUcastnici">2</span>
+                            </button>
+                            <button class="ucastnici-tab" onclick="switchUcastniciTab(this, 'zastupci')">
+                                <span class="material-icons-outlined">supervisor_account</span>
+                                Zástupci
+                                <span class="ucastnici-tab-badge" id="badgeZastupci">0</span>
+                            </button>
+                            <button class="ucastnici-tab" onclick="switchUcastniciTab(this, 'dalsi')">
+                                <span class="material-icons-outlined">person_add</span>
+                                Další osoby
+                                <span class="ucastnici-tab-badge" id="badgeDalsiOsoby">1</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Panel: Účastníci -->
+                        <div class="ucastnici-panel active" id="panelUcastnici">
+                            
+                            <!-- Skupina: Stavebník / Žadatel -->
+                            <div class="ucastnici-group">
+                                <div class="ucastnici-group-header">
+                                    <div class="ucastnici-group-title">
+                                        Stavebník / Žadatel
+                                        <span class="group-source-badge">ze žádosti</span>
+                                    </div>
+                                    <div class="ucastnici-group-actions">
+                                        <button class="btn-add-ucastnik" onclick="addUcastnik('stavebnik', 'manual')">
+                                            <span class="material-icons-outlined">add</span>
+                                            Přidat osobu
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ucastnici-table">
+                                    <div class="ucastnici-row">
+                                        <div class="ucastnici-cell status">
+                                            <span class="ucastnici-status verified" title="Ověřeno">
+                                                <span class="material-icons-outlined">check_circle</span>
+                                            </span>
+                                        </div>
+                                        <div class="ucastnici-cell type">Fyzická osoba</div>
+                                        <div class="ucastnici-cell name">Jan Novák</div>
+                                        <div class="ucastnici-cell address">Květná 123, 110 00 Praha 1</div>
+                                        <div class="ucastnici-cell actions">
+                                            <button class="ucastnici-action-btn" title="Přidat do oblíbených" onclick="toggleOblibeny(this)">
+                                                <span class="material-icons-outlined">star_border</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn" title="Detail">
+                                                <span class="material-icons-outlined">search</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn" title="Upravit">
+                                                <span class="material-icons-outlined">edit</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn delete" title="Odstranit">
+                                                <span class="material-icons-outlined">delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skupina: Obec -->
+                            <div class="ucastnici-group">
+                                <div class="ucastnici-group-header">
+                                    <div class="ucastnici-group-title">
+                                        Obec
+                                        <span class="group-source-badge">z k.ú. pozemků</span>
+                                    </div>
+                                    <div class="ucastnici-group-actions">
+                                        <button class="btn-add-ucastnik secondary" onclick="addUcastnik('obec', 'manual')">
+                                            <span class="material-icons-outlined">edit</span>
+                                            Změnit
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ucastnici-table">
+                                    <div class="ucastnici-row">
+                                        <div class="ucastnici-cell status">
+                                            <span class="ucastnici-status verified" title="Automaticky načteno">
+                                                <span class="material-icons-outlined">check_circle</span>
+                                            </span>
+                                        </div>
+                                        <div class="ucastnici-cell type">Právnická osoba</div>
+                                        <div class="ucastnici-cell name">Město Jaroměř</div>
+                                        <div class="ucastnici-cell address">nám. ČSA 16, 551 01 Jaroměř</div>
+                                        <div class="ucastnici-cell actions">
+                                            <button class="ucastnici-action-btn favorited" title="V oblíbených" onclick="toggleOblibeny(this)">
+                                                <span class="material-icons-outlined">star</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn" title="Detail">
+                                                <span class="material-icons-outlined">search</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn" title="Upravit">
+                                                <span class="material-icons-outlined">edit</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Skupina: Vlastník pozemku nebo stavby -->
+                            <div class="ucastnici-group">
+                                <div class="ucastnici-group-header">
+                                    <div class="ucastnici-group-title">
+                                        Vlastník pozemku nebo stavby nebo jiné věcné právo
+                                        <span class="group-source-badge warning">čeká na ověření z KN</span>
+                                    </div>
+                                    <div class="ucastnici-group-actions">
+                                        <button class="btn-add-ucastnik" onclick="addUcastnik('vlastnik', 'manual')">
+                                            <span class="material-icons-outlined">add</span>
+                                            Přidat ručně
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ucastnici-empty">
+                                    <span class="material-icons-outlined">hourglass_empty</span>
+                                    <span>Ověřte pozemky záměru z katastru pro načtení vlastníků</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Skupina: Vlastník sousedního pozemku -->
+                            <div class="ucastnici-group">
+                                <div class="ucastnici-group-header">
+                                    <div class="ucastnici-group-title">
+                                        Vlastník sousedního pozemku nebo stavby nebo jiné věcné právo
+                                        <span class="group-source-badge warning">čeká na ověření z KN</span>
+                                    </div>
+                                    <div class="ucastnici-group-actions">
+                                        <button class="btn-add-ucastnik" onclick="addUcastnik('soused', 'manual')">
+                                            <span class="material-icons-outlined">add</span>
+                                            Přidat ručně
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ucastnici-empty">
+                                    <span class="material-icons-outlined">hourglass_empty</span>
+                                    <span>Ověřte sousední pozemky z katastru pro načtení vlastníků</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Skupina: Ostatní účastníci -->
+                            <div class="ucastnici-group">
+                                <div class="ucastnici-group-header">
+                                    <div class="ucastnici-group-title">Ostatní účastníci</div>
+                                    <div class="ucastnici-group-actions">
+                                        <button class="btn-add-ucastnik" onclick="addUcastnik('ostatni', 'manual')">
+                                            <span class="material-icons-outlined">add</span>
+                                            Přidat osobu
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ucastnici-empty">
+                                    <span class="material-icons-outlined">group_off</span>
+                                    <span>Žádní další účastníci</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Panel: Zástupci -->
+                        <div class="ucastnici-panel" id="panelZastupci">
+                            <div class="ucastnici-toolbar">
+                                <div class="ucastnici-toolbar-left">
+                                    <button class="btn-ucastnici-action primary" onclick="addZastupce()">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat zástupce
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box" style="margin: 16px;">
+                                <div class="info-box-icon">
+                                    <span class="material-icons-outlined">info</span>
+                                </div>
+                                <div class="info-box-content">
+                                    <div class="info-box-title">Zástupci účastníků řízení</div>
+                                    <div class="info-box-text">
+                                        V této záložce spravujete osoby zastupující účastníky řízení na základě plné moci. 
+                                        Zatím nebyli přidáni žádní zástupci.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ucastnici-empty" style="padding: 40px;">
+                                <span class="material-icons-outlined">supervisor_account</span>
+                                <span>Žádní zástupci</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Panel: Další osoby -->
+                        <div class="ucastnici-panel" id="panelDalsiOsoby">
+                            <div class="ucastnici-toolbar">
+                                <div class="ucastnici-toolbar-left">
+                                    <button class="btn-ucastnici-action primary" onclick="addDalsiOsoba()">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat osobu
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="info-box" style="margin: 16px;">
+                                <div class="info-box-icon">
+                                    <span class="material-icons-outlined">info</span>
+                                </div>
+                                <div class="info-box-content">
+                                    <div class="info-box-title">Další osoby v řízení</div>
+                                    <div class="info-box-text">
+                                        Osoby, jejichž potřeba nevyplývá z § 182 písm. e) stavebního zákona, ale z jiných ustanovení 
+                                        (např. hlavní projektant, zhotovitel stavby, technický dozor).
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tabulka dalších osob -->
+                            <div class="ucastnici-group" style="border-top: none;">
+                                <div class="ucastnici-table">
+                                    <div class="ucastnici-row">
+                                        <div class="ucastnici-cell status">
+                                            <span class="ucastnici-status verified" title="Ověřeno">
+                                                <span class="material-icons-outlined">check_circle</span>
+                                            </span>
+                                        </div>
+                                        <div class="ucastnici-cell type">Fyzická osoba</div>
+                                        <div class="ucastnici-cell name">Ing. arch. Alois Hrejsísemnou</div>
+                                        <div class="ucastnici-cell address">
+                                            <span class="dalsi-osoba-poznamka">hlavní projektant</span>
+                                        </div>
+                                        <div class="ucastnici-cell actions">
+                                            <button class="ucastnici-action-btn favorited" title="V oblíbených" onclick="toggleOblibeny(this)">
+                                                <span class="material-icons-outlined">star</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn" title="Detail">
+                                                <span class="material-icons-outlined">search</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn" title="Upravit">
+                                                <span class="material-icons-outlined">edit</span>
+                                            </button>
+                                            <button class="ucastnici-action-btn delete" title="Odstranit">
+                                                <span class="material-icons-outlined">delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
                 <div class="control-form-footer">
                     <div class="control-form-footer-left">
@@ -8215,7 +9183,7 @@
                         </button>
                         <button class="btn btn-primary" onclick="completeUcastnici()">
                             <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
+                            Potvrdit osoby
                         </button>
                     </div>
                 </div>
@@ -8801,7 +9769,7 @@
                 'dokumentace': 'Kontrola dokumentace',
                 'identifikace': 'Identifikace subjektů',
                 'up': 'Soulad s ÚPD',
-                'ucastnici': 'Účastníci řízení',
+                'ucastnici': 'Osoby',
                 'zrychlene': 'Zrychlené řízení'
             };
             
@@ -9383,7 +10351,7 @@
                         <span class="material-icons-outlined">check_circle</span>
                         Pozemky identifikovány
                     </div>
-                    <div class="result-preview-text">Pozemky záměru (${pozemkyState.pozemkyZameru.length}) a sousední pozemky (${pozemkyState.sousedniParcely.length}) byly identifikovány. Vlastníci budou určeni v části Účastníci řízení.</div>
+                    <div class="result-preview-text">Pozemky záměru (${pozemkyState.pozemkyZameru.length}) a sousední pozemky (${pozemkyState.sousedniParcely.length}) byly identifikovány. Vlastníci budou určeni v části Osoby.</div>
                 `;
             } else {
                 btnConfirm.disabled = true;
@@ -10558,7 +11526,7 @@
                 pozemky: { controlId: 'controlPozemky', readyText: 'Identifikovat pozemky', doneText: 'Identifikováno', doneTextNeg: 'Identifikováno' },
                 up: { controlId: 'controlUP', readyText: 'Provést kontrolu', doneText: 'V souladu', doneTextNeg: 'Nesoulad' },
                 identifikace: { controlId: 'controlIdentifikace', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Chybí doklady' },
-                ucastnici: { controlId: 'controlUcastnici', readyText: 'Definovat účastníky', doneText: 'Kompletní', doneTextNeg: 'Kompletní' },
+                ucastnici: { controlId: 'controlUcastnici', readyText: 'Definovat osoby', doneText: 'Kompletní', doneTextNeg: 'Kompletní' },
                 zrychlene: { controlId: 'controlZrychlene', readyText: 'Ověřit podmínky', doneText: 'Splněno', doneTextNeg: 'Nesplněno' }
             };
 
@@ -10591,7 +11559,7 @@
                     identifikace: 'Nejprve identifikace',
                     doklady: 'Nejprve doklady',
                     up: 'Nejprve územní plán',
-                    ucastnici: 'Nejprve účastníci'
+                    ucastnici: 'Nejprve osoby'
                 };
                 actionBtn.innerHTML = '<span class="material-icons-outlined">lock</span>' + (waitingText[waitingOn] || 'Nejprve ostatní kontroly');
                 actionBtn.onclick = null;
@@ -11803,6 +12771,426 @@ ${reportContent}
             updateUI();
         }
 
+        // ==========================================
+        // ÚČASTNÍCI ŘÍZENÍ - FUNKCE
+        // ==========================================
+        
+        // Přepínání záložek účastníků
+        function switchUcastniciTab(tabEl, panelId) {
+            // Deaktivovat všechny záložky
+            const tabs = document.querySelectorAll('.ucastnici-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+            
+            // Skrýt všechny panely
+            const panels = document.querySelectorAll('.ucastnici-panel');
+            panels.forEach(p => p.classList.remove('active'));
+            
+            // Zobrazit vybraný panel
+            const panelMap = {
+                'ucastnici': 'panelUcastnici',
+                'zastupci': 'panelZastupci',
+                'dalsi': 'panelDalsiOsoby'
+            };
+            document.getElementById(panelMap[panelId]).classList.add('active');
+        }
+        
+        // Ověřit všechny účastníky
+        function overitVsechnyUcastniky() {
+            const pendingStatuses = document.querySelectorAll('#panelUcastnici .ucastnici-status.pending');
+            pendingStatuses.forEach(status => {
+                status.classList.remove('pending');
+                status.classList.add('verified');
+                status.title = 'Ověřeno';
+                status.querySelector('.material-icons-outlined').textContent = 'check_circle';
+            });
+            
+            // Zobrazit potvrzení
+            showToast('Všichni účastníci byli ověřeni');
+        }
+        
+        // Toggle oblíbených
+        function toggleOblibeny(btn) {
+            const icon = btn.querySelector('.material-icons-outlined');
+            if (btn.classList.contains('favorited')) {
+                btn.classList.remove('favorited');
+                icon.textContent = 'star_border';
+                btn.title = 'Přidat do oblíbených';
+            } else {
+                btn.classList.add('favorited');
+                icon.textContent = 'star';
+                btn.title = 'Odebrat z oblíbených';
+            }
+        }
+        
+        // Přidání účastníka
+        function addUcastnik(skupina, metoda) {
+            const metodaText = {
+                'manual': 'ručně',
+                'lv': 'z listu vlastnictví',
+                'oblibene': 'z oblíbených'
+            };
+            const skupinaText = {
+                'stavebnik': 'Stavebník',
+                'obec': 'Obec',
+                'vlastnik': 'Vlastník pozemku/stavby',
+                'soused': 'Vlastník sousedního pozemku',
+                'ostatni': 'Ostatní účastníci'
+            };
+            alert(`Přidání účastníka ${metodaText[metoda]} do skupiny "${skupinaText[skupina]}" - bude implementováno`);
+        }
+        
+        // Přidání zástupce
+        function addZastupce(metoda) {
+            if (metoda === 'oblibene') {
+                alert('Přidání zástupce z oblíbených - bude implementováno');
+            } else {
+                alert('Přidání nového zástupce - bude implementováno');
+            }
+        }
+        
+        // Přidání další osoby
+        function addDalsiOsoba(metoda) {
+            if (metoda === 'oblibene') {
+                alert('Přidání další osoby z oblíbených - bude implementováno');
+            } else {
+                alert('Přidání nové další osoby - bude implementováno');
+            }
+        }
+        
+        // ==========================================
+        // OVĚŘENÍ POZEMKŮ Z KATASTRU NEMOVITOSTÍ
+        // ==========================================
+        
+        // Simulovaná data vlastníků pro demo
+        const simulatedKNData = {
+            'st. 123': { vlastnik: 'Jan Novák', typ: 'FO', adresa: 'Květná 123, 110 00 Praha 1', vecnaPrava: null },
+            '456/1': { vlastnik: 'Jan Novák', typ: 'FO', adresa: 'Květná 123, 110 00 Praha 1', vecnaPrava: 'VB: ČEZ' },
+            'st. 122': { vlastnik: 'Marie Veselá', typ: 'FO', adresa: 'Růžová 45, 551 01 Jaroměř', vecnaPrava: null },
+            'st. 124': { vlastnik: 'Petr Svoboda', typ: 'FO', adresa: 'Lipová 78, 551 01 Jaroměř', vecnaPrava: null },
+            '456/2': { vlastnik: 'ČEZ Distribuce, a. s.', typ: 'PO', adresa: 'Teplická 874/8, 405 02 Děčín', vecnaPrava: null },
+            '457': { vlastnik: 'Město Jaroměř', typ: 'PO', adresa: 'nám. ČSA 16, 551 01 Jaroměř', vecnaPrava: null }
+        };
+        
+        // Ověřit všechny pozemky najednou
+        function overitVsechnyPozemkyKN() {
+            const rows = document.querySelectorAll('.pozemek-row-compact');
+            let delay = 0;
+            
+            rows.forEach(row => {
+                const parcelaEl = row.querySelector('.pozemek-parcela strong');
+                if (parcelaEl) {
+                    const parcela = parcelaEl.textContent;
+                    setTimeout(() => {
+                        overitPozemekKNCompact(row, parcela);
+                    }, delay);
+                    delay += 150; // Rychlejší postupné ověřování
+                }
+            });
+            
+            // Po dokončení aktualizovat stats a přidat vlastníky do skupin
+            setTimeout(() => {
+                updatePozemkyStats();
+                pridatVlastnikyDoSkupin();
+                showToast('Všechny pozemky byly ověřeny z KN');
+            }, delay + 100);
+        }
+        
+        // Ověřit jeden pozemek
+        function overitPozemekKN(parcela, ku) {
+            const rows = document.querySelectorAll('.pozemek-row-compact');
+            rows.forEach(row => {
+                const parcelaEl = row.querySelector('.pozemek-parcela strong');
+                if (parcelaEl && parcelaEl.textContent === parcela) {
+                    overitPozemekKNCompact(row, parcela);
+                    setTimeout(() => {
+                        updatePozemkyStats();
+                        pridatVlastnikyDoSkupin();
+                    }, 200);
+                }
+            });
+        }
+        
+        // Interní funkce pro ověření pozemku (kompaktní verze)
+        function overitPozemekKNCompact(row, parcela) {
+            const vlastnikEl = row.querySelector('.pozemek-vlastnik');
+            const statusEl = row.querySelector('.pozemek-status-icon');
+            const btnEl = row.querySelector('.btn-overit-compact');
+            
+            // Simulace dat z KN
+            const data = simulatedKNData[parcela];
+            
+            if (data) {
+                // Aktualizovat vlastníka
+                vlastnikEl.className = 'pozemek-vlastnik verified';
+                vlastnikEl.textContent = data.vlastnik + (data.vecnaPrava ? ' • ' + data.vecnaPrava : '');
+                
+                // Aktualizovat status
+                statusEl.className = 'pozemek-status-icon verified';
+                statusEl.innerHTML = '<span class="material-icons-outlined">check_circle</span>';
+                
+                // Změnit tlačítko
+                btnEl.textContent = '✓';
+                btnEl.className = 'btn-overit-compact done';
+            }
+        }
+        
+        // Aktualizovat statistiky v hlavičce
+        function updatePozemkyStats() {
+            const zamerRows = document.querySelectorAll('.pozemek-row-compact[data-typ="zamer"]');
+            const sousedRows = document.querySelectorAll('.pozemek-row-compact[data-typ="soused"]');
+            
+            let zamerPending = 0;
+            let sousedPending = 0;
+            
+            zamerRows.forEach(row => {
+                if (row.querySelector('.pozemek-status-icon.pending')) zamerPending++;
+            });
+            
+            sousedRows.forEach(row => {
+                if (row.querySelector('.pozemek-status-icon.pending')) sousedPending++;
+            });
+            
+            const statZamer = document.querySelector('#statPozemkyZameru .stat-value');
+            const statSoused = document.querySelector('#statSousedni .stat-value');
+            
+            if (statZamer) {
+                if (zamerPending === 0) {
+                    statZamer.className = 'stat-value verified';
+                    statZamer.textContent = `${zamerRows.length} ověřeno`;
+                } else {
+                    statZamer.className = 'stat-value pending';
+                    statZamer.textContent = `${zamerPending} neověřeno`;
+                }
+            }
+            
+            if (statSoused) {
+                if (sousedPending === 0) {
+                    statSoused.className = 'stat-value verified';
+                    statSoused.textContent = `${sousedRows.length} ověřeno`;
+                } else {
+                    statSoused.className = 'stat-value pending';
+                    statSoused.textContent = `${sousedPending} neověřeno`;
+                }
+            }
+        }
+        
+        // Zastaralá funkce - ponechána pro kompatibilitu
+        function updatePozemkyBadges() {
+            updatePozemkyStats();
+        }
+        
+        // Přidat ověřené vlastníky do skupin účastníků
+        function pridatVlastnikyDoSkupin() {
+            // Najít skupiny pro vlastníky
+            const vlastniciGroup = document.querySelector('#panelUcastnici .ucastnici-group:nth-child(3)');
+            const sousediGroup = document.querySelector('#panelUcastnici .ucastnici-group:nth-child(4)');
+            
+            // Aktualizovat skupinu vlastníků pozemku záměru
+            if (vlastniciGroup) {
+                const header = vlastniciGroup.querySelector('.ucastnici-group-header');
+                const title = header.querySelector('.ucastnici-group-title');
+                const sourceBadge = title.querySelector('.group-source-badge');
+                
+                if (sourceBadge) {
+                    sourceBadge.className = 'group-source-badge';
+                    sourceBadge.textContent = 'z KN';
+                }
+                
+                // Nahradit prázdný stav tabulkou vlastníků
+                const emptyState = vlastniciGroup.querySelector('.ucastnici-empty');
+                if (emptyState) {
+                    emptyState.outerHTML = `
+                        <div class="ucastnici-table">
+                            <div class="ucastnici-row">
+                                <div class="ucastnici-cell status">
+                                    <span class="ucastnici-status verified" title="Načteno z KN">
+                                        <span class="material-icons-outlined">check_circle</span>
+                                    </span>
+                                </div>
+                                <div class="ucastnici-cell type">Fyzická osoba</div>
+                                <div class="ucastnici-cell name">Jan Novák</div>
+                                <div class="ucastnici-cell address">Květná 123, 110 00 Praha 1</div>
+                                <div class="ucastnici-cell actions">
+                                    <button class="ucastnici-action-btn" title="Přidat do oblíbených" onclick="toggleOblibeny(this)">
+                                        <span class="material-icons-outlined">star_border</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Detail">
+                                        <span class="material-icons-outlined">search</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Upravit">
+                                        <span class="material-icons-outlined">edit</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn delete" title="Odstranit">
+                                        <span class="material-icons-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ucastnici-row" style="background: #fffde7;">
+                                <div class="ucastnici-cell status">
+                                    <span class="ucastnici-status" style="color: #f57c00;" title="Věcné břemeno">
+                                        <span class="material-icons-outlined">gavel</span>
+                                    </span>
+                                </div>
+                                <div class="ucastnici-cell type">Právnická osoba</div>
+                                <div class="ucastnici-cell name">ČEZ Distribuce, a. s.</div>
+                                <div class="ucastnici-cell address">Věcné břemeno k pozemku 456/1</div>
+                                <div class="ucastnici-cell actions">
+                                    <button class="ucastnici-action-btn favorited" title="V oblíbených" onclick="toggleOblibeny(this)">
+                                        <span class="material-icons-outlined">star</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Detail">
+                                        <span class="material-icons-outlined">search</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Upravit">
+                                        <span class="material-icons-outlined">edit</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn delete" title="Odstranit">
+                                        <span class="material-icons-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Aktualizovat skupinu vlastníků sousedních pozemků
+            if (sousediGroup) {
+                const header = sousediGroup.querySelector('.ucastnici-group-header');
+                const title = header.querySelector('.ucastnici-group-title');
+                const sourceBadge = title.querySelector('.group-source-badge');
+                
+                if (sourceBadge) {
+                    sourceBadge.className = 'group-source-badge';
+                    sourceBadge.textContent = 'z KN';
+                }
+                
+                // Nahradit prázdný stav tabulkou vlastníků
+                const emptyState = sousediGroup.querySelector('.ucastnici-empty');
+                if (emptyState) {
+                    emptyState.outerHTML = `
+                        <div class="ucastnici-table">
+                            <div class="ucastnici-row">
+                                <div class="ucastnici-cell status">
+                                    <span class="ucastnici-status verified" title="Načteno z KN">
+                                        <span class="material-icons-outlined">check_circle</span>
+                                    </span>
+                                </div>
+                                <div class="ucastnici-cell type">Fyzická osoba</div>
+                                <div class="ucastnici-cell name">Marie Veselá</div>
+                                <div class="ucastnici-cell address">Růžová 45, 551 01 Jaroměř</div>
+                                <div class="ucastnici-cell actions">
+                                    <button class="ucastnici-action-btn" title="Přidat do oblíbených" onclick="toggleOblibeny(this)">
+                                        <span class="material-icons-outlined">star_border</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Detail">
+                                        <span class="material-icons-outlined">search</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Upravit">
+                                        <span class="material-icons-outlined">edit</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn delete" title="Odstranit">
+                                        <span class="material-icons-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ucastnici-row">
+                                <div class="ucastnici-cell status">
+                                    <span class="ucastnici-status verified" title="Načteno z KN">
+                                        <span class="material-icons-outlined">check_circle</span>
+                                    </span>
+                                </div>
+                                <div class="ucastnici-cell type">Fyzická osoba</div>
+                                <div class="ucastnici-cell name">Petr Svoboda</div>
+                                <div class="ucastnici-cell address">Lipová 78, 551 01 Jaroměř</div>
+                                <div class="ucastnici-cell actions">
+                                    <button class="ucastnici-action-btn" title="Přidat do oblíbených" onclick="toggleOblibeny(this)">
+                                        <span class="material-icons-outlined">star_border</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Detail">
+                                        <span class="material-icons-outlined">search</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Upravit">
+                                        <span class="material-icons-outlined">edit</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn delete" title="Odstranit">
+                                        <span class="material-icons-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="ucastnici-row">
+                                <div class="ucastnici-cell status">
+                                    <span class="ucastnici-status verified" title="Načteno z KN">
+                                        <span class="material-icons-outlined">check_circle</span>
+                                    </span>
+                                </div>
+                                <div class="ucastnici-cell type">Právnická osoba</div>
+                                <div class="ucastnici-cell name">ČEZ Distribuce, a. s.</div>
+                                <div class="ucastnici-cell address">Teplická 874/8, 405 02 Děčín</div>
+                                <div class="ucastnici-cell actions">
+                                    <button class="ucastnici-action-btn favorited" title="V oblíbených" onclick="toggleOblibeny(this)">
+                                        <span class="material-icons-outlined">star</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Detail">
+                                        <span class="material-icons-outlined">search</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn" title="Upravit">
+                                        <span class="material-icons-outlined">edit</span>
+                                    </button>
+                                    <button class="ucastnici-action-btn delete" title="Odstranit">
+                                        <span class="material-icons-outlined">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Aktualizovat badge počtu účastníků
+            const badge = document.getElementById('badgeUcastnici');
+            if (badge) {
+                badge.textContent = '7'; // 1 stavebník + 1 obec + 2 vlastníci záměru + 3 sousedé
+            }
+        }
+        
+        // Toast notifikace
+        function showToast(message) {
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `
+                <span class="material-icons-outlined">check_circle</span>
+                ${message}
+            `;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 12px 24px;
+                background: #323232;
+                color: #fff;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: toastIn 0.3s ease;
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
         function completeUcastnici() {
             controls.ucastnici.done = true;
             controls.ucastnici.result = 'ok';
@@ -12135,7 +13523,7 @@ ${reportContent}
             <div class="data-section">
                 <div class="data-section-title">
                     <span class="material-icons-outlined">groups</span>
-                    Účastníci řízení
+                    Osoby
                 </div>
                 <div class="data-list" id="udajeUcastnici">
                     <div class="data-list-item">
@@ -12149,7 +13537,7 @@ ${reportContent}
                 </div>
                 <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="openControl('controlUcastnici')">
                     <span class="material-icons-outlined">edit</span>
-                    Upravit účastníky
+                    Upravit osoby
                 </button>
             </div>
             
