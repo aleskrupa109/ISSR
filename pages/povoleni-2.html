@@ -5332,12 +5332,12 @@
         <header class="case-header">
             <div class="case-header-main">
                 <div class="case-header-left">
-                    <a href="povoleni-1.html" class="btn-back" title="Zpět">
+                    <a href="detail-dokumentu.html" class="btn-back" title="Zpět na detail dokumentu">
                         <span class="material-icons-outlined">arrow_back</span>
                     </a>
                     <div class="case-info">
                         <div class="case-number">R/2026/000147</div>
-                        <h1 class="case-title">Novostavba RD včetně přípojek</h1>
+                        <h1 class="case-title" id="caseTitleHeader">Novostavba RD včetně přípojek</h1>
                         <div class="case-meta">
                             <span class="case-meta-item">
                                 <span class="material-icons-outlined">gavel</span>
@@ -5381,23 +5381,18 @@
                 </div>
                 <!-- Workflow stepper - vpravo -->
                 <div class="workflow-stepper" style="display: flex !important; align-items: center !important; gap: 8px !important; flex-wrap: nowrap !important;">
-                    <div class="workflow-step completed" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; border-radius: 16px !important; font-size: 12px !important; font-weight: 400 !important; background: #e6f4ea !important; border: 1px solid #ceead6 !important; color: #137333 !important; white-space: nowrap !important;">
-                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: #34a853 !important; color: #fff !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">✓</span>
-                        <span style="font-weight: 400 !important;">Založení řízení</span>
-                    </div>
-                    <div class="workflow-step-connector" style="width: 24px !important; height: 2px !important; min-width: 24px !important; background: #dadce0 !important; flex-shrink: 0 !important;"></div>
                     <div class="workflow-step active" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; border-radius: 16px !important; font-size: 12px !important; font-weight: 400 !important; background: #004289 !important; border: 1px solid #004289 !important; color: #fff !important; white-space: nowrap !important;">
-                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: rgba(255,255,255,0.2) !important; color: #fff !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">2</span>
+                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: rgba(255,255,255,0.2) !important; color: #fff !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">1</span>
                         <span style="font-weight: 400 !important;">Příprava řízení</span>
                     </div>
                     <div class="workflow-step-connector" style="width: 24px !important; height: 2px !important; min-width: 24px !important; background: #dadce0 !important; flex-shrink: 0 !important;"></div>
                     <div class="workflow-step" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; border-radius: 16px !important; font-size: 12px !important; font-weight: 400 !important; background: #fff !important; border: 1px solid #e0e0e0 !important; color: #5f6368 !important; white-space: nowrap !important;">
-                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: #e0e0e0 !important; color: #5f6368 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">3</span>
+                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: #e0e0e0 !important; color: #5f6368 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">2</span>
                         <span style="font-weight: 400 !important;">Projednání</span>
                     </div>
                     <div class="workflow-step-connector" style="width: 24px !important; height: 2px !important; min-width: 24px !important; background: #dadce0 !important; flex-shrink: 0 !important;"></div>
                     <div class="workflow-step" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; border-radius: 16px !important; font-size: 12px !important; font-weight: 400 !important; background: #fff !important; border: 1px solid #e0e0e0 !important; color: #5f6368 !important; white-space: nowrap !important;">
-                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: #e0e0e0 !important; color: #5f6368 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">4</span>
+                        <span class="step-number" style="width: 20px !important; height: 20px !important; min-width: 20px !important; border-radius: 50% !important; background: #e0e0e0 !important; color: #5f6368 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 11px !important; font-weight: 500 !important;">3</span>
                         <span style="font-weight: 400 !important;">Rozhodnutí</span>
                     </div>
                 </div>
@@ -5414,6 +5409,41 @@
                     <div class="info-panel-text">
                         V tomto kroku proveďte kontroly žádosti a definujte parametry řízení (účastníci, pozemky, dotčené orgány). 
                         Řízení je zahájeno dnem doručení bezvadné žádosti (7. 1. 2026), od tohoto data běží lhůta pro vydání rozhodnutí.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Základní údaje řízení -->
+            <div class="rizeni-header-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+                <div style="display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap;">
+                    <!-- Název stavby - editovatelný -->
+                    <div style="flex: 2; min-width: 300px;">
+                        <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
+                            Název stavby
+                            <span style="font-weight: 400; color: #80868b;">(lze upravit)</span>
+                        </label>
+                        <input type="text" id="nazevStavby" value="Novostavba RD včetně přípojek" 
+                            style="width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff;"
+                            onchange="updateNazevStavby()">
+                    </div>
+                    <!-- Typ řízení - readonly -->
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
+                            Typ řízení
+                            <span style="font-weight: 400; color: #80868b;">(dle žádosti)</span>
+                        </label>
+                        <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
+                            Povolení stavby
+                        </div>
+                    </div>
+                    <!-- Datum doručení -->
+                    <div style="flex: 0 0 auto; min-width: 150px;">
+                        <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
+                            Datum doručení žádosti
+                        </label>
+                        <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
+                            7. 1. 2026
+                        </div>
                     </div>
                 </div>
             </div>
@@ -7698,6 +7728,15 @@
             if (event && event.target !== event.currentTarget) return;
             document.getElementById(modalId).classList.remove('open');
             document.body.style.overflow = '';
+        }
+        
+        // Aktualizace názvu stavby v hlavičce
+        function updateNazevStavby() {
+            const input = document.getElementById('nazevStavby');
+            const header = document.getElementById('caseTitleHeader');
+            if (input && header) {
+                header.textContent = input.value || 'Bez názvu';
+            }
         }
 
         // Escape key closes overlays
