@@ -5807,6 +5807,18 @@
                         </div>
                     </div>
 
+                    <!-- Zdůvodnění nepříslušnosti - zobrazí se při věcné nebo místní nepříslušnosti -->
+                    <div class="control-section" id="zduvodneniNeprislusnostiSection" style="display: none;">
+                        <div class="control-section-title">Zdůvodnění nepříslušnosti</div>
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                            Uveďte zdůvodnění, proč není stavební úřad příslušný k projednání žádosti. 
+                            Text bude součástí dokumentu <strong>Postoupení řízení z důvodu nepříslušnosti</strong>.
+                        </p>
+                        <textarea id="zduvodneniNeprislusnosti" class="form-textarea" rows="5" 
+                            placeholder="Uveďte zdůvodnění nepříslušnosti..."
+                            style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
+                    </div>
+
                     <div class="result-preview positive" id="resultPrislusnost">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
@@ -8307,6 +8319,7 @@
             const mistniSection = document.getElementById('mistniPrislusnostSection');
             const specialniSuSection = document.getElementById('specialniSuSection');
             const obecnySuSection = document.getElementById('obecnySuSection');
+            const zduvodneniSection = document.getElementById('zduvodneniNeprislusnostiSection');
 
             // Reset výběrů při změně
             if (vecna === 'ano') {
@@ -8320,6 +8333,10 @@
                 document.getElementById('obecnySuSelect').value = '';
                 document.getElementById('obecnySuInfo').classList.remove('visible');
             }
+
+            // Zobrazení/skrytí pole pro zdůvodnění nepříslušnosti
+            const jeNeprislusny = (vecna === 'ne') || (vecna === 'ano' && mistni === 'ne');
+            zduvodneniSection.style.display = jeNeprislusny ? 'block' : 'none';
 
             // Pokud není věcně příslušný, skryj místní příslušnost a zobraz výběr příslušného SÚ
             if (vecna === 'ne') {
