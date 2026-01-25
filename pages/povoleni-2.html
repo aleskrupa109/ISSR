@@ -272,6 +272,474 @@
             align-items: center;
             gap: 16px;
         }
+        
+        /* Akční tlačítka v hlavičce */
+        .case-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .header-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        
+        .header-action-btn:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+        }
+        
+        .header-action-btn .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .header-action-btn.has-issues {
+            border-color: #f9ab00;
+            background: #fef7e0;
+        }
+        
+        .header-action-btn.has-issues:hover {
+            background: #feefc3;
+            border-color: #f29900;
+        }
+        
+        .header-action-btn.has-issues .material-icons-outlined {
+            color: #b06000;
+        }
+        
+        .header-action-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            background: #ea4335;
+            color: #fff;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .header-action-badge.warning {
+            background: #f9ab00;
+            color: #202124;
+        }
+        
+        /* Dropdown menu pro Akce řízení */
+        .action-dropdown {
+            position: relative;
+        }
+        
+        .action-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            min-width: 220px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .action-dropdown-menu.open {
+            display: block;
+        }
+        
+        .action-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #202124;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        
+        .action-dropdown-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .action-dropdown-item:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .action-dropdown-item:hover {
+            background: #f1f3f4;
+        }
+        
+        .action-dropdown-item .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .action-dropdown-item.danger {
+            color: #c5221f;
+        }
+        
+        .action-dropdown-item.danger .material-icons-outlined {
+            color: #c5221f;
+        }
+        
+        .action-dropdown-divider {
+            height: 1px;
+            background: #e8eaed;
+            margin: 4px 0;
+        }
+        
+        /* Slideout panel */
+        .slideout-panel {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100vh;
+            background: #fff;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s ease;
+        }
+        
+        .slideout-panel.open {
+            right: 0;
+        }
+        
+        .slideout-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .slideout-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .slideout-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8eaed;
+            background: #f8f9fa;
+        }
+        
+        .slideout-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+        }
+        
+        .slideout-title .material-icons-outlined {
+            font-size: 22px;
+            color: #5f6368;
+        }
+        
+        .slideout-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            transition: background 0.15s;
+        }
+        
+        .slideout-close:hover {
+            background: #e8eaed;
+        }
+        
+        .slideout-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .slideout-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #e8eaed;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Sekce v slideout panelu nedostatků */
+        .issues-group {
+            margin-bottom: 24px;
+        }
+        
+        .issues-group-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: #f1f3f4;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .issues-group-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        
+        .issues-group-title .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .issues-group-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        
+        .issues-group-badge.warning {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        
+        .issues-group-badge.error {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .issues-group-badge.info {
+            background: #e8f4fd;
+            color: #004289;
+        }
+        
+        .global-issue-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #fff;
+            border: 1px solid #e8eaed;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .global-issue-item.resolved {
+            background: #e6f4ea;
+            border-color: #ceead6;
+        }
+        
+        .global-issue-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .global-issue-icon.warning {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        
+        .global-issue-icon.error {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .global-issue-icon.resolved {
+            background: #ceead6;
+            color: #137333;
+        }
+        
+        .global-issue-icon .material-icons-outlined {
+            font-size: 14px;
+        }
+        
+        .global-issue-content {
+            flex: 1;
+        }
+        
+        .global-issue-text {
+            font-size: 13px;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+        
+        .global-issue-meta {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        
+        .global-issue-actions {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .global-issue-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            transition: all 0.15s;
+        }
+        
+        .global-issue-btn:hover {
+            background: #f1f3f4;
+        }
+        
+        .global-issue-btn.resolve:hover {
+            background: #e6f4ea;
+            border-color: #137333;
+            color: #137333;
+        }
+        
+        .global-issue-btn .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Sekce v slideout panelu údaje řízení */
+        .data-section {
+            margin-bottom: 24px;
+        }
+        
+        .data-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .data-section-title .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .data-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .data-row:last-child {
+            border-bottom: none;
+        }
+        
+        .data-label {
+            width: 140px;
+            flex-shrink: 0;
+            font-size: 12px;
+            color: #5f6368;
+            padding-top: 2px;
+        }
+        
+        .data-value {
+            flex: 1;
+            font-size: 13px;
+            color: #202124;
+        }
+        
+        .data-value.editable {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .data-edit-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            opacity: 0;
+            transition: all 0.15s;
+        }
+        
+        .data-row:hover .data-edit-btn {
+            opacity: 1;
+        }
+        
+        .data-edit-btn:hover {
+            background: #e8eaed;
+            color: #202124;
+        }
+        
+        .data-edit-btn .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .data-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .data-list-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .data-list-item .material-icons-outlined {
+            font-size: 16px;
+            color: #5f6368;
+        }
 
         .btn-back {
             display: inline-flex;
@@ -1868,6 +2336,40 @@
             background: #c5221f;
             border-color: #c5221f;
             color: #fff;
+        }
+
+        /* Pole pro popis chyby u částí dokumentace */
+        .doc-part-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .doc-part-error-input {
+            width: 100%;
+            margin-top: 8px;
+            padding-left: 36px;
+        }
+        
+        .doc-part-error-text {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #f5c6c5;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            background: #fef7f6;
+            color: #c5221f;
+        }
+        
+        .doc-part-error-text::placeholder {
+            color: #e57373;
+        }
+        
+        .doc-part-error-text:focus {
+            outline: none;
+            border-color: #c5221f;
+            box-shadow: 0 0 0 2px rgba(197, 34, 31, 0.1);
         }
 
         /* Pozemky - rozšířené styly */
@@ -5027,6 +5529,28 @@
         .btn-ai.loading {
             animation: pulse 1.5s infinite;
         }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+        }
 
         /* Modal styles - pro pomocné modály */
         .modal-overlay {
@@ -5352,6 +5876,54 @@
                                 <span class="material-icons-outlined" style="font-size: 14px;">bolt</span>
                                 Zrychlené řízení
                             </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Akční tlačítka -->
+                <div class="case-header-actions">
+                    <button class="header-action-btn" onclick="openSlideout('udajeRizeni')" title="Údaje řízení">
+                        <span class="material-icons-outlined">assignment</span>
+                        Údaje řízení
+                    </button>
+                    <button class="header-action-btn has-issues" onclick="openSlideout('prehledNedostatku')" id="btnNedostatky" title="Přehled nedostatků">
+                        <span class="material-icons-outlined">warning_amber</span>
+                        Nedostatky
+                        <span class="header-action-badge warning" id="nedostatkyBadge">0</span>
+                    </button>
+                    <div class="action-dropdown">
+                        <button class="header-action-btn" onclick="toggleActionDropdown()" id="btnAkceRizeni">
+                            <span class="material-icons-outlined">more_vert</span>
+                            Akce řízení
+                            <span class="material-icons-outlined" style="font-size: 16px; margin-left: -2px;">expand_more</span>
+                        </button>
+                        <div class="action-dropdown-menu" id="akceRizeniDropdown">
+                            <div class="action-dropdown-item" onclick="showActionModal('prerusit')">
+                                <span class="material-icons-outlined">pause_circle</span>
+                                Přerušit řízení
+                            </div>
+                            <div class="action-dropdown-item" onclick="showActionModal('postoupit')">
+                                <span class="material-icons-outlined">send</span>
+                                Postoupit řízení
+                            </div>
+                            <div class="action-dropdown-item" onclick="showActionModal('predat')">
+                                <span class="material-icons-outlined">person_add</span>
+                                Předat jinému referentovi
+                            </div>
+                            <div class="action-dropdown-item" onclick="showActionModal('spojit')">
+                                <span class="material-icons-outlined">merge</span>
+                                Spojit s jiným řízením
+                            </div>
+                            <div class="action-dropdown-divider"></div>
+                            <div class="action-dropdown-item" onclick="showActionModal('historie')">
+                                <span class="material-icons-outlined">history</span>
+                                Historie řízení
+                            </div>
+                            <div class="action-dropdown-divider"></div>
+                            <div class="action-dropdown-item danger" onclick="showActionModal('zastavit')">
+                                <span class="material-icons-outlined">cancel</span>
+                                Zastavit řízení (zpětvzetí)
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -5816,6 +6388,7 @@
                         </p>
                         <textarea id="zduvodneniNeprislusnosti" class="form-textarea" rows="5" 
                             placeholder="Uveďte zdůvodnění nepříslušnosti..."
+                            oninput="updatePrislusnostButton()"
                             style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
                     </div>
 
@@ -6601,7 +7174,7 @@
                                     <div class="check-result-detail" id="checkDetailSignature">Všechny dokumenty jsou platně podepsány</div>
                                 </div>
                             </div>
-                            <div class="check-result-item">
+                            <div class="check-result-item" id="checkItemTimestamp">
                                 <div class="check-result-icon warning" id="checkIconTimestamp">
                                     <span class="material-icons-outlined">warning</span>
                                 </div>
@@ -6609,7 +7182,10 @@
                                     <div class="check-result-label">Časová razítka</div>
                                     <div class="check-result-detail" id="checkDetailTimestamp">1 dokument nemá časové razítko</div>
                                 </div>
-                                <span class="check-result-action" onclick="addIssueFromAutoCheck('Chybí časové razítko u dokumentu D.1.1.02 Půdorys 1.NP.pdf')">+ Přidat</span>
+                                <span class="check-result-added" id="checkTimestampAdded" style="display: none; font-size: 11px; color: #137333;">
+                                    <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">check</span>
+                                    Přidáno do seznamu
+                                </span>
                             </div>
                             <div class="check-result-item">
                                 <div class="check-result-icon success" id="checkIconAuth">
@@ -6646,12 +7222,12 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('A', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn warning" onclick="setDocPartStatus('A', 'warning')" title="Neúplné">
-                                        <span class="material-icons-outlined">warning</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('A', 'error')" title="Chyby">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('A', 'error')" title="Chyba">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
+                                </div>
+                                <div class="doc-part-error-input" id="errorInputA" style="display: none;">
+                                    <input type="text" class="doc-part-error-text" id="errorTextA" placeholder="Popište chybu..." onchange="updatePartError('A')">
                                 </div>
                             </div>
                             
@@ -6665,12 +7241,12 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('B', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn warning" onclick="setDocPartStatus('B', 'warning')" title="Neúplné">
-                                        <span class="material-icons-outlined">warning</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')" title="Chyby">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')" title="Chyba">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
+                                </div>
+                                <div class="doc-part-error-input" id="errorInputB" style="display: none;">
+                                    <input type="text" class="doc-part-error-text" id="errorTextB" placeholder="Popište chybu..." onchange="updatePartError('B')">
                                 </div>
                             </div>
                             
@@ -6684,12 +7260,12 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('C', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn warning" onclick="setDocPartStatus('C', 'warning')" title="Neúplné">
-                                        <span class="material-icons-outlined">warning</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('C', 'error')" title="Chyby">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('C', 'error')" title="Chyba">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
+                                </div>
+                                <div class="doc-part-error-input" id="errorInputC" style="display: none;">
+                                    <input type="text" class="doc-part-error-text" id="errorTextC" placeholder="Popište chybu..." onchange="updatePartError('C')">
                                 </div>
                             </div>
                             
@@ -6703,12 +7279,12 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('D', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn warning" onclick="setDocPartStatus('D', 'warning')" title="Neúplné">
-                                        <span class="material-icons-outlined">warning</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('D', 'error')" title="Chyby">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('D', 'error')" title="Chyba">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
+                                </div>
+                                <div class="doc-part-error-input" id="errorInputD" style="display: none;">
+                                    <input type="text" class="doc-part-error-text" id="errorTextD" placeholder="Popište chybu..." onchange="updatePartError('D')">
                                 </div>
                             </div>
                         </div>
@@ -6719,36 +7295,22 @@
                         <div class="issues-header">
                             <div class="issues-title">
                                 <span class="material-icons-outlined">report_problem</span>
-                                Seznam nedostatků
+                                Seznam nedostatků dokumentace
                             </div>
                             <span class="issues-count" id="issuesCount">0</span>
                         </div>
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                            Seznam nedostatků se stane součástí dokumentu <strong>Výzva k doplnění a usnesení o přerušení řízení</strong>.
+                        </p>
                         <div class="issues-list" id="issuesList">
                             <!-- Nedostatky se přidávají dynamicky -->
                         </div>
                         <div class="add-issue-section">
-                            <div class="add-issue-type-toggle">
-                                <button class="issue-type-btn active" onclick="toggleIssueInputType('short')" id="btnIssueShort">
-                                    <span class="material-icons-outlined">short_text</span>
-                                    Krátký text
-                                </button>
-                                <button class="issue-type-btn" onclick="toggleIssueInputType('long')" id="btnIssueLong">
-                                    <span class="material-icons-outlined">notes</span>
-                                    Dlouhý text
-                                </button>
-                            </div>
                             <div class="add-issue-row" id="issueInputShort">
-                                <input type="text" class="add-issue-input" id="addIssueText" placeholder="Popište nedostatek..." onkeypress="if(event.key==='Enter') addIssue()">
+                                <input type="text" class="add-issue-input" id="addIssueText" placeholder="Přidat další nedostatek..." onkeypress="if(event.key==='Enter') addIssue()">
                                 <button class="btn-add-issue" onclick="addIssue()">
                                     <span class="material-icons-outlined">add</span>
                                     Přidat
-                                </button>
-                            </div>
-                            <div class="add-issue-textarea-row" id="issueInputLong" style="display: none;">
-                                <textarea class="add-issue-textarea" id="addIssueTextLong" placeholder="Popište nedostatek podrobněji..." rows="4"></textarea>
-                                <button class="btn-add-issue-full" onclick="addIssueLong()">
-                                    <span class="material-icons-outlined">add</span>
-                                    Přidat nedostatek
                                 </button>
                             </div>
                         </div>
@@ -7701,6 +8263,55 @@
         </div>
     </div>
 
+    <!-- Modal pro postoupení řízení -->
+    <div class="modal-overlay" id="postoupeniModal" onclick="closeModal('postoupeniModal', event)">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width: 600px;">
+            <div class="modal-header" style="background: #e8f4fd; border-bottom: 1px solid #c2e0ff;">
+                <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+                    <span class="material-icons-outlined" style="color: #1a73e8;">send</span>
+                    Postoupení řízení z důvodu nepříslušnosti
+                </div>
+                <button class="modal-close" onclick="closeModal('postoupeniModal', event)" style="background: transparent; border: none; cursor: pointer; padding: 8px;">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 24px;">
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                    <div style="font-size: 12px; color: #5f6368; margin-bottom: 4px;">Řízení bude postoupeno:</div>
+                    <div style="font-size: 16px; font-weight: 500; color: #202124;" id="postoupeniSuNazev">—</div>
+                    <div style="font-size: 13px; color: #5f6368; margin-top: 4px;" id="postoupeniSuAdresa">—</div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <div style="font-size: 13px; font-weight: 500; color: #202124; margin-bottom: 8px;">Zdůvodnění nepříslušnosti:</div>
+                    <div style="font-size: 13px; color: #5f6368; background: #fff; border: 1px solid #e8eaed; border-radius: 6px; padding: 12px; line-height: 1.5;" id="postoupeniZduvodneni">—</div>
+                </div>
+                
+                <div style="background: #fef7e0; border: 1px solid #fdd835; border-radius: 8px; padding: 16px; display: flex; gap: 12px;">
+                    <span class="material-icons-outlined" style="color: #b06000; flex-shrink: 0;">info</span>
+                    <div>
+                        <div style="font-size: 13px; font-weight: 500; color: #202124; margin-bottom: 4px;">Co se stane po postoupení:</div>
+                        <ul style="font-size: 12px; color: #5f6368; margin: 0; padding-left: 16px; line-height: 1.6;">
+                            <li>Bude vygenerován dokument <strong>Postoupení řízení z důvodu nepříslušnosti</strong></li>
+                            <li>Řízení bude interně předáno příslušnému stavebnímu úřadu prostřednictvím ISSŘ</li>
+                            <li>Žadatel bude vyrozuměn o postoupení řízení</li>
+                            <li>Řízení bude ve Vašem systému označeno jako postoupené</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e8eaed; display: flex; justify-content: flex-end; gap: 10px; background: #f8f9fa;">
+                <button class="btn btn-secondary" onclick="closeModal('postoupeniModal', event)">
+                    Zrušit
+                </button>
+                <button class="btn btn-primary" onclick="confirmPostoupeni()" style="background: #1a73e8;">
+                    <span class="material-icons-outlined">send</span>
+                    Potvrdit postoupení
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // State management
         const controls = {
@@ -8426,18 +9037,26 @@
             const vecna = document.querySelector('input[name="vecna_prislusnost"]:checked').value;
             const mistni = document.querySelector('input[name="mistni_prislusnost"]:checked').value;
             const btnConfirm = document.querySelector('#controlPrislusnost .btn-primary');
+            const zduvodneni = document.getElementById('zduvodneniNeprislusnosti').value.trim();
+            
+            const jeNeprislusny = (vecna === 'ne') || (vecna === 'ano' && mistni === 'ne');
             
             if (vecna === 'ne') {
                 const selectedSu = document.getElementById('specialniSuSelect').value;
-                btnConfirm.disabled = !selectedSu;
-                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                // Tlačítko aktivní pouze pokud je vybrán SÚ a zadáno zdůvodnění
+                btnConfirm.disabled = !selectedSu || !zduvodneni;
+                btnConfirm.innerHTML = '<span class="material-icons-outlined">send</span>Postoupit řízení';
+                btnConfirm.onclick = function() { showPostoupeniModal(); };
             } else if (mistni === 'ne') {
                 const selectedSu = document.getElementById('obecnySuSelect').value;
-                btnConfirm.disabled = !selectedSu;
-                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                // Tlačítko aktivní pouze pokud je vybrán SÚ a zadáno zdůvodnění
+                btnConfirm.disabled = !selectedSu || !zduvodneni;
+                btnConfirm.innerHTML = '<span class="material-icons-outlined">send</span>Postoupit řízení';
+                btnConfirm.onclick = function() { showPostoupeniModal(); };
             } else {
                 btnConfirm.disabled = false;
                 btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                btnConfirm.onclick = function() { completePrislusnost(); };
             }
         }
         
@@ -8624,31 +9243,45 @@
                 targetBtn.classList.add('active');
             }
             
-            // Pokud je warning nebo error, nabídni přidání nedostatku
-            if (status === 'warning' || status === 'error') {
-                const partNames = {
-                    A: 'Průvodní zpráva',
-                    B: 'Souhrnná technická zpráva', 
-                    C: 'Situační výkresy',
-                    D: 'Dokumentace objektů'
-                };
-                const issueText = status === 'error' 
-                    ? `Chyby v části ${part}. ${partNames[part]}`
-                    : `Neúplná část ${part}. ${partNames[part]}`;
-                
-                // Zkontroluj zda už takový nedostatek neexistuje
-                const exists = docCheckState.issues.some(i => i.text.startsWith(`Chyby v části ${part}`) || i.text.startsWith(`Neúplná část ${part}`));
-                if (!exists) {
-                    addIssueToList(issueText);
-                }
+            // Zobrazení/skrytí pole pro popis chyby
+            const errorInput = document.getElementById('errorInput' + part);
+            const errorText = document.getElementById('errorText' + part);
+            
+            if (status === 'error') {
+                errorInput.style.display = 'block';
+                errorText.focus();
             } else {
-                // Pokud je OK nebo unchecked, odeber případný nedostatek pro tuto část
+                errorInput.style.display = 'none';
+                errorText.value = '';
+                // Odeber případný nedostatek pro tuto část
                 docCheckState.issues = docCheckState.issues.filter(i => 
-                    !i.text.startsWith(`Chyby v části ${part}`) && !i.text.startsWith(`Neúplná část ${part}`)
+                    !i.text.startsWith(`Část ${part}.`) && !i.part !== part
                 );
                 renderIssues();
             }
             
+            updateDokumentaceResult();
+        }
+        
+        function updatePartError(part) {
+            const errorText = document.getElementById('errorText' + part).value.trim();
+            const partNames = {
+                A: 'Průvodní zpráva',
+                B: 'Souhrnná technická zpráva', 
+                C: 'Situační výkresy',
+                D: 'Dokumentace objektů'
+            };
+            
+            // Odeber starý nedostatek pro tuto část
+            docCheckState.issues = docCheckState.issues.filter(i => i.part !== part);
+            
+            // Přidej nový nedostatek pokud je text vyplněn
+            if (errorText) {
+                const issueText = `Část ${part}. ${partNames[part]}: ${errorText}`;
+                docCheckState.issues.push({ text: issueText, part: part, source: 'manual' });
+            }
+            
+            renderIssues();
             updateDokumentaceResult();
         }
         
@@ -8700,12 +9333,23 @@
                 desc.style.display = 'none';
                 results.classList.add('visible');
                 
+                // Automaticky přidat zjištěné nedostatky do seznamu
+                const timestampIssue = 'Chybí časové razítko u dokumentu D.1.1.02 Půdorys 1.NP.pdf';
+                const exists = docCheckState.issues.some(i => i.text === timestampIssue);
+                if (!exists) {
+                    docCheckState.issues.push({ text: timestampIssue, source: 'auto' });
+                    renderIssues();
+                    // Zobrazit potvrzení u položky
+                    document.getElementById('checkTimestampAdded').style.display = 'inline';
+                }
+                
                 docCheckState.autoCheckDone = true;
                 updateDokumentaceResult();
             }, 2000);
         }
         
         function addIssueFromAutoCheck(issueText) {
+            // Funkce ponechána pro zpětnou kompatibilitu
             addIssueToList(issueText);
         }
         
@@ -8722,7 +9366,7 @@
             textInput.value = '';
         }
         
-        function addIssueToList(issueText) {
+        function addIssueToList(issueText, source = 'manual') {
             const issueId = 'issue-' + Date.now();
             
             // Zkontroluj duplicitu
@@ -8732,7 +9376,15 @@
             
             docCheckState.issues.push({
                 id: issueId,
-                text: issueText
+                text: issueText,
+                source: source
+            });
+            
+            // Přidat do globálního seznamu (typ: výzva k doplnění)
+            addGlobalIssue('vyzva', {
+                text: issueText,
+                source: source,
+                controlName: 'Kontrola dokumentace'
             });
             
             renderIssues();
@@ -8740,7 +9392,17 @@
         }
         
         function removeIssue(issueId) {
+            const issue = docCheckState.issues.find(i => i.id === issueId);
             docCheckState.issues = docCheckState.issues.filter(i => i.id !== issueId);
+            
+            // Odebrat z globálního seznamu (najít podle textu)
+            if (issue) {
+                const globalIssue = globalIssues.vyzva.find(gi => gi.text === issue.text);
+                if (globalIssue) {
+                    removeGlobalIssue('vyzva', globalIssue.id);
+                }
+            }
+            
             renderIssues();
             updateDokumentaceResult();
         }
@@ -9304,6 +9966,124 @@
             }
             
             closeControl('controlPrislusnost');
+            updateUI();
+        }
+        
+        // Zobrazení modálu pro postoupení řízení
+        function showPostoupeniModal() {
+            const vecna = document.querySelector('input[name="vecna_prislusnost"]:checked').value;
+            const zduvodneni = document.getElementById('zduvodneniNeprislusnosti').value.trim();
+            
+            let suNazev = '';
+            let suAdresa = '';
+            
+            if (vecna === 'ne') {
+                const select = document.getElementById('specialniSuSelect');
+                const option = select.options[select.selectedIndex];
+                const info = option.getAttribute('data-info').split('|');
+                suNazev = info[0];
+                suAdresa = info[1];
+            } else {
+                const select = document.getElementById('obecnySuSelect');
+                const option = select.options[select.selectedIndex];
+                const info = option.getAttribute('data-info').split('|');
+                suNazev = info[0];
+                suAdresa = info[1];
+            }
+            
+            // Naplnit modál
+            document.getElementById('postoupeniSuNazev').textContent = suNazev;
+            document.getElementById('postoupeniSuAdresa').textContent = suAdresa;
+            document.getElementById('postoupeniZduvodneni').textContent = zduvodneni;
+            
+            // Zavřít kontrolu a otevřít modál
+            closeControl('controlPrislusnost');
+            openModal('postoupeniModal');
+        }
+        
+        // Potvrzení postoupení řízení
+        function confirmPostoupeni() {
+            const vecna = document.querySelector('input[name="vecna_prislusnost"]:checked').value;
+            const zduvodneni = document.getElementById('zduvodneniNeprislusnosti').value.trim();
+            
+            controls.prislusnost.done = true;
+            controls.prislusnost.result = 'neprislusny';
+            
+            if (vecna === 'ne') {
+                const select = document.getElementById('specialniSuSelect');
+                const option = select.options[select.selectedIndex];
+                controls.prislusnost.postoupit = {
+                    typ: 'vecna',
+                    nazev: option.text,
+                    typSu: option.getAttribute('data-type'),
+                    info: option.getAttribute('data-info'),
+                    zduvodneni: zduvodneni
+                };
+            } else {
+                const select = document.getElementById('obecnySuSelect');
+                const option = select.options[select.selectedIndex];
+                controls.prislusnost.postoupit = {
+                    typ: 'mistni',
+                    nazev: option.text,
+                    info: option.getAttribute('data-info'),
+                    zduvodneni: zduvodneni
+                };
+            }
+            
+            // Přidat do globálního seznamu nedostatků (typ: postoupení)
+            addGlobalIssue('postoupeni', {
+                text: 'SÚ není ' + (vecna === 'ne' ? 'věcně' : 'místně') + ' příslušný - řízení postoupeno',
+                source: 'auto',
+                controlName: 'Kontrola příslušnosti'
+            });
+            
+            closeModal('postoupeniModal', null);
+            
+            // Zobrazit potvrzení
+            showPostoupeniConfirmation();
+        }
+        
+        // Zobrazení potvrzení o postoupení
+        function showPostoupeniConfirmation() {
+            const info = controls.prislusnost.postoupit.info.split('|');
+            const nazev = info[0];
+            
+            // Vytvořit jednoduchý confirmation toast/banner
+            const banner = document.createElement('div');
+            banner.className = 'confirmation-banner';
+            banner.style.cssText = `
+                position: fixed;
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #137333;
+                color: #fff;
+                padding: 16px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                z-index: 3000;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-size: 14px;
+                animation: slideDown 0.3s ease;
+            `;
+            banner.innerHTML = `
+                <span class="material-icons-outlined" style="font-size: 24px;">check_circle</span>
+                <div>
+                    <div style="font-weight: 500;">Řízení bylo postoupeno</div>
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 2px;">${nazev}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(banner);
+            
+            // Odstranit po 5 sekundách
+            setTimeout(() => {
+                banner.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => banner.remove(), 300);
+            }, 5000);
+            
             updateUI();
         }
 
@@ -10452,6 +11232,440 @@ ${reportContent}
         window.addEventListener('load', forceWorkflowStyles);
         document.addEventListener('DOMContentLoaded', forceWorkflowStyles);
         
+    </script>
+    
+    <!-- Slideout overlay -->
+    <div class="slideout-overlay" id="slideoutOverlay" onclick="closeAllSlideouts()"></div>
+    
+    <!-- Slideout: Přehled nedostatků -->
+    <div class="slideout-panel" id="prehledNedostatku">
+        <div class="slideout-header">
+            <div class="slideout-title">
+                <span class="material-icons-outlined">warning_amber</span>
+                Přehled nedostatků řízení
+            </div>
+            <button class="slideout-close" onclick="closeSlideout('prehledNedostatku')">
+                <span class="material-icons-outlined">close</span>
+            </button>
+        </div>
+        <div class="slideout-body" id="nedostatkyBody">
+            <!-- Typ C: Výzva k doplnění -->
+            <div class="issues-group" id="groupVyzva">
+                <div class="issues-group-header">
+                    <div class="issues-group-title">
+                        <span class="material-icons-outlined" style="color: #f9ab00;">edit_document</span>
+                        Výzva k doplnění + Přerušení řízení
+                    </div>
+                    <span class="issues-group-badge warning" id="badgeVyzva">0</span>
+                </div>
+                <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                    Nedostatky, které povedou k vydání výzvy k doplnění a usnesení o přerušení řízení dle § 185 odst. 1-2.
+                </p>
+                <div class="issues-group-list" id="listVyzva">
+                    <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                        <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                        Žádné nedostatky
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Typ B: Odložení žádosti -->
+            <div class="issues-group" id="groupOdlozeni">
+                <div class="issues-group-header">
+                    <div class="issues-group-title">
+                        <span class="material-icons-outlined" style="color: #c5221f;">block</span>
+                        Odložení žádosti
+                    </div>
+                    <span class="issues-group-badge error" id="badgeOdlozeni">0</span>
+                </div>
+                <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                    Závažné vady dle § 185 odst. 3 - chybí dokumentace, není zpracována projektantem, nebo není vložena do EED.
+                </p>
+                <div class="issues-group-list" id="listOdlozeni">
+                    <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                        <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                        Žádné závažné vady
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Typ A: Postoupení -->
+            <div class="issues-group" id="groupPostoupeni">
+                <div class="issues-group-header">
+                    <div class="issues-group-title">
+                        <span class="material-icons-outlined" style="color: #1a73e8;">send</span>
+                        Postoupení řízení
+                    </div>
+                    <span class="issues-group-badge info" id="badgePostoupeni">0</span>
+                </div>
+                <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                    Stavební úřad není příslušný - řízení bude postoupeno příslušnému SÚ.
+                </p>
+                <div class="issues-group-list" id="listPostoupeni">
+                    <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                        <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                        SÚ je příslušný
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Typ D: Stavění lhůty -->
+            <div class="issues-group" id="groupStaveni">
+                <div class="issues-group-header">
+                    <div class="issues-group-title">
+                        <span class="material-icons-outlined" style="color: #5f6368;">schedule</span>
+                        Stavění lhůty (vyžádání stanovisek)
+                    </div>
+                    <span class="issues-group-badge info" id="badgeStaveni">0</span>
+                </div>
+                <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                    Chybějící stanoviska DO, která si SÚ vyžádá dle § 184 odst. 3. Lhůta pro rozhodnutí se staví.
+                </p>
+                <div class="issues-group-list" id="listStaveni">
+                    <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                        <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                        Všechna stanoviska jsou k dispozici
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Typ E: Zamítnutí -->
+            <div class="issues-group" id="groupZamitnuti">
+                <div class="issues-group-header">
+                    <div class="issues-group-title">
+                        <span class="material-icons-outlined" style="color: #c5221f;">gavel</span>
+                        Zamítnutí žádosti
+                    </div>
+                    <span class="issues-group-badge error" id="badgeZamitnuti">0</span>
+                </div>
+                <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                    Důvody pro zamítnutí žádosti - např. nesoulad s územně plánovací dokumentací.
+                </p>
+                <div class="issues-group-list" id="listZamitnuti">
+                    <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                        <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                        Žádné důvody pro zamítnutí
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slideout-footer">
+            <button class="btn btn-secondary" onclick="exportNedostatky()">
+                <span class="material-icons-outlined">download</span>
+                Exportovat
+            </button>
+            <button class="btn btn-primary" onclick="closeSlideout('prehledNedostatku')">
+                Zavřít
+            </button>
+        </div>
+    </div>
+    
+    <!-- Slideout: Údaje řízení -->
+    <div class="slideout-panel" id="udajeRizeni">
+        <div class="slideout-header">
+            <div class="slideout-title">
+                <span class="material-icons-outlined">assignment</span>
+                Údaje řízení
+            </div>
+            <button class="slideout-close" onclick="closeSlideout('udajeRizeni')">
+                <span class="material-icons-outlined">close</span>
+            </button>
+        </div>
+        <div class="slideout-body">
+            <!-- Základní údaje -->
+            <div class="data-section">
+                <div class="data-section-title">
+                    <span class="material-icons-outlined">info</span>
+                    Základní údaje
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Číslo řízení</div>
+                    <div class="data-value">R/2026/000147</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Název stavby</div>
+                    <div class="data-value editable">
+                        <span id="udajeNazevStavby">Novostavba RD včetně přípojek</span>
+                        <button class="data-edit-btn" onclick="editUdaj('nazevStavby')" title="Upravit">
+                            <span class="material-icons-outlined">edit</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Typ řízení</div>
+                    <div class="data-value">Povolení stavby</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Druh stavby</div>
+                    <div class="data-value">Jednoduchá stavba</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Datum doručení</div>
+                    <div class="data-value">7. 1. 2026</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Stav řízení</div>
+                    <div class="data-value"><span class="case-badge draft" style="display: inline-block;">Kontrola</span></div>
+                </div>
+            </div>
+            
+            <!-- Lhůty -->
+            <div class="data-section">
+                <div class="data-section-title">
+                    <span class="material-icons-outlined">schedule</span>
+                    Lhůty
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Lhůta pro rozhodnutí</div>
+                    <div class="data-value">30 dnů (do 6. 2. 2026)</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Stavění lhůty</div>
+                    <div class="data-value" style="color: #137333;">Ne</div>
+                </div>
+            </div>
+            
+            <!-- Pozemky -->
+            <div class="data-section">
+                <div class="data-section-title">
+                    <span class="material-icons-outlined">landscape</span>
+                    Pozemky záměru
+                </div>
+                <div class="data-list" id="udajePozemky">
+                    <div class="data-list-item">
+                        <span class="material-icons-outlined">place</span>
+                        st. 123/1, k.ú. Veselí nad Lužnicí
+                    </div>
+                    <div class="data-list-item">
+                        <span class="material-icons-outlined">place</span>
+                        456/2, k.ú. Veselí nad Lužnicí
+                    </div>
+                </div>
+                <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="openControl('controlPozemky')">
+                    <span class="material-icons-outlined">edit</span>
+                    Upravit pozemky
+                </button>
+            </div>
+            
+            <!-- Účastníci -->
+            <div class="data-section">
+                <div class="data-section-title">
+                    <span class="material-icons-outlined">groups</span>
+                    Účastníci řízení
+                </div>
+                <div class="data-list" id="udajeUcastnici">
+                    <div class="data-list-item">
+                        <span class="material-icons-outlined">person</span>
+                        Marek Vondruška (stavebník)
+                    </div>
+                    <div class="data-list-item">
+                        <span class="material-icons-outlined">person</span>
+                        Jana Nová (vlastník sousedního pozemku)
+                    </div>
+                </div>
+                <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="openControl('controlUcastnici')">
+                    <span class="material-icons-outlined">edit</span>
+                    Upravit účastníky
+                </button>
+            </div>
+            
+            <!-- Referent -->
+            <div class="data-section">
+                <div class="data-section-title">
+                    <span class="material-icons-outlined">badge</span>
+                    Zpracování
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Referent</div>
+                    <div class="data-value">Aleš Krupa</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Přiřazeno od</div>
+                    <div class="data-value">7. 1. 2026</div>
+                </div>
+            </div>
+        </div>
+        <div class="slideout-footer">
+            <button class="btn btn-primary" onclick="closeSlideout('udajeRizeni')">
+                Zavřít
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        // Globální stav nedostatků
+        const globalIssues = {
+            vyzva: [], // Výzva k doplnění + přerušení
+            odlozeni: [], // Odložení žádosti
+            postoupeni: [], // Postoupení
+            staveni: [], // Stavění lhůty
+            zamitnuti: [] // Zamítnutí
+        };
+        
+        // Slideout panel funkce
+        function openSlideout(panelId) {
+            document.getElementById('slideoutOverlay').classList.add('open');
+            document.getElementById(panelId).classList.add('open');
+            document.body.style.overflow = 'hidden';
+            
+            if (panelId === 'prehledNedostatku') {
+                renderGlobalIssues();
+            }
+        }
+        
+        function closeSlideout(panelId) {
+            document.getElementById('slideoutOverlay').classList.remove('open');
+            document.getElementById(panelId).classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        
+        function closeAllSlideouts() {
+            document.querySelectorAll('.slideout-panel').forEach(panel => {
+                panel.classList.remove('open');
+            });
+            document.getElementById('slideoutOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        
+        // Dropdown menu
+        function toggleActionDropdown() {
+            const dropdown = document.getElementById('akceRizeniDropdown');
+            dropdown.classList.toggle('open');
+            
+            // Close on click outside
+            if (dropdown.classList.contains('open')) {
+                setTimeout(() => {
+                    document.addEventListener('click', closeDropdownOnClickOutside);
+                }, 0);
+            }
+        }
+        
+        function closeDropdownOnClickOutside(e) {
+            const dropdown = document.getElementById('akceRizeniDropdown');
+            const btn = document.getElementById('btnAkceRizeni');
+            if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+                dropdown.classList.remove('open');
+                document.removeEventListener('click', closeDropdownOnClickOutside);
+            }
+        }
+        
+        function showActionModal(action) {
+            document.getElementById('akceRizeniDropdown').classList.remove('open');
+            alert('Akce "' + action + '" - bude implementováno');
+        }
+        
+        // Přidání nedostatku do globálního seznamu
+        function addGlobalIssue(type, issue) {
+            // type: 'vyzva', 'odlozeni', 'postoupeni', 'staveni', 'zamitnuti'
+            const id = 'gi-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            globalIssues[type].push({
+                id: id,
+                text: issue.text,
+                source: issue.source || 'manual',
+                controlName: issue.controlName || '',
+                resolved: false,
+                timestamp: new Date().toISOString()
+            });
+            updateGlobalIssuesBadge();
+            return id;
+        }
+        
+        function removeGlobalIssue(type, id) {
+            globalIssues[type] = globalIssues[type].filter(i => i.id !== id);
+            updateGlobalIssuesBadge();
+            renderGlobalIssues();
+        }
+        
+        function resolveGlobalIssue(type, id) {
+            const issue = globalIssues[type].find(i => i.id === id);
+            if (issue) {
+                issue.resolved = !issue.resolved;
+                updateGlobalIssuesBadge();
+                renderGlobalIssues();
+            }
+        }
+        
+        function updateGlobalIssuesBadge() {
+            const total = Object.values(globalIssues).reduce((sum, arr) => 
+                sum + arr.filter(i => !i.resolved).length, 0);
+            
+            const badge = document.getElementById('nedostatkyBadge');
+            const btn = document.getElementById('btnNedostatky');
+            
+            badge.textContent = total;
+            
+            if (total > 0) {
+                btn.classList.add('has-issues');
+                badge.style.display = '';
+            } else {
+                btn.classList.remove('has-issues');
+                badge.style.display = 'none';
+            }
+        }
+        
+        function renderGlobalIssues() {
+            const types = [
+                { key: 'vyzva', listId: 'listVyzva', badgeId: 'badgeVyzva', emptyText: 'Žádné nedostatky', iconClass: 'warning' },
+                { key: 'odlozeni', listId: 'listOdlozeni', badgeId: 'badgeOdlozeni', emptyText: 'Žádné závažné vady', iconClass: 'error' },
+                { key: 'postoupeni', listId: 'listPostoupeni', badgeId: 'badgePostoupeni', emptyText: 'SÚ je příslušný', iconClass: 'warning' },
+                { key: 'staveni', listId: 'listStaveni', badgeId: 'badgeStaveni', emptyText: 'Všechna stanoviska jsou k dispozici', iconClass: 'warning' },
+                { key: 'zamitnuti', listId: 'listZamitnuti', badgeId: 'badgeZamitnuti', emptyText: 'Žádné důvody pro zamítnutí', iconClass: 'error' }
+            ];
+            
+            types.forEach(t => {
+                const list = document.getElementById(t.listId);
+                const badge = document.getElementById(t.badgeId);
+                const issues = globalIssues[t.key];
+                const unresolvedCount = issues.filter(i => !i.resolved).length;
+                
+                badge.textContent = unresolvedCount;
+                
+                if (issues.length === 0) {
+                    list.innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                            <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                            ${t.emptyText}
+                        </div>
+                    `;
+                } else {
+                    list.innerHTML = issues.map(issue => `
+                        <div class="global-issue-item ${issue.resolved ? 'resolved' : ''}">
+                            <div class="global-issue-icon ${issue.resolved ? 'resolved' : t.iconClass}">
+                                <span class="material-icons-outlined">${issue.resolved ? 'check' : 'warning'}</span>
+                            </div>
+                            <div class="global-issue-content">
+                                <div class="global-issue-text">${issue.text}</div>
+                                <div class="global-issue-meta">
+                                    ${issue.controlName ? issue.controlName + ' • ' : ''}
+                                    ${issue.source === 'auto' ? 'Automaticky zjištěno' : 'Ručně přidáno'}
+                                </div>
+                            </div>
+                            <div class="global-issue-actions">
+                                <button class="global-issue-btn resolve" onclick="resolveGlobalIssue('${t.key}', '${issue.id}')" title="${issue.resolved ? 'Označit jako nevyřešené' : 'Označit jako vyřešené'}">
+                                    <span class="material-icons-outlined">${issue.resolved ? 'undo' : 'check'}</span>
+                                </button>
+                                <button class="global-issue-btn" onclick="removeGlobalIssue('${t.key}', '${issue.id}')" title="Odebrat">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+        
+        function exportNedostatky() {
+            alert('Export nedostatků - bude implementováno');
+        }
+        
+        function editUdaj(udaj) {
+            alert('Úprava údaje "' + udaj + '" - bude implementováno');
+        }
+        
+        // Inicializace badge při načtení
+        document.addEventListener('DOMContentLoaded', function() {
+            updateGlobalIssuesBadge();
+        });
     </script>
 </body>
 </html>
