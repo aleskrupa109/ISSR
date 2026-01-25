@@ -2338,38 +2338,188 @@
             color: #fff;
         }
 
-        /* Pole pro popis chyby u částí dokumentace */
+        /* Sekce nedostatků podle částí dokumentace */
         .doc-part-item {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
         }
         
-        .doc-part-error-input {
-            width: 100%;
-            margin-top: 8px;
-            padding-left: 36px;
+        .part-issues-section {
+            background: #fef7f6;
+            border: 1px solid #f5c6c5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
         }
         
-        .doc-part-error-text {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #f5c6c5;
+        .part-issues-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #c5221f;
+            margin-bottom: 12px;
+        }
+        
+        .part-issues-header .part-letter {
+            width: 24px;
+            height: 24px;
+            background: #c5221f;
+            color: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .part-issues-list {
+            margin-bottom: 12px;
+        }
+        
+        .part-issue-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #fff;
+            border: 1px solid #e8eaed;
             border-radius: 6px;
-            font-size: 13px;
-            font-family: inherit;
-            background: #fef7f6;
+            margin-bottom: 8px;
+        }
+        
+        .part-issue-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .part-issue-icon {
+            width: 20px;
+            height: 20px;
+            background: #fce8e6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .part-issue-icon .material-icons-outlined {
+            font-size: 12px;
             color: #c5221f;
         }
         
-        .doc-part-error-text::placeholder {
-            color: #e57373;
+        .part-issue-content {
+            flex: 1;
+            font-size: 13px;
+            color: #202124;
+            line-height: 1.5;
         }
         
-        .doc-part-error-text:focus {
+        .part-issue-remove {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9aa0a6;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        
+        .part-issue-remove:hover {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .part-issue-remove .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .part-issues-add {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .part-issue-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            background: #fff;
+            color: #202124;
+            resize: vertical;
+            min-height: 70px;
+            line-height: 1.5;
+        }
+        
+        .part-issue-textarea:focus {
             outline: none;
             border-color: #c5221f;
             box-shadow: 0 0 0 2px rgba(197, 34, 31, 0.1);
+        }
+        
+        .part-issue-textarea::placeholder {
+            color: #9aa0a6;
+        }
+        
+        .btn-add-part-issue {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: #fff;
+            border: 1px solid #c5221f;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #c5221f;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .btn-add-part-issue:hover {
+            background: #fce8e6;
+        }
+        
+        .btn-add-part-issue .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .issues-empty {
+            text-align: center;
+            padding: 30px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #dadce0;
+        }
+        
+        /* Auto issues sekce - modrá varianta */
+        #autoIssuesSection {
+            background: #e8f4fd;
+            border-color: #c2e0ff;
+        }
+        
+        #autoIssuesSection .part-issues-header {
+            color: #1a73e8;
+        }
+        
+        #autoIssuesSection .part-issue-icon {
+            background: #d2e3fc;
+        }
+        
+        #autoIssuesSection .part-issue-icon .material-icons-outlined {
+            color: #1a73e8;
         }
 
         /* Pozemky - rozšířené styly */
@@ -2956,7 +3106,7 @@
             background: #fff8e1;
             border: 1px solid #ffe082;
             border-radius: 8px;
-            display: none;
+            display: block;
         }
 
         .issues-section.visible {
@@ -3304,6 +3454,40 @@
             background: #fff;
             border-bottom: 1px solid #e0e0e0;
             flex-shrink: 0;
+            align-items: center;
+        }
+        
+        .viewer-tabs-left {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+        
+        .viewer-open-external {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            transition: all 0.15s;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        
+        .viewer-open-external:hover {
+            background: #e8f4fd;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        .viewer-open-external .material-icons-outlined {
+            font-size: 18px;
         }
 
         .viewer-tab {
@@ -6217,22 +6401,27 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'prislusnost', 'zadost')">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'prislusnost', 'prilohy')">
-                        <span class="material-icons-outlined">attach_file</span>
-                        Přílohy
-                        <span class="badge">12</span>
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'prislusnost', 'dokumentace')">
-                        <span class="material-icons-outlined">folder</span>
-                        El. dokumentace
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'prislusnost', 'doklady')">
-                        <span class="material-icons-outlined">fact_check</span>
-                        Dokladová část
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'prislusnost', 'zadost')">
+                            <span class="material-icons-outlined">description</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'prislusnost', 'prilohy')">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'prislusnost', 'dokumentace')">
+                            <span class="material-icons-outlined">folder</span>
+                            El. dokumentace
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'prislusnost', 'doklady')">
+                            <span class="material-icons-outlined">fact_check</span>
+                            Dokladová část
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('prislusnost')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -6439,22 +6628,27 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'kontrolazadosti', 'zadost')">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'prilohy')">
-                        <span class="material-icons-outlined">attach_file</span>
-                        Přílohy
-                        <span class="badge">12</span>
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'dokumentace')">
-                        <span class="material-icons-outlined">folder</span>
-                        El. dokumentace
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'doklady')">
-                        <span class="material-icons-outlined">fact_check</span>
-                        Dokladová část
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'kontrolazadosti', 'zadost')">
+                            <span class="material-icons-outlined">description</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'prilohy')">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'dokumentace')">
+                            <span class="material-icons-outlined">folder</span>
+                            El. dokumentace
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'doklady')">
+                            <span class="material-icons-outlined">fact_check</span>
+                            Dokladová část
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('kontrolazadosti')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -6720,21 +6914,26 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchPozemkyTab(this, 'zadost')">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
-                    </button>
-                    <button class="viewer-tab" onclick="switchPozemkyTab(this, 'situace')">
-                        <span class="material-icons-outlined">architecture</span>
-                        Situační výkresy
-                    </button>
-                    <button class="viewer-tab" onclick="switchPozemkyTab(this, 'kn')">
-                        <span class="material-icons-outlined">terrain</span>
-                        Katastr
-                    </button>
-                    <button class="viewer-tab" onclick="switchPozemkyTab(this, 'mapa')">
-                        <span class="material-icons-outlined">map</span>
-                        Mapa
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchPozemkyTab(this, 'zadost')">
+                            <span class="material-icons-outlined">description</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchPozemkyTab(this, 'situace')">
+                            <span class="material-icons-outlined">architecture</span>
+                            Situační výkresy
+                        </button>
+                        <button class="viewer-tab" onclick="switchPozemkyTab(this, 'kn')">
+                            <span class="material-icons-outlined">terrain</span>
+                            Katastr
+                        </button>
+                        <button class="viewer-tab" onclick="switchPozemkyTab(this, 'mapa')">
+                            <span class="material-icons-outlined">map</span>
+                            Mapa
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('pozemky')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -6939,13 +7138,18 @@
             <!-- Levý panel - prohlížeč struktury dokumentace -->
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchDocViewerTab(this, 'struktura')">
-                        <span class="material-icons-outlined">folder</span>
-                        Struktura ED
-                    </button>
-                    <button class="viewer-tab" onclick="switchDocViewerTab(this, 'nahled')">
-                        <span class="material-icons-outlined">description</span>
-                        Náhled dokumentu
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchDocViewerTab(this, 'struktura')">
+                            <span class="material-icons-outlined">folder</span>
+                            Struktura ED
+                        </button>
+                        <button class="viewer-tab" onclick="switchDocViewerTab(this, 'nahled')">
+                            <span class="material-icons-outlined">description</span>
+                            Náhled dokumentu
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('dokumentace')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content" style="background: #fff;">
@@ -7226,9 +7430,6 @@
                                         <span class="material-icons-outlined">close</span>
                                     </button>
                                 </div>
-                                <div class="doc-part-error-input" id="errorInputA" style="display: none;">
-                                    <input type="text" class="doc-part-error-text" id="errorTextA" placeholder="Popište chybu..." onchange="updatePartError('A')">
-                                </div>
                             </div>
                             
                             <!-- B. Souhrnná technická zpráva -->
@@ -7244,9 +7445,6 @@
                                     <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')" title="Chyba">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
-                                </div>
-                                <div class="doc-part-error-input" id="errorInputB" style="display: none;">
-                                    <input type="text" class="doc-part-error-text" id="errorTextB" placeholder="Popište chybu..." onchange="updatePartError('B')">
                                 </div>
                             </div>
                             
@@ -7264,9 +7462,6 @@
                                         <span class="material-icons-outlined">close</span>
                                     </button>
                                 </div>
-                                <div class="doc-part-error-input" id="errorInputC" style="display: none;">
-                                    <input type="text" class="doc-part-error-text" id="errorTextC" placeholder="Popište chybu..." onchange="updatePartError('C')">
-                                </div>
                             </div>
                             
                             <!-- D. Dokumentace objektů -->
@@ -7283,36 +7478,110 @@
                                         <span class="material-icons-outlined">close</span>
                                     </button>
                                 </div>
-                                <div class="doc-part-error-input" id="errorInputD" style="display: none;">
-                                    <input type="text" class="doc-part-error-text" id="errorTextD" placeholder="Popište chybu..." onchange="updatePartError('D')">
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Seznam nedostatků -->
+                    <!-- Zjištěné nedostatky dokumentace - strukturované podle částí -->
                     <div class="issues-section" id="issuesSection">
                         <div class="issues-header">
                             <div class="issues-title">
                                 <span class="material-icons-outlined">report_problem</span>
-                                Seznam nedostatků dokumentace
+                                Zjištěné nedostatky dokumentace
                             </div>
                             <span class="issues-count" id="issuesCount">0</span>
                         </div>
-                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 16px;">
                             Seznam nedostatků se stane součástí dokumentu <strong>Výzva k doplnění a usnesení o přerušení řízení</strong>.
                         </p>
-                        <div class="issues-list" id="issuesList">
-                            <!-- Nedostatky se přidávají dynamicky -->
+                        
+                        <!-- Automaticky zjištěné nedostatky -->
+                        <div class="part-issues-section" id="autoIssuesSection" style="display: none;">
+                            <div class="part-issues-header">
+                                <span class="material-icons-outlined" style="color: #1a73e8;">auto_awesome</span>
+                                Automaticky zjištěné nedostatky
+                            </div>
+                            <div class="part-issues-list" id="autoIssuesList">
+                                <!-- Automatické nedostatky -->
+                            </div>
                         </div>
-                        <div class="add-issue-section">
-                            <div class="add-issue-row" id="issueInputShort">
-                                <input type="text" class="add-issue-input" id="addIssueText" placeholder="Přidat další nedostatek..." onkeypress="if(event.key==='Enter') addIssue()">
-                                <button class="btn-add-issue" onclick="addIssue()">
+                        
+                        <!-- Sekce pro část A -->
+                        <div class="part-issues-section" id="partIssuesA" style="display: none;">
+                            <div class="part-issues-header">
+                                <span class="part-letter">A</span>
+                                Nedostatky v části A. Průvodní zpráva
+                            </div>
+                            <div class="part-issues-list" id="partIssuesListA">
+                                <!-- Nedostatky části A -->
+                            </div>
+                            <div class="part-issues-add">
+                                <textarea class="part-issue-textarea" id="partIssueTextA" placeholder="Popište nedostatek v průvodní zprávě..." rows="3"></textarea>
+                                <button class="btn-add-part-issue" onclick="addPartIssue('A')">
                                     <span class="material-icons-outlined">add</span>
-                                    Přidat
+                                    Přidat nedostatek
                                 </button>
                             </div>
+                        </div>
+                        
+                        <!-- Sekce pro část B -->
+                        <div class="part-issues-section" id="partIssuesB" style="display: none;">
+                            <div class="part-issues-header">
+                                <span class="part-letter">B</span>
+                                Nedostatky v části B. Souhrnná technická zpráva
+                            </div>
+                            <div class="part-issues-list" id="partIssuesListB">
+                                <!-- Nedostatky části B -->
+                            </div>
+                            <div class="part-issues-add">
+                                <textarea class="part-issue-textarea" id="partIssueTextB" placeholder="Popište nedostatek v souhrnné technické zprávě..." rows="3"></textarea>
+                                <button class="btn-add-part-issue" onclick="addPartIssue('B')">
+                                    <span class="material-icons-outlined">add</span>
+                                    Přidat nedostatek
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sekce pro část C -->
+                        <div class="part-issues-section" id="partIssuesC" style="display: none;">
+                            <div class="part-issues-header">
+                                <span class="part-letter">C</span>
+                                Nedostatky v části C. Situační výkresy
+                            </div>
+                            <div class="part-issues-list" id="partIssuesListC">
+                                <!-- Nedostatky části C -->
+                            </div>
+                            <div class="part-issues-add">
+                                <textarea class="part-issue-textarea" id="partIssueTextC" placeholder="Popište nedostatek v situačních výkresech..." rows="3"></textarea>
+                                <button class="btn-add-part-issue" onclick="addPartIssue('C')">
+                                    <span class="material-icons-outlined">add</span>
+                                    Přidat nedostatek
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Sekce pro část D -->
+                        <div class="part-issues-section" id="partIssuesD" style="display: none;">
+                            <div class="part-issues-header">
+                                <span class="part-letter">D</span>
+                                Nedostatky v části D. Dokumentace objektů
+                            </div>
+                            <div class="part-issues-list" id="partIssuesListD">
+                                <!-- Nedostatky části D -->
+                            </div>
+                            <div class="part-issues-add">
+                                <textarea class="part-issue-textarea" id="partIssueTextD" placeholder="Popište nedostatek v dokumentaci objektů..." rows="3"></textarea>
+                                <button class="btn-add-part-issue" onclick="addPartIssue('D')">
+                                    <span class="material-icons-outlined">add</span>
+                                    Přidat nedostatek
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Prázdný stav -->
+                        <div class="issues-empty" id="issuesEmpty">
+                            <span class="material-icons-outlined" style="font-size: 32px; color: #9aa0a6; margin-bottom: 8px;">check_circle</span>
+                            <div style="font-size: 13px; color: #5f6368;">Zatím nebyly zjištěny žádné nedostatky</div>
                         </div>
                     </div>
 
@@ -7364,17 +7633,22 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'identifikace', 'dtm')">
-                        <span class="material-icons-outlined">layers</span>
-                        DTM
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'identifikace', 'doklady')">
-                        <span class="material-icons-outlined">folder</span>
-                        Dokladová část
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'identifikace', 'zadost')">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'identifikace', 'dtm')">
+                            <span class="material-icons-outlined">layers</span>
+                            DTM
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'identifikace', 'doklady')">
+                            <span class="material-icons-outlined">folder</span>
+                            Dokladová část
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'identifikace', 'zadost')">
+                            <span class="material-icons-outlined">description</span>
+                            Žádost
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('identifikace')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -7557,13 +7831,18 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'up', 'eed')">
-                        <span class="material-icons-outlined">folder</span>
-                        El. dokumentace
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'up', 'uplan')">
-                        <span class="material-icons-outlined">map</span>
-                        Územní plán
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'up', 'eed')">
+                            <span class="material-icons-outlined">folder</span>
+                            El. dokumentace
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'up', 'uplan')">
+                            <span class="material-icons-outlined">map</span>
+                            Územní plán
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('up')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -7796,13 +8075,29 @@
                             </div>
                         </label>
                         
-                        <!-- Poznámky pro rozhodnutí -->
-                        <div style="margin-top: 16px;">
+                        <!-- Zdůvodnění nesouladu - zobrazí se jen při nesouladu -->
+                        <div class="control-section" id="zduvodneniNesouladuSection" style="display: none; margin-top: 16px;">
+                            <div class="control-section-title" style="color: #c5221f;">
+                                <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">error</span>
+                                Zdůvodnění nesouladu s ÚPD
+                            </div>
+                            <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
+                                Uveďte konkrétní důvody nesouladu s územně plánovací dokumentací. 
+                                Text bude součástí dokumentu <strong>Rozhodnutí o zamítnutí žádosti</strong>.
+                            </p>
+                            <textarea id="upPoznamky" class="form-textarea" rows="5" 
+                                placeholder="Např.: Záměr je v rozporu s regulativy územního plánu - plocha BV (bydlení venkovské) neumožňuje stavbu garáží pro více než 3 vozidla..."
+                                oninput="updateUPConfirmButton()"
+                                style="width: 100%; padding: 12px; border: 1px solid #f5c6c5; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5; background: #fef7f6;"></textarea>
+                        </div>
+                        
+                        <!-- Poznámky pro soulad - běžné poznámky -->
+                        <div style="margin-top: 16px;" id="poznamkySouladSection">
                             <label class="form-label" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #202124;">
                                 Poznámky pro rozhodnutí
-                                <span style="font-weight: 400; color: #5f6368;">(propíše se do dokumentu rozhodnutí)</span>
+                                <span style="font-weight: 400; color: #5f6368;">(volitelné)</span>
                             </label>
-                            <textarea id="upPoznamky" class="form-textarea" rows="4" placeholder="Zadejte poznámky k posouzení souladu s územně plánovací dokumentací..." style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
+                            <textarea id="upPoznamkySoulad" class="form-textarea" rows="3" placeholder="Zadejte poznámky k posouzení souladu s územně plánovací dokumentací..." style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
                         </div>
                     </div>
 
@@ -7853,18 +8148,23 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'ucastnici', 'zadost')">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'ucastnici', 'prilohy')">
-                        <span class="material-icons-outlined">attach_file</span>
-                        Přílohy
-                        <span class="badge">12</span>
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'ucastnici', 'kn')">
-                        <span class="material-icons-outlined">terrain</span>
-                        Katastr nemovitostí
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'ucastnici', 'zadost')">
+                            <span class="material-icons-outlined">description</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'ucastnici', 'prilohy')">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'ucastnici', 'kn')">
+                            <span class="material-icons-outlined">terrain</span>
+                            Katastr nemovitostí
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('ucastnici')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -7939,22 +8239,27 @@
         <div class="control-body">
             <div class="control-viewer">
                 <div class="viewer-tabs">
-                    <button class="viewer-tab active" onclick="switchViewerTab(this, 'zrychlene', 'zadost')">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'zrychlene', 'prilohy')">
-                        <span class="material-icons-outlined">attach_file</span>
-                        Přílohy
-                        <span class="badge">12</span>
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'zrychlene', 'eed')">
-                        <span class="material-icons-outlined">folder</span>
-                        El. dokumentace
-                    </button>
-                    <button class="viewer-tab" onclick="switchViewerTab(this, 'zrychlene', 'doklady')">
-                        <span class="material-icons-outlined">fact_check</span>
-                        Dokladová část
+                    <div class="viewer-tabs-left">
+                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'zrychlene', 'zadost')">
+                            <span class="material-icons-outlined">description</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'zrychlene', 'prilohy')">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'zrychlene', 'eed')">
+                            <span class="material-icons-outlined">folder</span>
+                            El. dokumentace
+                        </button>
+                        <button class="viewer-tab" onclick="switchViewerTab(this, 'zrychlene', 'doklady')">
+                            <span class="material-icons-outlined">fact_check</span>
+                            Dokladová část
+                        </button>
+                    </div>
+                    <button class="viewer-open-external" onclick="openViewerExternal('zrychlene')" title="Otevřít v novém okně">
+                        <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
                 <div class="viewer-content">
@@ -8313,6 +8618,118 @@
     </div>
 
     <script>
+        // Globální stav nedostatků - MUSÍ být definován před ostatními funkcemi
+        const globalIssues = {
+            vyzva: [], // Výzva k doplnění + přerušení
+            odlozeni: [], // Odložení žádosti
+            postoupeni: [], // Postoupení
+            staveni: [], // Stavění lhůty
+            zamitnuti: [] // Zamítnutí
+        };
+        
+        // Funkce pro práci s globalIssues
+        function addGlobalIssue(type, issue) {
+            const id = 'gi-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            globalIssues[type].push({
+                id: id,
+                text: issue.text,
+                source: issue.source || 'manual',
+                controlName: issue.controlName || '',
+                resolved: false,
+                timestamp: new Date().toISOString()
+            });
+            updateGlobalIssuesBadge();
+            return id;
+        }
+        
+        function removeGlobalIssue(type, id) {
+            globalIssues[type] = globalIssues[type].filter(i => i.id !== id);
+            updateGlobalIssuesBadge();
+            renderGlobalIssues();
+        }
+        
+        function resolveGlobalIssue(type, id) {
+            const issue = globalIssues[type].find(i => i.id === id);
+            if (issue) {
+                issue.resolved = !issue.resolved;
+                updateGlobalIssuesBadge();
+                renderGlobalIssues();
+            }
+        }
+        
+        function updateGlobalIssuesBadge() {
+            const total = Object.values(globalIssues).reduce((sum, arr) => 
+                sum + arr.filter(i => !i.resolved).length, 0);
+            
+            const badge = document.getElementById('nedostatkyBadge');
+            const btn = document.getElementById('btnNedostatky');
+            
+            if (badge && btn) {
+                badge.textContent = total;
+                
+                if (total > 0) {
+                    btn.classList.add('has-issues');
+                    badge.style.display = '';
+                } else {
+                    btn.classList.remove('has-issues');
+                    badge.style.display = 'none';
+                }
+            }
+        }
+        
+        function renderGlobalIssues() {
+            const types = [
+                { key: 'vyzva', listId: 'listVyzva', badgeId: 'badgeVyzva', emptyText: 'Žádné nedostatky', iconClass: 'warning' },
+                { key: 'odlozeni', listId: 'listOdlozeni', badgeId: 'badgeOdlozeni', emptyText: 'Žádné závažné vady', iconClass: 'error' },
+                { key: 'postoupeni', listId: 'listPostoupeni', badgeId: 'badgePostoupeni', emptyText: 'SÚ je příslušný', iconClass: 'warning' },
+                { key: 'staveni', listId: 'listStaveni', badgeId: 'badgeStaveni', emptyText: 'Všechna stanoviska jsou k dispozici', iconClass: 'warning' },
+                { key: 'zamitnuti', listId: 'listZamitnuti', badgeId: 'badgeZamitnuti', emptyText: 'Žádné důvody pro zamítnutí', iconClass: 'error' }
+            ];
+            
+            types.forEach(t => {
+                const list = document.getElementById(t.listId);
+                const badge = document.getElementById(t.badgeId);
+                if (!list || !badge) return;
+                
+                const issues = globalIssues[t.key];
+                const unresolvedCount = issues.filter(i => !i.resolved).length;
+                
+                badge.textContent = unresolvedCount;
+                
+                if (issues.length === 0) {
+                    list.innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
+                            <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
+                            ${t.emptyText}
+                        </div>
+                    `;
+                } else {
+                    list.innerHTML = issues.map(issue => `
+                        <div class="global-issue-item ${issue.resolved ? 'resolved' : ''}">
+                            <div class="global-issue-icon ${issue.resolved ? 'resolved' : t.iconClass}">
+                                <span class="material-icons-outlined">${issue.resolved ? 'check' : 'warning'}</span>
+                            </div>
+                            <div class="global-issue-content">
+                                <div class="global-issue-text">${issue.text}</div>
+                                <div class="global-issue-meta">
+                                    ${issue.controlName ? issue.controlName + ' • ' : ''}
+                                    ${issue.source === 'auto' ? 'Automaticky zjištěno' : 'Ručně přidáno'}
+                                </div>
+                            </div>
+                            <div class="global-issue-actions">
+                                <button class="global-issue-btn resolve" onclick="resolveGlobalIssue('${t.key}', '${issue.id}')" title="${issue.resolved ? 'Označit jako nevyřešené' : 'Označit jako vyřešené'}">
+                                    <span class="material-icons-outlined">${issue.resolved ? 'undo' : 'check'}</span>
+                                </button>
+                                <button class="global-issue-btn" onclick="removeGlobalIssue('${t.key}', '${issue.id}')" title="Odebrat">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+
         // State management
         const controls = {
             prislusnost: { done: false, depends: [], result: 'ok' },
@@ -8374,6 +8791,160 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // Otevření prohlížeče v novém okně (simulace druhého monitoru)
+        function openViewerExternal(controlType) {
+            const controlNames = {
+                'prislusnost': 'Kontrola příslušnosti',
+                'kontrolazadosti': 'Kontrola žádosti',
+                'pozemky': 'Pozemky',
+                'dokumentace': 'Kontrola dokumentace',
+                'identifikace': 'Identifikace subjektů',
+                'up': 'Soulad s ÚPD',
+                'ucastnici': 'Účastníci řízení',
+                'zrychlene': 'Zrychlené řízení'
+            };
+            
+            const controlName = controlNames[controlType] || controlType;
+            
+            // Otevřít nové okno s náhledem
+            const newWindow = window.open('', '_blank', 'width=900,height=700,menubar=no,toolbar=no,location=no,status=no');
+            
+            if (newWindow) {
+                newWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Prohlížeč dokumentů - ${controlName}</title>
+                        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+                        <style>
+                            * { margin: 0; padding: 0; box-sizing: border-box; }
+                            body { 
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                                background: #f5f5f5;
+                            }
+                            .header {
+                                background: #004289;
+                                color: #fff;
+                                padding: 16px 24px;
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                            }
+                            .header h1 {
+                                font-size: 16px;
+                                font-weight: 500;
+                            }
+                            .header .material-icons-outlined {
+                                font-size: 24px;
+                            }
+                            .tabs {
+                                background: #fff;
+                                padding: 12px 16px;
+                                border-bottom: 1px solid #e0e0e0;
+                                display: flex;
+                                gap: 8px;
+                            }
+                            .tab {
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 6px;
+                                padding: 8px 14px;
+                                background: #f5f5f5;
+                                border: 1px solid #e0e0e0;
+                                border-radius: 6px;
+                                font-size: 13px;
+                                color: #5f6368;
+                                cursor: pointer;
+                            }
+                            .tab:hover {
+                                background: #e8f1fa;
+                                border-color: #004289;
+                                color: #004289;
+                            }
+                            .tab.active {
+                                background: #004289;
+                                border-color: #004289;
+                                color: #fff;
+                            }
+                            .content {
+                                flex: 1;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                text-align: center;
+                                padding: 60px 40px;
+                                min-height: calc(100vh - 120px);
+                            }
+                            .placeholder {
+                                color: #5f6368;
+                            }
+                            .placeholder .material-icons-outlined {
+                                font-size: 64px;
+                                color: #9aa0a6;
+                                margin-bottom: 16px;
+                            }
+                            .placeholder h2 {
+                                font-size: 18px;
+                                font-weight: 500;
+                                color: #202124;
+                                margin-bottom: 8px;
+                            }
+                            .placeholder p {
+                                font-size: 13px;
+                                color: #5f6368;
+                            }
+                            .info-badge {
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 6px;
+                                margin-top: 20px;
+                                padding: 8px 16px;
+                                background: #e8f4fd;
+                                border-radius: 20px;
+                                font-size: 12px;
+                                color: #1a73e8;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <span class="material-icons-outlined">monitor</span>
+                            <h1>Prohlížeč dokumentů — ${controlName}</h1>
+                        </div>
+                        <div class="tabs">
+                            <button class="tab active">
+                                <span class="material-icons-outlined">description</span>
+                                Žádost
+                            </button>
+                            <button class="tab">
+                                <span class="material-icons-outlined">attach_file</span>
+                                Přílohy
+                            </button>
+                            <button class="tab">
+                                <span class="material-icons-outlined">folder</span>
+                                Dokumentace
+                            </button>
+                        </div>
+                        <div class="content">
+                            <div class="placeholder">
+                                <span class="material-icons-outlined">description</span>
+                                <h2>Žádost o povolení stavby</h2>
+                                <p>V produkční verzi by se zde zobrazil náhled dokumentu</p>
+                                <div class="info-badge">
+                                    <span class="material-icons-outlined" style="font-size: 16px;">desktop_windows</span>
+                                    Samostatné okno pro druhý monitor
+                                </div>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                newWindow.document.close();
+            } else {
+                alert('Prohlížeč zablokoval otevření nového okna. Povolte prosím vyskakovací okna pro tuto stránku.');
+            }
+        }
 
         // Viewer tab switching
         function switchViewerTab(button, controlType, docType) {
@@ -9222,8 +9793,10 @@
         function setDocPartStatus(part, status) {
             docCheckState.partStatus[part] = status;
             
-            // Update UI
+            // Update UI pro tlačítka
             const item = document.querySelector(`.doc-part-item[data-part="${part}"]`);
+            if (!item) return;
+            
             item.classList.remove('status-ok', 'status-warning', 'status-error', 'status-unchecked');
             item.classList.add('status-' + status);
             
@@ -9243,28 +9816,44 @@
                 targetBtn.classList.add('active');
             }
             
-            // Zobrazení/skrytí pole pro popis chyby
-            const errorInput = document.getElementById('errorInput' + part);
-            const errorText = document.getElementById('errorText' + part);
+            // Zobrazení/skrytí sekce pro nedostatky dané části
+            const partSection = document.getElementById('partIssues' + part);
             
             if (status === 'error') {
-                errorInput.style.display = 'block';
-                errorText.focus();
+                if (partSection) {
+                    partSection.style.display = 'block';
+                    // Focus na textarea
+                    setTimeout(() => {
+                        const textarea = document.getElementById('partIssueText' + part);
+                        if (textarea) textarea.focus();
+                    }, 100);
+                }
             } else {
-                errorInput.style.display = 'none';
-                errorText.value = '';
-                // Odeber případný nedostatek pro tuto část
-                docCheckState.issues = docCheckState.issues.filter(i => 
-                    !i.text.startsWith(`Část ${part}.`) && !i.part !== part
-                );
-                renderIssues();
+                if (partSection) {
+                    partSection.style.display = 'none';
+                }
+                // Odeber všechny nedostatky pro tuto část
+                docCheckState.issues = docCheckState.issues.filter(i => i.part !== part);
+                const listEl = document.getElementById('partIssuesList' + part);
+                if (listEl) listEl.innerHTML = '';
+                const textEl = document.getElementById('partIssueText' + part);
+                if (textEl) textEl.value = '';
             }
             
+            updateIssuesVisibility();
             updateDokumentaceResult();
         }
         
-        function updatePartError(part) {
-            const errorText = document.getElementById('errorText' + part).value.trim();
+        // Přidání nedostatku k části dokumentace
+        function addPartIssue(part) {
+            const textarea = document.getElementById('partIssueText' + part);
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                textarea.focus();
+                return;
+            }
+            
             const partNames = {
                 A: 'Průvodní zpráva',
                 B: 'Souhrnná technická zpráva', 
@@ -9272,47 +9861,137 @@
                 D: 'Dokumentace objektů'
             };
             
-            // Odeber starý nedostatek pro tuto část
-            docCheckState.issues = docCheckState.issues.filter(i => i.part !== part);
+            const issueId = 'issue-' + Date.now();
+            const fullText = `Část ${part}. ${partNames[part]}: ${text}`;
             
-            // Přidej nový nedostatek pokud je text vyplněn
-            if (errorText) {
-                const issueText = `Část ${part}. ${partNames[part]}: ${errorText}`;
-                docCheckState.issues.push({ text: issueText, part: part, source: 'manual' });
-            }
+            // Přidat do lokálního stavu
+            docCheckState.issues.push({
+                id: issueId,
+                text: fullText,
+                shortText: text,
+                part: part,
+                source: 'manual'
+            });
             
-            renderIssues();
+            // Přidat do globálního seznamu
+            addGlobalIssue('vyzva', {
+                text: fullText,
+                source: 'manual',
+                controlName: 'Kontrola dokumentace'
+            });
+            
+            // Vyrenderovat nedostatek v UI
+            renderPartIssues(part);
+            
+            // Vyčistit textarea
+            textarea.value = '';
+            textarea.focus();
+            
+            updateIssuesVisibility();
             updateDokumentaceResult();
         }
         
-        // Toggle mezi krátkým a dlouhým textem pro nedostatky
-        function toggleIssueInputType(type) {
-            const btnShort = document.getElementById('btnIssueShort');
-            const btnLong = document.getElementById('btnIssueLong');
-            const inputShort = document.getElementById('issueInputShort');
-            const inputLong = document.getElementById('issueInputLong');
+        // Odebrání nedostatku z části
+        function removePartIssue(issueId, part) {
+            const issue = docCheckState.issues.find(i => i.id === issueId);
+            docCheckState.issues = docCheckState.issues.filter(i => i.id !== issueId);
             
-            if (type === 'short') {
-                btnShort.classList.add('active');
-                btnLong.classList.remove('active');
-                inputShort.style.display = 'flex';
-                inputLong.style.display = 'none';
+            // Odebrat z globálního seznamu
+            if (issue) {
+                const globalIssue = globalIssues.vyzva.find(gi => gi.text === issue.text);
+                if (globalIssue) {
+                    removeGlobalIssue('vyzva', globalIssue.id);
+                }
+            }
+            
+            renderPartIssues(part);
+            updateIssuesVisibility();
+            updateDokumentaceResult();
+        }
+        
+        // Vyrenderování nedostatků pro konkrétní část
+        function renderPartIssues(part) {
+            const list = document.getElementById('partIssuesList' + part);
+            const partIssues = docCheckState.issues.filter(i => i.part === part);
+            
+            if (partIssues.length === 0) {
+                list.innerHTML = '';
+                return;
+            }
+            
+            list.innerHTML = partIssues.map(issue => `
+                <div class="part-issue-item" data-issue-id="${issue.id}">
+                    <div class="part-issue-icon">
+                        <span class="material-icons-outlined">warning</span>
+                    </div>
+                    <div class="part-issue-content">${issue.shortText || issue.text}</div>
+                    <button class="part-issue-remove" onclick="removePartIssue('${issue.id}', '${part}')" title="Odebrat">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        // Aktualizace viditelnosti celé sekce nedostatků
+        function updateIssuesVisibility() {
+            const section = document.getElementById('issuesSection');
+            const emptyState = document.getElementById('issuesEmpty');
+            const countEl = document.getElementById('issuesCount');
+            const autoSection = document.getElementById('autoIssuesSection');
+            
+            const totalIssues = docCheckState.issues.length;
+            const autoIssues = docCheckState.issues.filter(i => i.source === 'auto');
+            const hasPartSections = ['A', 'B', 'C', 'D'].some(p => docCheckState.partStatus[p] === 'error');
+            
+            countEl.textContent = totalIssues;
+            
+            // Zobrazení automatických nedostatků
+            if (autoIssues.length > 0) {
+                autoSection.style.display = 'block';
+                renderAutoIssues();
             } else {
-                btnShort.classList.remove('active');
-                btnLong.classList.add('active');
-                inputShort.style.display = 'none';
-                inputLong.style.display = 'flex';
+                autoSection.style.display = 'none';
+            }
+            
+            // Zobrazení prázdného stavu
+            if (totalIssues === 0 && !hasPartSections) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
             }
         }
         
-        // Přidání nedostatku z dlouhého textu
-        function addIssueLong() {
-            const textarea = document.getElementById('addIssueTextLong');
-            const text = textarea.value.trim();
-            if (!text) return;
+        // Renderování automatických nedostatků
+        function renderAutoIssues() {
+            const list = document.getElementById('autoIssuesList');
+            const autoIssues = docCheckState.issues.filter(i => i.source === 'auto');
             
-            addIssueToList(text);
-            textarea.value = '';
+            list.innerHTML = autoIssues.map(issue => `
+                <div class="part-issue-item" data-issue-id="${issue.id}">
+                    <div class="part-issue-icon">
+                        <span class="material-icons-outlined">auto_awesome</span>
+                    </div>
+                    <div class="part-issue-content">${issue.text}</div>
+                    <button class="part-issue-remove" onclick="removeAutoIssue('${issue.id}')" title="Odebrat">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function removeAutoIssue(issueId) {
+            const issue = docCheckState.issues.find(i => i.id === issueId);
+            docCheckState.issues = docCheckState.issues.filter(i => i.id !== issueId);
+            
+            if (issue) {
+                const globalIssue = globalIssues.vyzva.find(gi => gi.text === issue.text);
+                if (globalIssue) {
+                    removeGlobalIssue('vyzva', globalIssue.id);
+                }
+            }
+            
+            updateIssuesVisibility();
+            updateDokumentaceResult();
         }
         
         function runDocAutoCheck() {
@@ -9337,8 +10016,21 @@
                 const timestampIssue = 'Chybí časové razítko u dokumentu D.1.1.02 Půdorys 1.NP.pdf';
                 const exists = docCheckState.issues.some(i => i.text === timestampIssue);
                 if (!exists) {
-                    docCheckState.issues.push({ text: timestampIssue, source: 'auto' });
-                    renderIssues();
+                    const issueId = 'issue-auto-' + Date.now();
+                    docCheckState.issues.push({ 
+                        id: issueId,
+                        text: timestampIssue, 
+                        source: 'auto' 
+                    });
+                    
+                    // Přidat do globálního seznamu
+                    addGlobalIssue('vyzva', {
+                        text: timestampIssue,
+                        source: 'auto',
+                        controlName: 'Automatická kontrola dokumentace'
+                    });
+                    
+                    updateIssuesVisibility();
                     // Zobrazit potvrzení u položky
                     document.getElementById('checkTimestampAdded').style.display = 'inline';
                 }
@@ -9350,91 +10042,37 @@
         
         function addIssueFromAutoCheck(issueText) {
             // Funkce ponechána pro zpětnou kompatibilitu
-            addIssueToList(issueText);
+            const issueId = 'issue-auto-' + Date.now();
+            docCheckState.issues.push({ 
+                id: issueId,
+                text: issueText, 
+                source: 'auto' 
+            });
+            addGlobalIssue('vyzva', {
+                text: issueText,
+                source: 'auto',
+                controlName: 'Automatická kontrola dokumentace'
+            });
+            updateIssuesVisibility();
+            updateDokumentaceResult();
         }
         
+        // Staré funkce - ponechány pro zpětnou kompatibilitu
         function addIssue() {
-            const textInput = document.getElementById('addIssueText');
-            const issueText = textInput.value.trim();
-            
-            if (!issueText) {
-                alert('Zadejte popis nedostatku');
-                return;
-            }
-            
-            addIssueToList(issueText);
-            textInput.value = '';
+            // Tato funkce už není používána v novém UI
         }
         
         function addIssueToList(issueText, source = 'manual') {
-            const issueId = 'issue-' + Date.now();
-            
-            // Zkontroluj duplicitu
-            if (docCheckState.issues.some(i => i.text === issueText)) {
-                return;
-            }
-            
-            docCheckState.issues.push({
-                id: issueId,
-                text: issueText,
-                source: source
-            });
-            
-            // Přidat do globálního seznamu (typ: výzva k doplnění)
-            addGlobalIssue('vyzva', {
-                text: issueText,
-                source: source,
-                controlName: 'Kontrola dokumentace'
-            });
-            
-            renderIssues();
-            updateDokumentaceResult();
+            // Tato funkce už není používána v novém UI
         }
         
         function removeIssue(issueId) {
-            const issue = docCheckState.issues.find(i => i.id === issueId);
-            docCheckState.issues = docCheckState.issues.filter(i => i.id !== issueId);
-            
-            // Odebrat z globálního seznamu (najít podle textu)
-            if (issue) {
-                const globalIssue = globalIssues.vyzva.find(gi => gi.text === issue.text);
-                if (globalIssue) {
-                    removeGlobalIssue('vyzva', globalIssue.id);
-                }
-            }
-            
-            renderIssues();
-            updateDokumentaceResult();
+            // Tato funkce už není používána v novém UI
         }
         
         function renderIssues() {
-            const list = document.getElementById('issuesList');
-            const section = document.getElementById('issuesSection');
-            const countEl = document.getElementById('issuesCount');
-            
-            if (docCheckState.issues.length === 0) {
-                section.classList.remove('visible');
-                list.innerHTML = '';
-                countEl.textContent = '0';
-                return;
-            }
-            
-            section.classList.add('visible');
-            countEl.textContent = docCheckState.issues.length;
-            
-            list.innerHTML = docCheckState.issues.map(issue => `
-                <div class="issue-item" data-issue-id="${issue.id}">
-                    <div class="issue-item-icon">
-                        <span class="material-icons-outlined">warning</span>
-                    </div>
-                    <div class="issue-item-content">
-                        <div class="issue-item-text">${issue.text}</div>
-                    </div>
-                    <button class="issue-item-remove" onclick="removeIssue('${issue.id}')" title="Odebrat">
-                        <span class="material-icons-outlined">close</span>
-                    </button>
-                </div>
-            `).join('');
+            // Nahrazeno funkcí updateIssuesVisibility
+            updateIssuesVisibility();
         }
         
         function updateDokumentaceResult() {
@@ -9615,6 +10253,9 @@
         function updateUPResult() {
             const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
             const resultBox = document.getElementById('resultUP');
+            const zduvodneniSection = document.getElementById('zduvodneniNesouladuSection');
+            const poznamkySection = document.getElementById('poznamkySouladSection');
+            const btnConfirm = document.querySelector('#controlUP .btn-primary');
 
             if (vysledek === 'soulad') {
                 resultBox.className = 'result-preview positive';
@@ -9625,6 +10266,10 @@
                     </div>
                     <div class="result-preview-text">Záměr je v souladu s platnou územně plánovací dokumentací.</div>
                 `;
+                zduvodneniSection.style.display = 'none';
+                poznamkySection.style.display = 'block';
+                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                btnConfirm.disabled = false;
             } else {
                 resultBox.className = 'result-preview negative';
                 resultBox.innerHTML = `
@@ -9634,6 +10279,27 @@
                     </div>
                     <div class="result-preview-text">Žádost bude zamítnuta z důvodu nesouladu s územně plánovací dokumentací.</div>
                 `;
+                zduvodneniSection.style.display = 'block';
+                poznamkySection.style.display = 'none';
+                // Focus na textarea
+                setTimeout(() => {
+                    document.getElementById('upPoznamky').focus();
+                }, 100);
+                updateUPConfirmButton();
+            }
+        }
+        
+        function updateUPConfirmButton() {
+            const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
+            const btnConfirm = document.querySelector('#controlUP .btn-primary');
+            
+            if (vysledek === 'nesoulad') {
+                const zduvodneni = document.getElementById('upPoznamky').value.trim();
+                btnConfirm.innerHTML = '<span class="material-icons-outlined">gavel</span>Zamítnout žádost';
+                btnConfirm.disabled = !zduvodneni;
+            } else {
+                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                btnConfirm.disabled = false;
             }
         }
 
@@ -11107,14 +11773,32 @@ ${reportContent}
 
         function completeUP() {
             const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
+            const poznamky = document.getElementById('upPoznamky') ? document.getElementById('upPoznamky').value.trim() : '';
             
             controls.up.done = true;
+            
+            // Nejdříve odeber případné staré záznamy o nesouladu z globalIssues
+            globalIssues.zamitnuti = globalIssues.zamitnuti.filter(i => i.controlName !== 'Kontrola souladu s ÚPD');
+            
             if (vysledek === 'soulad') {
                 controls.up.result = 'ok';
             } else {
                 controls.up.result = 'error';
+                
+                // Přidat do globálního seznamu nedostatků (typ: zamítnutí)
+                let issueText = 'Záměr není v souladu s územně plánovací dokumentací';
+                if (poznamky) {
+                    issueText += ': ' + poznamky;
+                }
+                
+                addGlobalIssue('zamitnuti', {
+                    text: issueText,
+                    source: 'manual',
+                    controlName: 'Kontrola souladu s ÚPD'
+                });
             }
             
+            updateGlobalIssuesBadge();
             closeControl('controlUP');
             updateUI();
         }
@@ -11493,15 +12177,6 @@ ${reportContent}
     </div>
     
     <script>
-        // Globální stav nedostatků
-        const globalIssues = {
-            vyzva: [], // Výzva k doplnění + přerušení
-            odlozeni: [], // Odložení žádosti
-            postoupeni: [], // Postoupení
-            staveni: [], // Stavění lhůty
-            zamitnuti: [] // Zamítnutí
-        };
-        
         // Slideout panel funkce
         function openSlideout(panelId) {
             document.getElementById('slideoutOverlay').classList.add('open');
@@ -11552,106 +12227,6 @@ ${reportContent}
         function showActionModal(action) {
             document.getElementById('akceRizeniDropdown').classList.remove('open');
             alert('Akce "' + action + '" - bude implementováno');
-        }
-        
-        // Přidání nedostatku do globálního seznamu
-        function addGlobalIssue(type, issue) {
-            // type: 'vyzva', 'odlozeni', 'postoupeni', 'staveni', 'zamitnuti'
-            const id = 'gi-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-            globalIssues[type].push({
-                id: id,
-                text: issue.text,
-                source: issue.source || 'manual',
-                controlName: issue.controlName || '',
-                resolved: false,
-                timestamp: new Date().toISOString()
-            });
-            updateGlobalIssuesBadge();
-            return id;
-        }
-        
-        function removeGlobalIssue(type, id) {
-            globalIssues[type] = globalIssues[type].filter(i => i.id !== id);
-            updateGlobalIssuesBadge();
-            renderGlobalIssues();
-        }
-        
-        function resolveGlobalIssue(type, id) {
-            const issue = globalIssues[type].find(i => i.id === id);
-            if (issue) {
-                issue.resolved = !issue.resolved;
-                updateGlobalIssuesBadge();
-                renderGlobalIssues();
-            }
-        }
-        
-        function updateGlobalIssuesBadge() {
-            const total = Object.values(globalIssues).reduce((sum, arr) => 
-                sum + arr.filter(i => !i.resolved).length, 0);
-            
-            const badge = document.getElementById('nedostatkyBadge');
-            const btn = document.getElementById('btnNedostatky');
-            
-            badge.textContent = total;
-            
-            if (total > 0) {
-                btn.classList.add('has-issues');
-                badge.style.display = '';
-            } else {
-                btn.classList.remove('has-issues');
-                badge.style.display = 'none';
-            }
-        }
-        
-        function renderGlobalIssues() {
-            const types = [
-                { key: 'vyzva', listId: 'listVyzva', badgeId: 'badgeVyzva', emptyText: 'Žádné nedostatky', iconClass: 'warning' },
-                { key: 'odlozeni', listId: 'listOdlozeni', badgeId: 'badgeOdlozeni', emptyText: 'Žádné závažné vady', iconClass: 'error' },
-                { key: 'postoupeni', listId: 'listPostoupeni', badgeId: 'badgePostoupeni', emptyText: 'SÚ je příslušný', iconClass: 'warning' },
-                { key: 'staveni', listId: 'listStaveni', badgeId: 'badgeStaveni', emptyText: 'Všechna stanoviska jsou k dispozici', iconClass: 'warning' },
-                { key: 'zamitnuti', listId: 'listZamitnuti', badgeId: 'badgeZamitnuti', emptyText: 'Žádné důvody pro zamítnutí', iconClass: 'error' }
-            ];
-            
-            types.forEach(t => {
-                const list = document.getElementById(t.listId);
-                const badge = document.getElementById(t.badgeId);
-                const issues = globalIssues[t.key];
-                const unresolvedCount = issues.filter(i => !i.resolved).length;
-                
-                badge.textContent = unresolvedCount;
-                
-                if (issues.length === 0) {
-                    list.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #9aa0a6; font-size: 13px;">
-                            <span class="material-icons-outlined" style="font-size: 32px; margin-bottom: 8px; display: block;">check_circle</span>
-                            ${t.emptyText}
-                        </div>
-                    `;
-                } else {
-                    list.innerHTML = issues.map(issue => `
-                        <div class="global-issue-item ${issue.resolved ? 'resolved' : ''}">
-                            <div class="global-issue-icon ${issue.resolved ? 'resolved' : t.iconClass}">
-                                <span class="material-icons-outlined">${issue.resolved ? 'check' : 'warning'}</span>
-                            </div>
-                            <div class="global-issue-content">
-                                <div class="global-issue-text">${issue.text}</div>
-                                <div class="global-issue-meta">
-                                    ${issue.controlName ? issue.controlName + ' • ' : ''}
-                                    ${issue.source === 'auto' ? 'Automaticky zjištěno' : 'Ručně přidáno'}
-                                </div>
-                            </div>
-                            <div class="global-issue-actions">
-                                <button class="global-issue-btn resolve" onclick="resolveGlobalIssue('${t.key}', '${issue.id}')" title="${issue.resolved ? 'Označit jako nevyřešené' : 'Označit jako vyřešené'}">
-                                    <span class="material-icons-outlined">${issue.resolved ? 'undo' : 'check'}</span>
-                                </button>
-                                <button class="global-issue-btn" onclick="removeGlobalIssue('${t.key}', '${issue.id}')" title="Odebrat">
-                                    <span class="material-icons-outlined">close</span>
-                                </button>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            });
         }
         
         function exportNedostatky() {
