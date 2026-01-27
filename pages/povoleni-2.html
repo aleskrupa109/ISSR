@@ -4092,6 +4092,11 @@
             overflow: hidden;
         }
         
+        .osoby-pozemky-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
         /* Pravý sloupec - Účastníci */
         .osoby-col-ucastnici {
             flex: 1;
@@ -4106,13 +4111,14 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 12px;
-            min-height: 42px;
+            padding: 8px 12px;
+            height: 44px;
             background: #004289;
             color: #fff;
             font-size: 13px;
             font-weight: 600;
             box-sizing: border-box;
+            flex-shrink: 0;
         }
         
         .osoby-col-header .material-icons-outlined {
@@ -4145,6 +4151,8 @@
         /* Bloky pozemků */
         .pozemky-blok {
             border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
         }
         
         .pozemky-blok-header {
@@ -4156,6 +4164,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex-shrink: 0;
         }
         
         .pozemky-blok-header.zamer {
@@ -4176,7 +4185,6 @@
         }
         
         .pozemky-blok-list {
-            max-height: 200px;
             overflow-y: auto;
         }
         
@@ -4313,14 +4321,14 @@
             display: none;
             position: absolute;
             top: 100%;
-            left: 0;
+            right: 0;
             margin-top: 2px;
             background: #fff;
             border: 1px solid #dadce0;
             border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            z-index: 100;
-            min-width: 140px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 9999;
+            min-width: 150px;
         }
         
         .lv-dropdown.show {
@@ -9167,64 +9175,66 @@
                             </button>
                         </div>
                         
-                        <!-- Pozemky záměru -->
-                        <div class="pozemky-blok">
-                            <div class="pozemky-blok-header zamer">
-                                <span class="pozemky-blok-title">Pozemky záměru</span>
-                                <span class="pozemky-blok-count" id="countZamer">2</span>
+                        <div class="osoby-pozemky-content">
+                            <!-- Pozemky záměru -->
+                            <div class="pozemky-blok">
+                                <div class="pozemky-blok-header zamer">
+                                    <span class="pozemky-blok-title">Pozemky záměru</span>
+                                    <span class="pozemky-blok-count" id="countZamer">2</span>
+                                </div>
+                                <div class="pozemky-blok-list" id="listPozemkyZameru">
+                                    <div class="pozemek-item" data-parcela="st. 123">
+                                        <span class="pozemek-parcela">st. 123</span>
+                                        <span class="pozemek-ku">Jaroměř</span>
+                                        <span class="pozemek-vlastnik" id="vl-st123">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 123', 'Jaroměř')">Ověřit</button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="456/1">
+                                        <span class="pozemek-parcela">456/1</span>
+                                        <span class="pozemek-ku">Jaroměř</span>
+                                        <span class="pozemek-vlastnik" id="vl-4561">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('456/1', 'Jaroměř')">Ověřit</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="pozemky-blok-list" id="listPozemkyZameru">
-                                <div class="pozemek-item" data-parcela="st. 123">
-                                    <span class="pozemek-parcela">st. 123</span>
-                                    <span class="pozemek-ku">Jaroměř</span>
-                                    <span class="pozemek-vlastnik" id="vl-st123">—</span>
-                                    <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                    <button class="btn-overit-sm" onclick="overitPozemekKN('st. 123', 'Jaroměř')">Ověřit</button>
+                            
+                            <!-- Sousední pozemky -->
+                            <div class="pozemky-blok">
+                                <div class="pozemky-blok-header soused">
+                                    <span class="pozemky-blok-title">Sousední pozemky</span>
+                                    <span class="pozemky-blok-count" id="countSoused">4</span>
                                 </div>
-                                <div class="pozemek-item" data-parcela="456/1">
-                                    <span class="pozemek-parcela">456/1</span>
-                                    <span class="pozemek-ku">Jaroměř</span>
-                                    <span class="pozemek-vlastnik" id="vl-4561">—</span>
-                                    <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                    <button class="btn-overit-sm" onclick="overitPozemekKN('456/1', 'Jaroměř')">Ověřit</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Sousední pozemky -->
-                        <div class="pozemky-blok">
-                            <div class="pozemky-blok-header soused">
-                                <span class="pozemky-blok-title">Sousední pozemky</span>
-                                <span class="pozemky-blok-count" id="countSoused">4</span>
-                            </div>
-                            <div class="pozemky-blok-list" id="listSousedniPozemky">
-                                <div class="pozemek-item" data-parcela="st. 122">
-                                    <span class="pozemek-parcela">st. 122</span>
-                                    <span class="pozemek-ku">Jaroměř</span>
-                                    <span class="pozemek-vlastnik" id="vl-st122">—</span>
-                                    <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                    <button class="btn-overit-sm" onclick="overitPozemekKN('st. 122', 'Jaroměř')">Ověřit</button>
-                                </div>
-                                <div class="pozemek-item" data-parcela="st. 124">
-                                    <span class="pozemek-parcela">st. 124</span>
-                                    <span class="pozemek-ku">Jaroměř</span>
-                                    <span class="pozemek-vlastnik" id="vl-st124">—</span>
-                                    <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                    <button class="btn-overit-sm" onclick="overitPozemekKN('st. 124', 'Jaroměř')">Ověřit</button>
-                                </div>
-                                <div class="pozemek-item" data-parcela="456/2">
-                                    <span class="pozemek-parcela">456/2</span>
-                                    <span class="pozemek-ku">Jaroměř</span>
-                                    <span class="pozemek-vlastnik" id="vl-4562">—</span>
-                                    <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                    <button class="btn-overit-sm" onclick="overitPozemekKN('456/2', 'Jaroměř')">Ověřit</button>
-                                </div>
-                                <div class="pozemek-item" data-parcela="457">
-                                    <span class="pozemek-parcela">457</span>
-                                    <span class="pozemek-ku">Jaroměř</span>
-                                    <span class="pozemek-vlastnik" id="vl-457">—</span>
-                                    <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                    <button class="btn-overit-sm" onclick="overitPozemekKN('457', 'Jaroměř')">Ověřit</button>
+                                <div class="pozemky-blok-list" id="listSousedniPozemky">
+                                    <div class="pozemek-item" data-parcela="st. 122">
+                                        <span class="pozemek-parcela">st. 122</span>
+                                        <span class="pozemek-ku">Jaroměř</span>
+                                        <span class="pozemek-vlastnik" id="vl-st122">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 122', 'Jaroměř')">Ověřit</button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="st. 124">
+                                        <span class="pozemek-parcela">st. 124</span>
+                                        <span class="pozemek-ku">Jaroměř</span>
+                                        <span class="pozemek-vlastnik" id="vl-st124">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 124', 'Jaroměř')">Ověřit</button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="456/2">
+                                        <span class="pozemek-parcela">456/2</span>
+                                        <span class="pozemek-ku">Jaroměř</span>
+                                        <span class="pozemek-vlastnik" id="vl-4562">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('456/2', 'Jaroměř')">Ověřit</button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="457">
+                                        <span class="pozemek-parcela">457</span>
+                                        <span class="pozemek-ku">Jaroměř</span>
+                                        <span class="pozemek-vlastnik" id="vl-457">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('457', 'Jaroměř')">Ověřit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
