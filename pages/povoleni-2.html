@@ -4407,7 +4407,6 @@
         }
         
         .btn-add-osoba {
-            margin-left: auto;
             display: inline-flex;
             align-items: center;
             gap: 4px;
@@ -4427,6 +4426,152 @@
         
         .btn-add-osoba .material-icons-outlined {
             font-size: 14px;
+        }
+        
+        /* Hlavička - akce */
+        .osoby-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+        
+        .btn-overit-osoby {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        .btn-overit-osoby:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .btn-overit-osoby .material-icons-outlined {
+            font-size: 14px;
+        }
+        
+        /* Tlačítko ověřit osobu */
+        .btn-overit-osobu {
+            padding: 4px;
+            background: #fff3e0;
+            border: none;
+            border-radius: 4px;
+            color: #e65100;
+            cursor: pointer;
+        }
+        
+        .btn-overit-osobu:hover {
+            background: #ffe0b2;
+        }
+        
+        .btn-overit-osobu .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        /* Status ověření */
+        .os-status.pending {
+            color: #f9ab00;
+        }
+        
+        /* Adresa neověřeno */
+        .os-adresa-neovereno {
+            color: #9aa0a6;
+            font-style: italic;
+        }
+        
+        /* DS info */
+        .os-ds-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 8px;
+            padding: 2px 6px;
+            background: #e3f2fd;
+            border-radius: 3px;
+            font-size: 10px;
+            color: #1565c0;
+        }
+        
+        .os-ds-info .material-icons-outlined {
+            font-size: 12px;
+        }
+        
+        /* Tlačítko doručování */
+        .btn-dorucovani {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s;
+            overflow: hidden;
+        }
+        
+        .btn-dorucovani .material-icons-outlined {
+            font-size: 18px;
+            line-height: 1;
+        }
+        
+        .btn-dorucovani.ds {
+            background: #e3f2fd;
+            border-color: #64b5f6;
+            color: #1565c0;
+        }
+        
+        .btn-dorucovani.ds:hover {
+            background: #bbdefb;
+        }
+        
+        .btn-dorucovani.posta {
+            background: #fff3e0;
+            border-color: #ffb74d;
+            color: #ef6c00;
+        }
+        
+        .btn-dorucovani.posta:hover {
+            background: #ffe0b2;
+        }
+        
+        .btn-dorucovani.nedorucovat {
+            background: #ffebee;
+            border-color: #ef9a9a;
+            color: #c62828;
+            position: relative;
+        }
+        
+        .btn-dorucovani.nedorucovat:hover {
+            background: #ffcdd2;
+        }
+        
+        .doruc-ceka {
+            color: #9aa0a6;
+            font-size: 12px;
+        }
+        
+        /* Loading / rotating icon */
+        .os-status.loading {
+            color: #5f6368;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .rotating {
+            animation: rotate 1s linear infinite;
         }
         
         /* Panely tabů */
@@ -4624,6 +4769,302 @@
         
         .text-center {
             text-align: center;
+        }
+
+        /* ==========================================
+           ZÁSTUPCI - TOOLBAR A FORMULÁŘ
+           ========================================== */
+        .zastupci-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .zastupci-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .zastupci-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .zastupci-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        
+        .zastupci-info .material-icons-outlined {
+            font-size: 16px;
+            color: #1a73e8;
+        }
+        
+        .btn-outline {
+            background: #fff;
+            border: 1px solid #dadce0;
+            color: #5f6368;
+        }
+        
+        .btn-outline:hover {
+            background: #f8f9fa;
+            border-color: #bdc1c6;
+        }
+        
+        /* Doručování toggle */
+        .dorucovat-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .dorucovat-toggle input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .dorucovat-label {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        
+        .dorucovat-label.yes {
+            color: #137333;
+        }
+        
+        .dorucovat-label.no {
+            color: #c5221f;
+        }
+        
+        /* Zastupuje badge */
+        .zastupuje-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            background: #e8f1fa;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #1565c0;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+        
+        .zastupuje-badge .material-icons-outlined {
+            font-size: 12px;
+        }
+        
+        .zastupuje-cell {
+            max-width: 250px;
+        }
+        
+        /* Modal formulář sekce */
+        .form-section {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e8eaed;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .form-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 12px;
+        }
+        
+        .form-row {
+            margin-bottom: 12px;
+        }
+        
+        .form-row-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .form-row-3col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .form-row-ico {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+        
+        .btn-verify-ico {
+            height: 36px;
+            white-space: nowrap;
+        }
+        
+        .form-verify-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .verify-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+        
+        .verify-status.loading {
+            color: #5f6368;
+        }
+        
+        .verify-status.success {
+            color: #137333;
+        }
+        
+        .verify-status.error {
+            color: #c5221f;
+        }
+        
+        .verify-status .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .form-input[readonly] {
+            background: #f8f9fa;
+            color: #5f6368;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-bottom: 4px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        .form-radio-group {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .form-radio {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .form-radio input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .form-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .form-hint {
+            font-size: 11px;
+            color: #5f6368;
+            margin: 0;
+        }
+        
+        /* Zastupovaní list */
+        .zastupovani-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
+        .zastupovani-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        
+        .zastupovani-item:last-child {
+            border-bottom: none;
+        }
+        
+        .zastupovani-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .zastupovani-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .zastupovani-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .zastupovani-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        
+        .zastupovani-role {
+            font-size: 11px;
+            color: #5f6368;
         }
 
         .btn-save-draft {
@@ -6769,7 +7210,8 @@
             display: flex;
         }
 
-        .modal {
+        .modal,
+        .modal-dialog {
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -9254,10 +9696,16 @@
                                     Další osoby <span class="osoby-tab-count" id="tabCountDalsi">1</span>
                                 </button>
                             </div>
-                            <button class="btn-add-osoba" onclick="addUcastnik('manual')">
-                                <span class="material-icons-outlined">add</span>
-                                Přidat
-                            </button>
+                            <div class="osoby-header-actions">
+                                <button class="btn-overit-osoby" onclick="overitVsechnyOsoby()">
+                                    <span class="material-icons-outlined">verified_user</span>
+                                    Ověřit všechny
+                                </button>
+                                <button class="btn-add-osoba" onclick="addUcastnik('manual')">
+                                    <span class="material-icons-outlined">add</span>
+                                    Přidat
+                                </button>
+                            </div>
                         </div>
                         
                         <!-- Panel: Účastníci -->
@@ -9265,25 +9713,34 @@
                             <table class="osoby-table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 24px;"></th>
+                                        <th style="width: 28px;"></th>
                                         <th>Účastník</th>
                                         <th>Adresa / Poznámka</th>
-                                        <th>Zdroj</th>
-                                        <th style="width: 100px;"></th>
+                                        <th style="width: 50px;">Zdroj</th>
+                                        <th style="width: 60px;">Doruč.</th>
+                                        <th style="width: 110px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyUcastnici">
                                     <!-- Stavebník -->
                                     <tr class="osoby-kategorie-row">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <span class="kategorie-label">Stavebník / Žadatel</span>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                                    <tr data-osoba-id="jan-novak" data-overeno="true">
+                                        <td><span class="os-status ok" title="Ověřeno z Portálu stavebníka"><span class="material-icons-outlined">check_circle</span></span></td>
                                         <td><strong>Jan Novák</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                                        <td>Květná 123, 110 00 Praha 1</td>
+                                        <td>
+                                            Květná 123, 110 00 Praha 1
+                                            <span class="os-ds-info"><span class="material-icons-outlined">forward_to_inbox</span> abc123x</span>
+                                        </td>
                                         <td><span class="os-zdroj zdroj-zadost">žádost</span></td>
+                                        <td>
+                                            <button class="btn-dorucovani ds" onclick="toggleDorucovani(this)" title="Doručit do datové schránky" data-stav="ds" data-ds="abc123x">
+                                                <span class="material-icons-outlined">forward_to_inbox</span>
+                                            </button>
+                                        </td>
                                         <td class="os-actions">
                                             <button onclick="toggleOblibeny(this)" title="Oblíbený"><span class="material-icons-outlined">star_border</span></button>
                                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
@@ -9293,16 +9750,22 @@
                                     
                                     <!-- Obec -->
                                     <tr class="osoby-kategorie-row">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <span class="kategorie-label">Obec</span>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                                    <tr data-osoba-id="mesto-jaromer" data-overeno="false">
+                                        <td><span class="os-status pending" title="Neověřeno"><span class="material-icons-outlined">help_outline</span></span></td>
                                         <td><strong>Město Jaroměř</strong><br><small class="text-muted">Právnická osoba</small></td>
-                                        <td>nám. ČSA 16, 551 01 Jaroměř</td>
+                                        <td class="os-adresa-neovereno">—</td>
                                         <td><span class="os-zdroj zdroj-ku">k.ú.</span></td>
+                                        <td>
+                                            <span class="doruc-ceka" title="Čeká na ověření">—</span>
+                                        </td>
                                         <td class="os-actions">
+                                            <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku">
+                                                <span class="material-icons-outlined">verified_user</span>
+                                            </button>
                                             <button class="is-favorited" onclick="toggleOblibeny(this)" title="V oblíbených"><span class="material-icons-outlined">star</span></button>
                                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
                                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
@@ -9311,13 +9774,13 @@
                                     
                                     <!-- Vlastníci pozemků záměru -->
                                     <tr class="osoby-kategorie-row" id="katVlastniciZameru">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <span class="kategorie-label">Vlastníci pozemků záměru</span>
                                             <span class="kategorie-stav ceka">čeká na ověření z KN</span>
                                         </td>
                                     </tr>
                                     <tr class="osoby-empty-row" id="emptyVlastniciZameru">
-                                        <td colspan="5" class="text-center text-muted">
+                                        <td colspan="6" class="text-center text-muted">
                                             <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">hourglass_empty</span>
                                             Ověřte pozemky záměru
                                         </td>
@@ -9325,13 +9788,13 @@
                                     
                                     <!-- Vlastníci sousedních pozemků -->
                                     <tr class="osoby-kategorie-row" id="katVlastniciSousedi">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <span class="kategorie-label">Vlastníci sousedních pozemků</span>
                                             <span class="kategorie-stav ceka">čeká na ověření z KN</span>
                                         </td>
                                     </tr>
                                     <tr class="osoby-empty-row" id="emptyVlastniciSousedi">
-                                        <td colspan="5" class="text-center text-muted">
+                                        <td colspan="6" class="text-center text-muted">
                                             <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">hourglass_empty</span>
                                             Ověřte sousední pozemky
                                         </td>
@@ -9339,12 +9802,12 @@
                                     
                                     <!-- Ostatní účastníci -->
                                     <tr class="osoby-kategorie-row">
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <span class="kategorie-label">Ostatní účastníci</span>
                                         </td>
                                     </tr>
                                     <tr class="osoby-empty-row">
-                                        <td colspan="5" class="text-center text-muted">—</td>
+                                        <td colspan="6" class="text-center text-muted">—</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -9352,14 +9815,47 @@
                         
                         <!-- Panel: Zástupci -->
                         <div class="osoby-tab-panel" id="tabPanelZastupci">
-                            <div class="osoby-empty-panel">
-                                <span class="material-icons-outlined">supervisor_account</span>
-                                <p>Žádní zástupci</p>
-                                <button class="btn btn-secondary btn-sm" onclick="addZastupce()">
-                                    <span class="material-icons-outlined">add</span>
-                                    Přidat zástupce
-                                </button>
+                            <!-- Toolbar zástupců -->
+                            <div class="zastupci-toolbar">
+                                <div class="zastupci-toolbar-left">
+                                    <span class="zastupci-info">
+                                        <span class="material-icons-outlined">info</span>
+                                        Zástupce doručuje místo zastupovaného účastníka
+                                    </span>
+                                </div>
+                                <div class="zastupci-toolbar-right">
+                                    <button class="btn btn-sm btn-secondary" onclick="openPridatZastupceModal()">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat zástupce
+                                    </button>
+                                    <button class="btn btn-sm btn-outline" onclick="pridatZastupceZOblibenych()">
+                                        <span class="material-icons-outlined">star</span>
+                                        Z oblíbených
+                                    </button>
+                                </div>
                             </div>
+                            
+                            <!-- Tabulka zástupců -->
+                            <table class="osoby-table" id="tableZastupci">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 24px;"></th>
+                                        <th>Zástupce</th>
+                                        <th>Zastupovaný</th>
+                                        <th>Role zastupovaného</th>
+                                        <th style="width: 90px;">Doručovat</th>
+                                        <th style="width: 100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyZastupci">
+                                    <tr class="osoby-empty-row" id="emptyZastupci">
+                                        <td colspan="6" class="text-center text-muted">
+                                            <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">supervisor_account</span>
+                                            Žádní zástupci — přidejte zástupce tlačítkem výše
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         
                         <!-- Panel: Další osoby -->
@@ -9410,6 +9906,152 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Přidat zástupce -->
+    <div class="modal-overlay" id="modalPridatZastupce" style="display: none;">
+        <div class="modal-dialog" style="max-width: 550px;">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <span class="material-icons-outlined">supervisor_account</span>
+                    Přidat zástupce
+                </h3>
+                <button class="modal-close" onclick="closeModalZastupce()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Krok 1: Údaje o zástupci -->
+                <div class="form-section">
+                    <div class="form-section-title">1. Údaje o zástupci</div>
+                    
+                    <div class="form-row">
+                        <label class="form-label">Typ osoby</label>
+                        <div class="form-radio-group">
+                            <label class="form-radio">
+                                <input type="radio" name="zastupce_typ" value="FO" checked onchange="toggleZastupceForm()">
+                                <span>Fyzická osoba</span>
+                            </label>
+                            <label class="form-radio">
+                                <input type="radio" name="zastupce_typ" value="PO" onchange="toggleZastupceForm()">
+                                <span>Právnická osoba</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- FO formulář -->
+                    <div id="zastupceFormFO">
+                        <div class="form-row-3col">
+                            <div class="form-group">
+                                <label class="form-label">Jméno *</label>
+                                <input type="text" class="form-input" id="zastupceJmeno" placeholder="Jan">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Příjmení *</label>
+                                <input type="text" class="form-input" id="zastupcePrijmeni" placeholder="Novák">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Datum narození *</label>
+                                <input type="date" class="form-input" id="zastupceDatumNarozeni">
+                            </div>
+                        </div>
+                        <div class="form-verify-row">
+                            <button type="button" class="btn btn-sm btn-outline" onclick="overitZastupceZRejstriku('FO')">
+                                <span class="material-icons-outlined">verified_user</span>
+                                Ověřit z rejstříku
+                            </button>
+                            <span class="verify-status" id="verifyStatusFO"></span>
+                        </div>
+                        
+                        <!-- Doplněné údaje po ověření -->
+                        <div id="zastupceDetailFO" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">Adresa trvalého pobytu</label>
+                                <input type="text" class="form-input" id="zastupceAdresaFO" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PO formulář -->
+                    <div id="zastupceFormPO" style="display: none;">
+                        <div class="form-row-ico">
+                            <div class="form-group" style="flex: 1;">
+                                <label class="form-label">IČO *</label>
+                                <input type="text" class="form-input" id="zastupceICO" placeholder="12345678" maxlength="8">
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline btn-verify-ico" onclick="overitZastupceZRejstriku('PO')">
+                                <span class="material-icons-outlined">verified_user</span>
+                                Ověřit z rejstříku
+                            </button>
+                        </div>
+                        <span class="verify-status" id="verifyStatusPO"></span>
+                        
+                        <!-- Doplněné údaje po ověření -->
+                        <div id="zastupceDetailPO" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">Název organizace</label>
+                                <input type="text" class="form-input" id="zastupceNazev" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sídlo</label>
+                                <input type="text" class="form-input" id="zastupceAdresaPO" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Krok 2: Výběr zastupovaných -->
+                <div class="form-section">
+                    <div class="form-section-title">2. Zastupované osoby</div>
+                    <p class="form-hint">Vyberte účastníky, které bude zástupce zastupovat. Lze vybrat více osob.</p>
+                    
+                    <div class="zastupovani-list" id="zastupovaniList">
+                        <!-- Stavebník -->
+                        <label class="zastupovani-item">
+                            <input type="checkbox" name="zastupovani" value="jan-novak">
+                            <div class="zastupovani-info">
+                                <span class="zastupovani-name">Jan Novák</span>
+                                <span class="zastupovani-role">Stavebník / Žadatel</span>
+                            </div>
+                        </label>
+                        
+                        <!-- Obec -->
+                        <label class="zastupovani-item">
+                            <input type="checkbox" name="zastupovani" value="mesto-jaromer">
+                            <div class="zastupovani-info">
+                                <span class="zastupovani-name">Město Jaroměř</span>
+                                <span class="zastupovani-role">Obec</span>
+                            </div>
+                        </label>
+                        
+                        <!-- Další účastníci se přidají dynamicky po ověření z KN -->
+                        <div id="zastupovaniDynamicList"></div>
+                    </div>
+                </div>
+                
+                <!-- Krok 3: Nastavení doručování -->
+                <div class="form-section">
+                    <div class="form-section-title">3. Nastavení doručování</div>
+                    
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="zastupceNedorucovat" checked>
+                        <span>Nedoručovat zastupovaným osobám <small class="text-muted">(doporučeno)</small></span>
+                    </label>
+                    
+                    <p class="form-hint" style="margin-top: 8px;">
+                        <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">info</span>
+                        Pokud je zaškrtnuto, dokumenty budou doručovány pouze zástupci, nikoliv zastupovaným osobám.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModalZastupce()">Zrušit</button>
+                <button class="btn btn-primary" onclick="pridatZastupce()">
+                    <span class="material-icons-outlined">add</span>
+                    Přidat zástupce
+                </button>
             </div>
         </div>
     </div>
@@ -13238,27 +13880,31 @@ ${reportContent}
                 }
             }
             
-            // Odstranit prázdný řádek vlastníků záměru
+            // Odstranit prázdný řádek vlastníků záměru - přidat jako NEOVĚŘENÉ
             const emptyZameru = document.getElementById('emptyVlastniciZameru');
             if (emptyZameru) {
                 emptyZameru.outerHTML = `
-                    <tr>
-                        <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                    <tr data-osoba-id="jan-novak-kn" data-overeno="false">
+                        <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
                         <td><strong>Jan Novák</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                        <td>Květná 123, 110 00 Praha 1</td>
+                        <td class="os-adresa-neovereno">—</td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
+                        <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
+                            <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
                             <button onclick="toggleOblibeny(this)" title="Oblíbený"><span class="material-icons-outlined">star_border</span></button>
                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
                         </td>
                     </tr>
-                    <tr style="background: #fffde7;">
-                        <td><span class="os-status vecne"><span class="material-icons-outlined">gavel</span></span></td>
+                    <tr data-osoba-id="cez-distribuce-vb" data-overeno="false" style="background: #fffde7;">
+                        <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
                         <td><strong>ČEZ Distribuce, a. s.</strong><br><small class="text-muted">Právnická osoba</small></td>
                         <td><span class="os-role">věcné břemeno</span> k p. 456/1</td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
+                        <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
+                            <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
                             <button class="is-favorited" onclick="toggleOblibeny(this)" title="V oblíbených"><span class="material-icons-outlined">star</span></button>
                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
@@ -13277,38 +13923,44 @@ ${reportContent}
                 }
             }
             
-            // Odstranit prázdný řádek sousedů
+            // Odstranit prázdný řádek sousedů - přidat jako NEOVĚŘENÉ
             const emptySousedi = document.getElementById('emptyVlastniciSousedi');
             if (emptySousedi) {
                 emptySousedi.outerHTML = `
-                    <tr>
-                        <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                    <tr data-osoba-id="marie-vesela" data-overeno="false">
+                        <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
                         <td><strong>Marie Veselá</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                        <td>Růžová 45, 551 01 Jaroměř</td>
+                        <td class="os-adresa-neovereno">—</td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
+                        <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
+                            <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
                             <button onclick="toggleOblibeny(this)" title="Oblíbený"><span class="material-icons-outlined">star_border</span></button>
                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
                         </td>
                     </tr>
-                    <tr>
-                        <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                    <tr data-osoba-id="petr-svoboda" data-overeno="false">
+                        <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
                         <td><strong>Petr Svoboda</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                        <td>Lipová 78, 551 01 Jaroměř</td>
+                        <td class="os-adresa-neovereno">—</td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
+                        <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
+                            <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
                             <button onclick="toggleOblibeny(this)" title="Oblíbený"><span class="material-icons-outlined">star_border</span></button>
                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
                         </td>
                     </tr>
-                    <tr>
-                        <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                    <tr data-osoba-id="cez-distribuce" data-overeno="false">
+                        <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
                         <td><strong>ČEZ Distribuce, a. s.</strong><br><small class="text-muted">Právnická osoba</small></td>
-                        <td>Teplická 874/8, 405 02 Děčín</td>
+                        <td class="os-adresa-neovereno">—</td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
+                        <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
+                            <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
                             <button class="is-favorited" onclick="toggleOblibeny(this)" title="V oblíbených"><span class="material-icons-outlined">star</span></button>
                             <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
@@ -13320,6 +13972,536 @@ ${reportContent}
             // Aktualizovat počty
             const countEl = document.getElementById('tabCountUcastnici');
             if (countEl) countEl.textContent = '7';
+        }
+        
+        // ==========================================
+        // OVĚŘOVÁNÍ OSOB - FUNKCE
+        // ==========================================
+        
+        // Simulovaná data z rejstříků ROB/ROS
+        const rejstrikData = {
+            'jan-novak': { adresa: 'Květná 123, 110 00 Praha 1', ds: 'abc123x', typ: 'FO' },
+            'jan-novak-kn': { adresa: 'Květná 123, 110 00 Praha 1', ds: 'abc123x', typ: 'FO' },
+            'mesto-jaromer': { adresa: 'nám. ČSA 16, 551 01 Jaroměř', ds: 'xyz789m', typ: 'PO' },
+            'cez-distribuce-vb': { adresa: 'Teplická 874/8, 405 02 Děčín', ds: 'cezdis01', typ: 'PO' },
+            'cez-distribuce': { adresa: 'Teplická 874/8, 405 02 Děčín', ds: 'cezdis01', typ: 'PO' },
+            'marie-vesela': { adresa: 'Růžová 45, 551 01 Jaroměř', ds: null, typ: 'FO' },
+            'petr-svoboda': { adresa: 'Lipová 78, 551 01 Jaroměř', ds: null, typ: 'FO' }
+        };
+        
+        // Ověřit všechny neověřené osoby
+        function overitVsechnyOsoby() {
+            const neovereneOsoby = document.querySelectorAll('#tbodyUcastnici tr[data-overeno="false"]');
+            
+            if (neovereneOsoby.length === 0) {
+                showToast('Všechny osoby jsou již ověřeny');
+                return;
+            }
+            
+            showToast(`Ověřuji ${neovereneOsoby.length} osob z ROS/ROB...`);
+            
+            let delay = 0;
+            neovereneOsoby.forEach((row, index) => {
+                setTimeout(() => {
+                    overitOsobuRow(row);
+                }, delay);
+                delay += 300;
+            });
+            
+            setTimeout(() => {
+                showToast('Všechny osoby byly ověřeny');
+            }, delay + 200);
+        }
+        
+        // Ověřit jednu osobu (kliknutím na tlačítko)
+        function overitOsobu(btn) {
+            const row = btn.closest('tr');
+            if (!row) return;
+            
+            overitOsobuRow(row);
+            showToast('Osoba byla ověřena');
+        }
+        
+        // Interní funkce pro ověření řádku
+        function overitOsobuRow(row) {
+            const osobaId = row.getAttribute('data-osoba-id');
+            const data = rejstrikData[osobaId];
+            
+            // Aktualizovat status na ověřeno
+            const statusCell = row.querySelector('.os-status');
+            if (statusCell) {
+                statusCell.className = 'os-status ok';
+                statusCell.title = 'Ověřeno z ROB/ROS';
+                statusCell.innerHTML = '<span class="material-icons-outlined">check_circle</span>';
+            }
+            
+            // Aktualizovat adresu
+            const adresaCell = row.querySelector('td:nth-child(3)');
+            if (adresaCell && data) {
+                // Zachovat případnou poznámku (věcné břemeno)
+                const role = adresaCell.querySelector('.os-role');
+                let content = data.adresa;
+                
+                if (role) {
+                    content = role.outerHTML + ' ' + content;
+                }
+                
+                // Přidat DS info pokud existuje
+                if (data.ds) {
+                    content += ` <span class="os-ds-info"><span class="material-icons-outlined">forward_to_inbox</span> ${data.ds}</span>`;
+                }
+                
+                adresaCell.innerHTML = content;
+                adresaCell.classList.remove('os-adresa-neovereno');
+            }
+            
+            // Aktualizovat doručování
+            const dorucCell = row.querySelector('td:nth-child(5)');
+            if (dorucCell && data) {
+                if (data.ds) {
+                    // Má datovou schránku - defaultně doručovat do DS
+                    dorucCell.innerHTML = `
+                        <button class="btn-dorucovani ds" onclick="toggleDorucovani(this)" title="Doručit do datové schránky" data-stav="ds" data-ds="${data.ds}">
+                            <span class="material-icons-outlined">forward_to_inbox</span>
+                        </button>
+                    `;
+                } else {
+                    // Nemá DS - doručovat poštou
+                    dorucCell.innerHTML = `
+                        <button class="btn-dorucovani posta" onclick="toggleDorucovani(this)" title="Doručit poštou" data-stav="posta">
+                            <span class="material-icons-outlined">mail</span>
+                        </button>
+                    `;
+                }
+            }
+            
+            // Odstranit tlačítko ověřit
+            const overitBtn = row.querySelector('.btn-overit-osobu');
+            if (overitBtn) {
+                overitBtn.remove();
+            }
+            
+            // Označit jako ověřeno
+            row.setAttribute('data-overeno', 'true');
+        }
+        
+        // Přepínání způsobu doručování: DS -> Pošta -> Nedoručovat -> DS/Pošta
+        function toggleDorucovani(btn) {
+            const stav = btn.getAttribute('data-stav');
+            const ds = btn.getAttribute('data-ds');
+            
+            if (stav === 'ds') {
+                // DS -> Pošta
+                btn.className = 'btn-dorucovani posta';
+                btn.setAttribute('data-stav', 'posta');
+                btn.title = 'Doručit poštou';
+                btn.innerHTML = '<span class="material-icons-outlined">mail</span>';
+            } else if (stav === 'posta') {
+                // Pošta -> Nedoručovat
+                btn.className = 'btn-dorucovani nedorucovat';
+                btn.setAttribute('data-stav', 'nedorucovat');
+                btn.title = 'Nedoručovat';
+                btn.innerHTML = '<span class="material-icons-outlined">do_not_disturb_on</span>';
+            } else {
+                // Nedoručovat -> DS (pokud má) nebo Pošta
+                if (ds) {
+                    btn.className = 'btn-dorucovani ds';
+                    btn.setAttribute('data-stav', 'ds');
+                    btn.title = 'Doručit do datové schránky';
+                    btn.innerHTML = '<span class="material-icons-outlined">forward_to_inbox</span>';
+                } else {
+                    btn.className = 'btn-dorucovani posta';
+                    btn.setAttribute('data-stav', 'posta');
+                    btn.title = 'Doručit poštou';
+                    btn.innerHTML = '<span class="material-icons-outlined">mail</span>';
+                }
+            }
+        }
+        
+        // ==========================================
+        // ZÁSTUPCI - FUNKCE
+        // ==========================================
+        
+        // Stav ověření zástupce
+        let zastupceOveren = { FO: false, PO: false };
+        
+        // Otevřít modal pro přidání zástupce
+        function openPridatZastupceModal() {
+            // Reset formuláře
+            document.getElementById('zastupceJmeno').value = '';
+            document.getElementById('zastupcePrijmeni').value = '';
+            document.getElementById('zastupceDatumNarozeni').value = '';
+            document.getElementById('zastupceICO').value = '';
+            document.getElementById('zastupceNazev').value = '';
+            
+            // Reset ověření
+            zastupceOveren = { FO: false, PO: false };
+            document.getElementById('verifyStatusFO').innerHTML = '';
+            document.getElementById('verifyStatusPO').innerHTML = '';
+            document.getElementById('zastupceDetailFO').style.display = 'none';
+            document.getElementById('zastupceDetailPO').style.display = 'none';
+            document.getElementById('zastupceAdresaFO').value = '';
+            document.getElementById('zastupceAdresaPO').value = '';
+            
+            document.querySelector('input[name="zastupce_typ"][value="FO"]').checked = true;
+            toggleZastupceForm();
+            
+            // Reset checkboxů
+            document.querySelectorAll('input[name="zastupovani"]').forEach(cb => cb.checked = false);
+            document.getElementById('zastupceNedorucovat').checked = true;
+            
+            // Aktualizovat seznam zastupovaných (přidat dynamicky načtené vlastníky)
+            aktualizovatZastupovaniList();
+            
+            // Zobrazit modal
+            document.getElementById('modalPridatZastupce').style.display = 'flex';
+        }
+        
+        // Zavřít modal zástupce
+        function closeModalZastupce() {
+            document.getElementById('modalPridatZastupce').style.display = 'none';
+        }
+        
+        // Přepínání mezi FO a PO formulářem
+        function toggleZastupceForm() {
+            const typ = document.querySelector('input[name="zastupce_typ"]:checked').value;
+            document.getElementById('zastupceFormFO').style.display = typ === 'FO' ? 'block' : 'none';
+            document.getElementById('zastupceFormPO').style.display = typ === 'PO' ? 'block' : 'none';
+        }
+        
+        // Ověřit zástupce z rejstříku
+        function overitZastupceZRejstriku(typ) {
+            const statusEl = document.getElementById('verifyStatus' + typ);
+            
+            if (typ === 'FO') {
+                const jmeno = document.getElementById('zastupceJmeno').value.trim();
+                const prijmeni = document.getElementById('zastupcePrijmeni').value.trim();
+                const datumNar = document.getElementById('zastupceDatumNarozeni').value;
+                
+                if (!jmeno || !prijmeni || !datumNar) {
+                    statusEl.className = 'verify-status error';
+                    statusEl.innerHTML = '<span class="material-icons-outlined">error</span> Vyplňte všechna pole';
+                    return;
+                }
+                
+                // Simulace ověření
+                statusEl.className = 'verify-status loading';
+                statusEl.innerHTML = '<span class="material-icons-outlined">hourglass_empty</span> Ověřuji...';
+                
+                setTimeout(() => {
+                    // Simulace úspěšného ověření
+                    statusEl.className = 'verify-status success';
+                    statusEl.innerHTML = '<span class="material-icons-outlined">check_circle</span> Osoba nalezena v registru obyvatel';
+                    
+                    // Zobrazit doplněné údaje
+                    document.getElementById('zastupceDetailFO').style.display = 'block';
+                    document.getElementById('zastupceAdresaFO').value = 'Hlavní 456, 110 00 Praha 1';
+                    
+                    zastupceOveren.FO = true;
+                }, 800);
+                
+            } else if (typ === 'PO') {
+                const ico = document.getElementById('zastupceICO').value.trim();
+                
+                if (!ico || ico.length !== 8) {
+                    statusEl.className = 'verify-status error';
+                    statusEl.innerHTML = '<span class="material-icons-outlined">error</span> Zadejte platné IČO (8 číslic)';
+                    return;
+                }
+                
+                // Simulace ověření
+                statusEl.className = 'verify-status loading';
+                statusEl.innerHTML = '<span class="material-icons-outlined">hourglass_empty</span> Ověřuji v ARES...';
+                
+                setTimeout(() => {
+                    // Simulace dat z ARES
+                    const aresData = {
+                        '12345678': { nazev: 'Advokátní kancelář Novák & Partners s.r.o.', sidlo: 'Václavské náměstí 1, 110 00 Praha 1' },
+                        '87654321': { nazev: 'Právní služby Praha a.s.', sidlo: 'Národní 10, 110 00 Praha 1' },
+                    };
+                    
+                    const data = aresData[ico];
+                    
+                    if (data) {
+                        statusEl.className = 'verify-status success';
+                        statusEl.innerHTML = '<span class="material-icons-outlined">check_circle</span> Subjekt nalezen v ARES';
+                        
+                        // Zobrazit doplněné údaje
+                        document.getElementById('zastupceDetailPO').style.display = 'block';
+                        document.getElementById('zastupceNazev').value = data.nazev;
+                        document.getElementById('zastupceAdresaPO').value = data.sidlo;
+                        
+                        zastupceOveren.PO = true;
+                    } else {
+                        statusEl.className = 'verify-status error';
+                        statusEl.innerHTML = '<span class="material-icons-outlined">error</span> Subjekt nenalezen v ARES';
+                        zastupceOveren.PO = false;
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Aktualizovat seznam zastupovaných osob
+        function aktualizovatZastupovaniList() {
+            const dynamicList = document.getElementById('zastupovaniDynamicList');
+            if (!dynamicList) return;
+            
+            // Přidat vlastníky z KN pokud byli načteni
+            const vlastniciRows = document.querySelectorAll('#tbodyUcastnici tr:not(.osoby-kategorie-row):not(.osoby-empty-row)');
+            let html = '';
+            
+            vlastniciRows.forEach((row, index) => {
+                const nameEl = row.querySelector('td:nth-child(2) strong');
+                if (nameEl) {
+                    const name = nameEl.textContent;
+                    // Přeskočit již existující v základním seznamu
+                    if (name === 'Jan Novák' || name === 'Město Jaroměř') return;
+                    
+                    const typeEl = row.querySelector('td:nth-child(2) small');
+                    const type = typeEl ? typeEl.textContent : '';
+                    
+                    // Určit roli podle kontextu (zjednodušeně)
+                    let role = 'Účastník řízení';
+                    const prevRow = row.previousElementSibling;
+                    if (prevRow && prevRow.classList.contains('osoby-kategorie-row')) {
+                        const katLabel = prevRow.querySelector('.kategorie-label');
+                        if (katLabel) role = katLabel.textContent;
+                    }
+                    
+                    html += `
+                        <label class="zastupovani-item">
+                            <input type="checkbox" name="zastupovani" value="dynamic-${index}">
+                            <div class="zastupovani-info">
+                                <span class="zastupovani-name">${name}</span>
+                                <span class="zastupovani-role">${role}</span>
+                            </div>
+                        </label>
+                    `;
+                }
+            });
+            
+            dynamicList.innerHTML = html;
+        }
+        
+        // Přidat zástupce
+        function pridatZastupce() {
+            const typ = document.querySelector('input[name="zastupce_typ"]:checked').value;
+            let jmeno = '';
+            let typOsoby = '';
+            let adresa = '';
+            
+            if (typ === 'FO') {
+                // Kontrola ověření
+                if (!zastupceOveren.FO) {
+                    alert('Nejprve ověřte osobu z rejstříku.');
+                    return;
+                }
+                
+                const j = document.getElementById('zastupceJmeno').value.trim();
+                const p = document.getElementById('zastupcePrijmeni').value.trim();
+                jmeno = `${j} ${p}`;
+                typOsoby = 'Fyzická osoba';
+                adresa = document.getElementById('zastupceAdresaFO').value;
+            } else {
+                // Kontrola ověření
+                if (!zastupceOveren.PO) {
+                    alert('Nejprve ověřte subjekt z rejstříku ARES.');
+                    return;
+                }
+                
+                jmeno = document.getElementById('zastupceNazev').value.trim();
+                typOsoby = 'Právnická osoba';
+                adresa = document.getElementById('zastupceAdresaPO').value;
+            }
+            
+            // Získat vybrané zastupované osoby
+            const zastupovani = [];
+            document.querySelectorAll('input[name="zastupovani"]:checked').forEach(cb => {
+                const item = cb.closest('.zastupovani-item');
+                const nameEl = item.querySelector('.zastupovani-name');
+                const roleEl = item.querySelector('.zastupovani-role');
+                if (nameEl) {
+                    zastupovani.push({
+                        name: nameEl.textContent,
+                        role: roleEl ? roleEl.textContent : ''
+                    });
+                }
+            });
+            
+            if (zastupovani.length === 0) {
+                alert('Vyberte alespoň jednu zastupovanou osobu.');
+                return;
+            }
+            
+            const nedorucovat = document.getElementById('zastupceNedorucovat').checked;
+            
+            // Přidat do tabulky
+            pridatZastupceDoTabulky(jmeno, typOsoby, zastupovani, nedorucovat);
+            
+            // Zavřít modal
+            closeModalZastupce();
+            
+            // Aktualizovat počet
+            aktualizovatPocetZastupcu();
+            
+            showToast(`Zástupce ${jmeno} byl přidán`);
+        }
+        
+        // Přidat zástupce do tabulky
+        function pridatZastupceDoTabulky(jmeno, typOsoby, zastupovani, nedorucovat) {
+            const tbody = document.getElementById('tbodyZastupci');
+            if (!tbody) return;
+            
+            // Odstranit prázdný řádek
+            const emptyRow = document.getElementById('emptyZastupci');
+            if (emptyRow) emptyRow.remove();
+            
+            // Vytvořit badges pro zastupované osoby
+            const zastupujeBadges = zastupovani.map(z => `
+                <span class="zastupuje-badge">
+                    <span class="material-icons-outlined">person</span>
+                    ${z.name}
+                </span>
+            `).join('');
+            
+            // Určit role (první zastupovaný)
+            const role = zastupovani[0]?.role || 'Účastník';
+            
+            // Checkbox pro doručování
+            const dorucChecked = !nedorucovat ? 'checked' : '';
+            
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><span class="os-status ok"><span class="material-icons-outlined">check_circle</span></span></td>
+                <td>
+                    <strong>${jmeno}</strong><br>
+                    <small class="text-muted">${typOsoby}</small>
+                </td>
+                <td class="zastupuje-cell">${zastupujeBadges}</td>
+                <td><span class="os-role">${role}</span></td>
+                <td>
+                    <div class="dorucovat-toggle">
+                        <input type="checkbox" ${dorucChecked} onchange="toggleDorucovat(this)" title="Doručovat zástupci">
+                        <span class="dorucovat-label ${!nedorucovat ? 'yes' : 'no'}">${!nedorucovat ? 'Ano' : 'Ne'}</span>
+                    </div>
+                </td>
+                <td class="os-actions">
+                    <button onclick="toggleOblibeny(this)" title="Oblíbený"><span class="material-icons-outlined">star_border</span></button>
+                    <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
+                    <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
+                    <button title="Odstranit" onclick="odstranZastupce(this)"><span class="material-icons-outlined">delete</span></button>
+                </td>
+            `;
+            
+            tbody.appendChild(newRow);
+        }
+        
+        // Toggle doručování
+        function toggleDorucovat(checkbox) {
+            const label = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                label.textContent = 'Ano';
+                label.className = 'dorucovat-label yes';
+            } else {
+                label.textContent = 'Ne';
+                label.className = 'dorucovat-label no';
+            }
+        }
+        
+        // Odstranit zástupce
+        function odstranZastupce(btn) {
+            if (!confirm('Opravdu chcete odstranit tohoto zástupce?')) return;
+            
+            const row = btn.closest('tr');
+            row.remove();
+            
+            aktualizovatPocetZastupcu();
+            
+            // Pokud není žádný zástupce, zobrazit prázdný řádek
+            const tbody = document.getElementById('tbodyZastupci');
+            if (tbody && tbody.children.length === 0) {
+                tbody.innerHTML = `
+                    <tr class="osoby-empty-row" id="emptyZastupci">
+                        <td colspan="6" class="text-center text-muted">
+                            <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">supervisor_account</span>
+                            Žádní zástupci — přidejte zástupce tlačítkem výše
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            showToast('Zástupce byl odstraněn');
+        }
+        
+        // Aktualizovat počet zástupců
+        function aktualizovatPocetZastupcu() {
+            const tbody = document.getElementById('tbodyZastupci');
+            const countEl = document.getElementById('tabCountZastupci');
+            if (!tbody || !countEl) return;
+            
+            const rows = tbody.querySelectorAll('tr:not(.osoby-empty-row)');
+            countEl.textContent = rows.length;
+        }
+        
+        // Přidat zástupce z oblíbených (simulace)
+        function pridatZastupceZOblibenych() {
+            // Simulace - v reálu by se otevřel modal s oblíbenými
+            const oblibeneni = [
+                { jmeno: 'JUDr. Pavel Právník', typ: 'Fyzická osoba', adresa: 'Právnická 123, 110 00 Praha 1', datumNar: '1975-05-15' },
+                { jmeno: 'Advokátní kancelář Novák & Partners s.r.o.', typ: 'Právnická osoba', ico: '12345678', sidlo: 'Václavské náměstí 1, 110 00 Praha 1' }
+            ];
+            
+            // Zobrazit jednoduchý výběr
+            const vyber = prompt(
+                'Vyberte oblíbeného zástupce (zadejte číslo):\n\n' +
+                oblibeneni.map((o, i) => `${i + 1}. ${o.jmeno}`).join('\n')
+            );
+            
+            if (vyber) {
+                const index = parseInt(vyber) - 1;
+                if (index >= 0 && index < oblibeneni.length) {
+                    const oblibeny = oblibeneni[index];
+                    
+                    // Reset stavů
+                    zastupceOveren = { FO: false, PO: false };
+                    document.getElementById('verifyStatusFO').innerHTML = '';
+                    document.getElementById('verifyStatusPO').innerHTML = '';
+                    document.getElementById('zastupceDetailFO').style.display = 'none';
+                    document.getElementById('zastupceDetailPO').style.display = 'none';
+                    
+                    if (oblibeny.typ === 'Fyzická osoba') {
+                        document.querySelector('input[name="zastupce_typ"][value="FO"]').checked = true;
+                        const parts = oblibeny.jmeno.split(' ');
+                        document.getElementById('zastupceJmeno').value = parts[0] || '';
+                        document.getElementById('zastupcePrijmeni').value = parts.slice(1).join(' ') || '';
+                        document.getElementById('zastupceDatumNarozeni').value = oblibeny.datumNar || '';
+                        
+                        // Automaticky nastavit jako ověřeného (z oblíbených)
+                        document.getElementById('zastupceDetailFO').style.display = 'block';
+                        document.getElementById('zastupceAdresaFO').value = oblibeny.adresa;
+                        document.getElementById('verifyStatusFO').className = 'verify-status success';
+                        document.getElementById('verifyStatusFO').innerHTML = '<span class="material-icons-outlined">check_circle</span> Z oblíbených';
+                        zastupceOveren.FO = true;
+                    } else {
+                        document.querySelector('input[name="zastupce_typ"][value="PO"]').checked = true;
+                        document.getElementById('zastupceICO').value = oblibeny.ico || '';
+                        document.getElementById('zastupceNazev').value = oblibeny.jmeno;
+                        
+                        // Automaticky nastavit jako ověřeného (z oblíbených)
+                        document.getElementById('zastupceDetailPO').style.display = 'block';
+                        document.getElementById('zastupceAdresaPO').value = oblibeny.sidlo;
+                        document.getElementById('verifyStatusPO').className = 'verify-status success';
+                        document.getElementById('verifyStatusPO').innerHTML = '<span class="material-icons-outlined">check_circle</span> Z oblíbených';
+                        zastupceOveren.PO = true;
+                    }
+                    
+                    toggleZastupceForm();
+                    aktualizovatZastupovaniList();
+                    document.querySelectorAll('input[name="zastupovani"]').forEach(cb => cb.checked = false);
+                    document.getElementById('zastupceNedorucovat').checked = true;
+                    document.getElementById('modalPridatZastupce').style.display = 'flex';
+                }
+            }
         }
         
         // Toast notifikace
