@@ -1751,20 +1751,170 @@
             box-shadow: 0 0 0 2px rgba(245, 124, 0, 0.2);
         }
 
-        .su-select-wrapper::after {
-            content: "expand_more";
-            font-family: "Material Icons Outlined";
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #5f6368;
-            pointer-events: none;
-            font-size: 20px;
+        .su-select-wrapper {
+            position: relative;
         }
 
-        .su-select option {
-            padding: 8px;
+        /* Searchable dropdown */
+        .su-search-select {
+            position: relative;
+        }
+        
+        .su-search-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .su-search-icon {
+            position: absolute;
+            left: 12px;
+            color: #5f6368;
+            font-size: 20px;
+            pointer-events: none;
+        }
+        
+        .su-search-input {
+            width: 100%;
+            padding: 12px 40px 12px 42px;
+            font-size: 14px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            background: #fff;
+            color: #202124;
+            font-family: 'Roboto', sans-serif;
+            transition: all 0.15s;
+        }
+        
+        .su-search-input:focus {
+            outline: none;
+            border-color: #f57c00;
+            box-shadow: 0 0 0 2px rgba(245, 124, 0, 0.2);
+        }
+        
+        .su-search-input::placeholder {
+            color: #9aa0a6;
+        }
+        
+        .su-search-input.selected {
+            background: #fff8e1;
+            border-color: #f57c00;
+        }
+        
+        .su-search-clear {
+            position: absolute;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #5f6368;
+        }
+        
+        .su-search-clear:hover {
+            background: #f1f3f4;
+            color: #202124;
+        }
+        
+        .su-search-input.selected + .su-search-clear {
+            display: flex;
+        }
+        
+        .su-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 320px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            display: none;
+            margin-top: 4px;
+        }
+        
+        .su-dropdown.open {
+            display: block;
+        }
+        
+        .su-dropdown-group {
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .su-dropdown-group:last-of-type {
+            border-bottom: none;
+        }
+        
+        .su-dropdown-group.hidden {
+            display: none;
+        }
+        
+        .su-dropdown-group-title {
+            padding: 10px 14px 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #5f6368;
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+        }
+        
+        .su-dropdown-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        
+        .su-dropdown-option:hover {
+            background: #f1f3f4;
+        }
+        
+        .su-dropdown-option.hidden {
+            display: none;
+        }
+        
+        .su-dropdown-option.selected {
+            background: #fff8e1;
+        }
+        
+        .su-option-name {
+            font-size: 13px;
+            color: #202124;
+        }
+        
+        .su-option-type {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            background: #e8eaed;
+            border-radius: 3px;
+            color: #5f6368;
+        }
+        
+        .su-dropdown-empty {
+            padding: 24px;
+            text-align: center;
+            color: #9aa0a6;
+        }
+        
+        .su-dropdown-empty .material-icons-outlined {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
         }
 
         .su-selected-info {
@@ -8247,28 +8397,91 @@
                                 Vyberte stavební úřad, kterému bude řízení postoupeno podle typu stavby.
                             </div>
                             <div class="su-select-wrapper">
-                                <select class="su-select" id="specialniSuSelect" onchange="updateSpecialniSuInfo()">
-                                    <option value="">— Vyberte stavební úřad —</option>
-                                    <optgroup label="DESÚ – Dopravní a energetický stavební úřad">
-                                        <option value="desu" data-type="DESÚ" data-info="Dopravní a energetický stavební úřad|Sokolovská 1955/278, Praha 9|podatelna@desu.gov.cz|Dopravní stavby celostátního významu, energetické stavby">DESÚ – centrála Praha</option>
-                                    </optgroup>
-                                    <optgroup label="Krajské stavební úřady">
-                                        <option value="ksu_praha" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad hl. m. Prahy|Jungmannova 35/29, Praha 1|stavebni@praha.eu|Stavby na území hl. m. Prahy spadající do působnosti KSÚ">KSÚ hl. m. Prahy</option>
-                                        <option value="ksu_stredocesky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Středočeského kraje|Zborovská 11, Praha 5|stavebni@kr-s.cz|Stavby na území Středočeského kraje spadající do působnosti KSÚ">KSÚ Středočeského kraje</option>
-                                        <option value="ksu_jihocesky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Jihočeského kraje|U Zimního stadionu 1952/2, České Budějovice|stavebni@kraj-jihocesky.cz|Stavby na území Jihočeského kraje spadající do působnosti KSÚ">KSÚ Jihočeského kraje</option>
-                                        <option value="ksu_plzensky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Plzeňského kraje|Škroupova 18, Plzeň|stavebni@plzensky-kraj.cz|Stavby na území Plzeňského kraje spadající do působnosti KSÚ">KSÚ Plzeňského kraje</option>
-                                        <option value="ksu_karlovarsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Karlovarského kraje|Závodní 353/88, Karlovy Vary|stavebni@kr-karlovarsky.cz|Stavby na území Karlovarského kraje spadající do působnosti KSÚ">KSÚ Karlovarského kraje</option>
-                                        <option value="ksu_ustecky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Ústeckého kraje|Velká Hradební 3118/48, Ústí nad Labem|stavebni@kr-ustecky.cz|Stavby na území Ústeckého kraje spadající do působnosti KSÚ">KSÚ Ústeckého kraje</option>
-                                        <option value="ksu_liberecky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Libereckého kraje|U Jezu 642/2a, Liberec|stavebni@kraj-lbc.cz|Stavby na území Libereckého kraje spadající do působnosti KSÚ">KSÚ Libereckého kraje</option>
-                                        <option value="ksu_kralovehradecky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Královéhradeckého kraje|Pivovarské náměstí 1245, Hradec Králové|stavebni@kr-kralovehradecky.cz|Stavby na území Královéhradeckého kraje spadající do působnosti KSÚ">KSÚ Královéhradeckého kraje</option>
-                                        <option value="ksu_pardubicky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Pardubického kraje|Komenského náměstí 125, Pardubice|stavebni@pardubickykraj.cz|Stavby na území Pardubického kraje spadající do působnosti KSÚ">KSÚ Pardubického kraje</option>
-                                        <option value="ksu_vysocina" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Kraje Vysočina|Žižkova 57, Jihlava|stavebni@kr-vysocina.cz|Stavby na území Kraje Vysočina spadající do působnosti KSÚ">KSÚ Kraje Vysočina</option>
-                                        <option value="ksu_jihomoravsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Jihomoravského kraje|Žerotínovo náměstí 449/3, Brno|stavebni@kr-jihomoravsky.cz|Stavby na území Jihomoravského kraje spadající do působnosti KSÚ">KSÚ Jihomoravského kraje</option>
-                                        <option value="ksu_olomoucky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Olomouckého kraje|Jeremenkova 40a, Olomouc|stavebni@kr-olomoucky.cz|Stavby na území Olomouckého kraje spadající do působnosti KSÚ">KSÚ Olomouckého kraje</option>
-                                        <option value="ksu_zlinsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Zlínského kraje|třída Tomáše Bati 21, Zlín|stavebni@kr-zlinsky.cz|Stavby na území Zlínského kraje spadající do působnosti KSÚ">KSÚ Zlínského kraje</option>
-                                        <option value="ksu_moravskoslezsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Moravskoslezského kraje|28. října 117, Ostrava|stavebni@kr-moravskoslezsky.cz|Stavby na území Moravskoslezského kraje spadající do působnosti KSÚ">KSÚ Moravskoslezského kraje</option>
-                                    </optgroup>
-                                </select>
+                                <div class="su-search-select" id="specialniSuSearchSelect">
+                                    <div class="su-search-input-wrapper">
+                                        <span class="material-icons-outlined su-search-icon">search</span>
+                                        <input type="text" class="su-search-input" id="specialniSuSearchInput" 
+                                            placeholder="Vyhledejte stavební úřad..." 
+                                            onclick="openSuDropdown('specialni')"
+                                            oninput="filterSuOptions('specialni')">
+                                        <input type="hidden" id="specialniSuSelect" value="">
+                                        <button class="su-search-clear" onclick="clearSuSelection('specialni')" title="Vymazat">
+                                            <span class="material-icons-outlined">close</span>
+                                        </button>
+                                    </div>
+                                    <div class="su-dropdown" id="specialniSuDropdown">
+                                        <div class="su-dropdown-group" data-group="desu">
+                                            <div class="su-dropdown-group-title">DESÚ – Dopravní a energetický stavební úřad</div>
+                                            <div class="su-dropdown-option" data-value="desu" data-type="DESÚ" data-info="Dopravní a energetický stavební úřad|Sokolovská 1955/278, Praha 9|podatelna@desu.gov.cz|Dopravní stavby celostátního významu, energetické stavby" data-search="desú centrála praha dopravní energetický">
+                                                <span class="su-option-name">DESÚ – centrála Praha</span>
+                                                <span class="su-option-type">DESÚ</span>
+                                            </div>
+                                        </div>
+                                        <div class="su-dropdown-group" data-group="ksu">
+                                            <div class="su-dropdown-group-title">Krajské stavební úřady</div>
+                                            <div class="su-dropdown-option" data-value="ksu_praha" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad hl. m. Prahy|Jungmannova 35/29, Praha 1|stavebni@praha.eu|Stavby na území hl. m. Prahy spadající do působnosti KSÚ" data-search="ksu krajský praha hlavní město">
+                                                <span class="su-option-name">KSÚ hl. m. Prahy</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_stredocesky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Středočeského kraje|Zborovská 11, Praha 5|stavebni@kr-s.cz|Stavby na území Středočeského kraje spadající do působnosti KSÚ" data-search="ksu krajský středočeský střední čechy">
+                                                <span class="su-option-name">KSÚ Středočeského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_jihocesky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Jihočeského kraje|U Zimního stadionu 1952/2, České Budějovice|stavebni@kraj-jihocesky.cz|Stavby na území Jihočeského kraje spadající do působnosti KSÚ" data-search="ksu krajský jihočeský jižní čechy české budějovice">
+                                                <span class="su-option-name">KSÚ Jihočeského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_plzensky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Plzeňského kraje|Škroupova 18, Plzeň|stavebni@plzensky-kraj.cz|Stavby na území Plzeňského kraje spadající do působnosti KSÚ" data-search="ksu krajský plzeňský plzeň">
+                                                <span class="su-option-name">KSÚ Plzeňského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_karlovarsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Karlovarského kraje|Závodní 353/88, Karlovy Vary|stavebni@kr-karlovarsky.cz|Stavby na území Karlovarského kraje spadající do působnosti KSÚ" data-search="ksu krajský karlovarský karlovy vary">
+                                                <span class="su-option-name">KSÚ Karlovarského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_ustecky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Ústeckého kraje|Velká Hradební 3118/48, Ústí nad Labem|stavebni@kr-ustecky.cz|Stavby na území Ústeckého kraje spadající do působnosti KSÚ" data-search="ksu krajský ústecký ústí nad labem">
+                                                <span class="su-option-name">KSÚ Ústeckého kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_liberecky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Libereckého kraje|U Jezu 642/2a, Liberec|stavebni@kraj-lbc.cz|Stavby na území Libereckého kraje spadající do působnosti KSÚ" data-search="ksu krajský liberecký liberec">
+                                                <span class="su-option-name">KSÚ Libereckého kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_kralovehradecky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Královéhradeckého kraje|Pivovarské náměstí 1245, Hradec Králové|stavebni@kr-kralovehradecky.cz|Stavby na území Královéhradeckého kraje spadající do působnosti KSÚ" data-search="ksu krajský královéhradecký hradec králové">
+                                                <span class="su-option-name">KSÚ Královéhradeckého kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_pardubicky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Pardubického kraje|Komenského náměstí 125, Pardubice|stavebni@pardubickykraj.cz|Stavby na území Pardubického kraje spadající do působnosti KSÚ" data-search="ksu krajský pardubický pardubice">
+                                                <span class="su-option-name">KSÚ Pardubického kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_vysocina" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Kraje Vysočina|Žižkova 57, Jihlava|stavebni@kr-vysocina.cz|Stavby na území Kraje Vysočina spadající do působnosti KSÚ" data-search="ksu krajský vysočina jihlava">
+                                                <span class="su-option-name">KSÚ Kraje Vysočina</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_jihomoravsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Jihomoravského kraje|Žerotínovo náměstí 449/3, Brno|stavebni@kr-jihomoravsky.cz|Stavby na území Jihomoravského kraje spadající do působnosti KSÚ" data-search="ksu krajský jihomoravský brno jižní morava">
+                                                <span class="su-option-name">KSÚ Jihomoravského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_olomoucky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Olomouckého kraje|Jeremenkova 40a, Olomouc|stavebni@kr-olomoucky.cz|Stavby na území Olomouckého kraje spadající do působnosti KSÚ" data-search="ksu krajský olomoucký olomouc">
+                                                <span class="su-option-name">KSÚ Olomouckého kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_zlinsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Zlínského kraje|třída Tomáše Bati 21, Zlín|stavebni@kr-zlinsky.cz|Stavby na území Zlínského kraje spadající do působnosti KSÚ" data-search="ksu krajský zlínský zlín">
+                                                <span class="su-option-name">KSÚ Zlínského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ksu_moravskoslezsky" data-type="Krajský stavební úřad" data-info="Krajský stavební úřad Moravskoslezského kraje|28. října 117, Ostrava|stavebni@kr-moravskoslezsky.cz|Stavby na území Moravskoslezského kraje spadající do působnosti KSÚ" data-search="ksu krajský moravskoslezský ostrava slezsko">
+                                                <span class="su-option-name">KSÚ Moravskoslezského kraje</span>
+                                                <span class="su-option-type">KSÚ</span>
+                                            </div>
+                                        </div>
+                                        <div class="su-dropdown-empty" style="display: none;">
+                                            <span class="material-icons-outlined">search_off</span>
+                                            Žádný stavební úřad nebyl nalezen
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="su-selected-info" id="specialniSuInfo">
                                 <div class="su-selected-header">
@@ -8312,31 +8525,126 @@
                                 Vyberte stavební úřad podle umístění stavby. Zobrazeny jsou úřady v okolí.
                             </div>
                             <div class="su-select-wrapper">
-                                <select class="su-select" id="obecnySuSelect" onchange="updateObecnySuInfo()">
-                                    <option value="">— Vyberte stavební úřad —</option>
-                                    <optgroup label="Praha a okolí">
-                                        <option value="praha1" data-info="Úřad městské části Praha 1|Vodičkova 18, Praha 1|stavebni@praha1.cz|k.ú. Staré Město, Josefov, Malá Strana, Hradčany">ÚMČ Praha 1</option>
-                                        <option value="praha2" data-info="Úřad městské části Praha 2|náměstí Míru 20, Praha 2|stavebni@praha2.cz|k.ú. Nové Město, Vinohrady, Vyšehrad">ÚMČ Praha 2</option>
-                                        <option value="praha3" data-info="Úřad městské části Praha 3|Havlíčkovo nám. 700/9, Praha 3|stavebni@praha3.cz|k.ú. Žižkov, Vinohrady">ÚMČ Praha 3</option>
-                                        <option value="praha4" data-info="Úřad městské části Praha 4|Antala Staška 2059/80b, Praha 4|stavebni@praha4.cz|k.ú. Braník, Hodkovičky, Krč, Lhotka, Michle, Nusle, Podolí">ÚMČ Praha 4</option>
-                                        <option value="praha5" data-info="Úřad městské části Praha 5|náměstí 14. října 4, Praha 5|stavebni@praha5.cz|k.ú. Smíchov, Košíře, Motol, Radlice, Hlubočepy, Jinonice">ÚMČ Praha 5</option>
-                                    </optgroup>
-                                    <optgroup label="Středočeský kraj">
-                                        <option value="kladno" data-info="Magistrát města Kladna|náměstí Starosty Pavla 44, Kladno|stavebni@mestokladno.cz|ORP Kladno">Magistrát města Kladna</option>
-                                        <option value="benesov" data-info="Městský úřad Benešov|Masarykovo náměstí 100, Benešov|stavebni@benesov-city.cz|ORP Benešov">MěÚ Benešov</option>
-                                        <option value="beroun" data-info="Městský úřad Beroun|Husovo náměstí 68, Beroun|stavebni@muberoun.cz|ORP Beroun">MěÚ Beroun</option>
-                                        <option value="brandys" data-info="Městský úřad Brandýs n. L. – Stará Boleslav|Masarykovo náměstí 1, Brandýs n. L.|stavebni@brandysko.cz|ORP Brandýs nad Labem">MěÚ Brandýs nad Labem</option>
-                                        <option value="ceskybrod" data-info="Městský úřad Český Brod|náměstí Husovo 70, Český Brod|stavebni@cesbrod.cz|ORP Český Brod">MěÚ Český Brod</option>
-                                        <option value="kolin" data-info="Městský úřad Kolín|Karlovo náměstí 78, Kolín|stavebni@mukolin.cz|ORP Kolín">MěÚ Kolín</option>
-                                        <option value="kutnahora" data-info="Městský úřad Kutná Hora|Havlíčkovo náměstí 552/1, Kutná Hora|stavebni@kutnahora.cz|ORP Kutná Hora">MěÚ Kutná Hora</option>
-                                        <option value="melnik" data-info="Městský úřad Mělník|náměstí Míru 1, Mělník|stavebni@melnik.cz|ORP Mělník">MěÚ Mělník</option>
-                                        <option value="mlboleslav" data-info="Magistrát města Mladá Boleslav|Komenského náměstí 61, Mladá Boleslav|stavebni@mb-net.cz|ORP Mladá Boleslav">Magistrát města Mladá Boleslav</option>
-                                        <option value="nymburk" data-info="Městský úřad Nymburk|náměstí Přemyslovců 163, Nymburk|stavebni@meu-nbk.cz|ORP Nymburk">MěÚ Nymburk</option>
-                                        <option value="podebrady" data-info="Městský úřad Poděbrady|Jiřího náměstí 20/I, Poděbrady|stavebni@mesto-podebrady.cz|ORP Poděbrady">MěÚ Poděbrady</option>
-                                        <option value="pribram" data-info="Městský úřad Příbram|Tyršova 108, Příbram|stavebni@pribram.eu|ORP Příbram">MěÚ Příbram</option>
-                                        <option value="rakovnik" data-info="Městský úřad Rakovník|Husovo náměstí 27, Rakovník|stavebni@murako.cz|ORP Rakovník">MěÚ Rakovník</option>
-                                    </optgroup>
-                                </select>
+                                <div class="su-search-select" id="obecnySuSearchSelect">
+                                    <div class="su-search-input-wrapper">
+                                        <span class="material-icons-outlined su-search-icon">search</span>
+                                        <input type="text" class="su-search-input" id="obecnySuSearchInput" 
+                                            placeholder="Vyhledejte stavební úřad..." 
+                                            onclick="openSuDropdown('obecny')"
+                                            oninput="filterSuOptions('obecny')">
+                                        <input type="hidden" id="obecnySuSelect" value="">
+                                        <button class="su-search-clear" onclick="clearSuSelection('obecny')" title="Vymazat">
+                                            <span class="material-icons-outlined">close</span>
+                                        </button>
+                                    </div>
+                                    <div class="su-dropdown" id="obecnySuDropdown">
+                                        <div class="su-dropdown-group" data-group="praha">
+                                            <div class="su-dropdown-group-title">Praha a okolí</div>
+                                            <div class="su-dropdown-option" data-value="praha1" data-info="Úřad městské části Praha 1|Vodičkova 18, Praha 1|stavebni@praha1.cz|k.ú. Staré Město, Josefov, Malá Strana, Hradčany" data-search="praha 1 staré město josefov malá strana hradčany">
+                                                <span class="su-option-name">ÚMČ Praha 1</span>
+                                                <span class="su-option-type">Praha</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="praha2" data-info="Úřad městské části Praha 2|náměstí Míru 20, Praha 2|stavebni@praha2.cz|k.ú. Nové Město, Vinohrady, Vyšehrad" data-search="praha 2 nové město vinohrady vyšehrad">
+                                                <span class="su-option-name">ÚMČ Praha 2</span>
+                                                <span class="su-option-type">Praha</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="praha3" data-info="Úřad městské části Praha 3|Havlíčkovo nám. 700/9, Praha 3|stavebni@praha3.cz|k.ú. Žižkov, Vinohrady" data-search="praha 3 žižkov vinohrady">
+                                                <span class="su-option-name">ÚMČ Praha 3</span>
+                                                <span class="su-option-type">Praha</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="praha4" data-info="Úřad městské části Praha 4|Antala Staška 2059/80b, Praha 4|stavebni@praha4.cz|k.ú. Braník, Hodkovičky, Krč, Lhotka, Michle, Nusle, Podolí" data-search="praha 4 braník hodkovičky krč lhotka michle nusle podolí">
+                                                <span class="su-option-name">ÚMČ Praha 4</span>
+                                                <span class="su-option-type">Praha</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="praha5" data-info="Úřad městské části Praha 5|náměstí 14. října 4, Praha 5|stavebni@praha5.cz|k.ú. Smíchov, Košíře, Motol, Radlice, Hlubočepy, Jinonice" data-search="praha 5 smíchov košíře motol radlice hlubočepy jinonice">
+                                                <span class="su-option-name">ÚMČ Praha 5</span>
+                                                <span class="su-option-type">Praha</span>
+                                            </div>
+                                        </div>
+                                        <div class="su-dropdown-group" data-group="stredocesky">
+                                            <div class="su-dropdown-group-title">Středočeský kraj</div>
+                                            <div class="su-dropdown-option" data-value="kladno" data-info="Magistrát města Kladna|náměstí Starosty Pavla 44, Kladno|stavebni@mestokladno.cz|ORP Kladno" data-search="kladno magistrát orp">
+                                                <span class="su-option-name">Magistrát města Kladna</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="benesov" data-info="Městský úřad Benešov|Masarykovo náměstí 100, Benešov|stavebni@benesov-city.cz|ORP Benešov" data-search="benešov městský úřad orp">
+                                                <span class="su-option-name">MěÚ Benešov</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="beroun" data-info="Městský úřad Beroun|Husovo náměstí 68, Beroun|stavebni@muberoun.cz|ORP Beroun" data-search="beroun městský úřad orp">
+                                                <span class="su-option-name">MěÚ Beroun</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="brandys" data-info="Městský úřad Brandýs n. L. – Stará Boleslav|Masarykovo náměstí 1, Brandýs n. L.|stavebni@brandysko.cz|ORP Brandýs nad Labem" data-search="brandýs nad labem stará boleslav městský úřad orp">
+                                                <span class="su-option-name">MěÚ Brandýs nad Labem</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="ceskybrod" data-info="Městský úřad Český Brod|náměstí Husovo 70, Český Brod|stavebni@cesbrod.cz|ORP Český Brod" data-search="český brod městský úřad orp">
+                                                <span class="su-option-name">MěÚ Český Brod</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="kolin" data-info="Městský úřad Kolín|Karlovo náměstí 78, Kolín|stavebni@mukolin.cz|ORP Kolín" data-search="kolín městský úřad orp">
+                                                <span class="su-option-name">MěÚ Kolín</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="kutnahora" data-info="Městský úřad Kutná Hora|Havlíčkovo náměstí 552/1, Kutná Hora|stavebni@kutnahora.cz|ORP Kutná Hora" data-search="kutná hora městský úřad orp">
+                                                <span class="su-option-name">MěÚ Kutná Hora</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="melnik" data-info="Městský úřad Mělník|náměstí Míru 1, Mělník|stavebni@melnik.cz|ORP Mělník" data-search="mělník městský úřad orp">
+                                                <span class="su-option-name">MěÚ Mělník</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="mlboleslav" data-info="Magistrát města Mladá Boleslav|Komenského náměstí 61, Mladá Boleslav|stavebni@mb-net.cz|ORP Mladá Boleslav" data-search="mladá boleslav magistrát orp">
+                                                <span class="su-option-name">Magistrát města Mladá Boleslav</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="nymburk" data-info="Městský úřad Nymburk|náměstí Přemyslovců 163, Nymburk|stavebni@meu-nbk.cz|ORP Nymburk" data-search="nymburk městský úřad orp">
+                                                <span class="su-option-name">MěÚ Nymburk</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="podebrady" data-info="Městský úřad Poděbrady|Jiřího náměstí 20/I, Poděbrady|stavebni@mesto-podebrady.cz|ORP Poděbrady" data-search="poděbrady městský úřad orp">
+                                                <span class="su-option-name">MěÚ Poděbrady</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="pribram" data-info="Městský úřad Příbram|Tyršova 108, Příbram|stavebni@pribram.eu|ORP Příbram" data-search="příbram městský úřad orp">
+                                                <span class="su-option-name">MěÚ Příbram</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="rakovnik" data-info="Městský úřad Rakovník|Husovo náměstí 27, Rakovník|stavebni@murako.cz|ORP Rakovník" data-search="rakovník městský úřad orp">
+                                                <span class="su-option-name">MěÚ Rakovník</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                        </div>
+                                        <div class="su-dropdown-group" data-group="kralovehradecky">
+                                            <div class="su-dropdown-group-title">Královéhradecký kraj</div>
+                                            <div class="su-dropdown-option" data-value="hradec" data-info="Magistrát města Hradec Králové|Československé armády 408/51, Hradec Králové|stavebni@mmhk.cz|ORP Hradec Králové" data-search="hradec králové magistrát orp">
+                                                <span class="su-option-name">Magistrát města Hradec Králové</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="jaromer" data-info="Městský úřad Jaroměř|náměstí ČSA 16, Jaroměř|stavebni@jaromer-josefov.cz|ORP Jaroměř" data-search="jaroměř městský úřad orp josefov">
+                                                <span class="su-option-name">MěÚ Jaroměř</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="nachod" data-info="Městský úřad Náchod|Masarykovo náměstí 40, Náchod|stavebni@mestonachod.cz|ORP Náchod" data-search="náchod městský úřad orp">
+                                                <span class="su-option-name">MěÚ Náchod</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="trutnov" data-info="Městský úřad Trutnov|Slovanské náměstí 165, Trutnov|stavebni@trutnov.cz|ORP Trutnov" data-search="trutnov městský úřad orp">
+                                                <span class="su-option-name">MěÚ Trutnov</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                            <div class="su-dropdown-option" data-value="jicin" data-info="Městský úřad Jičín|Žižkovo náměstí 18, Jičín|stavebni@mujicin.cz|ORP Jičín" data-search="jičín městský úřad orp">
+                                                <span class="su-option-name">MěÚ Jičín</span>
+                                                <span class="su-option-type">ORP</span>
+                                            </div>
+                                        </div>
+                                        <div class="su-dropdown-empty" style="display: none;">
+                                            <span class="material-icons-outlined">search_off</span>
+                                            Žádný stavební úřad nebyl nalezen
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="su-selected-info" id="obecnySuInfo">
                                 <div class="su-selected-header">
@@ -12286,16 +12594,146 @@
             }
         }
         
-        function updateSpecialniSuInfo() {
-            const select = document.getElementById('specialniSuSelect');
+        // ==========================================
+        // SEARCHABLE DROPDOWN PRO VÝBĚR SÚ
+        // ==========================================
+        
+        // Otevřít dropdown
+        function openSuDropdown(type) {
+            const dropdown = document.getElementById(type === 'specialni' ? 'specialniSuDropdown' : 'obecnySuDropdown');
+            
+            // Zavřít ostatní dropdowny
+            document.querySelectorAll('.su-dropdown.open').forEach(d => {
+                if (d !== dropdown) d.classList.remove('open');
+            });
+            
+            dropdown.classList.add('open');
+        }
+        
+        // Zavřít dropdown při kliknutí mimo
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.su-search-select')) {
+                document.querySelectorAll('.su-dropdown.open').forEach(d => d.classList.remove('open'));
+            }
+        });
+        
+        // Filtrovat možnosti
+        function filterSuOptions(type) {
+            const input = document.getElementById(type === 'specialni' ? 'specialniSuSearchInput' : 'obecnySuSearchInput');
+            const dropdown = document.getElementById(type === 'specialni' ? 'specialniSuDropdown' : 'obecnySuDropdown');
+            const searchTerm = input.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            
+            let visibleCount = 0;
+            
+            dropdown.querySelectorAll('.su-dropdown-group').forEach(group => {
+                let groupVisible = false;
+                
+                group.querySelectorAll('.su-dropdown-option').forEach(option => {
+                    const name = option.querySelector('.su-option-name').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const searchData = (option.dataset.search || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    
+                    if (name.includes(searchTerm) || searchData.includes(searchTerm)) {
+                        option.classList.remove('hidden');
+                        groupVisible = true;
+                        visibleCount++;
+                    } else {
+                        option.classList.add('hidden');
+                    }
+                });
+                
+                if (groupVisible) {
+                    group.classList.remove('hidden');
+                } else {
+                    group.classList.add('hidden');
+                }
+            });
+            
+            // Zobrazit/skrýt prázdný stav
+            const emptyState = dropdown.querySelector('.su-dropdown-empty');
+            if (visibleCount === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+            }
+            
+            // Otevřít dropdown při psaní
+            dropdown.classList.add('open');
+        }
+        
+        // Vybrat možnost
+        function selectSuOption(type, option) {
+            const input = document.getElementById(type === 'specialni' ? 'specialniSuSearchInput' : 'obecnySuSearchInput');
+            const hiddenInput = document.getElementById(type === 'specialni' ? 'specialniSuSelect' : 'obecnySuSelect');
+            const dropdown = document.getElementById(type === 'specialni' ? 'specialniSuDropdown' : 'obecnySuDropdown');
+            
+            const value = option.dataset.value;
+            const name = option.querySelector('.su-option-name').textContent;
+            
+            // Nastavit hodnotu
+            hiddenInput.value = value;
+            input.value = name;
+            input.classList.add('selected');
+            
+            // Označit vybranou možnost
+            dropdown.querySelectorAll('.su-dropdown-option').forEach(o => o.classList.remove('selected'));
+            option.classList.add('selected');
+            
+            // Zavřít dropdown
+            dropdown.classList.remove('open');
+            
+            // Aktualizovat info box
+            if (type === 'specialni') {
+                updateSpecialniSuInfo(option);
+            } else {
+                updateObecnySuInfo(option);
+            }
+        }
+        
+        // Vymazat výběr
+        function clearSuSelection(type) {
+            const input = document.getElementById(type === 'specialni' ? 'specialniSuSearchInput' : 'obecnySuSearchInput');
+            const hiddenInput = document.getElementById(type === 'specialni' ? 'specialniSuSelect' : 'obecnySuSelect');
+            const dropdown = document.getElementById(type === 'specialni' ? 'specialniSuDropdown' : 'obecnySuDropdown');
+            const infoBox = document.getElementById(type === 'specialni' ? 'specialniSuInfo' : 'obecnySuInfo');
+            
+            hiddenInput.value = '';
+            input.value = '';
+            input.classList.remove('selected');
+            
+            // Reset filtrování
+            dropdown.querySelectorAll('.su-dropdown-group, .su-dropdown-option').forEach(el => el.classList.remove('hidden'));
+            dropdown.querySelectorAll('.su-dropdown-option').forEach(o => o.classList.remove('selected'));
+            dropdown.querySelector('.su-dropdown-empty').style.display = 'none';
+            
+            // Skrýt info box
+            infoBox.classList.remove('visible');
+            
+            updatePrislusnostResult();
+        }
+        
+        // Inicializace click handlerů pro dropdown options
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#specialniSuDropdown .su-dropdown-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    selectSuOption('specialni', this);
+                });
+            });
+            
+            document.querySelectorAll('#obecnySuDropdown .su-dropdown-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    selectSuOption('obecny', this);
+                });
+            });
+        });
+        
+        function updateSpecialniSuInfo(option) {
             const infoBox = document.getElementById('specialniSuInfo');
             const nameEl = document.getElementById('specialniSuName');
             const detailsEl = document.getElementById('specialniSuDetails');
             
-            if (select.value) {
-                const option = select.options[select.selectedIndex];
-                const info = option.getAttribute('data-info').split('|');
-                const type = option.getAttribute('data-type');
+            if (option) {
+                const info = option.dataset.info.split('|');
+                const type = option.dataset.type;
                 
                 nameEl.textContent = info[0];
                 detailsEl.innerHTML = `
@@ -12312,15 +12750,13 @@
             updatePrislusnostResult();
         }
         
-        function updateObecnySuInfo() {
-            const select = document.getElementById('obecnySuSelect');
+        function updateObecnySuInfo(option) {
             const infoBox = document.getElementById('obecnySuInfo');
             const nameEl = document.getElementById('obecnySuName');
             const detailsEl = document.getElementById('obecnySuDetails');
             
-            if (select.value) {
-                const option = select.options[select.selectedIndex];
-                const info = option.getAttribute('data-info').split('|');
+            if (option) {
+                const info = option.dataset.info.split('|');
                 
                 nameEl.textContent = info[0];
                 detailsEl.innerHTML = `
