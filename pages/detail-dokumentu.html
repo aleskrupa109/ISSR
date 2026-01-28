@@ -225,14 +225,6 @@
             margin-top: 2px !important;
             font-style: normal !important;
         }
-        .zamer-link {
-            color: #1a73e8 !important;
-            text-decoration: none !important;
-            font-weight: 500 !important;
-        }
-        .zamer-link:hover {
-            text-decoration: underline !important;
-        }
         /* Header bottom row - document access */
         .page-header-bottom {
             display: flex !important;
@@ -780,6 +772,16 @@
             width: 90%;
             overflow: hidden;
         }
+        .modal.modal-large {
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal.modal-large .modal-body {
+            flex: 1;
+            overflow-y: auto;
+        }
         .modal-header {
             display: flex;
             align-items: center;
@@ -934,7 +936,6 @@
                         <div class="page-label">Detail dokumentu</div>
                         <h1 class="page-title">Novostavba RD včetně přípojek</h1>
                         <div class="page-subtitle">Žádost o povolení stavby • SR00X01HSU37</div>
-                        <div class="page-subtitle">Záměr: <a href="detail-zameru.html" class="zamer-link">Z/2026/000142</a></div>
                     </div>
                 </div>
                 <div class="assignee-dropdown">
@@ -1001,6 +1002,10 @@
                         <span class="material-icons-outlined">fact_check</span>
                         Dokladová část
                     </a>
+                    <a href="#" class="doc-access-btn" onclick="openModal('bimModal'); return false;">
+                        <span class="material-icons-outlined">view_in_ar</span>
+                        BIM model
+                    </a>
                 </div>
             </div>
         </header>
@@ -1029,9 +1034,9 @@
                                     <div class="person-type">Fyzická osoba</div>
                                 </div>
                                 <div class="person-contacts">
-                                    <a href="/cdn-cgi/l/email-protection#573a3625323c79213839332522243c3617323a363e3b79342d" class="contact-link">
+                                    <a href="/cdn-cgi/l/email-protection#f5989487909edb839a9b918780869e94b59098949c99db968f" class="contact-link">
                                         <span class="material-icons-outlined">email</span>
-                                        <span class="__cf_email__" data-cfemail="96fbf7e4f3fdb8e0f9f8f2e4e3e5fdf7d6f3fbf7fffab8f5ec">[email&#160;protected]</span>
+                                        <span class="__cf_email__" data-cfemail="9df0fceff8f6b3ebf2f3f9efe8eef6fcddf8f0fcf4f1b3fee7">[email&#160;protected]</span>
                                     </a>
                                     <a href="tel:+420602123456" class="contact-link">
                                         <span class="material-icons-outlined">phone</span>
@@ -1193,7 +1198,7 @@
                                     </div>
                                     <div class="processing-row">
                                         <span class="material-icons-outlined">person</span>
-                                        <span id="sidebarAssignee">Eva Čejchanová</span>
+                                        <span id="sidebarAssignee">Nepřidělen</span>
                                     </div>
                                     <div class="processing-row">
                                         <span class="material-icons-outlined">schedule</span>
@@ -1348,6 +1353,123 @@
         </div>
     </div>
 
+    <!-- Modal: BIM model -->
+    <div class="modal-overlay" id="bimModal" onclick="closeModal('bimModal', event)">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">view_in_ar</span>
+                    BIM model
+                </div>
+                <button class="modal-close" onclick="closeModal('bimModal')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- BIM info panel -->
+                <div style="padding: 16px 24px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #202124; margin-bottom: 4px;">Novostavba rodinného domu s garáží</div>
+                            <div style="font-size: 12px; color: #5f6368;">IFC model · Verze 3.0 · Nahrán 10. 1. 2026</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                                <span class="material-icons-outlined" style="font-size: 16px; margin-right: 4px;">download</span>
+                                Stáhnout IFC
+                            </button>
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                                <span class="material-icons-outlined" style="font-size: 16px; margin-right: 4px;">open_in_new</span>
+                                Otevřít v prohlížeči
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BIM viewer placeholder -->
+                <div style="height: 450px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+                    <!-- 3D grid simulace -->
+                    <div style="position: absolute; inset: 0; opacity: 0.1; background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+                    
+                    <!-- Model placeholder -->
+                    <div style="position: relative; z-index: 1; text-align: center;">
+                        <div style="width: 200px; height: 140px; margin: 0 auto 24px; position: relative;">
+                            <svg viewBox="0 0 200 140" style="width: 100%; height: 100%;">
+                                <path d="M30 100 L100 130 L170 100 L100 70 Z" fill="#4fc3f7" opacity="0.3"/>
+                                <path d="M30 100 L30 50 L100 20 L100 70 Z" fill="#29b6f6" opacity="0.7"/>
+                                <path d="M100 70 L100 20 L170 50 L170 100 Z" fill="#0288d1" opacity="0.7"/>
+                                <path d="M20 50 L100 10 L100 20 L30 50 Z" fill="#ff7043" opacity="0.8"/>
+                                <path d="M100 10 L180 50 L170 50 L100 20 Z" fill="#e64a19" opacity="0.8"/>
+                                <rect x="45" y="60" width="20" height="25" fill="#81d4fa" opacity="0.9"/>
+                                <rect x="120" y="55" width="20" height="25" fill="#4fc3f7" opacity="0.9"/>
+                            </svg>
+                        </div>
+                        <div style="color: #fff; font-size: 16px; font-weight: 500; margin-bottom: 8px;">
+                            <span class="material-icons-outlined" style="font-size: 24px; vertical-align: middle; margin-right: 8px;">view_in_ar</span>
+                            3D BIM Model
+                        </div>
+                        <div style="color: rgba(255,255,255,0.6); font-size: 13px;">
+                            V ostré verzi by se zde zobrazil interaktivní 3D model stavby
+                        </div>
+                    </div>
+                    
+                    <!-- Ovládací prvky -->
+                    <div style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Otočit vlevo">
+                            <span class="material-icons-outlined" style="font-size: 18px;">rotate_left</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Přiblížit">
+                            <span class="material-icons-outlined" style="font-size: 18px;">zoom_in</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Oddálit">
+                            <span class="material-icons-outlined" style="font-size: 18px;">zoom_out</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Otočit vpravo">
+                            <span class="material-icons-outlined" style="font-size: 18px;">rotate_right</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Celá obrazovka">
+                            <span class="material-icons-outlined" style="font-size: 18px;">fullscreen</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- BIM metadata -->
+                <div style="padding: 20px 24px; border-top: 1px solid #e0e0e0;">
+                    <div style="font-size: 13px; font-weight: 600; color: #202124; margin-bottom: 12px;">Informace o modelu</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Formát</div>
+                            <div style="font-size: 13px; color: #202124;">IFC 4.0 (Industry Foundation Classes)</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Velikost souboru</div>
+                            <div style="font-size: 13px; color: #202124;">24.8 MB</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Software</div>
+                            <div style="font-size: 13px; color: #202124;">Autodesk Revit 2024</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Počet elementů</div>
+                            <div style="font-size: 13px; color: #202124;">1,247 objektů</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Zpracoval</div>
+                            <div style="font-size: 13px; color: #202124;">Ing. arch. Pavel Projektant</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">LOD (Level of Detail)</div>
+                            <div style="font-size: 13px; color: #202124;">LOD 300</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('bimModal')">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Dropdown pro přidělení zpracovatele
         let isAssigned = false;
@@ -1423,9 +1545,8 @@
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal-overlay.open').forEach(function(modal) {
                     modal.classList.remove('open');
-                    document.body.style.overflow = '';
                 });
-                document.getElementById('assigneeMenu').classList.remove('open');
+                document.body.style.overflow = '';
             }
         });
     </script>
