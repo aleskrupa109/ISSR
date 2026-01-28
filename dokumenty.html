@@ -414,6 +414,74 @@
                 padding: 8px;
             }
         }
+        
+        /* ===========================================
+           SVISLÉ NAVIGAČNÍ MENU (NAV RAIL)
+           =========================================== */
+        .nav-rail {
+            width: 56px;
+            min-width: 56px;
+            background: #1a1a1a;
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            gap: 4px;
+        }
+        
+        .nav-rail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+        
+        .nav-rail-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+        
+        .nav-rail-item.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        
+        .nav-rail-item .material-icons-outlined {
+            font-size: 22px;
+        }
+        
+        .nav-rail-item-label {
+            font-size: 9px;
+            font-weight: 500;
+            margin-top: 2px;
+            text-align: center;
+        }
+        
+        .nav-rail-item.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .nav-rail-item.disabled:hover {
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .nav-rail-divider {
+            width: 32px;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            margin: 8px 0;
+        }
     </style>
 </head>
 <body>
@@ -446,6 +514,37 @@
     </header>
 
     <div class="app-container">
+        <!-- Svislé navigační menu -->
+        <nav class="nav-rail">
+            <a href="zamery.html" class="nav-rail-item" title="Záměry">
+                <span class="material-icons-outlined">push_pin</span>
+                <span class="nav-rail-item-label">Záměry</span>
+            </a>
+            <a href="rizeni.html" class="nav-rail-item" title="Řízení">
+                <span class="material-icons-outlined">work</span>
+                <span class="nav-rail-item-label">Řízení</span>
+            </a>
+            <a href="dokumenty.html" class="nav-rail-item active" title="Dokumenty">
+                <span class="material-icons-outlined">mail</span>
+                <span class="nav-rail-item-label">Dokumenty</span>
+            </a>
+            
+            <div class="nav-rail-divider"></div>
+            
+            <a href="#" class="nav-rail-item disabled" title="Šablony">
+                <span class="material-icons-outlined">description</span>
+                <span class="nav-rail-item-label">Šablony</span>
+            </a>
+            <a href="#" class="nav-rail-item disabled" title="Statistiky">
+                <span class="material-icons-outlined">bar_chart</span>
+                <span class="nav-rail-item-label">Statistiky</span>
+            </a>
+            <a href="#" class="nav-rail-item disabled" title="Nastavení">
+                <span class="material-icons-outlined">settings</span>
+                <span class="nav-rail-item-label">Nastavení</span>
+            </a>
+        </nav>
+        
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
