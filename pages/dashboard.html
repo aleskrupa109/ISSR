@@ -66,11 +66,11 @@
             border: none;
             border-radius: 4px;
             font-size: 14px;
-            background: rgba(255,255,255,0.15);
-            color: white;
+            background: #fff;
+            color: #202124;
         }
         .issr-header__search-input::placeholder {
-            color: rgba(255,255,255,0.7);
+            color: #5f6368;
         }
         .issr-header__actions {
             display: flex;
@@ -735,6 +735,208 @@
         }
 
         /* ===========================================
+           VÝKONNOST ÚŘEDNÍKŮ (vedoucí pohled)
+           =========================================== */
+        .manager-section {
+            display: none;
+            margin-top: 24px;
+        }
+        .manager-section.visible {
+            display: block;
+        }
+        
+        /* Performance table */
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .performance-table th,
+        .performance-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .performance-table th {
+            background: #f8f9fa;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #5f6368;
+        }
+        .performance-table tr:hover {
+            background: #f8f9fa;
+        }
+        .performance-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Employee cell */
+        .employee-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .employee-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .employee-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .employee-role {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        
+        /* Score badge */
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .score-badge.excellent {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .score-badge.good {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .score-badge.average {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        .score-badge.below {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        /* Mini progress */
+        .mini-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mini-progress-bar {
+            width: 60px;
+            height: 6px;
+            background: #e8eaed;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .mini-progress-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .mini-progress-fill.green { background: #34a853; }
+        .mini-progress-fill.yellow { background: #f9ab00; }
+        .mini-progress-fill.red { background: #ea4335; }
+        .mini-progress-label {
+            font-size: 12px;
+            color: #5f6368;
+            min-width: 35px;
+        }
+        
+        /* Scoring info */
+        .scoring-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .scoring-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .scoring-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .scoring-icon.blue { background: #e8f0fe; color: #1a73e8; }
+        .scoring-icon.green { background: #e6f4ea; color: #137333; }
+        .scoring-icon.orange { background: #fef7e0; color: #b06000; }
+        .scoring-icon.purple { background: #f3e8fd; color: #9334e6; }
+        .scoring-text {
+            font-size: 12px;
+        }
+        .scoring-title {
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .scoring-desc {
+            color: #5f6368;
+            line-height: 1.4;
+        }
+        
+        /* Trend indicator */
+        .trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .trend.up { color: #34a853; }
+        .trend.down { color: #ea4335; }
+        .trend .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Summary cards for manager */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .summary-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .summary-card-title {
+            font-size: 12px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+        .summary-card-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #202124;
+        }
+        .summary-card-detail {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 4px;
+        }
+
+        /* ===========================================
            RESPONSIVE
            =========================================== */
         @media (max-width: 1200px) {
@@ -1195,6 +1397,510 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ============================================
+                 SEKCE PRO VEDOUCÍ - Výkonnost úředníků
+                 ============================================ -->
+            <div class="manager-section" id="managerSection">
+                <!-- Souhrnné statistiky týmu -->
+                <div class="summary-row">
+                    <div class="summary-card">
+                        <div class="summary-card-title">Počet úředníků</div>
+                        <div class="summary-card-value">8</div>
+                        <div class="summary-card-detail">aktivních na úřadě</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card-title">Průměrné vytížení</div>
+                        <div class="summary-card-value">78%</div>
+                        <div class="summary-card-detail">
+                            <span class="trend up">
+                                <span class="material-icons-outlined">trending_up</span>
+                                +5% oproti minulému měsíci
+                            </span>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card-title">Průměrné skóre</div>
+                        <div class="summary-card-value">84.2</div>
+                        <div class="summary-card-detail">ze 100 bodů</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-card-title">Dodržení lhůt</div>
+                        <div class="summary-card-value">96%</div>
+                        <div class="summary-card-detail">řízení ve lhůtě</div>
+                    </div>
+                </div>
+
+                <!-- Výkonnost úředníků -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="material-icons-outlined">leaderboard</span>
+                            Výkonnost úředníků
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-action-btn" onclick="openScoringModal()">
+                                <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">info</span>
+                                Metodika hodnocení
+                            </button>
+                            <button class="card-action-btn">Export</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Informace o metodice skórování -->
+                    <div class="card-body" style="padding-bottom: 0;">
+                        <div class="scoring-info">
+                            <div class="scoring-item">
+                                <div class="scoring-icon blue">
+                                    <span class="material-icons-outlined">speed</span>
+                                </div>
+                                <div class="scoring-text">
+                                    <div class="scoring-title">Výkonnostní skóre</div>
+                                    <div class="scoring-desc">Kombinace objemu práce a její složitosti, normalizováno na 100 bodů</div>
+                                </div>
+                            </div>
+                            <div class="scoring-item">
+                                <div class="scoring-icon green">
+                                    <span class="material-icons-outlined">functions</span>
+                                </div>
+                                <div class="scoring-text">
+                                    <div class="scoring-title">Složitost řízení</div>
+                                    <div class="scoring-desc">Typ řízení × počet účastníků × počet dokumentů × koeficient DO</div>
+                                </div>
+                            </div>
+                            <div class="scoring-item">
+                                <div class="scoring-icon orange">
+                                    <span class="material-icons-outlined">timer</span>
+                                </div>
+                                <div class="scoring-text">
+                                    <div class="scoring-title">Efektivita</div>
+                                    <div class="scoring-desc">Poměr skutečné délky řízení k zákonné lhůtě</div>
+                                </div>
+                            </div>
+                            <div class="scoring-item">
+                                <div class="scoring-icon purple">
+                                    <span class="material-icons-outlined">balance</span>
+                                </div>
+                                <div class="scoring-text">
+                                    <div class="scoring-title">Váhy úřadu</div>
+                                    <div class="scoring-desc">Konfigurovatelné váhy pro jednotlivé složky hodnocení</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabulka úředníků -->
+                    <table class="performance-table">
+                        <thead>
+                            <tr>
+                                <th>Úředník</th>
+                                <th>Aktivní řízení</th>
+                                <th>Uzavřeno (měsíc)</th>
+                                <th>Prům. složitost</th>
+                                <th>Efektivita</th>
+                                <th>Vytížení</th>
+                                <th>Skóre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar">JN</div>
+                                        <div>
+                                            <div class="employee-name">Ing. Jana Nováková</div>
+                                            <div class="employee-role">Referent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>47</td>
+                                <td>
+                                    18
+                                    <span class="trend up">
+                                        <span class="material-icons-outlined">trending_up</span>
+                                        +3
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 78%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">3.8</span>
+                                    </div>
+                                </td>
+                                <td>94%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 85%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">85%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge excellent">92.4</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #34a853;">PK</div>
+                                        <div>
+                                            <div class="employee-name">Mgr. Petr Kovář</div>
+                                            <div class="employee-role">Referent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>38</td>
+                                <td>
+                                    15
+                                    <span class="trend up">
+                                        <span class="material-icons-outlined">trending_up</span>
+                                        +1
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 92%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">4.6</span>
+                                    </div>
+                                </td>
+                                <td>91%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 78%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">78%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge excellent">89.7</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #9334e6;">MH</div>
+                                        <div>
+                                            <div class="employee-name">Ing. Martin Horák</div>
+                                            <div class="employee-role">Referent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>52</td>
+                                <td>
+                                    14
+                                    <span class="trend down">
+                                        <span class="material-icons-outlined">trending_down</span>
+                                        -2
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill yellow" style="width: 56%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">2.8</span>
+                                    </div>
+                                </td>
+                                <td>88%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill yellow" style="width: 92%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">92%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge good">85.1</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #f9ab00;">LS</div>
+                                        <div>
+                                            <div class="employee-name">Bc. Lucie Svobodová</div>
+                                            <div class="employee-role">Referent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>41</td>
+                                <td>
+                                    12
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 68%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">3.4</span>
+                                    </div>
+                                </td>
+                                <td>96%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 75%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">75%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge good">83.6</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #00bcd4;">TD</div>
+                                        <div>
+                                            <div class="employee-name">Ing. Tomáš Dvořák</div>
+                                            <div class="employee-role">Referent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>35</td>
+                                <td>
+                                    11
+                                    <span class="trend up">
+                                        <span class="material-icons-outlined">trending_up</span>
+                                        +2
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 84%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">4.2</span>
+                                    </div>
+                                </td>
+                                <td>89%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill green" style="width: 68%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">68%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge good">81.2</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #607d8b;">VK</div>
+                                        <div>
+                                            <div class="employee-name">Mgr. Věra Králová</div>
+                                            <div class="employee-role">Referent</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>29</td>
+                                <td>
+                                    9
+                                    <span class="trend down">
+                                        <span class="material-icons-outlined">trending_down</span>
+                                        -1
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill yellow" style="width: 48%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">2.4</span>
+                                    </div>
+                                </td>
+                                <td>92%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill yellow" style="width: 58%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">58%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge average">72.8</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #ff5722;">JP</div>
+                                        <div>
+                                            <div class="employee-name">Bc. Jakub Procházka</div>
+                                            <div class="employee-role">Referent (junior)</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>22</td>
+                                <td>
+                                    6
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill red" style="width: 32%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">1.6</span>
+                                    </div>
+                                </td>
+                                <td>85%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill yellow" style="width: 52%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">52%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge average">65.4</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="employee-cell">
+                                        <div class="employee-avatar" style="background: #795548;">AV</div>
+                                        <div>
+                                            <div class="employee-name">Anna Veselá</div>
+                                            <div class="employee-role">Referent (zástup)</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>15</td>
+                                <td>
+                                    2
+                                </td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill red" style="width: 24%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">1.2</span>
+                                    </div>
+                                </td>
+                                <td>78%</td>
+                                <td>
+                                    <div class="mini-progress">
+                                        <div class="mini-progress-bar">
+                                            <div class="mini-progress-fill red" style="width: 35%;"></div>
+                                        </div>
+                                        <span class="mini-progress-label">35%</span>
+                                    </div>
+                                </td>
+                                <td><span class="score-badge below">48.2</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Legenda složitosti -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="material-icons-outlined">calculate</span>
+                            Výpočet složitosti řízení
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                            <div>
+                                <h4 style="font-size: 13px; font-weight: 500; color: #202124; margin-bottom: 12px;">Koeficient typu řízení</h4>
+                                <table style="width: 100%; font-size: 12px;">
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">Předběžná informace</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.0</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">Kolaudace</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.5</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">Odstranění stavby</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">2.0</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; color: #5f6368;">Povolení stavby</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">2.5</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 13px; font-weight: 500; color: #202124; margin-bottom: 12px;">Koeficient počtu účastníků</h4>
+                                <table style="width: 100%; font-size: 12px;">
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">1–5 účastníků</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.0</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">6–15 účastníků</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.3</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">16–50 účastníků</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.6</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; color: #5f6368;">50+ účastníků</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">2.0</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 13px; font-weight: 500; color: #202124; margin-bottom: 12px;">Koeficient dokumentace</h4>
+                                <table style="width: 100%; font-size: 12px;">
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">Do 20 dokumentů</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.0</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">21–50 dokumentů</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.2</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">51–100 dokumentů</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; color: #5f6368;">100+ dokumentů</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.6</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 13px; font-weight: 500; color: #202124; margin-bottom: 12px;">Koeficient dotčených orgánů</h4>
+                                <table style="width: 100%; font-size: 12px;">
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">0–2 DO</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.0</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">3–5 DO</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.2</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #f0f0f0;">
+                                        <td style="padding: 8px 0; color: #5f6368;">6–10 DO</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.4</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 8px 0; color: #5f6368;">10+ DO</td>
+                                        <td style="padding: 8px 0; text-align: right; font-weight: 500;">1.6</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; padding: 16px; background: #e8f0fe; border-radius: 8px;">
+                            <div style="font-size: 13px; font-weight: 500; color: #1a73e8; margin-bottom: 8px;">
+                                <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">functions</span>
+                                Vzorec výpočtu složitosti
+                            </div>
+                            <div style="font-size: 13px; color: #202124; font-family: 'Roboto Mono', monospace;">
+                                Složitost = K<sub>typ</sub> × K<sub>účastníci</sub> × K<sub>dokumenty</sub> × K<sub>DO</sub>
+                            </div>
+                            <div style="font-size: 12px; color: #5f6368; margin-top: 8px;">
+                                Výsledná složitost v rozsahu 1.0 – 5.0, kde 5.0 představuje nejsložitější řízení.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1202,10 +1908,13 @@
         // Switch view between "Moje řízení" and "Řízení úřadu"
         function switchView(view) {
             const buttons = document.querySelectorAll('.view-toggle-btn');
+            const managerSection = document.getElementById('managerSection');
+            
             buttons.forEach(btn => btn.classList.remove('active'));
             
             if (view === 'moje') {
                 buttons[0].classList.add('active');
+                managerSection.classList.remove('visible');
                 updateStats({
                     total: 47,
                     active: 32,
@@ -1215,6 +1924,7 @@
                 });
             } else {
                 buttons[1].classList.add('active');
+                managerSection.classList.add('visible');
                 updateStats({
                     total: 312,
                     active: 189,
@@ -1241,6 +1951,11 @@
         function filterByStatus(status) {
             console.log('Filter by:', status);
             // In real implementation, this would filter the list
+        }
+        
+        // Open scoring methodology modal (placeholder)
+        function openScoringModal() {
+            alert('Metodika hodnocení výkonnosti úředníků\n\nVýkonnostní skóre kombinuje:\n• Objem práce (počet řízení)\n• Složitost řízení (typ, účastníci, dokumenty, DO)\n• Efektivitu (dodržení lhůt)\n• Vytížení (poměr aktuální/cílové kapacity)\n\nVáhy jednotlivých složek lze konfigurovat v nastavení úřadu.');
         }
     </script>
 </body>
