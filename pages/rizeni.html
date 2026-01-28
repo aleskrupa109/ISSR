@@ -153,8 +153,25 @@
             background: rgba(255,255,255,0.15);
             color: white;
         }
+        .nav-rail-item.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .nav-rail-item.disabled:hover {
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+        }
         .nav-rail-item .material-icons-outlined {
             font-size: 24px;
+        }
+        .nav-rail-item-label {
+            font-size: 10px;
+        }
+        .nav-rail-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin: 8px 0;
         }
 
         /* ===========================================
@@ -899,21 +916,39 @@
     <div class="main-content">
         <!-- Nav Rail -->
         <nav class="nav-rail">
-            <a href="dashboard.html" class="nav-rail-item">
-                <span class="material-icons-outlined">dashboard</span>
-                <span>Domů</span>
+            <a href="dashboard.html" class="nav-rail-item" title="Domů">
+                <span class="material-icons-outlined">home</span>
+                <span class="nav-rail-item-label">Domů</span>
             </a>
-            <a href="zamery.html" class="nav-rail-item">
-                <span class="material-icons-outlined">assignment</span>
-                <span>Záměry</span>
+            
+            <div class="nav-rail-divider"></div>
+            
+            <a href="zamery.html" class="nav-rail-item" title="Záměry">
+                <span class="material-icons-outlined">push_pin</span>
+                <span class="nav-rail-item-label">Záměry</span>
             </a>
-            <a href="rizeni.html" class="nav-rail-item active">
-                <span class="material-icons-outlined">gavel</span>
-                <span>Řízení</span>
+            <a href="rizeni.html" class="nav-rail-item active" title="Řízení">
+                <span class="material-icons-outlined">work</span>
+                <span class="nav-rail-item-label">Řízení</span>
             </a>
-            <a href="dokumenty.html" class="nav-rail-item">
-                <span class="material-icons-outlined">folder</span>
-                <span>Dokumenty</span>
+            <a href="dokumenty.html" class="nav-rail-item" title="Dokumenty">
+                <span class="material-icons-outlined">mail</span>
+                <span class="nav-rail-item-label">Dokumenty</span>
+            </a>
+            
+            <div class="nav-rail-divider"></div>
+            
+            <a href="#" class="nav-rail-item disabled" title="Šablony">
+                <span class="material-icons-outlined">description</span>
+                <span class="nav-rail-item-label">Šablony</span>
+            </a>
+            <a href="#" class="nav-rail-item disabled" title="Statistiky">
+                <span class="material-icons-outlined">bar_chart</span>
+                <span class="nav-rail-item-label">Statistiky</span>
+            </a>
+            <a href="#" class="nav-rail-item disabled" title="Nastavení">
+                <span class="material-icons-outlined">settings</span>
+                <span class="nav-rail-item-label">Nastavení</span>
             </a>
         </nav>
 
