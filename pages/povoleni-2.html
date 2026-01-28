@@ -3634,6 +3634,335 @@
         }
 
         /* ==========================================
+           KONTROLA ŽÁDOSTI - NOVÝ DESIGN
+           ========================================== */
+        
+        /* Levé okno - strukturovaná data */
+        .zadost-data-viewer {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        .zadost-data-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+            background: #f8f9fa;
+        }
+        
+        .zadost-data-tab {
+            display: none;
+            padding: 20px;
+        }
+        
+        .zadost-data-tab.active {
+            display: block;
+        }
+        
+        .zadost-data-section {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        
+        .zadost-data-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: #f1f3f4;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            font-size: 13px;
+            color: #202124;
+        }
+        
+        .zadost-data-section-header .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .zadost-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: #e0e0e0;
+        }
+        
+        .zadost-data-item {
+            padding: 12px 16px;
+            background: #fff;
+        }
+        
+        .zadost-data-item.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .zadost-data-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+        
+        .zadost-data-value {
+            font-size: 13px;
+            color: #202124;
+        }
+        
+        .zadost-data-value.text-block {
+            line-height: 1.5;
+        }
+        
+        .zadost-data-empty {
+            padding: 24px 16px;
+            text-align: center;
+            color: #9aa0a6;
+            font-size: 13px;
+        }
+        
+        .zadost-data-empty .material-icons-outlined {
+            font-size: 32px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        /* Tabulka pozemků */
+        .zadost-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+        
+        .zadost-data-table th {
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            font-weight: 600;
+            color: #5f6368;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .zadost-data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f3f4;
+            color: #202124;
+        }
+        
+        .zadost-data-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Přílohy v levém okně */
+        .zadost-prilohy-list {
+            padding: 0;
+        }
+        
+        .zadost-priloha-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: #fff;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .zadost-priloha-item:last-child {
+            border-bottom: none;
+        }
+        
+        .zadost-priloha-item.not-applicable {
+            opacity: 0.6;
+        }
+        
+        .zadost-priloha-item.attached {
+            background: #fff;
+        }
+        
+        .priloha-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: #f1f3f4;
+            flex-shrink: 0;
+        }
+        
+        .priloha-icon .material-icons-outlined {
+            font-size: 20px;
+            color: #5f6368;
+        }
+        
+        .zadost-priloha-item.attached .priloha-icon {
+            background: #e8f5e9;
+        }
+        
+        .zadost-priloha-item.attached .priloha-icon .material-icons-outlined {
+            color: #2e7d32;
+        }
+        
+        .priloha-info {
+            flex: 1;
+        }
+        
+        .priloha-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        
+        .priloha-status {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        
+        .priloha-link {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        
+        .priloha-link:hover {
+            text-decoration: underline;
+        }
+        
+        .priloha-action {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #5f6368;
+        }
+        
+        .priloha-action:hover {
+            background: #f1f3f4;
+        }
+        
+        /* Pravé okno - checklist */
+        .zadost-checklist {
+            flex: 0 0 40%;
+        }
+        
+        .checklist-section {
+            margin-bottom: 24px;
+        }
+        
+        .checklist-section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #202124;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            background: #fff;
+            transition: all 0.15s;
+        }
+        
+        .checklist-item:hover {
+            border-color: #dadce0;
+            background: #fafafa;
+        }
+        
+        .checklist-item.disabled {
+            opacity: 0.5;
+            background: #f8f9fa;
+        }
+        
+        .checklist-item.checked-ok {
+            background: #e8f5e9;
+            border-color: #81c784;
+        }
+        
+        .checklist-item.checked-error {
+            background: #ffebee;
+            border-color: #ef9a9a;
+        }
+        
+        .checklist-text {
+            font-size: 13px;
+            color: #202124;
+            flex: 1;
+            padding-right: 12px;
+        }
+        
+        .checklist-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        
+        .checklist-btn {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .checklist-btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .checklist-btn.ok {
+            color: #5f6368;
+        }
+        
+        .checklist-btn.ok:hover,
+        .checklist-btn.ok.active {
+            background: #e8f5e9;
+            border-color: #81c784;
+            color: #2e7d32;
+        }
+        
+        .checklist-btn.error {
+            color: #5f6368;
+        }
+        
+        .checklist-btn.error:hover,
+        .checklist-btn.error.active {
+            background: #ffebee;
+            border-color: #ef9a9a;
+            color: #c62828;
+        }
+        
+        .checklist-btn.na {
+            background: #f1f3f4;
+            border-color: #e0e0e0;
+            color: #9aa0a6;
+            cursor: default;
+        }
+
+        /* ==========================================
            ÚČASTNÍCI ŘÍZENÍ - STYLY
            ========================================== */
         .ucastnici-tabs {
@@ -8083,237 +8412,633 @@
             </div>
         </div>
         <div class="control-body">
-            <div class="control-viewer">
+            <!-- LEVÉ OKNO: Strukturovaná data ze žádosti -->
+            <div class="control-viewer zadost-data-viewer">
                 <div class="viewer-tabs">
                     <div class="viewer-tabs-left">
-                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'kontrolazadosti', 'zadost')">
+                        <button class="viewer-tab active" onclick="switchZadostDataTab(this, 'zadost')">
                             <span class="material-icons-outlined">description</span>
                             Žádost
                         </button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'prilohy')">
+                        <button class="viewer-tab" onclick="switchZadostDataTab(this, 'prilohy')">
                             <span class="material-icons-outlined">attach_file</span>
                             Přílohy
-                            <span class="badge">12</span>
-                        </button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'dokumentace')">
-                            <span class="material-icons-outlined">folder</span>
-                            El. dokumentace
-                        </button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'kontrolazadosti', 'doklady')">
-                            <span class="material-icons-outlined">fact_check</span>
-                            Dokladová část
+                            <span class="badge">8</span>
                         </button>
                     </div>
-                    <button class="viewer-open-external" onclick="openViewerExternal('kontrolazadosti')" title="Otevřít v novém okně">
-                        <span class="material-icons-outlined">open_in_new</span>
-                    </button>
                 </div>
-                <div class="viewer-content">
-                    <div class="viewer-placeholder" id="viewer-kontrolazadosti">
-                        <span class="material-icons-outlined">description</span>
-                        <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
-                        <div class="viewer-placeholder-text">Formulář žádosti s údaji o stavebníkovi a záměru</div>
+                <div class="viewer-content zadost-data-content">
+                    <!-- TAB: Žádost - strukturovaná data -->
+                    <div class="zadost-data-tab active" id="zadostDataZadost">
+                        <!-- 1. Údaje o podání -->
+                        <div class="zadost-data-section" id="dataSectionPodani">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">assignment_ind</span>
+                                Údaje o podání
+                            </div>
+                            <div class="zadost-data-grid">
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Podatel (kdo činí podání)</div>
+                                    <div class="zadost-data-value">Jan Novák</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Věc, které se podání týká</div>
+                                    <div class="zadost-data-value">Žádost o povolení stavby</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Co se navrhuje</div>
+                                    <div class="zadost-data-value">Povolení novostavby rodinného domu</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Správní orgán, kterému je podání určeno</div>
+                                    <div class="zadost-data-value">Dopravní a energetický stavební úřad</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 2. Žadatel - Fyzická osoba -->
+                        <div class="zadost-data-section" id="dataSectionZadatel">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">person</span>
+                                Žadatel — Fyzická osoba
+                            </div>
+                            <div class="zadost-data-grid">
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Jméno</div>
+                                    <div class="zadost-data-value">Jan</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Příjmení</div>
+                                    <div class="zadost-data-value">Novák</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Datum narození</div>
+                                    <div class="zadost-data-value">15. 3. 1985</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Místo trvalého pobytu</div>
+                                    <div class="zadost-data-value">Květná 123, 110 00 Praha 1</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">E-mail</div>
+                                    <div class="zadost-data-value">jan.novak@email.cz</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Telefon</div>
+                                    <div class="zadost-data-value">+420 601 234 567</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Datová schránka</div>
+                                    <div class="zadost-data-value">abc123x</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 3. Zástupce -->
+                        <div class="zadost-data-section" id="dataSectionZastupce">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">supervisor_account</span>
+                                Zástupce na základě plné moci
+                            </div>
+                            <div class="zadost-data-empty">
+                                <span class="material-icons-outlined">person_off</span>
+                                Žadatel jedná sám za sebe, zástupce není uveden
+                            </div>
+                        </div>
+                        
+                        <!-- 4. Identifikace záměru -->
+                        <div class="zadost-data-section" id="dataSectionZamer">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">home_work</span>
+                                Identifikace záměru
+                            </div>
+                            <div class="zadost-data-grid">
+                                <div class="zadost-data-item full-width">
+                                    <div class="zadost-data-label">Název záměru</div>
+                                    <div class="zadost-data-value">Novostavba rodinného domu s garáží</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Místo stavby</div>
+                                    <div class="zadost-data-value">Jaroměř, ulice Květná</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Katastrální území</div>
+                                    <div class="zadost-data-value">Jaroměř [657336]</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 5. Základní charakteristika záměru -->
+                        <div class="zadost-data-section" id="dataSectionCharakteristika">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">info</span>
+                                Základní charakteristika záměru
+                            </div>
+                            <div class="zadost-data-grid">
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Druh stavby</div>
+                                    <div class="zadost-data-value">Budova pro bydlení — rodinný dům</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Účel užívání</div>
+                                    <div class="zadost-data-value">Bydlení</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Charakter stavby</div>
+                                    <div class="zadost-data-value">Trvalá stavba</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Zastavěná plocha</div>
+                                    <div class="zadost-data-value">185 m²</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 6. Podrobnější informace o záměru -->
+                        <div class="zadost-data-section" id="dataSectionPodrobneji">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">article</span>
+                                Podrobnější informace o záměru
+                            </div>
+                            <div class="zadost-data-grid">
+                                <div class="zadost-data-item full-width">
+                                    <div class="zadost-data-label">Popis záměru</div>
+                                    <div class="zadost-data-value text-block">Dvoupodlažní rodinný dům s obytným podkrovím a vestavěnou garáží pro 2 vozidla. Stavba bude napojena na veřejnou kanalizaci, vodovod, elektrickou energii a plynovod. Vytápění bude zajištěno tepelným čerpadlem vzduch-voda.</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Počet nadzemních podlaží</div>
+                                    <div class="zadost-data-value">2 + podkroví</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Počet podzemních podlaží</div>
+                                    <div class="zadost-data-value">0</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Počet bytových jednotek</div>
+                                    <div class="zadost-data-value">1</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Obestavěný prostor</div>
+                                    <div class="zadost-data-value">1 250 m³</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 7. Pozemky záměru -->
+                        <div class="zadost-data-section" id="dataSectionPozemkyZameru">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">terrain</span>
+                                Pozemky, které jsou předmětem záměru
+                            </div>
+                            <table class="zadost-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parcela</th>
+                                        <th>K.ú.</th>
+                                        <th>Druh pozemku</th>
+                                        <th>Výměra</th>
+                                        <th>Vlastník</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>st. 123</strong></td>
+                                        <td>Jaroměř</td>
+                                        <td>Zastavěná plocha a nádvoří</td>
+                                        <td>185 m²</td>
+                                        <td>Jan Novák</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>456/1</strong></td>
+                                        <td>Jaroměř</td>
+                                        <td>Zahrada</td>
+                                        <td>850 m²</td>
+                                        <td>Jan Novák</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>456/2</strong></td>
+                                        <td>Jaroměř</td>
+                                        <td>Zahrada</td>
+                                        <td>320 m²</td>
+                                        <td>Jan Novák</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 8. Sousední pozemky -->
+                        <div class="zadost-data-section" id="dataSectionPozemkySousedni">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">grid_view</span>
+                                Sousední pozemky dotčené záměrem
+                            </div>
+                            <table class="zadost-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parcela</th>
+                                        <th>K.ú.</th>
+                                        <th>Druh pozemku</th>
+                                        <th>Výměra</th>
+                                        <th>Vlastník</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>457</strong></td>
+                                        <td>Jaroměř</td>
+                                        <td>Zahrada</td>
+                                        <td>620 m²</td>
+                                        <td>Marie Veselá</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>458</strong></td>
+                                        <td>Jaroměř</td>
+                                        <td>Zastavěná plocha</td>
+                                        <td>420 m²</td>
+                                        <td>Petr Svoboda</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>789/1</strong></td>
+                                        <td>Jaroměř</td>
+                                        <td>Ostatní plocha</td>
+                                        <td>1 250 m²</td>
+                                        <td>Město Jaroměř</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 9. Způsob provádění -->
+                        <div class="zadost-data-section" id="dataSectionZpusob">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">construction</span>
+                                Způsob provádění stavby
+                            </div>
+                            <div class="zadost-data-grid">
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Způsob provádění</div>
+                                    <div class="zadost-data-value">Dodavatelsky</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Předpokládaná doba výstavby</div>
+                                    <div class="zadost-data-value">24 měsíců</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Předpokládané zahájení</div>
+                                    <div class="zadost-data-value">Březen 2026</div>
+                                </div>
+                                <div class="zadost-data-item">
+                                    <div class="zadost-data-label">Předpokládané dokončení</div>
+                                    <div class="zadost-data-value">Březen 2028</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 10. Výjimky -->
+                        <div class="zadost-data-section" id="dataSectionVyjimky">
+                            <div class="zadost-data-section-header">
+                                <span class="material-icons-outlined">rule</span>
+                                Výjimky z požadavků
+                            </div>
+                            <div class="zadost-data-empty">
+                                <span class="material-icons-outlined">check_circle</span>
+                                Žádné výjimky nejsou požadovány
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TAB: Přílohy -->
+                    <div class="zadost-data-tab" id="zadostDataPrilohy">
+                        <div class="zadost-prilohy-list">
+                            <!-- Plná moc -->
+                            <div class="zadost-priloha-item not-applicable">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">remove_circle_outline</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Plná moc</div>
+                                    <div class="priloha-status">Neaplikuje se — žadatel jedná sám za sebe</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Čestné prohlášení -->
+                            <div class="zadost-priloha-item not-applicable">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">remove_circle_outline</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Čestné prohlášení o vlastnickém právu ke stavbě</div>
+                                    <div class="priloha-status">Neaplikuje se — žadatel je vlastníkem pozemku</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Souhlas vlastníka -->
+                            <div class="zadost-priloha-item not-applicable">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">remove_circle_outline</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Souhlas vlastníka podle § 187 stavebního zákona</div>
+                                    <div class="priloha-status">Neaplikuje se — žadatel je vlastníkem pozemku</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Souhlasy účastníků -->
+                            <div class="zadost-priloha-item not-applicable">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">remove_circle_outline</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Souhlasy všech účastníků řízení</div>
+                                    <div class="priloha-status">Neaplikuje se — žadatel nežádá o zrychlené řízení</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Doklad výrobku -->
+                            <div class="zadost-priloha-item not-applicable">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">remove_circle_outline</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Doklad prokazující shodu vlastností výrobku</div>
+                                    <div class="priloha-status">Neaplikuje se — stavba nevyužívá výrobky plnící funkci stavby</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Plánovací smlouva -->
+                            <div class="zadost-priloha-item not-applicable">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">remove_circle_outline</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Plánovací smlouva</div>
+                                    <div class="priloha-status">Neaplikuje se — plánovací smlouva nebyla uzavřena</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Projektová dokumentace -->
+                            <div class="zadost-priloha-item attached">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">folder</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Projektová dokumentace</div>
+                                    <div class="priloha-status">Vložena do EED — <a href="#" class="priloha-link">SR00X01JD62H</a></div>
+                                </div>
+                                <button class="priloha-action" title="Otevřít v prohlížeči">
+                                    <span class="material-icons-outlined">visibility</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Vyjádření vlastníků sítí -->
+                            <div class="zadost-priloha-item attached">
+                                <div class="priloha-icon">
+                                    <span class="material-icons-outlined">description</span>
+                                </div>
+                                <div class="priloha-info">
+                                    <div class="priloha-name">Vyjádření vlastníků sítí</div>
+                                    <div class="priloha-status">12 vyjádření přiloženo</div>
+                                </div>
+                                <button class="priloha-action" title="Zobrazit seznam">
+                                    <span class="material-icons-outlined">expand_more</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="control-form">
+            
+            <!-- PRAVÉ OKNO: Checklist kontrolních položek -->
+            <div class="control-form zadost-checklist">
                 <div class="control-form-body">
-                    <!-- Údaje o žadateli -->
-                    <div class="control-section">
-                        <div class="control-section-title">Žadatel</div>
-                        <div class="data-card" id="dataZadatel">
-                            <div class="data-row" data-field="zadatel-jmeno">
-                                <div class="data-label">Jméno a příjmení</div>
-                                <div class="data-value">Jan Novák</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                    <!-- Sekce: Podání -->
+                    <div class="checklist-section">
+                        <div class="checklist-section-title">Podání</div>
+                        
+                        <div class="checklist-item" data-section="podani">
+                            <div class="checklist-text">Z podání je patrno, kdo je činí</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
                                 </button>
                             </div>
-                            <div class="data-row" data-field="zadatel-adresa">
-                                <div class="data-label">Adresa trvalého pobytu</div>
-                                <div class="data-value">Hlavní 123, 110 00 Praha 1</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="podani">
+                            <div class="checklist-text">Z podání je patrno, které věci se týká</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
                                 </button>
                             </div>
-                            <div class="data-row" data-field="zadatel-narozeni">
-                                <div class="data-label">Datum narození</div>
-                                <div class="data-value">15. 3. 1985</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="podani">
+                            <div class="checklist-text">Z podání je patrno, co se navrhuje</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
                                 </button>
                             </div>
-                            <div class="data-row" data-field="zadatel-email">
-                                <div class="data-label">E-mail</div>
-                                <div class="data-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="711b101f5f1f1e07101a31141c10181d5f120b">[email&#160;protected]</a></div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="zadatel">
+                            <div class="checklist-text">Fyzická osoba uvedla jméno, příjmení, datum narození a místo trvalého pobytu</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
                                 </button>
                             </div>
-                            <div class="data-row" data-field="zadatel-telefon">
-                                <div class="data-label">Telefon</div>
-                                <div class="data-value">+420 601 234 567</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                        </div>
+                        
+                        <div class="checklist-item disabled" data-section="zadatel">
+                            <div class="checklist-text">Fyzická osoba podnikající uvedla jméno, příjmení, adresu, IČO</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
+                                    <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
-                            <div class="data-row" data-field="zadatel-ds">
-                                <div class="data-label">Datová schránka</div>
-                                <div class="data-value">abc1234</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                        </div>
+                        
+                        <div class="checklist-item disabled" data-section="zadatel">
+                            <div class="checklist-text">Právnická osoba uvedla svůj název, IČO</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
+                                    <span class="material-icons-outlined">remove</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="podani">
+                            <div class="checklist-text">V podání je označen správní orgán, jemuž je určeno</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Zástupce -->
-                    <div class="control-section">
-                        <div class="control-section-title">Zástupce na základě plné moci</div>
-                        <div class="data-card" id="dataZastupce">
-                            <div class="data-row empty" data-field="zastupce">
-                                <div class="data-label">Zástupce</div>
-                                <div class="data-value muted">Žadatel jedná sám za sebe</div>
-                                <button class="data-status na" disabled title="Neaplikuje se">
+                    
+                    <!-- Sekce: Obsah podání -->
+                    <div class="checklist-section">
+                        <div class="checklist-section-title">Obsah podání</div>
+                        
+                        <div class="checklist-item" data-section="zamer">
+                            <div class="checklist-text">Identifikace záměru</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="charakteristika">
+                            <div class="checklist-text">Základní charakteristika záměru</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="podrobneji">
+                            <div class="checklist-text">Podrobnější informace o záměru</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="pozemky-zameru">
+                            <div class="checklist-text">Seznam pozemků, které jsou předmětem záměru</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="pozemky-sousedni">
+                            <div class="checklist-text">Seznam sousedních pozemků dotčených záměrem</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item" data-section="zpusob">
+                            <div class="checklist-text">Způsob provádění stavby nebo zařízení</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                    <span class="material-icons-outlined">check</span>
+                                </button>
+                                <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                    <span class="material-icons-outlined">close</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item disabled" data-section="vyjimky">
+                            <div class="checklist-text">Popis a odůvodnění výjimky</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
                                     <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Údaje o záměru -->
-                    <div class="control-section">
-                        <div class="control-section-title">Záměr</div>
-                        <div class="data-card" id="dataZamer">
-                            <div class="data-row" data-field="zamer-nazev">
-                                <div class="data-label">Název záměru</div>
-                                <div class="data-value">Novostavba rodinného domu</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="zamer-ucel">
-                                <div class="data-label">Účel</div>
-                                <div class="data-value">Bydlení</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="zamer-druh">
-                                <div class="data-label">Druh stavby</div>
-                                <div class="data-value">Rodinný dům</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="zamer-zpusob">
-                                <div class="data-label">Způsob provádění</div>
-                                <div class="data-value">Dodavatelsky</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="zamer-doba">
-                                <div class="data-label">Předpokládaná doba provádění</div>
-                                <div class="data-value">24 měsíců</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="zamer-charakter">
-                                <div class="data-label">Charakter stavby</div>
-                                <div class="data-value">Trvalá stavba</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                    
+                    <!-- Sekce: Přílohy -->
+                    <div class="checklist-section">
+                        <div class="checklist-section-title">Přílohy</div>
+                        
+                        <div class="checklist-item disabled" data-section="prilohy">
+                            <div class="checklist-text">Plná moc</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
+                                    <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Pozemky -->
-                    <div class="control-section">
-                        <div class="control-section-title">Pozemky</div>
-                        <div class="data-card" id="dataPozemky">
-                            <div class="data-row" data-field="pozemky-parcely">
-                                <div class="data-label">Parcelní čísla</div>
-                                <div class="data-value">st. 123, 456/1, 456/2</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="pozemky-ku">
-                                <div class="data-label">Katastrální území</div>
-                                <div class="data-value">Horní Počernice [643394]</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="pozemky-vlastnik">
-                                <div class="data-label">Vlastník pozemku</div>
-                                <div class="data-value">Jan Novák (žadatel)</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
+                        
+                        <div class="checklist-item disabled" data-section="prilohy">
+                            <div class="checklist-text">Čestné prohlášení o vlastnickém právu ke stavbě</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
+                                    <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Přílohy -->
-                    <div class="control-section">
-                        <div class="control-section-title">Přílohy žádosti</div>
-                        <div class="data-card" id="dataPrilohy">
-                            <div class="data-row" data-field="priloha-dokumentace">
-                                <div class="data-label">Projektová dokumentace</div>
-                                <div class="data-value">Vložena do EED <span class="data-link">SR00X01JD62H</span></div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="priloha-dtm">
-                                <div class="data-label">Vyjádření vlastníků sítí</div>
-                                <div class="data-value">12 vyjádření přiloženo</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row" data-field="priloha-zavazna-stanoviska">
-                                <div class="data-label">Závazná stanoviska</div>
-                                <div class="data-value">3 závazná stanoviska přiloženo</div>
-                                <button class="data-status ok" onclick="toggleDataStatus(this)" title="Označit jako vadné">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                </button>
-                            </div>
-                            <div class="data-row empty" data-field="priloha-souhlas">
-                                <div class="data-label">Souhlas vlastníka pozemku</div>
-                                <div class="data-value muted">Nevyžaduje se (žadatel = vlastník)</div>
-                                <button class="data-status na" disabled title="Neaplikuje se">
+                        
+                        <div class="checklist-item disabled" data-section="prilohy">
+                            <div class="checklist-text">Souhlas vlastníka podle § 187 stavebního zákona</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
                                     <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
-                            <div class="data-row empty" data-field="priloha-planovaci">
-                                <div class="data-label">Plánovací smlouva</div>
-                                <div class="data-value muted">Nevyžaduje se</div>
-                                <button class="data-status na" disabled title="Neaplikuje se">
+                        </div>
+                        
+                        <div class="checklist-item disabled" data-section="prilohy">
+                            <div class="checklist-text">Souhlasy všech účastníků řízení, pokud stavebník žádá o vydání povolení ve zrychleném řízení</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
                                     <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
-                            <div class="data-row empty" data-field="priloha-eia">
-                                <div class="data-label">Závěr zjišťovacího řízení EIA</div>
-                                <div class="data-value muted">Nevyžaduje se</div>
-                                <button class="data-status na" disabled title="Neaplikuje se">
+                        </div>
+                        
+                        <div class="checklist-item disabled" data-section="prilohy">
+                            <div class="checklist-text">Doklad prokazující shodu vlastností výrobku plnícího funkci stavby</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
                                     <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
-                            <div class="data-row empty" data-field="priloha-vyjimka">
-                                <div class="data-label">Specifikace výjimek z požadavků</div>
-                                <div class="data-value muted">Nevyžaduje se</div>
-                                <button class="data-status na" disabled title="Neaplikuje se">
+                        </div>
+                        
+                        <div class="checklist-item disabled" data-section="prilohy">
+                            <div class="checklist-text">Plánovací smlouva, je-li uzavřena</div>
+                            <div class="checklist-actions">
+                                <button class="checklist-btn na" disabled title="Neaplikuje se">
                                     <span class="material-icons-outlined">remove</span>
                                 </button>
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Poznámka k vadám -->
                     <div class="deficiency-note-section" id="zadostDeficiencySection" style="display: none;">
                         <div class="control-section-title">
@@ -8327,9 +9052,9 @@
                     <div class="result-preview positive" id="resultZadost">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
-                            Údaje v žádosti jsou v pořádku
+                            Žádost je úplná
                         </div>
-                        <div class="result-preview-text">Všechny údaje byly zkontrolovány a jsou smysluplné.</div>
+                        <div class="result-preview-text">Zkontrolujte všechny položky v checklistu.</div>
                     </div>
                 </div>
                 <div class="control-form-footer">
@@ -8345,7 +9070,7 @@
                             <span class="material-icons-outlined">save</span>
                             Uložit
                         </button>
-                        <button class="btn btn-primary" id="btnConfirmZadost" onclick="completeZadost()">
+                        <button class="btn btn-primary" id="btnConfirmZadost" onclick="completeZadostKontrola()">
                             <span class="material-icons-outlined">check</span>
                             Potvrdit kontrolu
                         </button>
@@ -11308,12 +12033,105 @@
             }
         }
 
-        function completeZadost() {
+        // ==========================================
+        // KONTROLA ŽÁDOSTI - NOVÝ DESIGN
+        // ==========================================
+        
+        // Přepínání záložek v levém okně (strukturovaná data)
+        function switchZadostDataTab(btn, tabName) {
+            // Deaktivovat všechny záložky
+            document.querySelectorAll('.zadost-data-viewer .viewer-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.zadost-data-tab').forEach(t => t.classList.remove('active'));
+            
+            // Aktivovat vybranou
+            btn.classList.add('active');
+            const tabId = tabName === 'zadost' ? 'zadostDataZadost' : 'zadostDataPrilohy';
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // Toggle checklist položky
+        function toggleChecklistItem(btn, type) {
+            const item = btn.closest('.checklist-item');
+            const actions = item.querySelector('.checklist-actions');
+            const okBtn = actions.querySelector('.checklist-btn.ok');
+            const errorBtn = actions.querySelector('.checklist-btn.error');
+            
+            // Reset
+            item.classList.remove('checked-ok', 'checked-error');
+            okBtn.classList.remove('active');
+            errorBtn.classList.remove('active');
+            
+            // Toggle
+            if (type === 'ok') {
+                if (!btn.classList.contains('active')) {
+                    item.classList.add('checked-ok');
+                    btn.classList.add('active');
+                }
+            } else {
+                if (!btn.classList.contains('active')) {
+                    item.classList.add('checked-error');
+                    btn.classList.add('active');
+                }
+            }
+            
+            // Aktualizovat výsledek kontroly
+            updateZadostKontrolaResult();
+        }
+        
+        // Aktualizovat výsledek kontroly žádosti
+        function updateZadostKontrolaResult() {
+            const allItems = document.querySelectorAll('.zadost-checklist .checklist-item:not(.disabled)');
+            const checkedOk = document.querySelectorAll('.zadost-checklist .checklist-item.checked-ok').length;
+            const checkedError = document.querySelectorAll('.zadost-checklist .checklist-item.checked-error').length;
+            const total = allItems.length;
+            const checked = checkedOk + checkedError;
+            
+            const resultBox = document.getElementById('resultZadost');
+            const deficiencySection = document.getElementById('zadostDeficiencySection');
+            
+            if (checkedError > 0) {
+                // Jsou vady
+                resultBox.className = 'result-preview negative';
+                resultBox.innerHTML = `
+                    <div class="result-preview-title">
+                        <span class="material-icons-outlined">warning</span>
+                        Žádost vykazuje vady (${checkedError})
+                    </div>
+                    <div class="result-preview-text">Bude vydána výzva k doplnění.</div>
+                `;
+                deficiencySection.style.display = 'block';
+            } else if (checked === total) {
+                // Vše OK
+                resultBox.className = 'result-preview positive';
+                resultBox.innerHTML = `
+                    <div class="result-preview-title">
+                        <span class="material-icons-outlined">check_circle</span>
+                        Žádost je úplná
+                    </div>
+                    <div class="result-preview-text">Všechny náležitosti byly zkontrolovány a jsou v pořádku.</div>
+                `;
+                deficiencySection.style.display = 'none';
+            } else {
+                // Rozpracováno
+                resultBox.className = 'result-preview positive';
+                resultBox.innerHTML = `
+                    <div class="result-preview-title">
+                        <span class="material-icons-outlined">check_circle</span>
+                        Žádost je úplná
+                    </div>
+                    <div class="result-preview-text">Zkontrolováno: ${checked} z ${total} položek</div>
+                `;
+                deficiencySection.style.display = 'none';
+            }
+        }
+        
+        // Dokončit kontrolu žádosti
+        function completeZadostKontrola() {
             controls.zadost.done = true;
             
-            const errorButtons = document.querySelectorAll('#controlZadost .data-status.error');
+            const checkedError = document.querySelectorAll('.zadost-checklist .checklist-item.checked-error').length;
             
-            if (errorButtons.length > 0) {
+            if (checkedError > 0) {
                 controls.zadost.result = 'vady';
                 controls.zadost.deficiencyNote = document.getElementById('zadostDeficiencyNote').value;
             } else {
@@ -11322,6 +12140,10 @@
             
             closeControl('controlZadost');
             updateUI();
+        }
+
+        function completeZadost() {
+            completeZadostKontrola();
         }
 
         // ==========================================
@@ -14977,7 +15799,1095 @@ ${reportContent}
         // Inicializace badge při načtení
         document.addEventListener('DOMContentLoaded', function() {
             updateGlobalIssuesBadge();
+            initSimulationPanel();
         });
+    </script>
+    
+    <!-- ==========================================
+         SIMULAČNÍ PANEL - DevTools pro maketu
+         ========================================== -->
+    <div class="sim-panel" id="simPanel">
+        <div class="sim-panel-header" onclick="toggleSimPanel()">
+            <div class="sim-panel-title">
+                <span class="material-icons-outlined">science</span>
+                <span class="sim-panel-title-text">Simulace</span>
+            </div>
+            <div class="sim-panel-toggle">
+                <span class="material-icons-outlined" id="simPanelToggleIcon">expand_less</span>
+            </div>
+        </div>
+        <div class="sim-panel-body" id="simPanelBody">
+            <div class="sim-section">
+                <div class="sim-section-title">Scénář žádosti</div>
+                <div class="sim-scenarios">
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="zakladni" checked onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Základní</strong>
+                            <small>FO žadatel, bez zástupce, vlastník</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="zastupce-pm" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Zástupce — plná moc</strong>
+                            <small>FO + zástupce na základě listinné PM</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="zastupce-reza" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Zástupce — REZA</strong>
+                            <small>FO + zástupce z registru el. zastupování</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="pravnicka-osoba" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Právnická osoba</strong>
+                            <small>PO žadatel (s.r.o.), jednatel</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="osvc" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>OSVČ</strong>
+                            <small>Fyzická osoba podnikající</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="spoluvlastnici" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Spoluvlastníci</strong>
+                            <small>Více žadatelů — manželé</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="neni-vlastnik" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Není vlastník</strong>
+                            <small>Žadatel nemá právo k pozemku</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="zrychlene-rizeni" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Zrychlené řízení</strong>
+                            <small>Se souhlasy všech účastníků</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="s-vyjimkami" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>S výjimkami</strong>
+                            <small>Obsahuje žádost o výjimku</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="scenar" value="komplexni" onchange="applyScenario(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Komplexní</strong>
+                            <small>PO + REZA + není vlastník + výjimka</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="sim-section">
+                <div class="sim-section-title">Aktuální nastavení</div>
+                <div class="sim-info" id="simInfo">
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Typ žadatele:</span>
+                        <span class="sim-info-value" id="simInfoTyp">Fyzická osoba</span>
+                    </div>
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Zástupce:</span>
+                        <span class="sim-info-value" id="simInfoZastupce">Bez zástupce</span>
+                    </div>
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Vlastnictví:</span>
+                        <span class="sim-info-value" id="simInfoVlastnictvi">Vlastník pozemku</span>
+                    </div>
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Zvláštnosti:</span>
+                        <span class="sim-info-value" id="simInfoZvlastnosti">—</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sim-actions">
+                <button class="sim-btn" onclick="copyScenarioUrl()">
+                    <span class="material-icons-outlined">link</span>
+                    Kopírovat URL
+                </button>
+                <button class="sim-btn" onclick="resetScenario()">
+                    <span class="material-icons-outlined">refresh</span>
+                    Reset
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        /* ==========================================
+           SIMULAČNÍ PANEL - STYLY
+           ========================================== */
+        .sim-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            background: #1a1a2e;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            z-index: 10000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .sim-panel.minimized {
+            width: auto;
+        }
+        
+        .sim-panel.minimized .sim-panel-body {
+            display: none;
+        }
+        
+        .sim-panel.minimized .sim-panel-title-text {
+            display: none;
+        }
+        
+        .sim-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .sim-panel-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .sim-panel-title .material-icons-outlined {
+            font-size: 20px;
+        }
+        
+        .sim-panel-toggle {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .sim-panel-toggle .material-icons-outlined {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .sim-panel.minimized .sim-panel-toggle .material-icons-outlined {
+            transform: rotate(180deg);
+        }
+        
+        .sim-panel-body {
+            padding: 16px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .sim-section {
+            margin-bottom: 16px;
+        }
+        
+        .sim-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sim-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #8b8b9e;
+            margin-bottom: 10px;
+        }
+        
+        .sim-scenarios {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .sim-radio {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #252542;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+        }
+        
+        .sim-radio:hover {
+            background: #2d2d4a;
+        }
+        
+        .sim-radio input {
+            margin-top: 3px;
+            accent-color: #667eea;
+        }
+        
+        .sim-radio input:checked + .sim-radio-label strong {
+            color: #a5b4fc;
+        }
+        
+        .sim-radio:has(input:checked) {
+            border-color: #667eea;
+            background: #2d2d4a;
+        }
+        
+        .sim-radio-label {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .sim-radio-label strong {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        
+        .sim-radio-label small {
+            font-size: 10px;
+            color: #8b8b9e;
+        }
+        
+        .sim-info {
+            background: #252542;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .sim-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #333355;
+        }
+        
+        .sim-info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .sim-info-label {
+            font-size: 11px;
+            color: #8b8b9e;
+        }
+        
+        .sim-info-value {
+            font-size: 11px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        
+        .sim-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .sim-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 12px;
+            background: #252542;
+            border: none;
+            border-radius: 8px;
+            color: #a5b4fc;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .sim-btn:hover {
+            background: #333355;
+        }
+        
+        .sim-btn .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Toast pro kopírování URL */
+        .sim-toast {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            padding: 12px 20px;
+            background: #333;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 13px;
+            z-index: 10001;
+            animation: simToastIn 0.3s ease;
+        }
+        
+        @keyframes simToastIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    
+    <script>
+        // ==========================================
+        // SIMULAČNÍ PANEL - JAVASCRIPT
+        // ==========================================
+        
+        // Definice scénářů
+        const scenarios = {
+            'zakladni': {
+                nazev: 'Základní',
+                typZadatele: 'fo',
+                typZadateleText: 'Fyzická osoba',
+                zastupce: null,
+                zastupceText: 'Bez zástupce',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: [],
+                zvlastnostiText: '—',
+                zadatel: {
+                    jmeno: 'Jan',
+                    prijmeni: 'Novák',
+                    datumNarozeni: '15. 3. 1985',
+                    trvaleBytem: 'Květná 123, 110 00 Praha 1',
+                    email: 'jan.novak@email.cz',
+                    telefon: '+420 601 234 567',
+                    ds: 'abc123x'
+                }
+            },
+            'zastupce-pm': {
+                nazev: 'Zástupce — plná moc',
+                typZadatele: 'fo',
+                typZadateleText: 'Fyzická osoba',
+                zastupce: 'pm',
+                zastupceText: 'Listinná plná moc',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: ['plna-moc'],
+                zvlastnostiText: 'Plná moc v příloze',
+                zadatel: {
+                    jmeno: 'Marie',
+                    prijmeni: 'Svobodová',
+                    datumNarozeni: '22. 7. 1978',
+                    trvaleBytem: 'Lipová 45, 551 01 Jaroměř',
+                    email: 'marie.svobodova@email.cz',
+                    telefon: '+420 602 345 678',
+                    ds: null
+                },
+                zastupceData: {
+                    jmeno: 'Ing. Pavel',
+                    prijmeni: 'Projektant',
+                    datumNarozeni: '10. 5. 1970',
+                    adresa: 'Projektová 789, 500 02 Hradec Králové',
+                    ds: 'proj456x',
+                    typPM: 'Listinná plná moc',
+                    platnostPM: 'Neomezená'
+                }
+            },
+            'zastupce-reza': {
+                nazev: 'Zástupce — REZA',
+                typZadatele: 'fo',
+                typZadateleText: 'Fyzická osoba',
+                zastupce: 'reza',
+                zastupceText: 'REZA (el. zastupování)',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: ['reza'],
+                zvlastnostiText: 'Zástupce z REZA',
+                zadatel: {
+                    jmeno: 'Petr',
+                    prijmeni: 'Horák',
+                    datumNarozeni: '3. 11. 1982',
+                    trvaleBytem: 'Zahradní 567, 551 01 Jaroměř',
+                    email: 'petr.horak@email.cz',
+                    telefon: '+420 603 456 789',
+                    ds: 'horak01'
+                },
+                zastupceData: {
+                    jmeno: 'JUDr. Anna',
+                    prijmeni: 'Advokátová',
+                    ico: '12345678',
+                    adresa: 'Právní 123, 110 00 Praha 1',
+                    ds: 'advo123x',
+                    typPM: 'REZA — Registr elektronického zastupování',
+                    platnostPM: 'Do 31. 12. 2026',
+                    rozsah: 'Stavební řízení'
+                }
+            },
+            'pravnicka-osoba': {
+                nazev: 'Právnická osoba',
+                typZadatele: 'po',
+                typZadateleText: 'Právnická osoba',
+                zastupce: 'statutar',
+                zastupceText: 'Jednatel (statutární orgán)',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: [],
+                zvlastnostiText: '—',
+                zadatel: {
+                    nazev: 'STAVBY NOVÁK s.r.o.',
+                    ico: '28563412',
+                    sidlo: 'Průmyslová 456, 551 01 Jaroměř',
+                    ds: 'stavnov1',
+                    jednatel: 'Ing. Jan Novák'
+                }
+            },
+            'osvc': {
+                nazev: 'OSVČ',
+                typZadatele: 'fo-podnikatel',
+                typZadateleText: 'Fyzická osoba podnikající',
+                zastupce: null,
+                zastupceText: 'Bez zástupce',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: [],
+                zvlastnostiText: '—',
+                zadatel: {
+                    jmeno: 'Karel',
+                    prijmeni: 'Podnikavý',
+                    datumNarozeni: '18. 9. 1975',
+                    trvaleBytem: 'Obchodní 321, 551 01 Jaroměř',
+                    ico: '87654321',
+                    misto: 'Obchodní 321, 551 01 Jaroměř',
+                    email: 'karel@podnikavy.cz',
+                    telefon: '+420 604 567 890',
+                    ds: 'podn321x'
+                }
+            },
+            'spoluvlastnici': {
+                nazev: 'Spoluvlastníci',
+                typZadatele: 'fo-vice',
+                typZadateleText: 'Více žadatelů (manželé)',
+                zastupce: null,
+                zastupceText: 'Bez zástupce',
+                vlastnik: true,
+                vlastnikText: 'Spoluvlastníci pozemku',
+                zvlastnosti: ['vice-zadatelu'],
+                zvlastnostiText: '2 žadatelé',
+                zadatele: [
+                    {
+                        jmeno: 'Jan',
+                        prijmeni: 'Manžel',
+                        datumNarozeni: '5. 4. 1980',
+                        trvaleBytem: 'Rodinná 111, 551 01 Jaroměř',
+                        email: 'jan.manzel@email.cz',
+                        telefon: '+420 605 678 901',
+                        ds: 'manz01'
+                    },
+                    {
+                        jmeno: 'Jana',
+                        prijmeni: 'Manželová',
+                        datumNarozeni: '12. 8. 1982',
+                        trvaleBytem: 'Rodinná 111, 551 01 Jaroměř',
+                        email: 'jana.manzelova@email.cz',
+                        telefon: '+420 606 789 012',
+                        ds: null
+                    }
+                ]
+            },
+            'neni-vlastnik': {
+                nazev: 'Není vlastník',
+                typZadatele: 'fo',
+                typZadateleText: 'Fyzická osoba',
+                zastupce: null,
+                zastupceText: 'Bez zástupce',
+                vlastnik: false,
+                vlastnikText: 'NENÍ vlastník pozemku',
+                zvlastnosti: ['souhlas-vlastnika'],
+                zvlastnostiText: 'Souhlas vlastníka § 187',
+                zadatel: {
+                    jmeno: 'Tomáš',
+                    prijmeni: 'Nájemce',
+                    datumNarozeni: '25. 1. 1990',
+                    trvaleBytem: 'Nájemní 222, 551 01 Jaroměř',
+                    email: 'tomas.najemce@email.cz',
+                    telefon: '+420 607 890 123',
+                    ds: null
+                },
+                vlastnikPozemku: {
+                    jmeno: 'Město Jaroměř',
+                    typ: 'po',
+                    souhlas: true
+                }
+            },
+            'zrychlene-rizeni': {
+                nazev: 'Zrychlené řízení',
+                typZadatele: 'fo',
+                typZadateleText: 'Fyzická osoba',
+                zastupce: null,
+                zastupceText: 'Bez zástupce',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: ['zrychlene'],
+                zvlastnostiText: 'Zrychlené řízení',
+                zadatel: {
+                    jmeno: 'Rychlý',
+                    prijmeni: 'Stavebník',
+                    datumNarozeni: '30. 6. 1985',
+                    trvaleBytem: 'Expresní 333, 551 01 Jaroměř',
+                    email: 'rychly@stavebnik.cz',
+                    telefon: '+420 608 901 234',
+                    ds: 'rych333'
+                },
+                souhlasyUcastniku: true
+            },
+            's-vyjimkami': {
+                nazev: 'S výjimkami',
+                typZadatele: 'fo',
+                typZadateleText: 'Fyzická osoba',
+                zastupce: null,
+                zastupceText: 'Bez zástupce',
+                vlastnik: true,
+                vlastnikText: 'Vlastník pozemku',
+                zvlastnosti: ['vyjimka'],
+                zvlastnostiText: 'Žádost o výjimku',
+                zadatel: {
+                    jmeno: 'Jiří',
+                    prijmeni: 'Výjimečný',
+                    datumNarozeni: '14. 2. 1978',
+                    trvaleBytem: 'Speciální 444, 551 01 Jaroměř',
+                    email: 'jiri@vyjimecny.cz',
+                    telefon: '+420 609 012 345',
+                    ds: 'vyji444'
+                },
+                vyjimka: {
+                    typ: 'Odstupová vzdálenost',
+                    popis: 'Snížení odstupové vzdálenosti od hranice pozemku z 2 m na 1,5 m',
+                    oduvodneni: 'Stávající zástavba, terénní podmínky'
+                }
+            },
+            'komplexni': {
+                nazev: 'Komplexní',
+                typZadatele: 'po',
+                typZadateleText: 'Právnická osoba',
+                zastupce: 'reza',
+                zastupceText: 'REZA (el. zastupování)',
+                vlastnik: false,
+                vlastnikText: 'NENÍ vlastník pozemku',
+                zvlastnosti: ['reza', 'souhlas-vlastnika', 'vyjimka'],
+                zvlastnostiText: 'REZA + Souhlas + Výjimka',
+                zadatel: {
+                    nazev: 'DEVELOPMENT PLUS a.s.',
+                    ico: '99887766',
+                    sidlo: 'Developerská 999, 110 00 Praha 1',
+                    ds: 'devplus1'
+                },
+                zastupceData: {
+                    nazev: 'PROJEKTY PRO VÁS s.r.o.',
+                    ico: '11223344',
+                    sidlo: 'Projekční 555, 500 02 Hradec Králové',
+                    ds: 'projvas1',
+                    typPM: 'REZA — Registr elektronického zastupování',
+                    platnostPM: 'Do 31. 12. 2027',
+                    rozsah: 'Veškerá stavební řízení'
+                },
+                vlastnikPozemku: {
+                    jmeno: 'Státní pozemkový úřad',
+                    typ: 'po',
+                    souhlas: true
+                },
+                vyjimka: {
+                    typ: 'Požární odstup',
+                    popis: 'Snížení požárního odstupu od sousední budovy',
+                    oduvodneni: 'Kompenzováno protipožárním opatřením'
+                }
+            }
+        };
+        
+        let currentScenario = 'zakladni';
+        
+        // Inicializace panelu
+        function initSimulationPanel() {
+            // Načíst scénář z URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const scenarFromUrl = urlParams.get('scenar');
+            
+            if (scenarFromUrl && scenarios[scenarFromUrl]) {
+                currentScenario = scenarFromUrl;
+                document.querySelector(`input[name="scenar"][value="${scenarFromUrl}"]`).checked = true;
+                applyScenario(scenarFromUrl, false);
+            }
+        }
+        
+        // Přepnout panel (minimalizovat/maximalizovat)
+        function toggleSimPanel() {
+            const panel = document.getElementById('simPanel');
+            panel.classList.toggle('minimized');
+        }
+        
+        // Aplikovat scénář
+        function applyScenario(scenarioId, updateUrl = true) {
+            currentScenario = scenarioId;
+            const scenario = scenarios[scenarioId];
+            
+            if (!scenario) return;
+            
+            // Aktualizovat info panel
+            document.getElementById('simInfoTyp').textContent = scenario.typZadateleText;
+            document.getElementById('simInfoZastupce').textContent = scenario.zastupceText;
+            document.getElementById('simInfoVlastnictvi').textContent = scenario.vlastnikText;
+            document.getElementById('simInfoZvlastnosti').textContent = scenario.zvlastnostiText;
+            
+            // Aktualizovat URL
+            if (updateUrl) {
+                const url = new URL(window.location);
+                url.searchParams.set('scenar', scenarioId);
+                window.history.replaceState({}, '', url);
+            }
+            
+            // Aktualizovat data v kontrole žádosti
+            updateKontrolaZadostiData(scenario);
+            
+            // Aktualizovat checklist
+            updateKontrolaZadostiChecklist(scenario);
+            
+            // Toast
+            showSimToast(`Scénář: ${scenario.nazev}`);
+        }
+        
+        // Aktualizovat strukturovaná data v kontrole žádosti
+        function updateKontrolaZadostiData(scenario) {
+            const sectionZadatel = document.getElementById('dataSectionZadatel');
+            const sectionZastupce = document.getElementById('dataSectionZastupce');
+            
+            if (!sectionZadatel) return;
+            
+            // Aktualizovat sekci žadatele
+            if (scenario.typZadatele === 'fo') {
+                const z = scenario.zadatel;
+                sectionZadatel.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">person</span>
+                        Žadatel — Fyzická osoba
+                    </div>
+                    <div class="zadost-data-grid">
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Jméno</div>
+                            <div class="zadost-data-value">${z.jmeno}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Příjmení</div>
+                            <div class="zadost-data-value">${z.prijmeni}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datum narození</div>
+                            <div class="zadost-data-value">${z.datumNarozeni}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Místo trvalého pobytu</div>
+                            <div class="zadost-data-value">${z.trvaleBytem}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">E-mail</div>
+                            <div class="zadost-data-value">${z.email}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Telefon</div>
+                            <div class="zadost-data-value">${z.telefon}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datová schránka</div>
+                            <div class="zadost-data-value">${z.ds || '<span style="color:#9aa0a6;">Nemá zřízenu</span>'}</div>
+                        </div>
+                    </div>
+                `;
+            } else if (scenario.typZadatele === 'fo-podnikatel') {
+                const z = scenario.zadatel;
+                sectionZadatel.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">badge</span>
+                        Žadatel — Fyzická osoba podnikající
+                    </div>
+                    <div class="zadost-data-grid">
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Jméno</div>
+                            <div class="zadost-data-value">${z.jmeno}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Příjmení</div>
+                            <div class="zadost-data-value">${z.prijmeni}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datum narození</div>
+                            <div class="zadost-data-value">${z.datumNarozeni}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Místo trvalého pobytu</div>
+                            <div class="zadost-data-value">${z.trvaleBytem}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">IČO</div>
+                            <div class="zadost-data-value"><strong>${z.ico}</strong></div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Místo podnikání</div>
+                            <div class="zadost-data-value">${z.misto}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">E-mail</div>
+                            <div class="zadost-data-value">${z.email}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datová schránka</div>
+                            <div class="zadost-data-value">${z.ds}</div>
+                        </div>
+                    </div>
+                `;
+            } else if (scenario.typZadatele === 'po') {
+                const z = scenario.zadatel;
+                sectionZadatel.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">business</span>
+                        Žadatel — Právnická osoba
+                    </div>
+                    <div class="zadost-data-grid">
+                        <div class="zadost-data-item full-width">
+                            <div class="zadost-data-label">Název / Obchodní firma</div>
+                            <div class="zadost-data-value"><strong>${z.nazev}</strong></div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">IČO</div>
+                            <div class="zadost-data-value"><strong>${z.ico}</strong></div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Sídlo</div>
+                            <div class="zadost-data-value">${z.sidlo}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datová schránka</div>
+                            <div class="zadost-data-value">${z.ds}</div>
+                        </div>
+                        ${z.jednatel ? `
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Jednatel</div>
+                            <div class="zadost-data-value">${z.jednatel}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else if (scenario.typZadatele === 'fo-vice') {
+                let html = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">group</span>
+                        Žadatelé — Spoluvlastníci (${scenario.zadatele.length})
+                    </div>
+                `;
+                scenario.zadatele.forEach((z, index) => {
+                    html += `
+                        <div style="padding: 8px 16px; background: #f8f9fa; font-weight: 600; font-size: 12px; color: #5f6368; border-bottom: 1px solid #e0e0e0;">
+                            Žadatel ${index + 1}
+                        </div>
+                        <div class="zadost-data-grid">
+                            <div class="zadost-data-item">
+                                <div class="zadost-data-label">Jméno</div>
+                                <div class="zadost-data-value">${z.jmeno}</div>
+                            </div>
+                            <div class="zadost-data-item">
+                                <div class="zadost-data-label">Příjmení</div>
+                                <div class="zadost-data-value">${z.prijmeni}</div>
+                            </div>
+                            <div class="zadost-data-item">
+                                <div class="zadost-data-label">Datum narození</div>
+                                <div class="zadost-data-value">${z.datumNarozeni}</div>
+                            </div>
+                            <div class="zadost-data-item">
+                                <div class="zadost-data-label">Trvalé bydliště</div>
+                                <div class="zadost-data-value">${z.trvaleBytem}</div>
+                            </div>
+                            <div class="zadost-data-item">
+                                <div class="zadost-data-label">Datová schránka</div>
+                                <div class="zadost-data-value">${z.ds || '<span style="color:#9aa0a6;">Nemá zřízenu</span>'}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                sectionZadatel.innerHTML = html;
+            }
+            
+            // Aktualizovat sekci zástupce
+            if (scenario.zastupce && scenario.zastupceData) {
+                const zast = scenario.zastupceData;
+                const isReza = scenario.zastupce === 'reza';
+                const isPO = zast.ico && zast.nazev;
+                
+                let zastupceHtml = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">supervisor_account</span>
+                        Zástupce na základě ${isReza ? 'REZA' : 'plné moci'}
+                        ${isReza ? '<span style="margin-left: 8px; padding: 2px 8px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-size: 10px; font-weight: 600;">REZA</span>' : ''}
+                    </div>
+                    <div class="zadost-data-grid">
+                `;
+                
+                if (isPO) {
+                    zastupceHtml += `
+                        <div class="zadost-data-item full-width">
+                            <div class="zadost-data-label">Název / Obchodní firma</div>
+                            <div class="zadost-data-value"><strong>${zast.nazev}</strong></div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">IČO</div>
+                            <div class="zadost-data-value">${zast.ico}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Sídlo</div>
+                            <div class="zadost-data-value">${zast.sidlo}</div>
+                        </div>
+                    `;
+                } else {
+                    zastupceHtml += `
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Jméno a příjmení</div>
+                            <div class="zadost-data-value">${zast.jmeno} ${zast.prijmeni}</div>
+                        </div>
+                        ${zast.datumNarozeni ? `
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datum narození</div>
+                            <div class="zadost-data-value">${zast.datumNarozeni}</div>
+                        </div>
+                        ` : ''}
+                        ${zast.ico ? `
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">IČO</div>
+                            <div class="zadost-data-value">${zast.ico}</div>
+                        </div>
+                        ` : ''}
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Adresa</div>
+                            <div class="zadost-data-value">${zast.adresa}</div>
+                        </div>
+                    `;
+                }
+                
+                zastupceHtml += `
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Datová schránka</div>
+                            <div class="zadost-data-value">${zast.ds}</div>
+                        </div>
+                        <div class="zadost-data-item full-width" style="background: ${isReza ? '#e8f5e9' : '#fff3e0'};">
+                            <div class="zadost-data-label">Typ zmocnění</div>
+                            <div class="zadost-data-value">${zast.typPM}</div>
+                        </div>
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Platnost</div>
+                            <div class="zadost-data-value">${zast.platnostPM}</div>
+                        </div>
+                        ${zast.rozsah ? `
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Rozsah zmocnění</div>
+                            <div class="zadost-data-value">${zast.rozsah}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                sectionZastupce.innerHTML = zastupceHtml;
+            } else if (scenario.zastupce === 'statutar') {
+                sectionZastupce.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">supervisor_account</span>
+                        Zástupce — Statutární orgán
+                    </div>
+                    <div class="zadost-data-empty" style="background: #e8f5e9; color: #2e7d32;">
+                        <span class="material-icons-outlined">verified</span>
+                        Za právnickou osobu jedná jednatel jako statutární orgán
+                    </div>
+                `;
+            } else {
+                sectionZastupce.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">supervisor_account</span>
+                        Zástupce na základě plné moci
+                    </div>
+                    <div class="zadost-data-empty">
+                        <span class="material-icons-outlined">person_off</span>
+                        Žadatel jedná sám za sebe, zástupce není uveden
+                    </div>
+                `;
+            }
+            
+            // Aktualizovat sekci výjimek
+            const sectionVyjimky = document.getElementById('dataSectionVyjimky');
+            if (sectionVyjimky && scenario.vyjimka) {
+                sectionVyjimky.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">rule</span>
+                        Výjimky z požadavků
+                        <span style="margin-left: 8px; padding: 2px 8px; background: #fff3e0; color: #ef6c00; border-radius: 4px; font-size: 10px; font-weight: 600;">ŽÁDÁNO</span>
+                    </div>
+                    <div class="zadost-data-grid">
+                        <div class="zadost-data-item">
+                            <div class="zadost-data-label">Typ výjimky</div>
+                            <div class="zadost-data-value"><strong>${scenario.vyjimka.typ}</strong></div>
+                        </div>
+                        <div class="zadost-data-item full-width">
+                            <div class="zadost-data-label">Popis</div>
+                            <div class="zadost-data-value">${scenario.vyjimka.popis}</div>
+                        </div>
+                        <div class="zadost-data-item full-width">
+                            <div class="zadost-data-label">Odůvodnění</div>
+                            <div class="zadost-data-value">${scenario.vyjimka.oduvodneni}</div>
+                        </div>
+                    </div>
+                `;
+            } else if (sectionVyjimky) {
+                sectionVyjimky.innerHTML = `
+                    <div class="zadost-data-section-header">
+                        <span class="material-icons-outlined">rule</span>
+                        Výjimky z požadavků
+                    </div>
+                    <div class="zadost-data-empty">
+                        <span class="material-icons-outlined">check_circle</span>
+                        Žádné výjimky nejsou požadovány
+                    </div>
+                `;
+            }
+        }
+        
+        // Aktualizovat checklist podle scénáře
+        function updateKontrolaZadostiChecklist(scenario) {
+            const checklist = document.querySelector('.zadost-checklist');
+            if (!checklist) return;
+            
+            // Reset všech položek
+            checklist.querySelectorAll('.checklist-item').forEach(item => {
+                item.classList.remove('disabled', 'checked-ok', 'checked-error');
+                const actions = item.querySelector('.checklist-actions');
+                if (actions) {
+                    actions.innerHTML = `
+                        <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                            <span class="material-icons-outlined">check</span>
+                        </button>
+                        <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                            <span class="material-icons-outlined">close</span>
+                        </button>
+                    `;
+                }
+            });
+            
+            // Nastavit disabled položky podle scénáře
+            const setDisabled = (text) => {
+                checklist.querySelectorAll('.checklist-item').forEach(item => {
+                    if (item.querySelector('.checklist-text').textContent.includes(text)) {
+                        item.classList.add('disabled');
+                        item.querySelector('.checklist-actions').innerHTML = `
+                            <button class="checklist-btn na" disabled title="Neaplikuje se">
+                                <span class="material-icons-outlined">remove</span>
+                            </button>
+                        `;
+                    }
+                });
+            };
+            
+            const setEnabled = (text) => {
+                checklist.querySelectorAll('.checklist-item').forEach(item => {
+                    if (item.querySelector('.checklist-text').textContent.includes(text)) {
+                        item.classList.remove('disabled');
+                        item.querySelector('.checklist-actions').innerHTML = `
+                            <button class="checklist-btn ok" onclick="toggleChecklistItem(this, 'ok')" title="V pořádku">
+                                <span class="material-icons-outlined">check</span>
+                            </button>
+                            <button class="checklist-btn error" onclick="toggleChecklistItem(this, 'error')" title="Vadné">
+                                <span class="material-icons-outlined">close</span>
+                            </button>
+                        `;
+                    }
+                });
+            };
+            
+            // Typ žadatele
+            if (scenario.typZadatele === 'fo') {
+                setDisabled('Fyzická osoba podnikající');
+                setDisabled('Právnická osoba uvedla');
+            } else if (scenario.typZadatele === 'fo-podnikatel') {
+                setDisabled('Právnická osoba uvedla');
+                setEnabled('Fyzická osoba podnikající');
+            } else if (scenario.typZadatele === 'po') {
+                setDisabled('Fyzická osoba uvedla jméno');
+                setDisabled('Fyzická osoba podnikající');
+                setEnabled('Právnická osoba uvedla');
+            } else if (scenario.typZadatele === 'fo-vice') {
+                setDisabled('Fyzická osoba podnikající');
+                setDisabled('Právnická osoba uvedla');
+            }
+            
+            // Plná moc
+            if (scenario.zastupce === 'pm' || scenario.zastupce === 'reza') {
+                setEnabled('Plná moc');
+            } else {
+                setDisabled('Plná moc');
+            }
+            
+            // Vlastnictví
+            if (!scenario.vlastnik) {
+                setEnabled('Souhlas vlastníka');
+                setEnabled('Čestné prohlášení');
+            } else {
+                setDisabled('Souhlas vlastníka');
+                setDisabled('Čestné prohlášení');
+            }
+            
+            // Zrychlené řízení
+            if (scenario.souhlasyUcastniku) {
+                setEnabled('Souhlasy všech účastníků');
+            } else {
+                setDisabled('Souhlasy všech účastníků');
+            }
+            
+            // Výjimky
+            if (scenario.vyjimka) {
+                setEnabled('Popis a odůvodnění výjimky');
+            } else {
+                setDisabled('Popis a odůvodnění výjimky');
+            }
+        }
+        
+        // Kopírovat URL scénáře
+        function copyScenarioUrl() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                showSimToast('URL zkopírována do schránky');
+            });
+        }
+        
+        // Reset na základní scénář
+        function resetScenario() {
+            document.querySelector('input[name="scenar"][value="zakladni"]').checked = true;
+            applyScenario('zakladni');
+        }
+        
+        // Toast pro simulační panel
+        function showSimToast(message) {
+            const existing = document.querySelector('.sim-toast');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'sim-toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
     </script>
 </body>
 </html>
