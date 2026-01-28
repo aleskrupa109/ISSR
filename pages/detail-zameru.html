@@ -150,6 +150,8 @@
             justify-content: space-between;
             padding: 20px 32px;
             gap: 24px;
+            max-width: calc(1400px + 64px);
+            margin: 0 auto;
         }
         .page-header-left {
             display: flex;
@@ -224,12 +226,16 @@
 
         /* Quick access buttons */
         .page-header-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 32px;
             background: #fafafa;
             border-top: 1px solid #f0f0f0;
+        }
+        .page-header-bottom-inner {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 12px 32px;
+            max-width: calc(1400px + 64px);
+            margin: 0 auto;
         }
         .quick-access-buttons {
             display: flex;
@@ -274,11 +280,14 @@
         .page-content {
             flex: 1;
             padding: 24px 32px;
+            display: flex;
+            justify-content: center;
         }
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 320px;
+            grid-template-columns: minmax(0, 900px) 280px;
             gap: 24px;
+            width: 100%;
             max-width: 1400px;
         }
         .content-main {
@@ -1298,7 +1307,7 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .page-header-bottom {
+            .page-header-bottom-inner {
                 padding: 12px 16px;
             }
             .quick-access-buttons {
@@ -1371,30 +1380,32 @@
                 </div>
             </div>
             <div class="page-header-bottom">
-                <div class="quick-access-buttons">
-                    <a href="#" class="quick-access-btn" onclick="openModal('rizeniModal'); return false;">
-                        <span class="material-icons-outlined">gavel</span>
-                        Řízení
-                        <span class="badge">4</span>
-                    </a>
-                    <a href="#" class="quick-access-btn" onclick="openModal('dokumentaceModal'); return false;">
-                        <span class="material-icons-outlined">folder</span>
-                        Dokumentace
-                    </a>
-                    <a href="#" class="quick-access-btn" onclick="openModal('dokladyModal'); return false;">
-                        <span class="material-icons-outlined">fact_check</span>
-                        Dokladová část
-                        <span class="badge">12</span>
-                    </a>
-                    <a href="#" class="quick-access-btn" onclick="openModal('parcelyModal'); return false;">
-                        <span class="material-icons-outlined">grid_on</span>
-                        Parcely
-                        <span class="badge">3</span>
-                    </a>
-                    <a href="#" class="quick-access-btn" onclick="openModal('mapaModal'); return false;">
-                        <span class="material-icons-outlined">map</span>
-                        Zobrazit na mapě
-                    </a>
+                <div class="page-header-bottom-inner">
+                    <div class="quick-access-buttons">
+                        <a href="#" class="quick-access-btn" onclick="openModal('rizeniModal'); return false;">
+                            <span class="material-icons-outlined">gavel</span>
+                            Řízení
+                            <span class="badge">4</span>
+                        </a>
+                        <a href="#" class="quick-access-btn" onclick="openModal('dokumentaceModal'); return false;">
+                            <span class="material-icons-outlined">folder</span>
+                            Dokumentace
+                        </a>
+                        <a href="#" class="quick-access-btn" onclick="openModal('dokladyModal'); return false;">
+                            <span class="material-icons-outlined">fact_check</span>
+                            Dokladová část
+                            <span class="badge">12</span>
+                        </a>
+                        <a href="#" class="quick-access-btn" onclick="openModal('parcelyModal'); return false;">
+                            <span class="material-icons-outlined">grid_on</span>
+                            Parcely
+                            <span class="badge">3</span>
+                        </a>
+                        <a href="#" class="quick-access-btn" onclick="openModal('mapaModal'); return false;">
+                            <span class="material-icons-outlined">map</span>
+                            Zobrazit na mapě
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
