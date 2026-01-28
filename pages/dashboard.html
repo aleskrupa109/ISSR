@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISSŘ - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        /* ===========================================
+           BASE STYLES
+           =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #202124;
+            min-height: 100vh;
+        }
+
+        /* ===========================================
+           ISSŘ HLAVIČKA
+           =========================================== */
+        .issr-header {
+            background-color: #004289;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .issr-header__logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+        .issr-header__logo-img {
+            height: 40px;
+            width: auto;
+        }
+        .issr-header__title {
+            font-size: 12px;
+            font-weight: 400;
+            color: white;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .issr-header__search {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 40px;
+        }
+        .issr-header__search-input {
+            width: 100%;
+            height: 36px;
+            padding: 0 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .issr-header__search-input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        .issr-header__actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-left: auto;
+        }
+        .issr-header__notification {
+            position: relative;
+            cursor: pointer;
+        }
+        .issr-header__notification-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        .issr-header__notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ea4335;
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .issr-header__user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .issr-header__user-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ===========================================
+           MAIN LAYOUT
+           =========================================== */
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 56px);
+        }
+
+        /* ===========================================
+           NAV RAIL
+           =========================================== */
+        .nav-rail {
+            width: 72px;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            gap: 8px;
+        }
+        .nav-rail-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 8px;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 10px;
+            transition: all 0.15s;
+            width: 64px;
+            text-align: center;
+        }
+        .nav-rail-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .nav-rail-item.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .nav-rail-item .material-icons-outlined {
+            font-size: 24px;
+        }
+
+        /* ===========================================
+           PAGE CONTENT
+           =========================================== */
+        .page-wrapper {
+            flex: 1;
+            padding: 24px 32px;
+            max-width: 1600px;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .page-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .page-subtitle {
+            font-size: 14px;
+            color: #5f6368;
+            margin-top: 4px;
+        }
+
+        /* ===========================================
+           VIEW TOGGLE
+           =========================================== */
+        .view-toggle {
+            display: flex;
+            background: #e8eaed;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        .view-toggle-btn {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .view-toggle-btn:hover {
+            color: #202124;
+        }
+        .view-toggle-btn.active {
+            background: #fff;
+            color: #1a73e8;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .view-toggle-btn .material-icons-outlined {
+            font-size: 20px;
+        }
+
+        /* ===========================================
+           STATS CARDS
+           =========================================== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .stat-card.blue { border-color: #1a73e8; }
+        .stat-card.green { border-color: #34a853; }
+        .stat-card.orange { border-color: #f9ab00; }
+        .stat-card.purple { border-color: #9334e6; }
+        .stat-card.red { border-color: #ea4335; }
+        
+        .stat-label {
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+        }
+        .stat-card.blue .stat-value { color: #1a73e8; }
+        .stat-card.green .stat-value { color: #34a853; }
+        .stat-card.orange .stat-value { color: #f9ab00; }
+        .stat-card.purple .stat-value { color: #9334e6; }
+        .stat-card.red .stat-value { color: #ea4335; }
+        
+        .stat-change {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 4px;
+        }
+        .stat-change.positive { color: #34a853; }
+        .stat-change.negative { color: #ea4335; }
+
+        /* ===========================================
+           DASHBOARD GRID
+           =========================================== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        .dashboard-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .dashboard-side {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* ===========================================
+           CARDS
+           =========================================== */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-title .material-icons-outlined {
+            font-size: 22px;
+            color: #5f6368;
+        }
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .card-action-btn {
+            padding: 6px 12px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .card-action-btn:hover {
+            background: #f8f9fa;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        .card-body {
+            padding: 20px;
+        }
+
+        /* ===========================================
+           CHARTS ROW
+           =========================================== */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .chart-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 20px;
+        }
+        .chart-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #1a73e8;
+        }
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Donut chart placeholder */
+        .donut-chart {
+            position: relative;
+            width: 160px;
+            height: 160px;
+        }
+        .donut-chart svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .donut-chart circle {
+            fill: none;
+            stroke-width: 20;
+        }
+        .donut-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .donut-center-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #202124;
+        }
+        .donut-center-label {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        
+        /* Chart legend */
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        .legend-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #5f6368;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .legend-value {
+            font-weight: 500;
+            color: #202124;
+        }
+
+        /* ===========================================
+           RIZENI LIST
+           =========================================== */
+        .rizeni-list-header {
+            display: grid;
+            grid-template-columns: 1fr 140px 120px 100px 100px;
+            gap: 12px;
+            padding: 10px 16px;
+            background: #f8f9fa;
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .rizeni-list-item {
+            display: grid;
+            grid-template-columns: 1fr 140px 120px 100px 100px;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .rizeni-list-item:hover {
+            background: #f8f9fa;
+        }
+        .rizeni-list-item:last-child {
+            border-bottom: none;
+        }
+        .rizeni-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .rizeni-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .rizeni-id {
+            font-size: 11px;
+            color: #5f6368;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .rizeni-type {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .rizeni-deadline {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .rizeni-deadline.warning {
+            color: #f9ab00;
+            font-weight: 500;
+        }
+        .rizeni-deadline.danger {
+            color: #ea4335;
+            font-weight: 500;
+        }
+        .rizeni-deadline .material-icons-outlined {
+            font-size: 16px;
+        }
+        .rizeni-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .rizeni-status.aktivni {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .rizeni-status.cekajici {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        .rizeni-status.ukonceno {
+            background: #e8eaed;
+            color: #5f6368;
+        }
+        .rizeni-progress {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #e8eaed;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: #1a73e8;
+        }
+        .progress-label {
+            font-size: 11px;
+            color: #5f6368;
+        }
+
+        /* ===========================================
+           LHUTY TIMELINE
+           =========================================== */
+        .lhuty-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .lhuta-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .lhuta-label {
+            width: 120px;
+            font-size: 12px;
+            color: #5f6368;
+            text-align: right;
+        }
+        .lhuta-bar-container {
+            flex: 1;
+            height: 24px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .lhuta-bar {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            color: white;
+        }
+        .lhuta-bar.green { background: linear-gradient(90deg, #34a853, #4caf50); }
+        .lhuta-bar.orange { background: linear-gradient(90deg, #f9ab00, #ffb300); }
+        .lhuta-bar.red { background: linear-gradient(90deg, #ea4335, #f44336); }
+        .lhuta-bar.blue { background: linear-gradient(90deg, #1a73e8, #2196f3); }
+
+        /* ===========================================
+           AKTUALITY / NEWS
+           =========================================== */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .news-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .news-item:hover {
+            background: #f8f9fa;
+            margin: 0 -20px;
+            padding: 16px 20px;
+        }
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .news-date {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        .news-tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .news-tag.metodika { background: #e8f0fe; color: #1a73e8; }
+        .news-tag.system { background: #fef7e0; color: #b06000; }
+        .news-tag.dulezite { background: #fce8e6; color: #c5221f; }
+        .news-tag.novinka { background: #e6f4ea; color: #137333; }
+        
+        .news-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+        .news-excerpt {
+            font-size: 13px;
+            color: #5f6368;
+            line-height: 1.4;
+        }
+
+        /* ===========================================
+           QUICK ACTIONS
+           =========================================== */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 16px;
+            background: #f8f9fa;
+            border: 1px solid #e8eaed;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .quick-action-btn:hover {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+        .quick-action-btn .material-icons-outlined {
+            font-size: 28px;
+            color: #1a73e8;
+        }
+        .quick-action-btn span:last-child {
+            font-size: 12px;
+            font-weight: 500;
+            color: #5f6368;
+            text-align: center;
+        }
+
+        /* ===========================================
+           UPOZORNENI
+           =========================================== */
+        .upozorneni-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .upozorneni-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #fff8e1;
+            border-radius: 8px;
+            border-left: 4px solid #f9ab00;
+        }
+        .upozorneni-item.danger {
+            background: #fce8e6;
+            border-color: #ea4335;
+        }
+        .upozorneni-item .material-icons-outlined {
+            font-size: 20px;
+            color: #f9ab00;
+        }
+        .upozorneni-item.danger .material-icons-outlined {
+            color: #ea4335;
+        }
+        .upozorneni-content {
+            flex: 1;
+        }
+        .upozorneni-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .upozorneni-detail {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .upozorneni-action {
+            padding: 4px 10px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #1a73e8;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .upozorneni-action:hover {
+            background: #e8f0fe;
+        }
+
+        /* ===========================================
+           RESPONSIVE
+           =========================================== */
+        @media (max-width: 1200px) {
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .charts-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+            .page-wrapper {
+                padding: 16px;
+            }
+            .nav-rail {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ISSŘ Hlavička -->
+    <header class="issr-header">
+        <a href="index.html" class="issr-header__logo">
+            <img src="images/logo-issr.png" alt="ISSŘ Logo" class="issr-header__logo-img">
+            <span class="issr-header__title">INFORMAČNÍ SYSTÉM STAVEBNÍHO ŘÍZENÍ</span>
+        </a>
+        
+        <div class="issr-header__search">
+            <input type="text" class="issr-header__search-input" placeholder="Hledat řízení, záměry, dokumenty...">
+        </div>
+        
+        <div class="issr-header__actions">
+            <div class="issr-header__notification">
+                <svg class="issr-header__notification-icon" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path>
+                </svg>
+                <span class="issr-header__notification-badge">5</span>
+            </div>
+            
+            <div class="issr-header__user">
+                <span>Aleš Krupa</span>
+                <svg class="issr-header__user-icon" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"></path>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <!-- Nav Rail -->
+        <nav class="nav-rail">
+            <a href="dashboard.html" class="nav-rail-item active">
+                <span class="material-icons-outlined">dashboard</span>
+                <span>Domů</span>
+            </a>
+            <a href="zamery.html" class="nav-rail-item">
+                <span class="material-icons-outlined">assignment</span>
+                <span>Záměry</span>
+            </a>
+            <a href="#" class="nav-rail-item">
+                <span class="material-icons-outlined">gavel</span>
+                <span>Řízení</span>
+            </a>
+            <a href="dokumenty.html" class="nav-rail-item">
+                <span class="material-icons-outlined">folder</span>
+                <span>Dokumenty</span>
+            </a>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="page-wrapper">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-subtitle">Přehled řízení a aktuální informace • Dopravní a energetický SÚ</p>
+                </div>
+                
+                <!-- View Toggle -->
+                <div class="view-toggle">
+                    <button class="view-toggle-btn active" onclick="switchView('moje')">
+                        <span class="material-icons-outlined">person</span>
+                        Moje řízení
+                    </button>
+                    <button class="view-toggle-btn" onclick="switchView('urad')">
+                        <span class="material-icons-outlined">account_balance</span>
+                        Řízení úřadu
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats-row" id="statsRow">
+                <div class="stat-card blue" onclick="filterByStatus('all')">
+                    <div class="stat-label">Celkem řízení</div>
+                    <div class="stat-value">47</div>
+                    <div class="stat-change">aktivních případů</div>
+                </div>
+                <div class="stat-card green" onclick="filterByStatus('aktivni')">
+                    <div class="stat-label">Probíhající</div>
+                    <div class="stat-value">32</div>
+                    <div class="stat-change positive">+3 tento týden</div>
+                </div>
+                <div class="stat-card orange" onclick="filterByStatus('cekajici')">
+                    <div class="stat-label">Čekající na akci</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-change">vyžaduje pozornost</div>
+                </div>
+                <div class="stat-card purple" onclick="filterByStatus('ukonceno')">
+                    <div class="stat-label">Ukončeno (měsíc)</div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-change positive">+5 oproti minulému</div>
+                </div>
+                <div class="stat-card red" onclick="filterByStatus('lhuta')">
+                    <div class="stat-label">Překročená lhůta</div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-change negative">vyžaduje řešení</div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <!-- Stav řízení -->
+                <div class="chart-card">
+                    <div class="chart-title">Stav řízení</div>
+                    <div class="chart-container">
+                        <div class="donut-chart">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="#e8eaed" stroke-dasharray="251.2" stroke-dashoffset="0"></circle>
+                                <circle cx="50" cy="50" r="40" stroke="#34a853" stroke-dasharray="251.2" stroke-dashoffset="80"></circle>
+                                <circle cx="50" cy="50" r="40" stroke="#f9ab00" stroke-dasharray="251.2" stroke-dashoffset="171"></circle>
+                                <circle cx="50" cy="50" r="40" stroke="#ea4335" stroke-dasharray="251.2" stroke-dashoffset="240"></circle>
+                            </svg>
+                            <div class="donut-center">
+                                <div class="donut-center-value">47</div>
+                                <div class="donut-center-label">řízení</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #34a853;"></span>Probíhající</span>
+                            <span class="legend-value">32 (68%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #f9ab00;"></span>Čekající</span>
+                            <span class="legend-value">8 (17%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #ea4335;"></span>Překročená lhůta</span>
+                            <span class="legend-value">2 (4%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #e8eaed;"></span>Pozastaveno</span>
+                            <span class="legend-value">5 (11%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typ řízení -->
+                <div class="chart-card">
+                    <div class="chart-title">Typ řízení</div>
+                    <div class="chart-container">
+                        <div class="donut-chart">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" stroke="#1a73e8" stroke-dasharray="251.2" stroke-dashoffset="0"></circle>
+                                <circle cx="50" cy="50" r="40" stroke="#9334e6" stroke-dasharray="251.2" stroke-dashoffset="126"></circle>
+                                <circle cx="50" cy="50" r="40" stroke="#00bcd4" stroke-dasharray="251.2" stroke-dashoffset="188"></circle>
+                                <circle cx="50" cy="50" r="40" stroke="#ff9800" stroke-dasharray="251.2" stroke-dashoffset="220"></circle>
+                            </svg>
+                            <div class="donut-center">
+                                <div class="donut-center-value">47</div>
+                                <div class="donut-center-label">řízení</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #1a73e8;"></span>Povolení stavby</span>
+                            <span class="legend-value">24 (51%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #9334e6;"></span>Předběžná informace</span>
+                            <span class="legend-value">12 (26%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #00bcd4;"></span>Kolaudace</span>
+                            <span class="legend-value">7 (15%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-label"><span class="legend-dot" style="background: #ff9800;"></span>Odstranění stavby</span>
+                            <span class="legend-value">4 (8%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lhůty -->
+                <div class="chart-card">
+                    <div class="chart-title">Přehled lhůt</div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="lhuty-bars">
+                            <div class="lhuta-item">
+                                <span class="lhuta-label">V pořádku</span>
+                                <div class="lhuta-bar-container">
+                                    <div class="lhuta-bar green" style="width: 70%;">33</div>
+                                </div>
+                            </div>
+                            <div class="lhuta-item">
+                                <span class="lhuta-label">Do 7 dnů</span>
+                                <div class="lhuta-bar-container">
+                                    <div class="lhuta-bar orange" style="width: 25%;">12</div>
+                                </div>
+                            </div>
+                            <div class="lhuta-item">
+                                <span class="lhuta-label">Překročeno</span>
+                                <div class="lhuta-bar-container">
+                                    <div class="lhuta-bar red" style="width: 5%;">2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid" style="margin-top: 24px;">
+                <div class="dashboard-main">
+                    <!-- Upozornění -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">warning_amber</span>
+                                Upozornění
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="upozorneni-list">
+                                <div class="upozorneni-item danger">
+                                    <span class="material-icons-outlined">error</span>
+                                    <div class="upozorneni-content">
+                                        <div class="upozorneni-title">Překročená lhůta pro vydání rozhodnutí</div>
+                                        <div class="upozorneni-detail">R/2025/012847 • Lhůta překročena o 3 dny</div>
+                                    </div>
+                                    <button class="upozorneni-action">Zobrazit</button>
+                                </div>
+                                <div class="upozorneni-item">
+                                    <span class="material-icons-outlined">schedule</span>
+                                    <div class="upozorneni-content">
+                                        <div class="upozorneni-title">Blíží se konec lhůty</div>
+                                        <div class="upozorneni-detail">R/2026/000089 • Zbývá 2 dny do konce lhůty pro vyjádření</div>
+                                    </div>
+                                    <button class="upozorneni-action">Zobrazit</button>
+                                </div>
+                                <div class="upozorneni-item">
+                                    <span class="material-icons-outlined">assignment_late</span>
+                                    <div class="upozorneni-content">
+                                        <div class="upozorneni-title">Nově přidělené řízení</div>
+                                        <div class="upozorneni-detail">R/2026/000152 • Přiděleno dnes v 9:15</div>
+                                    </div>
+                                    <button class="upozorneni-action">Převzít</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seznam řízení -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">gavel</span>
+                                Řízení vyžadující pozornost
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-action-btn">Filtrovat</button>
+                                <button class="card-action-btn">Zobrazit vše</button>
+                            </div>
+                        </div>
+                        <div class="rizeni-list-header">
+                            <span>Řízení</span>
+                            <span>Typ</span>
+                            <span>Lhůta</span>
+                            <span>Stav</span>
+                            <span>Průběh</span>
+                        </div>
+                        <div class="rizeni-list-body">
+                            <div class="rizeni-list-item" onclick="window.location='povoleni-2.html'">
+                                <div class="rizeni-info">
+                                    <div class="rizeni-name">Odstranění části vlečky ŠKODA</div>
+                                    <div class="rizeni-id">R/2026/000147</div>
+                                </div>
+                                <div class="rizeni-type">Povolení stavby</div>
+                                <div class="rizeni-deadline warning">
+                                    <span class="material-icons-outlined">schedule</span>
+                                    5 dní
+                                </div>
+                                <span class="rizeni-status aktivni">Probíhá</span>
+                                <div class="rizeni-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+                                    <span class="progress-label">65%</span>
+                                </div>
+                            </div>
+                            <div class="rizeni-list-item">
+                                <div class="rizeni-info">
+                                    <div class="rizeni-name">Přeložka VN vedení Plzeň-sever</div>
+                                    <div class="rizeni-id">R/2026/000089</div>
+                                </div>
+                                <div class="rizeni-type">Povolení stavby</div>
+                                <div class="rizeni-deadline danger">
+                                    <span class="material-icons-outlined">warning</span>
+                                    2 dny
+                                </div>
+                                <span class="rizeni-status cekajici">Čeká na akci</span>
+                                <div class="rizeni-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div>
+                                    <span class="progress-label">80%</span>
+                                </div>
+                            </div>
+                            <div class="rizeni-list-item">
+                                <div class="rizeni-info">
+                                    <div class="rizeni-name">Fotovoltaická elektrárna Dětmarovice</div>
+                                    <div class="rizeni-id">R/2026/000152</div>
+                                </div>
+                                <div class="rizeni-type">Předběžná info</div>
+                                <div class="rizeni-deadline">
+                                    <span class="material-icons-outlined">schedule</span>
+                                    28 dní
+                                </div>
+                                <span class="rizeni-status aktivni">Nové</span>
+                                <div class="rizeni-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 5%;"></div></div>
+                                    <span class="progress-label">5%</span>
+                                </div>
+                            </div>
+                            <div class="rizeni-list-item">
+                                <div class="rizeni-info">
+                                    <div class="rizeni-name">Rozvodna 110kV Hostivice</div>
+                                    <div class="rizeni-id">R/2025/018742</div>
+                                </div>
+                                <div class="rizeni-type">Kolaudace</div>
+                                <div class="rizeni-deadline">
+                                    <span class="material-icons-outlined">schedule</span>
+                                    14 dní
+                                </div>
+                                <span class="rizeni-status aktivni">Probíhá</span>
+                                <div class="rizeni-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                                    <span class="progress-label">45%</span>
+                                </div>
+                            </div>
+                            <div class="rizeni-list-item">
+                                <div class="rizeni-info">
+                                    <div class="rizeni-name">Paroplynová elektrárna Mělník</div>
+                                    <div class="rizeni-id">R/2025/015892</div>
+                                </div>
+                                <div class="rizeni-type">Povolení stavby</div>
+                                <div class="rizeni-deadline">
+                                    <span class="material-icons-outlined">schedule</span>
+                                    21 dní
+                                </div>
+                                <span class="rizeni-status aktivni">Probíhá</span>
+                                <div class="rizeni-progress">
+                                    <div class="progress-bar"><div class="progress-fill" style="width: 30%;"></div></div>
+                                    <span class="progress-label">30%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-side">
+                    <!-- Rychlé akce -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">bolt</span>
+                                Rychlé akce
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="quick-actions">
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">add_circle</span>
+                                    <span>Nové řízení</span>
+                                </a>
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">search</span>
+                                    <span>Hledat v ISSŘ</span>
+                                </a>
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">calendar_today</span>
+                                    <span>Kalendář lhůt</span>
+                                </a>
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">assessment</span>
+                                    <span>Statistiky</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aktuality -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">campaign</span>
+                                Aktuality z ústředí
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-action-btn">Vše</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="news-list">
+                                <div class="news-item">
+                                    <div class="news-meta">
+                                        <span class="news-date">28. 1. 2026</span>
+                                        <span class="news-tag dulezite">Důležité</span>
+                                    </div>
+                                    <div class="news-title">Plánovaná odstávka systému</div>
+                                    <div class="news-excerpt">V sobotu 1. 2. 2026 od 22:00 do 6:00 proběhne plánovaná údržba...</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-meta">
+                                        <span class="news-date">25. 1. 2026</span>
+                                        <span class="news-tag metodika">Metodika</span>
+                                    </div>
+                                    <div class="news-title">Aktualizace metodiky pro vedení spisové služby</div>
+                                    <div class="news-excerpt">Byla vydána nová verze metodického pokynu č. 2/2026...</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-meta">
+                                        <span class="news-date">20. 1. 2026</span>
+                                        <span class="news-tag novinka">Novinka</span>
+                                    </div>
+                                    <div class="news-title">Nová funkce: Hromadné zpracování</div>
+                                    <div class="news-excerpt">V ISSŘ je nyní dostupná funkce hromadného zpracování dokumentů...</div>
+                                </div>
+                                <div class="news-item">
+                                    <div class="news-meta">
+                                        <span class="news-date">15. 1. 2026</span>
+                                        <span class="news-tag system">Systém</span>
+                                    </div>
+                                    <div class="news-title">Vylepšení výkonu systému</div>
+                                    <div class="news-excerpt">Byla provedena optimalizace databáze, která zrychlí načítání...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Switch view between "Moje řízení" and "Řízení úřadu"
+        function switchView(view) {
+            const buttons = document.querySelectorAll('.view-toggle-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (view === 'moje') {
+                buttons[0].classList.add('active');
+                updateStats({
+                    total: 47,
+                    active: 32,
+                    waiting: 8,
+                    completed: 15,
+                    overdue: 2
+                });
+            } else {
+                buttons[1].classList.add('active');
+                updateStats({
+                    total: 312,
+                    active: 189,
+                    waiting: 45,
+                    completed: 87,
+                    overdue: 12
+                });
+            }
+        }
+        
+        // Update stats display
+        function updateStats(data) {
+            const statsRow = document.getElementById('statsRow');
+            const cards = statsRow.querySelectorAll('.stat-card');
+            const values = [data.total, data.active, data.waiting, data.completed, data.overdue];
+            
+            cards.forEach((card, index) => {
+                const valueEl = card.querySelector('.stat-value');
+                valueEl.textContent = values[index];
+            });
+        }
+        
+        // Filter by status (placeholder)
+        function filterByStatus(status) {
+            console.log('Filter by:', status);
+            // In real implementation, this would filter the list
+        }
+    </script>
+</body>
+</html>
