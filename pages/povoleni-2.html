@@ -2265,6 +2265,341 @@
             box-shadow: 0 0 0 2px rgba(35, 98, 162, 0.2);
         }
 
+        /* ED Breadcrumb a tlačítko Zpět */
+        .ed-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px;
+        }
+        
+        .ed-back-btn {
+            background: #e8f0fe !important;
+            border-color: #1a73e8 !important;
+            color: #1a73e8 !important;
+        }
+        
+        .ed-back-btn:hover {
+            background: #d2e3fc !important;
+        }
+        
+        /* Kategorie stavby styly */
+        .stavba-kategorie-section {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .stavba-kategorie-section .control-section-title {
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .stavba-field {
+            margin-bottom: 16px;
+        }
+        
+        .stavba-field:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stavba-field-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+        
+        .stavba-field-hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 6px;
+        }
+        
+        .stavba-field-hint .material-icons-outlined {
+            font-size: 14px;
+        }
+        
+        .stavba-toggle-group {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .stavba-toggle {
+            cursor: pointer;
+        }
+        
+        .stavba-toggle input {
+            display: none;
+        }
+        
+        .stavba-toggle-label {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            transition: all 0.15s;
+        }
+        
+        .stavba-toggle input:checked + .stavba-toggle-label {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        .stavba-kategorie-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .stavba-kategorie-option {
+            cursor: pointer;
+        }
+        
+        .stavba-kategorie-option input {
+            display: none;
+        }
+        
+        .stavba-kategorie-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.15s;
+        }
+        
+        .stavba-kategorie-option input:checked + .stavba-kategorie-box {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+        
+        .stavba-kategorie-box:hover {
+            border-color: #bdc1c6;
+        }
+        
+        .kategorie-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        
+        .kategorie-desc {
+            font-size: 10px;
+            color: #5f6368;
+        }
+        
+        /* Soubor staveb */
+        .stavba-soubor-wrapper {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .stavba-soubor-item {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .stavba-soubor-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stavba-soubor-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #f8f9fa;
+            font-size: 12px;
+            font-weight: 600;
+            color: #202124;
+        }
+        
+        .stavba-soubor-header .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .stavba-soubor-item.hlavni .stavba-soubor-header {
+            background: #fff8e1;
+        }
+        
+        .stavba-soubor-item.hlavni .stavba-soubor-header .material-icons-outlined {
+            color: #f57c00;
+        }
+        
+        .stavba-soubor-badge {
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 6px;
+            background: #f57c00;
+            color: #fff;
+            border-radius: 4px;
+            margin-left: auto;
+        }
+        
+        .stavba-soubor-content {
+            padding: 12px;
+        }
+        
+        .stavba-soubor-nazev {
+            margin-bottom: 10px;
+        }
+        
+        .stavba-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 13px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+        
+        .stavba-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        .stavba-kategorie-mini {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .kategorie-mini-option {
+            cursor: pointer;
+        }
+        
+        .kategorie-mini-option input {
+            display: none;
+        }
+        
+        .kategorie-mini-option span {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            background: #f1f3f4;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #5f6368;
+            transition: all 0.15s;
+        }
+        
+        .kategorie-mini-option input:checked + span {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        .vedlejsi-stavby-list {
+            margin-bottom: 10px;
+        }
+        
+        .vedlejsi-stavba-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        
+        .vedlejsi-stavba-row .stavba-input {
+            flex: 1;
+        }
+        
+        .stavba-select {
+            padding: 8px 12px;
+            font-size: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            background: #fff;
+            font-family: inherit;
+            min-width: 100px;
+        }
+        
+        .stavba-select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+        
+        .vedlejsi-remove {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #5f6368;
+        }
+        
+        .vedlejsi-remove:hover {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .vedlejsi-remove .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .btn-add-vedlejsi {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #1a73e8;
+            background: transparent;
+            border: 1px dashed #1a73e8;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .btn-add-vedlejsi:hover {
+            background: #e8f0fe;
+        }
+        
+        .btn-add-vedlejsi .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .stavba-soubor-summary {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #1b5e20;
+        }
+        
+        .stavba-soubor-summary .material-icons-outlined {
+            font-size: 18px;
+        }
+
         .ed-folder {
             margin-left: 0;
             margin-bottom: 2px;
@@ -7701,6 +8036,10 @@
             display: flex;
             flex-direction: column;
         }
+        
+        .modal.modal-large {
+            max-width: 900px;
+        }
 
         .modal-header {
             display: flex;
@@ -8069,6 +8408,10 @@
                     <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('dokladyModal'); return false;">
                         <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">fact_check</span>
                         Dokladová část
+                    </a>
+                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('bimModal'); return false;">
+                        <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">view_in_ar</span>
+                        BIM model
                     </a>
                 </div>
                 <!-- Workflow stepper - vpravo -->
@@ -9629,14 +9972,14 @@
             <div class="control-viewer">
                 <div class="viewer-tabs">
                     <div class="viewer-tabs-left">
-                        <button class="viewer-tab active" onclick="switchDocViewerTab(this, 'struktura')">
-                            <span class="material-icons-outlined">folder</span>
-                            Struktura ED
+                        <button class="viewer-tab ed-back-btn" id="edBackBtn" onclick="backToEdStructure()" style="display: none;">
+                            <span class="material-icons-outlined">arrow_back</span>
+                            Zpět do ED
                         </button>
-                        <button class="viewer-tab" onclick="switchDocViewerTab(this, 'nahled')">
-                            <span class="material-icons-outlined">description</span>
-                            Náhled dokumentu
-                        </button>
+                        <div class="ed-breadcrumb" id="edBreadcrumb">
+                            <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368;">folder_special</span>
+                            <span style="font-weight: 500; color: #202124;">Struktura dokumentace</span>
+                        </div>
                     </div>
                     <button class="viewer-open-external" onclick="openViewerExternal('dokumentace')" title="Otevřít v novém okně">
                         <span class="material-icons-outlined">open_in_new</span>
@@ -9834,6 +10177,148 @@
             <!-- Pravý panel - kontrolní formulář -->
             <div class="control-form">
                 <div class="control-form-body">
+                    <!-- Kategorie stavby -->
+                    <div class="control-section stavba-kategorie-section">
+                        <div class="control-section-title">
+                            <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">category</span>
+                            Kategorie stavby
+                        </div>
+                        
+                        <!-- Soubor staveb -->
+                        <div class="stavba-field">
+                            <div class="stavba-field-label">Jde o soubor staveb?</div>
+                            <div class="stavba-toggle-group">
+                                <label class="stavba-toggle">
+                                    <input type="radio" name="souborStaveb" value="ne" checked onchange="toggleSouborStaveb()">
+                                    <span class="stavba-toggle-label">Ne</span>
+                                </label>
+                                <label class="stavba-toggle">
+                                    <input type="radio" name="souborStaveb" value="ano" onchange="toggleSouborStaveb()">
+                                    <span class="stavba-toggle-label">Ano</span>
+                                </label>
+                            </div>
+                            <div class="stavba-field-hint">
+                                <span class="material-icons-outlined">info</span>
+                                Údaj přenesen ze žádosti — můžete upravit
+                            </div>
+                        </div>
+                        
+                        <!-- Kategorie stavby - jednoduchá -->
+                        <div class="stavba-field" id="kategorieJednoduchaField">
+                            <div class="stavba-field-label">Kategorie stavby</div>
+                            <div class="stavba-kategorie-options">
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="vyhrazena">
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Vyhrazená</span>
+                                        <span class="kategorie-desc">§ 5 vyhl. č. 600/2006</span>
+                                    </span>
+                                </label>
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="ostatni" checked>
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Ostatní</span>
+                                        <span class="kategorie-desc">Běžné stavby</span>
+                                    </span>
+                                </label>
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="jednoducha">
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Jednoduchá</span>
+                                        <span class="kategorie-desc">§ 171 SZ</span>
+                                    </span>
+                                </label>
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="drobna">
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Drobná</span>
+                                        <span class="kategorie-desc">§ 171 SZ</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Kategorie stavby - soubor staveb -->
+                        <div class="stavba-field" id="kategorieSouborField" style="display: none;">
+                            <div class="stavba-soubor-wrapper">
+                                <!-- Hlavní stavba -->
+                                <div class="stavba-soubor-item hlavni">
+                                    <div class="stavba-soubor-header">
+                                        <span class="material-icons-outlined">star</span>
+                                        Hlavní stavba
+                                        <span class="stavba-soubor-badge">určuje kategorii souboru</span>
+                                    </div>
+                                    <div class="stavba-soubor-content">
+                                        <div class="stavba-soubor-nazev">
+                                            <input type="text" class="stavba-input" id="hlavniStavbaNazev" value="Rodinný dům" placeholder="Název hlavní stavby">
+                                        </div>
+                                        <div class="stavba-kategorie-mini">
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="vyhrazena">
+                                                <span>Vyhrazená</span>
+                                            </label>
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="ostatni" checked>
+                                                <span>Ostatní</span>
+                                            </label>
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="jednoducha">
+                                                <span>Jednoduchá</span>
+                                            </label>
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="drobna">
+                                                <span>Drobná</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Vedlejší stavby -->
+                                <div class="stavba-soubor-item vedlejsi">
+                                    <div class="stavba-soubor-header">
+                                        <span class="material-icons-outlined">add_circle_outline</span>
+                                        Vedlejší stavby
+                                    </div>
+                                    <div class="stavba-soubor-content">
+                                        <div class="vedlejsi-stavby-list" id="vedlejsiStavbyList">
+                                            <div class="vedlejsi-stavba-row">
+                                                <input type="text" class="stavba-input" value="Garáž" placeholder="Název stavby">
+                                                <select class="stavba-select">
+                                                    <option value="ostatni">Ostatní</option>
+                                                    <option value="jednoducha" selected>Jednoduchá</option>
+                                                    <option value="drobna">Drobná</option>
+                                                </select>
+                                                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
+                                                    <span class="material-icons-outlined">close</span>
+                                                </button>
+                                            </div>
+                                            <div class="vedlejsi-stavba-row">
+                                                <input type="text" class="stavba-input" value="Přípojky inženýrských sítí" placeholder="Název stavby">
+                                                <select class="stavba-select">
+                                                    <option value="ostatni">Ostatní</option>
+                                                    <option value="jednoducha">Jednoduchá</option>
+                                                    <option value="drobna" selected>Drobná</option>
+                                                </select>
+                                                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
+                                                    <span class="material-icons-outlined">close</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button class="btn-add-vedlejsi" onclick="addVedlejsiStavba()">
+                                            <span class="material-icons-outlined">add</span>
+                                            Přidat vedlejší stavbu
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="stavba-soubor-summary" id="souborSummary">
+                                <span class="material-icons-outlined">info</span>
+                                <span>Kategorie souboru staveb: <strong>Ostatní</strong> (podle hlavní stavby)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Automatická kontrola -->
                     <div class="auto-check-section">
                         <div class="auto-check-header">
@@ -11298,6 +11783,133 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('dokladyModal')">Zavřít</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pro BIM model -->
+    <div class="modal-overlay" id="bimModal" onclick="closeModal('bimModal', event)">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">view_in_ar</span>
+                    BIM model
+                </div>
+                <button class="modal-close" onclick="closeModal('bimModal')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- BIM info panel -->
+                <div style="padding: 16px 24px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: 600; color: #202124; margin-bottom: 4px;">Novostavba rodinného domu s garáží</div>
+                            <div style="font-size: 12px; color: #5f6368;">IFC model · Verze 3.0 · Nahrán 10. 1. 2026</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                                <span class="material-icons-outlined" style="font-size: 16px; margin-right: 4px;">download</span>
+                                Stáhnout IFC
+                            </button>
+                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
+                                <span class="material-icons-outlined" style="font-size: 16px; margin-right: 4px;">open_in_new</span>
+                                Otevřít v prohlížeči
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BIM viewer placeholder -->
+                <div style="height: 450px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+                    <!-- 3D grid simulace -->
+                    <div style="position: absolute; inset: 0; opacity: 0.1; background-image: 
+                        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+                        background-size: 40px 40px;"></div>
+                    
+                    <!-- Model placeholder -->
+                    <div style="position: relative; z-index: 1; text-align: center;">
+                        <div style="width: 200px; height: 140px; margin: 0 auto 24px; position: relative;">
+                            <!-- Jednoduchá 3D ikona domu -->
+                            <svg viewBox="0 0 200 140" style="width: 100%; height: 100%;">
+                                <!-- Základna -->
+                                <path d="M30 100 L100 130 L170 100 L100 70 Z" fill="#4fc3f7" opacity="0.3"/>
+                                <!-- Přední stěna -->
+                                <path d="M30 100 L30 50 L100 20 L100 70 Z" fill="#29b6f6" opacity="0.7"/>
+                                <!-- Boční stěna -->
+                                <path d="M100 70 L100 20 L170 50 L170 100 Z" fill="#0288d1" opacity="0.7"/>
+                                <!-- Střecha přední -->
+                                <path d="M20 50 L100 10 L100 20 L30 50 Z" fill="#ff7043" opacity="0.8"/>
+                                <!-- Střecha boční -->
+                                <path d="M100 10 L180 50 L170 50 L100 20 Z" fill="#e64a19" opacity="0.8"/>
+                                <!-- Okna -->
+                                <rect x="45" y="60" width="20" height="25" fill="#81d4fa" opacity="0.9"/>
+                                <rect x="120" y="55" width="20" height="25" fill="#4fc3f7" opacity="0.9"/>
+                            </svg>
+                        </div>
+                        <div style="color: #fff; font-size: 16px; font-weight: 500; margin-bottom: 8px;">
+                            <span class="material-icons-outlined" style="font-size: 24px; vertical-align: middle; margin-right: 8px;">view_in_ar</span>
+                            3D BIM Model
+                        </div>
+                        <div style="color: rgba(255,255,255,0.6); font-size: 13px;">
+                            V ostré verzi by se zde zobrazil interaktivní 3D model stavby
+                        </div>
+                    </div>
+                    
+                    <!-- Ovládací prvky simulace -->
+                    <div style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Otočit vlevo">
+                            <span class="material-icons-outlined" style="font-size: 18px;">rotate_left</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Přiblížit">
+                            <span class="material-icons-outlined" style="font-size: 18px;">zoom_in</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Oddálit">
+                            <span class="material-icons-outlined" style="font-size: 18px;">zoom_out</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Otočit vpravo">
+                            <span class="material-icons-outlined" style="font-size: 18px;">rotate_right</span>
+                        </button>
+                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Celá obrazovka">
+                            <span class="material-icons-outlined" style="font-size: 18px;">fullscreen</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- BIM metadata -->
+                <div style="padding: 20px 24px; border-top: 1px solid #e0e0e0;">
+                    <div style="font-size: 13px; font-weight: 600; color: #202124; margin-bottom: 12px;">Informace o modelu</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Formát</div>
+                            <div style="font-size: 13px; color: #202124;">IFC 4.0 (Industry Foundation Classes)</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Velikost souboru</div>
+                            <div style="font-size: 13px; color: #202124;">24.8 MB</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Software</div>
+                            <div style="font-size: 13px; color: #202124;">Autodesk Revit 2024</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Počet elementů</div>
+                            <div style="font-size: 13px; color: #202124;">1,247 objektů</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Zpracoval</div>
+                            <div style="font-size: 13px; color: #202124;">Ing. arch. Pavel Projektant</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">LOD (Level of Detail)</div>
+                            <div style="font-size: 13px; color: #202124;">LOD 300</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('bimModal')">Zavřít</button>
             </div>
         </div>
     </div>
@@ -12824,34 +13436,41 @@
             folder.classList.toggle('open');
         }
         
+        // Funkce pro návrat do struktury ED z náhledu
+        function backToEdStructure() {
+            document.getElementById('edTreeContainer').style.display = 'block';
+            document.getElementById('edPreviewContainer').style.display = 'none';
+            document.getElementById('edBackBtn').style.display = 'none';
+            document.getElementById('edBreadcrumb').style.display = 'flex';
+        }
+        
         function switchDocViewerTab(tabEl, view) {
-            // Přepnout aktivní záložku
-            const tabs = document.querySelectorAll('#controlDokumentace .viewer-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            tabEl.classList.add('active');
-            
-            // Přepnout kontejnery
+            // Tato funkce již není potřeba se starými záložkami
+            // Zachována pro zpětnou kompatibilitu
             const treeContainer = document.getElementById('edTreeContainer');
             const previewContainer = document.getElementById('edPreviewContainer');
             
             if (view === 'struktura') {
                 treeContainer.style.display = 'block';
                 previewContainer.style.display = 'none';
+                document.getElementById('edBackBtn').style.display = 'none';
+                document.getElementById('edBreadcrumb').style.display = 'flex';
             } else {
                 treeContainer.style.display = 'none';
                 previewContainer.style.display = 'block';
+                document.getElementById('edBackBtn').style.display = 'flex';
+                document.getElementById('edBreadcrumb').style.display = 'none';
             }
         }
         
         function previewEdFile(fileName, section) {
-            // Přepnout na záložku náhled
-            const tabs = document.querySelectorAll('#controlDokumentace .viewer-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            tabs[1].classList.add('active');
-            
             // Přepnout kontejnery
             document.getElementById('edTreeContainer').style.display = 'none';
             document.getElementById('edPreviewContainer').style.display = 'block';
+            
+            // Zobrazit tlačítko Zpět, skrýt breadcrumb
+            document.getElementById('edBackBtn').style.display = 'flex';
+            document.getElementById('edBreadcrumb').style.display = 'none';
             
             // Zobrazit náhled
             const previewContent = document.getElementById('edPreviewContent');
@@ -12874,12 +13493,77 @@
             });
             
             // Pokud jsme v náhledu, přepneme zpět na strukturu
-            const tabs = document.querySelectorAll('#controlDokumentace .viewer-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            tabs[0].classList.add('active');
-            document.getElementById('edTreeContainer').style.display = 'block';
-            document.getElementById('edPreviewContainer').style.display = 'none';
+            backToEdStructure();
         }
+        
+        // ==========================================
+        // KATEGORIE STAVBY A SOUBOR STAVEB
+        // ==========================================
+        
+        function toggleSouborStaveb() {
+            const isSoubor = document.querySelector('input[name="souborStaveb"]:checked').value === 'ano';
+            const jednoduchyField = document.getElementById('kategorieJednoduchaField');
+            const souborField = document.getElementById('kategorieSouborField');
+            
+            if (isSoubor) {
+                jednoduchyField.style.display = 'none';
+                souborField.style.display = 'block';
+            } else {
+                jednoduchyField.style.display = 'block';
+                souborField.style.display = 'none';
+            }
+        }
+        
+        function addVedlejsiStavba() {
+            const list = document.getElementById('vedlejsiStavbyList');
+            const newRow = document.createElement('div');
+            newRow.className = 'vedlejsi-stavba-row';
+            newRow.innerHTML = `
+                <input type="text" class="stavba-input" placeholder="Název stavby">
+                <select class="stavba-select">
+                    <option value="ostatni">Ostatní</option>
+                    <option value="jednoducha">Jednoduchá</option>
+                    <option value="drobna">Drobná</option>
+                </select>
+                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            `;
+            list.appendChild(newRow);
+        }
+        
+        function removeVedlejsiStavba(btn) {
+            const row = btn.closest('.vedlejsi-stavba-row');
+            if (row) {
+                row.remove();
+            }
+        }
+        
+        function updateSouborSummary() {
+            const kategorieHlavni = document.querySelector('input[name="kategorieHlavni"]:checked');
+            if (kategorieHlavni) {
+                const kategorie = kategorieHlavni.value;
+                const kategorieText = {
+                    'vyhrazena': 'Vyhrazená',
+                    'ostatni': 'Ostatní',
+                    'jednoducha': 'Jednoduchá',
+                    'drobna': 'Drobná'
+                }[kategorie] || 'Ostatní';
+                
+                const summary = document.getElementById('souborSummary');
+                summary.innerHTML = `
+                    <span class="material-icons-outlined">info</span>
+                    <span>Kategorie souboru staveb: <strong>${kategorieText}</strong> (podle hlavní stavby)</span>
+                `;
+            }
+        }
+        
+        // Přidání event listeneru pro změnu kategorie hlavní stavby
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[name="kategorieHlavni"]').forEach(input => {
+                input.addEventListener('change', updateSouborSummary);
+            });
+        });
         
         function setDocPartStatus(part, status) {
             docCheckState.partStatus[part] = status;
