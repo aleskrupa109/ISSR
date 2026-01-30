@@ -6513,6 +6513,34 @@
             font-size: 12px;
         }
         
+        /* Info o pozemcích u vlastníka */
+        .os-pozemky {
+            display: inline-block;
+            padding: 2px 6px;
+            background: #f3e5f5;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #7b1fa2;
+            margin-left: 4px;
+        }
+        
+        /* Info o zastoupení */
+        .os-zastoupen-info {
+            display: block;
+            margin-top: 4px;
+            padding: 3px 8px;
+            background: #e3f2fd;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #1565c0;
+        }
+        
+        .os-zastoupen-info .material-icons-outlined {
+            font-size: 14px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        
         /* Tlačítko doručování */
         .btn-dorucovani {
             display: inline-flex;
@@ -6660,6 +6688,30 @@
             color: #202124;
         }
         
+        .btn-nacist-vti {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 12px;
+            padding: 3px 10px;
+            background: #fff;
+            color: #1a73e8;
+            border: 1px solid #1a73e8;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .btn-nacist-vti:hover {
+            background: #e8f0fe;
+        }
+        
+        .btn-nacist-vti .material-icons-outlined {
+            font-size: 14px;
+        }
+        
         .kategorie-stav {
             margin-left: 8px;
             padding: 2px 8px;
@@ -6732,6 +6784,16 @@
         .os-zdroj.zdroj-kn {
             background: #e6f4ea;
             color: #137333;
+        }
+        
+        .os-zdroj.vti {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        
+        .os-zdroj.vdi {
+            background: #fce4ec;
+            color: #c2185b;
         }
         
         /* Role badge */
@@ -12274,7 +12336,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             Pozemky
                             <button class="btn-overit-vse-sm" onclick="overitVsechnyPozemkyKN()">
                                 <span class="material-icons-outlined">verified</span>
-                                Ověřit vše z KN
+                                Načíst osoby z KN
                             </button>
                         </div>
                         
@@ -12352,6 +12414,9 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 </button>
                                 <button class="osoby-tab-btn" onclick="switchOsobyTab(this, 'zastupci')">
                                     Zástupci <span class="osoby-tab-count" id="tabCountZastupci">0</span>
+                                </button>
+                                <button class="osoby-tab-btn" onclick="switchOsobyTab(this, 'dotceneOrgany')">
+                                    Dotčené orgány <span class="osoby-tab-count" id="tabCountDotceneOrgany">0</span>
                                 </button>
                                 <button class="osoby-tab-btn" onclick="switchOsobyTab(this, 'dalsi')">
                                     Další osoby <span class="osoby-tab-count" id="tabCountDalsi">1</span>
@@ -12465,10 +12530,17 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     <tr class="osoby-kategorie-row">
                                         <td colspan="6">
                                             <span class="kategorie-label">Ostatní účastníci</span>
+                                            <button class="btn-nacist-vti" onclick="nacistVTIVDI()">
+                                                <span class="material-icons-outlined">download</span>
+                                                Načíst VTI/VDI
+                                            </button>
                                         </td>
                                     </tr>
-                                    <tr class="osoby-empty-row">
-                                        <td colspan="6" class="text-center text-muted">—</td>
+                                    <tr class="osoby-empty-row" id="emptyOstatniUcastnici">
+                                        <td colspan="6" class="text-center text-muted">
+                                            <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">business</span>
+                                            Vlastníci infrastruktury — načtěte z Dokladové části
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -12513,6 +12585,50 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                         <td colspan="6" class="text-center text-muted">
                                             <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">supervisor_account</span>
                                             Žádní zástupci — přidejte zástupce tlačítkem výše
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Panel: Dotčené orgány -->
+                        <div class="osoby-tab-panel" id="tabPanelDotceneOrgany">
+                            <!-- Toolbar dotčených orgánů -->
+                            <div class="zastupci-toolbar">
+                                <div class="zastupci-toolbar-left">
+                                    <span class="zastupci-info">
+                                        <span class="material-icons-outlined">info</span>
+                                        Dotčené orgány jsou načítány z Dokladové části
+                                    </span>
+                                </div>
+                                <div class="zastupci-toolbar-right">
+                                    <button class="btn btn-sm btn-secondary" onclick="nacistDotceneOrgany()">
+                                        <span class="material-icons-outlined">download</span>
+                                        Načíst z Dokladové části
+                                    </button>
+                                    <button class="btn btn-sm btn-outline" onclick="pridatDotcenyOrgan()">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat ručně
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Tabulka dotčených orgánů -->
+                            <table class="osoby-table" id="tableDotceneOrgany">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 24px;"></th>
+                                        <th>Dotčený orgán</th>
+                                        <th>Typ závazného stanoviska</th>
+                                        <th style="width: 90px;">Stav</th>
+                                        <th style="width: 100px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyDotceneOrgany">
+                                    <tr class="osoby-empty-row" id="emptyDotceneOrgany">
+                                        <td colspan="5" class="text-center text-muted">
+                                            <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle;">account_balance</span>
+                                            Žádné dotčené orgány — načtěte z Dokladové části
                                         </td>
                                     </tr>
                                 </tbody>
@@ -17618,6 +17734,109 @@ ${reportContent}
             if (panel) panel.classList.add('active');
         }
         
+        // Načíst VTI/VDI z Dokladové části
+        function nacistVTIVDI() {
+            const emptyRow = document.getElementById('emptyOstatniUcastnici');
+            if (emptyRow) {
+                // Simulace načtení VTI/VDI
+                const vtiVdiData = [
+                    { nazev: 'ČEZ Distribuce, a.s.', typ: 'VTI', ico: '24729035', ds: 'v95uqfy' },
+                    { nazev: 'GasNet, s.r.o.', typ: 'VTI', ico: '27295567', ds: 'rdxzhzt' },
+                    { nazev: 'Vodovody a kanalizace Náchod, a.s.', typ: 'VTI', ico: '48172928', ds: 'u9xbgxi' },
+                    { nazev: 'Ředitelství silnic a dálnic ČR', typ: 'VDI', ico: '65993390', ds: 'zjq4rhz' }
+                ];
+                
+                let html = '';
+                vtiVdiData.forEach(item => {
+                    html += `
+                        <tr class="osoba-row" data-osoba-id="${item.ico}" data-overeno="false">
+                            <td><span class="os-status pending"><span class="material-icons-outlined">help_outline</span></span></td>
+                            <td>
+                                <strong>${item.nazev}</strong><br>
+                                <small class="text-muted">IČO: ${item.ico}</small>
+                            </td>
+                            <td>
+                                <span class="os-ds-info"><span class="material-icons-outlined">forward_to_inbox</span> ${item.ds}</span>
+                            </td>
+                            <td><span class="os-zdroj ${item.typ.toLowerCase()}">${item.typ}</span></td>
+                            <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
+                            <td class="os-actions">
+                                <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
+                                <button onclick="toggleOblibeny(this)" title="Přidat do oblíbených"><span class="material-icons-outlined">star_border</span></button>
+                                <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
+                                <button title="Odstranit"><span class="material-icons-outlined">delete</span></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                emptyRow.outerHTML = html;
+                
+                // Aktualizovat počet účastníků
+                const countEl = document.getElementById('tabCountUcastnici');
+                if (countEl) {
+                    const currentCount = parseInt(countEl.textContent) || 0;
+                    countEl.textContent = currentCount + vtiVdiData.length;
+                }
+                
+                showToast(`Načteno ${vtiVdiData.length} vlastníků infrastruktury z Dokladové části`);
+            }
+        }
+        
+        // Načíst dotčené orgány z Dokladové části
+        function nacistDotceneOrgany() {
+            const emptyRow = document.getElementById('emptyDotceneOrgany');
+            if (emptyRow) {
+                // Simulace načtení dotčených orgánů
+                const dotceneOrganyData = [
+                    { nazev: 'Hasičský záchranný sbor Královéhradeckého kraje', typ: 'Požární ochrana', stav: 'vydáno' },
+                    { nazev: 'Krajská hygienická stanice Královéhradeckého kraje', typ: 'Ochrana veřejného zdraví', stav: 'vydáno' },
+                    { nazev: 'Městský úřad Jaroměř - odbor životního prostředí', typ: 'Ochrana přírody a krajiny', stav: 'čeká' },
+                    { nazev: 'Městský úřad Jaroměř - odbor dopravy', typ: 'Napojení na komunikaci', stav: 'vydáno' }
+                ];
+                
+                let html = '';
+                dotceneOrganyData.forEach(item => {
+                    const stavClass = item.stav === 'vydáno' ? 'ok' : 'pending';
+                    const stavText = item.stav === 'vydáno' ? 'Vydáno' : 'Čeká na vydání';
+                    const stavIcon = item.stav === 'vydáno' ? 'check_circle' : 'schedule';
+                    
+                    html += `
+                        <tr class="osoba-row">
+                            <td><span class="os-status ${stavClass}"><span class="material-icons-outlined">${stavIcon}</span></span></td>
+                            <td>
+                                <strong>${item.nazev}</strong><br>
+                                <small class="text-muted">Dotčený orgán</small>
+                            </td>
+                            <td><span class="os-role">${item.typ}</span></td>
+                            <td><span class="kategorie-stav ${stavClass === 'ok' ? 'ok' : 'ceka'}">${stavText}</span></td>
+                            <td class="os-actions">
+                                <button title="Detail"><span class="material-icons-outlined">visibility</span></button>
+                                <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
+                                <button title="Odstranit"><span class="material-icons-outlined">delete</span></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                emptyRow.outerHTML = html;
+                
+                // Aktualizovat počet
+                const countEl = document.getElementById('tabCountDotceneOrgany');
+                if (countEl) {
+                    countEl.textContent = dotceneOrganyData.length;
+                }
+                
+                showToast(`Načteno ${dotceneOrganyData.length} dotčených orgánů z Dokladové části`);
+            }
+        }
+        
+        // Přidat dotčený orgán ručně
+        function pridatDotcenyOrgan() {
+            showToast('Otevírám formulář pro přidání dotčeného orgánu...');
+            // TODO: Implementovat modal pro ruční přidání
+        }
+        
         // Ověřit všechny pozemky najednou
         function overitVsechnyPozemkyKN() {
             const rows = document.querySelectorAll('.pozemek-item');
@@ -17755,8 +17974,14 @@ ${reportContent}
                 emptyZameru.outerHTML = `
                     <tr data-osoba-id="jan-novak-kn" data-overeno="false">
                         <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
-                        <td><strong>Jan Novák</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                        <td class="os-adresa-neovereno">—</td>
+                        <td>
+                            <strong>Jan Novák</strong><br>
+                            <small class="text-muted">Fyzická osoba</small>
+                            <span class="os-zastoupen-info" id="zastoupenJanNovak" style="display: none;"></span>
+                        </td>
+                        <td class="os-adresa-neovereno">
+                            <span class="os-pozemky">st. 123, 456/1, 456/2</span>
+                        </td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
                         <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
@@ -17766,10 +17991,16 @@ ${reportContent}
                             <button title="Upravit"><span class="material-icons-outlined">edit</span></button>
                         </td>
                     </tr>
-                    <tr data-osoba-id="cez-distribuce-vb" data-overeno="false" style="background: #fffde7;">
+                    <tr data-osoba-id="cez-distribuce-vb" data-overeno="false">
                         <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
-                        <td><strong>ČEZ Distribuce, a. s.</strong><br><small class="text-muted">Právnická osoba</small></td>
-                        <td><span class="os-role">věcné břemeno</span> k p. 456/1</td>
+                        <td>
+                            <strong>ČEZ Distribuce, a. s.</strong><br>
+                            <small class="text-muted">Právnická osoba</small>
+                        </td>
+                        <td>
+                            <span class="os-role">věcné břemeno</span>
+                            <span class="os-pozemky">p. 456/1</span>
+                        </td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
                         <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
@@ -17798,8 +18029,14 @@ ${reportContent}
                 emptySousedi.outerHTML = `
                     <tr data-osoba-id="marie-vesela" data-overeno="false">
                         <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
-                        <td><strong>Marie Veselá</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                        <td class="os-adresa-neovereno">—</td>
+                        <td>
+                            <strong>Marie Veselá</strong><br>
+                            <small class="text-muted">Fyzická osoba</small>
+                            <span class="os-zastoupen-info" id="zastoupenMarieVesela" style="display: none;"></span>
+                        </td>
+                        <td class="os-adresa-neovereno">
+                            <span class="os-pozemky">p. 457/1</span>
+                        </td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
                         <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
@@ -17811,8 +18048,14 @@ ${reportContent}
                     </tr>
                     <tr data-osoba-id="petr-svoboda" data-overeno="false">
                         <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
-                        <td><strong>Petr Svoboda</strong><br><small class="text-muted">Fyzická osoba</small></td>
-                        <td class="os-adresa-neovereno">—</td>
+                        <td>
+                            <strong>Petr Svoboda</strong><br>
+                            <small class="text-muted">Fyzická osoba</small>
+                            <span class="os-zastoupen-info" id="zastoupenPetrSvoboda" style="display: none;"></span>
+                        </td>
+                        <td class="os-adresa-neovereno">
+                            <span class="os-pozemky">p. 457/2, 458</span>
+                        </td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
                         <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
@@ -17824,8 +18067,13 @@ ${reportContent}
                     </tr>
                     <tr data-osoba-id="cez-distribuce" data-overeno="false">
                         <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
-                        <td><strong>ČEZ Distribuce, a. s.</strong><br><small class="text-muted">Právnická osoba</small></td>
-                        <td class="os-adresa-neovereno">—</td>
+                        <td>
+                            <strong>ČEZ Distribuce, a. s.</strong><br>
+                            <small class="text-muted">Právnická osoba</small>
+                        </td>
+                        <td class="os-adresa-neovereno">
+                            <span class="os-pozemky">p. 459/1</span>
+                        </td>
                         <td><span class="os-zdroj zdroj-kn">KN</span></td>
                         <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                         <td class="os-actions">
@@ -17860,7 +18108,8 @@ ${reportContent}
         
         // Ověřit všechny neověřené osoby
         function overitVsechnyOsoby() {
-            const neovereneOsoby = document.querySelectorAll('#tbodyUcastnici tr[data-overeno="false"]');
+            // Ověřit všechny neověřené osoby včetně VTI/VDI
+            const neovereneOsoby = document.querySelectorAll('#tabPanelUcastnici tr[data-overeno="false"]');
             
             if (neovereneOsoby.length === 0) {
                 showToast('Všechny osoby jsou již ověřeny');
@@ -18263,6 +18512,33 @@ ${reportContent}
             `;
             
             tbody.appendChild(newRow);
+            
+            // Označit zastupované účastníky v tabulce Účastníci
+            zastupovani.forEach(z => {
+                oznacitUcastnikaJakoZastoupeneho(z.name, jmeno);
+            });
+        }
+        
+        // Označit účastníka jako zastoupeného
+        function oznacitUcastnikaJakoZastoupeneho(ucastnikJmeno, zastupceJmeno) {
+            // Najít účastníka podle jména
+            const rows = document.querySelectorAll('#tabPanelUcastnici tr[data-osoba-id]');
+            rows.forEach(row => {
+                const jmenoEl = row.querySelector('td:nth-child(2) strong');
+                if (jmenoEl && jmenoEl.textContent.trim() === ucastnikJmeno) {
+                    // Najít nebo vytvořit element pro info o zastoupení
+                    let zastoupenInfo = row.querySelector('.os-zastoupen-info');
+                    if (!zastoupenInfo) {
+                        const tdJmeno = row.querySelector('td:nth-child(2)');
+                        zastoupenInfo = document.createElement('span');
+                        zastoupenInfo.className = 'os-zastoupen-info';
+                        tdJmeno.appendChild(zastoupenInfo);
+                    }
+                    
+                    zastoupenInfo.innerHTML = `<span class="material-icons-outlined">supervisor_account</span> Zastoupen: ${zastupceJmeno}`;
+                    zastoupenInfo.style.display = 'block';
+                }
+            });
         }
         
         // Toggle doručování
