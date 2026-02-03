@@ -7,6 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
         /* ===========================================
            ISSŘ HLAVIČKA
            =========================================== */
@@ -19,9 +30,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
         .issr-header__logo {
             display: flex;
             align-items: center;
@@ -29,26 +39,21 @@
             text-decoration: none;
             color: white;
         }
-
         .issr-header__logo-img {
             height: 40px;
             width: auto;
         }
-
         .issr-header__title {
             font-size: 12px;
             font-weight: 400;
             color: white;
             letter-spacing: 0.5px;
-            white-space: nowrap;
         }
-
         .issr-header__search {
             flex: 1;
             max-width: 500px;
             margin: 0 40px;
         }
-
         .issr-header__search-input {
             width: 100%;
             height: 32px;
@@ -58,29 +63,21 @@
             font-size: 14px;
             outline: none;
         }
-
-        .issr-header__search-input::placeholder {
-            color: #adb5bd;
-        }
-
         .issr-header__actions {
             display: flex;
             align-items: center;
             gap: 20px;
             margin-left: auto;
         }
-
         .issr-header__notification {
             position: relative;
             color: white;
             cursor: pointer;
         }
-
         .issr-header__notification-icon {
             width: 20px;
             height: 20px;
         }
-
         .issr-header__notification-badge {
             position: absolute;
             top: -6px;
@@ -95,118 +92,94 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0 4px;
         }
-
         .issr-header__user {
             display: flex;
             align-items: center;
             gap: 8px;
             color: white;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
         }
-
         .issr-header__user-icon {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
         }
 
         /* ===========================================
-           ZÁKLADNÍ STYLY
+           MAIN CONTENT - No scroll layout
            =========================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 14px;
-            color: #333;
-            background: #f5f5f5;
-            line-height: 1.5;
-        }
         .main-content {
-            min-height: calc(100vh - 56px);
+            height: calc(100vh - 56px);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         /* ===========================================
-           PAGE HEADER
+           PAGE HEADER - Původní třířádkový styl
            =========================================== */
         .page-header {
             background: #fff;
             border-bottom: 1px solid #e0e0e0;
-            position: sticky;
-            top: 56px;
-            z-index: 100;
+            flex-shrink: 0;
         }
         .page-header-top {
             display: flex;
             align-items: flex-start;
-            justify-content: space-between;
+            gap: 16px;
             padding: 20px 32px;
-            gap: 24px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-        }
-        .page-header-left {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
         }
         .btn-back {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            color: #3c4043;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            color: #5f6368;
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: 50%;
             transition: all 0.15s;
-            white-space: nowrap;
-            border: 1px solid #dadce0;
-            background: #fff;
+            flex-shrink: 0;
+            margin-top: 4px;
         }
         .btn-back:hover {
-            background: #f8f9fa;
+            background: #f1f3f4;
             color: #202124;
-            border-color: #5f6368;
         }
         .btn-back .material-icons-outlined {
-            font-size: 20px;
+            font-size: 24px;
+        }
+        .page-header-info {
+            flex: 1;
         }
         .page-label {
             font-size: 12px;
             color: #5f6368;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .page-title {
-            font-size: 22px;
-            font-weight: 500;
-            color: #202124;
             margin-bottom: 6px;
         }
+        .page-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 8px;
+        }
         .page-subtitle {
-            font-size: 13px;
-            color: #5f6368;
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-wrap: wrap;
+            font-size: 14px;
+            color: #5f6368;
         }
-        .page-subtitle .status-badge {
+        .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 3px 10px;
+            padding: 4px 12px;
             border-radius: 12px;
             font-size: 12px;
             font-weight: 500;
@@ -215,719 +188,167 @@
             background: #e6f4ea;
             color: #137333;
         }
-        .status-badge.dokoncene {
-            background: #e8eaed;
-            color: #5f6368;
-        }
-        .status-badge.zrusene {
-            background: #fce8e6;
-            color: #c5221f;
+        .status-badge .material-icons-outlined {
+            font-size: 14px;
         }
 
-        /* Quick access buttons */
-        .page-header-bottom {
-            background: #fafafa;
-            border-top: 1px solid #f0f0f0;
-        }
-        .page-header-bottom-inner {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 12px 32px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .quick-access-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .quick-access-btn {
+        /* Buttons */
+        .btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 14px;
-            background: #fff;
-            border: 1px solid #dadce0;
-            border-radius: 20px;
-            color: #3c4043;
+            padding: 8px 16px;
+            border-radius: 6px;
             font-size: 13px;
             font-weight: 500;
-            text-decoration: none;
             cursor: pointer;
             transition: all 0.15s;
+            border: none;
+            text-decoration: none;
         }
-        .quick-access-btn:hover {
-            background: #f8f9fa;
-            border-color: #1a73e8;
-            color: #1a73e8;
-        }
-        .quick-access-btn .material-icons-outlined {
-            font-size: 18px;
-        }
-        .quick-access-btn .badge {
-            background: #1a73e8;
+        .btn-primary {
+            background: #004289;
             color: #fff;
-            font-size: 11px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: #003470;
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #5f6368;
+            border: 1px solid #dadce0;
+        }
+        .btn-secondary:hover {
+            background: #f8f9fa;
+            color: #202124;
+        }
+        .btn .material-icons-outlined {
+            font-size: 18px;
         }
 
         /* ===========================================
-           CONTENT LAYOUT
+           PAGE CONTENT
            =========================================== */
         .page-content {
             flex: 1;
-            padding: 32px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 24px;
-        }
-        .content-main {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            min-width: 0;
-        }
-        .content-aside {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .content-aside .form-card {
-            position: sticky;
-            top: 24px;
+            overflow-y: auto;
+            padding: 16px 24px 24px;
         }
 
         /* ===========================================
-           FORM CARDS
+           TILES GRID - 2x2, vyšší dlaždice
            =========================================== */
-        .form-card {
+        .tiles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .tile {
             background: #fff;
             border-radius: 12px;
             border: 1px solid #e0e0e0;
-            overflow: hidden;
-        }
-        .form-card-header {
-            padding: 16px 24px;
-            background: #fafafa;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .form-card-header .material-icons-outlined {
-            font-size: 24px;
-            color: #004289;
-        }
-        .form-card-title {
-            font-size: 15px;
-            font-weight: 500;
-            color: #202124;
-        }
-        .form-card-body {
-            padding: 24px;
-        }
-        .form-card-actions {
-            display: flex;
-            gap: 4px;
-            margin-left: auto;
-        }
-        .form-card-action-btn {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: transparent;
-            color: #5f6368;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .form-card-action-btn:hover {
-            background: #e8eaed;
-            color: #004289;
-        }
-
-        /* Collapsed card */
-        .collapsed-card .collapsed-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 16px 24px;
-            background: #fff;
-            border: none;
-            cursor: pointer;
-            text-align: left;
-        }
-        .collapsed-card .collapsed-card-header:hover {
-            background: #fafafa;
-        }
-        .collapsed-card .card-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 15px;
-            font-weight: 500;
-            color: #202124;
-        }
-        .collapsed-card .card-title .material-icons-outlined {
-            font-size: 24px;
-            color: #004289;
-        }
-        .collapsed-card .collapse-icon {
-            color: #5f6368;
-            transition: transform 0.2s;
-        }
-        .collapsed-card .collapse-icon.expanded {
-            transform: rotate(180deg);
-        }
-        .collapsed-card .collapsed-card-content {
-            display: none;
-            border-top: 1px solid #e0e0e0;
-        }
-        .collapsed-card .collapsed-card-content.expanded {
-            display: block;
-        }
-
-        /* ===========================================
-           DATA DISPLAY
-           =========================================== */
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px 24px;
-        }
-        .data-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .data-item-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #80868b;
-            font-weight: 500;
-        }
-        .data-item-value {
-            font-size: 14px;
-            color: #202124;
-        }
-        .data-item-value.mono {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 13px;
-        }
-        .data-item-value a {
-            color: #1a73e8;
-            text-decoration: none;
-        }
-        .data-item-value a:hover {
-            text-decoration: underline;
-        }
-
-        /* ===========================================
-           LOCATION CARD
-           =========================================== */
-        .location-main {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            margin-bottom: 16px;
-        }
-        .location-address {
-            flex: 1;
-        }
-        .address-line {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            font-size: 15px;
-            color: #202124;
-            margin-bottom: 8px;
-        }
-        .address-line .material-icons-outlined {
-            font-size: 20px;
-            color: #5f6368;
-            margin-top: 2px;
-        }
-        .location-map-preview {
-            width: 200px;
-            height: 120px;
-            background: #e8f0fe;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
             transition: all 0.15s;
-            border: 1px solid #dadce0;
-        }
-        .location-map-preview:hover {
-            background: #d2e3fc;
-            border-color: #1a73e8;
-        }
-        .location-map-preview .material-icons-outlined {
-            font-size: 32px;
-            color: #1a73e8;
-        }
-        .parcely-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-        .parcela-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 12px;
-            background: #f1f3f4;
-            border-radius: 16px;
-            font-size: 13px;
-            color: #3c4043;
-        }
-        .parcela-tag .material-icons-outlined {
-            font-size: 16px;
-            color: #5f6368;
-        }
-
-        /* ===========================================
-           OBJECTS LIST
-           =========================================== */
-        .objects-list {
+            overflow: hidden;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
         }
-        .object-item {
+        .tile:hover {
+            border-color: #1a73e8;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
+        }
+        .tile-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e8eaed;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
         }
-        .object-icon {
-            width: 40px;
-            height: 40px;
-            background: #e8f0fe;
-            border-radius: 8px;
+        .tile-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #1a73e8;
         }
-        .object-icon .material-icons-outlined {
-            font-size: 22px;
+        .tile-icon .material-icons-outlined {
+            font-size: 24px;
         }
-        .object-info {
-            flex: 1;
+        .tile-icon.osoby {
+            background: #e8f4fd;
+            color: #004289;
         }
-        .object-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #202124;
-            margin-bottom: 2px;
-        }
-        .object-type {
-            font-size: 12px;
-            color: #5f6368;
-        }
-        .object-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        .object-badge.hlavni {
+        .tile-icon.rizeni {
             background: #fef7e0;
-            color: #b06000;
+            color: #b45309;
         }
-        .object-badge.vedlejsi {
-            background: #e8eaed;
+        .tile-icon.dokumentace {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .tile-icon.doklady {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        .tile-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .tile-badge {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #f1f3f4;
             color: #5f6368;
         }
-
-        /* ===========================================
-           RIZENI LIST
-           =========================================== */
-        .rizeni-list {
+        .tile-badge.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .tile-body {
+            padding: 16px 20px;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-        .rizeni-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #fff;
-            border-radius: 8px;
-            border: 1px solid #e8eaed;
-            text-decoration: none;
-            transition: all 0.15s;
-        }
-        .rizeni-item:hover {
-            border-color: #1a73e8;
-            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.15);
-        }
-        .rizeni-item.active-rizeni {
-            background: #f0f7ff;
-            border-color: #1a73e8;
-        }
-        .rizeni-icon {
-            width: 40px;
-            height: 40px;
-            background: #e8eaed;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #5f6368;
-            flex-shrink: 0;
-        }
-        .rizeni-icon.active {
-            background: #e6f4ea;
-            color: #137333;
-        }
-        .rizeni-icon.completed {
-            background: #e8eaed;
-            color: #5f6368;
-        }
-        .rizeni-icon .material-icons-outlined {
-            font-size: 22px;
-        }
-        .rizeni-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .rizeni-type {
-            font-size: 14px;
-            font-weight: 500;
-            color: #202124;
-            margin-bottom: 4px;
-        }
-        .rizeni-meta {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .rizeni-id {
-            font-size: 12px;
-            color: #5f6368;
-            font-family: 'Roboto Mono', monospace;
-        }
-        .rizeni-org {
-            font-size: 12px;
-            color: #5f6368;
-        }
-        .rizeni-status {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-        .rizeni-status.active {
-            background: #e6f4ea;
-            color: #137333;
-        }
-        .rizeni-status.completed {
-            background: #e8eaed;
-            color: #5f6368;
-        }
-        .rizeni-dates {
-            display: flex;
-            gap: 16px;
-            font-size: 11px;
-            color: #80868b;
-            margin-top: 4px;
         }
 
-        /* ===========================================
-           VERSION SELECTOR
-           =========================================== */
-        .version-selector {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .version-label {
-            font-size: 13px;
-            color: #5f6368;
-            white-space: nowrap;
-        }
-        .version-dropdown {
-            position: relative;
-            flex: 1;
-            max-width: 320px;
-        }
-        .version-dropdown .material-icons-outlined {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            color: #5f6368;
-            pointer-events: none;
-        }
-        .version-select {
-            width: 100%;
-            padding: 10px 36px 10px 12px;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
-            font-size: 13px;
-            color: #202124;
-            background: #fff;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-        }
-        .version-select:hover {
-            border-color: #1a73e8;
-        }
-        .version-select:focus {
-            outline: none;
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
-        }
-        /* Doc version context */
-        .doc-version-context {
-            margin-top: 12px;
-            padding: 12px 14px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 3px solid #1a73e8;
-        }
-        .doc-version-request {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .doc-version-request > .material-icons-outlined {
-            font-size: 20px;
-            color: #1a73e8;
-        }
-        .doc-request-info {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .doc-request-label {
-            font-size: 12px;
-            color: #5f6368;
-        }
-        .doc-request-name {
-            font-size: 13px;
-            font-weight: 500;
-            color: #202124;
-        }
-        .doc-request-recipient {
-            font-size: 13px;
-            color: #1a73e8;
-            font-weight: 500;
-        }
-
-        /* ===========================================
-           DOKLADOVÁ ČÁST
-           =========================================== */
-        .doklady-summary {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
+        /* Tile: Osoby - stavebník dominantní */
+        .stavebnik-section {
             margin-bottom: 16px;
         }
-        .doklad-stat {
+        .stavebnik-header {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            padding: 12px 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            min-width: 100px;
-        }
-        .doklad-stat-number {
-            font-size: 24px;
-            font-weight: 600;
-            color: #137333;
-        }
-        .doklad-stat-label {
-            font-size: 11px;
-            color: #5f6368;
-            text-align: center;
-            margin-top: 4px;
-        }
-        .doklady-list {
-            display: flex;
-            flex-direction: column;
             gap: 8px;
-        }
-        .doklad-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .doklad-group-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #5f6368;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .doklad-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-        .doklad-item.completed .doklad-icon {
-            color: #137333;
-        }
-        .doklad-icon {
-            font-size: 20px;
-            color: #5f6368;
-        }
-        .doklad-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .doklad-name {
-            font-size: 13px;
-            font-weight: 500;
-            color: #202124;
-            margin-bottom: 2px;
-        }
-        .doklad-issuer {
-            font-size: 12px;
-            color: #5f6368;
-        }
-        .doklad-date {
-            font-size: 12px;
-            color: #80868b;
-            white-space: nowrap;
-        }
-        .show-all-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 12px;
-            padding: 8px 0;
-            background: none;
-            border: none;
-            color: #1a73e8;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .show-all-btn:hover {
-            text-decoration: underline;
-        }
-        .show-all-btn .material-icons-outlined {
-            font-size: 18px;
-        }
-        /* Parcely table */
-        .parcely-table {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e8eaed;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .parcela-row {
-            display: grid;
-            grid-template-columns: 100px 1fr 100px 140px;
-            padding: 10px 12px;
-            gap: 12px;
-            align-items: center;
-            font-size: 13px;
-        }
-        .parcela-row:not(:last-child) {
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .parcela-row.header {
-            background: #f8f9fa;
-            font-weight: 500;
-            color: #5f6368;
-            font-size: 12px;
-        }
-        .parcela-col.cislo {
-            font-family: 'Roboto Mono', monospace;
-            color: #1a73e8;
-        }
-        .parcela-row.header .parcela-col.cislo {
-            color: #5f6368;
-        }
-        .parcela-col.ku {
-            color: #202124;
-        }
-        .parcela-col.vymera {
-            text-align: right;
-        }
-        .parcela-col.druh {
-            color: #5f6368;
-        }
-
-        /* ===========================================
-           PERSON DISPLAY
-           =========================================== */
-        .person-section {
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .person-section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             margin-bottom: 12px;
         }
-        .person-role-label {
-            font-size: 12px;
+        .stavebnik-role {
+            font-size: 11px;
             font-weight: 600;
-            color: #202124;
+            color: #5f6368;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .person-role-badge {
-            font-size: 11px;
+        .stavebnik-badge {
+            font-size: 10px;
             font-weight: 500;
-            padding: 3px 10px;
-            border-radius: 12px;
-            background: #e8f0fe;
-            color: #1a73e8;
-        }
-        .person-role-badge.primary {
+            padding: 2px 8px;
+            border-radius: 10px;
             background: #e6f4ea;
             color: #137333;
         }
-        .person-role-hint {
-            font-size: 12px;
-            color: #80868b;
-            font-style: italic;
-        }
-        .person-compact {
+        .stavebnik-detail {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 12px;
         }
-        .person-avatar {
+        .stavebnik-avatar {
             width: 48px;
             height: 48px;
             border-radius: 50%;
@@ -936,276 +357,366 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             flex-shrink: 0;
         }
-        .person-main {
-            min-width: 150px;
+        .stavebnik-info {
+            flex: 1;
         }
-        .person-name {
+        .stavebnik-name {
             font-size: 15px;
             font-weight: 500;
             color: #202124;
             margin-bottom: 2px;
         }
-        .person-type {
+        .stavebnik-type {
+            font-size: 12px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+        .stavebnik-contacts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .stavebnik-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             font-size: 12px;
             color: #5f6368;
         }
-        .person-contacts {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-            flex: 1;
+        .stavebnik-contact .material-icons-outlined {
+            font-size: 16px;
         }
-        .contact-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: #5f6368;
-            text-decoration: none;
-        }
-        .contact-link .material-icons-outlined {
-            font-size: 18px;
-        }
-        a.contact-link:hover {
-            color: #004289;
-        }
-        /* Secondary persons - compact */
-        .person-secondary-list {
+        
+        /* Další osoby - kompaktní seznam */
+        .dalsi-osoby {
             border-top: 1px solid #f0f0f0;
             padding-top: 12px;
-            margin-top: 4px;
+            margin-top: auto;
         }
-        .person-secondary-item {
+        .dalsi-osoba {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 0;
-            flex-wrap: wrap;
+            padding: 6px 0;
             font-size: 13px;
         }
-        .person-secondary-item:not(:last-child) {
+        .dalsi-osoba:not(:last-child) {
             border-bottom: 1px solid #f5f5f5;
         }
-        .person-secondary-role {
+        .dalsi-osoba-role {
             color: #5f6368;
-            min-width: 110px;
+            min-width: 100px;
         }
-        .person-secondary-name {
+        .dalsi-osoba-name {
             font-weight: 500;
             color: #202124;
         }
-        .person-secondary-detail {
+        .dalsi-osoba-detail {
             color: #5f6368;
-        }
-        .person-secondary-detail::before {
-            content: "•";
-            margin-right: 8px;
-            color: #dadce0;
+            margin-left: auto;
         }
 
-        /* ===========================================
-           SIDEBAR CARDS
-           =========================================== */
-        .status-card {
-            text-align: center;
-            padding: 24px;
+        /* Tile: Řízení */
+        .rizeni-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 100%;
         }
-        .status-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 16px;
+        .rizeni-active {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
             background: #e6f4ea;
+            border-radius: 10px;
+        }
+        .rizeni-active-icon {
+            width: 36px;
+            height: 36px;
+            background: #137333;
+            color: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .rizeni-active-icon .material-icons-outlined {
+            font-size: 20px;
+        }
+        .rizeni-active-info {
+            flex: 1;
+        }
+        .rizeni-active-type {
+            font-size: 14px;
+            font-weight: 500;
+            color: #137333;
+        }
+        .rizeni-active-meta {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .rizeni-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #5f6368;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .rizeni-stat-num {
+            font-weight: 600;
+            color: #202124;
+        }
+
+        /* Tile: Dokumentace */
+        .dok-preview {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            height: 100%;
+        }
+        .dok-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dok-status-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .status-icon .material-icons-outlined {
-            font-size: 32px;
+        .dok-status-icon.ok {
+            background: #e6f4ea;
             color: #137333;
         }
-        .status-title {
-            font-size: 18px;
+        .dok-status-icon .material-icons-outlined {
+            font-size: 20px;
+        }
+        .dok-status-text {
+            font-size: 14px;
+            color: #137333;
             font-weight: 500;
-            color: #137333;
-            margin-bottom: 8px;
         }
-        .status-description {
-            font-size: 13px;
-            color: #5f6368;
-        }
-
-        .processing-info {
+        .dok-meta {
             display: flex;
             flex-direction: column;
-            gap: 16px;
-        }
-        .processing-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
+            gap: 8px;
             font-size: 13px;
-            color: #3c4043;
-        }
-        .processing-row .material-icons-outlined {
-            font-size: 20px;
             color: #5f6368;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .dok-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dok-meta-item .material-icons-outlined {
+            font-size: 16px;
+            color: #9aa0a6;
+        }
+
+        /* Tile: Doklady */
+        .doklady-preview {
+            display: flex;
+            gap: 12px;
+            height: 100%;
+        }
+        .doklad-stat {
+            flex: 1;
+            text-align: center;
+            padding: 16px 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .doklad-stat-num {
+            font-size: 28px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+        .doklad-stat-label {
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         /* ===========================================
-           EXPANDABLE SECTION
+           ACCORDION SECTIONS
            =========================================== */
-        .expandable-section {
-            border-top: 1px solid #f0f0f0;
-            margin-top: 16px;
-            padding-top: 8px;
+        .accordion-section {
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 8px;
+            overflow: hidden;
         }
-        .expandable-toggle {
+        .accordion-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 8px 0;
-            background: none;
-            border: none;
-            font-size: 13px;
-            color: #5f6368;
+            gap: 12px;
+            padding: 12px 16px;
             cursor: pointer;
+            transition: background 0.15s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
         }
-        .expandable-toggle:hover {
-            color: #004289;
+        .accordion-header:hover {
+            background: #f8f9fa;
         }
-        .expandable-toggle .material-icons-outlined {
+        .accordion-header .material-icons-outlined {
+            font-size: 20px;
+            color: #5f6368;
+        }
+        .accordion-title {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .accordion-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+        .accordion-arrow {
+            color: #5f6368;
             font-size: 20px;
             transition: transform 0.2s;
         }
-        .expandable-toggle.expanded .material-icons-outlined {
+        .accordion-section.open .accordion-arrow {
             transform: rotate(180deg);
         }
-        .expandable-content {
+        .accordion-content {
             display: none;
-            padding-top: 12px;
+            padding: 0 16px 16px;
+            border-top: 1px solid #f0f0f0;
         }
-        .expandable-content.expanded {
+        .accordion-section.open .accordion-content {
             display: block;
         }
 
-        /* ===========================================
-           AUDIT TIMELINE
-           =========================================== */
-        .audit-timeline {
+        /* Accordion: Parcely */
+        .parcely-compact {
             display: flex;
-            flex-direction: column;
-            gap: 0;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 12px;
         }
-        .audit-item {
-            display: flex;
-            gap: 16px;
-            padding: 12px 0;
-            position: relative;
-        }
-        .audit-item:not(:last-child)::before {
-            content: '';
-            position: absolute;
-            left: 7px;
-            top: 32px;
-            bottom: 0;
-            width: 2px;
-            background: #e8eaed;
-        }
-        .audit-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #e8eaed;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .audit-item.completed .audit-dot {
-            background: #34a853;
-        }
-        .audit-item.current .audit-dot {
-            background: #1a73e8;
-            box-shadow: 0 0 0 4px rgba(26, 115, 232, 0.2);
-        }
-        .audit-item-content {
-            flex: 1;
-        }
-        .audit-item-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #202124;
-            margin-bottom: 2px;
-        }
-        .audit-item-date {
-            font-size: 12px;
-            color: #5f6368;
-        }
-
-        /* ===========================================
-           BUTTONS
-           =========================================== */
-        .btn {
+        .parcela-chip {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 6px;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #f1f3f4;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #3c4043;
+        }
+        .parcela-chip .material-icons-outlined {
             font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-decoration: none;
-            border: 1px solid;
-        }
-        .btn-primary {
-            background: #004289;
-            color: #fff;
-            border-color: #004289;
-        }
-        .btn-primary:hover {
-            background: #003366;
-            border-color: #003366;
-        }
-        .btn-secondary {
-            background: #fff;
             color: #5f6368;
-            border-color: #dadce0;
-        }
-        .btn-secondary:hover {
-            background: #f5f5f5;
-            border-color: #5f6368;
-        }
-        .btn .material-icons-outlined {
-            font-size: 18px;
         }
 
-        /* ===========================================
-           ACTIONS BAR
-           =========================================== */
-        .actions-bar {
+        /* Accordion: Objekty */
+        .objekty-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-top: 12px;
+        }
+        .objekt-chip {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 16px 32px;
-            background: #fff;
-            border-top: 1px solid #e0e0e0;
-            position: sticky;
-            bottom: 0;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
-        .actions-left {
+        .objekt-icon {
+            width: 32px;
+            height: 32px;
+            background: #e8f0fe;
+            border-radius: 6px;
             display: flex;
-            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            color: #1a73e8;
         }
-        .actions-right {
+        .objekt-icon .material-icons-outlined {
+            font-size: 18px;
+        }
+        .objekt-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .objekt-type {
+            font-size: 11px;
+            color: #5f6368;
+        }
+
+        /* Accordion: Lokalizace */
+        .lokalizace-compact {
             display: flex;
-            gap: 12px;
+            align-items: flex-start;
+            gap: 16px;
+            padding-top: 12px;
+        }
+        .lokalizace-address {
+            flex: 1;
+        }
+        .lokalizace-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: #202124;
+            margin-bottom: 6px;
+        }
+        .lokalizace-line .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+            margin-top: 1px;
+        }
+        .lokalizace-map {
+            width: 120px;
+            height: 80px;
+            background: #e8f0fe;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid #dadce0;
+            transition: all 0.15s;
+        }
+        .lokalizace-map:hover {
+            background: #d2e3fc;
+            border-color: #1a73e8;
+        }
+        .lokalizace-map .material-icons-outlined {
+            font-size: 28px;
+            color: #1a73e8;
         }
 
         /* ===========================================
@@ -1221,7 +732,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 2000;
         }
         .modal-overlay.open {
             display: flex;
@@ -1230,9 +741,11 @@
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+            max-width: 700px;
             width: 90%;
-            overflow: hidden;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
         }
         .modal-header {
             display: flex;
@@ -1240,6 +753,7 @@
             justify-content: space-between;
             padding: 16px 20px;
             border-bottom: 1px solid #e0e0e0;
+            flex-shrink: 0;
         }
         .modal-title {
             display: flex;
@@ -1269,7 +783,9 @@
             background: #f1f3f4;
         }
         .modal-body {
-            padding: 24px 20px;
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
         }
         .modal-footer {
             display: flex;
@@ -1278,49 +794,291 @@
             padding: 16px 20px;
             border-top: 1px solid #e0e0e0;
             background: #fafafa;
+            flex-shrink: 0;
+        }
+
+        /* Modal: Osoby */
+        .osoby-section {
+            margin-bottom: 20px;
+        }
+        .osoby-section:last-child {
+            margin-bottom: 0;
+        }
+        .osoby-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .osoba-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .osoba-detail:last-child {
+            margin-bottom: 0;
+        }
+        .osoba-detail-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #e8f4fd;
+            color: #004289;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .osoba-detail-info {
+            flex: 1;
+        }
+        .osoba-detail-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .osoba-detail-type {
+            font-size: 12px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+        .osoba-detail-contacts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .osoba-contact {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .osoba-contact .material-icons-outlined {
+            font-size: 16px;
+        }
+
+        /* Modal: Řízení */
+        .rizeni-list-modal {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .rizeni-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.15s;
+            border: 1px solid transparent;
+        }
+        .rizeni-item:hover {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+        .rizeni-item.active {
+            background: #e6f4ea;
+            border-color: #137333;
+        }
+        .rizeni-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .rizeni-item-icon.active {
+            background: #137333;
+            color: #fff;
+        }
+        .rizeni-item-icon.completed {
+            background: #e0e0e0;
+            color: #5f6368;
+        }
+        .rizeni-item-icon .material-icons-outlined {
+            font-size: 20px;
+        }
+        .rizeni-item-info {
+            flex: 1;
+        }
+        .rizeni-item-type {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .rizeni-item-meta {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .rizeni-item-status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .rizeni-item-status.active {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .rizeni-item-status.completed {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+
+        /* Modal: Dokumentace */
+        .dok-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .dok-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: #e6f4ea;
+            border-radius: 10px;
+        }
+        .dok-detail-icon {
+            width: 48px;
+            height: 48px;
+            background: #137333;
+            color: #fff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dok-detail-icon .material-icons-outlined {
+            font-size: 26px;
+        }
+        .dok-detail-status {
+            font-size: 16px;
+            font-weight: 500;
+            color: #137333;
+        }
+        .dok-detail-date {
+            font-size: 13px;
+            color: #5f6368;
+        }
+        .dok-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .dok-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .dok-detail-label {
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .dok-detail-value {
+            font-size: 14px;
+            color: #202124;
+        }
+
+        /* Modal: Doklady */
+        .doklady-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .doklad-group-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .doklad-group-title:first-child {
+            margin-top: 0;
+        }
+        .doklad-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .doklad-item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .doklad-item-icon.ok {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .doklad-item-icon .material-icons-outlined {
+            font-size: 18px;
+        }
+        .doklad-item-info {
+            flex: 1;
+        }
+        .doklad-item-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .doklad-item-meta {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        .doklad-item-status {
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+        .doklad-item-status.ok {
+            background: #e6f4ea;
+            color: #137333;
         }
 
         /* ===========================================
            RESPONSIVE
            =========================================== */
-        @media (max-width: 1024px) {
-            .content-grid {
+        @media (max-width: 768px) {
+            .tiles-grid {
                 grid-template-columns: 1fr;
             }
-            .content-aside {
-                flex-direction: row;
+            .page-header {
                 flex-wrap: wrap;
             }
-            .content-aside .form-card {
-                position: static;
-                flex: 1;
-                min-width: 280px;
-            }
-        }
-        @media (max-width: 768px) {
-            .page-header-top {
-                flex-direction: column;
-                padding: 16px;
-                gap: 16px;
-            }
-            .page-header-left {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .page-header-bottom-inner {
-                padding: 12px 16px;
-            }
-            .quick-access-buttons {
-                flex-wrap: wrap;
-            }
-            .page-content {
-                padding: 16px;
-            }
-            .location-main {
-                flex-direction: column;
-            }
-            .location-map-preview {
+            .header-actions {
                 width: 100%;
+                justify-content: flex-end;
             }
         }
     </style>
@@ -1355,446 +1113,255 @@
     </header>
 
     <main class="main-content">
-        <!-- Page header -->
+        <!-- Page header - třířádkový styl -->
         <header class="page-header">
             <div class="page-header-top">
-                <div class="page-header-left">
-                    <a href="zamery.html" class="btn-back">
-                        <span class="material-icons-outlined">arrow_back</span>
-                        <span>Zpět na přehled záměrů</span>
-                    </a>
-                    <div>
-                        <div class="page-label">Detail záměru</div>
-                        <h1 class="page-title">Odstranění části vlečky 2134 ŠKODA hlavní závod</h1>
-                        <div class="page-subtitle">
-                            <span>Z/2026/1457</span>
-                            <span>•</span>
-                            <span>SR00X01HK606</span>
-                            <span>•</span>
-                            <span class="status-badge aktivni">
-                                <span class="material-icons-outlined" style="font-size: 14px;">check_circle</span>
-                                Aktivní
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="page-header-bottom">
-                <div class="page-header-bottom-inner">
-                    <div class="quick-access-buttons">
-                        <a href="#" class="quick-access-btn" onclick="openModal('rizeniModal'); return false;">
-                            <span class="material-icons-outlined">gavel</span>
-                            Řízení
-                            <span class="badge">4</span>
-                        </a>
-                        <a href="#" class="quick-access-btn" onclick="openModal('dokumentaceModal'); return false;">
-                            <span class="material-icons-outlined">folder</span>
-                            Dokumentace
-                        </a>
-                        <a href="#" class="quick-access-btn" onclick="openModal('dokladyModal'); return false;">
-                            <span class="material-icons-outlined">fact_check</span>
-                            Dokladová část
-                            <span class="badge">12</span>
-                        </a>
-                        <a href="#" class="quick-access-btn" onclick="openModal('parcelyModal'); return false;">
-                            <span class="material-icons-outlined">grid_on</span>
-                            Parcely
-                            <span class="badge">3</span>
-                        </a>
-                        <a href="#" class="quick-access-btn" onclick="openModal('mapaModal'); return false;">
-                            <span class="material-icons-outlined">map</span>
-                            Zobrazit na mapě
-                        </a>
+                <a href="zamery.html" class="btn-back" title="Zpět na přehled záměrů">
+                    <span class="material-icons-outlined">arrow_back</span>
+                </a>
+                <div class="page-header-info">
+                    <div class="page-label">Detail záměru</div>
+                    <h1 class="page-title">Odstranění části vlečky 2134 ŠKODA hlavní závod</h1>
+                    <div class="page-subtitle">
+                        <span>Z/2026/1457</span>
+                        <span>•</span>
+                        <span>SR00X01HK606</span>
+                        <span>•</span>
+                        <span class="status-badge aktivni">
+                            <span class="material-icons-outlined">check_circle</span>
+                            Aktivní
+                        </span>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Content -->
+        <!-- Page content -->
         <div class="page-content">
-            <div class="content-grid">
-                <!-- Main content column -->
-                <div class="content-main">
-                    <!-- Osoby -->
-                    <div class="form-card">
-                        <div class="form-card-header">
+            <!-- Hlavní dlaždice 2x2 -->
+            <div class="tiles-grid">
+                <!-- Tile: Osoby -->
+                <div class="tile" onclick="openModal('osobyModal')">
+                    <div class="tile-header">
+                        <div class="tile-icon osoby">
                             <span class="material-icons-outlined">people</span>
-                            <span class="form-card-title">Osoby</span>
                         </div>
-                        <div class="form-card-body">
-                            <!-- Stavebník - dominantní -->
-                            <div class="person-section">
-                                <div class="person-section-header">
-                                    <span class="person-role-label">Stavebník</span>
-                                    <span class="person-role-badge primary">Vlastník záměru</span>
-                                </div>
-                                <div class="person-compact">
-                                    <div class="person-avatar">LŠ</div>
-                                    <div class="person-main">
-                                        <div class="person-name">LADISLAV ŠUPOL</div>
-                                        <div class="person-type">Fyzická osoba</div>
-                                    </div>
-                                    <div class="person-contacts">
-                                        <span class="contact-link">
-                                            <span class="material-icons-outlined">inbox</span>
+                        <span class="tile-title">Osoby</span>
+                        <span class="tile-badge">3</span>
+                    </div>
+                    <div class="tile-body">
+                        <!-- Stavebník - dominantní -->
+                        <div class="stavebnik-section">
+                            <div class="stavebnik-header">
+                                <span class="stavebnik-role">Stavebník</span>
+                                <span class="stavebnik-badge">Vlastník záměru</span>
+                            </div>
+                            <div class="stavebnik-detail">
+                                <div class="stavebnik-avatar">LŠ</div>
+                                <div class="stavebnik-info">
+                                    <div class="stavebnik-name">Ladislav Šupol</div>
+                                    <div class="stavebnik-type">Fyzická osoba</div>
+                                    <div class="stavebnik-contacts">
+                                        <span class="stavebnik-contact">
+                                            <span class="material-icons-outlined">forward_to_inbox</span>
                                             DS: abc123x
                                         </span>
-                                        <span class="contact-link">
-                                            <span class="material-icons-outlined">location_on</span>
+                                        <span class="stavebnik-contact">
+                                            <span class="material-icons-outlined">place</span>
                                             Plzeň
                                         </span>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Zástupce a Pověřená osoba - kompaktní řádky -->
-                            <div class="person-secondary-list">
-                                <div class="person-secondary-item">
-                                    <span class="person-secondary-role">Zástupce:</span>
-                                    <span class="person-secondary-name">PROJEKTOVÁ s.r.o.</span>
-                                    <span class="person-secondary-detail">IČO: 12345678</span>
-                                    <span class="person-secondary-detail">DS: xyz789a</span>
-                                </div>
-                                <div class="person-secondary-item">
-                                    <span class="person-secondary-role">Pověřená osoba:</span>
-                                    <span class="person-secondary-name">Ing. Jan Kovář</span>
-                                    <span class="person-secondary-detail">kovar@projektova.cz</span>
-                                    <span class="person-secondary-detail">+420 777 888 999</span>
-                                </div>
+                        </div>
+                        
+                        <!-- Další osoby - kompaktně -->
+                        <div class="dalsi-osoby">
+                            <div class="dalsi-osoba">
+                                <span class="dalsi-osoba-role">Zástupce:</span>
+                                <span class="dalsi-osoba-name">PROJEKTOVÁ s.r.o.</span>
+                                <span class="dalsi-osoba-detail">DS: xyz789a</span>
+                            </div>
+                            <div class="dalsi-osoba">
+                                <span class="dalsi-osoba-role">Pověřená osoba:</span>
+                                <span class="dalsi-osoba-name">Ing. Jan Kovář</span>
+                                <span class="dalsi-osoba-detail">+420 777 888 999</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Dokumentace -->
-                    <div class="form-card">
-                        <div class="form-card-header">
-                            <span class="material-icons-outlined">folder</span>
-                            <span class="form-card-title">Dokumentace</span>
-                            <div class="form-card-actions">
-                                <button class="form-card-action-btn" title="Otevřít dokumentaci" onclick="openModal('dokumentaceModal')">
-                                    <span class="material-icons-outlined">open_in_new</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-card-body">
-                            <!-- Výběr verze -->
-                            <div class="version-selector">
-                                <label class="version-label">Verze dokumentace</label>
-                                <div class="version-dropdown">
-                                    <select class="version-select" id="versionSelect" onchange="changeVersion()">
-                                        <option value="3" selected>v3.0 – 6. 1. 2026 (aktuální)</option>
-                                        <option value="2">v2.0 – 15. 12. 2025</option>
-                                        <option value="1">v1.0 – 28. 11. 2025</option>
-                                    </select>
-                                    <span class="material-icons-outlined">expand_more</span>
-                                </div>
-                            </div>
-                            
-                            <div class="doc-version-context" id="docContext">
-                                <div class="doc-version-request">
-                                    <span class="material-icons-outlined">description</span>
-                                    <div class="doc-request-info">
-                                        <span class="doc-request-label">Nahráno k žádosti:</span>
-                                        <span class="doc-request-name" id="docRequestName">Žádost o povolení stavby</span>
-                                    </div>
-                                    <span class="doc-request-recipient" id="docRequestRecipient">→ Dopravní a energetický SÚ</span>
-                                </div>
-                            </div>
-                            
-                            <div class="data-grid" style="margin-top: 16px;">
-                                <div class="data-item">
-                                    <span class="data-item-label">ID dokumentace</span>
-                                    <span class="data-item-value mono"><a href="#" onclick="openModal('dokumentaceModal'); return false;">SR00X01HK611</a></span>
-                                </div>
-                                <div class="data-item">
-                                    <span class="data-item-label">Datum nahrání</span>
-                                    <span class="data-item-value" id="docDate">6. 1. 2026</span>
-                                </div>
-                                <div class="data-item">
-                                    <span class="data-item-label">Počet souborů</span>
-                                    <span class="data-item-value" id="docFiles">24</span>
-                                </div>
-                                <div class="data-item">
-                                    <span class="data-item-label">Poznámka</span>
-                                    <span class="data-item-value" id="docNote">Finální verze po zapracování připomínek</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dokladová část -->
-                    <div class="form-card">
-                        <div class="form-card-header">
-                            <span class="material-icons-outlined">fact_check</span>
-                            <span class="form-card-title">Dokladová část</span>
-                            <div class="form-card-actions">
-                                <button class="form-card-action-btn" title="Otevřít dokladovou část" onclick="openModal('dokladyModal')">
-                                    <span class="material-icons-outlined">open_in_new</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-card-body">
-                            <div class="doklady-summary">
-                                <div class="doklad-stat">
-                                    <span class="doklad-stat-number">5</span>
-                                    <span class="doklad-stat-label">Stanoviska DO</span>
-                                </div>
-                                <div class="doklad-stat">
-                                    <span class="doklad-stat-number">4</span>
-                                    <span class="doklad-stat-label">Vyjádření vlastníků sítí</span>
-                                </div>
-                                <div class="doklad-stat">
-                                    <span class="doklad-stat-number">3</span>
-                                    <span class="doklad-stat-label">Další doklady</span>
-                                </div>
-                            </div>
-                            
-                            <button class="show-all-btn" onclick="openModal('dokladyModal')">
-                                Zobrazit všech 12 dokladů
-                                <span class="material-icons-outlined">arrow_forward</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Řízení -->
-                    <div class="form-card">
-                        <div class="form-card-header">
+                <!-- Tile: Řízení -->
+                <div class="tile" onclick="openModal('rizeniModal')">
+                    <div class="tile-header">
+                        <div class="tile-icon rizeni">
                             <span class="material-icons-outlined">gavel</span>
-                            <span class="form-card-title">Řízení (4)</span>
                         </div>
-                        <div class="form-card-body">
-                            <div class="rizeni-list">
-                                <!-- Probíhající řízení -->
-                                <a href="povoleni-2.html" class="rizeni-item active-rizeni">
-                                    <div class="rizeni-icon active">
-                                        <span class="material-icons-outlined">gavel</span>
-                                    </div>
-                                    <div class="rizeni-info">
-                                        <div class="rizeni-type">Řízení o povolení stavby</div>
-                                        <div class="rizeni-meta">
-                                            <span class="rizeni-id">R/2026/000147</span>
-                                            <span class="rizeni-org">Dopravní a energetický SÚ</span>
-                                        </div>
-                                        <div class="rizeni-dates">
-                                            <span>Zahájeno: 6. 1. 2026</span>
-                                        </div>
-                                    </div>
-                                    <span class="rizeni-status active">Probíhá</span>
-                                </a>
-                                
-                                <!-- Ukončená řízení -->
-                                <a href="#" class="rizeni-item completed">
-                                    <div class="rizeni-icon completed">
-                                        <span class="material-icons-outlined">info</span>
-                                    </div>
-                                    <div class="rizeni-info">
-                                        <div class="rizeni-type">Předběžná informace</div>
-                                        <div class="rizeni-meta">
-                                            <span class="rizeni-id">R/2025/008921</span>
-                                            <span class="rizeni-org">Dopravní a energetický SÚ</span>
-                                        </div>
-                                        <div class="rizeni-dates">
-                                            <span>Zahájeno: 20. 10. 2025</span>
-                                            <span>Ukončeno: 15. 11. 2025</span>
-                                        </div>
-                                    </div>
-                                    <span class="rizeni-status completed">Vydáno</span>
-                                </a>
-                                
-                                <a href="#" class="rizeni-item completed">
-                                    <div class="rizeni-icon completed">
-                                        <span class="material-icons-outlined">verified</span>
-                                    </div>
-                                    <div class="rizeni-info">
-                                        <div class="rizeni-type">Závazné stanovisko - zásah do dráhy</div>
-                                        <div class="rizeni-meta">
-                                            <span class="rizeni-id">R/2025/012847</span>
-                                            <span class="rizeni-org">Drážní úřad</span>
-                                        </div>
-                                        <div class="rizeni-dates">
-                                            <span>Zahájeno: 5. 11. 2025</span>
-                                            <span>Ukončeno: 28. 11. 2025</span>
-                                        </div>
-                                    </div>
-                                    <span class="rizeni-status completed">Vydáno</span>
-                                </a>
-                                
-                                <a href="#" class="rizeni-item completed">
-                                    <div class="rizeni-icon completed">
-                                        <span class="material-icons-outlined">description</span>
-                                    </div>
-                                    <div class="rizeni-info">
-                                        <div class="rizeni-type">Vyjádření vlastníka dopravní infrastruktury</div>
-                                        <div class="rizeni-meta">
-                                            <span class="rizeni-id">R/2025/014523</span>
-                                            <span class="rizeni-org">Správa železnic, s.o.</span>
-                                        </div>
-                                        <div class="rizeni-dates">
-                                            <span>Zahájeno: 15. 11. 2025</span>
-                                            <span>Ukončeno: 5. 12. 2025</span>
-                                        </div>
-                                    </div>
-                                    <span class="rizeni-status completed">Vydáno</span>
-                                </a>
-                            </div>
-                        </div>
+                        <span class="tile-title">Řízení</span>
+                        <span class="tile-badge active">1 aktivní</span>
                     </div>
-
-                    <!-- Parcely - sbalená -->
-                    <div class="form-card collapsed-card">
-                        <button class="collapsed-card-header" onclick="toggleCard('parcely')">
-                            <span class="card-title">
-                                <span class="material-icons-outlined">grid_on</span>
-                                Parcely (3)
-                            </span>
-                            <span class="collapse-icon material-icons-outlined" id="parcelyIcon">expand_more</span>
-                        </button>
-                        <div class="collapsed-card-content" id="parcely">
-                            <div class="form-card-body">
-                                <div class="parcely-table">
-                                    <div class="parcela-row header">
-                                        <span class="parcela-col cislo">Číslo parcely</span>
-                                        <span class="parcela-col ku">Katastrální území</span>
-                                        <span class="parcela-col vymera">Výměra</span>
-                                        <span class="parcela-col druh">Druh pozemku</span>
-                                    </div>
-                                    <div class="parcela-row">
-                                        <span class="parcela-col cislo">st. 1234/1</span>
-                                        <span class="parcela-col ku">Skvrňany [721981]</span>
-                                        <span class="parcela-col vymera">2 450 m²</span>
-                                        <span class="parcela-col druh">Zastavěná plocha</span>
-                                    </div>
-                                    <div class="parcela-row">
-                                        <span class="parcela-col cislo">st. 1234/2</span>
-                                        <span class="parcela-col ku">Skvrňany [721981]</span>
-                                        <span class="parcela-col vymera">1 180 m²</span>
-                                        <span class="parcela-col druh">Zastavěná plocha</span>
-                                    </div>
-                                    <div class="parcela-row">
-                                        <span class="parcela-col cislo">1456</span>
-                                        <span class="parcela-col ku">Skvrňany [721981]</span>
-                                        <span class="parcela-col vymera">890 m²</span>
-                                        <span class="parcela-col druh">Ostatní plocha</span>
-                                    </div>
+                    <div class="tile-body">
+                        <div class="rizeni-preview">
+                            <div class="rizeni-active">
+                                <div class="rizeni-active-icon">
+                                    <span class="material-icons-outlined">gavel</span>
                                 </div>
-                                
-                                <button class="show-all-btn" onclick="openModal('mapaModal')">
-                                    Zobrazit na mapě
-                                    <span class="material-icons-outlined">map</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Navrhované objekty - sbalená -->
-                    <div class="form-card collapsed-card">
-                        <button class="collapsed-card-header" onclick="toggleCard('objekty')">
-                            <span class="card-title">
-                                <span class="material-icons-outlined">domain</span>
-                                Navrhované stavební objekty (2)
-                            </span>
-                            <span class="collapse-icon material-icons-outlined" id="objektyIcon">expand_more</span>
-                        </button>
-                        <div class="collapsed-card-content" id="objekty">
-                            <div class="form-card-body">
-                                <div class="objects-list">
-                                    <div class="object-item">
-                                        <div class="object-icon">
-                                            <span class="material-icons-outlined">train</span>
-                                        </div>
-                                        <div class="object-info">
-                                            <div class="object-name">Demolice železniční vlečky</div>
-                                            <div class="object-type">Železniční dráha - vlečka</div>
-                                        </div>
-                                        <span class="object-badge hlavni">Hlavní</span>
-                                    </div>
-                                    <div class="object-item">
-                                        <div class="object-icon">
-                                            <span class="material-icons-outlined">power</span>
-                                        </div>
-                                        <div class="object-info">
-                                            <div class="object-name">Přeložka elektrického vedení</div>
-                                            <div class="object-type">Energetická stavba</div>
-                                        </div>
-                                        <span class="object-badge vedlejsi">Vedlejší</span>
-                                    </div>
+                                <div class="rizeni-active-info">
+                                    <div class="rizeni-active-type">Řízení o povolení stavby</div>
+                                    <div class="rizeni-active-meta">R/2026/000147 • od 6. 1. 2026</div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Auditní záznamy - sbalená -->
-                    <div class="form-card collapsed-card">
-                        <button class="collapsed-card-header" onclick="toggleCard('audit')">
-                            <span class="card-title">
-                                <span class="material-icons-outlined">history</span>
-                                Auditní záznamy
-                            </span>
-                            <span class="collapse-icon material-icons-outlined" id="auditIcon">expand_more</span>
-                        </button>
-                        <div class="collapsed-card-content" id="audit">
-                            <div class="form-card-body">
-                                <div class="audit-timeline">
-                                    <div class="audit-item completed">
-                                        <div class="audit-dot"></div>
-                                        <div class="audit-item-content">
-                                            <div class="audit-item-title">Záměr vytvořen</div>
-                                            <div class="audit-item-date">6. 12. 2025 9:05 • LADISLAV ŠUPOL</div>
-                                        </div>
-                                    </div>
-                                    <div class="audit-item completed">
-                                        <div class="audit-dot"></div>
-                                        <div class="audit-item-content">
-                                            <div class="audit-item-title">Dokumentace v1.0 nahrána</div>
-                                            <div class="audit-item-date">6. 12. 2025 9:12 • Ing. Jan Kovář</div>
-                                        </div>
-                                    </div>
-                                    <div class="audit-item completed">
-                                        <div class="audit-dot"></div>
-                                        <div class="audit-item-content">
-                                            <div class="audit-item-title">Dokumentace v2.0 nahrána</div>
-                                            <div class="audit-item-date">20. 12. 2025 14:30 • Ing. Jan Kovář</div>
-                                        </div>
-                                    </div>
-                                    <div class="audit-item completed">
-                                        <div class="audit-dot"></div>
-                                        <div class="audit-item-content">
-                                            <div class="audit-item-title">Dokumentace v3.0 nahrána</div>
-                                            <div class="audit-item-date">5. 1. 2026 10:15 • Ing. Jan Kovář</div>
-                                        </div>
-                                    </div>
-                                    <div class="audit-item completed">
-                                        <div class="audit-dot"></div>
-                                        <div class="audit-item-content">
-                                            <div class="audit-item-title">Záměr upraven</div>
-                                            <div class="audit-item-date">7. 1. 2026 7:57 • JIŘÍ KLÁŠTERKA, Mgr.</div>
-                                        </div>
-                                    </div>
-                                    <div class="audit-item current">
-                                        <div class="audit-dot"></div>
-                                        <div class="audit-item-content">
-                                            <div class="audit-item-title">Záměr aktivní</div>
-                                            <div class="audit-item-date">Nyní</div>
-                                        </div>
-                                    </div>
+                            <div class="rizeni-stats">
+                                <div class="rizeni-stat">
+                                    <span class="rizeni-stat-num">3</span> ukončená
+                                </div>
+                                <div class="rizeni-stat">
+                                    <span class="rizeni-stat-num">4</span> celkem
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar column -->
-                <div class="content-aside">
-                    <!-- Stav záměru -->
-                    <div class="form-card">
-                        <div class="status-card">
-                            <div class="status-icon">
-                                <span class="material-icons-outlined">check_circle</span>
+                <!-- Tile: Dokumentace -->
+                <div class="tile" onclick="openModal('dokumentaceModal')">
+                    <div class="tile-header">
+                        <div class="tile-icon dokumentace">
+                            <span class="material-icons-outlined">folder</span>
+                        </div>
+                        <span class="tile-title">Dokumentace</span>
+                    </div>
+                    <div class="tile-body">
+                        <div class="dok-preview">
+                            <div class="dok-status">
+                                <div class="dok-status-icon ok">
+                                    <span class="material-icons-outlined">check_circle</span>
+                                </div>
+                                <span class="dok-status-text">Kompletní dokumentace</span>
                             </div>
-                            <div class="status-title">Aktivní záměr</div>
-                            <div class="status-description">
-                                Záměr je aktivní a probíhá na něm řízení
+                            <div class="dok-meta">
+                                <div class="dok-meta-item">
+                                    <span class="material-icons-outlined">description</span>
+                                    <span>24 souborů</span>
+                                </div>
+                                <div class="dok-meta-item">
+                                    <span class="material-icons-outlined">event</span>
+                                    <span>Nahráno 6. 1. 2026</span>
+                                </div>
+                                <div class="dok-meta-item">
+                                    <span class="material-icons-outlined">send</span>
+                                    <span>→ Dopravní a energetický SÚ</span>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tile: Dokladová část -->
+                <div class="tile" onclick="openModal('dokladyModal')">
+                    <div class="tile-header">
+                        <div class="tile-icon doklady">
+                            <span class="material-icons-outlined">fact_check</span>
+                        </div>
+                        <span class="tile-title">Dokladová část</span>
+                        <span class="tile-badge">12</span>
+                    </div>
+                    <div class="tile-body">
+                        <div class="doklady-preview">
+                            <div class="doklad-stat">
+                                <div class="doklad-stat-num">5</div>
+                                <div class="doklad-stat-label">Stanoviska DO</div>
+                            </div>
+                            <div class="doklad-stat">
+                                <div class="doklad-stat-num">4</div>
+                                <div class="doklad-stat-label">Vyjádření VTI</div>
+                            </div>
+                            <div class="doklad-stat">
+                                <div class="doklad-stat-num">3</div>
+                                <div class="doklad-stat-label">Další</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accordion sekce -->
+            <div class="accordion-section" id="accordionParcely">
+                <button class="accordion-header" onclick="toggleAccordion('accordionParcely')">
+                    <span class="material-icons-outlined">grid_on</span>
+                    <span class="accordion-title">Parcely</span>
+                    <span class="accordion-badge">3</span>
+                    <span class="material-icons-outlined accordion-arrow">expand_more</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="parcely-compact">
+                        <div class="parcela-chip">
+                            <span class="material-icons-outlined">crop_square</span>
+                            st. 1234/1 • Skvrňany
+                        </div>
+                        <div class="parcela-chip">
+                            <span class="material-icons-outlined">crop_square</span>
+                            st. 1234/2 • Skvrňany
+                        </div>
+                        <div class="parcela-chip">
+                            <span class="material-icons-outlined">crop_square</span>
+                            1456 • Skvrňany
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-section" id="accordionObjekty">
+                <button class="accordion-header" onclick="toggleAccordion('accordionObjekty')">
+                    <span class="material-icons-outlined">domain</span>
+                    <span class="accordion-title">Stavební objekty</span>
+                    <span class="accordion-badge">2</span>
+                    <span class="material-icons-outlined accordion-arrow">expand_more</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="objekty-compact">
+                        <div class="objekt-chip">
+                            <div class="objekt-icon">
+                                <span class="material-icons-outlined">train</span>
+                            </div>
+                            <div>
+                                <div class="objekt-name">SO 01 - Vlečka část A</div>
+                                <div class="objekt-type">Drážní stavba • Odstranění</div>
+                            </div>
+                        </div>
+                        <div class="objekt-chip">
+                            <div class="objekt-icon">
+                                <span class="material-icons-outlined">train</span>
+                            </div>
+                            <div>
+                                <div class="objekt-name">SO 02 - Vlečka část B</div>
+                                <div class="objekt-type">Drážní stavba • Odstranění</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-section" id="accordionLokalizace">
+                <button class="accordion-header" onclick="toggleAccordion('accordionLokalizace')">
+                    <span class="material-icons-outlined">place</span>
+                    <span class="accordion-title">Lokalizace</span>
+                    <span class="material-icons-outlined accordion-arrow">expand_more</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="lokalizace-compact">
+                        <div class="lokalizace-address">
+                            <div class="lokalizace-line">
+                                <span class="material-icons-outlined">place</span>
+                                <span>Areál ŠKODA AUTO, Mladá Boleslav</span>
+                            </div>
+                            <div class="lokalizace-line">
+                                <span class="material-icons-outlined">map</span>
+                                <span>k.ú. Skvrňany [721981], Plzeňský kraj</span>
+                            </div>
+                        </div>
+                        <div class="lokalizace-map" onclick="openModal('mapaModal')">
+                            <span class="material-icons-outlined">map</span>
                         </div>
                     </div>
                 </div>
@@ -1802,81 +1369,87 @@
         </div>
     </main>
 
-    <!-- Modal: Dokumentace -->
-    <div class="modal-overlay" id="dokumentaceModal" onclick="closeModal('dokumentaceModal', event)">
+    <!-- Modal: Osoby -->
+    <div class="modal-overlay" id="osobyModal" onclick="closeModal('osobyModal', event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
-                    <span class="material-icons-outlined">folder</span>
-                    Dokumentace záměru
+                    <span class="material-icons-outlined">people</span>
+                    Osoby na záměru
                 </div>
-                <button class="modal-close" onclick="closeModal('dokumentaceModal')">
+                <button class="modal-close" onclick="closeModal('osobyModal')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p style="color: #5f6368; text-align: center; padding: 40px 20px;">
-                    V ostré verzi by se zde zobrazil náhled projektové dokumentace<br>
-                    s možností procházení souborů a stažení.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('dokumentaceModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
+                <div class="osoby-section">
+                    <div class="osoby-section-title">Stavebník</div>
+                    <div class="osoba-detail">
+                        <div class="osoba-detail-avatar">LŠ</div>
+                        <div class="osoba-detail-info">
+                            <div class="osoba-detail-name">Ladislav Šupol</div>
+                            <div class="osoba-detail-type">Fyzická osoba</div>
+                            <div class="osoba-detail-contacts">
+                                <span class="osoba-contact">
+                                    <span class="material-icons-outlined">place</span>
+                                    Plzeň
+                                </span>
+                                <span class="osoba-contact">
+                                    <span class="material-icons-outlined">forward_to_inbox</span>
+                                    DS: abc123x
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Modal: Parcely -->
-    <div class="modal-overlay" id="parcelyModal" onclick="closeModal('parcelyModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">grid_on</span>
-                    Dotčené parcely
+                <div class="osoby-section">
+                    <div class="osoby-section-title">Zástupce stavebníka</div>
+                    <div class="osoba-detail">
+                        <div class="osoba-detail-avatar">PS</div>
+                        <div class="osoba-detail-info">
+                            <div class="osoba-detail-name">PROJEKTOVÁ s.r.o.</div>
+                            <div class="osoba-detail-type">Právnická osoba • IČO: 12345678</div>
+                            <div class="osoba-detail-contacts">
+                                <span class="osoba-contact">
+                                    <span class="material-icons-outlined">forward_to_inbox</span>
+                                    DS: xyz789a
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button class="modal-close" onclick="closeModal('parcelyModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p style="color: #5f6368; text-align: center; padding: 40px 20px;">
-                    V ostré verzi by se zde zobrazil detailní přehled parcel<br>
-                    s informacemi z katastru nemovitostí.
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('parcelyModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal: Objekty -->
-    <div class="modal-overlay" id="objektyModal" onclick="closeModal('objektyModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">domain</span>
-                    Stavební objekty
+                <div class="osoby-section">
+                    <div class="osoby-section-title">Pověřená osoba</div>
+                    <div class="osoba-detail">
+                        <div class="osoba-detail-avatar">JK</div>
+                        <div class="osoba-detail-info">
+                            <div class="osoba-detail-name">Ing. Jan Kovář</div>
+                            <div class="osoba-detail-type">Fyzická osoba</div>
+                            <div class="osoba-detail-contacts">
+                                <span class="osoba-contact">
+                                    <span class="material-icons-outlined">email</span>
+                                    <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="23484c5542516353514c49464840460d4059">[email&#160;protected]</a>
+                                </span>
+                                <span class="osoba-contact">
+                                    <span class="material-icons-outlined">phone</span>
+                                    +420 777 888 999
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button class="modal-close" onclick="closeModal('objektyModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p style="color: #5f6368; text-align: center; padding: 40px 20px;">
-                    V ostré verzi by se zde zobrazil detailní přehled<br>
-                    navrhovaných stavebních objektů.
-                </p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('objektyModal')">Zavřít</button>
+                <button class="btn btn-secondary" onclick="closeModal('osobyModal')">Zavřít</button>
             </div>
         </div>
     </div>
 
     <!-- Modal: Řízení -->
     <div class="modal-overlay" id="rizeniModal" onclick="closeModal('rizeniModal', event)">
-        <div class="modal" style="max-width: 700px;" onclick="event.stopPropagation()">
+        <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">gavel</span>
@@ -1886,79 +1459,50 @@
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
-            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
-                <div class="rizeni-list">
-                    <!-- Probíhající řízení -->
-                    <a href="povoleni-2.html" class="rizeni-item active-rizeni">
-                        <div class="rizeni-icon active">
+            <div class="modal-body">
+                <div class="rizeni-list-modal">
+                    <a href="povoleni-2.html" class="rizeni-item active">
+                        <div class="rizeni-item-icon active">
                             <span class="material-icons-outlined">gavel</span>
                         </div>
-                        <div class="rizeni-info">
-                            <div class="rizeni-type">Řízení o povolení stavby</div>
-                            <div class="rizeni-meta">
-                                <span class="rizeni-id">R/2026/000147</span>
-                                <span class="rizeni-org">Dopravní a energetický SÚ</span>
-                            </div>
-                            <div class="rizeni-dates">
-                                <span>Zahájeno: 6. 1. 2026</span>
-                            </div>
+                        <div class="rizeni-item-info">
+                            <div class="rizeni-item-type">Řízení o povolení stavby</div>
+                            <div class="rizeni-item-meta">R/2026/000147 • Dopravní a energetický SÚ • od 6. 1. 2026</div>
                         </div>
-                        <span class="rizeni-status active">Probíhá</span>
+                        <span class="rizeni-item-status active">Probíhá</span>
                     </a>
-                    
-                    <!-- Ukončená řízení -->
-                    <a href="#" class="rizeni-item completed">
-                        <div class="rizeni-icon completed">
+
+                    <a href="#" class="rizeni-item">
+                        <div class="rizeni-item-icon completed">
                             <span class="material-icons-outlined">info</span>
                         </div>
-                        <div class="rizeni-info">
-                            <div class="rizeni-type">Předběžná informace</div>
-                            <div class="rizeni-meta">
-                                <span class="rizeni-id">R/2025/008921</span>
-                                <span class="rizeni-org">Dopravní a energetický SÚ</span>
-                            </div>
-                            <div class="rizeni-dates">
-                                <span>Zahájeno: 20. 10. 2025</span>
-                                <span>Ukončeno: 15. 11. 2025</span>
-                            </div>
+                        <div class="rizeni-item-info">
+                            <div class="rizeni-item-type">Předběžná informace</div>
+                            <div class="rizeni-item-meta">R/2025/008921 • Dopravní a energetický SÚ • 20. 10. – 15. 11. 2025</div>
                         </div>
-                        <span class="rizeni-status completed">Vydáno</span>
+                        <span class="rizeni-item-status completed">Vydáno</span>
                     </a>
-                    
-                    <a href="#" class="rizeni-item completed">
-                        <div class="rizeni-icon completed">
+
+                    <a href="#" class="rizeni-item">
+                        <div class="rizeni-item-icon completed">
                             <span class="material-icons-outlined">verified</span>
                         </div>
-                        <div class="rizeni-info">
-                            <div class="rizeni-type">Závazné stanovisko - zásah do dráhy</div>
-                            <div class="rizeni-meta">
-                                <span class="rizeni-id">R/2025/012847</span>
-                                <span class="rizeni-org">Drážní úřad</span>
-                            </div>
-                            <div class="rizeni-dates">
-                                <span>Zahájeno: 5. 11. 2025</span>
-                                <span>Ukončeno: 28. 11. 2025</span>
-                            </div>
+                        <div class="rizeni-item-info">
+                            <div class="rizeni-item-type">Závazné stanovisko - zásah do dráhy</div>
+                            <div class="rizeni-item-meta">R/2025/012847 • Drážní úřad • 5. 11. – 28. 11. 2025</div>
                         </div>
-                        <span class="rizeni-status completed">Vydáno</span>
+                        <span class="rizeni-item-status completed">Vydáno</span>
                     </a>
-                    
-                    <a href="#" class="rizeni-item completed">
-                        <div class="rizeni-icon completed">
+
+                    <a href="#" class="rizeni-item">
+                        <div class="rizeni-item-icon completed">
                             <span class="material-icons-outlined">description</span>
                         </div>
-                        <div class="rizeni-info">
-                            <div class="rizeni-type">Vyjádření vlastníka dopravní infrastruktury</div>
-                            <div class="rizeni-meta">
-                                <span class="rizeni-id">R/2025/014523</span>
-                                <span class="rizeni-org">Správa železnic, s.o.</span>
-                            </div>
-                            <div class="rizeni-dates">
-                                <span>Zahájeno: 15. 11. 2025</span>
-                                <span>Ukončeno: 5. 12. 2025</span>
-                            </div>
+                        <div class="rizeni-item-info">
+                            <div class="rizeni-item-type">Vyjádření vlastníka dopravní infrastruktury</div>
+                            <div class="rizeni-item-meta">R/2025/014523 • Správa železnic, s.o. • 15. 11. – 5. 12. 2025</div>
                         </div>
-                        <span class="rizeni-status completed">Vydáno</span>
+                        <span class="rizeni-item-status completed">Vydáno</span>
                     </a>
                 </div>
             </div>
@@ -1968,128 +1512,210 @@
         </div>
     </div>
 
-    <!-- Modal: Dokladová část -->
+    <!-- Modal: Dokumentace -->
+    <div class="modal-overlay" id="dokumentaceModal" onclick="closeModal('dokumentaceModal', event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span class="material-icons-outlined">folder</span>
+                    Projektová dokumentace
+                </div>
+                <button class="modal-close" onclick="closeModal('dokumentaceModal')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="dok-detail">
+                    <div class="dok-detail-header">
+                        <div class="dok-detail-icon">
+                            <span class="material-icons-outlined">check_circle</span>
+                        </div>
+                        <div>
+                            <div class="dok-detail-status">Kompletní dokumentace</div>
+                            <div class="dok-detail-date">Finální verze po zapracování připomínek</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dok-detail-grid">
+                        <div class="dok-detail-item">
+                            <span class="dok-detail-label">ID dokumentace</span>
+                            <span class="dok-detail-value">SR00X01HK611</span>
+                        </div>
+                        <div class="dok-detail-item">
+                            <span class="dok-detail-label">Datum nahrání</span>
+                            <span class="dok-detail-value">6. 1. 2026</span>
+                        </div>
+                        <div class="dok-detail-item">
+                            <span class="dok-detail-label">Počet souborů</span>
+                            <span class="dok-detail-value">24</span>
+                        </div>
+                        <div class="dok-detail-item">
+                            <span class="dok-detail-label">Určeno pro</span>
+                            <span class="dok-detail-value">Dopravní a energetický SÚ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('dokumentaceModal')">Zavřít</button>
+                <button class="btn btn-primary">
+                    <span class="material-icons-outlined">download</span>
+                    Stáhnout vše
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Doklady -->
     <div class="modal-overlay" id="dokladyModal" onclick="closeModal('dokladyModal', event)">
-        <div class="modal" style="max-width: 700px;" onclick="event.stopPropagation()">
+        <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">fact_check</span>
-                    Dokladová část
+                    Dokladová část (12)
                 </div>
                 <button class="modal-close" onclick="closeModal('dokladyModal')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
-            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
-                <div class="doklad-group" style="margin-bottom: 20px;">
-                    <div class="doklad-group-title" style="font-size: 13px; margin-bottom: 12px;">Stanoviska dotčených orgánů (5)</div>
-                    <div class="doklady-list">
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Závazné stanovisko - požární ochrana</div>
-                                <div class="doklad-issuer">HZS Plzeňského kraje</div>
-                            </div>
-                            <span class="doklad-date">18. 12. 2025</span>
+            <div class="modal-body">
+                <div class="doklady-list">
+                    <div class="doklad-group-title">Stanoviska dotčených orgánů (5)</div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
                         </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Závazné stanovisko - ochrana přírody</div>
-                                <div class="doklad-issuer">KÚ Plzeňského kraje, OŽP</div>
-                            </div>
-                            <span class="doklad-date">15. 12. 2025</span>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Drážní úřad</div>
+                            <div class="doklad-item-meta">Závazné stanovisko • 28. 11. 2025</div>
                         </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Závazné stanovisko - drážní bezpečnost</div>
-                                <div class="doklad-issuer">Drážní úřad</div>
-                            </div>
-                            <span class="doklad-date">12. 12. 2025</span>
-                        </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Stanovisko - ochrana veřejného zdraví</div>
-                                <div class="doklad-issuer">KHS Plzeňského kraje</div>
-                            </div>
-                            <span class="doklad-date">10. 12. 2025</span>
-                        </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Vyjádření - ochrana zemědělského půdního fondu</div>
-                                <div class="doklad-issuer">Městský úřad Plzeň, OŽP</div>
-                            </div>
-                            <span class="doklad-date">8. 12. 2025</span>
-                        </div>
+                        <span class="doklad-item-status ok">Kladné</span>
                     </div>
-                </div>
-                <div class="doklad-group" style="margin-bottom: 20px;">
-                    <div class="doklad-group-title" style="font-size: 13px; margin-bottom: 12px;">Vyjádření vlastníků sítí (4)</div>
-                    <div class="doklady-list">
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Vyjádření k existenci sítí</div>
-                                <div class="doklad-issuer">ČEZ Distribuce, a.s.</div>
-                            </div>
-                            <span class="doklad-date">12. 12. 2025</span>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
                         </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Vyjádření k existenci sítí</div>
-                                <div class="doklad-issuer">GasNet, s.r.o.</div>
-                            </div>
-                            <span class="doklad-date">10. 12. 2025</span>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Hasičský záchranný sbor</div>
+                            <div class="doklad-item-meta">Stanovisko PO • 20. 11. 2025</div>
                         </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Vyjádření k existenci sítí</div>
-                                <div class="doklad-issuer">CETIN a.s.</div>
-                            </div>
-                            <span class="doklad-date">9. 12. 2025</span>
-                        </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Vyjádření k existenci sítí</div>
-                                <div class="doklad-issuer">Vodárna Plzeň a.s.</div>
-                            </div>
-                            <span class="doklad-date">6. 12. 2025</span>
-                        </div>
+                        <span class="doklad-item-status ok">Bez připomínek</span>
                     </div>
-                </div>
-                <div class="doklad-group">
-                    <div class="doklad-group-title" style="font-size: 13px; margin-bottom: 12px;">Další doklady (3)</div>
-                    <div class="doklady-list">
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Vyjádření vlastníka dopravní infrastruktury</div>
-                                <div class="doklad-issuer">Správa železnic, s.o.</div>
-                            </div>
-                            <span class="doklad-date">8. 12. 2025</span>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
                         </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Geometrický plán</div>
-                                <div class="doklad-issuer">Geodetická kancelář Novák</div>
-                            </div>
-                            <span class="doklad-date">5. 12. 2025</span>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Krajská hygienická stanice</div>
+                            <div class="doklad-item-meta">Stanovisko • 18. 11. 2025</div>
                         </div>
-                        <div class="doklad-item completed">
-                            <span class="material-icons-outlined doklad-icon">check_circle</span>
-                            <div class="doklad-info">
-                                <div class="doklad-name">Plná moc</div>
-                                <div class="doklad-issuer">PROJEKTOVÁ s.r.o.</div>
-                            </div>
-                            <span class="doklad-date">28. 11. 2025</span>
+                        <span class="doklad-item-status ok">Kladné</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
                         </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">OŽP Mladá Boleslav</div>
+                            <div class="doklad-item-meta">Stanovisko • 15. 11. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Kladné</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Odbor dopravy</div>
+                            <div class="doklad-item-meta">Stanovisko • 12. 11. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Kladné</span>
+                    </div>
+
+                    <div class="doklad-group-title">Vyjádření vlastníků sítí (4)</div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Správa železnic, s.o.</div>
+                            <div class="doklad-item-meta">Vyjádření VDI • 5. 12. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Souhlasné</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">ČEZ Distribuce, a.s.</div>
+                            <div class="doklad-item-meta">Vyjádření VTI • 25. 11. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Souhlasné</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">GasNet, s.r.o.</div>
+                            <div class="doklad-item-meta">Vyjádření VTI • 22. 11. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Souhlasné</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Vodovody a kanalizace</div>
+                            <div class="doklad-item-meta">Vyjádření VTI • 20. 11. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Souhlasné</span>
+                    </div>
+
+                    <div class="doklad-group-title">Další doklady (3)</div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Plná moc zástupce</div>
+                            <div class="doklad-item-meta">Ověřená kopie • 1. 10. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Platná</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Výpis z obchodního rejstříku</div>
+                            <div class="doklad-item-meta">Aktuální stav • 1. 10. 2025</div>
+                        </div>
+                        <span class="doklad-item-status ok">Aktuální</span>
+                    </div>
+                    
+                    <div class="doklad-item">
+                        <div class="doklad-item-icon ok">
+                            <span class="material-icons-outlined">check</span>
+                        </div>
+                        <div class="doklad-item-info">
+                            <div class="doklad-item-name">Autorizace projektanta</div>
+                            <div class="doklad-item-meta">ČKAIT 0123456</div>
+                        </div>
+                        <span class="doklad-item-status ok">Ověřeno</span>
                     </div>
                 </div>
             </div>
@@ -2105,17 +1731,17 @@
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">map</span>
-                    Umístění záměru
+                    Lokalizace záměru
                 </div>
                 <button class="modal-close" onclick="closeModal('mapaModal')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div style="background: #e8f0fe; height: 400px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                    <div style="text-align: center; color: #5f6368;">
-                        <span class="material-icons-outlined" style="font-size: 64px; color: #1a73e8;">map</span>
-                        <p style="margin-top: 16px;">V ostré verzi by se zde zobrazila interaktivní mapa<br>s vyznačením parcel a objektů záměru.</p>
+                <div style="background: #e8f0fe; border-radius: 8px; height: 400px; display: flex; align-items: center; justify-content: center; color: #1a73e8;">
+                    <div style="text-align: center;">
+                        <span class="material-icons-outlined" style="font-size: 64px;">map</span>
+                        <p style="margin-top: 16px; color: #5f6368;">Zde bude zobrazena mapa s parcelami</p>
                     </div>
                 </div>
             </div>
@@ -2126,79 +1752,36 @@
     </div>
 
     <script>
-        // Verze dokumentace data
-        const versionData = {
-            '3': {
-                date: '6. 1. 2026',
-                files: '24',
-                note: 'Finální verze po zapracování připomínek',
-                requestName: 'Žádost o povolení stavby',
-                requestRecipient: '→ Dopravní a energetický SÚ'
-            },
-            '2': {
-                date: '15. 12. 2025',
-                files: '22',
-                note: 'Doplnění požárně bezpečnostního řešení',
-                requestName: 'Žádost o závazné stanovisko',
-                requestRecipient: '→ Drážní úřad'
-            },
-            '1': {
-                date: '28. 11. 2025',
-                files: '18',
-                note: 'Prvotní verze dokumentace',
-                requestName: 'Žádost o předběžnou informaci',
-                requestRecipient: '→ Dopravní a energetický SÚ'
-            }
-        };
-        
-        // Změna verze dokumentace
-        function changeVersion() {
-            const select = document.getElementById('versionSelect');
-            const version = select.value;
-            const data = versionData[version];
-            
-            document.getElementById('docDate').textContent = data.date;
-            document.getElementById('docFiles').textContent = data.files;
-            document.getElementById('docNote').textContent = data.note;
-            document.getElementById('docRequestName').textContent = data.requestName;
-            document.getElementById('docRequestRecipient').textContent = data.requestRecipient;
-        }
-        
-        // Toggle expandable section
-        function toggleSection(sectionId) {
-            const content = document.getElementById(sectionId);
-            const icon = document.getElementById(sectionId + 'Icon');
-            const toggle = icon.parentElement;
-            
-            content.classList.toggle('expanded');
-            toggle.classList.toggle('expanded');
-        }
-        
-        // Toggle collapsed card
-        function toggleCard(cardId) {
-            const content = document.getElementById(cardId);
-            const icon = document.getElementById(cardId + 'Icon');
-            
-            content.classList.toggle('expanded');
-            icon.classList.toggle('expanded');
-        }
-        
         // Modal functions
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('open');
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
         }
-        
+
         function closeModal(modalId, event) {
             if (event && event.target !== event.currentTarget) return;
-            document.getElementById(modalId).classList.remove('open');
-            document.body.style.overflow = '';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
         }
-        
-        // Close modal on Escape key
+
+        // Accordion functions
+        function toggleAccordion(accordionId) {
+            const accordion = document.getElementById(accordionId);
+            if (accordion) {
+                accordion.classList.toggle('open');
+            }
+        }
+
+        // Keyboard support
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay.open').forEach(modal => {
+                document.querySelectorAll('.modal-overlay.open').forEach(function(modal) {
                     modal.classList.remove('open');
                 });
                 document.body.style.overflow = '';
