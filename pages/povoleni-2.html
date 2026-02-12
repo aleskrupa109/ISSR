@@ -10482,19 +10482,19 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         </p>
                         
                         <!-- Možnost 1: Příslušný -->
-                        <label class="control-option selected" onclick="selectOption(this); updatePrislusnostResult()">
+                        <label class="control-option selected" id="optionPrislusny" onclick="selectOption(this); updatePrislusnostResult()">
                             <input type="radio" name="prislusnost" value="prislusny" checked>
                             <div class="control-option-content">
                                 <div class="control-option-label">
                                     <span class="material-icons-outlined" style="font-size: 18px; color: #137333; vertical-align: middle; margin-right: 6px;">check_circle</span>
                                     Stavební úřad je příslušný
                                 </div>
-                                <div class="control-option-desc">Stavební úřad je věcně i místně příslušný k projednání žádosti</div>
+                                <div class="control-option-desc" id="optionPrislusnyDesc">Stavební úřad je věcně i místně příslušný k projednání žádosti</div>
                             </div>
                         </label>
                         
-                        <!-- Možnost 2: Nepříslušný (sloučená) -->
-                        <label class="control-option" onclick="selectOption(this, true); updatePrislusnostResult()">
+                        <!-- Možnost 2: Nepříslušný (sloučená) - skryto od 1.1.2028 -->
+                        <label class="control-option" id="optionNeprislusny" onclick="selectOption(this, true); updatePrislusnostResult()">
                             <input type="radio" name="prislusnost" value="neprislusny">
                             <div class="control-option-content">
                                 <div class="control-option-label">
@@ -10504,6 +10504,17 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <div class="control-option-desc">Řízení bude postoupeno příslušnému stavebnímu úřadu</div>
                             </div>
                         </label>
+                        
+                        <!-- Info box pro jednotnou stavební správu (od 1.1.2028) -->
+                        <div class="platnost-info-box" id="infoJednotnaSprava" style="display: none;">
+                            <div class="platnost-info-icon">
+                                <span class="material-icons-outlined">info</span>
+                            </div>
+                            <div class="platnost-info-content">
+                                <div class="platnost-info-title">Jednotná státní stavební správa</div>
+                                <div class="platnost-info-text">Od 1. 1. 2028 je zavedena jednotná státní stavební správa. Postoupení řízení pro nepříslušnost se již neprovádí — případné interní směrování probíhá automaticky v rámci JSSÚ.</div>
+                            </div>
+                        </div>
                         
                         <!-- Výběr SÚ - zobrazí se při nepříslušnosti -->
                         <div class="su-selection-section" id="vyberSuSection">
@@ -12664,12 +12675,30 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         </div>
 
                         <!-- DO skupina -->
-                        <div class="matrix-group" data-group="do">
+                        <div class="matrix-group" data-group="do" id="matrixGroupDO">
                             <div class="matrix-group-header">
                                 <span class="material-icons-outlined">account_balance</span>
                                 Dotčené orgány (DO) — závazná stanoviska
                                 <span class="group-count" id="countDO">3</span>
                             </div>
+                            
+                            <!-- Info box pro integrované DO (od 1.1.2028) -->
+                            <div class="platnost-info-box integrated-do-info" id="infoIntegrovaneDO" style="display: none;">
+                                <div class="platnost-info-icon">
+                                    <span class="material-icons-outlined">verified</span>
+                                </div>
+                                <div class="platnost-info-content">
+                                    <div class="platnost-info-title">Integrované dotčené orgány</div>
+                                    <div class="platnost-info-text">Od 1. 1. 2028 jsou dotčené orgány integrovány do jednotné státní stavební správy. Závazná stanoviska jsou vydávána automaticky v rámci interního workflow JSSÚ.</div>
+                                    <div class="integrated-do-list">
+                                        <span class="integrated-do-badge"><span class="material-icons-outlined">check</span> Požární ochrana (HZS)</span>
+                                        <span class="integrated-do-badge"><span class="material-icons-outlined">check</span> Hygiena (KHS)</span>
+                                        <span class="integrated-do-badge"><span class="material-icons-outlined">check</span> Životní prostředí</span>
+                                        <span class="integrated-do-badge"><span class="material-icons-outlined">check</span> Památková péče</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="matrix-group-content" id="matrixDO">
                                 <!-- Dynamicky renderováno -->
                             </div>
@@ -13379,8 +13408,20 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         
                         <!-- Panel: Dotčené orgány -->
                         <div class="osoby-tab-panel" id="tabPanelDotceneOrgany">
+                            
+                            <!-- Info box pro integrované DO (od 1.1.2028) -->
+                            <div class="platnost-info-box integrated-do-info" id="infoIntegrovaneDOOsoby" style="display: none; margin: 0 0 16px 0;">
+                                <div class="platnost-info-icon">
+                                    <span class="material-icons-outlined">verified</span>
+                                </div>
+                                <div class="platnost-info-content">
+                                    <div class="platnost-info-title">Integrované dotčené orgány</div>
+                                    <div class="platnost-info-text">Od 1. 1. 2028 jsou dotčené orgány integrovány do JSSÚ. Závazná stanoviska jsou vydávána automaticky — není třeba evidovat DO jako samostatné účastníky.</div>
+                                </div>
+                            </div>
+                            
                             <!-- Toolbar dotčených orgánů -->
-                            <div class="zastupci-toolbar">
+                            <div class="zastupci-toolbar" id="toolbarDotceneOrgany">
                                 <div class="zastupci-toolbar-left">
                                     <span class="zastupci-info">
                                         <span class="material-icons-outlined">info</span>
@@ -15596,7 +15637,112 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             // Aktualizovat zobrazení v simInfo
             updateSimInfoPlatnost();
             
+            // Aplikovat změny v UI podle platnosti
+            applyPlatnostChanges();
+            
             console.log('Platnost právní úpravy změněna na:', platnost);
+        }
+        
+        // Aplikovat změny v UI podle platnosti právní úpravy
+        function applyPlatnostChanges() {
+            const isOd2028 = platnostPravniUpravy === 'od2028';
+            
+            // === 1. KONTROLA PŘÍSLUŠNOSTI ===
+            
+            // Karta příslušnosti - upravit popis
+            const cardPrislusnostDesc = document.querySelector('#card-prislusnost .control-card-desc');
+            if (cardPrislusnostDesc) {
+                if (isOd2028) {
+                    cardPrislusnostDesc.textContent = 'Potvrzení přijetí k vyřízení (jednotná stavební správa)';
+                } else {
+                    cardPrislusnostDesc.textContent = 'Ověření věcné a místní příslušnosti stavebního úřadu';
+                }
+            }
+            
+            // Možnost "Nepříslušný" - skrýt/zobrazit
+            const optionNeprislusny = document.getElementById('optionNeprislusny');
+            if (optionNeprislusny) {
+                optionNeprislusny.style.display = isOd2028 ? 'none' : '';
+            }
+            
+            // Popis možnosti "Příslušný" - upravit
+            const optionPrislusnyDesc = document.getElementById('optionPrislusnyDesc');
+            if (optionPrislusnyDesc) {
+                if (isOd2028) {
+                    optionPrislusnyDesc.textContent = 'Žádost je přijata k vyřízení v rámci jednotné státní stavební správy';
+                } else {
+                    optionPrislusnyDesc.textContent = 'Stavební úřad je věcně i místně příslušný k projednání žádosti';
+                }
+            }
+            
+            // Info box o jednotné stavební správě
+            const infoJednotnaSprava = document.getElementById('infoJednotnaSprava');
+            if (infoJednotnaSprava) {
+                infoJednotnaSprava.style.display = isOd2028 ? 'flex' : 'none';
+            }
+            
+            // Sekce výběru SÚ pro postoupení - skrýt při od2028
+            const vyberSuSection = document.getElementById('vyberSuSection');
+            if (vyberSuSection && isOd2028) {
+                vyberSuSection.style.display = 'none';
+            }
+            
+            // Sekce zdůvodnění nepříslušnosti - skrýt při od2028
+            const zduvodneniSection = document.getElementById('zduvodneniNeprislusnostiSection');
+            if (zduvodneniSection && isOd2028) {
+                zduvodneniSection.style.display = 'none';
+            }
+            
+            // === 2. IDENTIFIKACE DO - DOKLADOVÁ ČÁST ===
+            
+            // Info box o integrovaných DO
+            const infoIntegrovaneDO = document.getElementById('infoIntegrovaneDO');
+            if (infoIntegrovaneDO) {
+                infoIntegrovaneDO.style.display = isOd2028 ? 'flex' : 'none';
+            }
+            
+            // === 3. KARTA DOKLADOVÁ ČÁST ===
+            
+            // Popis karty dokladové části (ID je card-identifikace)
+            const cardDokladyDesc = document.querySelector('#card-identifikace .control-card-desc');
+            if (cardDokladyDesc) {
+                if (isOd2028) {
+                    cardDokladyDesc.textContent = 'Integrovaná stanoviska JSSÚ a vyjádření správců sítí';
+                } else {
+                    cardDokladyDesc.textContent = 'Stanoviska DO a vyjádření vlastníků sítí';
+                }
+            }
+            
+            // === 4. ZÁLOŽKA DOTČENÉ ORGÁNY V KONTROLE OSOBY ===
+            
+            // Info box v záložce Dotčené orgány
+            const infoIntegrovaneDOOsoby = document.getElementById('infoIntegrovaneDOOsoby');
+            if (infoIntegrovaneDOOsoby) {
+                infoIntegrovaneDOOsoby.style.display = isOd2028 ? 'flex' : 'none';
+            }
+            
+            // Toolbar a tabulka dotčených orgánů - skrýt při od2028
+            const toolbarDotceneOrgany = document.getElementById('toolbarDotceneOrgany');
+            const tableDotceneOrgany = document.getElementById('tableDotceneOrgany');
+            if (toolbarDotceneOrgany) {
+                toolbarDotceneOrgany.style.display = isOd2028 ? 'none' : '';
+            }
+            if (tableDotceneOrgany) {
+                tableDotceneOrgany.style.display = isOd2028 ? 'none' : '';
+            }
+            
+            // Pokud je volba "nepříslušný" aktivní a přepneme na od2028, resetovat na příslušný
+            if (isOd2028) {
+                const prislusnyRadio = document.querySelector('input[name="prislusnost"][value="prislusny"]');
+                if (prislusnyRadio && !prislusnyRadio.checked) {
+                    prislusnyRadio.checked = true;
+                    const optionPrislusny = document.getElementById('optionPrislusny');
+                    if (optionPrislusny) {
+                        document.querySelectorAll('.control-option').forEach(o => o.classList.remove('selected'));
+                        optionPrislusny.classList.add('selected');
+                    }
+                }
+            }
         }
         
         // Aktualizovat zobrazení simInfo pro platnost
@@ -20396,6 +20542,96 @@ ${reportContent}
     
     <style>
         /* ==========================================
+           PLATNOST PRÁVNÍ ÚPRAVY - INFO BOXY
+           ========================================== */
+        .platnost-info-box {
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border: 1px solid #90caf9;
+            border-radius: 10px;
+            margin: 16px 0;
+        }
+        
+        .platnost-info-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .platnost-info-icon .material-icons-outlined {
+            font-size: 20px;
+            color: #1565c0;
+        }
+        
+        .platnost-info-content {
+            flex: 1;
+        }
+        
+        .platnost-info-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 4px;
+        }
+        
+        .platnost-info-text {
+            font-size: 12px;
+            color: #424242;
+            line-height: 1.5;
+        }
+        
+        /* Integrované DO badge list */
+        .integrated-do-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        
+        .integrated-do-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: #fff;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #2e7d32;
+        }
+        .integrated-do-badge .material-icons-outlined {
+            font-size: 14px;
+        }
+        
+        /* Info box uvnitř matrix skupiny */
+        .matrix-group .platnost-info-box {
+            margin: 0 0 12px 0;
+        }
+        
+        /* Varianta pro integrované DO */
+        .integrated-do-info {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border-color: #a5d6a7;
+        }
+        .integrated-do-info .platnost-info-icon {
+            background: #e8f5e9;
+        }
+        .integrated-do-info .platnost-info-icon .material-icons-outlined {
+            color: #2e7d32;
+        }
+        .integrated-do-info .platnost-info-title {
+            color: #2e7d32;
+        }
+    </style>
+    
+    <style>
+        /* ==========================================
            SIMULAČNÍ PANEL - STYLY
            ========================================== */
         .sim-panel {
@@ -20890,6 +21126,9 @@ ${reportContent}
                 document.querySelector(`input[name="scenar"][value="${scenarFromUrl}"]`).checked = true;
                 applyScenario(scenarFromUrl, false);
             }
+            
+            // Aplikovat změny podle platnosti
+            applyPlatnostChanges();
         }
         
         // Přepnout panel (minimalizovat/maximalizovat)
