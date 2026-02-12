@@ -798,6 +798,22 @@
             font-size: 16px;
         }
 
+        .case-meta-link {
+            text-decoration: none;
+            color: #1a73e8 !important;
+            cursor: pointer;
+            padding: 4px 8px;
+            margin: -4px -8px;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .case-meta-link:hover {
+            background: #e8f0fe;
+        }
+        .case-meta-link .material-icons-outlined {
+            color: #1a73e8;
+        }
+
         .case-badge {
             display: inline-flex;
             align-items: center;
@@ -9579,6 +9595,10 @@
                         <div class="case-number">R/2026/000147</div>
                         <h1 class="case-title" id="caseTitleHeader">Novostavba RD včetně přípojek</h1>
                         <div class="case-meta">
+                            <a href="../pages/detail-zameru.html" class="case-meta-item case-meta-link" title="Otevřít detail záměru">
+                                <span class="material-icons-outlined">inventory_2</span>
+                                Záměr Z/2026/1457
+                            </a>
                             <span class="case-meta-item">
                                 <span class="material-icons-outlined">gavel</span>
                                 Povolení stavby
@@ -13576,7 +13596,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             pozemky: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace'], result: 'ok' },
             up: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky'], result: 'ok' },
             identifikace: { done: false, depends: ['pozemky'], result: 'ok' },
-            ucastnici: { done: false, depends: ['pozemky'], result: 'ok' },
+            ucastnici: { done: false, depends: ['zadost'], result: 'ok' },
             zrychlene: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky', 'up', 'identifikace', 'ucastnici'], result: 'ok' }
         };
 
