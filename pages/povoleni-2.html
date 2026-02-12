@@ -4948,6 +4948,436 @@
             margin-top: 12px;
         }
         
+        /* Přepínání režimů pravého panelu */
+        .zadost-panel-mode {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+        .zadost-panel-mode.active {
+            display: flex;
+        }
+        
+        /* Režim kontroly formuláře - checklist */
+        .formular-checklist-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        
+        .formular-checklist-intro {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: #e8f0fe;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: #1a73e8;
+        }
+        
+        .formular-checklist-intro .material-icons-outlined {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .formular-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .formular-check-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fff;
+            transition: all 0.15s;
+        }
+        
+        .formular-check-item.status-ok {
+            border-color: #ceead6;
+            background: #f6fef8;
+        }
+        
+        .formular-check-item.status-vada {
+            border-color: #f5c6c2;
+            background: #fef6f5;
+        }
+        
+        .formular-check-item.status-skip {
+            border-color: #e0e0e0;
+            background: #f8f9fa;
+            opacity: 0.7;
+        }
+        
+        .formular-check-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+        }
+        
+        .formular-check-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #f1f3f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .formular-check-icon .material-icons-outlined {
+            font-size: 20px;
+            color: #5f6368;
+        }
+        
+        .formular-check-item.status-ok .formular-check-icon {
+            background: #e6f4ea;
+        }
+        .formular-check-item.status-ok .formular-check-icon .material-icons-outlined {
+            color: #137333;
+        }
+        
+        .formular-check-item.status-vada .formular-check-icon {
+            background: #fce8e6;
+        }
+        .formular-check-item.status-vada .formular-check-icon .material-icons-outlined {
+            color: #c5221f;
+        }
+        
+        .formular-check-title {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        
+        .formular-check-status {
+            display: flex;
+            align-items: center;
+        }
+        
+        .formular-check-status .material-icons-outlined {
+            font-size: 22px;
+            color: #9aa0a6;
+        }
+        
+        .formular-check-item.status-ok .formular-check-status .material-icons-outlined {
+            color: #137333;
+        }
+        
+        .formular-check-item.status-vada .formular-check-status .material-icons-outlined {
+            color: #c5221f;
+        }
+        
+        .formular-check-item.status-skip .formular-check-status .material-icons-outlined {
+            color: #9aa0a6;
+        }
+        
+        .formular-check-actions {
+            display: flex;
+            gap: 8px;
+            padding: 0 14px 12px;
+        }
+        
+        .formular-btn-ok,
+        .formular-btn-vada,
+        .formular-btn-skip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid;
+        }
+        
+        .formular-btn-ok {
+            background: #fff;
+            border-color: #ceead6;
+            color: #137333;
+        }
+        .formular-btn-ok:hover {
+            background: #e6f4ea;
+        }
+        .formular-btn-ok .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .formular-btn-vada {
+            background: #fff;
+            border-color: #f5c6c2;
+            color: #c5221f;
+        }
+        .formular-btn-vada:hover {
+            background: #fce8e6;
+        }
+        .formular-btn-vada .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        .formular-btn-skip {
+            background: #fff;
+            border-color: #e0e0e0;
+            color: #5f6368;
+        }
+        .formular-btn-skip:hover {
+            background: #f1f3f4;
+        }
+        .formular-btn-skip .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Skrýt tlačítka po označení */
+        .formular-check-item.status-ok .formular-check-actions,
+        .formular-check-item.status-vada .formular-check-actions,
+        .formular-check-item.status-skip .formular-check-actions {
+            display: none;
+        }
+        
+        .formular-check-vada-input {
+            padding: 0 14px 12px;
+        }
+        
+        .formular-check-vada-input textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #f5c6c2;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 12px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .formular-check-vada-input textarea:focus {
+            outline: none;
+            border-color: #c5221f;
+            box-shadow: 0 0 0 2px rgba(197, 34, 31, 0.1);
+        }
+        
+        .formular-check-vada-input textarea::placeholder {
+            color: #9aa0a6;
+        }
+        
+        /* Hlavička panelu formuláře s tlačítkem */
+        .deficiency-panel-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .btn-vse-ok-small {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: #e6f4ea;
+            border: 1px solid #ceead6;
+            border-radius: 6px;
+            color: #137333;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-vse-ok-small:hover {
+            background: #ceead6;
+        }
+        .btn-vse-ok-small .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Tlačítko Změnit */
+        .formular-check-change {
+            padding: 0 14px 12px;
+        }
+        
+        .formular-btn-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            color: #5f6368;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .formular-btn-change:hover {
+            background: #f1f3f4;
+            border-color: #5f6368;
+        }
+        .formular-btn-change .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Přílohy viewer */
+        .prilohy-viewer {
+            padding: 20px;
+        }
+        
+        .prilohy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .prilohy-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.15s;
+        }
+        .prilohy-item:hover {
+            border-color: #1a73e8;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        
+        .prilohy-item-icon {
+            width: 40px;
+            height: 40px;
+            background: #f1f3f4;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .prilohy-item-icon .material-icons-outlined {
+            font-size: 22px;
+            color: #5f6368;
+        }
+        
+        .prilohy-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .prilohy-item-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .prilohy-item-meta {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+        
+        .prilohy-item-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid #dadce0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .prilohy-item-btn:hover {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+        .prilohy-item-btn .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        .prilohy-item-btn:hover .material-icons-outlined {
+            color: #1a73e8;
+        }
+        
+        .prilohy-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .prilohy-note .material-icons-outlined {
+            font-size: 18px;
+            color: #9aa0a6;
+            flex-shrink: 0;
+        }
+        
+        /* Kompaktní verze seznamu příloh (v sekci žádosti) */
+        .prilohy-list-compact {
+            margin-top: 12px;
+        }
+        .prilohy-list-compact .prilohy-item {
+            padding: 10px 12px;
+        }
+        .prilohy-list-compact .prilohy-item-icon {
+            width: 36px;
+            height: 36px;
+        }
+        .prilohy-list-compact .prilohy-item-icon .material-icons-outlined {
+            font-size: 20px;
+        }
+        .prilohy-list-compact .prilohy-item-btn {
+            width: 32px;
+            height: 32px;
+        }
+        .prilohy-list-compact .prilohy-item-btn .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Stav neaplikuje se */
+        .prilohy-item.prilohy-item-na {
+            background: #f8f9fa;
+            border-color: #e0e0e0;
+            opacity: 0.7;
+        }
+        .prilohy-item.prilohy-item-na:hover {
+            border-color: #e0e0e0;
+            box-shadow: none;
+        }
+        .prilohy-item-na .prilohy-item-icon {
+            background: #f1f3f4;
+        }
+        .prilohy-item-na .prilohy-item-icon .material-icons-outlined {
+            color: #9aa0a6;
+        }
+        .prilohy-item-na .prilohy-item-name {
+            color: #5f6368;
+        }
+        .prilohy-item-na .prilohy-item-meta {
+            font-style: italic;
+        }
+        
+        /* Záložka Přílohy - disabled stav */
+        .viewer-tab.tab-disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
         /* Badge stavu sekce v hlavičce */
         .section-status-badge {
             margin-left: auto;
@@ -10334,17 +10764,21 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             <div class="control-viewer zadost-data-viewer">
                 <div class="viewer-tabs">
                     <div class="viewer-tabs-left">
-                        <button class="viewer-tab active" onclick="switchZadostDataTab(this, 'zadost')">
+                        <button class="viewer-tab active" id="tabZadost" onclick="switchZadostDataTab(this, 'zadost')">
                             <span class="material-icons-outlined">list_alt</span>
                             Žádost
                         </button>
-                        <button class="viewer-tab" onclick="switchZadostDataTab(this, 'formular')">
+                        <button class="viewer-tab" id="tabFormular" onclick="switchZadostDataTab(this, 'formular')">
                             <span class="material-icons-outlined">picture_as_pdf</span>
                             Formulář žádosti
                         </button>
+                        <button class="viewer-tab" id="tabPrilohy" onclick="switchZadostDataTab(this, 'prilohy')" style="display: none;">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                        </button>
                     </div>
                     <div class="viewer-tabs-right">
-                        <button class="btn-vse-ok" onclick="setAllSectionsOk()" title="Označit všechny sekce jako v pořádku">
+                        <button class="btn-vse-ok" id="btnVseOkZadost" onclick="setAllSectionsOk()" title="Označit všechny sekce jako v pořádku">
                             <span class="material-icons-outlined">done_all</span>
                             Vše v pořádku
                         </button>
@@ -10684,23 +11118,43 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 Přílohy žádosti
                                 <span class="section-status-badge" id="statusBadgePrilohy"></span>
                             </div>
-                            <div class="zadost-prilohy-inline" id="prilohyList">
-                                <!-- Dynamicky generované podle scénáře -->
-                                <div class="priloha-inline-item na">
-                                    <span class="material-icons-outlined">remove_circle_outline</span>
-                                    Plná moc — neaplikuje se (žadatel jedná sám)
+                            <div class="prilohy-list prilohy-list-compact" id="prilohyList">
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Projektová dokumentace.pdf</div>
+                                        <div class="prilohy-item-meta">PDF • 24.5 MB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
                                 </div>
-                                <div class="priloha-inline-item na">
-                                    <span class="material-icons-outlined">remove_circle_outline</span>
-                                    Souhlas vlastníka pozemku — neaplikuje se (žadatel je vlastník)
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Situační výkres.pdf</div>
+                                        <div class="prilohy-item-meta">PDF • 3.2 MB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
                                 </div>
-                            </div>
-                            <!-- Tlačítko pro otevření příloh -->
-                            <div class="zastupce-verify-actions" id="prilohyVerifyActions" style="display: none;">
-                                <button class="zastupce-verify-btn prilohy" onclick="openPrilohyModal()">
-                                    <span class="material-icons-outlined">folder_open</span>
-                                    Otevřít přílohy ke kontrole
-                                </button>
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Vyjádření sousedů.pdf</div>
+                                        <div class="prilohy-item-meta">PDF • 890 KB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
+                                </div>
                             </div>
                             <div class="zadost-section-controls">
                                 <div class="zadost-section-status" id="sectionStatusPrilohy">
@@ -10880,60 +11334,372 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         </div>
                     </div>
                     
+                    <!-- TAB: Přílohy (aktivní pouze v režimu Formulář) -->
+                    <div class="zadost-data-tab" id="zadostDataPrilohy">
+                        <div class="prilohy-viewer">
+                            <div class="prilohy-list">
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Projektová dokumentace.pdf</div>
+                                        <div class="prilohy-item-meta">PDF • 24.5 MB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
+                                </div>
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Plná moc.pdf</div>
+                                        <div class="prilohy-item-meta">PDF • 156 KB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
+                                </div>
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Vyjádření sousedů.pdf</div>
+                                        <div class="prilohy-item-meta">PDF • 890 KB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
+                                </div>
+                                <div class="prilohy-item">
+                                    <div class="prilohy-item-icon">
+                                        <span class="material-icons-outlined">image</span>
+                                    </div>
+                                    <div class="prilohy-item-info">
+                                        <div class="prilohy-item-name">Fotodokumentace_pozemku.jpg</div>
+                                        <div class="prilohy-item-meta">JPEG • 2.1 MB • Nahráno 5. 1. 2026</div>
+                                    </div>
+                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                        <span class="material-icons-outlined">visibility</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="prilohy-note">
+                                <span class="material-icons-outlined">info</span>
+                                Kliknutím na ikonu oka zobrazíte náhled přílohy. Kontrolu příloh proveďte v pravém panelu.
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             
-            <!-- PRAVÉ OKNO: Panel nedostatků -->
+            <!-- PRAVÉ OKNO: Panel kontroly -->
             <div class="zadost-deficiency-panel">
-                <div class="deficiency-panel-header">
-                    <div class="deficiency-panel-title">
-                        <span class="material-icons-outlined">checklist</span>
-                        Přehled kontroly
-                    </div>
-                    <div class="deficiency-panel-summary" id="deficiencySummary">
-                        <span class="deficiency-stat ok">
-                            <span class="material-icons-outlined">check_circle</span>
-                            <span id="statOkCount">0</span> v pořádku
-                        </span>
-                        <span class="deficiency-stat vada">
-                            <span class="material-icons-outlined">error</span>
-                            <span id="statVadaCount">0</span> vad
-                        </span>
-                        <span class="deficiency-stat pending">
-                            <span class="material-icons-outlined">radio_button_unchecked</span>
-                            <span id="statPendingCount">8</span> zbývá
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="deficiency-panel-content" id="deficiencyPanelContent">
-                    <!-- Výchozí stav - žádné nedostatky -->
-                    <div class="deficiency-empty" id="deficiencyEmpty">
-                        <span class="material-icons-outlined">task_alt</span>
-                        <div class="deficiency-empty-title">Zatím bez nedostatků</div>
-                        <div class="deficiency-empty-text">Projděte jednotlivé sekce žádosti a označte je jako „V pořádku" nebo „Vada".</div>
-                    </div>
-                    
-                    <!-- Seznam nedostatků (dynamicky generovaný) -->
-                    <div class="deficiency-list" id="deficiencyList" style="display: none;">
-                        <!-- Položky budou přidány JavaScriptem -->
-                    </div>
-                </div>
-                
-                <div class="deficiency-panel-footer">
-                    <div class="deficiency-result pending" id="deficiencyResult">
-                        <span class="material-icons-outlined">hourglass_empty</span>
-                        <div>
-                            <strong>Kontrola probíhá</strong>
-                            <div style="font-size: 11px; margin-top: 2px;">Zkontrolujte všech 8 sekcí žádosti</div>
+                <!-- REŽIM: Elektronická žádost (výchozí) -->
+                <div class="zadost-panel-mode active" id="panelModeZadost">
+                    <div class="deficiency-panel-header">
+                        <div class="deficiency-panel-title">
+                            <span class="material-icons-outlined">checklist</span>
+                            Přehled kontroly
+                        </div>
+                        <div class="deficiency-panel-summary" id="deficiencySummary">
+                            <span class="deficiency-stat ok">
+                                <span class="material-icons-outlined">check_circle</span>
+                                <span id="statOkCount">0</span> v pořádku
+                            </span>
+                            <span class="deficiency-stat vada">
+                                <span class="material-icons-outlined">error</span>
+                                <span id="statVadaCount">0</span> vad
+                            </span>
+                            <span class="deficiency-stat pending">
+                                <span class="material-icons-outlined">radio_button_unchecked</span>
+                                <span id="statPendingCount">8</span> zbývá
+                            </span>
                         </div>
                     </div>
-                    <div class="deficiency-panel-actions">
-                        <button class="btn btn-secondary" onclick="closeControl('controlZadost')">Zrušit</button>
-                        <button class="btn btn-primary" id="btnConfirmZadost" onclick="completeZadostKontrola()" disabled>
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
+                    
+                    <div class="deficiency-panel-content" id="deficiencyPanelContent">
+                        <!-- Výchozí stav - žádné nedostatky -->
+                        <div class="deficiency-empty" id="deficiencyEmpty">
+                            <span class="material-icons-outlined">task_alt</span>
+                            <div class="deficiency-empty-title">Zatím bez nedostatků</div>
+                            <div class="deficiency-empty-text">Projděte jednotlivé sekce žádosti a označte je jako „V pořádku" nebo „Vada".</div>
+                        </div>
+                        
+                        <!-- Seznam nedostatků (dynamicky generovaný) -->
+                        <div class="deficiency-list" id="deficiencyList" style="display: none;">
+                            <!-- Položky budou přidány JavaScriptem -->
+                        </div>
+                    </div>
+                    
+                    <div class="deficiency-panel-footer">
+                        <div class="deficiency-result pending" id="deficiencyResult">
+                            <span class="material-icons-outlined">hourglass_empty</span>
+                            <div>
+                                <strong>Kontrola probíhá</strong>
+                                <div style="font-size: 11px; margin-top: 2px;">Zkontrolujte všech 8 sekcí žádosti</div>
+                            </div>
+                        </div>
+                        <div class="deficiency-panel-actions">
+                            <button class="btn btn-secondary" onclick="closeControl('controlZadost')">Zrušit</button>
+                            <button class="btn btn-primary" id="btnConfirmZadost" onclick="completeZadostKontrola()" disabled>
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kontrolu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- REŽIM: Listinný formulář -->
+                <div class="zadost-panel-mode" id="panelModeFormular">
+                    <div class="deficiency-panel-header">
+                        <div class="deficiency-panel-header-top">
+                            <div class="deficiency-panel-title">
+                                <span class="material-icons-outlined">fact_check</span>
+                                Kontrola formuláře
+                            </div>
+                            <button class="btn-vse-ok-small" onclick="setAllFormularStepsOk()" title="Označit vše jako v pořádku">
+                                <span class="material-icons-outlined">done_all</span>
+                                Vše v pořádku
+                            </button>
+                        </div>
+                        <div class="deficiency-panel-summary" id="formularSummary">
+                            <span class="deficiency-stat ok">
+                                <span class="material-icons-outlined">check_circle</span>
+                                <span id="formularOkCount">0</span> v pořádku
+                            </span>
+                            <span class="deficiency-stat vada">
+                                <span class="material-icons-outlined">error</span>
+                                <span id="formularVadaCount">0</span> vad
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="formular-checklist-content">
+                        <div class="formular-checklist-intro">
+                            <span class="material-icons-outlined">info</span>
+                            Prohlédněte si naskenovaný formulář vlevo a postupně zkontrolujte jednotlivé části.
+                        </div>
+                        
+                        <!-- Checklist kroků -->
+                        <div class="formular-checklist" id="formularChecklist">
+                            <!-- Krok 1: Údaje o podání -->
+                            <div class="formular-check-item" id="formularCheckPodani" data-step="podani">
+                                <div class="formular-check-header">
+                                    <div class="formular-check-icon">
+                                        <span class="material-icons-outlined">assignment_ind</span>
+                                    </div>
+                                    <div class="formular-check-title">Údaje o podání</div>
+                                    <div class="formular-check-status" id="formularStatusPodani">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                </div>
+                                <div class="formular-check-actions">
+                                    <button class="formular-btn-ok" onclick="setFormularStepStatus('podani', 'ok')">
+                                        <span class="material-icons-outlined">check</span>
+                                        V pořádku
+                                    </button>
+                                    <button class="formular-btn-vada" onclick="setFormularStepStatus('podani', 'vada')">
+                                        <span class="material-icons-outlined">error_outline</span>
+                                        Vada
+                                    </button>
+                                </div>
+                                <div class="formular-check-change" id="formularChangePodani" style="display: none;">
+                                    <button class="formular-btn-change" onclick="resetFormularStepStatus('podani')">
+                                        <span class="material-icons-outlined">edit</span>
+                                        Změnit
+                                    </button>
+                                </div>
+                                <div class="formular-check-vada-input" id="formularVadaInputPodani" style="display: none;">
+                                    <textarea placeholder="Popište zjištěnou vadu..." id="formularVadaTextPodani"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Krok 2: Žadatel -->
+                            <div class="formular-check-item" id="formularCheckZadatel" data-step="zadatel">
+                                <div class="formular-check-header">
+                                    <div class="formular-check-icon">
+                                        <span class="material-icons-outlined">person</span>
+                                    </div>
+                                    <div class="formular-check-title">Žadatel</div>
+                                    <div class="formular-check-status" id="formularStatusZadatel">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                </div>
+                                <div class="formular-check-actions">
+                                    <button class="formular-btn-ok" onclick="setFormularStepStatus('zadatel', 'ok')">
+                                        <span class="material-icons-outlined">check</span>
+                                        V pořádku
+                                    </button>
+                                    <button class="formular-btn-vada" onclick="setFormularStepStatus('zadatel', 'vada')">
+                                        <span class="material-icons-outlined">error_outline</span>
+                                        Vada
+                                    </button>
+                                </div>
+                                <div class="formular-check-change" id="formularChangeZadatel" style="display: none;">
+                                    <button class="formular-btn-change" onclick="resetFormularStepStatus('zadatel')">
+                                        <span class="material-icons-outlined">edit</span>
+                                        Změnit
+                                    </button>
+                                </div>
+                                <div class="formular-check-vada-input" id="formularVadaInputZadatel" style="display: none;">
+                                    <textarea placeholder="Popište zjištěnou vadu..." id="formularVadaTextZadatel"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Krok 3: Zástupce -->
+                            <div class="formular-check-item" id="formularCheckZastupce" data-step="zastupce">
+                                <div class="formular-check-header">
+                                    <div class="formular-check-icon">
+                                        <span class="material-icons-outlined">supervisor_account</span>
+                                    </div>
+                                    <div class="formular-check-title">Zástupce</div>
+                                    <div class="formular-check-status" id="formularStatusZastupce">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                </div>
+                                <div class="formular-check-actions">
+                                    <button class="formular-btn-ok" onclick="setFormularStepStatus('zastupce', 'ok')">
+                                        <span class="material-icons-outlined">check</span>
+                                        V pořádku
+                                    </button>
+                                    <button class="formular-btn-vada" onclick="setFormularStepStatus('zastupce', 'vada')">
+                                        <span class="material-icons-outlined">error_outline</span>
+                                        Vada
+                                    </button>
+                                    <button class="formular-btn-skip" onclick="setFormularStepStatus('zastupce', 'skip')">
+                                        <span class="material-icons-outlined">remove</span>
+                                        Neuveden
+                                    </button>
+                                </div>
+                                <div class="formular-check-change" id="formularChangeZastupce" style="display: none;">
+                                    <button class="formular-btn-change" onclick="resetFormularStepStatus('zastupce')">
+                                        <span class="material-icons-outlined">edit</span>
+                                        Změnit
+                                    </button>
+                                </div>
+                                <div class="formular-check-vada-input" id="formularVadaInputZastupce" style="display: none;">
+                                    <textarea placeholder="Popište zjištěnou vadu..." id="formularVadaTextZastupce"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Krok 4: Identifikace záměru -->
+                            <div class="formular-check-item" id="formularCheckZamer" data-step="zamer">
+                                <div class="formular-check-header">
+                                    <div class="formular-check-icon">
+                                        <span class="material-icons-outlined">domain</span>
+                                    </div>
+                                    <div class="formular-check-title">Identifikace záměru</div>
+                                    <div class="formular-check-status" id="formularStatusZamer">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                </div>
+                                <div class="formular-check-actions">
+                                    <button class="formular-btn-ok" onclick="setFormularStepStatus('zamer', 'ok')">
+                                        <span class="material-icons-outlined">check</span>
+                                        V pořádku
+                                    </button>
+                                    <button class="formular-btn-vada" onclick="setFormularStepStatus('zamer', 'vada')">
+                                        <span class="material-icons-outlined">error_outline</span>
+                                        Vada
+                                    </button>
+                                </div>
+                                <div class="formular-check-change" id="formularChangeZamer" style="display: none;">
+                                    <button class="formular-btn-change" onclick="resetFormularStepStatus('zamer')">
+                                        <span class="material-icons-outlined">edit</span>
+                                        Změnit
+                                    </button>
+                                </div>
+                                <div class="formular-check-vada-input" id="formularVadaInputZamer" style="display: none;">
+                                    <textarea placeholder="Popište zjištěnou vadu..." id="formularVadaTextZamer"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Krok 5: Pozemky -->
+                            <div class="formular-check-item" id="formularCheckPozemky" data-step="pozemky">
+                                <div class="formular-check-header">
+                                    <div class="formular-check-icon">
+                                        <span class="material-icons-outlined">grid_on</span>
+                                    </div>
+                                    <div class="formular-check-title">Pozemky záměru</div>
+                                    <div class="formular-check-status" id="formularStatusPozemky">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                </div>
+                                <div class="formular-check-actions">
+                                    <button class="formular-btn-ok" onclick="setFormularStepStatus('pozemky', 'ok')">
+                                        <span class="material-icons-outlined">check</span>
+                                        V pořádku
+                                    </button>
+                                    <button class="formular-btn-vada" onclick="setFormularStepStatus('pozemky', 'vada')">
+                                        <span class="material-icons-outlined">error_outline</span>
+                                        Vada
+                                    </button>
+                                </div>
+                                <div class="formular-check-change" id="formularChangePozemky" style="display: none;">
+                                    <button class="formular-btn-change" onclick="resetFormularStepStatus('pozemky')">
+                                        <span class="material-icons-outlined">edit</span>
+                                        Změnit
+                                    </button>
+                                </div>
+                                <div class="formular-check-vada-input" id="formularVadaInputPozemky" style="display: none;">
+                                    <textarea placeholder="Popište zjištěnou vadu..." id="formularVadaTextPozemky"></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Krok 6: Přílohy -->
+                            <div class="formular-check-item" id="formularCheckPrilohy" data-step="prilohy">
+                                <div class="formular-check-header">
+                                    <div class="formular-check-icon">
+                                        <span class="material-icons-outlined">attach_file</span>
+                                    </div>
+                                    <div class="formular-check-title">Přílohy žádosti</div>
+                                    <div class="formular-check-status" id="formularStatusPrilohy">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                </div>
+                                <div class="formular-check-actions">
+                                    <button class="formular-btn-ok" onclick="setFormularStepStatus('prilohy', 'ok')">
+                                        <span class="material-icons-outlined">check</span>
+                                        V pořádku
+                                    </button>
+                                    <button class="formular-btn-vada" onclick="setFormularStepStatus('prilohy', 'vada')">
+                                        <span class="material-icons-outlined">error_outline</span>
+                                        Vada
+                                    </button>
+                                </div>
+                                <div class="formular-check-change" id="formularChangePrilohy" style="display: none;">
+                                    <button class="formular-btn-change" onclick="resetFormularStepStatus('prilohy')">
+                                        <span class="material-icons-outlined">edit</span>
+                                        Změnit
+                                    </button>
+                                </div>
+                                <div class="formular-check-vada-input" id="formularVadaInputPrilohy" style="display: none;">
+                                    <textarea placeholder="Popište zjištěnou vadu..." id="formularVadaTextPrilohy"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="deficiency-panel-footer">
+                        <div class="deficiency-result pending" id="formularResult">
+                            <span class="material-icons-outlined">hourglass_empty</span>
+                            <div>
+                                <strong>Kontrola probíhá</strong>
+                                <div style="font-size: 11px; margin-top: 2px;">Zkontrolujte všechny části formuláře</div>
+                            </div>
+                        </div>
+                        <div class="deficiency-panel-actions">
+                            <button class="btn btn-secondary" onclick="closeControl('controlZadost')">Zrušit</button>
+                            <button class="btn btn-primary" id="btnConfirmFormular" onclick="completeFormularKontrola()" disabled>
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kontrolu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -13609,6 +14375,11 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             if (controlId === 'controlIdentifikace') {
                 setTimeout(initIdentifikaceMatrix, 100);
             }
+            
+            // Pro kontrolu žádosti - nastavit správný režim podle typu podání
+            if (controlId === 'controlZadost') {
+                initZadostControlMode();
+            }
         }
 
         function closeControl(controlId) {
@@ -14807,8 +15578,112 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         }
 
         // ==========================================
+        // PLATNOST PRÁVNÍ ÚPRAVY
+        // ==========================================
+        
+        // Platnost: 'do2027' = Do 31.12.2027, 'od2028' = Od 1.1.2028
+        let platnostPravniUpravy = 'do2027';
+        
+        // Aplikovat platnost
+        function applyPlatnost(platnost) {
+            platnostPravniUpravy = platnost;
+            
+            // Aktualizovat URL
+            const url = new URL(window.location);
+            url.searchParams.set('platnost', platnost);
+            history.replaceState({}, '', url);
+            
+            // Aktualizovat zobrazení v simInfo
+            updateSimInfoPlatnost();
+            
+            console.log('Platnost právní úpravy změněna na:', platnost);
+        }
+        
+        // Aktualizovat zobrazení simInfo pro platnost
+        function updateSimInfoPlatnost() {
+            const simInfoPlatnost = document.getElementById('simInfoPlatnost');
+            if (simInfoPlatnost) {
+                simInfoPlatnost.textContent = platnostPravniUpravy === 'do2027' ? 'Do 31. 12. 2027' : 'Od 1. 1. 2028';
+            }
+        }
+        
+        // ==========================================
+        // TYP PODÁNÍ ŽÁDOSTI
+        // ==========================================
+        
+        // Typ podání: 'portal' = Portál stavebníka, 'vlozena' = Vložená žádost
+        let typPodaniZadosti = 'portal';
+        
+        // Aplikovat typ podání
+        function applyTypPodani(typ) {
+            typPodaniZadosti = typ;
+            
+            // Aktualizovat URL
+            const url = new URL(window.location);
+            url.searchParams.set('typPodani', typ);
+            history.replaceState({}, '', url);
+            
+            // Aktualizovat zobrazení v simInfo
+            updateSimInfo();
+            
+            console.log('Typ podání změněn na:', typ);
+        }
+        
+        // Aktualizovat zobrazení simInfo
+        function updateSimInfo() {
+            const simInfoPodani = document.getElementById('simInfoPodani');
+            if (simInfoPodani) {
+                simInfoPodani.textContent = typPodaniZadosti === 'portal' ? 'Portál stavebníka' : 'Vložená žádost';
+            }
+        }
+        
+        // Inicializace režimu kontroly žádosti podle typu podání
+        function initZadostControlMode() {
+            const tabZadost = document.getElementById('tabZadost');
+            const tabFormular = document.getElementById('tabFormular');
+            const tabPrilohy = document.getElementById('tabPrilohy');
+            const btnVseOk = document.getElementById('btnVseOkZadost');
+            
+            // Resetovat aktivní stav všech záložek a panelů
+            document.querySelectorAll('.zadost-data-viewer .viewer-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.zadost-data-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.zadost-panel-mode').forEach(m => m.classList.remove('active'));
+            
+            if (typPodaniZadosti === 'portal') {
+                // Portál stavebníka - zobrazit pouze záložku Žádost
+                if (tabZadost) {
+                    tabZadost.style.display = '';
+                    tabZadost.classList.add('active');
+                }
+                if (tabFormular) tabFormular.style.display = 'none';
+                if (tabPrilohy) tabPrilohy.style.display = 'none';
+                if (btnVseOk) btnVseOk.style.display = '';
+                
+                // Aktivovat panel Žádost
+                document.getElementById('zadostDataZadost').classList.add('active');
+                document.getElementById('panelModeZadost').classList.add('active');
+            } else {
+                // Vložená žádost - zobrazit záložky Formulář žádosti a Přílohy
+                if (tabZadost) tabZadost.style.display = 'none';
+                if (tabFormular) {
+                    tabFormular.style.display = '';
+                    tabFormular.classList.add('active');
+                }
+                if (tabPrilohy) tabPrilohy.style.display = '';
+                if (btnVseOk) btnVseOk.style.display = 'none';
+                
+                // Aktivovat panel Formulář
+                document.getElementById('zadostDataFormular').classList.add('active');
+                document.getElementById('panelModeFormular').classList.add('active');
+            }
+        }
+
+        // ==========================================
         // KONTROLA ŽÁDOSTI - NOVÝ DESIGN
         // ==========================================
+        
+        // Sledování aktuálního režimu (zadost/formular)
+        let currentZadostMode = 'zadost';
         
         // Přepínání záložek v levém okně (strukturovaná data)
         function switchZadostDataTab(btn, tabName) {
@@ -14821,8 +15696,36 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             let tabId;
             if (tabName === 'zadost') tabId = 'zadostDataZadost';
             else if (tabName === 'formular') tabId = 'zadostDataFormular';
+            else if (tabName === 'prilohy') tabId = 'zadostDataPrilohy';
             else tabId = 'zadostDataZadost'; // fallback
             document.getElementById(tabId).classList.add('active');
+            
+            // Přepnout pravý panel podle režimu
+            document.querySelectorAll('.zadost-panel-mode').forEach(m => m.classList.remove('active'));
+            
+            const tabPrilohy = document.getElementById('tabPrilohy');
+            const btnVseOk = document.getElementById('btnVseOkZadost');
+            
+            if (tabName === 'formular' || tabName === 'prilohy') {
+                document.getElementById('panelModeFormular').classList.add('active');
+                // Skrýt tlačítko "Vše v pořádku" v režimu formuláře
+                if (btnVseOk) btnVseOk.style.display = 'none';
+                // Zobrazit záložku Přílohy
+                if (tabPrilohy) {
+                    tabPrilohy.style.display = '';
+                    tabPrilohy.classList.remove('tab-disabled');
+                }
+                currentZadostMode = 'formular';
+            } else {
+                document.getElementById('panelModeZadost').classList.add('active');
+                // Zobrazit tlačítko "Vše v pořádku" v režimu žádosti
+                if (btnVseOk) btnVseOk.style.display = '';
+                // Skrýt záložku Přílohy
+                if (tabPrilohy) {
+                    tabPrilohy.style.display = 'none';
+                }
+                currentZadostMode = 'zadost';
+            }
         }
         
         // Stav kontroly sekcí žádosti
@@ -15137,6 +16040,189 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
 
         function completeZadost() {
             completeZadostKontrola();
+        }
+
+        // ==========================================
+        // KONTROLA FORMULÁŘE - checklist režim
+        // ==========================================
+        
+        // Stav kontroly kroků formuláře
+        const formularStepState = {
+            podani: null,
+            zadatel: null,
+            zastupce: null,
+            zamer: null,
+            pozemky: null,
+            prilohy: null
+        };
+        
+        const formularStepNames = {
+            podani: 'Údaje o podání',
+            zadatel: 'Žadatel',
+            zastupce: 'Zástupce',
+            zamer: 'Identifikace záměru',
+            pozemky: 'Pozemky záměru',
+            prilohy: 'Přílohy žádosti'
+        };
+        
+        // Poznámky k vadám formuláře
+        const formularVadaNotes = {};
+        
+        // Nastavení stavu kroku formuláře
+        function setFormularStepStatus(stepId, status) {
+            const capitalizedId = stepId.charAt(0).toUpperCase() + stepId.slice(1);
+            const item = document.getElementById('formularCheck' + capitalizedId);
+            if (!item) return;
+            
+            // Odstranit předchozí stav
+            item.classList.remove('status-ok', 'status-vada', 'status-skip');
+            
+            // Nastavit nový stav
+            formularStepState[stepId] = status;
+            
+            // Aktualizovat vzhled položky
+            const statusEl = document.getElementById('formularStatus' + capitalizedId);
+            const vadaInput = document.getElementById('formularVadaInput' + capitalizedId);
+            const changeBtn = document.getElementById('formularChange' + capitalizedId);
+            
+            if (status === 'ok') {
+                item.classList.add('status-ok');
+                statusEl.innerHTML = '<span class="material-icons-outlined">check_circle</span>';
+                if (vadaInput) vadaInput.style.display = 'none';
+                if (changeBtn) changeBtn.style.display = 'block';
+            } else if (status === 'vada') {
+                item.classList.add('status-vada');
+                statusEl.innerHTML = '<span class="material-icons-outlined">error</span>';
+                if (vadaInput) vadaInput.style.display = 'block';
+                if (changeBtn) changeBtn.style.display = 'block';
+            } else if (status === 'skip') {
+                item.classList.add('status-skip');
+                statusEl.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span>';
+                if (vadaInput) vadaInput.style.display = 'none';
+                if (changeBtn) changeBtn.style.display = 'block';
+            }
+            
+            updateFormularSummary();
+        }
+        
+        // Reset stavu kroku formuláře (tlačítko Změnit)
+        function resetFormularStepStatus(stepId) {
+            const capitalizedId = stepId.charAt(0).toUpperCase() + stepId.slice(1);
+            const item = document.getElementById('formularCheck' + capitalizedId);
+            if (!item) return;
+            
+            // Odstranit stav
+            item.classList.remove('status-ok', 'status-vada', 'status-skip');
+            formularStepState[stepId] = null;
+            
+            // Reset vzhledu
+            const statusEl = document.getElementById('formularStatus' + capitalizedId);
+            const vadaInput = document.getElementById('formularVadaInput' + capitalizedId);
+            const changeBtn = document.getElementById('formularChange' + capitalizedId);
+            const textarea = document.getElementById('formularVadaText' + capitalizedId);
+            
+            statusEl.innerHTML = '<span class="material-icons-outlined">radio_button_unchecked</span>';
+            if (vadaInput) vadaInput.style.display = 'none';
+            if (changeBtn) changeBtn.style.display = 'none';
+            if (textarea) textarea.value = '';
+            
+            updateFormularSummary();
+        }
+        
+        // Označit všechny kroky formuláře jako v pořádku
+        function setAllFormularStepsOk() {
+            for (const stepId of Object.keys(formularStepState)) {
+                setFormularStepStatus(stepId, 'ok');
+            }
+        }
+        
+        // Aktualizace souhrnu kontroly formuláře
+        function updateFormularSummary() {
+            let okCount = 0;
+            let vadaCount = 0;
+            let pendingCount = 0;
+            
+            for (const [key, value] of Object.entries(formularStepState)) {
+                if (value === 'ok' || value === 'skip') {
+                    okCount++;
+                } else if (value === 'vada') {
+                    vadaCount++;
+                } else {
+                    pendingCount++;
+                }
+            }
+            
+            document.getElementById('formularOkCount').textContent = okCount;
+            document.getElementById('formularVadaCount').textContent = vadaCount;
+            
+            const resultEl = document.getElementById('formularResult');
+            const btnConfirm = document.getElementById('btnConfirmFormular');
+            
+            // Kontrola je dokončena, když všechny kroky mají stav
+            const allChecked = pendingCount === 0;
+            
+            if (allChecked) {
+                if (vadaCount > 0) {
+                    resultEl.className = 'deficiency-result negative';
+                    resultEl.innerHTML = `
+                        <span class="material-icons-outlined">warning</span>
+                        <div>
+                            <strong>Zjištěny nedostatky</strong>
+                            <div style="font-size: 11px; margin-top: 2px;">Formulář obsahuje ${vadaCount} vad</div>
+                        </div>
+                    `;
+                } else {
+                    resultEl.className = 'deficiency-result positive';
+                    resultEl.innerHTML = `
+                        <span class="material-icons-outlined">check_circle</span>
+                        <div>
+                            <strong>Kontrola úspěšná</strong>
+                            <div style="font-size: 11px; margin-top: 2px;">Formulář je v pořádku</div>
+                        </div>
+                    `;
+                }
+                btnConfirm.disabled = false;
+            } else {
+                resultEl.className = 'deficiency-result pending';
+                resultEl.innerHTML = `
+                    <span class="material-icons-outlined">hourglass_empty</span>
+                    <div>
+                        <strong>Kontrola probíhá</strong>
+                        <div style="font-size: 11px; margin-top: 2px;">Zbývá zkontrolovat ${pendingCount} částí</div>
+                    </div>
+                `;
+                btnConfirm.disabled = true;
+            }
+        }
+        
+        // Dokončit kontrolu formuláře
+        function completeFormularKontrola() {
+            controls.zadost.done = true;
+            
+            // Spočítat vady
+            let vadaCount = 0;
+            const deficiencyNotes = [];
+            
+            for (const [key, value] of Object.entries(formularStepState)) {
+                if (value === 'vada') {
+                    vadaCount++;
+                    const textarea = document.getElementById('formularVadaText' + key.charAt(0).toUpperCase() + key.slice(1));
+                    if (textarea && textarea.value.trim()) {
+                        formularVadaNotes[key] = textarea.value.trim();
+                        deficiencyNotes.push(`${formularStepNames[key]}: ${textarea.value.trim()}`);
+                    }
+                }
+            }
+            
+            if (vadaCount > 0) {
+                controls.zadost.result = 'vady';
+                controls.zadost.deficiencyNote = deficiencyNotes.join('\n');
+            } else {
+                controls.zadost.result = 'ok';
+            }
+            
+            closeControl('controlZadost');
+            updateUI();
         }
 
         // ==========================================
@@ -19161,6 +20247,44 @@ ${reportContent}
         </div>
         <div class="sim-panel-body" id="simPanelBody">
             <div class="sim-section">
+                <div class="sim-section-title">Platnost právní úpravy</div>
+                <div class="sim-scenarios">
+                    <label class="sim-radio">
+                        <input type="radio" name="platnost" value="do2027" checked onchange="applyPlatnost(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Do 31. 12. 2027</strong>
+                            <small>Současný stav — krajské SÚ, samostatné DO</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="platnost" value="od2028" onchange="applyPlatnost(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Od 1. 1. 2028</strong>
+                            <small>Jednotná státní stavební správa, integrované DO</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="sim-section">
+                <div class="sim-section-title">Podání žádosti</div>
+                <div class="sim-scenarios">
+                    <label class="sim-radio">
+                        <input type="radio" name="typPodani" value="portal" checked onchange="applyTypPodani(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Portál stavebníka</strong>
+                            <small>Elektronická žádost — strukturovaná data</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="typPodani" value="vlozena" onchange="applyTypPodani(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Vložená žádost</strong>
+                            <small>Listinná / datová schránka — PDF dokument</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="sim-section">
                 <div class="sim-section-title">Scénář žádosti</div>
                 <div class="sim-scenarios">
                     <label class="sim-radio">
@@ -19231,6 +20355,14 @@ ${reportContent}
             <div class="sim-section">
                 <div class="sim-section-title">Aktuální nastavení</div>
                 <div class="sim-info" id="simInfo">
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Platnost:</span>
+                        <span class="sim-info-value" id="simInfoPlatnost">Do 31. 12. 2027</span>
+                    </div>
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Podání:</span>
+                        <span class="sim-info-value" id="simInfoPodani">Portál stavebníka</span>
+                    </div>
                     <div class="sim-info-row">
                         <span class="sim-info-label">Typ žadatele:</span>
                         <span class="sim-info-value" id="simInfoTyp">Fyzická osoba</span>
@@ -19731,8 +20863,26 @@ ${reportContent}
         
         // Inicializace panelu
         function initSimulationPanel() {
-            // Načíst scénář z URL
+            // Načíst parametry z URL
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // Načíst platnost z URL
+            const platnostFromUrl = urlParams.get('platnost');
+            if (platnostFromUrl && (platnostFromUrl === 'do2027' || platnostFromUrl === 'od2028')) {
+                platnostPravniUpravy = platnostFromUrl;
+                document.querySelector(`input[name="platnost"][value="${platnostFromUrl}"]`).checked = true;
+            }
+            updateSimInfoPlatnost();
+            
+            // Načíst typ podání z URL
+            const typPodaniFromUrl = urlParams.get('typPodani');
+            if (typPodaniFromUrl && (typPodaniFromUrl === 'portal' || typPodaniFromUrl === 'vlozena')) {
+                typPodaniZadosti = typPodaniFromUrl;
+                document.querySelector(`input[name="typPodani"][value="${typPodaniFromUrl}"]`).checked = true;
+            }
+            updateSimInfo();
+            
+            // Načíst scénář z URL
             const scenarFromUrl = urlParams.get('scenar');
             
             if (scenarFromUrl && scenarios[scenarFromUrl]) {
