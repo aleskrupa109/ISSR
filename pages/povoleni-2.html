@@ -1092,6 +1092,24 @@
             background: #fce8e6;
             color: #c5221f;
         }
+        
+        .status-blocked .control-card-status {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .status-blocked .control-card-icon {
+            background: #f5f5f5;
+            color: #9aa0a6;
+        }
+        
+        .status-blocked .control-card-title {
+            color: #9aa0a6 !important;
+        }
+        
+        .status-blocked .control-card-desc {
+            color: #c5221f !important;
+        }
 
         .control-card-body {
             padding: 0 16px 16px !important;
@@ -11870,7 +11888,7 @@
                                 Jednoduchá stavba
                             </span>
                             <span class="case-badge draft">Kontrola</span>
-                            <span class="case-badge fast">
+                            <span class="case-badge fast" id="badgeZrychlene">
                                 <span class="material-icons-outlined" style="font-size: 14px;">bolt</span>
                                 Zrychlené řízení
                             </span>
@@ -16263,13 +16281,75 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                 initControlViewer('controlPrislusnost');
             }
             
-            // Pro kontrolu ÚPD - inicializovat image viewery
+            // Pro kontrolu ÚPD - inicializovat image viewery a reset stavu
             if (controlId === 'controlUP') {
+                // Reset stavu pokud kontrola ještě není hotová
+                if (!controls.up.done) {
+                    resetUPDControl();
+                }
+                
                 setTimeout(() => {
                     initViewer('situace');
                     initViewer('upd');
                 }, 100);
             }
+        }
+        
+        // Reset stavu kontroly ÚPD
+        function resetUPDControl() {
+            // Reset stavu - modifikujeme vlastnosti, ne celý objekt (protože je const)
+            updState.urp.checked = false;
+            updState.urp.soulad = null;
+            updState.urp.text = '';
+            
+            updState.zur.checked = false;
+            updState.zur.soulad = null;
+            updState.zur.text = '';
+            
+            updState.up.checked = false;
+            updState.up.soulad = null;
+            updState.up.text = '';
+            updState.up.exists = null;
+            
+            // Reset UI
+            ['Urp', 'Zur', 'Up'].forEach(step => {
+                const checkItem = document.getElementById('check' + step);
+                if (checkItem) {
+                    checkItem.classList.remove('done-ok', 'done-error');
+                }
+                
+                const status = document.getElementById('status' + step);
+                if (status) {
+                    status.textContent = '';
+                    status.classList.remove('ok', 'error');
+                }
+                
+                const noteInput = document.getElementById('note' + step);
+                if (noteInput) {
+                    noteInput.value = '';
+                    noteInput.style.display = 'none';
+                }
+                
+                const indicator = document.getElementById('indicator' + step);
+                if (indicator) {
+                    indicator.classList.remove('visible');
+                }
+            });
+            
+            // Reset tlačítek
+            document.querySelectorAll('#controlUP .upd-btn-yes, #controlUP .upd-btn-no').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Skrýt sekce pro ÚP
+            const souladSection = document.getElementById('upSouladSection');
+            if (souladSection) souladSection.style.display = 'none';
+            
+            const noUpInfo = document.getElementById('noUpInfo');
+            if (noUpInfo) noUpInfo.style.display = 'none';
+            
+            // Aktualizovat tlačítko
+            updateUPDState();
         }
 
         function closeControl(controlId) {
@@ -18995,11 +19075,115 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             console.log('Typ podání změněn na:', typ);
         }
         
+        // Rychlost řízení
+        let rychlostRizeni = 'zrychlene';
+        
+        function applyRychlostRizeni(typ, showToast = true) {
+            rychlostRizeni = typ;
+            
+            // Aktualizovat URL
+            const url = new URL(window.location);
+            url.searchParams.set('rychlost', typ);
+            history.replaceState({}, '', url);
+            
+            // Zobrazit/skrýt kartu Zrychlené řízení
+            const cardZrychlene = document.getElementById('card-zrychlene');
+            if (cardZrychlene) {
+                if (typ === 'standardni') {
+                    cardZrychlene.style.display = 'none';
+                } else {
+                    cardZrychlene.style.display = '';
+                    updateZrychleneRizeniState();
+                }
+            }
+            
+            // Zobrazit/skrýt badge Zrychlené řízení v hlavičce
+            const badgeZrychlene = document.getElementById('badgeZrychlene');
+            if (badgeZrychlene) {
+                badgeZrychlene.style.display = typ === 'standardni' ? 'none' : 'inline-flex';
+            }
+            
+            // Aktualizovat zobrazení v simInfo
+            updateSimInfo();
+            
+            if (showToast) {
+                showSimToast(typ === 'zrychlene' ? 'Zrychlené řízení' : 'Standardní řízení');
+            }
+        }
+        
+        // Aktualizace stavu kontroly Zrychlené řízení
+        function updateZrychleneRizeniState() {
+            if (rychlostRizeni !== 'zrychlene') return;
+            
+            const cardZrychlene = document.getElementById('card-zrychlene');
+            if (!cardZrychlene) return;
+            
+            // Kontrola, zda některá kontrola má nedostatky vedoucí k postoupení, přerušení nebo ukončení
+            const hasBlockingIssue = checkForBlockingIssues();
+            
+            if (hasBlockingIssue) {
+                // Deaktivovat kontrolu - nelze provést zrychlené řízení
+                cardZrychlene.classList.remove('status-waiting', 'status-ready', 'status-done', 'status-warning');
+                cardZrychlene.classList.add('disabled', 'status-blocked');
+                
+                // Aktualizovat popisek a badge
+                const descEl = cardZrychlene.querySelector('.control-card-desc');
+                if (descEl) {
+                    descEl.textContent = 'Nelze provést — zjištěny blokující nedostatky';
+                }
+                
+                const statusBadge = cardZrychlene.querySelector('.control-card-status');
+                if (statusBadge) {
+                    statusBadge.textContent = 'Blokováno';
+                }
+                
+                const actionBtn = cardZrychlene.querySelector('.control-card-action');
+                if (actionBtn) {
+                    actionBtn.innerHTML = '<span class="material-icons-outlined">block</span>Nelze provést';
+                    actionBtn.onclick = null;
+                }
+            } else {
+                // Odebrat status blocked
+                cardZrychlene.classList.remove('status-blocked');
+                
+                // Obnovit původní popisek
+                const descEl = cardZrychlene.querySelector('.control-card-desc');
+                if (descEl && !controls.zrychlene.done) {
+                    descEl.textContent = 'Splnění podmínek pro zrychlené řízení';
+                }
+            }
+        }
+        
+        // Kontrola blokujících problémů (postoupení, přerušení, ukončení)
+        function checkForBlockingIssues() {
+            // Kontrola výsledků kontrol - postoupení, odložení, zastavení
+            const blockingResults = ['postoupeno', 'preruseno', 'zastaveno', 'ukonceno', 'error', 'odlozeno'];
+            
+            for (const controlId in controls) {
+                const control = controls[controlId];
+                if (control.done && blockingResults.includes(control.result)) {
+                    return true;
+                }
+            }
+            
+            // Kontrola SÚ nepříslušný
+            if (controls.prislusnost && controls.prislusnost.done && controls.prislusnost.result !== 'ok') {
+                return true;
+            }
+            
+            return false;
+        }
+        
         // Aktualizovat zobrazení simInfo
         function updateSimInfo() {
             const simInfoPodani = document.getElementById('simInfoPodani');
             if (simInfoPodani) {
                 simInfoPodani.textContent = typPodaniZadosti === 'portal' ? 'Portál stavebníka' : 'Vložená žádost';
+            }
+            
+            const simInfoRychlost = document.getElementById('simInfoRychlost');
+            if (simInfoRychlost) {
+                simInfoRychlost.textContent = rychlostRizeni === 'zrychlene' ? 'Zrychlené řízení' : 'Standardní řízení';
             }
         }
         
@@ -20864,6 +21048,8 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         function updateUPDState() {
             // Aktualizovat tlačítko potvrzení
             const btn = document.getElementById('btnConfirmUPD');
+            if (!btn) return;
+            
             const allChecked = updState.urp.checked && updState.zur.checked && updState.up.checked;
             const hasNesoulad = (updState.urp.checked && !updState.urp.soulad) || 
                                (updState.zur.checked && !updState.zur.soulad) || 
@@ -20875,7 +21061,9 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 const noteValue = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1))?.value?.trim() || '';
                 const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
                 
-                if (!updState[step].soulad && updState[step].checked && (step !== 'up' || updState.up.exists !== false)) {
+                const needsText = !updState[step].soulad && updState[step].checked && (step !== 'up' || updState.up.exists !== false);
+                
+                if (needsText) {
                     if (!noteValue) nesouladTextsOk = false;
                     // Zobrazit indikátor pokud je text vyplněn
                     if (indicator) {
@@ -20886,7 +21074,8 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 }
             });
             
-            btn.disabled = !allChecked || (hasNesoulad && !nesouladTextsOk);
+            const canConfirm = allChecked && (!hasNesoulad || nesouladTextsOk);
+            btn.disabled = !canConfirm;
             
             if (hasNesoulad && allChecked) {
                 btn.innerHTML = '<span class="material-icons-outlined">gavel</span> Zamítnout';
@@ -20903,25 +21092,39 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             // Sesbírat texty nesouladů
             let nesouladTexts = [];
             if (!updState.urp.soulad && updState.urp.checked) {
-                nesouladTexts.push('ÚRP: ' + (document.getElementById('noteUrp')?.value || ''));
+                const text = document.getElementById('noteUrp')?.value || '';
+                if (text) nesouladTexts.push('ÚRP: ' + text);
             }
             if (!updState.zur.soulad && updState.zur.checked) {
-                nesouladTexts.push('ZÚR: ' + (document.getElementById('noteZur')?.value || ''));
+                const text = document.getElementById('noteZur')?.value || '';
+                if (text) nesouladTexts.push('ZÚR: ' + text);
             }
             if (!updState.up.soulad && updState.up.checked && updState.up.exists !== false) {
-                nesouladTexts.push('ÚP: ' + (document.getElementById('noteUp')?.value || ''));
+                const text = document.getElementById('noteUp')?.value || '';
+                if (text) nesouladTexts.push('ÚP: ' + text);
             }
             
             controls.up.done = true;
-            controls.up.result = hasNesoulad ? 'nesoulad' : 'soulad';
+            controls.up.result = hasNesoulad ? 'warning' : 'ok';
             
-            if (hasNesoulad) {
-                addNedostatek('up', nesouladTexts.join('\n\n'), 'Nesoulad s ÚPD');
+            // Přidat nesoulady do globálních issues
+            if (hasNesoulad && nesouladTexts.length > 0) {
+                addGlobalIssue('vyzva', {
+                    text: 'Nesoulad s ÚPD:\n' + nesouladTexts.join('\n'),
+                    source: 'upd-control',
+                    controlName: 'Soulad s ÚPD'
+                });
             }
             
-            updateControlCard('up');
-            updateTimeline();
+            updateUI();
             closeControl('controlUP');
+            
+            // Zobrazit toast
+            if (hasNesoulad) {
+                showToast('Kontrola dokončena — zjištěn nesoulad s ÚPD', 'warning');
+            } else {
+                showToast('Kontrola dokončena — záměr je v souladu s ÚPD', 'success');
+            }
         }
 
         // ==========================================
@@ -21165,6 +21368,9 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 document.getElementById('btnZahajit').disabled = true;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
             }
+            
+            // Aktualizovat stav kontroly Zrychlené řízení
+            updateZrychleneRizeniState();
         }
 
         function updateCardContent(key, status) {
@@ -23398,14 +23604,27 @@ ${reportContent}
         }
         
         // Toast notifikace
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             const existing = document.querySelector('.toast-notification');
             if (existing) existing.remove();
+            
+            const icons = {
+                success: 'check_circle',
+                warning: 'warning',
+                error: 'error',
+                info: 'info'
+            };
+            const colors = {
+                success: '#137333',
+                warning: '#b06000',
+                error: '#c5221f',
+                info: '#1a73e8'
+            };
             
             const toast = document.createElement('div');
             toast.className = 'toast-notification';
             toast.innerHTML = `
-                <span class="material-icons-outlined">check_circle</span>
+                <span class="material-icons-outlined" style="color: ${colors[type] || colors.success}">${icons[type] || icons.success}</span>
                 ${message}
             `;
             toast.style.cssText = `
@@ -23927,6 +24146,25 @@ ${reportContent}
                 </div>
             </div>
             <div class="sim-section">
+                <div class="sim-section-title">Rychlost řízení</div>
+                <div class="sim-scenarios">
+                    <label class="sim-radio">
+                        <input type="radio" name="rychlostRizeni" value="zrychlene" checked onchange="applyRychlostRizeni(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Zrychlené řízení</strong>
+                            <small>Bez ústního jednání, do 30 dnů</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="rychlostRizeni" value="standardni" onchange="applyRychlostRizeni(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Standardní řízení</strong>
+                            <small>S ústním jednáním, do 60 dnů</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="sim-section">
                 <div class="sim-section-title">Scénář žádosti</div>
                 <div class="sim-scenarios">
                     <label class="sim-radio">
@@ -24004,6 +24242,10 @@ ${reportContent}
                     <div class="sim-info-row">
                         <span class="sim-info-label">Podání:</span>
                         <span class="sim-info-value" id="simInfoPodani">Portál stavebníka</span>
+                    </div>
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Rychlost:</span>
+                        <span class="sim-info-value" id="simInfoRychlost">Zrychlené řízení</span>
                     </div>
                     <div class="sim-info-row">
                         <span class="sim-info-label">Typ žadatele:</span>
@@ -24612,6 +24854,16 @@ ${reportContent}
                 typPodaniZadosti = typPodaniFromUrl;
                 document.querySelector(`input[name="typPodani"][value="${typPodaniFromUrl}"]`).checked = true;
             }
+            
+            // Načíst rychlost řízení z URL
+            const rychlostFromUrl = urlParams.get('rychlost');
+            if (rychlostFromUrl && (rychlostFromUrl === 'zrychlene' || rychlostFromUrl === 'standardni')) {
+                rychlostRizeni = rychlostFromUrl;
+                document.querySelector(`input[name="rychlostRizeni"][value="${rychlostFromUrl}"]`).checked = true;
+            }
+            // Vždy aplikovat rychlost řízení (pro správné zobrazení badge a karty), bez toastu
+            applyRychlostRizeni(rychlostRizeni, false);
+            
             updateSimInfo();
             
             // Načíst scénář z URL
