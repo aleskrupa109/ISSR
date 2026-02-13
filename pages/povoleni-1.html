@@ -4155,6 +4155,733 @@
             margin-bottom: 8px;
         }
 
+        /* ==========================================
+           INTERAKTIVNÍ KATASTRÁLNÍ MAPA
+           ========================================== */
+        .katastr-map-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #f5f7f5;
+        }
+        
+        /* Horní panel s ovládáním */
+        .katastr-map-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+        
+        .katastr-map-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+        }
+        
+        .katastr-map-title .material-icons-outlined {
+            font-size: 18px;
+            color: #1a73e8;
+        }
+        
+        .katastr-map-zoom {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+        }
+        
+        .katastr-zoom-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        
+        .katastr-zoom-btn:hover {
+            background: #f1f3f4;
+            border-color: #1a73e8;
+        }
+        
+        .katastr-zoom-btn .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .katastr-zoom-level {
+            font-size: 11px;
+            color: #5f6368;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .katastr-layers-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        .katastr-layers-btn:hover {
+            background: #f1f3f4;
+        }
+        
+        .katastr-layers-btn .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Hlavní oblast mapy */
+        .katastr-map-viewport {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+        }
+        
+        .katastr-map-viewport:active {
+            cursor: grabbing;
+        }
+        
+        .katastr-map-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        /* Styly pro parcely */
+        .parcela-polygon {
+            stroke: #5f6368;
+            stroke-width: 1;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        
+        /* Typy parcel */
+        .parcela-polygon.typ-ornapuda {
+            fill: #f5e6c8;
+        }
+        
+        .parcela-polygon.typ-travni {
+            fill: #c8e6c9;
+        }
+        
+        .parcela-polygon.typ-zastavena {
+            fill: #ffcdd2;
+        }
+        
+        .parcela-polygon.typ-les {
+            fill: #a5d6a7;
+        }
+        
+        .parcela-polygon.typ-voda {
+            fill: #b3e5fc;
+        }
+        
+        .parcela-polygon.typ-zahrada {
+            fill: #dcedc8;
+        }
+        
+        .parcela-polygon.typ-ostatni {
+            fill: #e0e0e0;
+        }
+        
+        /* Hover efekt */
+        .parcela-polygon:hover {
+            stroke: #1a73e8;
+            stroke-width: 2;
+            filter: brightness(1.05);
+        }
+        
+        /* Vybraná parcela */
+        .parcela-polygon.selected {
+            stroke: #f9a825;
+            stroke-width: 3;
+            filter: brightness(1.1);
+        }
+        
+        /* Pozemky záměru */
+        .parcela-polygon.zamer {
+            stroke: #1a73e8;
+            stroke-width: 2;
+            stroke-dasharray: none;
+        }
+        
+        .parcela-polygon.zamer::after {
+            content: '';
+        }
+        
+        /* Sousední pozemky */
+        .parcela-polygon.soused {
+            stroke: #34a853;
+            stroke-width: 2;
+        }
+        
+        /* Budovy */
+        .budova-polygon {
+            fill: #795548;
+            stroke: #5d4037;
+            stroke-width: 1;
+            cursor: pointer;
+        }
+        
+        .budova-polygon:hover {
+            fill: #8d6e63;
+        }
+        
+        /* Čísla parcel */
+        .parcela-label {
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+            fill: #37474f;
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-weight: 500;
+        }
+        
+        .parcela-label.large {
+            font-size: 12px;
+        }
+        
+        .parcela-label.stavebni {
+            font-size: 9px;
+            fill: #5d4037;
+        }
+        
+        /* Hranice k.ú. */
+        .ku-boundary {
+            fill: none;
+            stroke: #e91e63;
+            stroke-width: 2;
+            stroke-dasharray: 8 4;
+            pointer-events: none;
+        }
+        
+        /* Cesty */
+        .cesta-line {
+            fill: none;
+            stroke: #9e9e9e;
+            stroke-width: 6;
+        }
+        
+        .cesta-line.hlavni {
+            stroke: #ffc107;
+            stroke-width: 8;
+        }
+        
+        /* Mini mapa v rohu */
+        .katastr-minimap {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            width: 120px;
+            height: 90px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .katastr-minimap svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .minimap-viewport {
+            fill: rgba(26, 115, 232, 0.2);
+            stroke: #1a73e8;
+            stroke-width: 2;
+        }
+        
+        /* Měřítko */
+        .katastr-scale {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.9);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #5f6368;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .katastr-scale-bar {
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(to right, #202124 50%, transparent 50%);
+            background-size: 10px 4px;
+            border: 1px solid #202124;
+        }
+        
+        /* Legenda */
+        .katastr-legend {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .katastr-legend-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #202124;
+        }
+        
+        .katastr-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 3px;
+        }
+        
+        .katastr-legend-color {
+            width: 14px;
+            height: 10px;
+            border-radius: 2px;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        
+        /* Info panel vybrané parcely */
+        .katastr-info-panel {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            min-width: 280px;
+        }
+        
+        .katastr-info-panel.visible {
+            display: block;
+        }
+        
+        .katastr-info-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .katastr-info-parcela {
+            font-size: 16px;
+            font-weight: 700;
+            color: #202124;
+        }
+        
+        .katastr-info-close {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .katastr-info-close:hover {
+            background: #f1f3f4;
+        }
+        
+        .katastr-info-close .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .katastr-info-details {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 4px 12px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .katastr-info-label {
+            color: #5f6368;
+        }
+        
+        .katastr-info-value {
+            color: #202124;
+            font-weight: 500;
+        }
+        
+        .katastr-info-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .katastr-info-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+        
+        .katastr-info-btn:hover {
+            background: #f1f3f4;
+        }
+        
+        .katastr-info-btn.primary {
+            background: #1a73e8;
+            border-color: #1a73e8;
+            color: #fff;
+        }
+        
+        .katastr-info-btn.primary:hover {
+            background: #1557b0;
+        }
+        
+        .katastr-info-btn .material-icons-outlined {
+            font-size: 16px;
+        }
+        
+        /* Tooltip při hoveru */
+        .katastr-tooltip {
+            position: absolute;
+            background: rgba(32, 33, 36, 0.9);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            pointer-events: none;
+            z-index: 100;
+            white-space: nowrap;
+            display: none;
+        }
+        
+        .katastr-tooltip.visible {
+            display: block;
+        }
+        
+        /* Vyhledávání k.ú. */
+        .katastr-search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #f1f3f4;
+            border-radius: 6px;
+            padding: 0 10px;
+            flex: 1;
+            max-width: 280px;
+        }
+        
+        .katastr-search-container > .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+        
+        .katastr-search-input {
+            border: none;
+            background: transparent;
+            padding: 7px 10px;
+            font-size: 12px;
+            width: 100%;
+            outline: none;
+        }
+        
+        .katastr-search-input::placeholder {
+            color: #9aa0a6;
+        }
+        
+        .katastr-search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 4px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 200;
+            display: none;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+        
+        .katastr-search-dropdown.visible {
+            display: block;
+        }
+        
+        .katastr-search-group {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .katastr-search-group:last-child {
+            border-bottom: none;
+        }
+        
+        .katastr-search-group-title {
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #9aa0a6;
+            text-transform: uppercase;
+        }
+        
+        .katastr-search-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #202124;
+        }
+        
+        .katastr-search-item:hover {
+            background: #f1f3f4;
+        }
+        
+        .katastr-search-item .material-icons-outlined {
+            font-size: 16px;
+            color: #5f6368;
+        }
+        
+        /* Toolbar separator a nástroje */
+        .katastr-tools-separator {
+            width: 1px;
+            height: 24px;
+            background: #dadce0;
+            margin: 0 4px;
+        }
+        
+        .katastr-tool-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        
+        .katastr-tool-btn:hover {
+            background: #f1f3f4;
+            border-color: #1a73e8;
+        }
+        
+        .katastr-tool-btn.active {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        .katastr-tool-btn .material-icons-outlined {
+            font-size: 18px;
+            color: inherit;
+        }
+        
+        /* Polygon selection banner */
+        .katastr-polygon-banner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: #e8f0fe;
+            border-bottom: 1px solid #c2dbfc;
+            font-size: 12px;
+            color: #1a73e8;
+        }
+        
+        .katastr-polygon-banner .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        .katastr-polygon-banner button {
+            margin-left: auto;
+            padding: 4px 12px;
+            border: 1px solid #1a73e8;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #1a73e8;
+            cursor: pointer;
+        }
+        
+        .katastr-polygon-banner button:hover {
+            background: #fff;
+            border-color: #1557b0;
+            color: #1557b0;
+        }
+        
+        /* Polygon selection SVG */
+        .selection-polygon {
+            fill: rgba(26, 115, 232, 0.1);
+            stroke: #1a73e8;
+            stroke-width: 2;
+            stroke-dasharray: 5 3;
+        }
+        
+        .selection-point {
+            fill: #1a73e8;
+            stroke: #fff;
+            stroke-width: 2;
+            cursor: pointer;
+        }
+        
+        .selection-line {
+            stroke: #1a73e8;
+            stroke-width: 2;
+            stroke-dasharray: 5 3;
+            fill: none;
+        }
+        
+        /* VÝRAZNĚJŠÍ OZNAČENÍ POZEMKŮ ZÁMĚRU A SOUSEDNÍCH */
+        
+        /* Pozemky záměru - modrý šrafovaný vzor + silné ohraničení */
+        .parcela-polygon.zamer {
+            stroke: #1565c0 !important;
+            stroke-width: 3 !important;
+            filter: none;
+        }
+        
+        .parcela-overlay-zamer {
+            fill: url(#zamerPattern);
+            stroke: none;
+            pointer-events: none;
+        }
+        
+        /* Sousední pozemky - zelený tečkovaný vzor + silné ohraničení */
+        .parcela-polygon.soused {
+            stroke: #2e7d32 !important;
+            stroke-width: 3 !important;
+            stroke-dasharray: 6 3;
+            filter: none;
+        }
+        
+        .parcela-overlay-soused {
+            fill: url(#sousedPattern);
+            stroke: none;
+            pointer-events: none;
+        }
+        
+        /* Info panel - tlačítko pro odstranění */
+        .katastr-info-btn.danger {
+            background: #fff;
+            border-color: #ea4335;
+            color: #ea4335;
+        }
+        
+        .katastr-info-btn.danger:hover {
+            background: #fce8e6;
+        }
+        
+        .katastr-info-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Výběrová tabulka pro polygon selection */
+        .katastr-selection-panel {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            min-width: 300px;
+        }
+        
+        .katastr-selection-panel.visible {
+            display: block;
+        }
+        
+        .katastr-selection-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .katastr-selection-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #202124;
+        }
+        
+        .katastr-selection-count {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        
+        .katastr-selection-list {
+            max-height: 120px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+        }
+        
+        .katastr-selection-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .katastr-selection-item:last-child {
+            border-bottom: none;
+        }
+        
+        .katastr-selection-actions {
+            display: flex;
+            gap: 8px;
+        }
+
         .pozemky-add-section {
             margin-top: 12px;
             padding-top: 12px;
@@ -4779,6 +5506,16 @@
             flex: 1;
             padding: 24px;
             overflow-y: auto;
+        }
+        
+        /* Viewer bez padding pro mapu */
+        .viewer-content:has(.katastr-map-container) {
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        #viewer-pozemky:not(.viewer-placeholder) {
+            height: 100%;
         }
 
         .viewer-placeholder {
@@ -16186,19 +16923,861 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             
             const viewer = document.getElementById('viewer-pozemky');
             
-            const viewConfig = {
-                'zadost': { icon: 'description', title: 'Žádost o povolení stavby', text: 'Pozemky uvedené stavebníkem v žádosti' },
-                'situace': { icon: 'architecture', title: 'Situační výkresy', text: 'C.1 - C.4 ze složky dokumentace' },
-                'kn': { icon: 'terrain', title: 'Katastr nemovitostí', text: 'Nahlížení do katastru nemovitostí' },
-                'mapa': { icon: 'map', title: 'Katastrální mapa', text: 'Interaktivní mapa s možností výběru parcel' }
-            };
+            if (view === 'mapa') {
+                // Zobrazit interaktivní katastrální mapu
+                viewer.innerHTML = '';
+                viewer.classList.remove('viewer-placeholder');
+                viewer.appendChild(createKatastrMap());
+            } else {
+                viewer.classList.add('viewer-placeholder');
+                const viewConfig = {
+                    'zadost': { icon: 'description', title: 'Žádost o povolení stavby', text: 'Pozemky uvedené stavebníkem v žádosti' },
+                    'situace': { icon: 'architecture', title: 'Situační výkresy', text: 'C.1 - C.4 ze složky dokumentace' },
+                    'kn': { icon: 'terrain', title: 'Katastr nemovitostí', text: 'Nahlížení do katastru nemovitostí' }
+                };
+                
+                const config = viewConfig[view];
+                viewer.innerHTML = `
+                    <span class="material-icons-outlined">${config.icon}</span>
+                    <div class="viewer-placeholder-title">${config.title}</div>
+                    <div class="viewer-placeholder-text">${config.text}</div>
+                `;
+            }
+        }
+        
+        // ==========================================
+        // INTERAKTIVNÍ KATASTRÁLNÍ MAPA
+        // ==========================================
+        
+        // Data parcel pro mapu
+        const mapParcelyData = [
+            // Pozemky záměru (modré ohraničení)
+            { id: 'st142', cislo: 'st. 142', typ: 'zastavena', points: '280,180 320,180 320,220 280,220', plocha: '560 m²', druh: 'Zastavěná plocha', ku: 'Radonice', isZamer: true },
+            { id: 'p248-3', cislo: '248/3', typ: 'ornapuda', points: '180,120 280,120 280,220 240,220 240,180 180,180', plocha: '1 240 m²', druh: 'Orná půda', ku: 'Radonice', isZamer: true },
+            { id: 'p248-4', cislo: '248/4', typ: 'ornapuda', points: '320,120 400,120 400,180 320,180', plocha: '320 m²', druh: 'Orná půda', ku: 'Radonice', isZamer: true },
+            { id: 'st143', cislo: 'st. 143', typ: 'zastavena', points: '340,185 375,185 375,215 340,215', plocha: '180 m²', druh: 'Zastavěná plocha', ku: 'Radonice', isZamer: true },
+            { id: 'p251-1', cislo: '251/1', typ: 'travni', points: '280,220 380,220 380,300 320,300 320,260 280,260', plocha: '890 m²', druh: 'Trvalý travní porost', ku: 'Radonice', isZamer: true },
             
-            const config = viewConfig[view];
-            viewer.innerHTML = `
-                <span class="material-icons-outlined">${config.icon}</span>
-                <div class="viewer-placeholder-title">${config.title}</div>
-                <div class="viewer-placeholder-text">${config.text}</div>
+            // Sousední pozemky (zelené ohraničení)
+            { id: 'p247-1', cislo: '247/1', typ: 'ornapuda', points: '80,120 180,120 180,180 140,180 140,220 80,220', plocha: '1 120 m²', druh: 'Orná půda', ku: 'Radonice', isSoused: true },
+            { id: 'p247-2', cislo: '247/2', typ: 'zahrada', points: '80,220 140,220 140,260 80,260', plocha: '450 m²', druh: 'Zahrada', ku: 'Radonice', isSoused: true },
+            { id: 'p249', cislo: '249', typ: 'ornapuda', points: '400,120 520,120 520,220 400,220 400,180', plocha: '2 340 m²', druh: 'Orná půda', ku: 'Radonice', isSoused: true },
+            { id: 'st140', cislo: 'st. 140', typ: 'zastavena', points: '100,145 135,145 135,175 100,175', plocha: '210 m²', druh: 'Zastavěná plocha', ku: 'Radonice', isSoused: true },
+            { id: 'st141', cislo: 'st. 141', typ: 'zastavena', points: '145,185 175,185 175,215 145,215', plocha: '185 m²', druh: 'Zastavěná plocha', ku: 'Radonice', isSoused: true },
+            { id: 'p250-1', cislo: '250/1', typ: 'travni', points: '380,220 460,220 460,280 380,280', plocha: '670 m²', druh: 'Trvalý travní porost', ku: 'Radonice', isSoused: true },
+            { id: 'p250-2', cislo: '250/2', typ: 'travni', points: '460,220 520,220 520,300 460,300 460,280', plocha: '380 m²', druh: 'Trvalý travní porost', ku: 'Radonice', isSoused: true },
+            { id: 'p252', cislo: '252', typ: 'ornapuda', points: '320,300 440,300 440,380 320,380', plocha: '1 560 m²', druh: 'Orná půda', ku: 'Radonice', isSoused: true },
+            { id: 'p246-3', cislo: '246/3', typ: 'les', points: '80,260 180,260 180,340 80,340', plocha: '920 m²', druh: 'Lesní pozemek', ku: 'Radonice', isSoused: true },
+            { id: 'st139', cislo: 'st. 139', typ: 'zastavena', points: '95,275 130,275 130,310 95,310', plocha: '240 m²', druh: 'Zastavěná plocha', ku: 'Radonice', isSoused: true },
+            { id: 'p253-1', cislo: '253/1', typ: 'travni', points: '440,300 520,300 520,360 440,360', plocha: '780 m²', druh: 'Trvalý travní porost', ku: 'Radonice', isSoused: true },
+            { id: 'p253-2', cislo: '253/2', typ: 'zahrada', points: '440,360 520,360 520,400 440,400', plocha: '415 m²', druh: 'Zahrada', ku: 'Radonice', isSoused: true },
+            
+            // Ostatní pozemky
+            { id: 'p244', cislo: '244', typ: 'ornapuda', points: '80,60 200,60 200,120 80,120', plocha: '1 800 m²', druh: 'Orná půda', ku: 'Radonice' },
+            { id: 'p245', cislo: '245', typ: 'ornapuda', points: '200,60 340,60 340,120 200,120', plocha: '2 100 m²', druh: 'Orná půda', ku: 'Radonice' },
+            { id: 'p246-1', cislo: '246/1', typ: 'ornapuda', points: '340,60 480,60 480,120 340,120', plocha: '2 450 m²', druh: 'Orná půda', ku: 'Radonice' },
+            { id: 'p246-2', cislo: '246/2', typ: 'ornapuda', points: '480,60 560,60 560,120 520,120 520,80 480,80', plocha: '980 m²', druh: 'Orná půda', ku: 'Radonice' },
+            { id: 'p254', cislo: '254', typ: 'travni', points: '180,260 240,260 240,340 180,340', plocha: '720 m²', druh: 'Trvalý travní porost', ku: 'Radonice' },
+            { id: 'p255', cislo: '255', typ: 'travni', points: '240,260 320,260 320,340 240,340', plocha: '880 m²', druh: 'Trvalý travní porost', ku: 'Radonice' },
+            { id: 'p256', cislo: '256', typ: 'les', points: '80,340 180,340 180,400 80,400', plocha: '1 100 m²', druh: 'Lesní pozemek', ku: 'Radonice' },
+            { id: 'p257', cislo: '257', typ: 'travni', points: '180,340 320,340 320,400 180,400', plocha: '1 650 m²', druh: 'Trvalý travní porost', ku: 'Radonice' },
+            { id: 'p258', cislo: '258', typ: 'ornapuda', points: '320,380 440,380 440,430 320,430', plocha: '1 200 m²', druh: 'Orná půda', ku: 'Radonice' }
+        ];
+        
+        let mapZoom = 100;
+        let selectedParcela = null;
+        let mapPolygonMode = false;
+        let polygonPoints = [];
+        let selectedByPolygon = [];
+        
+        function createKatastrMap() {
+            const container = document.createElement('div');
+            container.className = 'katastr-map-container';
+            
+            container.innerHTML = `
+                <div class="katastr-map-toolbar">
+                    <div class="katastr-map-title">
+                        <span class="material-icons-outlined">map</span>
+                        <span id="mapKuTitle">k.ú. Radonice [747076]</span>
+                    </div>
+                    <div class="katastr-search-container">
+                        <span class="material-icons-outlined">search</span>
+                        <input type="text" class="katastr-search-input" id="mapSearchInput" 
+                            placeholder="Hledat obec nebo k.ú...." 
+                            oninput="searchKatastr(this.value)"
+                            onfocus="showKatastrDropdown()"
+                            autocomplete="off">
+                        <div class="katastr-search-dropdown" id="mapSearchDropdown">
+                            <div class="katastr-search-group">
+                                <div class="katastr-search-group-title">Nedávné</div>
+                                <div class="katastr-search-item" onclick="selectKatastr('Radonice', '747076')">
+                                    <span class="material-icons-outlined">history</span>
+                                    Radonice [747076]
+                                </div>
+                            </div>
+                            <div class="katastr-search-group">
+                                <div class="katastr-search-group-title">Výsledky</div>
+                                <div class="katastr-search-item" onclick="selectKatastr('Kunratice', '728390')">
+                                    <span class="material-icons-outlined">place</span>
+                                    Kunratice [728390], Praha
+                                </div>
+                                <div class="katastr-search-item" onclick="selectKatastr('Šeberov', '746011')">
+                                    <span class="material-icons-outlined">place</span>
+                                    Šeberov [746011], Praha
+                                </div>
+                                <div class="katastr-search-item" onclick="selectKatastr('Veselí nad Lužnicí', '779091')">
+                                    <span class="material-icons-outlined">place</span>
+                                    Veselí nad Lužnicí [779091]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="katastr-tools-separator"></div>
+                    <div class="katastr-tool-btn ${mapPolygonMode ? 'active' : ''}" onclick="togglePolygonSelect()" id="btnPolygonSelect" title="Výběr polygonem">
+                        <span class="material-icons-outlined">polyline</span>
+                    </div>
+                    <div class="katastr-layers-btn" onclick="toggleMapLayers()">
+                        <span class="material-icons-outlined">layers</span>
+                        Vrstvy
+                    </div>
+                    <div class="katastr-map-zoom">
+                        <button class="katastr-zoom-btn" onclick="zoomMap(-10)" title="Oddálit">
+                            <span class="material-icons-outlined">remove</span>
+                        </button>
+                        <span class="katastr-zoom-level" id="mapZoomLevel">100%</span>
+                        <button class="katastr-zoom-btn" onclick="zoomMap(10)" title="Přiblížit">
+                            <span class="material-icons-outlined">add</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Polygon mode banner -->
+                <div class="katastr-polygon-banner" id="polygonBanner" style="display: none;">
+                    <span class="material-icons-outlined">polyline</span>
+                    <span>Režim výběru polygonem: klikáním vytvořte body, dvojklikem dokončete výběr</span>
+                    <button onclick="cancelPolygonSelect()">Zrušit</button>
+                </div>
+                
+                <div class="katastr-map-viewport" id="mapViewport">
+                    <svg class="katastr-map-svg" id="katastrSvg" viewBox="40 30 560 420">
+                        <defs>
+                            <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+                            </pattern>
+                            <!-- Vzor pro pozemky záměru -->
+                            <pattern id="zamerPattern" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                                <line x1="0" y1="0" x2="0" y2="8" stroke="#1a73e8" stroke-width="2" opacity="0.3"/>
+                            </pattern>
+                            <!-- Vzor pro sousední pozemky -->
+                            <pattern id="sousedPattern" width="6" height="6" patternUnits="userSpaceOnUse">
+                                <circle cx="3" cy="3" r="1" fill="#34a853" opacity="0.4"/>
+                            </pattern>
+                        </defs>
+                        
+                        <!-- Pozadí s mřížkou -->
+                        <rect x="40" y="30" width="560" height="420" fill="url(#gridPattern)"/>
+                        
+                        <!-- Parcely budou vygenerovány JS -->
+                        <g id="parcelyGroup"></g>
+                        
+                        <!-- Overlay pro pozemky záměru -->
+                        <g id="zamerOverlayGroup"></g>
+                        
+                        <!-- Overlay pro sousední pozemky -->
+                        <g id="sousedOverlayGroup"></g>
+                        
+                        <!-- Hranice k.ú. -->
+                        <rect class="ku-boundary" x="60" y="45" width="520" height="390"/>
+                        
+                        <!-- Polygon selection -->
+                        <g id="polygonSelectGroup">
+                            <polygon id="selectionPolygon" class="selection-polygon" points=""/>
+                            <g id="selectionPoints"></g>
+                        </g>
+                        
+                        <!-- Labels budou vygenerovány JS -->
+                        <g id="labelsGroup"></g>
+                    </svg>
+                    
+                    <!-- Legenda -->
+                    <div class="katastr-legend">
+                        <div class="katastr-legend-title">Legenda</div>
+                        <div class="katastr-legend-item">
+                            <div class="katastr-legend-color" style="background: #f5e6c8;"></div>
+                            <span>Orná půda</span>
+                        </div>
+                        <div class="katastr-legend-item">
+                            <div class="katastr-legend-color" style="background: #c8e6c9;"></div>
+                            <span>Travní porost</span>
+                        </div>
+                        <div class="katastr-legend-item">
+                            <div class="katastr-legend-color" style="background: #ffcdd2;"></div>
+                            <span>Zastavěná plocha</span>
+                        </div>
+                        <div class="katastr-legend-item">
+                            <div class="katastr-legend-color" style="background: #a5d6a7;"></div>
+                            <span>Les</span>
+                        </div>
+                        <div class="katastr-legend-item">
+                            <div class="katastr-legend-color" style="background: #dcedc8;"></div>
+                            <span>Zahrada</span>
+                        </div>
+                        <div class="katastr-legend-item" style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #e0e0e0;">
+                            <div class="katastr-legend-color" style="background: transparent; border: 2px solid #1a73e8;"></div>
+                            <span>Pozemky záměru</span>
+                        </div>
+                        <div class="katastr-legend-item">
+                            <div class="katastr-legend-color" style="background: transparent; border: 2px solid #34a853;"></div>
+                            <span>Sousední pozemky</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Měřítko -->
+                    <div class="katastr-scale">
+                        <div class="katastr-scale-bar"></div>
+                        <span>50 m</span>
+                    </div>
+                    
+                    <!-- Tooltip -->
+                    <div class="katastr-tooltip" id="mapTooltip"></div>
+                    
+                    <!-- Info panel -->
+                    <div class="katastr-info-panel" id="mapInfoPanel">
+                        <div class="katastr-info-header">
+                            <span class="katastr-info-parcela" id="infoParcela">—</span>
+                            <button class="katastr-info-close" onclick="closeMapInfo()">
+                                <span class="material-icons-outlined">close</span>
+                            </button>
+                        </div>
+                        <div class="katastr-info-details">
+                            <span class="katastr-info-label">Katastrální území:</span>
+                            <span class="katastr-info-value" id="infoKu">—</span>
+                            <span class="katastr-info-label">Druh pozemku:</span>
+                            <span class="katastr-info-value" id="infoDruh">—</span>
+                            <span class="katastr-info-label">Výměra:</span>
+                            <span class="katastr-info-value" id="infoPlocha">—</span>
+                        </div>
+                        <div class="katastr-info-actions">
+                            <button class="katastr-info-btn" onclick="addParcelaAsSoused()" id="btnAddSoused">
+                                <span class="material-icons-outlined">add</span>
+                                Přidat jako sousední
+                            </button>
+                            <button class="katastr-info-btn primary" onclick="addParcelaAsZamer()" id="btnAddZamer">
+                                <span class="material-icons-outlined">add_location</span>
+                                Přidat do záměru
+                            </button>
+                        </div>
+                    </div>
+                </div>
             `;
+            
+            // Inicializovat parcely po přidání do DOM
+            setTimeout(() => {
+                renderMapParcely();
+                initMapInteractions();
+            }, 50);
+            
+            return container;
+        }
+        
+        function renderMapParcely() {
+            const parcelyGroup = document.getElementById('parcelyGroup');
+            const labelsGroup = document.getElementById('labelsGroup');
+            const zamerOverlay = document.getElementById('zamerOverlayGroup');
+            const sousedOverlay = document.getElementById('sousedOverlayGroup');
+            
+            if (!parcelyGroup || !labelsGroup) return;
+            
+            let parcelyHtml = '';
+            let labelsHtml = '';
+            let zamerOverlayHtml = '';
+            let sousedOverlayHtml = '';
+            
+            mapParcelyData.forEach(p => {
+                // Určit CSS třídy
+                let classes = `parcela-polygon typ-${p.typ}`;
+                if (p.isZamer) classes += ' zamer';
+                if (p.isSoused) classes += ' soused';
+                
+                // Polygon parcely
+                parcelyHtml += `<polygon 
+                    class="${classes}" 
+                    points="${p.points}" 
+                    data-id="${p.id}"
+                    data-cislo="${p.cislo}"
+                    data-ku="${p.ku}"
+                    data-druh="${p.druh}"
+                    data-plocha="${p.plocha}"
+                    data-is-zamer="${p.isZamer || false}"
+                    data-is-soused="${p.isSoused || false}"
+                />`;
+                
+                // Přidat overlay pro pozemky záměru (šrafování)
+                if (p.isZamer) {
+                    zamerOverlayHtml += `<polygon class="parcela-overlay-zamer" points="${p.points}"/>`;
+                }
+                
+                // Přidat overlay pro sousední pozemky (tečky)
+                if (p.isSoused) {
+                    sousedOverlayHtml += `<polygon class="parcela-overlay-soused" points="${p.points}"/>`;
+                }
+                
+                // Vypočítat střed pro label
+                const center = getPolygonCenter(p.points);
+                const isStavebni = p.cislo.startsWith('st');
+                const labelClass = isStavebni ? 'parcela-label stavebni' : 'parcela-label';
+                
+                labelsHtml += `<text class="${labelClass}" x="${center.x}" y="${center.y}">${p.cislo}</text>`;
+            });
+            
+            parcelyGroup.innerHTML = parcelyHtml;
+            labelsGroup.innerHTML = labelsHtml;
+            if (zamerOverlay) zamerOverlay.innerHTML = zamerOverlayHtml;
+            if (sousedOverlay) sousedOverlay.innerHTML = sousedOverlayHtml;
+        }
+        
+        function getPolygonCenter(pointsStr) {
+            const points = pointsStr.split(' ').map(p => {
+                const [x, y] = p.split(',').map(Number);
+                return { x, y };
+            });
+            
+            let sumX = 0, sumY = 0;
+            points.forEach(p => {
+                sumX += p.x;
+                sumY += p.y;
+            });
+            
+            return {
+                x: Math.round(sumX / points.length),
+                y: Math.round(sumY / points.length)
+            };
+        }
+        
+        function initMapInteractions() {
+            const svg = document.getElementById('katastrSvg');
+            const tooltip = document.getElementById('mapTooltip');
+            const viewport = document.getElementById('mapViewport');
+            
+            if (!svg) return;
+            
+            // Hover efekt a tooltip
+            svg.addEventListener('mousemove', (e) => {
+                const target = e.target.closest('.parcela-polygon');
+                
+                if (target) {
+                    const cislo = target.dataset.cislo;
+                    const plocha = target.dataset.plocha;
+                    
+                    tooltip.innerHTML = `<strong>${cislo}</strong> • ${plocha}`;
+                    tooltip.classList.add('visible');
+                    
+                    const rect = viewport.getBoundingClientRect();
+                    tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
+                    tooltip.style.top = (e.clientY - rect.top - 10) + 'px';
+                } else {
+                    tooltip.classList.remove('visible');
+                }
+            });
+            
+            svg.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('visible');
+            });
+            
+            // Klik pro výběr parcely
+            svg.addEventListener('click', (e) => {
+                const target = e.target.closest('.parcela-polygon');
+                
+                if (target) {
+                    // Odznačit předchozí
+                    const prev = svg.querySelector('.parcela-polygon.selected');
+                    if (prev) prev.classList.remove('selected');
+                    
+                    // Označit novou
+                    target.classList.add('selected');
+                    selectedParcela = target.dataset;
+                    
+                    // Zobrazit info panel
+                    showMapInfo(target.dataset);
+                }
+            });
+        }
+        
+        function showMapInfo(data) {
+            const panel = document.getElementById('mapInfoPanel');
+            
+            document.getElementById('infoParcela').textContent = data.cislo;
+            document.getElementById('infoKu').textContent = `${data.ku} [747076]`;
+            document.getElementById('infoDruh').textContent = data.druh;
+            document.getElementById('infoPlocha').textContent = data.plocha;
+            
+            // Upravit tlačítka podle stavu
+            const btnZamer = document.getElementById('btnAddZamer');
+            const btnSoused = document.getElementById('btnAddSoused');
+            
+            const isZamer = data.isZamer === 'true' || data.isZamer === true;
+            const isSoused = data.isSoused === 'true' || data.isSoused === true;
+            
+            if (isZamer) {
+                btnZamer.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span> Odebrat ze záměru';
+                btnZamer.disabled = false;
+                btnZamer.classList.remove('primary');
+                btnZamer.classList.add('danger');
+                btnZamer.onclick = function() { removeParcelaFromZamer(); };
+            } else {
+                btnZamer.innerHTML = '<span class="material-icons-outlined">add_location</span> Přidat do záměru';
+                btnZamer.disabled = false;
+                btnZamer.classList.add('primary');
+                btnZamer.classList.remove('danger');
+                btnZamer.onclick = function() { addParcelaAsZamer(); };
+            }
+            
+            if (isSoused) {
+                btnSoused.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span> Odebrat ze sousedních';
+                btnSoused.disabled = false;
+                btnSoused.classList.add('danger');
+                btnSoused.onclick = function() { removeParcelaFromSoused(); };
+            } else {
+                btnSoused.innerHTML = '<span class="material-icons-outlined">add</span> Přidat jako sousední';
+                btnSoused.disabled = false;
+                btnSoused.classList.remove('danger');
+                btnSoused.onclick = function() { addParcelaAsSoused(); };
+            }
+            
+            panel.classList.add('visible');
+        }
+        
+        function removeParcelaFromZamer() {
+            if (!selectedParcela) return;
+            
+            // Najít a odstranit z pozemků záměru
+            const index = pozemkyState.pozemkyZameru.findIndex(p => p.cislo === selectedParcela.cislo);
+            if (index !== -1) {
+                pozemkyState.pozemkyZameru.splice(index, 1);
+            }
+            
+            // Aktualizovat mapu data
+            const parcelaInData = mapParcelyData.find(p => p.id === selectedParcela.id);
+            if (parcelaInData) {
+                parcelaInData.isZamer = false;
+            }
+            
+            // Aktualizovat SVG
+            const polygon = document.querySelector(`.parcela-polygon[data-id="${selectedParcela.id}"]`);
+            if (polygon) {
+                polygon.classList.remove('zamer');
+                polygon.dataset.isZamer = 'false';
+            }
+            
+            // Aktualizovat selectedParcela
+            selectedParcela.isZamer = 'false';
+            
+            renderPozemkyZameru();
+            renderMapParcely();
+            showMapInfo(selectedParcela);
+            updatePozemkyState();
+        }
+        
+        function removeParcelaFromSoused() {
+            if (!selectedParcela) return;
+            
+            // Najít a odstranit ze sousedních pozemků
+            const index = pozemkyState.sousedniParcely.findIndex(p => p.cislo === selectedParcela.cislo);
+            if (index !== -1) {
+                pozemkyState.sousedniParcely.splice(index, 1);
+            }
+            
+            // Aktualizovat mapu data
+            const parcelaInData = mapParcelyData.find(p => p.id === selectedParcela.id);
+            if (parcelaInData) {
+                parcelaInData.isSoused = false;
+            }
+            
+            // Aktualizovat SVG
+            const polygon = document.querySelector(`.parcela-polygon[data-id="${selectedParcela.id}"]`);
+            if (polygon) {
+                polygon.classList.remove('soused');
+                polygon.dataset.isSoused = 'false';
+            }
+            
+            // Aktualizovat selectedParcela
+            selectedParcela.isSoused = 'false';
+            
+            renderSousedniParcely();
+            renderMapParcely();
+            showMapInfo(selectedParcela);
+            updatePozemkyState();
+        }
+        
+        function closeMapInfo() {
+            document.getElementById('mapInfoPanel').classList.remove('visible');
+            
+            const selected = document.querySelector('.parcela-polygon.selected');
+            if (selected) selected.classList.remove('selected');
+            
+            selectedParcela = null;
+        }
+        
+        function zoomMap(delta) {
+            mapZoom = Math.max(50, Math.min(200, mapZoom + delta));
+            document.getElementById('mapZoomLevel').textContent = mapZoom + '%';
+            
+            const svg = document.getElementById('katastrSvg');
+            if (svg) {
+                const scale = mapZoom / 100;
+                const viewBoxWidth = 560 / scale;
+                const viewBoxHeight = 420 / scale;
+                const offsetX = (560 - viewBoxWidth) / 2 + 40;
+                const offsetY = (420 - viewBoxHeight) / 2 + 30;
+                svg.setAttribute('viewBox', `${offsetX} ${offsetY} ${viewBoxWidth} ${viewBoxHeight}`);
+            }
+        }
+        
+        function addParcelaAsZamer() {
+            if (!selectedParcela) return;
+            
+            // Přidat do pozemků záměru
+            const isStavebni = selectedParcela.cislo.toLowerCase().startsWith('st');
+            pozemkyState.pozemkyZameru.push({
+                cislo: selectedParcela.cislo,
+                katastr: selectedParcela.ku,
+                kod: '747076',
+                plocha: selectedParcela.plocha,
+                typ: isStavebni ? 'zastavena' : 'pozemkova'
+            });
+            
+            // Aktualizovat mapu
+            const parcelaInData = mapParcelyData.find(p => p.id === selectedParcela.id);
+            if (parcelaInData) {
+                parcelaInData.isZamer = true;
+            }
+            
+            // Aktualizovat SVG
+            const polygon = document.querySelector(`.parcela-polygon[data-id="${selectedParcela.id}"]`);
+            if (polygon) {
+                polygon.classList.add('zamer');
+                polygon.dataset.isZamer = 'true';
+            }
+            
+            renderPozemkyZameru();
+            renderMapParcely();
+            showMapInfo(selectedParcela);
+            updatePozemkyState();
+        }
+        
+        function addParcelaAsSoused() {
+            if (!selectedParcela) return;
+            
+            // Přidat do sousedních pozemků
+            pozemkyState.sousedniParcely.push({
+                cislo: selectedParcela.cislo,
+                katastr: selectedParcela.ku,
+                kod: '747076',
+                plocha: selectedParcela.plocha
+            });
+            
+            // Aktualizovat mapu
+            const parcelaInData = mapParcelyData.find(p => p.id === selectedParcela.id);
+            if (parcelaInData) {
+                parcelaInData.isSoused = true;
+            }
+            
+            // Aktualizovat SVG
+            const polygon = document.querySelector(`.parcela-polygon[data-id="${selectedParcela.id}"]`);
+            if (polygon) {
+                polygon.classList.add('soused');
+                polygon.dataset.isSoused = 'true';
+            }
+            
+            renderSousedniParcely();
+            renderMapParcely();
+            showMapInfo(selectedParcela);
+            updatePozemkyState();
+        }
+        
+        // ==========================================
+        // VYHLEDÁVÁNÍ KATASTRÁLNÍHO ÚZEMÍ
+        // ==========================================
+        
+        function showKatastrDropdown() {
+            const dropdown = document.getElementById('mapSearchDropdown');
+            if (dropdown) dropdown.classList.add('visible');
+            
+            // Zavřít při kliknutí mimo
+            setTimeout(() => {
+                document.addEventListener('click', hideKatastrDropdown);
+            }, 100);
+        }
+        
+        function hideKatastrDropdown(e) {
+            const container = document.querySelector('.katastr-search-container');
+            if (container && !container.contains(e.target)) {
+                const dropdown = document.getElementById('mapSearchDropdown');
+                if (dropdown) dropdown.classList.remove('visible');
+                document.removeEventListener('click', hideKatastrDropdown);
+            }
+        }
+        
+        function searchKatastr(query) {
+            // V reálné aplikaci by se zde volalo API
+            // Pro simulaci jen ukážeme dropdown
+            const dropdown = document.getElementById('mapSearchDropdown');
+            if (dropdown && query.length > 0) {
+                dropdown.classList.add('visible');
+            }
+        }
+        
+        function selectKatastr(name, kod) {
+            // Aktualizovat titulek
+            const title = document.getElementById('mapKuTitle');
+            if (title) title.textContent = `k.ú. ${name} [${kod}]`;
+            
+            // Zavřít dropdown
+            const dropdown = document.getElementById('mapSearchDropdown');
+            if (dropdown) dropdown.classList.remove('visible');
+            
+            // Vyčistit input
+            const input = document.getElementById('mapSearchInput');
+            if (input) input.value = '';
+            
+            // V reálné aplikaci by se zde načetla data pro nové k.ú.
+            console.log(`Přepnuto na k.ú. ${name} [${kod}]`);
+        }
+        
+        // ==========================================
+        // VÝBĚR POLYGONEM
+        // ==========================================
+        
+        function togglePolygonSelect() {
+            mapPolygonMode = !mapPolygonMode;
+            
+            const btn = document.getElementById('btnPolygonSelect');
+            const banner = document.getElementById('polygonBanner');
+            const viewport = document.getElementById('mapViewport');
+            
+            if (mapPolygonMode) {
+                btn.classList.add('active');
+                banner.style.display = 'flex';
+                viewport.style.cursor = 'crosshair';
+                polygonPoints = [];
+                updatePolygonDisplay();
+                
+                // Přidat event listenery
+                const svg = document.getElementById('katastrSvg');
+                svg.addEventListener('click', handlePolygonClick);
+                svg.addEventListener('dblclick', finishPolygonSelect);
+                svg.addEventListener('mousemove', handlePolygonMouseMove);
+            } else {
+                cancelPolygonSelect();
+            }
+        }
+        
+        function cancelPolygonSelect() {
+            mapPolygonMode = false;
+            polygonPoints = [];
+            selectedByPolygon = [];
+            
+            const btn = document.getElementById('btnPolygonSelect');
+            const banner = document.getElementById('polygonBanner');
+            const viewport = document.getElementById('mapViewport');
+            const selectionPanel = document.getElementById('polygonSelectionPanel');
+            
+            if (btn) btn.classList.remove('active');
+            if (banner) banner.style.display = 'none';
+            if (viewport) viewport.style.cursor = 'grab';
+            if (selectionPanel) selectionPanel.classList.remove('visible');
+            
+            updatePolygonDisplay();
+            
+            // Odstranit event listenery
+            const svg = document.getElementById('katastrSvg');
+            if (svg) {
+                svg.removeEventListener('click', handlePolygonClick);
+                svg.removeEventListener('dblclick', finishPolygonSelect);
+                svg.removeEventListener('mousemove', handlePolygonMouseMove);
+            }
+        }
+        
+        function handlePolygonClick(e) {
+            if (!mapPolygonMode) return;
+            e.stopPropagation();
+            
+            const svg = document.getElementById('katastrSvg');
+            const pt = svg.createSVGPoint();
+            pt.x = e.clientX;
+            pt.y = e.clientY;
+            const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+            
+            polygonPoints.push({ x: svgP.x, y: svgP.y });
+            updatePolygonDisplay();
+        }
+        
+        function handlePolygonMouseMove(e) {
+            if (!mapPolygonMode || polygonPoints.length === 0) return;
+            
+            // Zobrazit dočasnou čáru k aktuální pozici myši
+            // (pro jednoduchost vynecháno)
+        }
+        
+        function finishPolygonSelect(e) {
+            if (!mapPolygonMode || polygonPoints.length < 3) return;
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Najít parcely uvnitř polygonu
+            selectedByPolygon = [];
+            
+            mapParcelyData.forEach(p => {
+                const center = getPolygonCenter(p.points);
+                if (isPointInPolygon(center, polygonPoints)) {
+                    selectedByPolygon.push(p);
+                }
+            });
+            
+            if (selectedByPolygon.length > 0) {
+                showPolygonSelectionPanel();
+            } else {
+                alert('V označené oblasti nebyly nalezeny žádné parcely.');
+                cancelPolygonSelect();
+            }
+        }
+        
+        function isPointInPolygon(point, polygon) {
+            let inside = false;
+            for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+                const xi = polygon[i].x, yi = polygon[i].y;
+                const xj = polygon[j].x, yj = polygon[j].y;
+                
+                if (((yi > point.y) !== (yj > point.y)) &&
+                    (point.x < (xj - xi) * (point.y - yi) / (yj - yi) + xi)) {
+                    inside = !inside;
+                }
+            }
+            return inside;
+        }
+        
+        function updatePolygonDisplay() {
+            const polygon = document.getElementById('selectionPolygon');
+            const pointsGroup = document.getElementById('selectionPoints');
+            
+            if (!polygon || !pointsGroup) return;
+            
+            if (polygonPoints.length === 0) {
+                polygon.setAttribute('points', '');
+                pointsGroup.innerHTML = '';
+                return;
+            }
+            
+            // Aktualizovat polygon
+            const pointsStr = polygonPoints.map(p => `${p.x},${p.y}`).join(' ');
+            polygon.setAttribute('points', pointsStr);
+            
+            // Aktualizovat body
+            let pointsHtml = '';
+            polygonPoints.forEach((p, i) => {
+                pointsHtml += `<circle class="selection-point" cx="${p.x}" cy="${p.y}" r="5" data-index="${i}"/>`;
+            });
+            pointsGroup.innerHTML = pointsHtml;
+        }
+        
+        function showPolygonSelectionPanel() {
+            // Zavřít banner
+            const banner = document.getElementById('polygonBanner');
+            if (banner) banner.style.display = 'none';
+            
+            // Zobrazit panel s výběrem
+            let panel = document.getElementById('polygonSelectionPanel');
+            
+            if (!panel) {
+                panel = document.createElement('div');
+                panel.id = 'polygonSelectionPanel';
+                panel.className = 'katastr-selection-panel';
+                document.getElementById('mapViewport').appendChild(panel);
+            }
+            
+            let listHtml = '';
+            selectedByPolygon.forEach(p => {
+                const icon = p.typ === 'zastavena' || p.cislo.startsWith('st') ? 'crop_square' : 'grass';
+                const status = p.isZamer ? '🔵' : (p.isSoused ? '🟢' : '');
+                listHtml += `
+                    <div class="katastr-selection-item">
+                        <span class="material-icons-outlined" style="font-size: 14px;">${icon}</span>
+                        <span style="font-weight: 500;">${p.cislo}</span>
+                        <span style="color: #5f6368; margin-left: auto;">${p.plocha}</span>
+                        <span>${status}</span>
+                    </div>
+                `;
+            });
+            
+            panel.innerHTML = `
+                <div class="katastr-selection-header">
+                    <span class="katastr-selection-title">Vybrané parcely</span>
+                    <span class="katastr-selection-count">${selectedByPolygon.length} parcel</span>
+                    <button class="katastr-info-close" onclick="cancelPolygonSelect()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="katastr-selection-list">
+                    ${listHtml}
+                </div>
+                <div class="katastr-selection-actions">
+                    <button class="katastr-info-btn" onclick="addPolygonSelectionAsSoused()">
+                        <span class="material-icons-outlined">add</span>
+                        Jako sousední
+                    </button>
+                    <button class="katastr-info-btn primary" onclick="addPolygonSelectionAsZamer()">
+                        <span class="material-icons-outlined">add_location</span>
+                        Do záměru
+                    </button>
+                </div>
+            `;
+            
+            panel.classList.add('visible');
+        }
+        
+        function addPolygonSelectionAsZamer() {
+            selectedByPolygon.forEach(p => {
+                if (!p.isZamer) {
+                    const isStavebni = p.cislo.toLowerCase().startsWith('st');
+                    pozemkyState.pozemkyZameru.push({
+                        cislo: p.cislo,
+                        katastr: p.ku,
+                        kod: '747076',
+                        plocha: p.plocha,
+                        typ: isStavebni ? 'zastavena' : 'pozemkova'
+                    });
+                    p.isZamer = true;
+                }
+            });
+            
+            renderPozemkyZameru();
+            renderMapParcely();
+            updatePozemkyState();
+            cancelPolygonSelect();
+        }
+        
+        function addPolygonSelectionAsSoused() {
+            selectedByPolygon.forEach(p => {
+                if (!p.isSoused) {
+                    pozemkyState.sousedniParcely.push({
+                        cislo: p.cislo,
+                        katastr: p.ku,
+                        kod: '747076',
+                        plocha: p.plocha
+                    });
+                    p.isSoused = true;
+                }
+            });
+            
+            renderSousedniParcely();
+            renderMapParcely();
+            updatePozemkyState();
+            cancelPolygonSelect();
+        }
+
+        function toggleMapLayers() {
+            // Placeholder pro budoucí funkcionalitu vrstev
+            alert('Výběr vrstev: Parcely, Budovy, Ortofoto, BPEJ...\n\n(Funkce v přípravě)');
         }
 
         function selectNeighborMethod(method) {
