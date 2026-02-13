@@ -4886,6 +4886,80 @@
            KONTROLA SOULADU S ÚPD - ULTRA KOMPAKTNÍ
            ========================================== */
         
+        /* Layout switch */
+        .upd-layout-switch {
+            display: flex;
+            gap: 2px;
+            background: #f1f3f4;
+            padding: 2px;
+            border-radius: 4px;
+        }
+        
+        .upd-layout-btn {
+            width: 32px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+        }
+        
+        .upd-layout-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .upd-layout-btn.active {
+            background: #fff;
+            color: #1a73e8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .upd-layout-btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        /* Control body layouts */
+        #controlUP .control-body {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        /* Vertical layout (default) - panels stacked, control on right */
+        .upd-viewers-stack {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: #ccc;
+            min-width: 0;
+        }
+        
+        /* Horizontal layout - panels side by side, control still on right */
+        #controlUP.layout-horizontal .upd-viewers-stack {
+            flex-direction: row;
+        }
+        
+        #controlUP.layout-horizontal .upd-control-panel {
+            width: auto;
+            min-width: 100px;
+            height: 100%;
+            flex-direction: column;
+            border-left: 1px solid #e0e0e0;
+            border-top: none;
+            padding: 8px;
+            gap: 8px;
+            overflow-y: auto;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item {
+            min-width: 90px;
+            flex-shrink: 0;
+        }
+        
         .upd-viewers-stack {
             flex: 1;
             display: flex;
@@ -5595,12 +5669,21 @@
             background: #fff;
             border-bottom: 1px solid #e0e0e0;
             flex-shrink: 0;
+            position: relative;
         }
 
         .control-header-left {
             display: flex;
             align-items: center;
             gap: 16px;
+        }
+        
+        .control-header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
         }
 
         .control-close {
@@ -14547,6 +14630,16 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                     Soulad s ÚPD
                 </div>
             </div>
+            <div class="control-header-center">
+                <div class="upd-layout-switch">
+                    <button class="upd-layout-btn active" onclick="setUPDLayout('vertical', this)" title="Panely nad sebou">
+                        <span class="material-icons-outlined">view_agenda</span>
+                    </button>
+                    <button class="upd-layout-btn" onclick="setUPDLayout('horizontal', this)" title="Panely vedle sebe">
+                        <span class="material-icons-outlined">view_column</span>
+                    </button>
+                </div>
+            </div>
             <div class="control-header-right" style="margin-left: auto; margin-right: 16px;">
                 <button class="btn btn-primary btn-sm" id="btnConfirmUPD" onclick="completeUPD()" disabled>
                     <span class="material-icons-outlined">check</span> Potvrdit
@@ -20182,6 +20275,30 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             up: { checked: false, soulad: null, text: '', exists: null }
         };
         
+        // Layout přepínání
+        function setUPDLayout(layout, btn) {
+            const overlay = document.getElementById('controlUP');
+            
+            // Aktualizovat tlačítka
+            btn.parentElement.querySelectorAll('.upd-layout-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Přepnout layout
+            if (layout === 'horizontal') {
+                overlay.classList.add('layout-horizontal');
+            } else {
+                overlay.classList.remove('layout-horizontal');
+            }
+            
+            // Reinicializovat viewery po změně layoutu
+            setTimeout(() => {
+                const situaceImg = document.getElementById('situaceImage');
+                const updImg = document.getElementById('updImage');
+                if (situaceImg && situaceImg.complete) initViewer('situace');
+                if (updImg && updImg.complete) initViewer('upd');
+            }, 100);
+        }
+        
         // Viewer stav pro zoom/pan
         const viewerState = {
             situace: { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 },
@@ -20199,8 +20316,8 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         
         const situaceImages = {
             c1: '../images/C-01.png',
-            c2: '../images/C-02.png', // Můžete přidat C-02.png
-            c3: '../images/C-03.png'  // Můžete přidat C-03.png
+            c2: '../images/C-02.png',
+            c3: '../images/C-03.png'
         };
         
         function initViewer(viewerId) {
