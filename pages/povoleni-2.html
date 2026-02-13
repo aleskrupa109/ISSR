@@ -4947,24 +4947,6 @@
             flex-direction: row;
         }
         
-        #controlUP.layout-horizontal .upd-control-panel {
-            width: 100%;
-            height: auto;
-            flex-direction: row;
-            justify-content: flex-end;
-            border-left: none;
-            border-top: 1px solid #e0e0e0;
-            padding: 8px 12px;
-            gap: 12px;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item {
-            min-width: 100px;
-            flex-shrink: 0;
-        }
-        
         .upd-viewers-stack {
             flex: 1;
             display: flex;
@@ -5133,9 +5115,9 @@
         
         .upd-link:hover { background: #e8f0fe; }
         
-        /* Pravý panel - ultra úzký */
+        /* Pravý panel - vertikální layout */
         .upd-control-panel {
-            width: 100px;
+            width: 150px;
             flex-shrink: 0;
             background: #f8f9fa;
             border-left: 1px solid #e0e0e0;
@@ -5149,7 +5131,7 @@
         .upd-check-item {
             background: #fff;
             border-radius: 4px;
-            padding: 6px;
+            padding: 8px;
             border: 1px solid #e0e0e0;
         }
         
@@ -5160,17 +5142,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         
         .upd-check-label {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #202124;
         }
         
         .upd-check-status {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
         }
         
@@ -5178,24 +5160,24 @@
         .upd-check-status.error { color: #c5221f; }
         
         .upd-check-mini-label {
-            font-size: 9px;
+            font-size: 10px;
             color: #5f6368;
-            margin: 4px 0 2px;
+            margin: 6px 0 4px;
         }
         
         .upd-check-buttons {
             display: flex;
-            gap: 4px;
+            gap: 6px;
         }
         
         .upd-btn-yes, .upd-btn-no {
             flex: 1;
-            padding: 4px;
+            padding: 6px;
             border: 1px solid #dadce0;
             background: #fff;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 600;
         }
         
@@ -5206,27 +5188,126 @@
         
         .upd-note-input {
             width: 100%;
-            margin-top: 4px;
-            padding: 4px;
+            margin-top: 8px;
+            padding: 8px;
             border: 1px solid #f5c6c5;
-            border-radius: 3px;
-            font-size: 10px;
+            border-radius: 4px;
+            font-size: 11px;
             font-family: inherit;
             resize: vertical;
-            min-height: 40px;
+            min-height: 60px;
             background: #fff;
         }
         
         .upd-note-input:focus { outline: none; border-color: #ea4335; }
         
         .upd-no-up-info {
-            margin-top: 4px;
-            padding: 3px 6px;
+            margin-top: 6px;
+            padding: 4px 8px;
             background: #fff8e1;
             border-radius: 3px;
-            font-size: 9px;
+            font-size: 10px;
             color: #e65100;
             text-align: center;
+        }
+        
+        /* Horizontální layout - kontroly dole */
+        #controlUP.layout-horizontal .upd-control-panel {
+            width: 100%;
+            min-height: 80px;
+            max-height: 120px;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-end;
+            border-left: none;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 16px;
+            gap: 16px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-shrink: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item {
+            min-width: 140px;
+            max-width: 180px;
+            flex-shrink: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+            gap: 12px;
+            min-width: auto;
+            max-width: none;
+            padding: 8px 12px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-check-row {
+            width: auto;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-check-mini-label {
+            margin: 0;
+            white-space: nowrap;
+            align-self: center;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-check-buttons {
+            min-width: 70px;
+            flex-shrink: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection {
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection[style*="block"] {
+            display: flex !important;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection > .upd-check-mini-label {
+            margin: 0;
+            white-space: nowrap;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection > .upd-check-buttons {
+            min-width: 70px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection > .upd-note-input {
+            width: 150px;
+            min-width: 100px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-no-up-info {
+            margin-top: 0;
+            align-self: center;
+            white-space: nowrap;
+        }
+        
+        #controlUP.layout-horizontal .upd-note-input {
+            min-height: 32px;
+            max-height: 40px;
+            margin-top: 4px;
+            padding: 4px 6px;
+            font-size: 10px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-mini-label {
+            margin: 0 0 2px 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-row {
+            margin-bottom: 4px;
         }
         
         .btn-sm {
@@ -14722,7 +14803,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <button class="upd-btn-no" onclick="setUPDSoulad('urp', false, this)" title="Rozpor">✗</button>
                     </div>
                     <textarea class="upd-note-input" id="noteUrp" style="display:none;" 
-                        placeholder="Důvod..." oninput="updateUPDState()"></textarea>
+                        placeholder="Popište rozpor s Územním rozvojovým plánem..." oninput="updateUPDState()"></textarea>
                 </div>
                 
                 <div class="upd-check-item" id="checkZur">
@@ -14735,7 +14816,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <button class="upd-btn-no" onclick="setUPDSoulad('zur', false, this)" title="Rozpor">✗</button>
                     </div>
                     <textarea class="upd-note-input" id="noteZur" style="display:none;" 
-                        placeholder="Důvod..." oninput="updateUPDState()"></textarea>
+                        placeholder="Popište rozpor se Zásadami územního rozvoje..." oninput="updateUPDState()"></textarea>
                 </div>
                 
                 <div class="upd-check-item" id="checkUp">
@@ -14755,9 +14836,9 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <button class="upd-btn-no" onclick="setUPDSoulad('up', false, this)">✗</button>
                         </div>
                         <textarea class="upd-note-input" id="noteUp" style="display:none;" 
-                            placeholder="Důvod..." oninput="updateUPDState()"></textarea>
+                            placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
                     </div>
-                    <div class="upd-no-up-info" id="noUpInfo" style="display:none;">§ 193</div>
+                    <div class="upd-no-up-info" id="noUpInfo" style="display:none;">Posouzení dle § 193</div>
                 </div>
             </div>
         </div>
