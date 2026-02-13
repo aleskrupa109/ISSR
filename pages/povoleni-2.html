@@ -4928,6 +4928,10 @@
             flex-direction: row;
         }
         
+        #controlUP.layout-horizontal .control-body {
+            flex-direction: column;
+        }
+        
         /* Vertical layout (default) - panels stacked, control on right */
         .upd-viewers-stack {
             flex: 1;
@@ -4938,25 +4942,26 @@
             min-width: 0;
         }
         
-        /* Horizontal layout - panels side by side, control still on right */
+        /* Horizontal layout - panels side by side, control on bottom right */
         #controlUP.layout-horizontal .upd-viewers-stack {
             flex-direction: row;
         }
         
         #controlUP.layout-horizontal .upd-control-panel {
-            width: auto;
-            min-width: 100px;
-            height: 100%;
-            flex-direction: column;
-            border-left: 1px solid #e0e0e0;
-            border-top: none;
-            padding: 8px;
-            gap: 8px;
-            overflow-y: auto;
+            width: 100%;
+            height: auto;
+            flex-direction: row;
+            justify-content: flex-end;
+            border-left: none;
+            border-top: 1px solid #e0e0e0;
+            padding: 8px 12px;
+            gap: 12px;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
         
         #controlUP.layout-horizontal .upd-check-item {
-            min-width: 90px;
+            min-width: 100px;
             flex-shrink: 0;
         }
         
@@ -5052,6 +5057,12 @@
             max-width: none;
             user-select: none;
             -webkit-user-drag: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .upd-image-container img.loaded {
+            opacity: 1;
         }
         
         /* Zoom controls */
@@ -16051,6 +16062,14 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             if (controlId === 'controlPrislusnost') {
                 initControlViewer('controlPrislusnost');
             }
+            
+            // Pro kontrolu ÚPD - inicializovat image viewery
+            if (controlId === 'controlUP') {
+                setTimeout(() => {
+                    initViewer('situace');
+                    initViewer('upd');
+                }, 100);
+            }
         }
 
         function closeControl(controlId) {
@@ -20325,18 +20344,33 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             const img = document.getElementById(viewerId + 'Image');
             if (!container || !img) return;
             
+            // Počkat až je obrázek načtený
+            if (!img.complete || !img.naturalWidth) {
+                img.onload = () => initViewer(viewerId);
+                return;
+            }
+            
             const state = viewerState[viewerId];
             
-            // Fit to container
+            // Počkat na správné rozměry containeru
             const containerRect = container.getBoundingClientRect();
+            if (containerRect.width === 0 || containerRect.height === 0) {
+                setTimeout(() => initViewer(viewerId), 50);
+                return;
+            }
+            
             const imgRatio = img.naturalWidth / img.naturalHeight;
             const containerRatio = containerRect.width / containerRect.height;
             
+            // Fit to container - obrázek celý viditelný
             if (imgRatio > containerRatio) {
                 state.scale = containerRect.width / img.naturalWidth;
             } else {
                 state.scale = containerRect.height / img.naturalHeight;
             }
+            
+            // Omezit maximální scale na 1 (nezoomovat nad 100%)
+            state.scale = Math.min(state.scale, 1);
             
             // Center image
             state.x = (containerRect.width - img.naturalWidth * state.scale) / 2;
@@ -20344,12 +20378,18 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             
             updateViewerTransform(viewerId);
             
-            // Mouse events
-            container.onmousedown = (e) => startDrag(e, viewerId);
-            container.onmousemove = (e) => drag(e, viewerId);
-            container.onmouseup = () => endDrag(viewerId);
-            container.onmouseleave = () => endDrag(viewerId);
-            container.onwheel = (e) => handleWheel(e, viewerId);
+            // Zobrazit obrázek po inicializaci
+            img.classList.add('loaded');
+            
+            // Mouse events - přidat pouze jednou
+            if (!container.dataset.eventsAttached) {
+                container.onmousedown = (e) => startDrag(e, viewerId);
+                container.onmousemove = (e) => drag(e, viewerId);
+                container.onmouseup = () => endDrag(viewerId);
+                container.onmouseleave = () => endDrag(viewerId);
+                container.onwheel = (e) => handleWheel(e, viewerId);
+                container.dataset.eventsAttached = 'true';
+            }
         }
         
         function updateViewerTransform(viewerId) {
@@ -20447,6 +20487,8 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             
             const img = document.getElementById('situaceImage');
             if (img && situaceImages[tab]) {
+                img.classList.remove('loaded');
+                img.onload = () => initViewer('situace');
                 img.src = situaceImages[tab];
             }
         }
@@ -20474,8 +20516,8 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-zoom-controls').style.display = 'none';
             } else {
                 // ÚRP/ZÚR jako obrázek
-                const img = document.getElementById('updImage');
-                if (!img) {
+                const existingImg = document.getElementById('updImage');
+                if (!existingImg) {
                     viewer.innerHTML = `
                         <div class="upd-image-container" id="updContainer">
                             <img src="${updImages[type]}" alt="${type.toUpperCase()}" id="updImage" 
@@ -20483,7 +20525,9 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         </div>
                     `;
                 } else {
-                    img.src = updImages[type];
+                    existingImg.classList.remove('loaded');
+                    existingImg.onload = () => initViewer('upd');
+                    existingImg.src = updImages[type];
                 }
                 // Zobrazit zoom controls
                 document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-zoom-controls').style.display = 'flex';
