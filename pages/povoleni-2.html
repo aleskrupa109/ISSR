@@ -5214,100 +5214,190 @@
         /* Horizontální layout - kontroly dole */
         #controlUP.layout-horizontal .upd-control-panel {
             width: 100%;
-            min-height: 80px;
-            max-height: 120px;
+            height: 56px;
             flex-direction: row;
-            align-items: flex-start;
+            align-items: center;
             justify-content: flex-end;
             border-left: none;
             border-top: 1px solid #e0e0e0;
-            padding: 10px 16px;
-            gap: 16px;
+            padding: 8px 16px;
+            gap: 20px;
             overflow-x: auto;
             overflow-y: hidden;
             flex-shrink: 0;
         }
         
         #controlUP.layout-horizontal .upd-check-item {
-            min-width: 140px;
-            max-width: 180px;
-            flex-shrink: 0;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item#checkUp {
             display: flex;
             flex-direction: row;
-            flex-wrap: nowrap;
-            align-items: flex-start;
-            gap: 12px;
+            align-items: center;
+            gap: 10px;
             min-width: auto;
             max-width: none;
-            padding: 8px 12px;
+            padding: 6px 12px;
         }
         
-        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-check-row {
-            width: auto;
+        #controlUP.layout-horizontal .upd-check-row {
             margin-bottom: 0;
-            flex-shrink: 0;
         }
         
-        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-check-mini-label {
+        #controlUP.layout-horizontal .upd-check-buttons {
+            gap: 4px;
+        }
+        
+        #controlUP.layout-horizontal .upd-btn-yes,
+        #controlUP.layout-horizontal .upd-btn-no {
+            padding: 4px 8px;
+            min-width: 32px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-mini-label {
             margin: 0;
             white-space: nowrap;
-            align-self: center;
         }
         
-        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-check-buttons {
-            min-width: 70px;
-            flex-shrink: 0;
-        }
-        
+        /* ÚP kontrola v horizontálním layoutu */
         #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection {
             display: none;
             flex-direction: row;
             align-items: center;
             gap: 8px;
-            flex-shrink: 0;
         }
         
         #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection[style*="block"] {
             display: flex !important;
         }
         
-        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection > .upd-check-mini-label {
-            margin: 0;
-            white-space: nowrap;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection > .upd-check-buttons {
-            min-width: 70px;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection > .upd-note-input {
-            width: 150px;
-            min-width: 100px;
-        }
-        
         #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-no-up-info {
             margin-top: 0;
-            align-self: center;
             white-space: nowrap;
         }
         
+        /* Skrýt textarea v horizontálním layoutu - používáme modal */
         #controlUP.layout-horizontal .upd-note-input {
-            min-height: 32px;
-            max-height: 40px;
-            margin-top: 4px;
-            padding: 4px 6px;
-            font-size: 10px;
+            display: none !important;
         }
         
-        #controlUP.layout-horizontal .upd-check-mini-label {
-            margin: 0 0 2px 0;
+        /* Indikátor nesouladu - malá ikonka */
+        .upd-nesoulad-indicator {
+            display: none;
+            width: 22px;
+            height: 22px;
+            background: #ea4335;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 4px;
+            flex-shrink: 0;
         }
         
-        #controlUP.layout-horizontal .upd-check-row {
-            margin-bottom: 4px;
+        .upd-nesoulad-indicator:hover {
+            background: #c5221f;
+        }
+        
+        .upd-nesoulad-indicator.visible {
+            display: flex;
+        }
+        
+        /* Modální dialog pro nesoulad */
+        .upd-nesoulad-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .upd-nesoulad-modal.open {
+            display: flex;
+        }
+        
+        .upd-nesoulad-modal-content {
+            background: #fff;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .upd-nesoulad-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .upd-nesoulad-modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #c5221f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .upd-nesoulad-modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+        }
+        
+        .upd-nesoulad-modal-close:hover {
+            background: #f1f3f4;
+        }
+        
+        .upd-nesoulad-modal-body {
+            padding: 20px;
+        }
+        
+        .upd-nesoulad-modal-body label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+        
+        .upd-nesoulad-modal-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .upd-nesoulad-modal-textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+        }
+        
+        .upd-nesoulad-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
         }
         
         .btn-sm {
@@ -14733,9 +14823,35 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                 </div>
             </div>
             <div class="control-header-right" style="margin-left: auto; margin-right: 16px;">
-                <button class="btn btn-primary btn-sm" id="btnConfirmUPD" onclick="completeUPD()" disabled>
-                    <span class="material-icons-outlined">check</span> Potvrdit
+                <button class="btn btn-primary" id="btnConfirmUPD" onclick="completeUPD()" disabled>
+                    <span class="material-icons-outlined">check</span> Potvrdit kontrolu
                 </button>
+            </div>
+        </div>
+        
+        <!-- Modální dialog pro nesoulad -->
+        <div class="upd-nesoulad-modal" id="nesouladModal">
+            <div class="upd-nesoulad-modal-content">
+                <div class="upd-nesoulad-modal-header">
+                    <div class="upd-nesoulad-modal-title">
+                        <span class="material-icons-outlined">warning</span>
+                        <span id="nesouladModalTitle">Popis nesouladu</span>
+                    </div>
+                    <button class="upd-nesoulad-modal-close" onclick="closeNesouladModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="upd-nesoulad-modal-body">
+                    <label id="nesouladModalLabel">Popište nesoulad s územně plánovací dokumentací:</label>
+                    <textarea class="upd-nesoulad-modal-textarea" id="nesouladModalTextarea" 
+                        placeholder="Uveďte konkrétní ustanovení, se kterými je záměr v rozporu..."></textarea>
+                </div>
+                <div class="upd-nesoulad-modal-footer">
+                    <button class="btn btn-secondary" onclick="closeNesouladModal()">Zrušit</button>
+                    <button class="btn btn-primary" onclick="saveNesouladModal()">
+                        <span class="material-icons-outlined">save</span> Uložit
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -14801,6 +14917,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                     <div class="upd-check-buttons">
                         <button class="upd-btn-yes" onclick="setUPDSoulad('urp', true, this)" title="V souladu">✓</button>
                         <button class="upd-btn-no" onclick="setUPDSoulad('urp', false, this)" title="Rozpor">✗</button>
+                        <span class="upd-nesoulad-indicator" id="indicatorUrp" onclick="openNesouladModal('urp')" title="Upravit popis nesouladu">✎</span>
                     </div>
                     <textarea class="upd-note-input" id="noteUrp" style="display:none;" 
                         placeholder="Popište rozpor s Územním rozvojovým plánem..." oninput="updateUPDState()"></textarea>
@@ -14814,6 +14931,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                     <div class="upd-check-buttons">
                         <button class="upd-btn-yes" onclick="setUPDSoulad('zur', true, this)" title="V souladu">✓</button>
                         <button class="upd-btn-no" onclick="setUPDSoulad('zur', false, this)" title="Rozpor">✗</button>
+                        <span class="upd-nesoulad-indicator" id="indicatorZur" onclick="openNesouladModal('zur')" title="Upravit popis nesouladu">✎</span>
                     </div>
                     <textarea class="upd-note-input" id="noteZur" style="display:none;" 
                         placeholder="Popište rozpor se Zásadami územního rozvoje..." oninput="updateUPDState()"></textarea>
@@ -14834,6 +14952,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <div class="upd-check-buttons">
                             <button class="upd-btn-yes" onclick="setUPDSoulad('up', true, this)">✓</button>
                             <button class="upd-btn-no" onclick="setUPDSoulad('up', false, this)">✗</button>
+                            <span class="upd-nesoulad-indicator" id="indicatorUp" onclick="openNesouladModal('up')" title="Upravit popis nesouladu">✎</span>
                         </div>
                         <textarea class="upd-note-input" id="noteUp" style="display:none;" 
                             placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
@@ -20399,6 +20518,55 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             }, 100);
         }
         
+        // Modální dialog pro nesoulad
+        let currentNesouladStep = null;
+        
+        const nesouladLabels = {
+            urp: { title: 'Nesoulad s ÚRP', label: 'Popište rozpor s Územním rozvojovým plánem ČR:' },
+            zur: { title: 'Nesoulad se ZÚR', label: 'Popište rozpor se Zásadami územního rozvoje:' },
+            up: { title: 'Nesoulad s ÚP', label: 'Popište rozpor s Územním plánem obce:' }
+        };
+        
+        function openNesouladModal(step) {
+            currentNesouladStep = step;
+            const labels = nesouladLabels[step];
+            
+            document.getElementById('nesouladModalTitle').textContent = labels.title;
+            document.getElementById('nesouladModalLabel').textContent = labels.label;
+            
+            // Načíst existující text
+            const existingText = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1))?.value || '';
+            document.getElementById('nesouladModalTextarea').value = existingText;
+            
+            document.getElementById('nesouladModal').classList.add('open');
+            document.getElementById('nesouladModalTextarea').focus();
+        }
+        
+        function closeNesouladModal() {
+            document.getElementById('nesouladModal').classList.remove('open');
+            currentNesouladStep = null;
+        }
+        
+        function saveNesouladModal() {
+            if (!currentNesouladStep) return;
+            
+            const text = document.getElementById('nesouladModalTextarea').value;
+            const noteInput = document.getElementById('note' + currentNesouladStep.charAt(0).toUpperCase() + currentNesouladStep.slice(1));
+            if (noteInput) {
+                noteInput.value = text;
+            }
+            
+            // Aktualizovat indikátor
+            const indicator = document.getElementById('indicator' + currentNesouladStep.charAt(0).toUpperCase() + currentNesouladStep.slice(1));
+            if (indicator) {
+                indicator.classList.toggle('visible', text.trim().length > 0);
+                indicator.title = text.trim().length > 0 ? 'Upravit popis nesouladu' : '';
+            }
+            
+            updateUPDState();
+            closeNesouladModal();
+        }
+        
         // Viewer stav pro zoom/pan
         const viewerState = {
             situace: { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 },
@@ -20624,11 +20792,16 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             
-            // Zobrazit/skrýt textarea pro nesoulad
+            // Zobrazit/skrýt textarea pro nesoulad (vertikální layout)
             const noteInput = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1));
             if (noteInput) {
                 noteInput.style.display = soulad ? 'none' : 'block';
-                if (!soulad) noteInput.focus();
+            }
+            
+            // Aktualizovat/skrýt indikátor nesouladu
+            const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
+            if (indicator && soulad) {
+                indicator.classList.remove('visible');
             }
             
             // Aktualizovat stav položky
@@ -20641,6 +20814,16 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             statusEl.textContent = soulad ? '✓' : '✗';
             statusEl.classList.remove('ok', 'error');
             statusEl.classList.add(soulad ? 'ok' : 'error');
+            
+            // Při nesouladu v horizontálním layoutu otevřít modal
+            if (!soulad) {
+                const isHorizontal = document.getElementById('controlUP').classList.contains('layout-horizontal');
+                if (isHorizontal) {
+                    openNesouladModal(step);
+                } else if (noteInput) {
+                    noteInput.focus();
+                }
+            }
             
             updateUPDState();
         }
@@ -20686,24 +20869,29 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                                (updState.zur.checked && !updState.zur.soulad) || 
                                (updState.up.checked && !updState.up.soulad);
             
-            // Kontrola vyplnění zdůvodnění nesouladů
+            // Kontrola vyplnění zdůvodnění nesouladů + aktualizace indikátorů
             let nesouladTextsOk = true;
-            if (!updState.urp.soulad && updState.urp.checked) {
-                if (!document.getElementById('noteUrp')?.value?.trim()) nesouladTextsOk = false;
-            }
-            if (!updState.zur.soulad && updState.zur.checked) {
-                if (!document.getElementById('noteZur')?.value?.trim()) nesouladTextsOk = false;
-            }
-            if (!updState.up.soulad && updState.up.checked && updState.up.exists !== false) {
-                if (!document.getElementById('noteUp')?.value?.trim()) nesouladTextsOk = false;
-            }
+            ['urp', 'zur', 'up'].forEach(step => {
+                const noteValue = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1))?.value?.trim() || '';
+                const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
+                
+                if (!updState[step].soulad && updState[step].checked && (step !== 'up' || updState.up.exists !== false)) {
+                    if (!noteValue) nesouladTextsOk = false;
+                    // Zobrazit indikátor pokud je text vyplněn
+                    if (indicator) {
+                        indicator.classList.toggle('visible', noteValue.length > 0);
+                    }
+                } else {
+                    if (indicator) indicator.classList.remove('visible');
+                }
+            });
             
             btn.disabled = !allChecked || (hasNesoulad && !nesouladTextsOk);
             
             if (hasNesoulad && allChecked) {
                 btn.innerHTML = '<span class="material-icons-outlined">gavel</span> Zamítnout';
             } else {
-                btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit';
+                btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
             }
         }
         
