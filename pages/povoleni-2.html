@@ -3173,6 +3173,100 @@
             font-size: 18px;
         }
         
+        /* Strukturovaný formulář pro nedostatky */
+        .part-issues-add-structured {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 6px;
+            border-top: 1px dashed #e0e0e0;
+            margin-top: 4px;
+        }
+        
+        .issue-form-row {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .issue-ref-input {
+            padding: 7px 10px;
+            border: 1px solid #dadce0;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: 'Roboto Mono', monospace;
+            color: #202124;
+            background: #f8f9fa;
+        }
+        
+        .issue-ref-input:focus {
+            outline: none;
+            border-color: #c5221f;
+            background: #fff;
+        }
+        
+        .issue-text-input, .issue-examples-input {
+            flex: 1;
+            padding: 7px 10px;
+            border: 1px solid #dadce0;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: inherit;
+            color: #202124;
+        }
+        
+        .issue-text-input:focus, .issue-examples-input:focus {
+            outline: none;
+            border-color: #c5221f;
+            box-shadow: 0 0 0 1px rgba(197, 34, 31, 0.1);
+        }
+        
+        .issue-text-input::placeholder, .issue-examples-input::placeholder, .issue-ref-input::placeholder {
+            color: #9aa0a6;
+            font-family: inherit;
+        }
+        
+        .issue-examples-input {
+            font-size: 11px;
+            color: #5f6368;
+            border-style: dashed;
+        }
+        
+        .issue-form-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        /* Rendered issue s referencí a příklady */
+        .part-issue-item .issue-reference {
+            display: inline-block;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            color: #5f6368;
+            background: #f1f3f4;
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-right: 4px;
+        }
+        
+        .part-issue-item .issue-examples {
+            display: block;
+            font-size: 11px;
+            color: #80868b;
+            margin-top: 2px;
+            font-style: italic;
+        }
+        
+        /* Průřezové nedostatky — fialový motiv */
+        #partIssuesCross {
+            background: #f3e5f5;
+            border-color: #ce93d8;
+        }
+        
+        #partIssuesCross .part-issues-header {
+            color: #6a1b9a;
+        }
+        
         .issues-empty {
             text-align: center;
             padding: 30px 20px;
@@ -5423,135 +5517,6 @@
             font-size: 11px !important;
         }
         
-        /* ═══ Modal: Generování výzvy ═══ */
-        .gen-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.55);
-            z-index: 12000;
-            align-items: center;
-            justify-content: center;
-        }
-        .gen-modal-overlay.open { display: flex; }
-        .gen-modal {
-            background: #fff;
-            border-radius: 12px;
-            width: 640px;
-            max-width: 92%;
-            max-height: 85vh;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-            display: flex;
-            flex-direction: column;
-        }
-        .gen-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 24px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .gen-modal-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: #0d47a1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .gen-modal-close {
-            width: 32px; height: 32px;
-            border: none; background: transparent;
-            border-radius: 6px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            color: #5f6368;
-        }
-        .gen-modal-close:hover { background: #f1f3f4; }
-        .gen-modal-body {
-            padding: 20px 24px;
-            overflow-y: auto;
-        }
-        .gen-modal-info {
-            font-size: 13px;
-            color: #5f6368;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        .gen-modal-info strong { color: #202124; }
-        .gen-variant-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .gen-variant-card {
-            border: 2px solid #dadce0;
-            border-radius: 10px;
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.15s;
-            position: relative;
-        }
-        .gen-variant-card:hover {
-            border-color: #1a73e8;
-            background: #f8f9ff;
-        }
-        .gen-variant-card .variant-icon {
-            width: 40px; height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-        .gen-variant-card .variant-icon .material-icons-outlined {
-            font-size: 22px;
-            color: #fff;
-        }
-        .gen-variant-card .variant-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #202124;
-            margin-bottom: 4px;
-        }
-        .gen-variant-card .variant-desc {
-            font-size: 12px;
-            color: #5f6368;
-            line-height: 1.4;
-        }
-        .gen-legend {
-            margin-top: 18px;
-            padding: 12px 14px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            font-size: 12px;
-            color: #5f6368;
-        }
-        .gen-legend-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: #202124;
-            margin-bottom: 6px;
-        }
-        .gen-legend-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            margin-right: 14px;
-            margin-bottom: 2px;
-        }
-        .gen-legend-dot {
-            width: 10px; height: 10px;
-            border-radius: 2px;
-            display: inline-block;
-        }
-        .gen-modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 14px 24px;
-            border-top: 1px solid #e0e0e0;
-        }
-        
         .btn-sm .material-icons-outlined {
             font-size: 14px !important;
         }
@@ -6051,6 +6016,7 @@
             flex: 1;
             display: flex;
             overflow: hidden;
+            min-height: 0;
         }
 
         /* Left panel - document viewer */
@@ -6240,12 +6206,15 @@
             display: flex;
             flex-direction: column;
             background: #fff;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .control-form-body {
             flex: 1;
             padding: 24px;
             overflow-y: auto;
+            min-height: 0;
         }
 
         .control-form-footer {
@@ -8512,7 +8481,9 @@
             display: flex;
             gap: 0;
             padding: 0 !important;
-            height: 100%;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
         }
         
         /* Levý sloupec - Pozemky */
@@ -12001,23 +11972,23 @@
                         <span class="material-icons-outlined">arrow_back</span>
                     </a>
                     <div class="case-info">
-                        <div class="case-number">R/2026/000147</div>
-                        <h1 class="case-title" id="caseTitleHeader">Novostavba RD včetně přípojek</h1>
+                        <div class="case-number">SZ DESU/000612/26</div>
+                        <h1 class="case-title" id="caseTitleHeader">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</h1>
                         <div class="case-meta">
                             <a href="../pages/detail-zameru.html" class="case-meta-item case-meta-link" title="Otevřít detail záměru">
                                 <span class="material-icons-outlined">inventory_2</span>
-                                Záměr Z/2026/1457
+                                Záměr Z/2026/1596
                             </a>
                             <span class="case-meta-item">
                                 <span class="material-icons-outlined">gavel</span>
                                 Povolení stavby
                             </span>
                             <span class="case-meta-item">
-                                <span class="material-icons-outlined">home</span>
-                                Jednoduchá stavba
+                                <span class="material-icons-outlined">train</span>
+                                Stavba dráhy
                             </span>
                             <span class="case-badge draft">Kontrola</span>
-                            <span class="case-badge fast" id="badgeZrychlene">
+                            <span class="case-badge fast" id="badgeZrychlene" style="display:none;">
                                 <span class="material-icons-outlined" style="font-size: 14px;">bolt</span>
                                 Zrychlené řízení
                             </span>
@@ -12129,7 +12100,7 @@
                     <div class="info-panel-title">Kontrola a příprava řízení</div>
                     <div class="info-panel-text">
                         V tomto kroku proveďte kontroly žádosti a definujte parametry řízení (účastníci, pozemky, dotčené orgány). 
-                        Řízení je zahájeno dnem doručení bezvadné žádosti (7. 1. 2026), od tohoto data běží lhůta pro vydání rozhodnutí.
+                        Řízení je zahájeno dnem doručení bezvadné žádosti (6. 1. 2026), od tohoto data běží lhůta pro vydání rozhodnutí.
                     </div>
                 </div>
             </div>
@@ -12143,7 +12114,7 @@
                             Název stavby
                             <span style="font-weight: 400; color: #80868b;">(lze upravit)</span>
                         </label>
-                        <input type="text" id="nazevStavby" value="Novostavba RD včetně přípojek" 
+                        <input type="text" id="nazevStavby" value="Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí" 
                             style="width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff;"
                             onchange="updateNazevStavby()">
                     </div>
@@ -12163,7 +12134,7 @@
                             Datum doručení žádosti
                         </label>
                         <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
-                            7. 1. 2026
+                            6. 1. 2026
                         </div>
                     </div>
                 </div>
@@ -12190,15 +12161,7 @@
                             Měl by obsahovat základní informace o stavbě srozumitelné i pro laiky.
                         </div>
                         <textarea id="popisStavbyTextarea" class="popis-textarea" rows="8" 
-                            placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem řízení je novostavba rodinného domu o jednom nadzemním podlaží s obytným podkrovím na pozemku parc. č. 1234/5 v k.ú. Horní Lhota. Objekt bude napojen na veřejný vodovod, kanalizaci a elektrickou síť.
-
-Stavba rodinného domu:
-Dvoupodlažní objekt (1.NP + podkroví) s půdorysem ve tvaru obdélníka o rozměrech 12,0 × 9,5 m. Zastřešení sedlovou střechou se sklonem 35°. Fasáda bude provedena v kombinaci bílé omítky a dřevěného obkladu. V přízemí se nachází garáž pro jeden osobní automobil, technická místnost, zádveří a obývací pokoj s kuchyňským koutem. V podkroví jsou umístěny tři ložnice a koupelna.
-
-Přípojky inženýrských sítí:
-Vodovodní přípojka DN 32 v délce 8,5 m napojena na veřejný vodovod v ulici Pod Lipami.
-Kanalizační přípojka DN 150 v délce 12,0 m napojena na veřejnou kanalizaci.
-Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textarea>
+                            placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem řízení je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010 Pardubice – Lichkov st. hr. Záměr zahrnuje výměnu reléového zabezpečovacího zařízení za elektronické stavědlo, úpravy kabelových tras, přejezdových zabezpečovacích zařízení a sdělovacího zařízení. Stavba je členěna na provozní soubory (PS) a stavební objekty (SO) v k.ú. Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl.</textarea>
                         
                         <div class="popis-editor-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 12px;">
                             <button class="popis-ai-btn" onclick="loadPopisFromAI()" id="popisAiBtn">
@@ -12823,7 +12786,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="zadost-data-grid">
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Podatel (kdo činí podání)</div>
-                                    <div class="zadost-data-value" id="podaniPodatel">Jan Novák</div>
+                                    <div class="zadost-data-value" id="podaniPodatel">Správa železnic, s.o.</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Vztah k žadateli</div>
@@ -12887,7 +12850,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Místo trvalého pobytu</div>
-                                    <div class="zadost-data-value">Květná 123, 110 00 Praha 1</div>
+                                    <div class="zadost-data-value">Dlážděná 1003/7, 110 00 Praha 1</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">E-mail</div>
@@ -12899,7 +12862,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Datová schránka</div>
-                                    <div class="zadost-data-value">abc123x</div>
+                                    <div class="zadost-data-value">uccchjm</div>
                                 </div>
                             </div>
                             <div class="zadost-section-controls">
@@ -12959,15 +12922,15 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="zadost-data-grid">
                                 <div class="zadost-data-item full-width">
                                     <div class="zadost-data-label">Název záměru</div>
-                                    <div class="zadost-data-value">Novostavba rodinného domu s garáží</div>
+                                    <div class="zadost-data-value">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Místo stavby</div>
-                                    <div class="zadost-data-value">Jaroměř, ulice Květná</div>
+                                    <div class="zadost-data-value">Doudleby n.O., Vamberk, Záměl</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Katastrální území</div>
-                                    <div class="zadost-data-value">Jaroměř [657336]</div>
+                                    <div class="zadost-data-value">Doudleby n.O. [631761] + 3 k.ú.</div>
                                 </div>
                             </div>
                             <div class="zadost-section-controls">
@@ -12998,11 +12961,11 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="zadost-data-grid">
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Druh stavby</div>
-                                    <div class="zadost-data-value">Budova pro bydlení — rodinný dům</div>
+                                    <div class="zadost-data-value">Stavba dráhy — dráha celostátní</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Účel užívání</div>
-                                    <div class="zadost-data-value">Bydlení</div>
+                                    <div class="zadost-data-value">Dopravní infrastruktura</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Charakter stavby</div>
@@ -13041,7 +13004,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="zadost-data-grid">
                                 <div class="zadost-data-item full-width">
                                     <div class="zadost-data-label">Popis záměru</div>
-                                    <div class="zadost-data-value text-block">Dvoupodlažní rodinný dům s obytným podkrovím a vestavěnou garáží pro 2 vozidla. Stavba bude napojena na veřejnou kanalizaci, vodovod, elektrickou energii a plynovod. Vytápění bude zajištěno tepelným čerpadlem vzduch-voda.</div>
+                                    <div class="zadost-data-value text-block">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010. Výměna reléového ZZ za elektronické stavědlo ESA 44, úpravy přejezdových ZZ, sdělovacích zařízení a kabelových tras. Členěno na PS a SO ve 4 k.ú.</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Počet nadzemních podlaží</div>
@@ -13097,25 +13060,28 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><strong>st. 123</strong></td>
-                                        <td>Jaroměř</td>
+                                        <td><strong>st. 321</strong></td>
+                                        <td>Doudleby n.O.</td>
                                         <td>Zastavěná plocha a nádvoří</td>
-                                        <td>185 m²</td>
-                                        <td>Jan Novák</td>
+                                        <td>—</td>
+                                        <td>Správa železnic, s.o.</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>456/1</strong></td>
-                                        <td>Jaroměř</td>
-                                        <td>Zahrada</td>
-                                        <td>850 m²</td>
-                                        <td>Jan Novák</td>
+                                        <td><strong>1549</strong></td>
+                                        <td>Doudleby n.O.</td>
+                                        <td>Ostatní plocha — dráha</td>
+                                        <td>—</td>
+                                        <td>ČR — Správa železnic, s.o.</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>456/2</strong></td>
-                                        <td>Jaroměř</td>
-                                        <td>Zahrada</td>
-                                        <td>320 m²</td>
-                                        <td>Jan Novák</td>
+                                        <td><strong>1804/1</strong></td>
+                                        <td>Vamberk</td>
+                                        <td>Ostatní plocha — dráha</td>
+                                        <td>—</td>
+                                        <td>ČR — Správa železnic, s.o.</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; color: #5f6368; font-style: italic;">… a dalších 35 pozemků</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -13243,7 +13209,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 </div>
                                 <div class="formular-cislo">
                                     <div class="formular-cislo-label">Číslo jednací</div>
-                                    <div class="formular-cislo-value">DESU-12345/2025</div>
+                                    <div class="formular-cislo-value">DESU/122/001574/26</div>
                                 </div>
                             </div>
                             
@@ -13255,7 +13221,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     <div class="formular-field-row">
                                         <div class="formular-field">
                                             <div class="formular-field-label">Jméno a příjmení / Název</div>
-                                            <div class="formular-field-value">Jan Novák</div>
+                                            <div class="formular-field-value">Správa železnic, s.o.</div>
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">Datum narození / IČO</div>
@@ -13265,7 +13231,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     <div class="formular-field-row">
                                         <div class="formular-field full">
                                             <div class="formular-field-label">Adresa místa trvalého pobytu / Sídlo</div>
-                                            <div class="formular-field-value">Květná 123, 110 00 Praha 1</div>
+                                            <div class="formular-field-value">Dlážděná 1003/7, 110 00 Praha 1</div>
                                         </div>
                                     </div>
                                     <div class="formular-field-row">
@@ -13279,7 +13245,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">ID datové schránky</div>
-                                            <div class="formular-field-value">abc123x</div>
+                                            <div class="formular-field-value">uccchjm</div>
                                         </div>
                                     </div>
                                 </div>
@@ -13287,9 +13253,29 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <div class="formular-subsection">
                                     <div class="formular-subsection-title">A.2 Údaje o zástupci stavebníka</div>
                                     <div class="formular-field-row">
-                                        <div class="formular-field full empty">
-                                            <div class="formular-field-label">Zástupce</div>
-                                            <div class="formular-field-value">— neuvedeno —</div>
+                                        <div class="formular-field">
+                                            <div class="formular-field-label">Název</div>
+                                            <div class="formular-field-value">Signal Projekt s.r.o.</div>
+                                        </div>
+                                        <div class="formular-field">
+                                            <div class="formular-field-label">IČO</div>
+                                            <div class="formular-field-value">25525441</div>
+                                        </div>
+                                    </div>
+                                    <div class="formular-field-row">
+                                        <div class="formular-field full">
+                                            <div class="formular-field-label">Sídlo</div>
+                                            <div class="formular-field-value">Vídeňská 546/55, Štýřice, 639 00 Brno 39</div>
+                                        </div>
+                                    </div>
+                                    <div class="formular-field-row">
+                                        <div class="formular-field">
+                                            <div class="formular-field-label">Jednající</div>
+                                            <div class="formular-field-value">Jana Mikulová</div>
+                                        </div>
+                                        <div class="formular-field">
+                                            <div class="formular-field-label">ID datové schránky</div>
+                                            <div class="formular-field-value">swz2av2</div>
                                         </div>
                                     </div>
                                 </div>
@@ -13303,23 +13289,23 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     <div class="formular-field-row">
                                         <div class="formular-field full">
                                             <div class="formular-field-label">Název stavby / záměru</div>
-                                            <div class="formular-field-value">Novostavba rodinného domu s garáží</div>
+                                            <div class="formular-field-value">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
                                         </div>
                                     </div>
                                     <div class="formular-field-row">
                                         <div class="formular-field">
                                             <div class="formular-field-label">Místo stavby (obec, ulice)</div>
-                                            <div class="formular-field-value">Jaroměř, ulice Květná</div>
+                                            <div class="formular-field-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div>
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">Katastrální území</div>
-                                            <div class="formular-field-value">Jaroměř [657336]</div>
+                                            <div class="formular-field-value">Doudleby n.O., Kostelec n.O., Vamberk, Záměl</div>
                                         </div>
                                     </div>
                                     <div class="formular-field-row">
                                         <div class="formular-field full">
                                             <div class="formular-field-label">Parcelní čísla pozemků</div>
-                                            <div class="formular-field-value">st. 123, 456/1, 456/2</div>
+                                            <div class="formular-field-value">st. 321, st. 916, 139/4, 520/13, 1549, 1550/1, 1550/2, 3334… (celkem 38 parcel)</div>
                                         </div>
                                     </div>
                                 </div>
@@ -13329,7 +13315,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     <div class="formular-field-row">
                                         <div class="formular-field">
                                             <div class="formular-field-label">Druh stavby</div>
-                                            <div class="formular-field-value">Budova pro bydlení — rodinný dům</div>
+                                            <div class="formular-field-value">Stavba dráhy — dráha celostátní</div>
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">Účel užívání</div>
@@ -13347,7 +13333,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">Počet bytů</div>
-                                            <div class="formular-field-value">1</div>
+                                            <div class="formular-field-value">—</div>
                                         </div>
                                     </div>
                                 </div>
@@ -13428,7 +13414,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <div class="doklady-section-header">
                                     <span class="material-icons-outlined">account_balance</span>
                                     Dotčené orgány (DO) — závazná stanoviska
-                                    <span class="doklady-count">3</span>
+                                    <span class="doklady-count">7</span>
                                 </div>
                                 <div class="doklady-list">
                                     <div class="doklady-item status-ok">
@@ -13436,8 +13422,8 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                             <span class="material-icons-outlined">check_circle</span>
                                         </div>
                                         <div class="doklady-item-info">
-                                            <div class="doklady-item-name">HZS hl. m. Prahy</div>
-                                            <div class="doklady-item-meta">Požární ochrana • Kladné stanovisko</div>
+                                            <div class="doklady-item-name">MěÚ Kostelec n.O. — koord. ZS</div>
+                                            <div class="doklady-item-meta">R/2025/18662/4 • Kladné s podmínkami</div>
                                         </div>
                                         <button class="doklady-item-btn" title="Zobrazit">
                                             <span class="material-icons-outlined">visibility</span>
@@ -13448,23 +13434,35 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                             <span class="material-icons-outlined">check_circle</span>
                                         </div>
                                         <div class="doklady-item-info">
-                                            <div class="doklady-item-name">KHS Středočeského kraje</div>
-                                            <div class="doklady-item-meta">Hygiena • Kladné s podmínkami</div>
+                                            <div class="doklady-item-name">MěÚ Rychnov n.K. — JES</div>
+                                            <div class="doklady-item-meta">R/2025/14716 • Kladné</div>
                                         </div>
                                         <button class="doklady-item-btn" title="Zobrazit">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
-                                    <div class="doklady-item status-pending">
+                                    <div class="doklady-item status-ok">
                                         <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">schedule</span>
+                                            <span class="material-icons-outlined">check_circle</span>
                                         </div>
                                         <div class="doklady-item-info">
-                                            <div class="doklady-item-name">OŽP Praha 4</div>
-                                            <div class="doklady-item-meta">Životní prostředí • Čeká na vyjádření</div>
+                                            <div class="doklady-item-name">Policie ČR, DI Rychnov n.K.</div>
+                                            <div class="doklady-item-meta">KRPH-69305/ČJ-2024-050706 • Kladné</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" disabled>
-                                            <span class="material-icons-outlined">visibility_off</span>
+                                        <button class="doklady-item-btn" title="Zobrazit">
+                                            <span class="material-icons-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="doklady-item status-ok">
+                                        <div class="doklady-item-icon">
+                                            <span class="material-icons-outlined">check_circle</span>
+                                        </div>
+                                        <div class="doklady-item-info">
+                                            <div class="doklady-item-name">Drážní úřad</div>
+                                            <div class="doklady-item-meta">DUCR-44974/24/Bd • Kladné s podmínkami</div>
+                                        </div>
+                                        <button class="doklady-item-btn" title="Zobrazit">
+                                            <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
                                 </div>
@@ -13474,8 +13472,8 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="doklady-section">
                                 <div class="doklady-section-header">
                                     <span class="material-icons-outlined">electric_bolt</span>
-                                    Vlastníci technické infrastruktury (VTI)
-                                    <span class="doklady-count">4</span>
+                                    Vlastníci TI/DI (VTI/VDI) — z DTM
+                                    <span class="doklady-count">18</span>
                                 </div>
                                 <div class="doklady-list">
                                     <div class="doklady-item status-ok">
@@ -13483,47 +13481,59 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                             <span class="material-icons-outlined">check_circle</span>
                                         </div>
                                         <div class="doklady-item-info">
-                                            <div class="doklady-item-name">PREdistribuce, a.s.</div>
-                                            <div class="doklady-item-meta">Elektřina • Bez připomínek</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">Pražské vodovody a kanalizace</div>
-                                            <div class="doklady-item-meta">Vodovod a kanalizace • S podmínkami</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">Pražská plynárenská</div>
-                                            <div class="doklady-item-meta">Plyn • Bez připomínek</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
                                             <div class="doklady-item-name">CETIN a.s.</div>
-                                            <div class="doklady-item-meta">Telekomunikace • Bez připomínek</div>
+                                            <div class="doklady-item-meta">Telekomunikace • Přiloženo</div>
                                         </div>
                                         <button class="doklady-item-btn" title="Zobrazit">
                                             <span class="material-icons-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="doklady-item status-ok">
+                                        <div class="doklady-item-icon">
+                                            <span class="material-icons-outlined">check_circle</span>
+                                        </div>
+                                        <div class="doklady-item-info">
+                                            <div class="doklady-item-name">ČEZ Distribuce a.s. (2×)</div>
+                                            <div class="doklady-item-meta">Elektřina — existence + k PD</div>
+                                        </div>
+                                        <button class="doklady-item-btn" title="Zobrazit">
+                                            <span class="material-icons-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="doklady-item status-ok">
+                                        <div class="doklady-item-icon">
+                                            <span class="material-icons-outlined">check_circle</span>
+                                        </div>
+                                        <div class="doklady-item-info">
+                                            <div class="doklady-item-name">GasNet s.r.o. (2×)</div>
+                                            <div class="doklady-item-meta">Plyn — existence + k PD</div>
+                                        </div>
+                                        <button class="doklady-item-btn" title="Zobrazit">
+                                            <span class="material-icons-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="doklady-item status-pending">
+                                        <div class="doklady-item-icon">
+                                            <span class="material-icons-outlined">warning</span>
+                                        </div>
+                                        <div class="doklady-item-info">
+                                            <div class="doklady-item-name">T-Mobile, Vodafone, MO</div>
+                                            <div class="doklady-item-meta" style="color: #ea8600;">3× prošla platnost vyjádření</div>
+                                        </div>
+                                        <button class="doklady-item-btn" title="Zobrazit">
+                                            <span class="material-icons-outlined">visibility</span>
+                                        </button>
+                                    </div>
+                                    <div class="doklady-item status-pending">
+                                        <div class="doklady-item-icon">
+                                            <span class="material-icons-outlined">error_outline</span>
+                                        </div>
+                                        <div class="doklady-item-info">
+                                            <div class="doklady-item-name">České radiokomunikace, ŘSD, SPÚ</div>
+                                            <div class="doklady-item-meta" style="color: #c5221f;">3× chybí zcela (dle DTM)</div>
+                                        </div>
+                                        <button class="doklady-item-btn" title="Zobrazit" disabled>
+                                            <span class="material-icons-outlined">visibility_off</span>
                                         </button>
                                     </div>
                                 </div>
@@ -13943,14 +13953,14 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="pozemky-add-row" style="flex-wrap: wrap; gap: 8px;">
                                 <select class="pozemky-add-input" id="pozemekObec" style="flex: 1; min-width: 150px;" onchange="loadKatastralniUzemi()">
                                     <option value="">Vyberte obec...</option>
-                                    <option value="veseli" selected>Veselí nad Lužnicí</option>
+                                    <option value="doudleby" selected>Doudleby nad Orlicí</option>
                                     <option value="tabor">Tábor</option>
                                     <option value="soběslav">Soběslav</option>
                                     <option value="jiné">Jiná obec...</option>
                                 </select>
                                 <select class="pozemky-add-input" id="pozemekKU" style="flex: 1; min-width: 150px;">
                                     <option value="">Vyberte k.ú....</option>
-                                    <option value="veseli-779091" selected>Veselí nad Lužnicí</option>
+                                    <option value="doudleby-631761" selected>Doudleby nad Orlicí</option>
                                     <option value="horusice-779091">Horusice</option>
                                 </select>
                                 <input type="text" class="pozemky-add-input" id="pozemekZameruInput" placeholder="Číslo parcely..." style="flex: 1; min-width: 120px;">
@@ -14026,14 +14036,14 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="pozemky-add-row" style="flex-wrap: wrap; gap: 8px;">
                                 <select class="pozemky-add-input" id="sousedObec" style="flex: 1; min-width: 150px;" onchange="loadSousedKatastralniUzemi()">
                                     <option value="">Vyberte obec...</option>
-                                    <option value="veseli" selected>Veselí nad Lužnicí</option>
+                                    <option value="doudleby" selected>Doudleby nad Orlicí</option>
                                     <option value="tabor">Tábor</option>
                                     <option value="soběslav">Soběslav</option>
                                     <option value="jiné">Jiná obec...</option>
                                 </select>
                                 <select class="pozemky-add-input" id="sousedKU" style="flex: 1; min-width: 150px;">
                                     <option value="">Vyberte k.ú....</option>
-                                    <option value="veseli-779091" selected>Veselí nad Lužnicí</option>
+                                    <option value="doudleby-631761" selected>Doudleby nad Orlicí</option>
                                     <option value="horusice-779091">Horusice</option>
                                 </select>
                                 <input type="text" class="pozemky-add-input" id="sousedniSearchInput" placeholder="Číslo parcely..." style="flex: 1; min-width: 120px;">
@@ -14131,8 +14141,8 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="ed-tree-header">
                                 <div class="ed-tree-header-top">
                                     <span class="material-icons-outlined">folder_special</span>
-                                    <strong>SR00X01I35GT</strong>
-                                    <span style="color: #5f6368; font-size: 12px; margin-left: 8px;">Novostavba RD včetně přípojek</span>
+                                    <strong>SR00X01HLDRP</strong>
+                                    <span style="color: #5f6368; font-size: 12px; margin-left: 8px;">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</span>
                                 </div>
                                 <div class="ed-version-selector">
                                     <label style="font-size: 11px; color: #5f6368; margin-right: 6px;">Verze:</label>
@@ -14389,7 +14399,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     </div>
                                     <div class="stavba-soubor-content">
                                         <div class="stavba-soubor-nazev">
-                                            <input type="text" class="stavba-input" id="hlavniStavbaNazev" value="Rodinný dům" placeholder="Název hlavní stavby">
+                                            <input type="text" class="stavba-input" id="hlavniStavbaNazev" value="Stavba dráhy — zabezpečovací zařízení" placeholder="Název hlavní stavby">
                                         </div>
                                         <div class="stavba-kategorie-mini">
                                             <label class="kategorie-mini-option">
@@ -14463,7 +14473,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <div class="auto-check-header">
                             <div class="auto-check-title">
                                 <span class="material-icons-outlined">auto_awesome</span>
-                                Automatická kontrola
+                                Automatická kontrola (validátor)
                             </div>
                             <button class="btn-run-check" id="btnRunAutoCheck" onclick="runDocAutoCheck()">
                                 <span class="material-icons-outlined">play_arrow</span>
@@ -14471,49 +14481,10 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             </button>
                         </div>
                         <p style="font-size: 12px; color: #5f6368; margin-bottom: 0; font-style: normal;" id="autoCheckDesc">
-                            Automaticky zkontroluje elektronické podpisy, časová razítka a formát PDF/A.
+                            Automaticky zkontroluje elektronické podpisy, časová razítka, autorizační razítka a formát souborů PD.
                         </p>
                         <div class="auto-check-results" id="autoCheckResults">
-                            <div class="check-result-item">
-                                <div class="check-result-icon success" id="checkIconFormat">
-                                    <span class="material-icons-outlined">check</span>
-                                </div>
-                                <div class="check-result-content">
-                                    <div class="check-result-label">Formát PDF/A</div>
-                                    <div class="check-result-detail" id="checkDetailFormat">Všechny dokumenty jsou ve správném formátu</div>
-                                </div>
-                            </div>
-                            <div class="check-result-item">
-                                <div class="check-result-icon success" id="checkIconSignature">
-                                    <span class="material-icons-outlined">check</span>
-                                </div>
-                                <div class="check-result-content">
-                                    <div class="check-result-label">Elektronické podpisy</div>
-                                    <div class="check-result-detail" id="checkDetailSignature">Všechny dokumenty jsou platně podepsány</div>
-                                </div>
-                            </div>
-                            <div class="check-result-item" id="checkItemTimestamp">
-                                <div class="check-result-icon warning" id="checkIconTimestamp">
-                                    <span class="material-icons-outlined">warning</span>
-                                </div>
-                                <div class="check-result-content">
-                                    <div class="check-result-label">Časová razítka</div>
-                                    <div class="check-result-detail" id="checkDetailTimestamp">1 dokument nemá časové razítko</div>
-                                </div>
-                                <span class="check-result-added" id="checkTimestampAdded" style="display: none; font-size: 11px; color: #137333;">
-                                    <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">check</span>
-                                    Přidáno do seznamu
-                                </span>
-                            </div>
-                            <div class="check-result-item">
-                                <div class="check-result-icon success" id="checkIconAuth">
-                                    <span class="material-icons-outlined">check</span>
-                                </div>
-                                <div class="check-result-content">
-                                    <div class="check-result-label">Autorizační razítko</div>
-                                    <div class="check-result-detail" id="checkDetailAuth">Projektant má platnou autorizaci ČKAIT</div>
-                                </div>
-                            </div>
+                            <!-- Dynamicky naplněno z runDocAutoCheck() -->
                         </div>
                     </div>
 
@@ -14597,6 +14568,16 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                     </div>
 
                     <!-- Zjištěné nedostatky dokumentace - strukturované podle částí -->
+                    <div style="margin: 8px 0;">
+                        <button id="btnToggleCross" onclick="toggleCrossSection()" style="
+                            display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+                            background: #f3e5f5; border: 1px solid #ce93d8; border-radius: 6px;
+                            font-size: 12px; color: #7b1fa2; cursor: pointer; width: 100%; justify-content: center;
+                        ">
+                            <span class="material-icons-outlined" style="font-size: 16px;">link</span>
+                            Přidat průřezový nedostatek (přes více částí PD)
+                        </button>
+                    </div>
                     <div class="issues-section" id="issuesSection">
                         <div class="issues-header">
                             <div class="issues-title">
@@ -14613,7 +14594,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <div class="part-issues-section" id="autoIssuesSection" style="display: none;">
                             <div class="part-issues-header">
                                 <span class="material-icons-outlined" style="color: #1a73e8;">auto_awesome</span>
-                                Automaticky zjištěné nedostatky
+                                Automaticky zjištěné nedostatky (validátor)
                             </div>
                             <div class="part-issues-list" id="autoIssuesList">
                                 <!-- Automatické nedostatky -->
@@ -14626,15 +14607,21 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <span class="part-letter">A</span>
                                 Nedostatky v části A. Průvodní zpráva
                             </div>
-                            <div class="part-issues-list" id="partIssuesListA">
-                                <!-- Nedostatky části A -->
-                            </div>
-                            <div class="part-issues-add">
-                                <textarea class="part-issue-textarea" id="partIssueTextA" placeholder="Popište nedostatek v průvodní zprávě..." rows="3"></textarea>
-                                <button class="btn-add-part-issue" onclick="addPartIssue('A')">
-                                    <span class="material-icons-outlined">add</span>
-                                    Přidat nedostatek
-                                </button>
+                            <div class="part-issues-list" id="partIssuesListA"></div>
+                            <div class="part-issues-add-structured">
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-ref-input" id="partIssueRefA" placeholder="Reference (např. A.1.2)" style="width: 140px;">
+                                    <input type="text" class="issue-text-input" id="partIssueTextA" placeholder="Popis nedostatku...">
+                                </div>
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesA" placeholder="Příklady (např. soubor PS110121_1_001_TZ.pdf, ...)">
+                                </div>
+                                <div class="issue-form-actions">
+                                    <button class="btn-add-part-issue" onclick="addPartIssue('A')">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat nedostatek
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
@@ -14644,15 +14631,21 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <span class="part-letter">B</span>
                                 Nedostatky v části B. Souhrnná technická zpráva
                             </div>
-                            <div class="part-issues-list" id="partIssuesListB">
-                                <!-- Nedostatky části B -->
-                            </div>
-                            <div class="part-issues-add">
-                                <textarea class="part-issue-textarea" id="partIssueTextB" placeholder="Popište nedostatek v souhrnné technické zprávě..." rows="3"></textarea>
-                                <button class="btn-add-part-issue" onclick="addPartIssue('B')">
-                                    <span class="material-icons-outlined">add</span>
-                                    Přidat nedostatek
-                                </button>
+                            <div class="part-issues-list" id="partIssuesListB"></div>
+                            <div class="part-issues-add-structured">
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-ref-input" id="partIssueRefB" placeholder="Reference (např. B.2.1)" style="width: 140px;">
+                                    <input type="text" class="issue-text-input" id="partIssueTextB" placeholder="Popis nedostatku...">
+                                </div>
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesB" placeholder="Příklady (např. konkrétní soubory, údaje...)">
+                                </div>
+                                <div class="issue-form-actions">
+                                    <button class="btn-add-part-issue" onclick="addPartIssue('B')">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat nedostatek
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
@@ -14662,15 +14655,21 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <span class="part-letter">C</span>
                                 Nedostatky v části C. Situační výkresy
                             </div>
-                            <div class="part-issues-list" id="partIssuesListC">
-                                <!-- Nedostatky části C -->
-                            </div>
-                            <div class="part-issues-add">
-                                <textarea class="part-issue-textarea" id="partIssueTextC" placeholder="Popište nedostatek v situačních výkresech..." rows="3"></textarea>
-                                <button class="btn-add-part-issue" onclick="addPartIssue('C')">
-                                    <span class="material-icons-outlined">add</span>
-                                    Přidat nedostatek
-                                </button>
+                            <div class="part-issues-list" id="partIssuesListC"></div>
+                            <div class="part-issues-add-structured">
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-ref-input" id="partIssueRefC" placeholder="Reference (např. C.2)" style="width: 140px;">
+                                    <input type="text" class="issue-text-input" id="partIssueTextC" placeholder="Popis nedostatku...">
+                                </div>
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesC" placeholder="Příklady (např. C.2-001, C.2-009, C.2-015...)">
+                                </div>
+                                <div class="issue-form-actions">
+                                    <button class="btn-add-part-issue" onclick="addPartIssue('C')">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat nedostatek
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
@@ -14680,15 +14679,50 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 <span class="part-letter">D</span>
                                 Nedostatky v části D. Dokumentace objektů
                             </div>
-                            <div class="part-issues-list" id="partIssuesListD">
-                                <!-- Nedostatky části D -->
+                            <div class="part-issues-list" id="partIssuesListD"></div>
+                            <div class="part-issues-add-structured">
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-ref-input" id="partIssueRefD" placeholder="Reference (např. D.1.1)" style="width: 140px;">
+                                    <input type="text" class="issue-text-input" id="partIssueTextD" placeholder="Popis nedostatku...">
+                                </div>
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesD" placeholder="Příklady (např. PS120201_1_001_TZ, SO127102_1_001_TZ...)">
+                                </div>
+                                <div class="issue-form-actions">
+                                    <button class="btn-add-part-issue" onclick="addPartIssue('D')">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat nedostatek
+                                    </button>
+                                </div>
                             </div>
-                            <div class="part-issues-add">
-                                <textarea class="part-issue-textarea" id="partIssueTextD" placeholder="Popište nedostatek v dokumentaci objektů..." rows="3"></textarea>
-                                <button class="btn-add-part-issue" onclick="addPartIssue('D')">
-                                    <span class="material-icons-outlined">add</span>
-                                    Přidat nedostatek
-                                </button>
+                        </div>
+                        
+                        <!-- Průřezové nedostatky (přes více částí) -->
+                        <div class="part-issues-section" id="partIssuesCross" style="display: none;">
+                            <div class="part-issues-header">
+                                <span class="material-icons-outlined" style="color: #7b1fa2; font-size: 18px;">link</span>
+                                Průřezové nedostatky (přes více částí PD)
+                            </div>
+                            <div class="part-issues-list" id="partIssuesListCross"></div>
+                            <div class="part-issues-add-structured">
+                                <div class="issue-form-row">
+                                    <select class="issue-ref-input" id="partIssueScopeCross" style="width: 160px;">
+                                        <option value="A,B">A + B</option>
+                                        <option value="A,B,C,D" selected>A + B + C + D</option>
+                                        <option value="B,C,D">B + C + D</option>
+                                        <option value="C,D">C + D</option>
+                                    </select>
+                                    <input type="text" class="issue-text-input" id="partIssueTextCross" placeholder="Popis průřezového nedostatku (např. nesoulad PS 12-02-61 mezi částmi PD)...">
+                                </div>
+                                <div class="issue-form-row">
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesCross" placeholder="Příklady (např. v části A neuvedeno, v části B uvedeno, výkresy C.2-006 přítomny...)">
+                                </div>
+                                <div class="issue-form-actions">
+                                    <button class="btn-add-part-issue" onclick="addCrossCuttingIssue()">
+                                        <span class="material-icons-outlined">add</span>
+                                        Přidat průřezový nedostatek
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         
@@ -14868,15 +14902,18 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <!-- Přidat subjekt -->
                         <div class="matrix-add-row">
                             <select class="matrix-add-select" id="addSubjektTyp">
-                                <option value="do">DO - Dotčený orgán</option>
-                                <option value="vti">VTI - Vlastník tech. infrastruktury</option>
-                                <option value="vdi">VDI - Vlastník dopr. infrastruktury</option>
+                                <option value="do">DO — Dotčený orgán</option>
+                                <option value="vti">VTI — Vlastník tech. infrastruktury</option>
+                                <option value="vdi">VDI — Vlastník dopr. infrastruktury</option>
                             </select>
-                            <input type="text" class="matrix-add-input" id="addSubjektNazev" placeholder="Název subjektu...">
+                            <input type="text" class="matrix-add-input" id="addSubjektNazev" placeholder="Název subjektu..." style="flex: 2;">
                             <button class="btn-add-subjekt" onclick="addSubjekt()">
                                 <span class="material-icons-outlined">add</span>
                                 Přidat
                             </button>
+                        </div>
+                        <div style="padding: 4px 12px 12px; font-size: 11px; color: #80868b;">
+                            Přidejte subjekt, jehož stanovisko/vyjádření by mělo být přiloženo, ale AI ho v dokladové části nenalezla.
                         </div>
                     </div>
 
@@ -15123,8 +15160,8 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                 </div>
             </div>
         </div>
-        <div class="control-body" style="display: block;">
-            <div class="control-form" style="width: 100%; border-left: none;">
+        <div class="control-body" style="display: flex; flex-direction: column;">
+            <div class="control-form" style="width: 100%; flex: 1; border-left: none; min-height: 0;">
                 <div class="control-form-body osoby-layout">
                     
                     <!-- ========== LEVÝ SLOUPEC: POZEMKY ========== -->
@@ -15143,22 +15180,25 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                             <div class="pozemky-blok">
                                 <div class="pozemky-blok-header zamer">
                                     <span class="pozemky-blok-title">Pozemky záměru</span>
-                                    <span class="pozemky-blok-count" id="countZamer">2</span>
+                                    <span class="pozemky-blok-count" id="countZamer">38</span>
                                 </div>
                                 <div class="pozemky-blok-list" id="listPozemkyZameru">
-                                    <div class="pozemek-item" data-parcela="st. 123">
-                                        <span class="pozemek-parcela">st. 123</span>
-                                        <span class="pozemek-ku">Jaroměř</span>
-                                        <span class="pozemek-vlastnik" id="vl-st123">—</span>
+                                    <div class="pozemek-item" data-parcela="st. 321">
+                                        <span class="pozemek-parcela">st. 321</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-st321">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 123', 'Jaroměř')">Ověřit</button>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 321', 'Doudleby n.O.')">Ověřit</button>
                                     </div>
-                                    <div class="pozemek-item" data-parcela="456/1">
-                                        <span class="pozemek-parcela">456/1</span>
-                                        <span class="pozemek-ku">Jaroměř</span>
-                                        <span class="pozemek-vlastnik" id="vl-4561">—</span>
+                                    <div class="pozemek-item" data-parcela="1549">
+                                        <span class="pozemek-parcela">1549</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-1549">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('456/1', 'Jaroměř')">Ověřit</button>
+                                        <button class="btn-overit-sm" onclick="overitPozemekKN('1549', 'Doudleby n.O.')">Ověřit</button>
+                                    </div>
+                                    <div class="pozemek-item" style="text-align: center; color: #5f6368; font-style: italic; padding: 8px; justify-content: center;">
+                                        … a dalších 36 pozemků
                                     </div>
                                 </div>
                             </div>
@@ -15254,14 +15294,14 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     </tr>
                                     <tr data-osoba-id="jan-novak" data-overeno="true">
                                         <td><span class="os-status ok" title="Ověřeno z Portálu stavebníka"><span class="material-icons-outlined">check_circle</span></span></td>
-                                        <td><strong>Jan Novák</strong><br><small class="text-muted">Fyzická osoba</small></td>
+                                        <td><strong>Správa železnic, s.o.</strong><br><small class="text-muted">Fyzická osoba</small></td>
                                         <td>
-                                            Květná 123, 110 00 Praha 1
-                                            <span class="os-ds-info"><span class="material-icons-outlined">forward_to_inbox</span> abc123x</span>
+                                            Dlážděná 1003/7, 110 00 Praha 1
+                                            <span class="os-ds-info"><span class="material-icons-outlined">forward_to_inbox</span> uccchjm</span>
                                         </td>
                                         <td><span class="os-zdroj zdroj-zadost">žádost</span></td>
                                         <td>
-                                            <button class="btn-dorucovani ds" onclick="toggleDorucovani(this)" title="Doručit do datové schránky" data-stav="ds" data-ds="abc123x">
+                                            <button class="btn-dorucovani ds" onclick="toggleDorucovani(this)" title="Doručit do datové schránky" data-stav="ds" data-ds="uccchjm">
                                                 <span class="material-icons-outlined">forward_to_inbox</span>
                                             </button>
                                         </td>
@@ -15280,7 +15320,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                     </tr>
                                     <tr data-osoba-id="mesto-jaromer" data-overeno="false">
                                         <td><span class="os-status pending" title="Neověřeno"><span class="material-icons-outlined">help_outline</span></span></td>
-                                        <td><strong>Město Jaroměř</strong><br><small class="text-muted">Právnická osoba</small></td>
+                                        <td><strong>Městys Doudleby n.O.</strong><br><small class="text-muted">Právnická osoba</small></td>
                                         <td class="os-adresa-neovereno">—</td>
                                         <td><span class="os-zdroj zdroj-ku">k.ú.</span></td>
                                         <td>
@@ -15599,7 +15639,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <label class="zastupovani-item">
                             <input type="checkbox" name="zastupovani" value="jan-novak">
                             <div class="zastupovani-info">
-                                <span class="zastupovani-name">Jan Novák</span>
+                                <span class="zastupovani-name">Správa železnic, s.o.</span>
                                 <span class="zastupovani-role">Stavebník / Žadatel</span>
                             </div>
                         </label>
@@ -15608,7 +15648,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <label class="zastupovani-item">
                             <input type="checkbox" name="zastupovani" value="mesto-jaromer">
                             <div class="zastupovani-info">
-                                <span class="zastupovani-name">Město Jaroměř</span>
+                                <span class="zastupovani-name">Městys Doudleby n.O.</span>
                                 <span class="zastupovani-role">Obec</span>
                             </div>
                         </label>
@@ -15974,7 +16014,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                 <div style="padding: 16px 24px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
                     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
                         <div>
-                            <div style="font-size: 14px; font-weight: 600; color: #202124; margin-bottom: 4px;">Novostavba rodinného domu s garáží</div>
+                            <div style="font-size: 14px; font-weight: 600; color: #202124; margin-bottom: 4px;">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
                             <div style="font-size: 12px; color: #5f6368;">IFC model · Verze 3.0 · Nahrán 10. 1. 2026</div>
                         </div>
                         <div style="display: flex; gap: 8px;">
@@ -16280,9 +16320,18 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             const id = 'gi-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
             globalIssues[type].push({
                 id: id,
-                text: issue.text,
+                text: issue.text || '',
+                hlavniText: issue.hlavniText || issue.text || '',
                 source: issue.source || 'manual',
                 controlName: issue.controlName || '',
+                kategorie: issue.kategorie || null,       // 'autorizace' | 'dokladova_cast' | 'obsah_pd' | 'prurezovy'
+                reference: issue.reference || null,        // e.g. 'B.2.1'
+                castPD: issue.castPD || null,              // 'A' | 'B' | 'C' | 'D' | null
+                doplnek: issue.doplnek || null,            // supplementary text
+                priklady: issue.priklady || [],            // examples
+                pravniPredpis: issue.pravniPredpis || null,// legal reference
+                detaily: issue.detaily || null,            // structured details for complex items
+                typAkce: issue.typAkce || 'doplnit',      // 'doplnit' | 'odstranit' | 'uvest_do_souladu'
                 resolved: false,
                 timestamp: new Date().toISOString()
             });
@@ -16352,16 +16401,27 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         </div>
                     `;
                 } else {
-                    list.innerHTML = issues.map(issue => `
+                    list.innerHTML = issues.map(issue => {
+                        const kategorieLabel = {
+                            'autorizace': '🔴 Autorizace',
+                            'dokladova_cast': '🟠 Dokladová část',
+                            'obsah_pd': '🟣 Obsah PD',
+                            'prurezovy': '🔵 Průřezový',
+                            'formalni': '🔵 Formální'
+                        };
+                        const katBadge = issue.kategorie ? `<span style="display:inline-block;font-size:11px;padding:1px 6px;border-radius:8px;background:#f1f3f4;color:#3c4043;margin-right:6px;">${kategorieLabel[issue.kategorie] || issue.kategorie}</span>` : '';
+                        const displayText = (issue.hlavniText || issue.text || '').replace(/\n/g, '<br>');
+                        return `
                         <div class="global-issue-item ${issue.resolved ? 'resolved' : ''}">
                             <div class="global-issue-icon ${issue.resolved ? 'resolved' : t.iconClass}">
                                 <span class="material-icons-outlined">${issue.resolved ? 'check' : 'warning'}</span>
                             </div>
                             <div class="global-issue-content">
-                                <div class="global-issue-text">${issue.text}</div>
+                                <div class="global-issue-text">${katBadge}${displayText}</div>
                                 <div class="global-issue-meta">
                                     ${issue.controlName ? issue.controlName + ' • ' : ''}
                                     ${issue.source === 'auto' ? 'Automaticky zjištěno' : 'Ručně přidáno'}
+                                    ${issue.pravniPredpis ? ' • ' + issue.pravniPredpis : ''}
                                 </div>
                             </div>
                             <div class="global-issue-actions">
@@ -16373,7 +16433,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                                 </button>
                             </div>
                         </div>
-                    `).join('');
+                    `}).join('');
                 }
             });
         }
@@ -16512,7 +16572,7 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                     <div class="reza-info-grid">
                         <div class="reza-info-item full">
                             <div class="reza-info-label">Jméno / Název</div>
-                            <div class="reza-info-value">${zastupceData.zmocnitel || 'Jan Novák'}</div>
+                            <div class="reza-info-value">${zastupceData.zmocnitel || 'Správa železnic, s.o.'}</div>
                         </div>
                         <div class="reza-info-item">
                             <div class="reza-info-label">Datum narození / IČO</div>
@@ -16739,30 +16799,25 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             // Simulace AI načítání (2.5 sekundy)
             setTimeout(() => {
                 // AI vygenerovaný popis ze souhrnné technické zprávy
-                const aiPopis = `Předmětem stavebního záměru je novostavba rodinného domu s garáží a napojení na technickou infrastrukturu na pozemku parc. č. 1234/5 v katastrálním území Horní Lhota, obec Dolní Lhota.
+                const aiPopis = `Předmětem stavebního záměru je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010 Pardubice – Lichkov st. hr. Záměr zahrnuje výměnu stávajícího reléového zabezpečovacího zařízení za elektronické stavědlo typu ESA 44, úpravy přejezdových zabezpečovacích zařízení, sdělovacích zařízení a souvisejících kabelových tras.
 
-SO 01 – Rodinný dům:
-Jedná se o dvoupodlažní nepodsklepený objekt (1.NP + obytné podkroví) obdélníkového půdorysu o rozměrech 12,0 × 9,5 m. Konstrukční systém zděný z keramických tvárnic, zastřešení sedlovou střechou se sklonem 35° s krytinou z betonových tašek. Zastavěná plocha 114 m², obestavěný prostor 687 m³, užitná plocha 168 m².
+Stavba je členěna na provozní soubory (PS) a stavební objekty (SO):
 
-V 1.NP je navrženo: zádveří, chodba, technická místnost, WC, obývací pokoj s kuchyňským koutem (45 m²) a garáž pro jeden osobní automobil.
-V podkroví jsou navrženy: 3 ložnice, koupelna, šatna a chodba.
+PS 11-01-21 – Staniční zabezpečovací zařízení žst. Doudleby n.O.
+PS 12-02-11 – Přejezdové ZZ v km 2,345
+PS 12-02-71 – Přejezdové ZZ v km 4,567
+PS 12-02-81 – Přejezdové ZZ v km 6,789
+PS 12-02-01 – Přejezdové ZZ (další)
+PS 13-02-51 – Sdělovací zařízení
+PS 14-02-51 – Kabelové rozvody
+PS 14-03-51 – Napájení zabezpečovacího zařízení
 
-Vytápění objektu bude zajištěno tepelným čerpadlem vzduch-voda s podlahovým topením. Ohřev TUV zásobníkovým ohřívačem v kombinaci s tepelným čerpadlem.
+SO 12-12-01 – Kabelovod a kabelové trasy
+SO 12-76-01 – Úpravy trakčního vedení
+SO 12-86-02 – Úpravy osvětlení
+SO 12-88-01 – Demolice
 
-SO 02 – Zpevněné plochy:
-Příjezdová komunikace a chodník ze zámkové dlažby, celková plocha 85 m².
-
-SO 03 – Přípojka vodovodu:
-PE potrubí DN 32, délka 8,5 m, napojení na vodovodní řad v ulici Pod Lipami.
-
-SO 04 – Přípojka splaškové kanalizace:
-PVC potrubí DN 150, délka 12,0 m, napojení na veřejnou kanalizaci.
-
-SO 05 – Přípojka elektro:
-Kabelová přípojka NN napojená na distribuční síť ČEZ Distribuce, a.s.
-
-SO 06 – Oplocení:
-Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
+Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orlicí (1 pozemek), Vamberk (10 pozemků) a Záměl (1 pozemek). Celkem 38 dotčených pozemků ve 4 katastrálních územích.`;
                 
                 if (textarea) {
                     textarea.value = aiPopis;
@@ -17007,36 +17062,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             sortZameru: { field: null, asc: true },  // řazení pozemků záměru
             sortSousedni: { field: null, asc: true }, // řazení sousedních
             pozemkyZameru: [
-                { cislo: 'st. 142', katastr: 'Radonice', kod: '747076', plocha: '560 m²', typ: 'zastavena' },
-                { cislo: '248/3', katastr: 'Radonice', kod: '747076', plocha: '1 240 m²', typ: 'pozemkova' },
-                { cislo: '248/4', katastr: 'Radonice', kod: '747076', plocha: '320 m²', typ: 'pozemkova' },
-                { cislo: 'st. 143', katastr: 'Radonice', kod: '747076', plocha: '180 m²', typ: 'zastavena' },
-                { cislo: '251/1', katastr: 'Radonice', kod: '747076', plocha: '890 m²', typ: 'pozemkova' },
-                { cislo: '1024/1', katastr: 'Kunratice', kod: '728390', plocha: '1 850 m²', typ: 'pozemkova' },
-                { cislo: '1024/2', katastr: 'Kunratice', kod: '728390', plocha: '620 m²', typ: 'pozemkova' },
-                { cislo: 'st. 512', katastr: 'Kunratice', kod: '728390', plocha: '145 m²', typ: 'zastavena' }
+                { cislo: 'st. 321', katastr: 'Doudleby n.O.', kod: '631761', plocha: '—', typ: 'zastavena' },
+                { cislo: 'st. 916', katastr: 'Doudleby n.O.', kod: '631761', plocha: '—', typ: 'zastavena' },
+                { cislo: '1549', katastr: 'Doudleby n.O.', kod: '631761', plocha: '—', typ: 'pozemkova' },
+                { cislo: '1550/1', katastr: 'Doudleby n.O.', kod: '631761', plocha: '—', typ: 'pozemkova' },
+                { cislo: '1550/2', katastr: 'Doudleby n.O.', kod: '631761', plocha: '—', typ: 'pozemkova' },
+                { cislo: '3334', katastr: 'Doudleby n.O.', kod: '631761', plocha: '—', typ: 'pozemkova' },
+                { cislo: '981/31', katastr: 'Kostelec n.O.', kod: '669938', plocha: '—', typ: 'pozemkova' },
+                { cislo: 'st. 541', katastr: 'Vamberk', kod: '776131', plocha: '—', typ: 'zastavena' },
+                { cislo: '1804/1', katastr: 'Vamberk', kod: '776131', plocha: '—', typ: 'pozemkova' },
+                { cislo: '195/3', katastr: 'Záměl', kod: '789747', plocha: '—', typ: 'pozemkova' }
             ],
             sousedniParcely: [
-                { cislo: '247/1', katastr: 'Radonice', kod: '747076', plocha: '1 120 m²' },
-                { cislo: '247/2', katastr: 'Radonice', kod: '747076', plocha: '450 m²' },
-                { cislo: '249', katastr: 'Radonice', kod: '747076', plocha: '2 340 m²' },
-                { cislo: 'st. 140', katastr: 'Radonice', kod: '747076', plocha: '210 m²' },
-                { cislo: 'st. 141', katastr: 'Radonice', kod: '747076', plocha: '185 m²' },
-                { cislo: '250/1', katastr: 'Radonice', kod: '747076', plocha: '670 m²' },
-                { cislo: '250/2', katastr: 'Radonice', kod: '747076', plocha: '380 m²' },
-                { cislo: '252', katastr: 'Radonice', kod: '747076', plocha: '1 560 m²' },
-                { cislo: '246/3', katastr: 'Radonice', kod: '747076', plocha: '920 m²' },
-                { cislo: 'st. 139', katastr: 'Radonice', kod: '747076', plocha: '240 m²' },
-                { cislo: '253/1', katastr: 'Radonice', kod: '747076', plocha: '780 m²' },
-                { cislo: '253/2', katastr: 'Radonice', kod: '747076', plocha: '415 m²' },
-                { cislo: '1023/1', katastr: 'Kunratice', kod: '728390', plocha: '2 100 m²' },
-                { cislo: '1023/2', katastr: 'Kunratice', kod: '728390', plocha: '980 m²' },
-                { cislo: '1025', katastr: 'Kunratice', kod: '728390', plocha: '1 450 m²' },
-                { cislo: 'st. 510', katastr: 'Kunratice', kod: '728390', plocha: '220 m²' },
-                { cislo: 'st. 511', katastr: 'Kunratice', kod: '728390', plocha: '195 m²' },
-                { cislo: '512/1', katastr: 'Šeberov', kod: '746011', plocha: '3 200 m²' },
-                { cislo: '512/2', katastr: 'Šeberov', kod: '746011', plocha: '1 100 m²' },
-                { cislo: 'st. 89', katastr: 'Šeberov', kod: '746011', plocha: '280 m²' }
+                // U staveb drah se sousední pozemky identifikují z DTM a KN automaticky
             ],
             knVerified: false,
             owners: []
@@ -17173,7 +17211,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         <span class="material-icons-outlined">search</span>
                         <input type="text" class="pozemky-search-input" 
                             id="pozemkySearch_${type}" 
-                            placeholder="Vyhledat parcelu (např. 1234/5)..." 
+                            placeholder="Vyhledat parcelu (např. st. 321)..." 
                             oninput="filterGroupedPozemky('${type}')">
                     </div>
                     <select class="pozemky-filter-select" id="pozemkyFilter_${type}" onchange="filterGroupedPozemky('${type}')">
@@ -17419,7 +17457,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             }
             
             // Určení katastrálního území
-            let katastr = 'Veselí nad Lužnicí';
+            let katastr = 'Doudleby nad Orlicí';
             let kod = '779091';
             
             if (kuSelect.value) {
@@ -17476,7 +17514,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             // Simulace načtení k.ú. podle obce
             const katastry = {
                 'veseli': [
-                    { value: 'veseli-779091', text: 'Veselí nad Lužnicí' },
+                    { value: 'doudleby-631761', text: 'Doudleby nad Orlicí' },
                     { value: 'horusice-779091', text: 'Horusice' }
                 ],
                 'tabor': [
@@ -17618,15 +17656,15 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                                 <div class="katastr-search-group-title">Výsledky</div>
                                 <div class="katastr-search-item" onclick="selectKatastr('Kunratice', '728390')">
                                     <span class="material-icons-outlined">place</span>
-                                    Kunratice [728390], Praha
+                                    Doudleby n.O. [631761], Praha
                                 </div>
                                 <div class="katastr-search-item" onclick="selectKatastr('Šeberov', '746011')">
                                     <span class="material-icons-outlined">place</span>
                                     Šeberov [746011], Praha
                                 </div>
-                                <div class="katastr-search-item" onclick="selectKatastr('Veselí nad Lužnicí', '779091')">
+                                <div class="katastr-search-item" onclick="selectKatastr('Doudleby nad Orlicí', '631761')">
                                     <span class="material-icons-outlined">place</span>
-                                    Veselí nad Lužnicí [779091]
+                                    Doudleby nad Orlicí [631761]
                                 </div>
                             </div>
                         </div>
@@ -18409,11 +18447,11 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             
             setTimeout(function() {
                 pozemkyState.sousedniParcely = [
-                    { cislo: '248/1', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '890 m²' },
-                    { cislo: '248/2', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '1 120 m²' },
-                    { cislo: '249', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '2 340 m²' },
-                    { cislo: 'st. 141', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '420 m²' },
-                    { cislo: 'st. 143', katastr: 'Veselí nad Lužnicí', kod: '779091', plocha: '380 m²' }
+                    { cislo: '139/3', katastr: 'Doudleby n.O.', kod: '631761', plocha: '1 250 m²' },
+                    { cislo: '520/12', katastr: 'Doudleby n.O.', kod: '631761', plocha: '680 m²' },
+                    { cislo: '1548', katastr: 'Doudleby n.O.', kod: '631761', plocha: '3 420 m²' },
+                    { cislo: '3333', katastr: 'Doudleby n.O.', kod: '631761', plocha: '1 870 m²' },
+                    { cislo: '1803/2', katastr: 'Vamberk', kod: '776131', plocha: '2 150 m²' }
                 ];
                 
                 renderSousedniParcely();
@@ -18437,7 +18475,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             // Simulace načtení k.ú. podle obce
             const katastry = {
                 'veseli': [
-                    { value: 'veseli-779091', text: 'Veselí nad Lužnicí' },
+                    { value: 'doudleby-631761', text: 'Doudleby nad Orlicí' },
                     { value: 'horusice-779091', text: 'Horusice' }
                 ],
                 'tabor': [
@@ -18474,7 +18512,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             }
             
             // Určení katastrálního území
-            let katastr = 'Veselí nad Lužnicí';
+            let katastr = 'Doudleby nad Orlicí';
             let kod = '779091';
             
             if (kuSelect.value) {
@@ -18732,7 +18770,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         <div class="zadost-readonly-grid">
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Podatel (kdo činí podání)</div>
-                                <div class="zadost-readonly-value">Jan Novák</div>
+                                <div class="zadost-readonly-value">Správa železnic, s.o.</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Vztah k žadateli</div>
@@ -18761,7 +18799,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         <div class="zadost-readonly-grid">
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Jméno a příjmení</div>
-                                <div class="zadost-readonly-value">Jan Novák</div>
+                                <div class="zadost-readonly-value">Správa železnic, s.o.</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Datum narození</div>
@@ -18769,11 +18807,11 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Místo trvalého pobytu</div>
-                                <div class="zadost-readonly-value">Květná 123, 110 00 Praha 1</div>
+                                <div class="zadost-readonly-value">Dlážděná 1003/7, 110 00 Praha 1</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Datová schránka</div>
-                                <div class="zadost-readonly-value">abc1234</div>
+                                <div class="zadost-readonly-value">uccchjm</div>
                             </div>
                         </div>
                     </div>
@@ -18787,19 +18825,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         <div class="zadost-readonly-grid">
                             <div class="zadost-readonly-item full-width">
                                 <div class="zadost-readonly-label">Název záměru</div>
-                                <div class="zadost-readonly-value">Novostavba rodinného domu</div>
+                                <div class="zadost-readonly-value">Oprava ZZ v žst. Doudleby n. Orlicí</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Druh stavby</div>
-                                <div class="zadost-readonly-value">Budova pro bydlení</div>
+                                <div class="zadost-readonly-value">Stavba dráhy</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Účel stavby</div>
-                                <div class="zadost-readonly-value">Rodinný dům</div>
+                                <div class="zadost-readonly-value">Stavba dráhy — zabezpečovací zařízení</div>
                             </div>
                             <div class="zadost-readonly-item full-width">
                                 <div class="zadost-readonly-label">Místo stavby</div>
-                                <div class="zadost-readonly-value">ul. Sadová, Praha 4 - Kunratice</div>
+                                <div class="zadost-readonly-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div>
                             </div>
                         </div>
                     </div>
@@ -18822,16 +18860,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><strong>1234/5</strong></td>
-                                        <td>Kunratice [728390]</td>
-                                        <td>850 m²</td>
-                                        <td>Zahrada</td>
+                                        <td><strong>st. 321</strong></td>
+                                        <td>Doudleby n.O. [631761]</td>
+                                        <td>—</td>
+                                        <td>Zastavěná plocha</td>
                                     </tr>
                                     <tr>
-                                        <td><strong>1234/6</strong></td>
-                                        <td>Kunratice [728390]</td>
-                                        <td>120 m²</td>
-                                        <td>Ostatní plocha</td>
+                                        <td><strong>1549</strong></td>
+                                        <td>Doudleby n.O. [631761]</td>
+                                        <td>—</td>
+                                        <td>Ostatní plocha — dráha</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; color: #5f6368; font-style: italic;">… a dalších 36 pozemků ve 4 k.ú.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -18847,19 +18888,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         <div class="zadost-readonly-grid">
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Zastavěná plocha</div>
-                                <div class="zadost-readonly-value">145 m²</div>
+                                <div class="zadost-readonly-value">—</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Obestavěný prostor</div>
-                                <div class="zadost-readonly-value">890 m³</div>
+                                <div class="zadost-readonly-value">—</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Počet podlaží</div>
-                                <div class="zadost-readonly-value">2 nadzemní</div>
+                                <div class="zadost-readonly-value">—</div>
                             </div>
                             <div class="zadost-readonly-item">
                                 <div class="zadost-readonly-label">Počet bytů</div>
-                                <div class="zadost-readonly-value">1</div>
+                                <div class="zadost-readonly-value">—</div>
                             </div>
                         </div>
                     </div>
@@ -18881,7 +18922,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         </div>
                         <div class="formular-cislo">
                             <div class="formular-cislo-label">Číslo jednací</div>
-                            <div class="formular-cislo-value">DESU-12345/2025</div>
+                            <div class="formular-cislo-value">DESU/122/001574/26</div>
                         </div>
                     </div>
                     
@@ -18893,19 +18934,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                             <div class="formular-fields">
                                 <div class="formular-field">
                                     <div class="formular-field-label">Jméno a příjmení / Název</div>
-                                    <div class="formular-field-value">Jan Novák</div>
+                                    <div class="formular-field-value">Správa železnic, s.o.</div>
                                 </div>
                                 <div class="formular-field">
                                     <div class="formular-field-label">Datum narození / IČO</div>
-                                    <div class="formular-field-value">15. 3. 1985</div>
+                                    <div class="formular-field-value">70994234</div>
                                 </div>
                                 <div class="formular-field">
                                     <div class="formular-field-label">Adresa místa trvalého pobytu / Sídlo</div>
-                                    <div class="formular-field-value">Květná 123, 110 00 Praha 1</div>
+                                    <div class="formular-field-value">Dlážděná 1003/7, 110 00 Praha 1</div>
                                 </div>
                                 <div class="formular-field">
                                     <div class="formular-field-label">ID datové schránky</div>
-                                    <div class="formular-field-value">abc1234</div>
+                                    <div class="formular-field-value">uccchjm</div>
                                 </div>
                             </div>
                         </div>
@@ -18915,19 +18956,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                             <div class="formular-fields">
                                 <div class="formular-field full-width">
                                     <div class="formular-field-label">Název záměru</div>
-                                    <div class="formular-field-value">Novostavba rodinného domu</div>
+                                    <div class="formular-field-value">Oprava ZZ v žst. Doudleby n. Orlicí</div>
                                 </div>
                                 <div class="formular-field">
                                     <div class="formular-field-label">Místo stavby</div>
-                                    <div class="formular-field-value">ul. Sadová, Praha 4 - Kunratice</div>
+                                    <div class="formular-field-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div>
                                 </div>
                                 <div class="formular-field">
                                     <div class="formular-field-label">Parcelní čísla</div>
-                                    <div class="formular-field-value">1234/5, 1234/6</div>
+                                    <div class="formular-field-value">st. 321, st. 916, 1549, 1550/1… (38 parcel)</div>
                                 </div>
                                 <div class="formular-field">
                                     <div class="formular-field-label">Katastrální území</div>
-                                    <div class="formular-field-value">Kunratice [728390]</div>
+                                    <div class="formular-field-value">Doudleby n.O. [631761]</div>
                                 </div>
                             </div>
                         </div>
@@ -18938,27 +18979,27 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                         <div class="formular-fields">
                             <div class="formular-field">
                                 <div class="formular-field-label">Druh stavby</div>
-                                <div class="formular-field-value">Budova pro bydlení</div>
+                                <div class="formular-field-value">Stavba dráhy</div>
                             </div>
                             <div class="formular-field">
                                 <div class="formular-field-label">Účel stavby</div>
-                                <div class="formular-field-value">Rodinný dům</div>
+                                <div class="formular-field-value">Stavba dráhy — zabezpečovací zařízení</div>
                             </div>
                             <div class="formular-field">
                                 <div class="formular-field-label">Zastavěná plocha</div>
-                                <div class="formular-field-value">145 m²</div>
+                                <div class="formular-field-value">—</div>
                             </div>
                             <div class="formular-field">
                                 <div class="formular-field-label">Obestavěný prostor</div>
-                                <div class="formular-field-value">890 m³</div>
+                                <div class="formular-field-value">—</div>
                             </div>
                             <div class="formular-field">
                                 <div class="formular-field-label">Počet podlaží</div>
-                                <div class="formular-field-value">2 nadzemní</div>
+                                <div class="formular-field-value">—</div>
                             </div>
                             <div class="formular-field">
                                 <div class="formular-field-label">Počet bytů</div>
-                                <div class="formular-field-value">1</div>
+                                <div class="formular-field-value">—</div>
                             </div>
                         </div>
                     </div>
@@ -19711,9 +19752,24 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 }
             }
             
+            // === PROPAGACE DO globalIssues.vyzva ===
+            // Odebrat předchozí issues z kontroly žádosti
+            globalIssues.vyzva = globalIssues.vyzva.filter(i => i.controlName !== 'Kontrola žádosti');
+            
             if (vadaCount > 0) {
                 controls.zadost.result = 'vady';
                 controls.zadost.deficiencyNote = deficiencyNotes.join('\n');
+                
+                // Přidat každou vadu jako globalIssue
+                deficiencyNotes.forEach(note => {
+                    addGlobalIssue('vyzva', {
+                        text: 'Odstranil formální vadu žádosti: ' + note,
+                        source: 'auto',
+                        controlName: 'Kontrola žádosti',
+                        kategorie: 'formalni',
+                        typAkce: 'doplnit'
+                    });
+                });
             } else {
                 controls.zadost.result = 'ok';
             }
@@ -20285,6 +20341,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             autoCheckDone: false,
             partStatus: { A: 'unchecked', B: 'unchecked', C: 'unchecked', D: 'unchecked' },
             issues: [],
+            validatorResults: [],
             currentVersion: 'v3'
         };
         
@@ -20477,13 +20534,18 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             updateDokumentaceResult();
         }
         
-        // Přidání nedostatku k části dokumentace
+        // Přidání nedostatku k části dokumentace (strukturovaný formulář)
         function addPartIssue(part) {
-            const textarea = document.getElementById('partIssueText' + part);
-            const text = textarea.value.trim();
+            const textInput = document.getElementById('partIssueText' + part);
+            const refInput = document.getElementById('partIssueRef' + part);
+            const examplesInput = document.getElementById('partIssueExamples' + part);
+            
+            const text = textInput ? textInput.value.trim() : '';
+            const ref = refInput ? refInput.value.trim() : '';
+            const examples = examplesInput ? examplesInput.value.trim() : '';
             
             if (!text) {
-                textarea.focus();
+                if (textInput) textInput.focus();
                 return;
             }
             
@@ -20495,13 +20557,20 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             };
             
             const issueId = 'issue-' + Date.now();
-            const fullText = `Část ${part}. ${partNames[part]}: ${text}`;
+            
+            // Sestavit plný text pro výzvu
+            let fullText = `Část ${part}. ${partNames[part]}`;
+            if (ref) fullText += `, ${ref}`;
+            fullText += `: ${text}`;
+            if (examples) fullText += ` (např. ${examples})`;
             
             // Přidat do lokálního stavu
             docCheckState.issues.push({
                 id: issueId,
                 text: fullText,
                 shortText: text,
+                reference: ref,
+                examples: examples,
                 part: part,
                 source: 'manual'
             });
@@ -20509,16 +20578,73 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             // Přidat do globálního seznamu
             addGlobalIssue('vyzva', {
                 text: fullText,
+                hlavniText: fullText,
                 source: 'manual',
-                controlName: 'Kontrola dokumentace'
+                controlName: 'Kontrola dokumentace',
+                kategorie: 'obsah_pd',
+                castPD: part,
+                reference: ref || null,
+                priklady: examples ? [examples] : []
             });
             
-            // Vyrenderovat nedostatek v UI
+            // Vyrenderovat
             renderPartIssues(part);
             
-            // Vyčistit textarea
-            textarea.value = '';
-            textarea.focus();
+            // Vyčistit
+            if (textInput) textInput.value = '';
+            if (refInput) refInput.value = '';
+            if (examplesInput) examplesInput.value = '';
+            if (textInput) textInput.focus();
+            
+            updateIssuesVisibility();
+            updateDokumentaceResult();
+        }
+        
+        // Přidání průřezového nedostatku
+        function addCrossCuttingIssue() {
+            const textInput = document.getElementById('partIssueTextCross');
+            const scopeSelect = document.getElementById('partIssueScopeCross');
+            const examplesInput = document.getElementById('partIssueExamplesCross');
+            
+            const text = textInput ? textInput.value.trim() : '';
+            const scope = scopeSelect ? scopeSelect.value : 'A,B,C,D';
+            const examples = examplesInput ? examplesInput.value.trim() : '';
+            
+            if (!text) {
+                if (textInput) textInput.focus();
+                return;
+            }
+            
+            const issueId = 'issue-cross-' + Date.now();
+            
+            let fullText = `Průřezový nedostatek (části ${scope}): ${text}`;
+            if (examples) fullText += ` (${examples})`;
+            
+            docCheckState.issues.push({
+                id: issueId,
+                text: fullText,
+                shortText: text,
+                examples: examples,
+                part: 'CROSS',
+                scope: scope,
+                source: 'manual'
+            });
+            
+            addGlobalIssue('vyzva', {
+                text: fullText,
+                hlavniText: fullText,
+                source: 'manual',
+                controlName: 'Kontrola dokumentace',
+                kategorie: 'prurezovy',
+                castPD: null,
+                priklady: examples ? [examples] : []
+            });
+            
+            renderPartIssues('Cross');
+            
+            if (textInput) textInput.value = '';
+            if (examplesInput) examplesInput.value = '';
+            if (textInput) textInput.focus();
             
             updateIssuesVisibility();
             updateDokumentaceResult();
@@ -20545,24 +20671,34 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         // Vyrenderování nedostatků pro konkrétní část
         function renderPartIssues(part) {
             const list = document.getElementById('partIssuesList' + part);
-            const partIssues = docCheckState.issues.filter(i => i.part === part);
+            const partKey = part.toUpperCase() === 'CROSS' ? 'CROSS' : part;
+            const partIssues = docCheckState.issues.filter(i => i.part === partKey);
+            
+            if (!list) return;
             
             if (partIssues.length === 0) {
                 list.innerHTML = '';
                 return;
             }
             
-            list.innerHTML = partIssues.map(issue => `
-                <div class="part-issue-item" data-issue-id="${issue.id}">
-                    <div class="part-issue-icon">
-                        <span class="material-icons-outlined">warning</span>
+            list.innerHTML = partIssues.map(issue => {
+                const refBadge = issue.reference ? `<span class="issue-reference">${issue.reference}</span>` : '';
+                const examplesLine = issue.examples ? `<span class="issue-examples">např. ${issue.examples}</span>` : '';
+                return `
+                    <div class="part-issue-item" data-issue-id="${issue.id}">
+                        <div class="part-issue-icon">
+                            <span class="material-icons-outlined">warning</span>
+                        </div>
+                        <div class="part-issue-content">
+                            ${refBadge}${issue.shortText || issue.text}
+                            ${examplesLine}
+                        </div>
+                        <button class="part-issue-remove" onclick="removePartIssue('${issue.id}', '${part}')" title="Odebrat">
+                            <span class="material-icons-outlined">close</span>
+                        </button>
                     </div>
-                    <div class="part-issue-content">${issue.shortText || issue.text}</div>
-                    <button class="part-issue-remove" onclick="removePartIssue('${issue.id}', '${part}')" title="Odebrat">
-                        <span class="material-icons-outlined">close</span>
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
         // Aktualizace viditelnosti celé sekce nedostatků
@@ -20574,6 +20710,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             
             const totalIssues = docCheckState.issues.length;
             const autoIssues = docCheckState.issues.filter(i => i.source === 'auto');
+            const crossIssues = docCheckState.issues.filter(i => i.part === 'CROSS');
             const hasPartSections = ['A', 'B', 'C', 'D'].some(p => docCheckState.partStatus[p] === 'error');
             
             countEl.textContent = totalIssues;
@@ -20586,11 +20723,32 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 autoSection.style.display = 'none';
             }
             
+            // Zobrazení průřezových nedostatků
+            const crossSection = document.getElementById('partIssuesCross');
+            if (crossSection && crossIssues.length > 0) {
+                crossSection.style.display = 'block';
+            }
+            
             // Zobrazení prázdného stavu
             if (totalIssues === 0 && !hasPartSections) {
                 emptyState.style.display = 'block';
             } else {
                 emptyState.style.display = 'none';
+            }
+        }
+        
+        // Přepínání sekce průřezových nedostatků
+        function toggleCrossSection() {
+            const section = document.getElementById('partIssuesCross');
+            if (section) {
+                const isVisible = section.style.display === 'block';
+                section.style.display = isVisible ? 'none' : 'block';
+                if (!isVisible) {
+                    setTimeout(() => {
+                        const input = document.getElementById('partIssueTextCross');
+                        if (input) input.focus();
+                    }, 100);
+                }
             }
         }
         
@@ -20604,7 +20762,10 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                     <div class="part-issue-icon">
                         <span class="material-icons-outlined">auto_awesome</span>
                     </div>
-                    <div class="part-issue-content">${issue.text}</div>
+                    <div class="part-issue-content">
+                        <div style="font-size:12px;">${issue.shortText || issue.text}</div>
+                        ${issue.shortText && issue.text !== issue.shortText ? '<div style="font-size:11px;color:#80868b;margin-top:2px;">' + issue.text + '</div>' : ''}
+                    </div>
                     <button class="part-issue-remove" onclick="removeAutoIssue('${issue.id}')" title="Odebrat">
                         <span class="material-icons-outlined">close</span>
                     </button>
@@ -20636,56 +20797,107 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             btn.classList.add('loading');
             btn.innerHTML = '<span class="material-icons-outlined">sync</span>Probíhá kontrola...';
             
-            // Simulace automatické kontroly
+            // Simulace automatické kontroly validátorem BPP
             setTimeout(function() {
                 btn.classList.remove('loading');
-                btn.innerHTML = '<span class="material-icons-outlined">check</span>Kontrola dokončena';
+                btn.innerHTML = '<span class="material-icons-outlined">refresh</span>Znovu kontrolovat';
+                btn.disabled = false;
                 btn.style.background = '#137333';
+                btn.onclick = function() { btn.style.background = ''; runDocAutoCheck(); };
                 
                 desc.style.display = 'none';
+                
+                // Reálné výsledky validátoru pro Z/2026/1596
+                const validatorResults = [
+                    { icon: 'check', cls: 'success', label: 'Celkový počet souborů', detail: '247 souborů v PD balíčku (verze SR00X01HLDRP)' },
+                    { icon: 'check', cls: 'success', label: 'Formát PDF/A', detail: '247/247 souborů ve správném formátu' },
+                    { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Neplatný', 
+                      detail: '~12 souborů: chybí podpis nebo EAR na soupisech příloh (přílohy částí A–D)',
+                      issueText: 'Uvedl PD do souladu s § 13 písm. b) zák. č. 360/1992 Sb. — soupisy příloh jednotlivých částí PD neobsahují platný elektronický podpis ani elektronické autorizační razítko (EAR)',
+                      kategorie: 'autorizace' },
+                    { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Technicky nevyhovující',
+                      detail: '~30 souborů: uzamčené podpisy v sérii PS120211–PS140251 (PDF locked — nelze ověřit platnost)',
+                      issueText: 'Uvedl PD do souladu s § 13 písm. b) zák. č. 360/1992 Sb. — v provozních souborech PS 12-02-11 až PS 14-02-51 jsou elektronické podpisy technicky nevyhovující (PDF locked, nelze ověřit platnost)',
+                      kategorie: 'autorizace' },
+                    { icon: 'warning', cls: 'warning', label: 'Časová razítka',
+                      detail: '1 soubor bez časového razítka (A.1_Průvodní zpráva_soupis.pdf)',
+                      issueText: 'Uvedl PD do souladu s § 13 písm. b) zák. č. 360/1992 Sb. — soubor A.1_Průvodní zpráva_soupis.pdf nemá připojené kvalifikované elektronické časové razítko',
+                      kategorie: 'autorizace' },
+                    { icon: 'check', cls: 'success', label: 'Autorizační razítka (EAR)', detail: 'Projektant má platnou autorizaci ČKAIT č. 0123456, obor dopravní stavby' }
+                ];
+                
                 results.classList.add('visible');
+                results.innerHTML = validatorResults.map((r, idx) => {
+                    const addBtn = r.issueText ? `
+                        <button class="validator-add-btn" id="validatorAddBtn${idx}" onclick="addValidatorIssue(${idx})" title="Přidat do výzvy" style="
+                            margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+                            border: 1px solid #c5221f; border-radius: 4px; background: #fff; color: #c5221f;
+                            font-size: 11px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+                        ">
+                            <span class="material-icons-outlined" style="font-size: 14px;">add_circle</span>
+                            Do výzvy
+                        </button>
+                    ` : '';
+                    return `
+                        <div class="check-result-item">
+                            <div class="check-result-icon ${r.cls}">
+                                <span class="material-icons-outlined">${r.icon}</span>
+                            </div>
+                            <div class="check-result-content" style="flex: 1;">
+                                <div class="check-result-label">${r.label}</div>
+                                <div class="check-result-detail">${r.detail}</div>
+                            </div>
+                            ${addBtn}
+                        </div>
+                    `;
+                }).join('');
                 
-                // Automaticky přidat zjištěné nedostatky do seznamu
-                const timestampIssue = 'Chybí časové razítko u dokumentu D.1.1.02 Půdorys 1.NP.pdf';
-                const exists = docCheckState.issues.some(i => i.text === timestampIssue);
-                if (!exists) {
-                    const issueId = 'issue-auto-' + Date.now();
-                    docCheckState.issues.push({ 
-                        id: issueId,
-                        text: timestampIssue, 
-                        source: 'auto' 
-                    });
-                    
-                    // Přidat do globálního seznamu
-                    addGlobalIssue('vyzva', {
-                        text: timestampIssue,
-                        source: 'auto',
-                        controlName: 'Automatická kontrola dokumentace'
-                    });
-                    
-                    updateIssuesVisibility();
-                    // Zobrazit potvrzení u položky
-                    document.getElementById('checkTimestampAdded').style.display = 'inline';
-                }
-                
+                // Uložit výsledky pro pozdější reference
+                docCheckState.validatorResults = validatorResults;
                 docCheckState.autoCheckDone = true;
                 updateDokumentaceResult();
             }, 2000);
         }
         
-        function addIssueFromAutoCheck(issueText) {
-            // Funkce ponechána pro zpětnou kompatibilitu
-            const issueId = 'issue-auto-' + Date.now();
+        // Přidat zjištění validátoru do výzvy
+        function addValidatorIssue(resultIdx) {
+            const r = docCheckState.validatorResults[resultIdx];
+            if (!r || !r.issueText) return;
+            
+            const btn = document.getElementById('validatorAddBtn' + resultIdx);
+            
+            // Zkontrolovat duplicitu
+            const exists = docCheckState.issues.some(i => i.text === r.issueText);
+            if (exists) {
+                if (btn) { btn.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;">check</span>Již přidáno'; btn.disabled = true; btn.style.opacity = '0.5'; }
+                return;
+            }
+            
+            const issueId = 'issue-auto-' + Date.now() + '-' + resultIdx;
             docCheckState.issues.push({ 
                 id: issueId,
-                text: issueText, 
-                source: 'auto' 
-            });
-            addGlobalIssue('vyzva', {
-                text: issueText,
+                text: r.issueText, 
+                shortText: r.label + ': ' + r.detail,
                 source: 'auto',
-                controlName: 'Automatická kontrola dokumentace'
+                kategorie: r.kategorie || 'autorizace'
             });
+            
+            addGlobalIssue('vyzva', {
+                text: r.issueText,
+                source: 'auto',
+                controlName: 'Automatická kontrola dokumentace',
+                kategorie: r.kategorie || 'autorizace',
+                pravniPredpis: '§ 13 písm. b) zák. č. 360/1992 Sb.'
+            });
+            
+            if (btn) {
+                btn.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;">check</span>Přidáno';
+                btn.disabled = true;
+                btn.style.background = '#e6f4ea';
+                btn.style.color = '#137333';
+                btn.style.borderColor = '#137333';
+            }
+            
             updateIssuesVisibility();
             updateDokumentaceResult();
         }
@@ -21399,7 +21611,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                     <div class="info-panel-title">Kontrola a příprava řízení</div>
                     <div class="info-panel-text">
                         V tomto kroku proveďte kontroly žádosti a definujte parametry řízení (účastníci, pozemky, dotčené orgány). 
-                        Řízení je zahájeno dnem doručení bezvadné žádosti (7. 1. 2026), od tohoto data běží lhůta pro vydání rozhodnutí.
+                        Řízení je zahájeno dnem doručení bezvadné žádosti (6. 1. 2026), od tohoto data běží lhůta pro vydání rozhodnutí.
                     </div>
                 </div>
             `;
@@ -21469,7 +21681,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">send</span>Postoupit řízení';
             } else if (allDone && allOk) {
                 document.getElementById('summaryTitle').textContent = 'Všechny kontroly dokončeny';
-                document.getElementById('summaryDesc').textContent = 'Řízení je připraveno k zahájení. Lhůta začne běžet od 7. 1. 2026.';
+                document.getElementById('summaryDesc').textContent = 'Řízení je připraveno k zahájení. Lhůta začne běžet od 6. 1. 2026.';
                 document.getElementById('btnZahajit').disabled = false;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
             } else if (allDone && hasVady && !hasBlocking) {
@@ -21687,7 +21899,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         function completeDokumentace() {
             controls.dokumentace.done = true;
             
-            const hasProblems = Object.values(docCheckState.partStatus).some(s => s !== 'ok');
+            const hasProblems = Object.values(docCheckState.partStatus).some(s => s === 'error');
             
             if (docCheckState.issues.length > 0 || hasProblems) {
                 controls.dokumentace.result = 'vady';
@@ -21696,6 +21908,19 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 controls.dokumentace.result = 'ok';
                 controls.dokumentace.issues = [];
             }
+            
+            // Propagace — odebrat staré issues z této kontroly (idempotentní)
+            // Poznámka: jednotlivé nedostatky se přidávají průběžně v addPartIssue/addValidatorIssue,
+            // takže zde jen odebereme ty, co uživatel mezitím smazal
+            const currentIssueTexts = new Set(docCheckState.issues.map(i => i.text));
+            globalIssues.vyzva = globalIssues.vyzva.filter(gi => {
+                if (gi.controlName === 'Kontrola dokumentace' || gi.controlName === 'Automatická kontrola dokumentace') {
+                    return currentIssueTexts.has(gi.text) || currentIssueTexts.has(gi.hlavniText);
+                }
+                return true;
+            });
+            updateGlobalIssuesBadge();
+            renderGlobalIssues();
             
             closeControl('controlDokumentace');
             updateUI();
@@ -21708,75 +21933,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             aiAnalyzaDone: false,
             editingSubjektIndex: null,
             subjekty: [
-                // DO - Dotčené orgány
-                { 
-                    id: 'hzs', typ: 'do', nazev: 'HZS Středočeského kraje', detail: 'Požární ochrana',
-                    zeZadosti: true, prilozeno: false, 
-                    dokument: { typ: 'zavazne_stanovisko', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null, // null | 'kladne' | 'kladne_s_podminkami' | 'zaporne'
-                    podminky: [],
-                    poznamka: ''
-                },
-                { 
-                    id: 'khs', typ: 'do', nazev: 'KHS Středočeského kraje', detail: 'Hygiena',
-                    zeZadosti: true, prilozeno: false,
-                    dokument: { typ: 'zavazne_stanovisko', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                },
-                { 
-                    id: 'ozp', typ: 'do', nazev: 'OŽP - odbor živ. prostředí', detail: 'Obecní úřad',
-                    zeZadosti: false, prilozeno: false,
-                    dokument: { typ: 'jes', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                },
-                
-                // VTI - Vlastníci technické infrastruktury
-                { 
-                    id: 'cez', typ: 'vti', nazev: 'ČEZ Distribuce, a.s.', detail: 'Elektřina',
-                    zeZadosti: true, prilozeno: false,
-                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                },
-                { 
-                    id: 'gasnet', typ: 'vti', nazev: 'GasNet, s.r.o.', detail: 'Plyn',
-                    zeZadosti: true, prilozeno: false,
-                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                },
-                { 
-                    id: 'vak', typ: 'vti', nazev: 'Vodárny Kladno-Mělník', detail: 'Vodovod a kanalizace',
-                    zeZadosti: true, prilozeno: false,
-                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                },
-                { 
-                    id: 'cetin', typ: 'vti', nazev: 'CETIN, a.s.', detail: 'Telekomunikace',
-                    zeZadosti: false, prilozeno: false,
-                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                },
-                
-                // VDI - Vlastníci dopravní infrastruktury
-                { 
-                    id: 'ksus', typ: 'vdi', nazev: 'KSÚS Středočeského kraje', detail: 'Silnice II. a III. třídy',
-                    zeZadosti: false, prilozeno: false,
-                    dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
-                    vysledek: null,
-                    podminky: [],
-                    poznamka: ''
-                }
+                // Prázdné — subjekty se načtou AI analýzou dokladové části
             ]
         };
 
@@ -21800,6 +21957,21 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                     groups[s.typ].items.push({ ...s, index });
                 }
             });
+
+            // Prázdný stav — před AI analýzou
+            if (identifikaceState.subjekty.length === 0) {
+                const emptyHtml = `
+                    <div style="text-align: center; padding: 24px; color: #9aa0a6; font-size: 13px;">
+                        <span class="material-icons-outlined" style="font-size: 28px; display: block; margin-bottom: 8px;">search_off</span>
+                        Spusťte AI analýzu pro načtení dokladů z přílohy žádosti
+                    </div>
+                `;
+                for (const [typ, group] of Object.entries(groups)) {
+                    group.countEl.textContent = '0';
+                    group.container.innerHTML = emptyHtml;
+                }
+                return;
+            }
 
             // Renderovat každou skupinu
             for (const [typ, group] of Object.entries(groups)) {
@@ -21854,20 +22026,39 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                     } else {
                         podminkyHtml = '<span style="color: #9aa0a6; font-size: 11px;">—</span>';
                     }
+                    
+                    // Poznámka/varování pod řádkem
+                    let poznamkaHtml = '';
+                    if (s.poznamka) {
+                        const isWarning = s.poznamka.includes('POZOR') || s.poznamka.includes('vypršela') || s.poznamka.includes('nelze považovat') || s.poznamka.includes('chybí zcela');
+                        const warnColor = isWarning ? '#ea8600' : '#5f6368';
+                        const warnIcon = isWarning ? 'warning' : 'info';
+                        poznamkaHtml = `
+                            <div class="matrix-row-note" style="grid-column: 1 / -1; padding: 2px 12px 6px 28px; font-size: 11px; color: ${warnColor}; display: flex; align-items: center; gap: 4px;">
+                                <span class="material-icons-outlined" style="font-size: 14px;">${warnIcon}</span>
+                                ${s.poznamka}
+                            </div>
+                        `;
+                    }
 
                     html += `
                         <div class="matrix-row extended ${rowClass}" data-index="${s.index}">
                             <div class="matrix-subjekt">
                                 <div class="matrix-subjekt-name">${s.nazev}</div>
-                                <div class="matrix-subjekt-detail">${s.detail}</div>
+                                <div class="matrix-subjekt-detail">${s.detail}${s.dokument && s.dokument.nazevSouboru ? ' <span style="color:#80868b;font-size:10px;">📄 ' + s.dokument.nazevSouboru + '</span>' : ''}</div>
                             </div>
                             <div class="matrix-cell">${zeZadostiCheck}</div>
                             <div class="matrix-cell">${prilozenoCheck}</div>
                             <div class="matrix-cell">${vysledekHtml}</div>
                             <div class="matrix-cell">${podminkyHtml}</div>
                         </div>
+                        ${poznamkaHtml}
                     `;
                 });
+                
+                if (group.items.length === 0) {
+                    html = `<div style="text-align: center; padding: 12px; color: #9aa0a6; font-size: 12px;">Žádné subjekty v této kategorii</div>`;
+                }
                 group.container.innerHTML = html;
             }
         }
@@ -21875,6 +22066,7 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         function getRowStatusClass(s) {
             if (!s.prilozeno && identifikaceState.aiAnalyzaDone) return 'status-missing';
             if (s.prilozeno && s.vysledek === 'zaporne') return 'status-missing';
+            if (s.prilozeno && s.poznamka && (s.poznamka.includes('vypršela') || s.poznamka.includes('nelze považovat'))) return 'status-extra'; // warning orange
             if (s.prilozeno && s.vysledek === 'kladne_s_podminkami') return 'status-ok';
             if (s.prilozeno && s.vysledek === 'kladne') return 'status-ok';
             if (s.prilozeno && !s.vysledek) return 'status-extra';
@@ -22032,71 +22224,166 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             
             btn.disabled = true;
             btn.innerHTML = '<span class="material-icons-outlined">hourglass_empty</span>Analyzuji...';
-            status.innerHTML = '<span class="material-icons-outlined">sync</span>Probíhá AI analýza dokladové části...';
+            status.innerHTML = '<span class="material-icons-outlined">sync</span>Probíhá AI analýza dokladové části — identifikace dokumentů z PDF příloh...';
             status.className = 'identifikace-ai-status';
 
             setTimeout(function() {
-                // Simulace AI výsledků - dokumenty nalezeny s metadaty a podmínkami
-                identifikaceState.subjekty.forEach(s => {
-                    if (s.id === 'hzs') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'zavazne_stanovisko', cisloJednaci: 'HSCR-2025-0147', datumVydani: '2025-01-08', nazevSouboru: 'Stanovisko_HZS_2025-01-08.pdf' };
-                        s.vysledek = 'kladne';
-                    } else if (s.id === 'khs') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'zavazne_stanovisko', cisloJednaci: 'KHS/2025/00891', datumVydani: '2025-01-05', nazevSouboru: 'Vyjadreni_KHS_2025-01-05.pdf' };
-                        s.vysledek = 'kladne_s_podminkami';
-                        s.podminky = [
-                            { text: 'K žádosti o kolaudační rozhodnutí předložit doklad o výsledku laboratorní kontroly vzorku pitné vody.', aktivni: true },
-                            { text: 'K žádosti o kolaudační rozhodnutí předložit doklad o měření intenzity el. osvětlení v prostoru kanceláře.', aktivni: true }
-                        ];
-                    } else if (s.id === 'cez') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'CEZ/2024/987654', datumVydani: '2024-12-15', nazevSouboru: 'Vyjadreni_CEZ_2024-12-15.pdf' };
-                        s.vysledek = 'kladne_s_podminkami';
-                        s.podminky = [
-                            { text: 'Při realizaci stavby dodržet ochranné pásmo elektrického vedení NN.', aktivni: true }
-                        ];
-                    } else if (s.id === 'gasnet') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'GN/5678/2024', datumVydani: '2024-12-12', nazevSouboru: 'Vyjadreni_GasNet_2024-12-12.pdf' };
-                        s.vysledek = 'kladne';
-                    } else if (s.id === 'vak') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'VKM/2024/12345', datumVydani: '2024-12-20', nazevSouboru: 'Vyjadreni_VaK_2024-12-20.pdf' };
-                        s.vysledek = 'kladne_s_podminkami';
-                        s.podminky = [
-                            { text: 'Přípojka vodovodu bude provedena podle přiložené situace.', aktivni: true },
-                            { text: 'Před záhozem bude provedena tlaková zkouška za účasti zástupce VaK.', aktivni: true }
-                        ];
-                    } else if (s.id === 'cetin') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'CETIN/2024/98765', datumVydani: '2024-12-18', nazevSouboru: 'Vyjadreni_CETIN_2024-12-18.pdf' };
-                        s.vysledek = 'kladne';
-                    } else if (s.id === 'ksus') {
-                        s.prilozeno = true;
-                        s.dokument = { typ: 'vyjadreni', cisloJednaci: 'KSUS/2025/001234', datumVydani: '2025-01-02', nazevSouboru: 'Stanovisko_KSUS_2025-01-02.pdf' };
-                        s.vysledek = 'kladne_s_podminkami';
-                        s.podminky = [
-                            { text: 'Sjezd bude proveden v souladu s ČSN 73 6110.', aktivni: true }
-                        ];
-                    }
-                    // ozp (DO) zůstává nepřiložen jako příklad chybějícího závazného stanoviska DO
-                });
+                // ===== AI analyzuje PDF přílohy a identifikuje jednotlivé doklady =====
+                // Zachovat případné manuálně přidané subjekty
+                const manualSubjekty = identifikaceState.subjekty.filter(s => s.source === 'manual');
+                
+                identifikaceState.subjekty = [
+                    // DO — závazná stanoviska
+                    { id: 'koord_zs', typ: 'do', nazev: 'MěÚ Kostelec n.O. — koordinované ZS', detail: 'Koordinované závazné stanovisko',
+                      zeZadosti: true, prilozeno: true, 
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: 'R/2025/18662/4', datumVydani: '2025-03-04', nazevSouboru: '1.1._MěÚ Kostelec nO-koord.záv.stan..pdf' },
+                      vysledek: 'kladne_s_podminkami',
+                      podminky: [{ text: 'Podmínky jednotlivých DO zahrnuty v koordinovaném ZS.', aktivni: true }],
+                      poznamka: '' },
+                    { id: 'jes', typ: 'do', nazev: 'MěÚ Rychnov n.K. — JES', detail: 'Jednotné environmentální stanovisko',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: 'R/2025/14716', datumVydani: '2025-02-20', nazevSouboru: '1.2._MěÚ Rychnov nK-JES.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'pcr', typ: 'do', nazev: 'Policie ČR, DI Rychnov n.K.', detail: 'Dopravní inspektorát',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: 'KRPH-69305/ČJ-2024-050706', datumVydani: '2024-07-10', nazevSouboru: '1.7._PČR DI-záv.stan..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'du', typ: 'do', nazev: 'Drážní úřad', detail: 'Stanovisko k PD stavby dráhy',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: 'DUCR-44974/24/Bd', datumVydani: '2024-11-15', nazevSouboru: '1.8._Drážní úřad-záv.stan..pdf' },
+                      vysledek: 'kladne_s_podminkami',
+                      podminky: [{ text: 'Při realizaci stavby dodržet podmínky Drážního úřadu pro provoz na dráze.', aktivni: true }],
+                      poznamka: '' },
+                    { id: 'obec_doudleby', typ: 'do', nazev: 'Městys Doudleby n.O.', detail: 'Souhlas obce',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: '', datumVydani: '2025-04-10', nazevSouboru: '1.3._Městys Doudleby-souhlas.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'obec_zamel', typ: 'do', nazev: 'Obec Záměl', detail: 'Souhlas obce',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: '', datumVydani: '2025-04-08', nazevSouboru: '1.4._Obec Záměl-souhlas.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'natura_100', typ: 'do', nazev: 'KÚKHK — NATURA 2000 (100)', detail: 'Hodnocení vlivů na lokality Natura',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'zavazne_stanovisko', cisloJednaci: 'KUKHK-100/2025', datumVydani: '2025-01-15', nazevSouboru: '3.1._KÚKHK-NATURA-100.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    
+                    // VTI — přiložena a v pořádku
+                    { id: 'cetin', typ: 'vti', nazev: 'CETIN a.s.', detail: 'Elektronické komunikace',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '629637/24', datumVydani: '2024-07-22', nazevSouboru: '4.2.1._CETIN-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'cez_dso_exist', typ: 'vti', nazev: 'ČEZ Distribuce a.s. — existence', detail: 'Elektřina — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '0101699963', datumVydani: '2024-07-20', nazevSouboru: '4.2.3._ČEZ DSO-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'cez_dso_pd', typ: 'vti', nazev: 'ČEZ Distribuce a.s. — k PD', detail: 'Elektřina — souhlas k PD',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '0101757128', datumVydani: '2024-10-15', nazevSouboru: '4.2.4._ČEZ DSO-souhlas k PD.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'gasnet_exist', typ: 'vti', nazev: 'GasNet s.r.o. — existence', detail: 'Plyn — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '5002723740', datumVydani: '2024-07-18', nazevSouboru: '4.2.8._GasNet-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'gasnet_pd', typ: 'vti', nazev: 'GasNet s.r.o. — k PD', detail: 'Plyn — souhlas k PD',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '5002789456', datumVydani: '2024-11-20', nazevSouboru: '4.2.9._GasNet-souhlas k PD.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'ceps', typ: 'vti', nazev: 'ČEPS a.s.', detail: 'Přenosová soustava — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '2024-08-05', nazevSouboru: '4.2.15._ČEPS-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'aqua', typ: 'vti', nazev: 'AQUA SERVIS a.s.', detail: 'Vodovod a kanalizace — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '2024-08-12', nazevSouboru: '4.2.17._AQUA SERVIS-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'cd_telematika', typ: 'vti', nazev: 'ČD - Telematika a.s.', detail: 'Telekomunikace na dráze — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '2024-09-10', nazevSouboru: '4.2.29._ČD Telematika-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' },
+                    { id: 'sz_souhrnne', typ: 'vti', nazev: 'Správa železnic — souhrnné stanovisko', detail: 'Správce dráhy',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '2025-06-15', nazevSouboru: '4.2.35._SŽ-souhrnné stanovisko.pdf' },
+                      vysledek: 'kladne_s_podminkami',
+                      podminky: [{ text: 'Stavba bude realizována při zajištění bezpečnosti železničního provozu.', aktivni: true }],
+                      poznamka: '' },
+                    
+                    // VTI — přiložena, ale prošla platnost
+                    { id: 'tmobile', typ: 'vti', nazev: 'T-Mobile Czech Republic a.s.', detail: 'Mobilní síť — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: 'E42955/24', datumVydani: '2024-07-19', nazevSouboru: '4.2.10._T-Mobile-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [],
+                      poznamka: 'POZOR: Platnost vyjádření č.j. E42955/24 ze dne 19.7.2024 vypršela' },
+                    { id: 'vodafone', typ: 'vti', nazev: 'Vodafone Czech Republic a.s.', detail: 'Mobilní síť — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: 'MW9910256208716969', datumVydani: '2024-07-19', nazevSouboru: '4.2.11._Vodafone-vyj.exist..pdf' },
+                      vysledek: 'kladne', podminky: [],
+                      poznamka: 'POZOR: Platnost vyjádření č.j. MW991025... ze dne 19.7.2024 vypršela' },
+                    { id: 'mo_exist', typ: 'vti', nazev: 'Ministerstvo obrany — existence', detail: 'Vojenská infrastruktura',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: 'MO 628844/2024-1322', datumVydani: '2024-08-06', nazevSouboru: '4.2.34._MO-vyj.-exist..pdf' },
+                      vysledek: 'kladne', podminky: [],
+                      poznamka: 'POZOR: Platnost vyjádření č.j. MO 628844/2024-1322 ze dne 6.8.2024 vypršela' },
+                    
+                    // VTI — chybí zcela (z DTM, ale dokument nepřiložen)
+                    { id: 'cra', typ: 'vti', nazev: 'České radiokomunikace a.s.', detail: 'RR spoje — DTM',
+                      zeZadosti: false, prilozeno: false,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                      vysledek: null, podminky: [],
+                      poznamka: 'Dle DTM: RR_spoje — vyjádření chybí zcela' },
+                    { id: 'spu', typ: 'vti', nazev: 'Státní pozemkový úřad', detail: 'Meliorace KH 07 — DTM k.ú. Záměl',
+                      zeZadosti: false, prilozeno: false,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                      vysledek: null, podminky: [],
+                      poznamka: 'Dle DTM: meliorace KH 07, k.ú. Záměl — vyjádření chybí zcela' },
+                    
+                    // VDI
+                    { id: 'rsd', typ: 'vdi', nazev: 'ŘSD ČR, s.p.', detail: 'Silniční doprava — DTM k.ú. Doudleby, Vamberk',
+                      zeZadosti: false, prilozeno: false,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
+                      vysledek: null, podminky: [],
+                      poznamka: 'Dle DTM: silniční doprava, k.ú. Doudleby n.O., Vamberk — vyjádření chybí zcela' },
+                    { id: 'sskhk', typ: 'vdi', nazev: 'SSKHK, p.p. (Správa silnic KHK)', detail: 'Silnice II. a III. třídy — DTM',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '2024-09-20', nazevSouboru: '6.6._SSKHK-souhlas na výkr..pdf' },
+                      vysledek: 'kladne', podminky: [],
+                      poznamka: 'Předložen souhlas na výkrese 01 — nelze považovat za vyjádření dle DTM pro k.ú. Doudleby, Kostelec' },
+                    { id: 'cd_rsm', typ: 'vdi', nazev: 'České dráhy a.s. — RSM HK', detail: 'Provozovatel dráhy',
+                      zeZadosti: true, prilozeno: true,
+                      dokument: { typ: 'vyjadreni', cisloJednaci: '', datumVydani: '2025-01-10', nazevSouboru: '6.2._ČD RSM-exist.+souhlas PD.pdf' },
+                      vysledek: 'kladne', podminky: [], poznamka: '' }
+                ];
+                
+                // Připojit zpět manuálně přidané subjekty
+                manualSubjekty.forEach(s => identifikaceState.subjekty.push(s));
 
                 identifikaceState.aiAnalyzaDone = true;
                 
-                btn.innerHTML = '<span class="material-icons-outlined">check</span>Analýza dokončena';
-                btn.disabled = true;
+                // Tlačítko se změní na "Znovu analyzovat"
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-icons-outlined">refresh</span>Znovu analyzovat';
+                btn.onclick = function() { rerunAiAnalyza(); };
                 
                 const nalezeno = identifikaceState.subjekty.filter(s => s.prilozeno).length;
-                status.innerHTML = `<span class="material-icons-outlined">check_circle</span>Nalezeno ${nalezeno} dokumentů v dokladové části`;
+                const celkem = identifikaceState.subjekty.length;
+                const chybi = celkem - nalezeno;
+                const expired = identifikaceState.subjekty.filter(s => s.poznamka && s.poznamka.includes('vypršela')).length;
+                let statusText = 'Nalezeno ' + nalezeno + '/' + celkem + ' dokumentů';
+                if (chybi > 0) statusText += ', ' + chybi + ' chybí';
+                if (expired > 0) statusText += ', ' + expired + '× prošla platnost';
+                status.innerHTML = '<span class="material-icons-outlined">check_circle</span>' + statusText;
                 status.className = 'identifikace-ai-status done';
 
                 renderIdentifikaceMatrix();
                 updateIdentifikaceResult();
                 updateSouhrnRozhodnuti();
             }, 2000);
+        }
+        
+        function rerunAiAnalyza() {
+            // Reset a znovu spustit — zachovat manuálně přidané subjekty
+            identifikaceState.aiAnalyzaDone = false;
+            renderIdentifikaceMatrix();
+            aiAnalyzeDoklady();
         }
 
         function showDocsTooltip(index, btnEl) {
@@ -22129,13 +22416,15 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 dokument: { typ: dokTyp, cisloJednaci: '', datumVydani: '', nazevSouboru: '' },
                 vysledek: null,
                 podminky: [],
-                poznamka: ''
+                poznamka: 'Ručně přidáno referentem — vyjádření/stanovisko chybí',
+                source: 'manual'
             });
 
             nazevInput.value = '';
             renderIdentifikaceMatrix();
             updateIdentifikaceResult();
             updateSouhrnRozhodnuti();
+            showToast('Přidán subjekt: ' + nazev);
         }
 
         function updateSouhrnRozhodnuti() {
@@ -22208,8 +22497,8 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             return {
                 metadata: {
                     datumVytvoreni: new Date().toISOString(),
-                    spisZn: 'SR00X01I35GT',
-                    nazevZameru: 'Novostavba RD včetně přípojek'
+                    spisZn: 'SZ DESU/000612/26',
+                    nazevZameru: 'Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí'
                 },
                 souhrn: {
                     celkemSubjektu: identifikaceState.subjekty.length,
@@ -22659,6 +22948,16 @@ ${reportContent}
             const chybiVTI_VDI = identifikaceState.subjekty.filter(s => !s.prilozeno && identifikaceState.aiAnalyzaDone && (s.typ === 'vti' || s.typ === 'vdi'));
             const zaporne = identifikaceState.subjekty.filter(s => s.vysledek === 'zaporne');
             
+            // Subjekty s prošlou platností (mají poznámku o expiraci)
+            const proslaPlatnost = identifikaceState.subjekty.filter(s => 
+                s.prilozeno && s.poznamka && s.poznamka.includes('platnost') && s.poznamka.includes('vypršela')
+            );
+            
+            // Subjekty s nedostatečným typem dokladu
+            const nedostatecny = identifikaceState.subjekty.filter(s => 
+                s.prilozeno && s.poznamka && s.poznamka.includes('nelze považovat')
+            );
+            
             controls.identifikace.done = true;
             
             // Uložit kompletní data pro generování rozhodnutí
@@ -22685,10 +22984,51 @@ ${reportContent}
                     }))
             };
             
+            // === PROPAGACE DO globalIssues.vyzva ===
+            // Nejprve odebrat předchozí issues z této kontroly
+            globalIssues.vyzva = globalIssues.vyzva.filter(i => i.controlName !== 'Dokladová část');
+            
+            const hasDeficiencies = chybiVTI_VDI.length > 0 || proslaPlatnost.length > 0 || nedostatecny.length > 0;
+            
+            if (hasDeficiencies) {
+                // Sestavit strukturovaný text pro výzvu
+                const parts = [];
+                
+                if (chybiVTI_VDI.length > 0) {
+                    parts.push('Doplnil vyjádření vlastníků technické a dopravní infrastruktury dle § 181 odst. 1 písm. d) SZ: ' + 
+                        chybiVTI_VDI.map(s => s.nazev + (s.poznamka ? ' (' + s.detail + ')' : '')).join(', ') + '.');
+                }
+                
+                if (proslaPlatnost.length > 0) {
+                    parts.push('Doplnil aktuální vyjádření (platnost vypršela): ' + 
+                        proslaPlatnost.map(s => s.nazev + ' (č.j. ' + s.dokument.cisloJednaci + ' ze dne ' + s.dokument.datumVydani + ')').join(', ') + '.');
+                }
+                
+                if (nedostatecny.length > 0) {
+                    parts.push('Doplnil vyjádření v odpovídající formě (souhlas na výkrese nelze považovat za vyjádření dle DTM): ' +
+                        nedostatecny.map(s => s.nazev).join(', ') + '.');
+                }
+                
+                addGlobalIssue('vyzva', {
+                    text: parts.join('\n'),
+                    hlavniText: parts.join('\n'),
+                    source: 'auto',
+                    controlName: 'Dokladová část',
+                    kategorie: 'dokladova_cast',
+                    pravniPredpis: '§ 181 odst. 1 písm. d) zák. č. 283/2021 Sb.',
+                    typAkce: 'doplnit',
+                    detaily: {
+                        chybiZcela: chybiVTI_VDI.map(s => ({ nazev: s.nazev, detail: s.detail, poznamka: s.poznamka })),
+                        proslaPlatnost: proslaPlatnost.map(s => ({ nazev: s.nazev, cj: s.dokument.cisloJednaci, datum: s.dokument.datumVydani })),
+                        nedostatecny: nedostatecny.map(s => ({ nazev: s.nazev, poznamka: s.poznamka }))
+                    }
+                });
+            }
+            
             // Určit výsledek kontroly
             if (zaporne.length > 0) {
                 controls.identifikace.result = 'error';
-            } else if (chybiVTI_VDI.length > 0) {
+            } else if (chybiVTI_VDI.length > 0 || proslaPlatnost.length > 0 || nedostatecny.length > 0) {
                 controls.identifikace.result = 'vady';
             } else if (chybiDO.length > 0) {
                 controls.identifikace.result = 'vyzidat_do';
@@ -22797,12 +23137,12 @@ ${reportContent}
         
         // Simulovaná data vlastníků pro demo
         const simulatedKNData = {
-            'st. 123': { vlastnik: 'Jan Novák', typ: 'FO', adresa: 'Květná 123, 110 00 Praha 1', vecnaPrava: null },
-            '456/1': { vlastnik: 'Jan Novák', typ: 'FO', adresa: 'Květná 123, 110 00 Praha 1', vecnaPrava: 'VB: ČEZ' },
+            'st. 123': { vlastnik: 'Správa železnic, s.o.', typ: 'FO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            '456/1': { vlastnik: 'Správa železnic, s.o.', typ: 'FO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: 'VB: ČEZ' },
             'st. 122': { vlastnik: 'Marie Veselá', typ: 'FO', adresa: 'Růžová 45, 551 01 Jaroměř', vecnaPrava: null },
             'st. 124': { vlastnik: 'Petr Svoboda', typ: 'FO', adresa: 'Lipová 78, 551 01 Jaroměř', vecnaPrava: null },
             '456/2': { vlastnik: 'ČEZ Distribuce, a. s.', typ: 'PO', adresa: 'Teplická 874/8, 405 02 Děčín', vecnaPrava: null },
-            '457': { vlastnik: 'Město Jaroměř', typ: 'PO', adresa: 'nám. ČSA 16, 551 01 Jaroměř', vecnaPrava: null }
+            '457': { vlastnik: 'Městys Doudleby n.O.', typ: 'PO', adresa: 'nám. ČSA 16, 551 01 Jaroměř', vecnaPrava: null }
         };
         
         // Přepínání tabů v sekci účastníků
@@ -23058,7 +23398,7 @@ ${reportContent}
                     <tr data-osoba-id="jan-novak-kn" data-overeno="false">
                         <td><span class="os-status pending" title="Neověřeno proti ROS/ROB"><span class="material-icons-outlined">help_outline</span></span></td>
                         <td>
-                            <strong>Jan Novák</strong><br>
+                            <strong>Správa železnic, s.o.</strong><br>
                             <small class="text-muted">Fyzická osoba</small>
                             <span class="os-zastoupen-info" id="zastoupenJanNovak" style="display: none;"></span>
                         </td>
@@ -23180,8 +23520,8 @@ ${reportContent}
         
         // Simulovaná data z rejstříků ROB/ROS
         const rejstrikData = {
-            'jan-novak': { adresa: 'Květná 123, 110 00 Praha 1', ds: 'abc123x', typ: 'FO' },
-            'jan-novak-kn': { adresa: 'Květná 123, 110 00 Praha 1', ds: 'abc123x', typ: 'FO' },
+            'jan-novak': { adresa: 'Dlážděná 1003/7, 110 00 Praha 1', ds: 'uccchjm', typ: 'FO' },
+            'jan-novak-kn': { adresa: 'Dlážděná 1003/7, 110 00 Praha 1', ds: 'uccchjm', typ: 'FO' },
             'mesto-jaromer': { adresa: 'nám. ČSA 16, 551 01 Jaroměř', ds: 'xyz789m', typ: 'PO' },
             'cez-distribuce-vb': { adresa: 'Teplická 874/8, 405 02 Děčín', ds: 'cezdis01', typ: 'PO' },
             'cez-distribuce': { adresa: 'Teplická 874/8, 405 02 Děčín', ds: 'cezdis01', typ: 'PO' },
@@ -23456,7 +23796,7 @@ ${reportContent}
                 if (nameEl) {
                     const name = nameEl.textContent;
                     // Přeskočit již existující v základním seznamu
-                    if (name === 'Jan Novák' || name === 'Město Jaroměř') return;
+                    if (name === 'Správa železnic, s.o.' || name === 'Městys Doudleby n.O.') return;
                     
                     const typeEl = row.querySelector('td:nth-child(2) small');
                     const type = typeEl ? typeEl.textContent : '';
@@ -24016,10 +24356,6 @@ ${reportContent}
                 <span class="material-icons-outlined">download</span>
                 Exportovat
             </button>
-            <button class="btn btn-primary" onclick="openGenModal()" id="btnGenVyzva" style="background: #0d47a1;">
-                <span class="material-icons-outlined">description</span>
-                Generovat výzvu
-            </button>
             <button class="btn btn-primary" onclick="closeSlideout('prehledNedostatku')">
                 Zavřít
             </button>
@@ -24045,13 +24381,13 @@ ${reportContent}
                     Základní údaje
                 </div>
                 <div class="data-row">
-                    <div class="data-label">Číslo řízení</div>
-                    <div class="data-value">R/2026/000147</div>
+                    <div class="data-label">Spis. značka</div>
+                    <div class="data-value">SZ DESU/000612/26</div>
                 </div>
                 <div class="data-row">
                     <div class="data-label">Název stavby</div>
                     <div class="data-value editable">
-                        <span id="udajeNazevStavby">Novostavba RD včetně přípojek</span>
+                        <span id="udajeNazevStavby">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</span>
                         <button class="data-edit-btn" onclick="editUdaj('nazevStavby')" title="Upravit">
                             <span class="material-icons-outlined">edit</span>
                         </button>
@@ -24063,11 +24399,11 @@ ${reportContent}
                 </div>
                 <div class="data-row">
                     <div class="data-label">Druh stavby</div>
-                    <div class="data-value">Jednoduchá stavba</div>
+                    <div class="data-value">Stavba dráhy</div>
                 </div>
                 <div class="data-row">
                     <div class="data-label">Datum doručení</div>
-                    <div class="data-value">7. 1. 2026</div>
+                    <div class="data-value">6. 1. 2026</div>
                 </div>
                 <div class="data-row">
                     <div class="data-label">Stav řízení</div>
@@ -24083,7 +24419,7 @@ ${reportContent}
                 </div>
                 <div class="data-row">
                     <div class="data-label">Lhůta pro rozhodnutí</div>
-                    <div class="data-value">30 dnů (do 6. 2. 2026)</div>
+                    <div class="data-value">60 dnů (do 6. 3. 2026)</div>
                 </div>
                 <div class="data-row">
                     <div class="data-label">Stavění lhůty</div>
@@ -24100,11 +24436,19 @@ ${reportContent}
                 <div class="data-list" id="udajePozemky">
                     <div class="data-list-item">
                         <span class="material-icons-outlined">place</span>
-                        st. 123/1, k.ú. Veselí nad Lužnicí
+                        k.ú. Doudleby nad Orlicí (26 parcel)
                     </div>
                     <div class="data-list-item">
                         <span class="material-icons-outlined">place</span>
-                        456/2, k.ú. Veselí nad Lužnicí
+                        k.ú. Kostelec nad Orlicí (1 parcela)
+                    </div>
+                    <div class="data-list-item">
+                        <span class="material-icons-outlined">place</span>
+                        k.ú. Vamberk (10 parcel)
+                    </div>
+                    <div class="data-list-item">
+                        <span class="material-icons-outlined">place</span>
+                        k.ú. Záměl (1 parcela)
                     </div>
                 </div>
                 <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="openControl('controlPozemky')">
@@ -24121,12 +24465,12 @@ ${reportContent}
                 </div>
                 <div class="data-list" id="udajeUcastnici">
                     <div class="data-list-item">
-                        <span class="material-icons-outlined">person</span>
-                        Marek Vondruška (stavebník)
+                        <span class="material-icons-outlined">business</span>
+                        Správa železnic, s.o. (stavebník)
                     </div>
                     <div class="data-list-item">
                         <span class="material-icons-outlined">person</span>
-                        Jana Nová (vlastník sousedního pozemku)
+                        Signal Projekt s.r.o. (zástupce)
                     </div>
                 </div>
                 <button class="btn btn-secondary" style="margin-top: 12px; width: 100%;" onclick="openControl('controlUcastnici')">
@@ -24143,11 +24487,15 @@ ${reportContent}
                 </div>
                 <div class="data-row">
                     <div class="data-label">Referent</div>
-                    <div class="data-value">Aleš Krupa</div>
+                    <div class="data-value">Ing. et Ing. Martina Homolová Dubová, Ph.D.</div>
+                </div>
+                <div class="data-row">
+                    <div class="data-label">Odbor</div>
+                    <div class="data-value">Odbor staveb drah, ÚP Olomouc</div>
                 </div>
                 <div class="data-row">
                     <div class="data-label">Přiřazeno od</div>
-                    <div class="data-value">7. 1. 2026</div>
+                    <div class="data-value">6. 1. 2026</div>
                 </div>
             </div>
         </div>
@@ -24742,10 +25090,10 @@ ${reportContent}
                     jmeno: 'Jan',
                     prijmeni: 'Novák',
                     datumNarozeni: '15. 3. 1985',
-                    trvaleBytem: 'Květná 123, 110 00 Praha 1',
+                    trvaleBytem: 'Dlážděná 1003/7, 110 00 Praha 1',
                     email: 'jan.novak@email.cz',
                     telefon: '+420 601 234 567',
-                    ds: 'abc123x'
+                    ds: 'uccchjm'
                 }
             },
             'zastupce-pm': {
@@ -24818,11 +25166,11 @@ ${reportContent}
                 zvlastnosti: [],
                 zvlastnostiText: '—',
                 zadatel: {
-                    nazev: 'STAVBY NOVÁK s.r.o.',
-                    ico: '28563412',
-                    sidlo: 'Průmyslová 456, 551 01 Jaroměř',
-                    ds: 'stavnov1',
-                    jednatel: 'Ing. Jan Novák'
+                    nazev: 'Správa železnic, státní organizace',
+                    ico: '70994234',
+                    sidlo: 'Dlážděná 1003/7, 110 00 Praha 1',
+                    ds: 'uccchjm',
+                    jednatel: 'Pavla Kosinová'
                 }
             },
             'osvc': {
@@ -24898,7 +25246,7 @@ ${reportContent}
                     ds: null
                 },
                 vlastnikPozemku: {
-                    jmeno: 'Město Jaroměř',
+                    jmeno: 'Městys Doudleby n.O.',
                     typ: 'po',
                     souhlas: true
                 }
@@ -25790,447 +26138,6 @@ ${reportContent}
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
         });
-
-        // ═══════════════════════════════════════════════════════
-        // GENEROVÁNÍ VÝZVY K DOPLNĚNÍ — HTML PREVIEW
-        // ═══════════════════════════════════════════════════════
-
-        function openGenModal() {
-            const issues = globalIssues.vyzva.filter(i => !i.resolved);
-            const count = issues.length;
-            document.getElementById('genIssueCount').textContent = count;
-            const btn = document.getElementById('btnGenVyzva');
-            if (count === 0) {
-                document.getElementById('genNoIssues').style.display = 'block';
-                document.getElementById('genVariantGrid').style.opacity = '0.4';
-                document.getElementById('genVariantGrid').style.pointerEvents = 'none';
-            } else {
-                document.getElementById('genNoIssues').style.display = 'none';
-                document.getElementById('genVariantGrid').style.opacity = '1';
-                document.getElementById('genVariantGrid').style.pointerEvents = 'auto';
-            }
-            document.getElementById('genModalOverlay').classList.add('open');
-        }
-
-        function closeGenModal() {
-            document.getElementById('genModalOverlay').classList.remove('open');
-        }
-
-        // ── Category mapping based on control source ──
-        function categorizeIssue(issue) {
-            const cn = (issue.controlName || '').toLowerCase();
-            const txt = (issue.text || '').toLowerCase();
-            
-            // Validátor — formální náležitosti PD (autorizace, podpisy, razítka)
-            if (cn.includes('automatická kontrola') || cn.includes('validátor') || cn.includes('reza') ||
-                txt.includes('autorizov') || txt.includes('časové razítko') || txt.includes('elektronicky ověřen')) {
-                return { cat: 'formal', label: 'Formální náležitosti PD', color: '#c62828', bg: '#ffebee', border: '#c62828' };
-            }
-            // Dokladová část — stanoviska, vyjádření, DTM
-            if (cn.includes('identifikace') || cn.includes('dtm') || cn.includes('příslušnost') || cn.includes('soulad') ||
-                txt.includes('stanovisk') || txt.includes('vyjádření') || txt.includes('vti') || txt.includes('vdi') ||
-                txt.includes('souhlas') || txt.includes('dotčen') || txt.includes('vlastník') || txt.includes('eia') ||
-                txt.includes('zjišťovac')) {
-                return { cat: 'doklady', label: 'Dokladová část', color: '#e65100', bg: '#fff3e0', border: '#ff8f00' };
-            }
-            // Obsah PD — průvodní zpráva, STZ, výkresy, dokumentace objektů
-            if (cn.includes('kontrola dokumentace') || cn.includes('kontrola pd') ||
-                txt.includes('průvodní') || txt.includes('souhrnná') || txt.includes('situační') ||
-                txt.includes('dokumentace objekt') || txt.includes('výkres') || txt.includes('technická zpráva') ||
-                txt.includes('část a') || txt.includes('část b') || txt.includes('část c') || txt.includes('část d')) {
-                return { cat: 'obsah_pd', label: 'Obsah PD', color: '#6a1b9a', bg: '#f3e5f5', border: '#7b1fa2' };
-            }
-            // Default
-            return { cat: 'ostatni', label: 'Ostatní', color: '#37474f', bg: '#eceff1', border: '#546e7a' };
-        }
-
-        // ── Collect case metadata from the page ──
-        function getCaseMeta() {
-            const caseNum = document.querySelector('.case-number')?.textContent?.trim() || 'R/2026/000147';
-            const caseTitle = document.getElementById('caseTitleHeader')?.textContent?.trim() || 'Novostavba RD včetně přípojek';
-            const zamer = document.querySelector('.case-meta-link')?.textContent?.trim()?.replace(/\s+/g,' ') || 'Záměr Z/2026/1457';
-            const zamerId = zamer.match(/Z\/\d+\/\d+/)?.[0] || 'Z/2026/1457';
-            return {
-                rizeni: caseNum,
-                nazev: caseTitle,
-                zamer: zamerId,
-                spisZn: 'SZ ' + caseNum.replace('R/', 'DESU/'),
-                cj: caseNum.replace('R/', 'DESU/') + '/CJ',
-                vyrizuje: 'Ing. Jana Nováková',
-                tel: '222 111 333',
-                email: 'jana.novakova@desu.gov.cz',
-                datum: new Date().toLocaleDateString('cs-CZ'),
-                lhuta: 60
-            };
-        }
-
-        // ══════════════════════════════════════════
-        // MODERN variant — color-coded cards
-        // ══════════════════════════════════════════
-        function generateModern() {
-            const issues = globalIssues.vyzva.filter(i => !i.resolved);
-            if (!issues.length) return;
-            const meta = getCaseMeta();
-
-            // Group by category
-            const groups = {};
-            issues.forEach((issue, idx) => {
-                const cat = categorizeIssue(issue);
-                if (!groups[cat.cat]) groups[cat.cat] = { ...cat, items: [] };
-                groups[cat.cat].items.push({ ...issue, num: idx + 1 });
-            });
-
-            const catOrder = ['formal', 'doklady', 'obsah_pd', 'ostatni'];
-            const sorted = catOrder.filter(k => groups[k]).map(k => groups[k]);
-
-            let cardsHtml = '';
-            let num = 0;
-            sorted.forEach(group => {
-                let itemsHtml = group.items.map(item => {
-                    num++;
-                    const source = item.controlName ? `<div style="font-size:11px;color:#9e9e9e;margin-top:4px;">${item.controlName} · ${item.source === 'auto' ? 'Automatická' : 'Manuální'}</div>` : '';
-                    return `<div style="margin:6px 0;font-size:13px;line-height:1.55;text-align:justify;">
-                        <strong style="color:${group.color};">${num}.</strong> ${escHtml(item.text)}${source}
-                    </div>`;
-                }).join('');
-
-                cardsHtml += `
-                <div style="background:${group.bg};border-left:4px solid ${group.border};border-radius:6px;padding:14px 16px;margin-bottom:10px;break-inside:avoid;">
-                    <div style="font-size:14px;font-weight:700;color:${group.color};margin-bottom:6px;">
-                        ${escHtml(group.label)}
-                        <span style="font-weight:400;font-size:12px;color:#757575;margin-left:8px;">(${group.items.length})</span>
-                    </div>
-                    ${itemsHtml}
-                </div>`;
-            });
-
-            const html = modernTemplate(meta, cardsHtml, issues.length);
-            openPreview(html, 'Výzva_MODERN');
-        }
-
-        function modernTemplate(meta, cardsHtml, totalIssues) {
-            return `<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
-<title>Výzva k doplnění — ${escHtml(meta.nazev)}</title>
-<style>
-@page { size: A4; margin: 12mm 15mm 12mm 20mm; }
-@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 13px; color: #212121; line-height: 1.5; }
-.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0 15mm 12mm 20mm; position: relative; }
-.header-bar { background: #0d47a1; color: #fff; padding: 8px 20px; margin: 0 -15mm 0 -20mm; width: calc(100% + 35mm); display: flex; justify-content: space-between; align-items: center; }
-.header-bar .title { font-size: 13px; font-weight: 700; }
-.header-bar .sub { font-size: 10px; opacity: 0.8; }
-.meta-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: #f5f5f5; margin: 10px 0; border-radius: 4px; }
-.meta-cell { padding: 8px 12px; border-right: 1px solid #e0e0e0; }
-.meta-cell:last-child { border-right: none; }
-.meta-label { font-size: 10px; color: #9e9e9e; }
-.meta-value { font-size: 12px; font-weight: 600; }
-h1 { font-size: 17px; color: #0d47a1; margin: 12px 0 2px; }
-.subtitle { font-size: 12px; color: #616161; margin-bottom: 10px; }
-.intro { font-size: 13px; color: #424242; margin-bottom: 14px; text-align: justify; }
-.tag { display: inline-block; background: #ff8f00; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; vertical-align: middle; }
-.tag-gray { background: #616161; }
-.section-title { font-size: 15px; font-weight: 700; color: #0d47a1; margin: 16px 0 6px; display: flex; align-items: center; gap: 8px; }
-hr.sep { border: none; border-top: 1px solid #90caf9; margin: 16px auto; width: 60%; }
-.usneseni-box { background: #e3f2fd; border-left: 4px solid #0d47a1; border-radius: 6px; padding: 14px 16px; margin: 10px 0; }
-.usneseni-box p { font-size: 13px; line-height: 1.55; text-align: justify; }
-.warn-italic { font-size: 12px; color: #616161; font-style: italic; margin: 10px 0; text-align: justify; }
-.sig { text-align: right; margin-top: 30px; }
-.sig-name { font-size: 14px; font-weight: 700; }
-.sig-title { font-size: 12px; color: #616161; }
-.footer-line { border-top: 1px solid #e0e0e0; margin-top: 14px; padding-top: 6px; font-size: 11px; color: #9e9e9e; }
-</style></head><body>
-<div class="page">
-    <div class="header-bar">
-        <span class="title">DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD</span>
-        <span class="sub">Odbor výstavby</span>
-    </div>
-    <div class="meta-strip">
-        <div class="meta-cell"><div class="meta-label">Spis. zn.</div><div class="meta-value">${escHtml(meta.spisZn)}</div></div>
-        <div class="meta-cell"><div class="meta-label">Č.j.</div><div class="meta-value">${escHtml(meta.cj)}</div></div>
-        <div class="meta-cell"><div class="meta-label">Vyřizuje</div><div class="meta-value">${escHtml(meta.vyrizuje)}</div></div>
-        <div class="meta-cell"><div class="meta-label">Datum</div><div class="meta-value">${escHtml(meta.datum)}</div></div>
-    </div>
-    <div class="meta-strip" style="margin-top:0;">
-        <div class="meta-cell"><div class="meta-label">Záměr</div><div class="meta-value">${escHtml(meta.zamer)}</div></div>
-        <div class="meta-cell"><div class="meta-label">Tel.</div><div class="meta-value">${escHtml(meta.tel)}</div></div>
-        <div class="meta-cell" style="grid-column:span 2;"><div class="meta-label">E-mail</div><div class="meta-value">${escHtml(meta.email)}</div></div>
-    </div>
-
-    <h1>${escHtml(meta.nazev)}</h1>
-    <div class="subtitle">Řízení: ${escHtml(meta.rizeni)} · záměr: ${escHtml(meta.zamer)}</div>
-
-    <div class="section-title">I. Výzva k odstranění nedostatků žádosti <span class="tag">LHŮTA ${meta.lhuta} DNŮ</span></div>
-
-    <div class="intro">
-        DESÚ jako stavební úřad příslušný dle § 33 odst. 2 zákona č. 283/2021 Sb. zjistil, 
-        že žádost neobsahuje požadované náležitosti, a proto dle § 185 odst. 2 stavebního zákona 
-        <strong>vyzývá</strong> stavebníka, aby nejpozději do <strong>${meta.lhuta} dnů</strong> 
-        od doručení předloženou žádost doplnil o tyto údaje a podklady:
-    </div>
-
-    ${cardsHtml}
-
-    <p class="warn-italic">
-        Pokud nebudou nedostatky ve stanovené lhůtě odstraněny, bude řízení zastaveno 
-        dle § 66 odst. 1 písm. c) správního řádu (z. č. 500/2004 Sb.).
-    </p>
-
-    <hr class="sep">
-
-    <div class="section-title">II. Usnesení o přerušení řízení <span class="tag tag-gray">BEZ ODVOLÁNÍ</span></div>
-
-    <div class="usneseni-box">
-        <p>DESÚ dle § 185 odst. 2 stavebního zákona <strong>přerušuje</strong> řízení o záměru 
-        <strong>„${escHtml(meta.nazev)}"</strong>.</p>
-        <p style="margin-top:8px;">Řízení se přerušuje do doby doplnění žádosti o povolení záměru, 
-        nejdéle však na dobu <strong>${meta.lhuta} dnů ode dne doručení výzvy</strong>.</p>
-    </div>
-
-    <p style="margin-top:10px;font-size:13px;"><strong>Odůvodnění:</strong> Stavební úřad zjistil, 
-    že žádost neobsahuje požadované náležitosti (celkem ${totalIssues} nedostatků), 
-    a proto stavebníka vyzval k doplnění. Současně určil lhůtu na dobu ${meta.lhuta} dnů 
-    ode dne doručení výzvy. Po dobu přerušení lhůta dle § 65 odst. 1 správního řádu neběží.</p>
-
-    <p class="warn-italic" style="margin-top:8px;">
-        <strong>Poučení:</strong> Proti tomuto usnesení se dle § 185 odst. 2 stavebního zákona nelze odvolat.
-    </p>
-
-    <div class="sig">
-        <div class="sig-name">${escHtml(meta.vyrizuje)}</div>
-        <div class="sig-title">oprávněná úřední osoba</div>
-    </div>
-
-    <div class="footer-line">
-        ${escHtml(meta.cj)} · ${escHtml(meta.spisZn)} · Generováno: ${new Date().toLocaleString('cs-CZ')}
-    </div>
-</div>
-</body></html>`;
-        }
-
-        // ══════════════════════════════════════════
-        // COMPACT variant — table-driven layout
-        // ══════════════════════════════════════════
-        function generateCompact() {
-            const issues = globalIssues.vyzva.filter(i => !i.resolved);
-            if (!issues.length) return;
-            const meta = getCaseMeta();
-
-            let rows = '';
-            issues.forEach((issue, idx) => {
-                const cat = categorizeIssue(issue);
-                const bgRow = idx % 2 === 0 ? '#fff' : '#f8f9fa';
-                const source = issue.controlName
-                    ? `<div style="font-size:10px;color:#9e9e9e;margin-top:3px;">${escHtml(issue.controlName)} · ${issue.source === 'auto' ? 'Auto' : 'Man.'}</div>`
-                    : '';
-                rows += `<tr style="background:${bgRow};">
-                    <td style="text-align:center;vertical-align:top;padding:6px;font-weight:600;border-bottom:1px solid #e0e0e0;">${idx+1}</td>
-                    <td style="vertical-align:top;padding:6px;border-bottom:1px solid #e0e0e0;">
-                        <span style="display:inline-block;background:${cat.bg};color:${cat.color};font-size:10px;font-weight:600;padding:1px 6px;border-radius:3px;border:1px solid ${cat.border};">${escHtml(cat.label)}</span>
-                    </td>
-                    <td style="vertical-align:top;padding:6px;font-size:12.5px;line-height:1.5;text-align:justify;border-bottom:1px solid #e0e0e0;">
-                        ${escHtml(issue.text)}${source}
-                    </td>
-                </tr>`;
-            });
-
-            const html = compactTemplate(meta, rows, issues.length);
-            openPreview(html, 'Výzva_COMPACT');
-        }
-
-        function compactTemplate(meta, tableRows, totalIssues) {
-            return `<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
-<title>Výzva k doplnění — ${escHtml(meta.nazev)}</title>
-<style>
-@page { size: A4; margin: 12mm 15mm 12mm 18mm; }
-@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 13px; color: #212121; line-height: 1.45; }
-.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0 15mm 12mm 18mm; }
-.header-bar { background: #0d47a1; color: #fff; padding: 7px 18px; margin: 0 -15mm 0 -18mm; width: calc(100% + 33mm); display: flex; justify-content: space-between; align-items: center; }
-.header-bar .title { font-size: 12px; font-weight: 700; }
-.header-bar .sub { font-size: 9px; opacity: 0.8; }
-.accent-line { height: 2px; background: #90caf9; margin: 0 -15mm 0 -18mm; width: calc(100% + 33mm); }
-.meta-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: #f5f5f5; margin: 8px 0; border-radius: 4px; }
-.meta-cell { padding: 6px 10px; border-right: 1px solid #e0e0e0; }
-.meta-cell:last-child { border-right: none; }
-.meta-label { font-size: 9px; color: #9e9e9e; }
-.meta-value { font-size: 11.5px; font-weight: 600; }
-.subj-box { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 8px 12px; margin-bottom: 10px; font-size: 12.5px; }
-.section-title { font-size: 14px; font-weight: 700; color: #0d47a1; margin: 12px 0 4px; }
-.intro { font-size: 12px; color: #424242; margin-bottom: 8px; text-align: justify; }
-table.defects { width: 100%; border-collapse: collapse; border: 1px solid #1565c0; margin: 6px 0; }
-table.defects th { background: #1565c0; color: #fff; font-size: 11px; padding: 5px 6px; text-align: left; }
-.warn-box { background: #fff3e0; border: 1px solid #ff8f00; border-radius: 4px; padding: 8px 12px; margin: 8px 0; font-size: 12px; }
-.usn-box { background: #e0f2f1; border-left: 3px solid #00796b; border-radius: 4px; padding: 10px 14px; margin: 8px 0; font-size: 13px; text-align: justify; }
-.sig { text-align: right; margin-top: 24px; }
-.sig-name { font-size: 13px; font-weight: 700; }
-.sig-title { font-size: 11px; color: #616161; }
-.footer-sep { border-top: 1px solid #dee2e6; margin-top: 10px; padding-top: 4px; font-size: 10px; color: #9e9e9e; }
-</style></head><body>
-<div class="page">
-    <div class="header-bar">
-        <div>
-            <div class="title">DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD</div>
-            <div class="sub">Odbor výstavby</div>
-        </div>
-        <div style="text-align:right;">
-            <div style="font-size:10px;">Č.j.: ${escHtml(meta.cj)}</div>
-            <div style="font-size:10px;">Spis. zn.: ${escHtml(meta.spisZn)}</div>
-        </div>
-    </div>
-    <div class="accent-line"></div>
-
-    <div class="meta-strip">
-        <div class="meta-cell"><div class="meta-label">Záměr</div><div class="meta-value">${escHtml(meta.zamer)}</div></div>
-        <div class="meta-cell"><div class="meta-label">Vyřizuje</div><div class="meta-value">${escHtml(meta.vyrizuje)}</div></div>
-        <div class="meta-cell"><div class="meta-label">Lhůta</div><div class="meta-value">${meta.lhuta} dnů</div></div>
-        <div class="meta-cell"><div class="meta-label">Datum</div><div class="meta-value">${escHtml(meta.datum)}</div></div>
-    </div>
-
-    <div class="subj-box">
-        <strong>Záměr:</strong> „${escHtml(meta.nazev)}" · <strong>Řízení:</strong> ${escHtml(meta.rizeni)}
-    </div>
-
-    <div class="section-title">I. Výzva k odstranění nedostatků žádosti</div>
-
-    <div class="intro">
-        DESÚ dle § 33 odst. 2 z. č. 283/2021 Sb. zjistil, že žádost neobsahuje požadované 
-        náležitosti a dle § 185 odst. 2 <strong>vyzývá</strong> stavebníka, aby do 
-        <strong>${meta.lhuta} dnů</strong> od doručení žádost doplnil:
-    </div>
-
-    <table class="defects">
-        <thead>
-            <tr>
-                <th style="width:30px;">#</th>
-                <th style="width:110px;">Kategorie</th>
-                <th>Popis nedostatku</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${tableRows}
-        </tbody>
-    </table>
-
-    <div style="font-size:10px;color:#9e9e9e;margin:4px 0 6px;">
-        <span style="display:inline-block;background:#ffebee;color:#c62828;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #c62828;">Formální nál. PD</span>&emsp;
-        <span style="display:inline-block;background:#fff3e0;color:#e65100;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #ff8f00;">Dokladová část</span>&emsp;
-        <span style="display:inline-block;background:#f3e5f5;color:#6a1b9a;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #7b1fa2;">Obsah PD</span>&emsp;
-        <span style="display:inline-block;background:#eceff1;color:#37474f;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #546e7a;">Ostatní</span>
-    </div>
-
-    <div class="warn-box">
-        ⚠ Pokud nebudou nedostatky ve stanovené lhůtě odstraněny, řízení bude zastaveno 
-        dle § 66 odst. 1 písm. c) správního řádu.
-    </div>
-
-    <div class="section-title" style="margin-top:14px;">II. Usnesení o přerušení řízení</div>
-
-    <div class="usn-box">
-        <p>DESÚ dle § 185 odst. 2 stavebního zákona <strong>přerušuje</strong> řízení o záměru 
-        <strong>„${escHtml(meta.nazev)}"</strong>.</p>
-        <p style="margin-top:6px;">Řízení se přerušuje do doby doplnění žádosti, nejdéle na dobu 
-        <strong>${meta.lhuta} dnů ode dne doručení výzvy</strong>.</p>
-    </div>
-
-    <p style="margin-top:8px;font-size:12px;text-align:justify;">
-        <strong>Odůvodnění:</strong> Stavební úřad zjistil ${totalIssues} nedostatků. 
-        Stavebníka vyzval k doplnění se lhůtou ${meta.lhuta} dnů. 
-        Po dobu přerušení lhůta dle § 65 odst. 1 správního řádu neběží.
-    </p>
-
-    <p style="margin-top:6px;font-size:11.5px;font-style:italic;color:#616161;">
-        <strong>Poučení:</strong> Proti tomuto usnesení se dle § 185 odst. 2 stavebního zákona nelze odvolat.
-    </p>
-
-    <div class="sig">
-        <div class="sig-name">${escHtml(meta.vyrizuje)}</div>
-        <div class="sig-title">oprávněná úřední osoba</div>
-    </div>
-
-    <div class="footer-sep">
-        ${escHtml(meta.cj)} · ${escHtml(meta.spisZn)} · Generováno: ${new Date().toLocaleString('cs-CZ')}
-    </div>
-</div>
-</body></html>`;
-        }
-
-        // ── Helpers ──
-        function escHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-        }
-
-        function openPreview(html, title) {
-            const w = window.open('', title, 'width=800,height=1000');
-            if (w) {
-                w.document.write(html);
-                w.document.close();
-            } else {
-                alert('Prohlížeč zablokoval vyskakovací okno. Povolte pop-up pro tuto stránku.');
-            }
-            closeGenModal();
-        }
-
     </script>
-
-    <!-- ═══ Modal: Generování výzvy ═══ -->
-    <div class="gen-modal-overlay" id="genModalOverlay" onclick="if(event.target===this)closeGenModal()">
-        <div class="gen-modal">
-            <div class="gen-modal-header">
-                <div class="gen-modal-title">
-                    <span class="material-icons-outlined">description</span>
-                    Generovat výzvu k doplnění
-                </div>
-                <button class="gen-modal-close" onclick="closeGenModal()">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="gen-modal-body">
-                <div class="gen-modal-info">
-                    Vygenerovat náhled dokumentu <strong>I. Výzva + II. Usnesení o přerušení</strong> 
-                    z aktuálně evidovaných nedostatků (<strong id="genIssueCount">0</strong> nevyřešených).
-                    Dokument se otevře v novém okně pro tisk / uložení jako PDF.
-                </div>
-                <div id="genNoIssues" style="display:none;background:#fff3e0;border-radius:6px;padding:12px;text-align:center;margin-bottom:14px;font-size:13px;color:#e65100;">
-                    <span class="material-icons-outlined" style="vertical-align:middle;font-size:18px;">info</span>
-                    Žádné nevyřešené nedostatky. Nejprve proveďte kontroly.
-                </div>
-                <div class="gen-variant-grid" id="genVariantGrid">
-                    <div class="gen-variant-card" onclick="generateModern()">
-                        <div class="variant-icon" style="background: #0d47a1;">
-                            <span class="material-icons-outlined">view_agenda</span>
-                        </div>
-                        <div class="variant-name">Modern</div>
-                        <div class="variant-desc">
-                            Barevně kódované karty seskupené podle kategorie nedostatku. 
-                            Přehledný pro delší seznamy.
-                        </div>
-                    </div>
-                    <div class="gen-variant-card" onclick="generateCompact()">
-                        <div class="variant-icon" style="background: #1565c0;">
-                            <span class="material-icons-outlined">table_chart</span>
-                        </div>
-                        <div class="variant-name">Compact</div>
-                        <div class="variant-desc">
-                            Tabulková podoba se štítky kategorií. 
-                            Úsporný formát pro přehledný tisk.
-                        </div>
-                    </div>
-                </div>
-                <div class="gen-legend">
-                    <div class="gen-legend-title">Barevné kategorie (systémové):</div>
-                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#c62828;"></span> Formální náležitosti PD (validátor)</span>
-                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#ff8f00;"></span> Dokladová část (stanoviska, DTM)</span>
-                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#7b1fa2;"></span> Obsah PD (průvodní/STZ/výkresy)</span>
-                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#546e7a;"></span> Ostatní</span>
-                </div>
-            </div>
-            <div class="gen-modal-footer">
-                <button class="btn btn-secondary" onclick="closeGenModal()">Zavřít</button>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
