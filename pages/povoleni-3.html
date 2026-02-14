@@ -1723,7 +1723,7 @@
                     </div>
                     <div class="control-card-body">
                         <div class="control-card-title">Předpis poplatku</div>
-                        <div class="control-card-desc">Generování předpisu správního poplatku</div>
+                        <div class="control-card-desc">Výzva k zaplacení · plně automatický dokument</div>
                         <button class="control-card-action">
                             <span class="material-icons-outlined">lock</span>
                             Nejprve nastavení
@@ -1992,75 +1992,93 @@
         </div>
     </div>
 
-    <!-- Control Overlay: Předpis poplatku -->
+    <!-- Control Overlay: Výzva k zaplacení správního poplatku (PLNĚ AUTOMATICKÝ) -->
     <div class="control-overlay" id="controlPoplatek">
         <div class="control-header">
             <div class="control-header-left">
                 <button class="control-close" onclick="closeControl('controlPoplatek')">
                     <span class="material-icons-outlined">close</span>
                 </button>
-                <h2 class="control-title">Předpis poplatku</h2>
+                <h2 class="control-title">
+                    <span class="material-icons-outlined">payments</span>
+                    Výzva k zaplacení správního poplatku
+                </h2>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:#e6f4ea;padding:5px 12px;border-radius:14px;font-size:11px;color:#137333;font-weight:500">
+                <span class="material-icons-outlined" style="font-size:16px">auto_awesome</span>
+                Plně automatický dokument
             </div>
         </div>
-        <div class="control-content">
-            <div class="control-form-panel">
-                <div class="control-section">
-                    <div class="control-section-title">Výpočet správního poplatku</div>
-                    <div class="summary-card">
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">Typ stavby</span>
-                            <span class="summary-stat-value">Rodinný dům</span>
-                        </div>
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">Kategorie</span>
-                            <span class="summary-stat-value">Jednoduchá stavba</span>
-                        </div>
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">Sazba poplatku</span>
-                            <span class="summary-stat-value">5 000 Kč</span>
-                        </div>
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">Přípojky (3×)</span>
-                            <span class="summary-stat-value">+ 1 500 Kč</span>
-                        </div>
-                        <div class="summary-stat" style="border-top: 2px solid #004289; padding-top: 12px; margin-top: 4px;">
-                            <span class="summary-stat-label" style="font-weight: 500; color: #202124;">Celkem k úhradě</span>
-                            <span class="summary-stat-value" style="font-size: 18px; color: #004289;">6 500 Kč</span>
-                        </div>
+        <div class="control-content" style="flex-direction: column; align-items: center; overflow-y: auto; padding: 24px;">
+            <!-- Info banner -->
+            <div style="max-width:620px;width:100%;margin-bottom:20px">
+                <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#e6f4ea;border-radius:8px;margin-bottom:16px">
+                    <span class="material-icons-outlined" style="color:#137333;font-size:22px">check_circle</span>
+                    <div>
+                        <div style="font-size:13px;font-weight:600;color:#137333">Dokument je plně připraven</div>
+                        <div style="font-size:12px;color:#5f6368;margin-top:1px">Všechna data dostupná ze systému. Žádný vstup úředníka není potřeba.</div>
                     </div>
                 </div>
 
-                <div class="control-section">
-                    <div class="control-section-title">Splatnost</div>
-                    <div class="form-group">
-                        <label class="form-label">Lhůta splatnosti (dny)</label>
-                        <input type="number" class="form-input" id="splatnostPoplatku" value="15" min="7">
-                    </div>
+                <!-- Calculation -->
+                <div style="background:#f8f9fa;border-radius:8px;padding:14px 18px;margin-bottom:16px">
+                    <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#5f6368;margin-bottom:8px">Výpočet poplatku</div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Druh řízení</span><span style="font-weight:500">Povolení záměru</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Kategorie stavby</span><span style="font-weight:500">Jednoduchá stavba</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Položka sazebníku</span><span style="font-weight:500">Pol. 18 odst. 1 písm. a)</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Základní sazba</span><span style="font-weight:500">5 000 Kč</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#137333">Sleva — Portál stavebníka (20 %, max 1 000 Kč)</span><span style="font-weight:500;color:#137333">− 1 000 Kč</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0 4px;font-size:15px;border-top:2px solid #202124;margin-top:4px"><span style="font-weight:600">Poplatek k úhradě</span><span style="font-weight:700;color:#004289">4 000 Kč</span></div>
                 </div>
             </div>
-            <div class="control-viewer-panel">
-                <div class="viewer-content">
-                    <div class="document-preview">
-                        <h3>PŘEDPIS SPRÁVNÍHO POPLATKU</h3>
-                        <p><strong>Č.j.:</strong> R/2026/000147</p>
-                        <p><strong>Poplatník:</strong> Jan Novák, Příčná 123, Praha 5</p>
-                        <p><strong>Předmět:</strong> Žádost o povolení stavby - Novostavba RD včetně přípojek</p>
-                        <hr style="margin: 16px 0;">
-                        <p>Na základě zákona č. 634/2004 Sb., o správních poplatcích, Vám předepisuji správní poplatek:</p>
-                        <p style="font-size: 18px; font-weight: 500; text-align: center !important; margin: 20px 0;">6 500 Kč</p>
-                        <p>Poplatek je splatný do 15 dnů od doručení tohoto předpisu.</p>
-                        <p><strong>Způsob úhrady:</strong> bezhotovostně na účet č. 123456789/0100, VS: 2026000147</p>
-                    </div>
+
+            <!-- Paper preview -->
+            <div style="background:white;box-shadow:0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);border-radius:2px;max-width:620px;width:100%;padding:40px 48px;font-family:'Roboto',serif;font-size:11px;line-height:1.6;color:#333">
+                <div style="text-align:center;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #004289">
+                    <div style="font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1px">Dopravní a energetický stavební úřad</div>
+                    <div style="font-size:10px;color:#555;margin-top:2px">Odbor staveb drah · Oddělení Plzeň</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:#555;margin-bottom:20px">
+                    <div><div>Spis. zn.: <strong>SZ DESU/004539/26</strong></div><div>Č.j.: <strong>DESU/121/004594/26</strong></div></div>
+                    <div style="text-align:right"><div>Vyřizuje: <strong>Ing. Kálal</strong></div><div>Datum: <strong>14. 2. 2026</strong></div></div>
+                </div>
+                <div style="text-align:center;font-size:15px;font-weight:700;margin:16px 0;letter-spacing:2px">VÝZVA</div>
+                <div style="text-align:center;font-size:12px;font-weight:500;margin:-8px 0 16px;letter-spacing:1px">K ZAPLACENÍ SPRÁVNÍHO POPLATKU</div>
+
+                <p style="margin-bottom:8px;text-align:justify"><strong>RotaGroup a.s.</strong>, jednající ve věci zmocnění za Industrial Center CR 2 s.r.o. (dále jen „žadatel") dne 11. 6. 2025 podal žádost o povolení záměru:</p>
+                <p style="text-align:center;font-weight:600;font-style:italic;margin:8px 0">„Novostavba RD včetně přípojek"</p>
+                <p style="margin-bottom:8px;text-align:justify">DESÚ vyzývá žadatele, aby do <strong>15 dnů</strong> ode dne doručení této výzvy zaplatil správní poplatek se slevou podle § 9 odst. 6 zákona o správních poplatcích (podání přes Portál stavebníka — 20 %, max 1 000 Kč):</p>
+
+                <div style="text-align:center;font-size:20px;font-weight:700;color:#004289;margin:14px 0;padding:10px;background:#e8f0fe;border-radius:6px">
+                    4 000 Kč
+                    <div style="font-size:11px;font-weight:400;color:#555;margin-top:3px">(slovy: čtyři tisíce korun českých)</div>
+                    <div style="font-size:9px;color:#888;margin-top:2px">Základní sazba 5 000 Kč − sleva 1 000 Kč</div>
+                </div>
+
+                <p style="margin-bottom:8px">Na účet č. <strong>3711-1426011/0710</strong>, VS: <strong>2026000147</strong></p>
+                <div style="text-align:right;margin-top:24px;font-size:10px">
+                    <strong>Ing. Jitka Kotásková</strong><br>
+                    ředitelka odboru staveb drah
+                </div>
+                <div style="margin-top:16px;padding-top:10px;border-top:1px solid #ddd;font-size:9px;color:#666">
+                    <strong>Obdrží:</strong><br>RotaGroup a.s., IDDS: 78hx792
                 </div>
             </div>
         </div>
         <div class="control-form-footer">
-            <div class="control-form-footer-left"></div>
+            <div class="control-form-footer-left" style="font-size:11px;color:#5f6368">
+                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">info</span>
+                Dokument vygenerován automaticky ze systémových dat
+            </div>
             <div class="control-form-footer-right">
-                <button class="btn btn-secondary" onclick="closeControl('controlPoplatek')">Zrušit</button>
-                <button class="btn btn-primary" onclick="completePoplatek()">
+                <button class="btn btn-secondary" onclick="closeControl('controlPoplatek')">Zavřít</button>
+                <button class="btn btn-secondary">
+                    <span class="material-icons-outlined">visibility</span>
+                    Náhled PDF
+                </button>
+                <button class="btn btn-primary" onclick="completePoplatek()" style="background:#137333">
                     <span class="material-icons-outlined">send</span>
-                    Předat ke schválení
+                    Generovat a odeslat
                 </button>
             </div>
         </div>
