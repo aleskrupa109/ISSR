@@ -11832,6 +11832,82 @@
                 flex: 1;
             }
         }
+    
+        /* ================================================
+           BLOCK EDITOR: Výzva k doplnění + Usnesení
+           ================================================ */
+        .editor-layout { display: flex; flex: 1; overflow: hidden; }
+        .editor-sidebar { width: 220px; border-right: 1px solid #e0e0e0; background: #f8f9fa; overflow-y: auto; flex-shrink: 0; padding: 10px 0; }
+        .editor-sidebar .sidebar-section { padding: 0 10px; margin-bottom: 10px; }
+        .editor-sidebar .sidebar-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; color: #5f6368; margin-bottom: 4px; padding: 0 6px; }
+        .editor-sidebar .sidebar-item { display: flex; align-items: center; gap: 5px; padding: 5px 6px; border-radius: 4px; cursor: pointer; font-size: 11px; margin-bottom: 1px; }
+        .editor-sidebar .sidebar-item:hover { background: #e8eaed; }
+        .editor-sidebar .sidebar-item.active { background: #d2e3fc; color: #004289; font-weight: 500; }
+        .si-icon { width: 16px; height: 16px; border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .si-icon.auto { background: #e8eaed; color: #5f6368; }
+        .si-icon.semi { background: #d2e3fc; color: #004289; }
+        .si-icon.free { background: #fef7e0; color: #e37400; }
+        .si-icon .material-icons-outlined { font-size: 11px; }
+        .sidebar-legend { padding: 8px 10px; border-top: 1px solid #e0e0e0; margin-top: 6px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #5f6368; margin-bottom: 2px; }
+        .legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+        .editor-main { flex: 1; overflow-y: auto; padding: 20px; background: #eef1f5; }
+        .editor-paper { max-width: 680px; margin: 0 auto; background: white; box-shadow: 0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15); border-radius: 3px; padding: 32px 40px; min-height: 700px; }
+        .doc-block { position: relative; margin-bottom: 2px; padding: 7px 9px; border-radius: 3px; transition: all .12s; border-left: 3px solid transparent; }
+        .doc-block.auto { border-left-color: #dadce0; background: #f1f3f4; }
+        .doc-block.semi { border-left-color: #a8c7fa; background: #e8f0fe; cursor: pointer; }
+        .doc-block.semi:hover { background: #d2e3fc; }
+        .doc-block.free { border-left-color: #f9ab00; background: #fffdf5; }
+        .doc-block.free:hover { background: #fff8e1; }
+        .block-label { position: absolute; top: 2px; right: 2px; display: none; font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; padding: 1px 4px; border-radius: 2px; opacity: .7; align-items: center; gap: 2px; }
+        .doc-block:hover .block-label { display: flex; }
+        .block-label.auto-label { background: #e8eaed; color: #5f6368; }
+        .block-label.semi-label { background: #d2e3fc; color: #004289; }
+        .block-label.free-label { background: #fef7e0; color: #e37400; }
+        .block-label .material-icons-outlined { font-size: 9px; }
+        .block-body { font-size: 11px; line-height: 1.55; color: #333; }
+        .block-body p { margin-bottom: 5px; text-align: justify; }
+        .block-urad { text-align: center; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .block-sub { text-align: center; font-size: 10px; color: #555; margin-top: 1px; }
+        .block-header-text { text-align: center; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 5px 0; }
+
+        .deficiency-list-editor { margin: 4px 0; }
+        .deficiency-item-ed { display: flex; align-items: flex-start; gap: 7px; padding: 7px 9px; background: white; border: 1px solid #e0e0e0; border-radius: 4px; margin-bottom: 3px; }
+        .deficiency-item-ed.from-control { border-left: 3px solid #004289; }
+        .deficiency-item-ed.user-added { border-left: 3px solid #f9ab00; }
+        .def-cb { width: 15px; height: 15px; border-radius: 3px; border: 2px solid #dadce0; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; margin-top: 1px; }
+        .def-cb.checked { background: #004289; border-color: #004289; color: white; }
+        .def-cb .material-icons-outlined { font-size: 11px; }
+        .def-body-ed { flex: 1; }
+        .def-source-ed { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; margin-bottom: 1px; }
+        .def-source-ed.control { color: #004289; }
+        .def-source-ed.manual { color: #e37400; }
+        .def-text-ed { font-size: 11px; line-height: 1.4; color: #202124; }
+        .def-sub-ed { margin-left: 18px; margin-top: 3px; }
+        .def-sub-item-ed { display: flex; align-items: flex-start; gap: 5px; padding: 2px 0; font-size: 10px; }
+
+        .add-def-btn { display: flex; align-items: center; gap: 5px; padding: 7px 10px; border: 2px dashed #dadce0; border-radius: 4px; background: none; color: #5f6368; cursor: pointer; font-size: 11px; font-family: inherit; width: 100%; }
+        .add-def-btn:hover { border-color: #004289; color: #004289; background: #e8f0fe; }
+        .free-text-ed { min-height: 50px; padding: 7px 9px; border: 1px solid #f9ab00; border-radius: 4px; background: white; font-family: 'Roboto', sans-serif; font-size: 11px; line-height: 1.5; color: #333; outline: none; width: 100%; display: block; }
+        .free-text-ed:focus { border-color: #004289; box-shadow: 0 0 0 2px #d2e3fc; }
+
+        .lhuta-sel { display: flex; gap: 6px; padding: 4px 0; }
+        .lhuta-opt { display: flex; align-items: center; gap: 5px; padding: 7px 10px; border: 2px solid #e0e0e0; border-radius: 5px; cursor: pointer; flex: 1; font-size: 11px; }
+        .lhuta-opt:hover { border-color: #004289; }
+        .lhuta-opt.selected { border-color: #004289; background: #e8f0fe; }
+        .lhuta-radio-ed { width: 13px; height: 13px; border-radius: 50%; border: 2px solid #dadce0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .lhuta-opt.selected .lhuta-radio-ed { border-color: #004289; }
+        .lhuta-opt.selected .lhuta-radio-ed::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #004289; }
+        .lhuta-inp { width: 45px; padding: 2px 5px; border: 1px solid #dadce0; border-radius: 3px; font-size: 11px; text-align: center; }
+
+        .editor-props-panel { width: 240px; border-left: 1px solid #e0e0e0; background: #fff; overflow-y: auto; flex-shrink: 0; padding: 12px; }
+        .editor-props-panel .props-section { margin-bottom: 14px; }
+        .editor-props-panel .props-title { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .3px; color: #5f6368; margin-bottom: 5px; }
+        .editor-props-panel .props-stat { display: flex; justify-content: space-between; padding: 4px 0; font-size: 11px; border-bottom: 1px solid #f1f3f4; }
+        .editor-props-panel .props-stat:last-child { border: none; }
+        .ds-tag { font-size: 9px; padding: 2px 5px; background: #f1f3f4; border-radius: 8px; color: #5f6368; display: inline-block; margin: 1px; }
+
     </style>
 </head>
 <body>
@@ -15631,6 +15707,278 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             </div>
         </div>
     </div>
+
+
+    <!-- ============================================ -->
+    <!-- BLOCK EDITOR: Výzva k doplnění + Usnesení   -->
+    <!-- ============================================ -->
+    <div class="control-overlay" id="controlVyzva">
+        <div class="control-header">
+            <div class="control-header-left">
+                <button class="control-close" onclick="closeControl('controlVyzva')">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+                <div class="control-title">
+                    <span class="material-icons-outlined">edit_document</span>
+                    Výzva k doplnění + Usnesení o přerušení řízení
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#5f6368">
+                <span class="material-icons-outlined" style="font-size:16px;color:#004289">auto_awesome</span>
+                Předvyplněno z kontrol
+            </div>
+        </div>
+
+        <div class="editor-layout">
+            <!-- LEFT: Structure sidebar -->
+            <div class="editor-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">I. Výzva</div>
+                    <div class="sidebar-item active" onclick="edScrollTo('vblk-hlavicka',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Hlavička</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-spis',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Spisové údaje</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-identifikace',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Identifikace stavebníka</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-pravni',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Právní věta</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-lhuta',this)" style="font-weight:500">
+                        <div class="si-icon semi"><span class="material-icons-outlined">tune</span></div>
+                        <span>Lhůta k doplnění</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-nedostatky',this)" style="font-weight:500">
+                        <div class="si-icon semi"><span class="material-icons-outlined">tune</span></div>
+                        <span>Seznam nedostatků</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-free',this)">
+                        <div class="si-icon free"><span class="material-icons-outlined">edit</span></div>
+                        <span>Vlastní body</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-upozorneni',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Upozornění</span>
+                    </div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">II. Usnesení</div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-vyrok',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Výrok o přerušení</span>
+                    </div>
+                    <div class="sidebar-item" onclick="edScrollTo('vblk-pouceni',this)">
+                        <div class="si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span>Poučení + podpis</span>
+                    </div>
+                </div>
+                <div class="sidebar-legend">
+                    <div class="legend-item"><div class="legend-dot" style="background:#dadce0"></div> Automatický (zamčeno)</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#a8c7fa"></div> Semi-auto (upravitelný)</div>
+                    <div class="legend-item"><div class="legend-dot" style="background:#f9ab00"></div> Volný text (úředník)</div>
+                </div>
+            </div>
+
+            <!-- CENTER: Editor paper -->
+            <div class="editor-main">
+                <div class="editor-paper">
+
+                    <!-- Hlavička -->
+                    <div class="doc-block auto" id="vblk-hlavicka">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto</span>
+                        <div class="block-urad">Dopravní a energetický stavební úřad</div>
+                        <div class="block-sub">Odbor staveb drah · Oddělení Plzeň</div>
+                        <div class="block-sub">Purkyňova 22, 301 36 Plzeň</div>
+                    </div>
+
+                    <!-- Spisové údaje -->
+                    <div class="doc-block auto" id="vblk-spis" style="margin-top:12px">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto · spisová služba</span>
+                        <div class="block-body" style="display:flex;justify-content:space-between;font-size:10px">
+                            <div>
+                                <div>Spis. zn.: <strong>SZ DESU/004539/26</strong></div>
+                                <div>Č.j.: <strong>DESU/121/004594/26</strong></div>
+                            </div>
+                            <div style="text-align:right">
+                                <div>Vyřizuje: <strong>Ing. Kálal</strong></div>
+                                <div>Datum: <strong id="vyzvaDate"></strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Název -->
+                    <div class="doc-block auto" style="margin:16px 0">
+                        <div class="block-header-text" style="font-size:14px">I. VÝZVA</div>
+                        <div class="block-header-text" style="font-size:12px;margin-top:-2px">K ODSTRANĚNÍ NEDOSTATKŮ ŽÁDOSTI</div>
+                    </div>
+
+                    <!-- Identifikace -->
+                    <div class="doc-block auto" id="vblk-identifikace">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto · modul účastníků</span>
+                        <div class="block-body">
+                            <p><strong>Industrial Center CR 2 s.r.o.</strong>, IČO: 12345678, zastoupena na základě plné moci společností <strong>RotaGroup a.s.</strong>, podal žádost o povolení záměru:</p>
+                            <p style="text-align:center;font-weight:600;font-style:italic">„Novostavba RD včetně přípojek"</p>
+                            <p>na pozemcích parc. č. 123/4, 123/5, 124/1 v k.ú. Plzeň-město</p>
+                        </div>
+                    </div>
+
+                    <!-- Právní věta -->
+                    <div class="doc-block auto" id="vblk-pravni" style="margin-top:10px">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto · šablona</span>
+                        <div class="block-body">
+                            <p>Dopravní a energetický stavební úřad jako stavební úřad příslušný podle § 33 odst. 2 zákona č. 283/2021 Sb., stavební zákon, přezkoumal podanou žádost a zjistil, že neobsahuje všechny požadované náležitosti a přílohy, a proto</p>
+                            <p style="text-align:center;font-weight:700;font-size:13px;letter-spacing:4px;margin:10px 0">v&nbsp;y&nbsp;z&nbsp;ý&nbsp;v&nbsp;á</p>
+                            <p>stavebníka, aby nejpozději do</p>
+                        </div>
+                    </div>
+
+                    <!-- SEMI: Lhůta -->
+                    <div class="doc-block semi" id="vblk-lhuta" style="padding:10px">
+                        <span class="block-label semi-label"><span class="material-icons-outlined">tune</span> semi</span>
+                        <div class="lhuta-sel">
+                            <div class="lhuta-opt" onclick="edSelectLhuta(this,'abs')">
+                                <div class="lhuta-radio-ed"></div>
+                                <span>Datum: <input type="date" class="lhuta-inp" style="width:130px" value="2026-04-30"></span>
+                            </div>
+                            <div class="lhuta-opt selected" onclick="edSelectLhuta(this,'rel')">
+                                <div class="lhuta-radio-ed"></div>
+                                <span><input type="number" class="lhuta-inp" value="60" min="15" max="180"> dnů od doručení</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Auto: continuation -->
+                    <div class="doc-block auto">
+                        <div class="block-body"><p>odstranil následující nedostatky žádosti:</p></div>
+                    </div>
+
+                    <!-- SEMI: Seznam nedostatků z kontrol -->
+                    <div class="doc-block semi" id="vblk-nedostatky" style="padding:10px">
+                        <span class="block-label semi-label"><span class="material-icons-outlined">tune</span> semi · z kontrol</span>
+                        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#004289;margin-bottom:6px;display:flex;align-items:center;gap:4px">
+                            <span class="material-icons-outlined" style="font-size:14px">checklist</span>
+                            Nedostatky zjištěné při kontrolách
+                        </div>
+                        <div class="deficiency-list-editor" id="edDefList">
+                            <!-- Filled dynamically from control results -->
+                        </div>
+                    </div>
+
+                    <!-- FREE: Vlastní body -->
+                    <div class="doc-block free" id="vblk-free" style="padding:10px">
+                        <span class="block-label free-label"><span class="material-icons-outlined">edit</span> volný text</span>
+                        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#e37400;margin-bottom:6px;display:flex;align-items:center;gap:4px">
+                            <span class="material-icons-outlined" style="font-size:14px">edit_note</span>
+                            Vlastní body úředníka
+                        </div>
+                        <div id="edUserDefs"></div>
+                        <button class="add-def-btn" onclick="edAddUserDef()">
+                            <span class="material-icons-outlined" style="font-size:16px">add_circle_outline</span>
+                            Přidat vlastní bod
+                        </button>
+                    </div>
+
+                    <!-- Auto: Upozornění -->
+                    <div class="doc-block auto" id="vblk-upozorneni" style="margin-top:12px">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto · šablona</span>
+                        <div class="block-body">
+                            <p>Pokud nebudou nedostatky ve stanovené lhůtě odstraněny, stavební úřad řízení usnesením zastaví podle § 66 odst. 1 písm. c) správního řádu.</p>
+                        </div>
+                    </div>
+
+                    <!-- ═══ II. USNESENÍ ═══ -->
+                    <div class="doc-block auto" id="vblk-vyrok" style="margin-top:24px;border-top:2px solid #004289;padding-top:14px">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto · workflow</span>
+                        <div class="block-header-text" style="font-size:13px">II. USNESENÍ O PŘERUŠENÍ ŘÍZENÍ</div>
+                        <div class="block-body" style="margin-top:10px">
+                            <p>Dopravní a energetický stavební úřad podle § 185 odst. 2 stavebního zákona</p>
+                            <p style="text-align:center;font-weight:700;font-size:13px;letter-spacing:4px;margin:10px 0">p&nbsp;ř&nbsp;e&nbsp;r&nbsp;u&nbsp;š&nbsp;u&nbsp;j&nbsp;e</p>
+                            <p>řízení o povolení záměru „Novostavba RD včetně přípojek" na pozemcích parc. č. 123/4, 123/5, 124/1 v k.ú. Plzeň-město, a to nejdéle na dobu <strong id="edUsneseniLhuta">60 dnů od doručení</strong> této výzvy.</p>
+                        </div>
+                    </div>
+
+                    <!-- Auto: Poučení + podpis -->
+                    <div class="doc-block auto" id="vblk-pouceni" style="margin-top:10px">
+                        <span class="block-label auto-label"><span class="material-icons-outlined">lock</span> auto</span>
+                        <div class="block-body">
+                            <p><strong>Poučení:</strong> Proti tomuto usnesení se podle § 185 odst. 2 stavebního zákona nelze odvolat.</p>
+                        </div>
+                        <div class="block-body" style="text-align:right;margin-top:16px">
+                            <strong>Ing. Jitka Kotásková</strong><br>
+                            ředitelka odboru staveb drah
+                        </div>
+                        <div class="block-body" style="margin-top:16px;padding-top:10px;border-top:1px solid #ddd;font-size:10px;color:#666">
+                            <strong>Obdrží:</strong><br>
+                            RotaGroup a.s., IDDS: 78hx792 (v zastoupení Industrial Center CR 2 s.r.o.)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT: Properties -->
+            <div class="editor-props-panel">
+                <div class="props-section">
+                    <div class="props-title">Stav dokumentu</div>
+                    <div class="props-stat"><span style="color:#5f6368">Stav</span><span style="color:#f9ab00;font-weight:500">● Rozpracováno</span></div>
+                    <div class="props-stat"><span style="color:#5f6368">Autor</span><span style="font-weight:500">Ing. Kálal</span></div>
+                </div>
+                <div class="props-section">
+                    <div class="props-title">Složení dokumentu</div>
+                    <div style="display:flex;gap:2px;margin-bottom:6px">
+                        <div style="flex:10;height:6px;background:#137333;border-radius:2px 0 0 2px" title="Auto"></div>
+                        <div style="flex:3;height:6px;background:#004289" title="Semi"></div>
+                        <div style="flex:1;height:6px;background:#f9ab00;border-radius:0 2px 2px 0" title="Free"></div>
+                    </div>
+                    <div style="font-size:10px;color:#5f6368;display:flex;justify-content:space-between">
+                        <span>10 auto</span><span>3 semi</span><span>1 volný</span>
+                    </div>
+                </div>
+                <div class="props-section">
+                    <div class="props-title">Nedostatky</div>
+                    <div class="props-stat"><span style="color:#5f6368">Z kontrol</span><span style="font-weight:500" id="edPropsControl">—</span></div>
+                    <div class="props-stat"><span style="color:#5f6368">Vlastní body</span><span style="font-weight:500" id="edPropsUser">0</span></div>
+                    <div class="props-stat"><span style="font-weight:600">Celkem</span><span style="font-weight:700;color:#004289" id="edPropsTotal">—</span></div>
+                </div>
+                <div class="props-section">
+                    <div class="props-title">Datové zdroje</div>
+                    <div>
+                        <span class="ds-tag">Modul účastníků</span>
+                        <span class="ds-tag">Spisová služba</span>
+                        <span class="ds-tag">Kontrola PD</span>
+                        <span class="ds-tag">Checklist DO</span>
+                        <span class="ds-tag">DTM modul</span>
+                        <span class="ds-tag">Org. struktura</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-form-footer">
+            <div class="control-form-footer-left" style="font-size:11px;color:#5f6368">
+                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">info</span>
+                Šedé bloky jsou automatické. Modré a žluté bloky vyžadují váš vstup.
+            </div>
+            <div class="control-form-footer-right">
+                <button class="btn btn-secondary" onclick="closeControl('controlVyzva')">Zrušit</button>
+                <button class="btn btn-secondary" onclick="showToast('Koncept uložen')">
+                    <span class="material-icons-outlined">save</span>
+                    Uložit koncept
+                </button>
+                <button class="btn btn-primary" onclick="edFinalize()">
+                    <span class="material-icons-outlined">check_circle</span>
+                    Dokončit a odeslat
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- ============================================ -->
     <!-- POMOCNÉ MODÁLY PRO NÁHLED DOKUMENTŮ -->
@@ -23696,8 +24044,16 @@ ${reportContent}
                 msg += '\nV ostré verzi by následovalo flow pro postoupení řízení.';
                 alert(msg);
             } else {
-                // Přechod na krok 3: Projednání
-                window.location.href = 'povoleni-3.html';
+                // Jsou zjištěny vady?
+                const hasVadyLocal = Object.values(controls).some(c => c.done && (c.result === 'vady' || c.result === 'warning'));
+                if (hasVadyLocal) {
+                    // Otevřít block editor pro výzvu k doplnění
+                    edBuildDeficiencies();
+                    openControl('controlVyzva');
+                } else {
+                    // Přechod na krok 3: Projednání (kontroly OK)
+                    window.location.href = 'povoleni-3.html';
+                }
             }
         }
 
@@ -25657,6 +26013,151 @@ ${reportContent}
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
         });
+    
+
+        // ═══════════════════════════════════════════
+        // BLOCK EDITOR FUNCTIONS
+        // ═══════════════════════════════════════════
+
+        function edBuildDeficiencies() {
+            // Set today's date
+            document.getElementById('vyzvaDate').textContent = new Date().toLocaleDateString('cs-CZ');
+            
+            const container = document.getElementById('edDefList');
+            container.innerHTML = '';
+            
+            // Collect deficiencies from completed controls
+            const defItems = [];
+            
+            if (controls.dokumentace.done && controls.dokumentace.result === 'vady') {
+                defItems.push({
+                    source: 'Kontrola el. podpisů PD',
+                    text: 'Uvést projektovou dokumentaci do souladu s § 13 odst. 3 písm. b) zákona č. 360/1992 Sb. — PD musí být opatřena elektronickým podpisem a autorizačním razítkem.',
+                    subs: ['a) AI pro dopravní stavby', 'b) AI pro požární bezpečnost staveb']
+                });
+            }
+            
+            if (controls.identifikace.done && controls.identifikace.result === 'vady') {
+                defItems.push({
+                    source: 'Kontrola dokladové části',
+                    text: 'Předložit závazná stanoviska dotčených orgánů dle § 184 odst. 2 písm. e) stavebního zákona:',
+                    subs: ['i) Jednotné environmentální stanovisko — OŽP', 'ii) Závazné stanovisko HZS']
+                });
+            }
+            
+            if (controls.up.done && controls.up.result === 'vady') {
+                defItems.push({
+                    source: 'Kontrola územního plánu',
+                    text: 'Doložit soulad záměru s územním plánem nebo podat žádost o výjimku z územního plánu.',
+                    subs: []
+                });
+            }
+            
+            if (controls.zadost.done && controls.zadost.result === 'vady') {
+                defItems.push({
+                    source: 'Kontrola žádosti',
+                    text: 'Opravit nebo doplnit údaje v žádosti, které byly označeny jako neúplné nebo nesprávné.',
+                    subs: []
+                });
+            }
+            
+            // If no specific deficiencies from controls (but hasVady), add generic
+            if (defItems.length === 0) {
+                defItems.push({
+                    source: 'Kontroly řízení',
+                    text: 'Odstranit nedostatky zjištěné při kontrole žádosti.',
+                    subs: []
+                });
+            }
+            
+            defItems.forEach((item, idx) => {
+                let subsHtml = '';
+                if (item.subs.length > 0) {
+                    subsHtml = '<div class="def-sub-ed">' + item.subs.map(s => 
+                        '<div class="def-sub-item-ed">' +
+                        '<div class="def-cb checked" onclick="edToggleCb(this)"><span class="material-icons-outlined">check</span></div>' +
+                        '<span>' + s + '</span></div>'
+                    ).join('') + '</div>';
+                }
+                
+                container.innerHTML += 
+                    '<div class="deficiency-item-ed from-control">' +
+                    '<div class="def-cb checked" onclick="edToggleCb(this)"><span class="material-icons-outlined">check</span></div>' +
+                    '<div class="def-body-ed">' +
+                    '<div class="def-source-ed control">' + item.source + '</div>' +
+                    '<div class="def-text-ed">' + item.text + '</div>' +
+                    subsHtml +
+                    '</div></div>';
+            });
+            
+            edUpdateCounts();
+        }
+
+        function edToggleCb(el) {
+            el.classList.toggle('checked');
+            el.innerHTML = el.classList.contains('checked') ? '<span class="material-icons-outlined">check</span>' : '';
+            edUpdateCounts();
+        }
+
+        function edSelectLhuta(el, type) {
+            document.querySelectorAll('#controlVyzva .lhuta-opt').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            const usn = document.getElementById('edUsneseniLhuta');
+            if (type === 'rel') {
+                const v = el.querySelector('input[type=number]').value;
+                usn.textContent = v + ' dnů od doručení';
+            } else {
+                const d = el.querySelector('input[type=date]').value;
+                usn.textContent = new Date(d).toLocaleDateString('cs-CZ');
+            }
+        }
+
+        function edAddUserDef() {
+            const container = document.getElementById('edUserDefs');
+            const div = document.createElement('div');
+            div.className = 'deficiency-item-ed user-added';
+            div.innerHTML = 
+                '<div class="def-cb checked" onclick="edToggleCb(this)"><span class="material-icons-outlined">check</span></div>' +
+                '<div class="def-body-ed">' +
+                '<div class="def-source-ed manual">Vlastní bod</div>' +
+                '<textarea class="free-text-ed" placeholder="Popište nedostatek..." rows="2"></textarea>' +
+                '</div>';
+            container.appendChild(div);
+            div.querySelector('textarea').focus();
+            edUpdateCounts();
+        }
+
+        function edUpdateCounts() {
+            const controlChecked = document.querySelectorAll('#edDefList .deficiency-item-ed > .def-cb.checked').length;
+            const userItems = document.querySelectorAll('#edUserDefs .deficiency-item-ed').length;
+            document.getElementById('edPropsControl').textContent = controlChecked;
+            document.getElementById('edPropsUser').textContent = userItems;
+            document.getElementById('edPropsTotal').textContent = (controlChecked + userItems) + ' bodů';
+        }
+
+        function edScrollTo(id, sideItem) {
+            document.querySelectorAll('.editor-sidebar .sidebar-item').forEach(i => i.classList.remove('active'));
+            if (sideItem) sideItem.classList.add('active');
+            const bl = document.getElementById(id);
+            if (bl) {
+                bl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                bl.style.boxShadow = '0 0 0 3px #004289';
+                setTimeout(() => bl.style.boxShadow = '', 1200);
+            }
+        }
+
+        function edFinalize() {
+            showToast('Výzva k doplnění + Usnesení o přerušení vygenerováno a odesláno');
+            setTimeout(() => {
+                closeControl('controlVyzva');
+                // Update workflow state
+                document.getElementById('summaryTitle').textContent = 'Řízení přerušeno';
+                document.getElementById('summaryDesc').textContent = 'Výzva k doplnění odeslána. Čeká se na reakci stavebníka.';
+                document.getElementById('btnZahajit').disabled = true;
+                document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">pause_circle</span>Řízení přerušeno';
+            }, 1500);
+        }
+
     </script>
 </body>
 </html>
