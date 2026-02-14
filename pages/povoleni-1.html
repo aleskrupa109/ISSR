@@ -1092,6 +1092,24 @@
             background: #fce8e6;
             color: #c5221f;
         }
+        
+        .status-blocked .control-card-status {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        
+        .status-blocked .control-card-icon {
+            background: #f5f5f5;
+            color: #9aa0a6;
+        }
+        
+        .status-blocked .control-card-title {
+            color: #9aa0a6 !important;
+        }
+        
+        .status-blocked .control-card-desc {
+            color: #c5221f !important;
+        }
 
         .control-card-body {
             padding: 0 16px 16px !important;
@@ -4882,6 +4900,662 @@
             gap: 8px;
         }
 
+        /* ==========================================
+           KONTROLA SOULADU S ÚPD - ULTRA KOMPAKTNÍ
+           ========================================== */
+        
+        /* Layout switch */
+        .upd-layout-switch {
+            display: flex;
+            gap: 2px;
+            background: #f1f3f4;
+            padding: 2px;
+            border-radius: 4px;
+        }
+        
+        .upd-layout-btn {
+            width: 32px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+        }
+        
+        .upd-layout-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .upd-layout-btn.active {
+            background: #fff;
+            color: #1a73e8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .upd-layout-btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        
+        /* Control body layouts */
+        #controlUP .control-body {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        #controlUP.layout-horizontal .control-body {
+            flex-direction: column;
+        }
+        
+        /* Vertical layout (default) - panels stacked, control on right */
+        .upd-viewers-stack {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: #ccc;
+            min-width: 0;
+        }
+        
+        /* Horizontal layout - panels side by side, control on bottom right */
+        #controlUP.layout-horizontal .upd-viewers-stack {
+            flex-direction: row;
+        }
+        
+        .upd-viewers-stack {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: #ccc;
+            min-width: 0;
+        }
+        
+        .upd-viewer-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            min-height: 0;
+        }
+        
+        .upd-viewer-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: #f5f5f5;
+            border-bottom: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+        
+        .upd-viewer-tabs {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .upd-vtab {
+            padding: 3px 8px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+        }
+        
+        .upd-vtab:hover { background: #f1f3f4; }
+        .upd-vtab.active { background: #1a73e8; border-color: #1a73e8; color: #fff; }
+        
+        .upd-viewer-btn {
+            margin-left: auto;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+        }
+        
+        .upd-viewer-btn:hover { background: #e0e0e0; }
+        .upd-viewer-btn .material-icons-outlined { font-size: 16px; }
+        
+        .upd-viewer-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Image container pro zoom/pan */
+        .upd-image-container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: grab;
+            position: relative;
+        }
+        
+        .upd-image-container:active {
+            cursor: grabbing;
+        }
+        
+        .upd-image-container img {
+            position: absolute;
+            transform-origin: 0 0;
+            max-width: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .upd-image-container img.loaded {
+            opacity: 1;
+        }
+        
+        /* Zoom controls */
+        .upd-zoom-controls {
+            display: flex;
+            gap: 2px;
+            margin-left: auto;
+        }
+        
+        .upd-zoom-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #5f6368;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .upd-zoom-btn:hover {
+            background: #f1f3f4;
+        }
+        
+        /* Iframe fallback */
+        .upd-iframe-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #f5f5f5;
+            color: #9aa0a6;
+        }
+        
+        .upd-iframe-fallback .material-icons-outlined {
+            font-size: 40px;
+        }
+        
+        .upd-viewer-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: #bbb;
+        }
+        
+        .upd-viewer-placeholder .material-icons-outlined { font-size: 48px; }
+        
+        .upd-link {
+            padding: 4px 10px;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 3px;
+            font-size: 11px;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        
+        .upd-link:hover { background: #e8f0fe; }
+        
+        /* Pravý panel - vertikální layout */
+        .upd-control-panel {
+            width: 150px;
+            flex-shrink: 0;
+            background: #f8f9fa;
+            border-left: 1px solid #e0e0e0;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+        }
+        
+        .upd-check-item {
+            background: #fff;
+            border-radius: 4px;
+            padding: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .upd-check-item.done-ok { background: #e6f4ea; border-color: #34a853; }
+        .upd-check-item.done-error { background: #fce8e6; border-color: #ea4335; }
+        
+        .upd-check-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        
+        .upd-check-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #202124;
+        }
+        
+        .upd-check-status {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .upd-check-status.ok { color: #137333; }
+        .upd-check-status.error { color: #c5221f; }
+        
+        .upd-check-mini-label {
+            font-size: 10px;
+            color: #5f6368;
+            margin: 6px 0 4px;
+        }
+        
+        .upd-check-buttons {
+            display: flex;
+            gap: 6px;
+        }
+        
+        .upd-btn-yes, .upd-btn-no {
+            flex: 1;
+            padding: 6px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .upd-btn-yes:hover { background: #e6f4ea; border-color: #34a853; }
+        .upd-btn-no:hover { background: #fce8e6; border-color: #ea4335; }
+        .upd-btn-yes.selected { background: #34a853; border-color: #34a853; color: #fff; }
+        .upd-btn-no.selected { background: #ea4335; border-color: #ea4335; color: #fff; }
+        
+        .upd-note-input {
+            width: 100%;
+            margin-top: 8px;
+            padding: 8px;
+            border: 1px solid #f5c6c5;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+            background: #fff;
+        }
+        
+        .upd-note-input:focus { outline: none; border-color: #ea4335; }
+        
+        .upd-no-up-info {
+            margin-top: 6px;
+            padding: 4px 8px;
+            background: #fff8e1;
+            border-radius: 3px;
+            font-size: 10px;
+            color: #e65100;
+            text-align: center;
+        }
+        
+        /* Horizontální layout - kontroly dole */
+        #controlUP.layout-horizontal .upd-control-panel {
+            width: 100%;
+            height: 56px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            border-left: none;
+            border-top: 1px solid #e0e0e0;
+            padding: 8px 16px;
+            gap: 20px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            flex-shrink: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            min-width: auto;
+            max-width: none;
+            padding: 6px 12px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-row {
+            margin-bottom: 0;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-buttons {
+            gap: 4px;
+        }
+        
+        #controlUP.layout-horizontal .upd-btn-yes,
+        #controlUP.layout-horizontal .upd-btn-no {
+            padding: 4px 8px;
+            min-width: 32px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-mini-label {
+            margin: 0;
+            white-space: nowrap;
+        }
+        
+        /* ÚP kontrola v horizontálním layoutu */
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection {
+            display: none;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection[style*="block"] {
+            display: flex !important;
+        }
+        
+        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-no-up-info {
+            margin-top: 0;
+            white-space: nowrap;
+        }
+        
+        /* Skrýt textarea v horizontálním layoutu - používáme modal */
+        #controlUP.layout-horizontal .upd-note-input {
+            display: none !important;
+        }
+        
+        /* Indikátor nesouladu - malá ikonka */
+        .upd-nesoulad-indicator {
+            display: none;
+            width: 22px;
+            height: 22px;
+            background: #ea4335;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 12px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 4px;
+            flex-shrink: 0;
+        }
+        
+        .upd-nesoulad-indicator:hover {
+            background: #c5221f;
+        }
+        
+        .upd-nesoulad-indicator.visible {
+            display: flex;
+        }
+        
+        /* Modální dialog pro nesoulad */
+        .upd-nesoulad-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .upd-nesoulad-modal.open {
+            display: flex;
+        }
+        
+        .upd-nesoulad-modal-content {
+            background: #fff;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .upd-nesoulad-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .upd-nesoulad-modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #c5221f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .upd-nesoulad-modal-close {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+        }
+        
+        .upd-nesoulad-modal-close:hover {
+            background: #f1f3f4;
+        }
+        
+        .upd-nesoulad-modal-body {
+            padding: 20px;
+        }
+        
+        .upd-nesoulad-modal-body label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+        
+        .upd-nesoulad-modal-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .upd-nesoulad-modal-textarea:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+        }
+        
+        .upd-nesoulad-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .btn-sm {
+            padding: 4px 10px !important;
+            font-size: 11px !important;
+        }
+        
+        /* ═══ Modal: Generování výzvy ═══ */
+        .gen-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 12000;
+            align-items: center;
+            justify-content: center;
+        }
+        .gen-modal-overlay.open { display: flex; }
+        .gen-modal {
+            background: #fff;
+            border-radius: 12px;
+            width: 640px;
+            max-width: 92%;
+            max-height: 85vh;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+        }
+        .gen-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .gen-modal-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #0d47a1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .gen-modal-close {
+            width: 32px; height: 32px;
+            border: none; background: transparent;
+            border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #5f6368;
+        }
+        .gen-modal-close:hover { background: #f1f3f4; }
+        .gen-modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+        }
+        .gen-modal-info {
+            font-size: 13px;
+            color: #5f6368;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .gen-modal-info strong { color: #202124; }
+        .gen-variant-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .gen-variant-card {
+            border: 2px solid #dadce0;
+            border-radius: 10px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+        .gen-variant-card:hover {
+            border-color: #1a73e8;
+            background: #f8f9ff;
+        }
+        .gen-variant-card .variant-icon {
+            width: 40px; height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .gen-variant-card .variant-icon .material-icons-outlined {
+            font-size: 22px;
+            color: #fff;
+        }
+        .gen-variant-card .variant-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+        .gen-variant-card .variant-desc {
+            font-size: 12px;
+            color: #5f6368;
+            line-height: 1.4;
+        }
+        .gen-legend {
+            margin-top: 18px;
+            padding: 12px 14px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .gen-legend-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 6px;
+        }
+        .gen-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-right: 14px;
+            margin-bottom: 2px;
+        }
+        .gen-legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+        }
+        .gen-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 14px 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .btn-sm .material-icons-outlined {
+            font-size: 14px !important;
+        }
+
         .pozemky-add-section {
             margin-top: 12px;
             padding-top: 12px;
@@ -5324,12 +5998,21 @@
             background: #fff;
             border-bottom: 1px solid #e0e0e0;
             flex-shrink: 0;
+            position: relative;
         }
 
         .control-header-left {
             display: flex;
             align-items: center;
             gap: 16px;
+        }
+        
+        .control-header-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
         }
 
         .control-close {
@@ -11334,7 +12017,7 @@
                                 Jednoduchá stavba
                             </span>
                             <span class="case-badge draft">Kontrola</span>
-                            <span class="case-badge fast">
+                            <span class="case-badge fast" id="badgeZrychlene">
                                 <span class="material-icons-outlined" style="font-size: 14px;">bolt</span>
                                 Zrychlené řízení
                             </span>
@@ -14273,309 +14956,155 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                 </button>
                 <div class="control-title">
                     <span class="material-icons-outlined">map</span>
-                    Kontrola souladu s územně plánovací dokumentací
+                    Soulad s ÚPD
+                </div>
+            </div>
+            <div class="control-header-center">
+                <div class="upd-layout-switch">
+                    <button class="upd-layout-btn active" onclick="setUPDLayout('vertical', this)" title="Panely nad sebou">
+                        <span class="material-icons-outlined">view_agenda</span>
+                    </button>
+                    <button class="upd-layout-btn" onclick="setUPDLayout('horizontal', this)" title="Panely vedle sebe">
+                        <span class="material-icons-outlined">view_column</span>
+                    </button>
+                </div>
+            </div>
+            <div class="control-header-right" style="margin-left: auto; margin-right: 16px;">
+                <button class="btn btn-primary" id="btnConfirmUPD" onclick="completeUPD()" disabled>
+                    <span class="material-icons-outlined">check</span> Potvrdit kontrolu
+                </button>
+            </div>
+        </div>
+        
+        <!-- Modální dialog pro nesoulad -->
+        <div class="upd-nesoulad-modal" id="nesouladModal">
+            <div class="upd-nesoulad-modal-content">
+                <div class="upd-nesoulad-modal-header">
+                    <div class="upd-nesoulad-modal-title">
+                        <span class="material-icons-outlined">warning</span>
+                        <span id="nesouladModalTitle">Popis nesouladu</span>
+                    </div>
+                    <button class="upd-nesoulad-modal-close" onclick="closeNesouladModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="upd-nesoulad-modal-body">
+                    <label id="nesouladModalLabel">Popište nesoulad s územně plánovací dokumentací:</label>
+                    <textarea class="upd-nesoulad-modal-textarea" id="nesouladModalTextarea" 
+                        placeholder="Uveďte konkrétní ustanovení, se kterými je záměr v rozporu..."></textarea>
+                </div>
+                <div class="upd-nesoulad-modal-footer">
+                    <button class="btn btn-secondary" onclick="closeNesouladModal()">Zrušit</button>
+                    <button class="btn btn-primary" onclick="saveNesouladModal()">
+                        <span class="material-icons-outlined">save</span> Uložit
+                    </button>
                 </div>
             </div>
         </div>
+        
         <div class="control-body">
-            <div class="control-viewer">
-                <div class="viewer-tabs">
-                    <div class="viewer-tabs-left">
-                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'up', 'eed')">
-                            <span class="material-icons-outlined">folder</span>
-                            El. dokumentace
-                        </button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'up', 'uplan')">
-                            <span class="material-icons-outlined">map</span>
-                            Územní plán
+            <!-- Viewery - maximální prostor -->
+            <div class="upd-viewers-stack">
+                <div class="upd-viewer-panel">
+                    <div class="upd-viewer-toolbar">
+                        <div class="upd-viewer-tabs">
+                            <button class="upd-vtab active" onclick="switchSituaceTab(this, 'c1')">C.1</button>
+                            <button class="upd-vtab" onclick="switchSituaceTab(this, 'c2')">C.2</button>
+                            <button class="upd-vtab" onclick="switchSituaceTab(this, 'c3')">C.3</button>
+                        </div>
+                        <div class="upd-zoom-controls">
+                            <button class="upd-zoom-btn" onclick="zoomViewer('situace', -0.2)" title="Oddálit">−</button>
+                            <button class="upd-zoom-btn" onclick="resetViewer('situace')" title="Reset">⟲</button>
+                            <button class="upd-zoom-btn" onclick="zoomViewer('situace', 0.2)" title="Přiblížit">+</button>
+                        </div>
+                        <button class="upd-viewer-btn" onclick="openImageFullscreen('situace')" title="Nové okno">
+                            <span class="material-icons-outlined">open_in_new</span>
                         </button>
                     </div>
-                    <button class="viewer-open-external" onclick="openViewerExternal('up')" title="Otevřít v novém okně">
-                        <span class="material-icons-outlined">open_in_new</span>
-                    </button>
+                    <div class="upd-viewer-content" id="updSituaceViewer">
+                        <div class="upd-image-container" id="situaceContainer">
+                            <img src="../images/C-01.png" alt="Situační výkres" id="situaceImage" 
+                                 draggable="false" onload="initViewer('situace')">
+                        </div>
+                    </div>
                 </div>
-                <div class="viewer-content">
-                    <div class="viewer-placeholder" id="viewer-up">
-                        <span class="material-icons-outlined">architecture</span>
-                        <div class="viewer-placeholder-title">Elektronická dokumentace</div>
-                        <div class="viewer-placeholder-text">Projektová dokumentace pro ověření souladu s ÚPD</div>
+                
+                <div class="upd-viewer-panel">
+                    <div class="upd-viewer-toolbar">
+                        <div class="upd-viewer-tabs">
+                            <button class="upd-vtab active" onclick="switchUPDMap('urp', this)">ÚRP</button>
+                            <button class="upd-vtab" onclick="switchUPDMap('zur', this)">ZÚR</button>
+                            <button class="upd-vtab" onclick="switchUPDMap('up', this)">ÚP</button>
+                        </div>
+                        <div class="upd-zoom-controls">
+                            <button class="upd-zoom-btn" onclick="zoomViewer('upd', -0.2)" title="Oddálit">−</button>
+                            <button class="upd-zoom-btn" onclick="resetViewer('upd')" title="Reset">⟲</button>
+                            <button class="upd-zoom-btn" onclick="zoomViewer('upd', 0.2)" title="Přiblížit">+</button>
+                        </div>
+                        <button class="upd-viewer-btn" onclick="openImageFullscreen('upd')" title="Nové okno">
+                            <span class="material-icons-outlined">open_in_new</span>
+                        </button>
+                    </div>
+                    <div class="upd-viewer-content" id="updMapViewer">
+                        <div class="upd-image-container" id="updContainer">
+                            <img src="../images/URP.png" alt="ÚRP" id="updImage" 
+                                 draggable="false" onload="initViewer('upd')">
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="control-form">
-                <div class="control-form-body">
-                    <!-- Existence územního plánu -->
-                    <div class="control-section">
-                        <div class="control-section-title">Existence územního plánu</div>
-                        <div class="control-option" onclick="this.querySelector('input').checked = true; updateUPExistence()">
-                            <input type="radio" name="up_existence" value="existuje" checked>
-                            <div class="control-option-content">
-                                <div class="control-option-title">Územní plán existuje</div>
-                                <div class="control-option-desc">Obec má platný územní plán, záměr bude posouzen podle jeho regulativů.</div>
-                            </div>
-                        </div>
-                        <div class="control-option" onclick="this.querySelector('input').checked = true; updateUPExistence()">
-                            <input type="radio" name="up_existence" value="neexistuje">
-                            <div class="control-option-content">
-                                <div class="control-option-title">Územní plán neexistuje</div>
-                                <div class="control-option-desc">Obec nemá územní plán. Zastavěným územím je intravilán (§ 325 SZ). Záměr bude posouzen podle § 193 odst. 1 písm. b).</div>
-                            </div>
-                        </div>
+            
+            <!-- Kontrolní panel - minimální šířka -->
+            <div class="upd-control-panel">
+                <div class="upd-check-item" id="checkUrp">
+                    <div class="upd-check-row">
+                        <span class="upd-check-label">ÚRP</span>
+                        <span class="upd-check-status" id="statusUrp"></span>
                     </div>
-
-                    <!-- Info box pro případ neexistence ÚP -->
-                    <div class="info-box warning" id="upNeexistujeInfo" style="display: none; margin-bottom: 20px;">
-                        <div class="info-box-icon">
-                            <span class="material-icons-outlined">info</span>
-                        </div>
-                        <div class="info-box-content">
-                            <div class="info-box-title">Postup při neexistenci územního plánu</div>
-                            <div class="info-box-text">
-                                <ul style="margin: 8px 0 0 0; padding-left: 20px; font-size: 12px; color: #5f6368;">
-                                    <li>Za zastavěné území se považuje <strong>intravilán</strong> (§ 325 odst. 2 SZ)</li>
-                                    <li>Záměr se posoudí podle <strong>§ 193 odst. 1 písm. b)</strong> - soulad s cíli a úkoly územního plánování, charakterem území</li>
-                                    <li><strong>Zrychlené řízení nelze použít</strong> - podmínkou je existence ÚP (§ 212)</li>
-                                    <li>V nezastavěném území omezené možnosti výstavby, nutný souhlas zastupitelstva obce</li>
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="upd-check-buttons">
+                        <button class="upd-btn-yes" onclick="setUPDSoulad('urp', true, this)" title="V souladu">✓</button>
+                        <button class="upd-btn-no" onclick="setUPDSoulad('urp', false, this)" title="Rozpor">✗</button>
+                        <span class="upd-nesoulad-indicator" id="indicatorUrp" onclick="openNesouladModal('urp')" title="Upravit popis nesouladu">✎</span>
                     </div>
-
-                    <!-- AI kontrola souladu -->
-                    <div class="ai-control-section" id="aiControlSection">
-                        <div class="ai-control-header">
-                            <span class="material-icons-outlined">auto_awesome</span>
-                            <span>Automatická kontrola souladu</span>
-                        </div>
-                        <p style="font-size: 13px; color: #5f6368; margin-bottom: 16px; font-style: normal;">
-                            AI porovná projektovou dokumentaci s územně plánovací dokumentací a vytvoří compliance report.
-                        </p>
-                        <button class="btn btn-ai" id="btnAiKontrola" onclick="runAiCompliance()">
-                            <span class="material-icons-outlined">auto_awesome</span>
-                            Spustit AI kontrolu souladu
-                        </button>
-                    </div>
-
-                    <!-- AI výsledek - skrytý dokud se nespustí -->
-                    <div class="ai-result-section" id="aiResultSection" style="display: none;">
-                        <div class="ai-result-header">
-                            <span class="material-icons-outlined">auto_awesome</span>
-                            <span>Výsledek AI kontroly</span>
-                            <span class="ai-result-badge success">Dokončeno</span>
-                        </div>
-                        
-                        <div class="ai-report-link" onclick="showComplianceReport()">
-                            <span class="material-icons-outlined">description</span>
-                            <div class="ai-report-link-content">
-                                <div class="ai-report-link-title">Compliance report</div>
-                                <div class="ai-report-link-meta">Vygenerováno 14. 1. 2026, 10:32</div>
-                            </div>
-                            <span class="material-icons-outlined">open_in_new</span>
-                        </div>
-
-                        <div class="ai-summary">
-                            <div class="ai-summary-item success">
-                                <span class="material-icons-outlined">check_circle</span>
-                                <span>8 položek v souladu</span>
-                            </div>
-                            <div class="ai-summary-item warning">
-                                <span class="material-icons-outlined">warning</span>
-                                <span>1 položka k ověření</span>
-                            </div>
-                            <div class="ai-summary-item error">
-                                <span class="material-icons-outlined">cancel</span>
-                                <span>0 rozporů</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- AI report detail - skrytý -->
-                    <div class="ai-report-detail" id="aiReportDetail" style="display: none;">
-                        <div class="ai-report-detail-header">
-                            <span class="ai-report-detail-title">Compliance report</span>
-                            <button class="ai-report-close" onclick="hideComplianceReport()">
-                                <span class="material-icons-outlined">close</span>
-                            </button>
-                        </div>
-                        
-                        <div class="ai-report-content">
-                            <div class="ai-report-group">
-                                <div class="ai-report-group-title success">
-                                    <span class="material-icons-outlined">check_circle</span>
-                                    V souladu s ÚPD
-                                </div>
-                                
-                                <div class="ai-report-item">
-                                    <div class="ai-report-item-title">Funkční využití pozemku</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                    <div class="ai-report-item-detail">
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Dokumentace:</span>
-                                            <span class="source-path">A. Průvodní zpráva → A.1 Identifikační údaje → účel stavby</span>
-                                        </div>
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Územní plán:</span>
-                                            <span class="source-path">Výkres č. 1 Základní členění → plocha BI (bydlení individuální)</span>
-                                        </div>
-                                        <div class="ai-report-note">Rodinný dům je přípustné využití v ploše BI.</div>
-                                    </div>
-                                </div>
-
-                                <div class="ai-report-item">
-                                    <div class="ai-report-item-title">Koeficient zastavění</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                    <div class="ai-report-item-detail">
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Dokumentace:</span>
-                                            <span class="source-path">C. Situační výkresy → C.2 Zastavovací plán → zastavěná plocha 156 m²</span>
-                                        </div>
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Územní plán:</span>
-                                            <span class="source-path">Regulativy → BI-3 → max. koeficient zastavění 0,35</span>
-                                        </div>
-                                        <div class="ai-report-note">Skutečný koeficient 0,28 (156/560 m²) ≤ povolených 0,35.</div>
-                                    </div>
-                                </div>
-
-                                <div class="ai-report-item">
-                                    <div class="ai-report-item-title">Výška stavby</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                    <div class="ai-report-item-detail">
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Dokumentace:</span>
-                                            <span class="source-path">D. Dokumentace objektů → D.1.1 Architektonické řešení → výška 7,2 m</span>
-                                        </div>
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Územní plán:</span>
-                                            <span class="source-path">Regulativy → BI-3 → max. výška 9,0 m</span>
-                                        </div>
-                                        <div class="ai-report-note">Výška 7,2 m ≤ povolených 9,0 m.</div>
-                                    </div>
-                                </div>
-
-                                <div class="ai-report-item collapsed">
-                                    <div class="ai-report-item-title">Odstupové vzdálenosti</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                </div>
-
-                                <div class="ai-report-item collapsed">
-                                    <div class="ai-report-item-title">Počet podlaží</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                </div>
-
-                                <div class="ai-report-item collapsed">
-                                    <div class="ai-report-item-title">Tvar střechy</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                </div>
-
-                                <div class="ai-report-item collapsed">
-                                    <div class="ai-report-item-title">Napojení na komunikaci</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                </div>
-
-                                <div class="ai-report-item collapsed">
-                                    <div class="ai-report-item-title">Parkování na pozemku</div>
-                                    <div class="ai-report-item-result success">Soulad</div>
-                                </div>
-                            </div>
-
-                            <div class="ai-report-group">
-                                <div class="ai-report-group-title warning">
-                                    <span class="material-icons-outlined">warning</span>
-                                    K ověření
-                                </div>
-                                
-                                <div class="ai-report-item">
-                                    <div class="ai-report-item-title">Ochranné pásmo lesa</div>
-                                    <div class="ai-report-item-result warning">K ověření</div>
-                                    <div class="ai-report-item-detail">
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Dokumentace:</span>
-                                            <span class="source-path">C. Situační výkresy → C.3 Koordinační situace → vzdálenost od okraje lesa</span>
-                                        </div>
-                                        <div class="ai-report-source">
-                                            <span class="source-label">Územní plán:</span>
-                                            <span class="source-path">Výkres č. 3 Limity využití → ochranné pásmo 50 m od okraje lesa</span>
-                                        </div>
-                                        <div class="ai-report-note warning">
-                                            <span class="material-icons-outlined">info</span>
-                                            Stavba se nachází cca 48 m od okraje lesa. AI nedokázala přesně určit vzdálenost z dokumentace. 
-                                            Doporučujeme manuální ověření nebo vyžádání stanoviska orgánu státní správy lesů.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="control-section" id="upVysledekSection">
-                        <div class="control-section-title">Výsledek kontroly souladu s ÚPD</div>
-                        <label class="control-option selected" onclick="selectOption(this); updateUPResult()">
-                            <input type="radio" name="up_vysledek" value="soulad" checked>
-                            <div class="control-option-content">
-                                <div class="control-option-label">Záměr je v souladu s územně plánovací dokumentací</div>
-                            </div>
-                        </label>
-                        <label class="control-option" onclick="selectOption(this, true); updateUPResult()">
-                            <input type="radio" name="up_vysledek" value="nesoulad">
-                            <div class="control-option-content">
-                                <div class="control-option-label">Záměr není v souladu s územně plánovací dokumentací</div>
-                                <div class="control-option-desc">Žádost bude zamítnuta</div>
-                            </div>
-                        </label>
-                        
-                        <!-- Zdůvodnění nesouladu - zobrazí se jen při nesouladu -->
-                        <div class="control-section" id="zduvodneniNesouladuSection" style="display: none; margin-top: 16px;">
-                            <div class="control-section-title" style="color: #c5221f;">
-                                <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">error</span>
-                                Zdůvodnění nesouladu s ÚPD
-                            </div>
-                            <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
-                                Uveďte konkrétní důvody nesouladu s územně plánovací dokumentací. 
-                                Text bude součástí dokumentu <strong>Rozhodnutí o zamítnutí žádosti</strong>.
-                            </p>
-                            <textarea id="upPoznamky" class="form-textarea" rows="5" 
-                                placeholder="Např.: Záměr je v rozporu s regulativy územního plánu - plocha BV (bydlení venkovské) neumožňuje stavbu garáží pro více než 3 vozidla..."
-                                oninput="updateUPConfirmButton()"
-                                style="width: 100%; padding: 12px; border: 1px solid #f5c6c5; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5; background: #fef7f6;"></textarea>
-                        </div>
-                        
-                        <!-- Poznámky pro soulad - běžné poznámky -->
-                        <div style="margin-top: 16px;" id="poznamkySouladSection">
-                            <label class="form-label" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #202124;">
-                                Poznámky pro rozhodnutí
-                                <span style="font-weight: 400; color: #5f6368;">(volitelné)</span>
-                            </label>
-                            <textarea id="upPoznamkySoulad" class="form-textarea" rows="3" placeholder="Zadejte poznámky k posouzení souladu s územně plánovací dokumentací..." style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="result-preview positive" id="resultUP">
-                        <div class="result-preview-title">
-                            <span class="material-icons-outlined">check_circle</span>
-                            Záměr je v souladu s ÚPD
-                        </div>
-                        <div class="result-preview-text">Záměr je v souladu s platnou územně plánovací dokumentací.</div>
-                    </div>
+                    <textarea class="upd-note-input" id="noteUrp" style="display:none;" 
+                        placeholder="Popište rozpor s Územním rozvojovým plánem..." oninput="updateUPDState()"></textarea>
                 </div>
-                <div class="control-form-footer">
-                    <div class="control-form-footer-left">
-                        <div class="auto-save-indicator saved" id="autoSaveUP">
-                            <span class="material-icons-outlined">cloud_done</span>
-                            <span>Automaticky uloženo</span>
+                
+                <div class="upd-check-item" id="checkZur">
+                    <div class="upd-check-row">
+                        <span class="upd-check-label">ZÚR</span>
+                        <span class="upd-check-status" id="statusZur"></span>
+                    </div>
+                    <div class="upd-check-buttons">
+                        <button class="upd-btn-yes" onclick="setUPDSoulad('zur', true, this)" title="V souladu">✓</button>
+                        <button class="upd-btn-no" onclick="setUPDSoulad('zur', false, this)" title="Rozpor">✗</button>
+                        <span class="upd-nesoulad-indicator" id="indicatorZur" onclick="openNesouladModal('zur')" title="Upravit popis nesouladu">✎</span>
+                    </div>
+                    <textarea class="upd-note-input" id="noteZur" style="display:none;" 
+                        placeholder="Popište rozpor se Zásadami územního rozvoje..." oninput="updateUPDState()"></textarea>
+                </div>
+                
+                <div class="upd-check-item" id="checkUp">
+                    <div class="upd-check-row">
+                        <span class="upd-check-label">ÚP</span>
+                        <span class="upd-check-status" id="statusUp"></span>
+                    </div>
+                    <div class="upd-check-mini-label">Existuje?</div>
+                    <div class="upd-check-buttons" id="upExistButtons">
+                        <button class="upd-btn-yes" onclick="setUPExistence(true, this)">✓</button>
+                        <button class="upd-btn-no" onclick="setUPExistence(false, this)">✗</button>
+                    </div>
+                    <div id="upSouladSection" style="display:none;">
+                        <div class="upd-check-mini-label">Soulad?</div>
+                        <div class="upd-check-buttons">
+                            <button class="upd-btn-yes" onclick="setUPDSoulad('up', true, this)">✓</button>
+                            <button class="upd-btn-no" onclick="setUPDSoulad('up', false, this)">✗</button>
+                            <span class="upd-nesoulad-indicator" id="indicatorUp" onclick="openNesouladModal('up')" title="Upravit popis nesouladu">✎</span>
                         </div>
+                        <textarea class="upd-note-input" id="noteUp" style="display:none;" 
+                            placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
                     </div>
-                    <div class="control-form-footer-right">
-                        <button class="btn btn-secondary" onclick="closeControl('controlUP')">Zrušit</button>
-                        <button class="btn-save-draft" onclick="saveDraft('up')" title="Uložit rozpracovanou kontrolu">
-                            <span class="material-icons-outlined">save</span>
-                            Uložit
-                        </button>
-                        <button class="btn btn-primary" onclick="completeUP()">
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
-                    </div>
+                    <div class="upd-no-up-info" id="noUpInfo" style="display:none;">Posouzení dle § 193</div>
                 </div>
             </div>
         </div>
@@ -15880,6 +16409,76 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
             if (controlId === 'controlPrislusnost') {
                 initControlViewer('controlPrislusnost');
             }
+            
+            // Pro kontrolu ÚPD - inicializovat image viewery a reset stavu
+            if (controlId === 'controlUP') {
+                // Reset stavu pokud kontrola ještě není hotová
+                if (!controls.up.done) {
+                    resetUPDControl();
+                }
+                
+                setTimeout(() => {
+                    initViewer('situace');
+                    initViewer('upd');
+                }, 100);
+            }
+        }
+        
+        // Reset stavu kontroly ÚPD
+        function resetUPDControl() {
+            // Reset stavu - modifikujeme vlastnosti, ne celý objekt (protože je const)
+            updState.urp.checked = false;
+            updState.urp.soulad = null;
+            updState.urp.text = '';
+            
+            updState.zur.checked = false;
+            updState.zur.soulad = null;
+            updState.zur.text = '';
+            
+            updState.up.checked = false;
+            updState.up.soulad = null;
+            updState.up.text = '';
+            updState.up.exists = null;
+            
+            // Reset UI
+            ['Urp', 'Zur', 'Up'].forEach(step => {
+                const checkItem = document.getElementById('check' + step);
+                if (checkItem) {
+                    checkItem.classList.remove('done-ok', 'done-error');
+                }
+                
+                const status = document.getElementById('status' + step);
+                if (status) {
+                    status.textContent = '';
+                    status.classList.remove('ok', 'error');
+                }
+                
+                const noteInput = document.getElementById('note' + step);
+                if (noteInput) {
+                    noteInput.value = '';
+                    noteInput.style.display = 'none';
+                }
+                
+                const indicator = document.getElementById('indicator' + step);
+                if (indicator) {
+                    indicator.classList.remove('visible');
+                }
+            });
+            
+            // Reset tlačítek
+            document.querySelectorAll('#controlUP .upd-btn-yes, #controlUP .upd-btn-no').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Skrýt sekce pro ÚP
+            const souladSection = document.getElementById('upSouladSection');
+            if (souladSection) souladSection.style.display = 'none';
+            
+            const noUpInfo = document.getElementById('noUpInfo');
+            if (noUpInfo) noUpInfo.style.display = 'none';
+            
+            // Aktualizovat tlačítko
+            updateUPDState();
         }
 
         function closeControl(controlId) {
@@ -18605,11 +19204,115 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
             console.log('Typ podání změněn na:', typ);
         }
         
+        // Rychlost řízení
+        let rychlostRizeni = 'zrychlene';
+        
+        function applyRychlostRizeni(typ, showToast = true) {
+            rychlostRizeni = typ;
+            
+            // Aktualizovat URL
+            const url = new URL(window.location);
+            url.searchParams.set('rychlost', typ);
+            history.replaceState({}, '', url);
+            
+            // Zobrazit/skrýt kartu Zrychlené řízení
+            const cardZrychlene = document.getElementById('card-zrychlene');
+            if (cardZrychlene) {
+                if (typ === 'standardni') {
+                    cardZrychlene.style.display = 'none';
+                } else {
+                    cardZrychlene.style.display = '';
+                    updateZrychleneRizeniState();
+                }
+            }
+            
+            // Zobrazit/skrýt badge Zrychlené řízení v hlavičce
+            const badgeZrychlene = document.getElementById('badgeZrychlene');
+            if (badgeZrychlene) {
+                badgeZrychlene.style.display = typ === 'standardni' ? 'none' : 'inline-flex';
+            }
+            
+            // Aktualizovat zobrazení v simInfo
+            updateSimInfo();
+            
+            if (showToast) {
+                showSimToast(typ === 'zrychlene' ? 'Zrychlené řízení' : 'Standardní řízení');
+            }
+        }
+        
+        // Aktualizace stavu kontroly Zrychlené řízení
+        function updateZrychleneRizeniState() {
+            if (rychlostRizeni !== 'zrychlene') return;
+            
+            const cardZrychlene = document.getElementById('card-zrychlene');
+            if (!cardZrychlene) return;
+            
+            // Kontrola, zda některá kontrola má nedostatky vedoucí k postoupení, přerušení nebo ukončení
+            const hasBlockingIssue = checkForBlockingIssues();
+            
+            if (hasBlockingIssue) {
+                // Deaktivovat kontrolu - nelze provést zrychlené řízení
+                cardZrychlene.classList.remove('status-waiting', 'status-ready', 'status-done', 'status-warning');
+                cardZrychlene.classList.add('disabled', 'status-blocked');
+                
+                // Aktualizovat popisek a badge
+                const descEl = cardZrychlene.querySelector('.control-card-desc');
+                if (descEl) {
+                    descEl.textContent = 'Nelze provést — zjištěny blokující nedostatky';
+                }
+                
+                const statusBadge = cardZrychlene.querySelector('.control-card-status');
+                if (statusBadge) {
+                    statusBadge.textContent = 'Blokováno';
+                }
+                
+                const actionBtn = cardZrychlene.querySelector('.control-card-action');
+                if (actionBtn) {
+                    actionBtn.innerHTML = '<span class="material-icons-outlined">block</span>Nelze provést';
+                    actionBtn.onclick = null;
+                }
+            } else {
+                // Odebrat status blocked
+                cardZrychlene.classList.remove('status-blocked');
+                
+                // Obnovit původní popisek
+                const descEl = cardZrychlene.querySelector('.control-card-desc');
+                if (descEl && !controls.zrychlene.done) {
+                    descEl.textContent = 'Splnění podmínek pro zrychlené řízení';
+                }
+            }
+        }
+        
+        // Kontrola blokujících problémů (postoupení, přerušení, ukončení)
+        function checkForBlockingIssues() {
+            // Kontrola výsledků kontrol - postoupení, odložení, zastavení
+            const blockingResults = ['postoupeno', 'preruseno', 'zastaveno', 'ukonceno', 'error', 'odlozeno'];
+            
+            for (const controlId in controls) {
+                const control = controls[controlId];
+                if (control.done && blockingResults.includes(control.result)) {
+                    return true;
+                }
+            }
+            
+            // Kontrola SÚ nepříslušný
+            if (controls.prislusnost && controls.prislusnost.done && controls.prislusnost.result !== 'ok') {
+                return true;
+            }
+            
+            return false;
+        }
+        
         // Aktualizovat zobrazení simInfo
         function updateSimInfo() {
             const simInfoPodani = document.getElementById('simInfoPodani');
             if (simInfoPodani) {
                 simInfoPodani.textContent = typPodaniZadosti === 'portal' ? 'Portál stavebníka' : 'Vložená žádost';
+            }
+            
+            const simInfoRychlost = document.getElementById('simInfoRychlost');
+            if (simInfoRychlost) {
+                simInfoRychlost.textContent = rychlostRizeni === 'zrychlene' ? 'Zrychlené řízení' : 'Standardní řízení';
             }
         }
         
@@ -20095,141 +20798,461 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
         }
 
         // ==========================================
-        // ÚZEMNÍ PLÁN - EXISTENCE
+        // KONTROLA SOULADU S ÚPD - ULTRA KOMPAKTNÍ
         // ==========================================
-        function updateUPExistence() {
-            const existence = document.querySelector('input[name="up_existence"]:checked').value;
-            const aiSection = document.getElementById('aiControlSection');
-            const aiResultSection = document.getElementById('aiResultSection');
-            const upNeexistujeInfo = document.getElementById('upNeexistujeInfo');
-            const upVysledekSection = document.getElementById('upVysledekSection');
-            const resultBox = document.getElementById('resultUP');
+        
+        const updState = {
+            urp: { checked: false, soulad: null, text: '' },
+            zur: { checked: false, soulad: null, text: '' },
+            up: { checked: false, soulad: null, text: '', exists: null }
+        };
+        
+        // Layout přepínání
+        function setUPDLayout(layout, btn) {
+            const overlay = document.getElementById('controlUP');
             
-            if (existence === 'neexistuje') {
-                // Skrýt AI kontrolu
-                aiSection.style.display = 'none';
-                aiResultSection.style.display = 'none';
-                upNeexistujeInfo.style.display = 'flex';
-                
-                // Zobrazit sekci výsledku s upravenými možnostmi
-                upVysledekSection.style.display = 'block';
-                
-                // Upravit result preview
-                resultBox.className = 'result-preview warning';
-                resultBox.innerHTML = `
-                    <div class="result-preview-title">
-                        <span class="material-icons-outlined">info</span>
-                        Územní plán neexistuje
-                    </div>
-                    <div class="result-preview-text">Záměr bude posouzen podle § 193 SZ. Zastavěným územím je intravilán. Zrychlené řízení nelze použít.</div>
-                `;
+            // Aktualizovat tlačítka
+            btn.parentElement.querySelectorAll('.upd-layout-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Přepnout layout
+            if (layout === 'horizontal') {
+                overlay.classList.add('layout-horizontal');
             } else {
-                // Zobrazit AI kontrolu
-                aiSection.style.display = 'block';
-                upNeexistujeInfo.style.display = 'none';
-                
-                // Reset result preview
-                resultBox.className = 'result-preview positive';
-                resultBox.innerHTML = `
-                    <div class="result-preview-title">
-                        <span class="material-icons-outlined">check_circle</span>
-                        Záměr je v souladu s ÚP
-                    </div>
-                    <div class="result-preview-text">Záměr je v souladu s platným územním plánem.</div>
-                `;
+                overlay.classList.remove('layout-horizontal');
             }
-        }
-
-        // ==========================================
-        // AI COMPLIANCE KONTROLA
-        // ==========================================
-        function runAiCompliance() {
-            const btn = document.getElementById('btnAiKontrola');
-            const aiSection = document.getElementById('aiControlSection');
-            const resultSection = document.getElementById('aiResultSection');
             
-            // Změna stavu tlačítka na loading
-            btn.disabled = true;
-            btn.classList.add('loading');
-            btn.innerHTML = '<span class="material-icons-outlined">hourglass_empty</span>Probíhá analýza...';
-            
-            // Simulace AI zpracování (2.5 sekundy)
-            setTimeout(function() {
-                // Skrýt tlačítko, zobrazit výsledek
-                aiSection.style.display = 'none';
-                resultSection.style.display = 'block';
-            }, 2500);
+            // Reinicializovat viewery po změně layoutu
+            setTimeout(() => {
+                const situaceImg = document.getElementById('situaceImage');
+                const updImg = document.getElementById('updImage');
+                if (situaceImg && situaceImg.complete) initViewer('situace');
+                if (updImg && updImg.complete) initViewer('upd');
+            }, 100);
         }
-
-        function showComplianceReport() {
-            const reportDetail = document.getElementById('aiReportDetail');
-            const vysledekSection = document.getElementById('upVysledekSection');
+        
+        // Modální dialog pro nesoulad
+        let currentNesouladStep = null;
+        
+        const nesouladLabels = {
+            urp: { title: 'Nesoulad s ÚRP', label: 'Popište rozpor s Územním rozvojovým plánem ČR:' },
+            zur: { title: 'Nesoulad se ZÚR', label: 'Popište rozpor se Zásadami územního rozvoje:' },
+            up: { title: 'Nesoulad s ÚP', label: 'Popište rozpor s Územním plánem obce:' }
+        };
+        
+        function openNesouladModal(step) {
+            currentNesouladStep = step;
+            const labels = nesouladLabels[step];
             
-            reportDetail.style.display = 'block';
-            vysledekSection.style.display = 'none';
-        }
-
-        function hideComplianceReport() {
-            const reportDetail = document.getElementById('aiReportDetail');
-            const vysledekSection = document.getElementById('upVysledekSection');
+            document.getElementById('nesouladModalTitle').textContent = labels.title;
+            document.getElementById('nesouladModalLabel').textContent = labels.label;
             
-            reportDetail.style.display = 'none';
-            vysledekSection.style.display = 'block';
+            // Načíst existující text
+            const existingText = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1))?.value || '';
+            document.getElementById('nesouladModalTextarea').value = existingText;
+            
+            document.getElementById('nesouladModal').classList.add('open');
+            document.getElementById('nesouladModalTextarea').focus();
         }
-
-        // ==========================================
-        // ÚZEMNĚ PLÁNOVACÍ DOKUMENTACE - update result
-        // ==========================================
-        function updateUPResult() {
-            const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
-            const resultBox = document.getElementById('resultUP');
-            const zduvodneniSection = document.getElementById('zduvodneniNesouladuSection');
-            const poznamkySection = document.getElementById('poznamkySouladSection');
-            const btnConfirm = document.querySelector('#controlUP .btn-primary');
-
-            if (vysledek === 'soulad') {
-                resultBox.className = 'result-preview positive';
-                resultBox.innerHTML = `
-                    <div class="result-preview-title">
-                        <span class="material-icons-outlined">check_circle</span>
-                        Záměr je v souladu s ÚPD
-                    </div>
-                    <div class="result-preview-text">Záměr je v souladu s platnou územně plánovací dokumentací.</div>
-                `;
-                zduvodneniSection.style.display = 'none';
-                poznamkySection.style.display = 'block';
-                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
-                btnConfirm.disabled = false;
+        
+        function closeNesouladModal() {
+            document.getElementById('nesouladModal').classList.remove('open');
+            currentNesouladStep = null;
+        }
+        
+        function saveNesouladModal() {
+            if (!currentNesouladStep) return;
+            
+            const text = document.getElementById('nesouladModalTextarea').value;
+            const noteInput = document.getElementById('note' + currentNesouladStep.charAt(0).toUpperCase() + currentNesouladStep.slice(1));
+            if (noteInput) {
+                noteInput.value = text;
+            }
+            
+            // Aktualizovat indikátor
+            const indicator = document.getElementById('indicator' + currentNesouladStep.charAt(0).toUpperCase() + currentNesouladStep.slice(1));
+            if (indicator) {
+                indicator.classList.toggle('visible', text.trim().length > 0);
+                indicator.title = text.trim().length > 0 ? 'Upravit popis nesouladu' : '';
+            }
+            
+            updateUPDState();
+            closeNesouladModal();
+        }
+        
+        // Viewer stav pro zoom/pan
+        const viewerState = {
+            situace: { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 },
+            upd: { scale: 1, x: 0, y: 0, isDragging: false, startX: 0, startY: 0 }
+        };
+        
+        // UPD obrázky a iframe
+        const updImages = {
+            urp: '../images/URP.png',
+            zur: '../images/URP.png' // Zatím stejný, můžete přidat ZUR.png
+        };
+        
+        // ÚP jako iframe
+        const upIframeUrl = 'https://mapy.kr-vysocina.cz/pupo_pfa/apps/webappviewer/index.html?id=61cce275226a49a69c5b95254afda53d';
+        
+        const situaceImages = {
+            c1: '../images/C-01.png',
+            c2: '../images/C-02.png',
+            c3: '../images/C-03.png'
+        };
+        
+        function initViewer(viewerId) {
+            const container = document.getElementById(viewerId + 'Container');
+            const img = document.getElementById(viewerId + 'Image');
+            if (!container || !img) return;
+            
+            // Počkat až je obrázek načtený
+            if (!img.complete || !img.naturalWidth) {
+                img.onload = () => initViewer(viewerId);
+                return;
+            }
+            
+            const state = viewerState[viewerId];
+            
+            // Počkat na správné rozměry containeru
+            const containerRect = container.getBoundingClientRect();
+            if (containerRect.width === 0 || containerRect.height === 0) {
+                setTimeout(() => initViewer(viewerId), 50);
+                return;
+            }
+            
+            const imgRatio = img.naturalWidth / img.naturalHeight;
+            const containerRatio = containerRect.width / containerRect.height;
+            
+            // Fit to container - obrázek celý viditelný
+            if (imgRatio > containerRatio) {
+                state.scale = containerRect.width / img.naturalWidth;
             } else {
-                resultBox.className = 'result-preview negative';
-                resultBox.innerHTML = `
-                    <div class="result-preview-title">
-                        <span class="material-icons-outlined">cancel</span>
-                        Nesoulad s ÚPD
-                    </div>
-                    <div class="result-preview-text">Žádost bude zamítnuta z důvodu nesouladu s územně plánovací dokumentací.</div>
-                `;
-                zduvodneniSection.style.display = 'block';
-                poznamkySection.style.display = 'none';
-                // Focus na textarea
-                setTimeout(() => {
-                    document.getElementById('upPoznamky').focus();
-                }, 100);
-                updateUPConfirmButton();
+                state.scale = containerRect.height / img.naturalHeight;
+            }
+            
+            // Omezit maximální scale na 1 (nezoomovat nad 100%)
+            state.scale = Math.min(state.scale, 1);
+            
+            // Center image
+            state.x = (containerRect.width - img.naturalWidth * state.scale) / 2;
+            state.y = (containerRect.height - img.naturalHeight * state.scale) / 2;
+            
+            updateViewerTransform(viewerId);
+            
+            // Zobrazit obrázek po inicializaci
+            img.classList.add('loaded');
+            
+            // Mouse events - přidat pouze jednou
+            if (!container.dataset.eventsAttached) {
+                container.onmousedown = (e) => startDrag(e, viewerId);
+                container.onmousemove = (e) => drag(e, viewerId);
+                container.onmouseup = () => endDrag(viewerId);
+                container.onmouseleave = () => endDrag(viewerId);
+                container.onwheel = (e) => handleWheel(e, viewerId);
+                container.dataset.eventsAttached = 'true';
             }
         }
         
-        function updateUPConfirmButton() {
-            const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
-            const btnConfirm = document.querySelector('#controlUP .btn-primary');
+        function updateViewerTransform(viewerId) {
+            const img = document.getElementById(viewerId + 'Image');
+            const state = viewerState[viewerId];
+            if (img) {
+                img.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+            }
+        }
+        
+        function startDrag(e, viewerId) {
+            const state = viewerState[viewerId];
+            state.isDragging = true;
+            state.startX = e.clientX - state.x;
+            state.startY = e.clientY - state.y;
+            e.preventDefault();
+        }
+        
+        function drag(e, viewerId) {
+            const state = viewerState[viewerId];
+            if (!state.isDragging) return;
+            state.x = e.clientX - state.startX;
+            state.y = e.clientY - state.startY;
+            updateViewerTransform(viewerId);
+        }
+        
+        function endDrag(viewerId) {
+            viewerState[viewerId].isDragging = false;
+        }
+        
+        function handleWheel(e, viewerId) {
+            e.preventDefault();
+            const state = viewerState[viewerId];
+            const container = document.getElementById(viewerId + 'Container');
+            const rect = container.getBoundingClientRect();
             
-            if (vysledek === 'nesoulad') {
-                const zduvodneni = document.getElementById('upPoznamky').value.trim();
-                btnConfirm.innerHTML = '<span class="material-icons-outlined">gavel</span>Zamítnout žádost';
-                btnConfirm.disabled = !zduvodneni;
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            const newScale = Math.max(0.1, Math.min(5, state.scale + delta));
+            
+            // Zoom towards mouse position
+            const scaleRatio = newScale / state.scale;
+            state.x = mouseX - (mouseX - state.x) * scaleRatio;
+            state.y = mouseY - (mouseY - state.y) * scaleRatio;
+            state.scale = newScale;
+            
+            updateViewerTransform(viewerId);
+        }
+        
+        function zoomViewer(viewerId, delta) {
+            const state = viewerState[viewerId];
+            const container = document.getElementById(viewerId + 'Container');
+            const rect = container.getBoundingClientRect();
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const newScale = Math.max(0.1, Math.min(5, state.scale + delta));
+            const scaleRatio = newScale / state.scale;
+            
+            state.x = centerX - (centerX - state.x) * scaleRatio;
+            state.y = centerY - (centerY - state.y) * scaleRatio;
+            state.scale = newScale;
+            
+            updateViewerTransform(viewerId);
+        }
+        
+        function resetViewer(viewerId) {
+            const img = document.getElementById(viewerId + 'Image');
+            if (img && img.complete) {
+                initViewer(viewerId);
+            }
+        }
+        
+        function openImageFullscreen(viewerId) {
+            if (viewerId === 'upd') {
+                // Zkontrolovat, zda je aktivní ÚP tab
+                const activeTab = document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-vtab.active');
+                if (activeTab && activeTab.textContent === 'ÚP') {
+                    window.open(upIframeUrl, '_blank');
+                    return;
+                }
+            }
+            const img = document.getElementById(viewerId + 'Image');
+            if (img) {
+                window.open(img.src, '_blank');
+            }
+        }
+        
+        function switchSituaceTab(btn, tab) {
+            btn.parentElement.querySelectorAll('.upd-vtab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const img = document.getElementById('situaceImage');
+            if (img && situaceImages[tab]) {
+                img.classList.remove('loaded');
+                img.onload = () => initViewer('situace');
+                img.src = situaceImages[tab];
+            }
+        }
+        
+        function switchUPDMap(type, btn) {
+            btn.parentElement.querySelectorAll('.upd-vtab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const viewer = document.getElementById('updMapViewer');
+            
+            if (type === 'up') {
+                // ÚP jako iframe
+                viewer.innerHTML = `
+                    <iframe src="${upIframeUrl}" 
+                            style="width: 100%; height: 100%; border: none;"
+                            allow="geolocation"
+                            id="upIframe"></iframe>
+                    <div class="upd-iframe-fallback" id="iframeFallback" style="display: none;">
+                        <span class="material-icons-outlined">block</span>
+                        <span>Web neumožňuje vložení</span>
+                        <a href="${upIframeUrl}" target="_blank" class="upd-link">Otevřít v novém okně</a>
+                    </div>
+                `;
+                // Skrýt zoom controls pro iframe
+                document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-zoom-controls').style.display = 'none';
             } else {
-                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
-                btnConfirm.disabled = false;
+                // ÚRP/ZÚR jako obrázek
+                const existingImg = document.getElementById('updImage');
+                if (!existingImg) {
+                    viewer.innerHTML = `
+                        <div class="upd-image-container" id="updContainer">
+                            <img src="${updImages[type]}" alt="${type.toUpperCase()}" id="updImage" 
+                                 draggable="false" onload="initViewer('upd')">
+                        </div>
+                    `;
+                } else {
+                    existingImg.classList.remove('loaded');
+                    existingImg.onload = () => initViewer('upd');
+                    existingImg.src = updImages[type];
+                }
+                // Zobrazit zoom controls
+                document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-zoom-controls').style.display = 'flex';
+            }
+        }
+        
+        function setUPDSoulad(step, soulad, btn) {
+            updState[step].checked = true;
+            updState[step].soulad = soulad;
+            
+            // Aktualizovat tlačítka
+            const parent = btn.closest('.upd-check-buttons');
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            // Zobrazit/skrýt textarea pro nesoulad (vertikální layout)
+            const noteInput = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1));
+            if (noteInput) {
+                noteInput.style.display = soulad ? 'none' : 'block';
+            }
+            
+            // Aktualizovat/skrýt indikátor nesouladu
+            const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
+            if (indicator && soulad) {
+                indicator.classList.remove('visible');
+            }
+            
+            // Aktualizovat stav položky
+            const checkItem = document.getElementById('check' + step.charAt(0).toUpperCase() + step.slice(1));
+            checkItem.classList.remove('done-ok', 'done-error');
+            checkItem.classList.add(soulad ? 'done-ok' : 'done-error');
+            
+            // Aktualizovat status
+            const statusEl = document.getElementById('status' + step.charAt(0).toUpperCase() + step.slice(1));
+            statusEl.textContent = soulad ? '✓' : '✗';
+            statusEl.classList.remove('ok', 'error');
+            statusEl.classList.add(soulad ? 'ok' : 'error');
+            
+            // Při nesouladu v horizontálním layoutu otevřít modal
+            if (!soulad) {
+                const isHorizontal = document.getElementById('controlUP').classList.contains('layout-horizontal');
+                if (isHorizontal) {
+                    openNesouladModal(step);
+                } else if (noteInput) {
+                    noteInput.focus();
+                }
+            }
+            
+            updateUPDState();
+        }
+        
+        function setUPExistence(exists, btn) {
+            updState.up.exists = exists;
+            
+            // Aktualizovat tlačítka
+            const parent = btn.closest('.upd-check-buttons');
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            // Zobrazit/skrýt relevantní sekce
+            const souladSection = document.getElementById('upSouladSection');
+            const noUpInfo = document.getElementById('noUpInfo');
+            
+            if (exists) {
+                souladSection.style.display = 'block';
+                noUpInfo.style.display = 'none';
+            } else {
+                souladSection.style.display = 'none';
+                noUpInfo.style.display = 'block';
+                // Při neexistenci ÚP je kontrola hotová
+                updState.up.checked = true;
+                updState.up.soulad = true;
+                
+                // Aktualizovat vizuální stav
+                const checkItem = document.getElementById('checkUp');
+                checkItem.classList.add('done-ok');
+                const statusEl = document.getElementById('statusUp');
+                statusEl.textContent = 'N/A';
+                statusEl.classList.add('ok');
+            }
+            
+            updateUPDState();
+        }
+        
+        function updateUPDState() {
+            // Aktualizovat tlačítko potvrzení
+            const btn = document.getElementById('btnConfirmUPD');
+            if (!btn) return;
+            
+            const allChecked = updState.urp.checked && updState.zur.checked && updState.up.checked;
+            const hasNesoulad = (updState.urp.checked && !updState.urp.soulad) || 
+                               (updState.zur.checked && !updState.zur.soulad) || 
+                               (updState.up.checked && !updState.up.soulad);
+            
+            // Kontrola vyplnění zdůvodnění nesouladů + aktualizace indikátorů
+            let nesouladTextsOk = true;
+            ['urp', 'zur', 'up'].forEach(step => {
+                const noteValue = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1))?.value?.trim() || '';
+                const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
+                
+                const needsText = !updState[step].soulad && updState[step].checked && (step !== 'up' || updState.up.exists !== false);
+                
+                if (needsText) {
+                    if (!noteValue) nesouladTextsOk = false;
+                    // Zobrazit indikátor pokud je text vyplněn
+                    if (indicator) {
+                        indicator.classList.toggle('visible', noteValue.length > 0);
+                    }
+                } else {
+                    if (indicator) indicator.classList.remove('visible');
+                }
+            });
+            
+            const canConfirm = allChecked && (!hasNesoulad || nesouladTextsOk);
+            btn.disabled = !canConfirm;
+            
+            if (hasNesoulad && allChecked) {
+                btn.innerHTML = '<span class="material-icons-outlined">gavel</span> Zamítnout';
+            } else {
+                btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
+            }
+        }
+        
+        function completeUPD() {
+            const hasNesoulad = (updState.urp.checked && !updState.urp.soulad) || 
+                               (updState.zur.checked && !updState.zur.soulad) || 
+                               (updState.up.checked && !updState.up.soulad);
+            
+            // Sesbírat texty nesouladů
+            let nesouladTexts = [];
+            if (!updState.urp.soulad && updState.urp.checked) {
+                const text = document.getElementById('noteUrp')?.value || '';
+                if (text) nesouladTexts.push('ÚRP: ' + text);
+            }
+            if (!updState.zur.soulad && updState.zur.checked) {
+                const text = document.getElementById('noteZur')?.value || '';
+                if (text) nesouladTexts.push('ZÚR: ' + text);
+            }
+            if (!updState.up.soulad && updState.up.checked && updState.up.exists !== false) {
+                const text = document.getElementById('noteUp')?.value || '';
+                if (text) nesouladTexts.push('ÚP: ' + text);
+            }
+            
+            controls.up.done = true;
+            controls.up.result = hasNesoulad ? 'warning' : 'ok';
+            
+            // Přidat nesoulady do globálních issues
+            if (hasNesoulad && nesouladTexts.length > 0) {
+                addGlobalIssue('vyzva', {
+                    text: 'Nesoulad s ÚPD:\n' + nesouladTexts.join('\n'),
+                    source: 'upd-control',
+                    controlName: 'Soulad s ÚPD'
+                });
+            }
+            
+            updateUI();
+            closeControl('controlUP');
+            
+            // Zobrazit toast
+            if (hasNesoulad) {
+                showToast('Kontrola dokončena — zjištěn nesoulad s ÚPD', 'warning');
+            } else {
+                showToast('Kontrola dokončena — záměr je v souladu s ÚPD', 'success');
             }
         }
 
@@ -20474,6 +21497,9 @@ Oplocení pozemku plotem výšky 1,8 m s podezdívkou.`;
                 document.getElementById('btnZahajit').disabled = true;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
             }
+            
+            // Aktualizovat stav kontroly Zrychlené řízení
+            updateZrychleneRizeniState();
         }
 
         function updateCardContent(key, status) {
@@ -21676,37 +22702,7 @@ ${reportContent}
 
         // Funkce completeDoklady již není potřeba - sloučena do completeIdentifikace
 
-        function completeUP() {
-            const vysledek = document.querySelector('input[name="up_vysledek"]:checked').value;
-            const poznamky = document.getElementById('upPoznamky') ? document.getElementById('upPoznamky').value.trim() : '';
-            
-            controls.up.done = true;
-            
-            // Nejdříve odeber případné staré záznamy o nesouladu z globalIssues
-            globalIssues.zamitnuti = globalIssues.zamitnuti.filter(i => i.controlName !== 'Kontrola souladu s ÚPD');
-            
-            if (vysledek === 'soulad') {
-                controls.up.result = 'ok';
-            } else {
-                controls.up.result = 'error';
-                
-                // Přidat do globálního seznamu nedostatků (typ: zamítnutí)
-                let issueText = 'Záměr není v souladu s územně plánovací dokumentací';
-                if (poznamky) {
-                    issueText += ': ' + poznamky;
-                }
-                
-                addGlobalIssue('zamitnuti', {
-                    text: issueText,
-                    source: 'manual',
-                    controlName: 'Kontrola souladu s ÚPD'
-                });
-            }
-            
-            updateGlobalIssuesBadge();
-            closeControl('controlUP');
-            updateUI();
-        }
+        // Funkce completeUP nahrazena funkcí completeUPD v nové implementaci kontroly souladu s ÚPD
 
         // ==========================================
         // ÚČASTNÍCI ŘÍZENÍ - FUNKCE
@@ -22737,14 +23733,27 @@ ${reportContent}
         }
         
         // Toast notifikace
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             const existing = document.querySelector('.toast-notification');
             if (existing) existing.remove();
+            
+            const icons = {
+                success: 'check_circle',
+                warning: 'warning',
+                error: 'error',
+                info: 'info'
+            };
+            const colors = {
+                success: '#137333',
+                warning: '#b06000',
+                error: '#c5221f',
+                info: '#1a73e8'
+            };
             
             const toast = document.createElement('div');
             toast.className = 'toast-notification';
             toast.innerHTML = `
-                <span class="material-icons-outlined">check_circle</span>
+                <span class="material-icons-outlined" style="color: ${colors[type] || colors.success}">${icons[type] || icons.success}</span>
                 ${message}
             `;
             toast.style.cssText = `
@@ -23007,6 +24016,10 @@ ${reportContent}
                 <span class="material-icons-outlined">download</span>
                 Exportovat
             </button>
+            <button class="btn btn-primary" onclick="openGenModal()" id="btnGenVyzva" style="background: #0d47a1;">
+                <span class="material-icons-outlined">description</span>
+                Generovat výzvu
+            </button>
             <button class="btn btn-primary" onclick="closeSlideout('prehledNedostatku')">
                 Zavřít
             </button>
@@ -23266,6 +24279,25 @@ ${reportContent}
                 </div>
             </div>
             <div class="sim-section">
+                <div class="sim-section-title">Rychlost řízení</div>
+                <div class="sim-scenarios">
+                    <label class="sim-radio">
+                        <input type="radio" name="rychlostRizeni" value="zrychlene" checked onchange="applyRychlostRizeni(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Zrychlené řízení</strong>
+                            <small>Bez ústního jednání, do 30 dnů</small>
+                        </span>
+                    </label>
+                    <label class="sim-radio">
+                        <input type="radio" name="rychlostRizeni" value="standardni" onchange="applyRychlostRizeni(this.value)">
+                        <span class="sim-radio-label">
+                            <strong>Standardní řízení</strong>
+                            <small>S ústním jednáním, do 60 dnů</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="sim-section">
                 <div class="sim-section-title">Scénář žádosti</div>
                 <div class="sim-scenarios">
                     <label class="sim-radio">
@@ -23343,6 +24375,10 @@ ${reportContent}
                     <div class="sim-info-row">
                         <span class="sim-info-label">Podání:</span>
                         <span class="sim-info-value" id="simInfoPodani">Portál stavebníka</span>
+                    </div>
+                    <div class="sim-info-row">
+                        <span class="sim-info-label">Rychlost:</span>
+                        <span class="sim-info-value" id="simInfoRychlost">Zrychlené řízení</span>
                     </div>
                     <div class="sim-info-row">
                         <span class="sim-info-label">Typ žadatele:</span>
@@ -23951,6 +24987,16 @@ ${reportContent}
                 typPodaniZadosti = typPodaniFromUrl;
                 document.querySelector(`input[name="typPodani"][value="${typPodaniFromUrl}"]`).checked = true;
             }
+            
+            // Načíst rychlost řízení z URL
+            const rychlostFromUrl = urlParams.get('rychlost');
+            if (rychlostFromUrl && (rychlostFromUrl === 'zrychlene' || rychlostFromUrl === 'standardni')) {
+                rychlostRizeni = rychlostFromUrl;
+                document.querySelector(`input[name="rychlostRizeni"][value="${rychlostFromUrl}"]`).checked = true;
+            }
+            // Vždy aplikovat rychlost řízení (pro správné zobrazení badge a karty), bez toastu
+            applyRychlostRizeni(rychlostRizeni, false);
+            
             updateSimInfo();
             
             // Načíst scénář z URL
@@ -24744,6 +25790,447 @@ ${reportContent}
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
         });
+
+        // ═══════════════════════════════════════════════════════
+        // GENEROVÁNÍ VÝZVY K DOPLNĚNÍ — HTML PREVIEW
+        // ═══════════════════════════════════════════════════════
+
+        function openGenModal() {
+            const issues = globalIssues.vyzva.filter(i => !i.resolved);
+            const count = issues.length;
+            document.getElementById('genIssueCount').textContent = count;
+            const btn = document.getElementById('btnGenVyzva');
+            if (count === 0) {
+                document.getElementById('genNoIssues').style.display = 'block';
+                document.getElementById('genVariantGrid').style.opacity = '0.4';
+                document.getElementById('genVariantGrid').style.pointerEvents = 'none';
+            } else {
+                document.getElementById('genNoIssues').style.display = 'none';
+                document.getElementById('genVariantGrid').style.opacity = '1';
+                document.getElementById('genVariantGrid').style.pointerEvents = 'auto';
+            }
+            document.getElementById('genModalOverlay').classList.add('open');
+        }
+
+        function closeGenModal() {
+            document.getElementById('genModalOverlay').classList.remove('open');
+        }
+
+        // ── Category mapping based on control source ──
+        function categorizeIssue(issue) {
+            const cn = (issue.controlName || '').toLowerCase();
+            const txt = (issue.text || '').toLowerCase();
+            
+            // Validátor — formální náležitosti PD (autorizace, podpisy, razítka)
+            if (cn.includes('automatická kontrola') || cn.includes('validátor') || cn.includes('reza') ||
+                txt.includes('autorizov') || txt.includes('časové razítko') || txt.includes('elektronicky ověřen')) {
+                return { cat: 'formal', label: 'Formální náležitosti PD', color: '#c62828', bg: '#ffebee', border: '#c62828' };
+            }
+            // Dokladová část — stanoviska, vyjádření, DTM
+            if (cn.includes('identifikace') || cn.includes('dtm') || cn.includes('příslušnost') || cn.includes('soulad') ||
+                txt.includes('stanovisk') || txt.includes('vyjádření') || txt.includes('vti') || txt.includes('vdi') ||
+                txt.includes('souhlas') || txt.includes('dotčen') || txt.includes('vlastník') || txt.includes('eia') ||
+                txt.includes('zjišťovac')) {
+                return { cat: 'doklady', label: 'Dokladová část', color: '#e65100', bg: '#fff3e0', border: '#ff8f00' };
+            }
+            // Obsah PD — průvodní zpráva, STZ, výkresy, dokumentace objektů
+            if (cn.includes('kontrola dokumentace') || cn.includes('kontrola pd') ||
+                txt.includes('průvodní') || txt.includes('souhrnná') || txt.includes('situační') ||
+                txt.includes('dokumentace objekt') || txt.includes('výkres') || txt.includes('technická zpráva') ||
+                txt.includes('část a') || txt.includes('část b') || txt.includes('část c') || txt.includes('část d')) {
+                return { cat: 'obsah_pd', label: 'Obsah PD', color: '#6a1b9a', bg: '#f3e5f5', border: '#7b1fa2' };
+            }
+            // Default
+            return { cat: 'ostatni', label: 'Ostatní', color: '#37474f', bg: '#eceff1', border: '#546e7a' };
+        }
+
+        // ── Collect case metadata from the page ──
+        function getCaseMeta() {
+            const caseNum = document.querySelector('.case-number')?.textContent?.trim() || 'R/2026/000147';
+            const caseTitle = document.getElementById('caseTitleHeader')?.textContent?.trim() || 'Novostavba RD včetně přípojek';
+            const zamer = document.querySelector('.case-meta-link')?.textContent?.trim()?.replace(/\s+/g,' ') || 'Záměr Z/2026/1457';
+            const zamerId = zamer.match(/Z\/\d+\/\d+/)?.[0] || 'Z/2026/1457';
+            return {
+                rizeni: caseNum,
+                nazev: caseTitle,
+                zamer: zamerId,
+                spisZn: 'SZ ' + caseNum.replace('R/', 'DESU/'),
+                cj: caseNum.replace('R/', 'DESU/') + '/CJ',
+                vyrizuje: 'Ing. Jana Nováková',
+                tel: '222 111 333',
+                email: 'jana.novakova@desu.gov.cz',
+                datum: new Date().toLocaleDateString('cs-CZ'),
+                lhuta: 60
+            };
+        }
+
+        // ══════════════════════════════════════════
+        // MODERN variant — color-coded cards
+        // ══════════════════════════════════════════
+        function generateModern() {
+            const issues = globalIssues.vyzva.filter(i => !i.resolved);
+            if (!issues.length) return;
+            const meta = getCaseMeta();
+
+            // Group by category
+            const groups = {};
+            issues.forEach((issue, idx) => {
+                const cat = categorizeIssue(issue);
+                if (!groups[cat.cat]) groups[cat.cat] = { ...cat, items: [] };
+                groups[cat.cat].items.push({ ...issue, num: idx + 1 });
+            });
+
+            const catOrder = ['formal', 'doklady', 'obsah_pd', 'ostatni'];
+            const sorted = catOrder.filter(k => groups[k]).map(k => groups[k]);
+
+            let cardsHtml = '';
+            let num = 0;
+            sorted.forEach(group => {
+                let itemsHtml = group.items.map(item => {
+                    num++;
+                    const source = item.controlName ? `<div style="font-size:11px;color:#9e9e9e;margin-top:4px;">${item.controlName} · ${item.source === 'auto' ? 'Automatická' : 'Manuální'}</div>` : '';
+                    return `<div style="margin:6px 0;font-size:13px;line-height:1.55;text-align:justify;">
+                        <strong style="color:${group.color};">${num}.</strong> ${escHtml(item.text)}${source}
+                    </div>`;
+                }).join('');
+
+                cardsHtml += `
+                <div style="background:${group.bg};border-left:4px solid ${group.border};border-radius:6px;padding:14px 16px;margin-bottom:10px;break-inside:avoid;">
+                    <div style="font-size:14px;font-weight:700;color:${group.color};margin-bottom:6px;">
+                        ${escHtml(group.label)}
+                        <span style="font-weight:400;font-size:12px;color:#757575;margin-left:8px;">(${group.items.length})</span>
+                    </div>
+                    ${itemsHtml}
+                </div>`;
+            });
+
+            const html = modernTemplate(meta, cardsHtml, issues.length);
+            openPreview(html, 'Výzva_MODERN');
+        }
+
+        function modernTemplate(meta, cardsHtml, totalIssues) {
+            return `<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
+<title>Výzva k doplnění — ${escHtml(meta.nazev)}</title>
+<style>
+@page { size: A4; margin: 12mm 15mm 12mm 20mm; }
+@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 13px; color: #212121; line-height: 1.5; }
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0 15mm 12mm 20mm; position: relative; }
+.header-bar { background: #0d47a1; color: #fff; padding: 8px 20px; margin: 0 -15mm 0 -20mm; width: calc(100% + 35mm); display: flex; justify-content: space-between; align-items: center; }
+.header-bar .title { font-size: 13px; font-weight: 700; }
+.header-bar .sub { font-size: 10px; opacity: 0.8; }
+.meta-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: #f5f5f5; margin: 10px 0; border-radius: 4px; }
+.meta-cell { padding: 8px 12px; border-right: 1px solid #e0e0e0; }
+.meta-cell:last-child { border-right: none; }
+.meta-label { font-size: 10px; color: #9e9e9e; }
+.meta-value { font-size: 12px; font-weight: 600; }
+h1 { font-size: 17px; color: #0d47a1; margin: 12px 0 2px; }
+.subtitle { font-size: 12px; color: #616161; margin-bottom: 10px; }
+.intro { font-size: 13px; color: #424242; margin-bottom: 14px; text-align: justify; }
+.tag { display: inline-block; background: #ff8f00; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 3px; vertical-align: middle; }
+.tag-gray { background: #616161; }
+.section-title { font-size: 15px; font-weight: 700; color: #0d47a1; margin: 16px 0 6px; display: flex; align-items: center; gap: 8px; }
+hr.sep { border: none; border-top: 1px solid #90caf9; margin: 16px auto; width: 60%; }
+.usneseni-box { background: #e3f2fd; border-left: 4px solid #0d47a1; border-radius: 6px; padding: 14px 16px; margin: 10px 0; }
+.usneseni-box p { font-size: 13px; line-height: 1.55; text-align: justify; }
+.warn-italic { font-size: 12px; color: #616161; font-style: italic; margin: 10px 0; text-align: justify; }
+.sig { text-align: right; margin-top: 30px; }
+.sig-name { font-size: 14px; font-weight: 700; }
+.sig-title { font-size: 12px; color: #616161; }
+.footer-line { border-top: 1px solid #e0e0e0; margin-top: 14px; padding-top: 6px; font-size: 11px; color: #9e9e9e; }
+</style></head><body>
+<div class="page">
+    <div class="header-bar">
+        <span class="title">DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD</span>
+        <span class="sub">Odbor výstavby</span>
+    </div>
+    <div class="meta-strip">
+        <div class="meta-cell"><div class="meta-label">Spis. zn.</div><div class="meta-value">${escHtml(meta.spisZn)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Č.j.</div><div class="meta-value">${escHtml(meta.cj)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Vyřizuje</div><div class="meta-value">${escHtml(meta.vyrizuje)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Datum</div><div class="meta-value">${escHtml(meta.datum)}</div></div>
+    </div>
+    <div class="meta-strip" style="margin-top:0;">
+        <div class="meta-cell"><div class="meta-label">Záměr</div><div class="meta-value">${escHtml(meta.zamer)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Tel.</div><div class="meta-value">${escHtml(meta.tel)}</div></div>
+        <div class="meta-cell" style="grid-column:span 2;"><div class="meta-label">E-mail</div><div class="meta-value">${escHtml(meta.email)}</div></div>
+    </div>
+
+    <h1>${escHtml(meta.nazev)}</h1>
+    <div class="subtitle">Řízení: ${escHtml(meta.rizeni)} · záměr: ${escHtml(meta.zamer)}</div>
+
+    <div class="section-title">I. Výzva k odstranění nedostatků žádosti <span class="tag">LHŮTA ${meta.lhuta} DNŮ</span></div>
+
+    <div class="intro">
+        DESÚ jako stavební úřad příslušný dle § 33 odst. 2 zákona č. 283/2021 Sb. zjistil, 
+        že žádost neobsahuje požadované náležitosti, a proto dle § 185 odst. 2 stavebního zákona 
+        <strong>vyzývá</strong> stavebníka, aby nejpozději do <strong>${meta.lhuta} dnů</strong> 
+        od doručení předloženou žádost doplnil o tyto údaje a podklady:
+    </div>
+
+    ${cardsHtml}
+
+    <p class="warn-italic">
+        Pokud nebudou nedostatky ve stanovené lhůtě odstraněny, bude řízení zastaveno 
+        dle § 66 odst. 1 písm. c) správního řádu (z. č. 500/2004 Sb.).
+    </p>
+
+    <hr class="sep">
+
+    <div class="section-title">II. Usnesení o přerušení řízení <span class="tag tag-gray">BEZ ODVOLÁNÍ</span></div>
+
+    <div class="usneseni-box">
+        <p>DESÚ dle § 185 odst. 2 stavebního zákona <strong>přerušuje</strong> řízení o záměru 
+        <strong>„${escHtml(meta.nazev)}"</strong>.</p>
+        <p style="margin-top:8px;">Řízení se přerušuje do doby doplnění žádosti o povolení záměru, 
+        nejdéle však na dobu <strong>${meta.lhuta} dnů ode dne doručení výzvy</strong>.</p>
+    </div>
+
+    <p style="margin-top:10px;font-size:13px;"><strong>Odůvodnění:</strong> Stavební úřad zjistil, 
+    že žádost neobsahuje požadované náležitosti (celkem ${totalIssues} nedostatků), 
+    a proto stavebníka vyzval k doplnění. Současně určil lhůtu na dobu ${meta.lhuta} dnů 
+    ode dne doručení výzvy. Po dobu přerušení lhůta dle § 65 odst. 1 správního řádu neběží.</p>
+
+    <p class="warn-italic" style="margin-top:8px;">
+        <strong>Poučení:</strong> Proti tomuto usnesení se dle § 185 odst. 2 stavebního zákona nelze odvolat.
+    </p>
+
+    <div class="sig">
+        <div class="sig-name">${escHtml(meta.vyrizuje)}</div>
+        <div class="sig-title">oprávněná úřední osoba</div>
+    </div>
+
+    <div class="footer-line">
+        ${escHtml(meta.cj)} · ${escHtml(meta.spisZn)} · Generováno: ${new Date().toLocaleString('cs-CZ')}
+    </div>
+</div>
+</body></html>`;
+        }
+
+        // ══════════════════════════════════════════
+        // COMPACT variant — table-driven layout
+        // ══════════════════════════════════════════
+        function generateCompact() {
+            const issues = globalIssues.vyzva.filter(i => !i.resolved);
+            if (!issues.length) return;
+            const meta = getCaseMeta();
+
+            let rows = '';
+            issues.forEach((issue, idx) => {
+                const cat = categorizeIssue(issue);
+                const bgRow = idx % 2 === 0 ? '#fff' : '#f8f9fa';
+                const source = issue.controlName
+                    ? `<div style="font-size:10px;color:#9e9e9e;margin-top:3px;">${escHtml(issue.controlName)} · ${issue.source === 'auto' ? 'Auto' : 'Man.'}</div>`
+                    : '';
+                rows += `<tr style="background:${bgRow};">
+                    <td style="text-align:center;vertical-align:top;padding:6px;font-weight:600;border-bottom:1px solid #e0e0e0;">${idx+1}</td>
+                    <td style="vertical-align:top;padding:6px;border-bottom:1px solid #e0e0e0;">
+                        <span style="display:inline-block;background:${cat.bg};color:${cat.color};font-size:10px;font-weight:600;padding:1px 6px;border-radius:3px;border:1px solid ${cat.border};">${escHtml(cat.label)}</span>
+                    </td>
+                    <td style="vertical-align:top;padding:6px;font-size:12.5px;line-height:1.5;text-align:justify;border-bottom:1px solid #e0e0e0;">
+                        ${escHtml(issue.text)}${source}
+                    </td>
+                </tr>`;
+            });
+
+            const html = compactTemplate(meta, rows, issues.length);
+            openPreview(html, 'Výzva_COMPACT');
+        }
+
+        function compactTemplate(meta, tableRows, totalIssues) {
+            return `<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
+<title>Výzva k doplnění — ${escHtml(meta.nazev)}</title>
+<style>
+@page { size: A4; margin: 12mm 15mm 12mm 18mm; }
+@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: 13px; color: #212121; line-height: 1.45; }
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0 15mm 12mm 18mm; }
+.header-bar { background: #0d47a1; color: #fff; padding: 7px 18px; margin: 0 -15mm 0 -18mm; width: calc(100% + 33mm); display: flex; justify-content: space-between; align-items: center; }
+.header-bar .title { font-size: 12px; font-weight: 700; }
+.header-bar .sub { font-size: 9px; opacity: 0.8; }
+.accent-line { height: 2px; background: #90caf9; margin: 0 -15mm 0 -18mm; width: calc(100% + 33mm); }
+.meta-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; background: #f5f5f5; margin: 8px 0; border-radius: 4px; }
+.meta-cell { padding: 6px 10px; border-right: 1px solid #e0e0e0; }
+.meta-cell:last-child { border-right: none; }
+.meta-label { font-size: 9px; color: #9e9e9e; }
+.meta-value { font-size: 11.5px; font-weight: 600; }
+.subj-box { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 8px 12px; margin-bottom: 10px; font-size: 12.5px; }
+.section-title { font-size: 14px; font-weight: 700; color: #0d47a1; margin: 12px 0 4px; }
+.intro { font-size: 12px; color: #424242; margin-bottom: 8px; text-align: justify; }
+table.defects { width: 100%; border-collapse: collapse; border: 1px solid #1565c0; margin: 6px 0; }
+table.defects th { background: #1565c0; color: #fff; font-size: 11px; padding: 5px 6px; text-align: left; }
+.warn-box { background: #fff3e0; border: 1px solid #ff8f00; border-radius: 4px; padding: 8px 12px; margin: 8px 0; font-size: 12px; }
+.usn-box { background: #e0f2f1; border-left: 3px solid #00796b; border-radius: 4px; padding: 10px 14px; margin: 8px 0; font-size: 13px; text-align: justify; }
+.sig { text-align: right; margin-top: 24px; }
+.sig-name { font-size: 13px; font-weight: 700; }
+.sig-title { font-size: 11px; color: #616161; }
+.footer-sep { border-top: 1px solid #dee2e6; margin-top: 10px; padding-top: 4px; font-size: 10px; color: #9e9e9e; }
+</style></head><body>
+<div class="page">
+    <div class="header-bar">
+        <div>
+            <div class="title">DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD</div>
+            <div class="sub">Odbor výstavby</div>
+        </div>
+        <div style="text-align:right;">
+            <div style="font-size:10px;">Č.j.: ${escHtml(meta.cj)}</div>
+            <div style="font-size:10px;">Spis. zn.: ${escHtml(meta.spisZn)}</div>
+        </div>
+    </div>
+    <div class="accent-line"></div>
+
+    <div class="meta-strip">
+        <div class="meta-cell"><div class="meta-label">Záměr</div><div class="meta-value">${escHtml(meta.zamer)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Vyřizuje</div><div class="meta-value">${escHtml(meta.vyrizuje)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Lhůta</div><div class="meta-value">${meta.lhuta} dnů</div></div>
+        <div class="meta-cell"><div class="meta-label">Datum</div><div class="meta-value">${escHtml(meta.datum)}</div></div>
+    </div>
+
+    <div class="subj-box">
+        <strong>Záměr:</strong> „${escHtml(meta.nazev)}" · <strong>Řízení:</strong> ${escHtml(meta.rizeni)}
+    </div>
+
+    <div class="section-title">I. Výzva k odstranění nedostatků žádosti</div>
+
+    <div class="intro">
+        DESÚ dle § 33 odst. 2 z. č. 283/2021 Sb. zjistil, že žádost neobsahuje požadované 
+        náležitosti a dle § 185 odst. 2 <strong>vyzývá</strong> stavebníka, aby do 
+        <strong>${meta.lhuta} dnů</strong> od doručení žádost doplnil:
+    </div>
+
+    <table class="defects">
+        <thead>
+            <tr>
+                <th style="width:30px;">#</th>
+                <th style="width:110px;">Kategorie</th>
+                <th>Popis nedostatku</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${tableRows}
+        </tbody>
+    </table>
+
+    <div style="font-size:10px;color:#9e9e9e;margin:4px 0 6px;">
+        <span style="display:inline-block;background:#ffebee;color:#c62828;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #c62828;">Formální nál. PD</span>&emsp;
+        <span style="display:inline-block;background:#fff3e0;color:#e65100;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #ff8f00;">Dokladová část</span>&emsp;
+        <span style="display:inline-block;background:#f3e5f5;color:#6a1b9a;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #7b1fa2;">Obsah PD</span>&emsp;
+        <span style="display:inline-block;background:#eceff1;color:#37474f;font-size:9px;padding:0 4px;border-radius:2px;border:1px solid #546e7a;">Ostatní</span>
+    </div>
+
+    <div class="warn-box">
+        ⚠ Pokud nebudou nedostatky ve stanovené lhůtě odstraněny, řízení bude zastaveno 
+        dle § 66 odst. 1 písm. c) správního řádu.
+    </div>
+
+    <div class="section-title" style="margin-top:14px;">II. Usnesení o přerušení řízení</div>
+
+    <div class="usn-box">
+        <p>DESÚ dle § 185 odst. 2 stavebního zákona <strong>přerušuje</strong> řízení o záměru 
+        <strong>„${escHtml(meta.nazev)}"</strong>.</p>
+        <p style="margin-top:6px;">Řízení se přerušuje do doby doplnění žádosti, nejdéle na dobu 
+        <strong>${meta.lhuta} dnů ode dne doručení výzvy</strong>.</p>
+    </div>
+
+    <p style="margin-top:8px;font-size:12px;text-align:justify;">
+        <strong>Odůvodnění:</strong> Stavební úřad zjistil ${totalIssues} nedostatků. 
+        Stavebníka vyzval k doplnění se lhůtou ${meta.lhuta} dnů. 
+        Po dobu přerušení lhůta dle § 65 odst. 1 správního řádu neběží.
+    </p>
+
+    <p style="margin-top:6px;font-size:11.5px;font-style:italic;color:#616161;">
+        <strong>Poučení:</strong> Proti tomuto usnesení se dle § 185 odst. 2 stavebního zákona nelze odvolat.
+    </p>
+
+    <div class="sig">
+        <div class="sig-name">${escHtml(meta.vyrizuje)}</div>
+        <div class="sig-title">oprávněná úřední osoba</div>
+    </div>
+
+    <div class="footer-sep">
+        ${escHtml(meta.cj)} · ${escHtml(meta.spisZn)} · Generováno: ${new Date().toLocaleString('cs-CZ')}
+    </div>
+</div>
+</body></html>`;
+        }
+
+        // ── Helpers ──
+        function escHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function openPreview(html, title) {
+            const w = window.open('', title, 'width=800,height=1000');
+            if (w) {
+                w.document.write(html);
+                w.document.close();
+            } else {
+                alert('Prohlížeč zablokoval vyskakovací okno. Povolte pop-up pro tuto stránku.');
+            }
+            closeGenModal();
+        }
+
     </script>
+
+    <!-- ═══ Modal: Generování výzvy ═══ -->
+    <div class="gen-modal-overlay" id="genModalOverlay" onclick="if(event.target===this)closeGenModal()">
+        <div class="gen-modal">
+            <div class="gen-modal-header">
+                <div class="gen-modal-title">
+                    <span class="material-icons-outlined">description</span>
+                    Generovat výzvu k doplnění
+                </div>
+                <button class="gen-modal-close" onclick="closeGenModal()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="gen-modal-body">
+                <div class="gen-modal-info">
+                    Vygenerovat náhled dokumentu <strong>I. Výzva + II. Usnesení o přerušení</strong> 
+                    z aktuálně evidovaných nedostatků (<strong id="genIssueCount">0</strong> nevyřešených).
+                    Dokument se otevře v novém okně pro tisk / uložení jako PDF.
+                </div>
+                <div id="genNoIssues" style="display:none;background:#fff3e0;border-radius:6px;padding:12px;text-align:center;margin-bottom:14px;font-size:13px;color:#e65100;">
+                    <span class="material-icons-outlined" style="vertical-align:middle;font-size:18px;">info</span>
+                    Žádné nevyřešené nedostatky. Nejprve proveďte kontroly.
+                </div>
+                <div class="gen-variant-grid" id="genVariantGrid">
+                    <div class="gen-variant-card" onclick="generateModern()">
+                        <div class="variant-icon" style="background: #0d47a1;">
+                            <span class="material-icons-outlined">view_agenda</span>
+                        </div>
+                        <div class="variant-name">Modern</div>
+                        <div class="variant-desc">
+                            Barevně kódované karty seskupené podle kategorie nedostatku. 
+                            Přehledný pro delší seznamy.
+                        </div>
+                    </div>
+                    <div class="gen-variant-card" onclick="generateCompact()">
+                        <div class="variant-icon" style="background: #1565c0;">
+                            <span class="material-icons-outlined">table_chart</span>
+                        </div>
+                        <div class="variant-name">Compact</div>
+                        <div class="variant-desc">
+                            Tabulková podoba se štítky kategorií. 
+                            Úsporný formát pro přehledný tisk.
+                        </div>
+                    </div>
+                </div>
+                <div class="gen-legend">
+                    <div class="gen-legend-title">Barevné kategorie (systémové):</div>
+                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#c62828;"></span> Formální náležitosti PD (validátor)</span>
+                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#ff8f00;"></span> Dokladová část (stanoviska, DTM)</span>
+                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#7b1fa2;"></span> Obsah PD (průvodní/STZ/výkresy)</span>
+                    <span class="gen-legend-item"><span class="gen-legend-dot" style="background:#546e7a;"></span> Ostatní</span>
+                </div>
+            </div>
+            <div class="gen-modal-footer">
+                <button class="btn btn-secondary" onclick="closeGenModal()">Zavřít</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
