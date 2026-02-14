@@ -15881,6 +15881,8 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                         <button class="add-def-btn" onclick="edAddUserDef()">
                             <span class="material-icons-outlined" style="font-size:16px">add_circle_outline</span>
                             Přidat vlastní bod
+                            <span style="font-size:9px;color:#9aa0a6;margin-left:auto">otevře se editor s formátováním</span>
+                        </button>
                         </button>
                     </div>
 
@@ -15972,8 +15974,8 @@ Elektrická přípojka napojena na distribuční síť ČEZ Distribuce.</textare
                     Uložit koncept
                 </button>
                 <button class="btn btn-primary" onclick="edFinalize()">
-                    <span class="material-icons-outlined">check_circle</span>
-                    Dokončit a odeslat
+                    <span class="material-icons-outlined">picture_as_pdf</span>
+                    Generovat PDF a odeslat
                 </button>
             </div>
         </div>
@@ -24381,6 +24383,57 @@ ${reportContent}
         </div>
     </div>
     
+    <!-- ═══ Rich Text Editor Modal ═══ -->
+    <div id="rteModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.45);align-items:center;justify-content:center">
+        <div style="background:white;width:620px;max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 24px 48px rgba(0,0,0,.2);display:flex;flex-direction:column;overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #e0e0e0">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <span class="material-icons-outlined" style="color:#e37400;font-size:20px">edit_note</span>
+                    <span style="font-size:14px;font-weight:600;color:#202124">Vlastní bod — nedostatek</span>
+                </div>
+                <button onclick="rteClose()" style="border:none;background:none;cursor:pointer;padding:4px;border-radius:6px;color:#5f6368" title="Zavřít">
+                    <span class="material-icons-outlined" style="font-size:20px">close</span>
+                </button>
+            </div>
+            <div style="display:flex;align-items:center;gap:2px;padding:8px 16px;border-bottom:1px solid #f1f3f4;background:#fafafa;flex-wrap:wrap">
+                <button onclick="rteExec('bold')" title="Tučně (Ctrl+B)" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_bold</span></button>
+                <button onclick="rteExec('italic')" title="Kurzíva (Ctrl+I)" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_italic</span></button>
+                <button onclick="rteExec('underline')" title="Podtržení (Ctrl+U)" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_underlined</span></button>
+                <div style="width:1px;height:20px;background:#e0e0e0;margin:0 4px"></div>
+                <button onclick="rteExec('insertUnorderedList')" title="Odrážkový seznam" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_list_bulleted</span></button>
+                <button onclick="rteExec('insertOrderedList')" title="Číslovaný seznam" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_list_numbered</span></button>
+                <div style="width:1px;height:20px;background:#e0e0e0;margin:0 4px"></div>
+                <button onclick="rteExec('outdent')" title="Odsadit vlevo" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_indent_decrease</span></button>
+                <button onclick="rteExec('indent')" title="Odsadit vpravo" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">format_indent_increase</span></button>
+                <div style="width:1px;height:20px;background:#e0e0e0;margin:0 4px"></div>
+                <button onclick="rteExec('undo')" title="Zpět" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">undo</span></button>
+                <button onclick="rteExec('redo')" title="Znovu" class="rte-tb"><span class="material-icons-outlined" style="font-size:18px">redo</span></button>
+                <div style="flex:1"></div>
+                <span style="font-size:10px;color:#9aa0a6">Ctrl+B / I / U</span>
+            </div>
+            <div id="rteContent" contenteditable="true" style="flex:1;min-height:220px;max-height:50vh;overflow-y:auto;padding:16px 20px;font-family:'Roboto',sans-serif;font-size:13px;line-height:1.6;color:#202124;outline:none"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-top:1px solid #e0e0e0;background:#fafafa">
+                <span style="font-size:10px;color:#9aa0a6">Text bude zařazen jako bod výzvy k doplnění</span>
+                <div style="display:flex;gap:10px">
+                    <button onclick="rteClose()" class="btn btn-secondary">Zrušit</button>
+                    <button onclick="rteSave()" class="btn btn-primary" style="background:#e37400;border-color:#e37400">
+                        <span class="material-icons-outlined">check</span>
+                        Vložit do dokumentu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #rteModal.open { display: flex !important; }
+        .rte-tb { width: 32px; height: 32px; border: none; background: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #5f6368; transition: background .1s; }
+        .rte-tb:hover { background: #e8eaed; color: #202124; }
+        .rte-tb:active { background: #d2e3fc; color: #004289; }
+        #rteContent:empty:before { content: 'Popište nedostatek žádosti nebo projektové dokumentace…'; color: #9aa0a6; pointer-events: none; }
+        #rteContent ul, #rteContent ol { margin: 4px 0 4px 20px; padding: 0; }
+        #rteContent li { margin-bottom: 2px; }
+    </style>
+
     <script>
         // Slideout panel funkce
         function openSlideout(panelId) {
@@ -26025,51 +26078,133 @@ ${reportContent}
             
             const container = document.getElementById('edDefList');
             container.innerHTML = '';
+            // Clear user defs from previous opens
+            document.getElementById('edUserDefs').innerHTML = '';
             
-            // Collect deficiencies from completed controls
+            // ─── Collect real deficiencies from all control sources ───
             const defItems = [];
             
-            if (controls.dokumentace.done && controls.dokumentace.result === 'vady') {
-                defItems.push({
-                    source: 'Kontrola el. podpisů PD',
-                    text: 'Uvést projektovou dokumentaci do souladu s § 13 odst. 3 písm. b) zákona č. 360/1992 Sb. — PD musí být opatřena elektronickým podpisem a autorizačním razítkem.',
-                    subs: ['a) AI pro dopravní stavby', 'b) AI pro požární bezpečnost staveb']
-                });
-            }
-            
-            if (controls.identifikace.done && controls.identifikace.result === 'vady') {
-                defItems.push({
-                    source: 'Kontrola dokladové části',
-                    text: 'Předložit závazná stanoviska dotčených orgánů dle § 184 odst. 2 písm. e) stavebního zákona:',
-                    subs: ['i) Jednotné environmentální stanovisko — OŽP', 'ii) Závazné stanovisko HZS']
-                });
-            }
-            
-            if (controls.up.done && controls.up.result === 'vady') {
-                defItems.push({
-                    source: 'Kontrola územního plánu',
-                    text: 'Doložit soulad záměru s územním plánem nebo podat žádost o výjimku z územního plánu.',
-                    subs: []
-                });
-            }
-            
+            // 1) Kontrola žádosti — section-level deficiencies with notes
             if (controls.zadost.done && controls.zadost.result === 'vady') {
-                defItems.push({
-                    source: 'Kontrola žádosti',
-                    text: 'Opravit nebo doplnit údaje v žádosti, které byly označeny jako neúplné nebo nesprávné.',
-                    subs: []
-                });
+                for (const [key, value] of Object.entries(zadostSectionState)) {
+                    if (value === 'vada') {
+                        const sName = sectionNames[key] || key;
+                        const note = zadostDeficiencyNotes[key] || '';
+                        defItems.push({
+                            source: 'Kontrola žádosti',
+                            controlKey: 'zadost',
+                            text: note ? (sName + ': ' + note) : ('Sekce „' + sName + '" — označena jako vadná, doplňte/opravte údaje.'),
+                            subs: []
+                        });
+                    }
+                }
             }
             
-            // If no specific deficiencies from controls (but hasVady), add generic
+            // 2) Kontrola dokumentace (PD) — real issues from docCheckState
+            if (controls.dokumentace.done && controls.dokumentace.result === 'vady' && controls.dokumentace.issues) {
+                const issues = controls.dokumentace.issues;
+                if (issues.length > 0) {
+                    const autoIssues = issues.filter(i => i.source === 'auto');
+                    const manualIssues = issues.filter(i => i.source === 'manual');
+                    
+                    if (autoIssues.length > 0) {
+                        defItems.push({
+                            source: 'Kontrola PD — automatická',
+                            controlKey: 'dokumentace',
+                            text: 'Automaticky zjištěné nedostatky v projektové dokumentaci:',
+                            subs: autoIssues.map(i => i.shortText || i.text)
+                        });
+                    }
+                    if (manualIssues.length > 0) {
+                        defItems.push({
+                            source: 'Kontrola PD — manuální',
+                            controlKey: 'dokumentace',
+                            text: 'Nedostatky v projektové dokumentaci zjištěné kontrolou:',
+                            subs: manualIssues.map(i => i.shortText || i.text)
+                        });
+                    }
+                } else {
+                    defItems.push({
+                        source: 'Kontrola dokumentace',
+                        controlKey: 'dokumentace',
+                        text: 'Projektová dokumentace vykazuje vady — uvést do souladu s požadavky stavebního zákona.',
+                        subs: []
+                    });
+                }
+            }
+            
+            // 3) Kontrola dokladové části — missing DO and VTI/VDI
+            if (controls.identifikace.done && (controls.identifikace.result === 'vady' || controls.identifikace.result === 'vyzidat_do')) {
+                const chybiDO = controls.identifikace.chybiDO || [];
+                const chybiVTI = controls.identifikace.chybiVTI_VDI || [];
+                
+                if (chybiDO.length > 0) {
+                    defItems.push({
+                        source: 'Kontrola dokladové části — DO',
+                        controlKey: 'identifikace',
+                        text: 'Předložit chybějící závazná stanoviska dotčených orgánů dle § 184 odst. 2 písm. e) stavebního zákona:',
+                        subs: chybiDO.map(n => n)
+                    });
+                }
+                if (chybiVTI.length > 0) {
+                    defItems.push({
+                        source: 'Kontrola dokladové části — VTI/VDI',
+                        controlKey: 'identifikace',
+                        text: 'Předložit chybějící vyjádření vlastníků technické/dopravní infrastruktury:',
+                        subs: chybiVTI.map(n => n)
+                    });
+                }
+            }
+            
+            // 4) Kontrola souladu s ÚPD
+            if (controls.up.done && controls.up.result === 'warning') {
+                // Get text from globalIssues
+                const updIssues = globalIssues.vyzva.filter(i => i.source === 'upd-control');
+                if (updIssues.length > 0) {
+                    defItems.push({
+                        source: 'Kontrola souladu s ÚPD',
+                        controlKey: 'up',
+                        text: updIssues[0].text,
+                        subs: []
+                    });
+                } else {
+                    defItems.push({
+                        source: 'Kontrola souladu s ÚPD',
+                        controlKey: 'up',
+                        text: 'Záměr není v souladu s územně plánovací dokumentací — doložte soulad nebo podejte žádost o výjimku.',
+                        subs: []
+                    });
+                }
+            }
+            
+            // 5) Any remaining globalIssues.vyzva not yet covered
+            const coveredSources = new Set(['upd-control']);
+            globalIssues.vyzva.forEach(gi => {
+                if (!gi.resolved && !coveredSources.has(gi.source)) {
+                    // Check if this issue is already covered by above
+                    const alreadyCovered = defItems.some(d => d.text.includes(gi.text.substring(0, 30)));
+                    if (!alreadyCovered) {
+                        defItems.push({
+                            source: gi.controlName || 'Kontroly řízení',
+                            controlKey: 'global',
+                            text: gi.text,
+                            subs: []
+                        });
+                    }
+                }
+            });
+            
+            // Fallback if nothing found
             if (defItems.length === 0) {
                 defItems.push({
                     source: 'Kontroly řízení',
+                    controlKey: 'generic',
                     text: 'Odstranit nedostatky zjištěné při kontrole žádosti.',
                     subs: []
                 });
             }
             
+            // ─── Render ───
             defItems.forEach((item, idx) => {
                 let subsHtml = '';
                 if (item.subs.length > 0) {
@@ -26112,20 +26247,85 @@ ${reportContent}
             }
         }
 
+        // ═══════════════════════════════════════════
+        // RICH TEXT MODAL for user deficiency items
+        // ═══════════════════════════════════════════
+        let edCurrentEditTarget = null;
+
         function edAddUserDef() {
-            const container = document.getElementById('edUserDefs');
-            const div = document.createElement('div');
-            div.className = 'deficiency-item-ed user-added';
-            div.innerHTML = 
-                '<div class="def-cb checked" onclick="edToggleCb(this)"><span class="material-icons-outlined">check</span></div>' +
-                '<div class="def-body-ed">' +
-                '<div class="def-source-ed manual">Vlastní bod</div>' +
-                '<textarea class="free-text-ed" placeholder="Popište nedostatek..." rows="2"></textarea>' +
-                '</div>';
-            container.appendChild(div);
-            div.querySelector('textarea').focus();
-            edUpdateCounts();
+            edCurrentEditTarget = null;
+            document.getElementById('rteContent').innerHTML = '';
+            document.getElementById('rteModal').classList.add('open');
+            setTimeout(() => document.getElementById('rteContent').focus(), 100);
         }
+
+        function edEditUserDef(el) {
+            edCurrentEditTarget = el;
+            const existing = el.querySelector('.def-rich-text');
+            document.getElementById('rteContent').innerHTML = existing ? existing.innerHTML : '';
+            document.getElementById('rteModal').classList.add('open');
+            setTimeout(() => document.getElementById('rteContent').focus(), 100);
+        }
+
+        function rteExec(cmd, val) {
+            document.execCommand(cmd, false, val || null);
+            document.getElementById('rteContent').focus();
+        }
+
+        function rteClose() {
+            document.getElementById('rteModal').classList.remove('open');
+            edCurrentEditTarget = null;
+        }
+
+        function rteSave() {
+            const html = document.getElementById('rteContent').innerHTML.trim();
+            if (!html || html === '<br>') { rteClose(); return; }
+
+            if (edCurrentEditTarget) {
+                // Edit existing
+                edCurrentEditTarget.querySelector('.def-rich-text').innerHTML = html;
+            } else {
+                // Create new item
+                const container = document.getElementById('edUserDefs');
+                const div = document.createElement('div');
+                div.className = 'deficiency-item-ed user-added';
+                div.style.cursor = 'pointer';
+                div.onclick = function(e) {
+                    if (e.target.closest('.def-cb') || e.target.closest('.def-remove-btn')) return;
+                    edEditUserDef(div);
+                };
+                div.innerHTML = 
+                    '<div class="def-cb checked" onclick="edToggleCb(this)"><span class="material-icons-outlined">check</span></div>' +
+                    '<div class="def-body-ed" style="flex:1">' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center">' +
+                    '<div class="def-source-ed manual">Vlastní bod</div>' +
+                    '<button class="def-remove-btn" onclick="edRemoveUserDef(this)" title="Odebrat" style="border:none;background:none;color:#c5221f;cursor:pointer;padding:2px;border-radius:4px"><span class="material-icons-outlined" style="font-size:14px">close</span></button>' +
+                    '</div>' +
+                    '<div class="def-rich-text" style="font-size:11px;line-height:1.5;color:#202124;margin-top:3px">' + html + '</div>' +
+                    '</div>';
+                container.appendChild(div);
+            }
+            
+            edUpdateCounts();
+            rteClose();
+        }
+
+        function edRemoveUserDef(btn) {
+            const item = btn.closest('.deficiency-item-ed');
+            if (item) { item.remove(); edUpdateCounts(); }
+        }
+
+        // ESC to close RTE modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('rteModal').classList.contains('open')) {
+                rteClose();
+                e.stopPropagation();
+            }
+        });
+        // Click backdrop to close
+        document.getElementById('rteModal')?.addEventListener('click', function(e) {
+            if (e.target === this) rteClose();
+        });
 
         function edUpdateCounts() {
             const controlChecked = document.querySelectorAll('#edDefList .deficiency-item-ed > .def-cb.checked').length;
@@ -26146,11 +26346,199 @@ ${reportContent}
             }
         }
 
+        // ═══════════════════════════════════════════
+        // PDF GENERATION
+        // ═══════════════════════════════════════════
         function edFinalize() {
-            showToast('Výzva k doplnění + Usnesení o přerušení vygenerováno a odesláno');
+            showToast('Generuji PDF a odesílám…');
+            
+            // Load jsPDF dynamically if not loaded
+            if (typeof window.jspdf === 'undefined') {
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js';
+                s.onload = function() { edGeneratePDF(); };
+                s.onerror = function() {
+                    showToast('Nepodařilo se načíst PDF knihovnu — dokument uložen bez PDF');
+                    edFinalizeUI();
+                };
+                document.head.appendChild(s);
+            } else {
+                edGeneratePDF();
+            }
+        }
+
+        function edGeneratePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            const W = 210, H = 297, ML = 25, MR = 20, MT = 25;
+            const PW = W - ML - MR;
+            let y = MT;
+
+            // Helper: wrapped text, returns new y
+            function addWrapped(text, x, yy, opts) {
+                const fontSize = opts.fontSize || 10;
+                const lineHeight = opts.lineHeight || 1.4;
+                const maxW = opts.maxWidth || PW;
+                const align = opts.align || 'left';
+                const style = opts.style || 'normal';
+                doc.setFontSize(fontSize);
+                doc.setFont('helvetica', style);
+                const lines = doc.splitTextToSize(text, maxW);
+                const lh = fontSize * lineHeight * 0.352778; // pt to mm
+                lines.forEach(line => {
+                    if (yy > H - 20) { doc.addPage(); yy = MT; }
+                    if (align === 'center') {
+                        doc.text(line, W / 2, yy, { align: 'center' });
+                    } else if (align === 'right') {
+                        doc.text(line, W - MR, yy, { align: 'right' });
+                    } else {
+                        doc.text(line, x, yy);
+                    }
+                    yy += lh;
+                });
+                return yy;
+            }
+
+            // ─── Header ───
+            doc.setDrawColor(0, 66, 137);
+            doc.setLineWidth(0.5);
+            y = addWrapped('DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD', ML, y, { fontSize: 13, style: 'bold', align: 'center' });
+            y = addWrapped('Odbor staveb drah · Oddělení Plzeň', ML, y, { fontSize: 9, align: 'center' });
+            y += 2;
+            doc.line(ML, y, W - MR, y);
+            y += 6;
+
+            // File numbers
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Spis. zn.: SZ DESU/004539/26', ML, y);
+            doc.text('Vyřizuje: Ing. Kálal', W - MR, y, { align: 'right' });
+            y += 4;
+            doc.text('Č.j.: DESU/121/004594/26', ML, y);
+            doc.text('Datum: ' + new Date().toLocaleDateString('cs-CZ'), W - MR, y, { align: 'right' });
+            y += 10;
+
+            // ─── Title I ───
+            y = addWrapped('I. VÝZVA', ML, y, { fontSize: 13, style: 'bold', align: 'center' });
+            y = addWrapped('K ODSTRANĚNÍ NEDOSTATKŮ ŽÁDOSTI', ML, y, { fontSize: 11, style: 'bold', align: 'center' });
+            y += 6;
+
+            // Identification
+            y = addWrapped('Industrial Center CR 2 s.r.o., IČO: 12345678, zastoupena na základě plné moci společností RotaGroup a.s., podal žádost o povolení záměru:', ML, y, { fontSize: 10 });
+            y += 2;
+            y = addWrapped('„Novostavba RD včetně přípojek"', ML, y, { fontSize: 10, style: 'bolditalic', align: 'center' });
+            y += 2;
+            y = addWrapped('na pozemcích parc. č. 123/4, 123/5, 124/1 v k.ú. Plzeň-město', ML, y, { fontSize: 10 });
+            y += 4;
+
+            // Legal text
+            y = addWrapped('Dopravní a energetický stavební úřad jako stavební úřad příslušný podle § 33 odst. 2 zákona č. 283/2021 Sb., stavební zákon, přezkoumal podanou žádost a zjistil, že neobsahuje všechny požadované náležitosti a přílohy, a proto', ML, y, { fontSize: 10 });
+            y += 4;
+            y = addWrapped('V Y Z Ý V Á', ML, y, { fontSize: 12, style: 'bold', align: 'center' });
+            y += 3;
+
+            // Lhůta
+            const lhutaText = document.getElementById('edUsneseniLhuta').textContent;
+            y = addWrapped('stavebníka, aby nejpozději do ' + lhutaText + ' odstranil následující nedostatky žádosti:', ML, y, { fontSize: 10 });
+            y += 4;
+
+            // ─── Deficiency items ───
+            let defNum = 1;
+            // From controls
+            document.querySelectorAll('#edDefList .deficiency-item-ed').forEach(item => {
+                const cb = item.querySelector(':scope > .def-cb');
+                if (!cb || !cb.classList.contains('checked')) return;
+                const text = item.querySelector('.def-text-ed')?.textContent || '';
+                const source = item.querySelector('.def-source-ed')?.textContent || '';
+                
+                if (y > H - 30) { doc.addPage(); y = MT; }
+                y = addWrapped(defNum + '. ' + text, ML + 4, y, { fontSize: 10, maxWidth: PW - 8 });
+                
+                // Sub-items
+                item.querySelectorAll('.def-sub-item-ed').forEach(sub => {
+                    const subCb = sub.querySelector('.def-cb');
+                    if (!subCb || !subCb.classList.contains('checked')) return;
+                    const subText = sub.querySelector('span')?.textContent || '';
+                    if (subText) {
+                        y = addWrapped('– ' + subText, ML + 10, y, { fontSize: 9, maxWidth: PW - 16 });
+                    }
+                });
+                y += 2;
+                defNum++;
+            });
+
+            // User items
+            document.querySelectorAll('#edUserDefs .deficiency-item-ed').forEach(item => {
+                const cb = item.querySelector(':scope > .def-cb');
+                if (!cb || !cb.classList.contains('checked')) return;
+                const richEl = item.querySelector('.def-rich-text');
+                const text = richEl ? richEl.innerText : '';
+                if (!text.trim()) return;
+                
+                if (y > H - 30) { doc.addPage(); y = MT; }
+                y = addWrapped(defNum + '. ' + text.trim(), ML + 4, y, { fontSize: 10, maxWidth: PW - 8 });
+                y += 2;
+                defNum++;
+            });
+
+            y += 4;
+
+            // Warning
+            y = addWrapped('Pokud nebudou nedostatky ve stanovené lhůtě odstraněny, stavební úřad řízení usnesením zastaví podle § 66 odst. 1 písm. c) správního řádu.', ML, y, { fontSize: 10, style: 'italic' });
+            y += 10;
+
+            // ═══ II. USNESENÍ ═══
+            doc.setDrawColor(0, 66, 137);
+            doc.setLineWidth(0.3);
+            doc.line(ML, y, W - MR, y);
+            y += 6;
+            y = addWrapped('II. USNESENÍ O PŘERUŠENÍ ŘÍZENÍ', ML, y, { fontSize: 12, style: 'bold', align: 'center' });
+            y += 4;
+
+            y = addWrapped('Dopravní a energetický stavební úřad podle § 185 odst. 2 stavebního zákona', ML, y, { fontSize: 10 });
+            y += 3;
+            y = addWrapped('P Ř E R U Š U J E', ML, y, { fontSize: 12, style: 'bold', align: 'center' });
+            y += 3;
+            y = addWrapped('řízení o povolení záměru „Novostavba RD včetně přípojek" na pozemcích parc. č. 123/4, 123/5, 124/1 v k.ú. Plzeň-město, a to nejdéle na dobu ' + lhutaText + ' této výzvy.', ML, y, { fontSize: 10 });
+            y += 6;
+
+            // Poučení
+            y = addWrapped('Poučení:', ML, y, { fontSize: 10, style: 'bold' });
+            y = addWrapped('Proti tomuto usnesení se podle § 185 odst. 2 stavebního zákona nelze odvolat.', ML, y, { fontSize: 10 });
+            y += 12;
+
+            // Signature
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(10);
+            doc.text('Ing. Jitka Kotásková', W - MR, y, { align: 'right' });
+            y += 4;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.text('ředitelka odboru staveb drah', W - MR, y, { align: 'right' });
+            y += 10;
+
+            // Delivery
+            doc.setLineWidth(0.2);
+            doc.line(ML, y, W - MR, y);
+            y += 4;
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Obdrží:', ML, y);
+            y += 4;
+            doc.setFont('helvetica', 'normal');
+            doc.text('RotaGroup a.s., IDDS: 78hx792 (v zastoupení Industrial Center CR 2 s.r.o.)', ML, y);
+
+            // Save & download
+            const filename = 'Vyzva_k_doplneni_DESU-004539-26.pdf';
+            doc.save(filename);
+
+            edFinalizeUI();
+        }
+
+        function edFinalizeUI() {
+            showToast('Výzva k doplnění + Usnesení o přerušení — PDF vygenerováno a odesláno');
             setTimeout(() => {
                 closeControl('controlVyzva');
-                // Update workflow state
                 document.getElementById('summaryTitle').textContent = 'Řízení přerušeno';
                 document.getElementById('summaryDesc').textContent = 'Výzva k doplnění odeslána. Čeká se na reakci stavebníka.';
                 document.getElementById('btnZahajit').disabled = true;
