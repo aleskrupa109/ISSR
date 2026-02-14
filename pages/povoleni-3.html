@@ -2910,6 +2910,82 @@
         }
 
         function completePoplatek() {
+            // Generate PDF
+            if (typeof window.jspdf === 'undefined') {
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js';
+                s.onload = function() { generatePoplatekPDF(); };
+                s.onerror = function() { finalizePoplatek(); };
+                document.head.appendChild(s);
+            } else {
+                generatePoplatekPDF();
+            }
+        }
+
+        function generatePoplatekPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            const W = 210, ML = 25, MR = 20, MT = 25, PW = W - ML - MR;
+            let y = MT;
+
+            function addW(text, x, yy, o) {
+                const fs = o.fontSize || 10, lh = o.lineHeight || 1.4, mw = o.maxWidth || PW;
+                doc.setFontSize(fs); doc.setFont('helvetica', o.style || 'normal');
+                const lines = doc.splitTextToSize(text, mw);
+                const step = fs * lh * 0.352778;
+                lines.forEach(l => {
+                    if (yy > 277) { doc.addPage(); yy = MT; }
+                    if (o.align === 'center') doc.text(l, W/2, yy, {align:'center'});
+                    else if (o.align === 'right') doc.text(l, W-MR, yy, {align:'right'});
+                    else doc.text(l, x, yy);
+                    yy += step;
+                });
+                return yy;
+            }
+
+            doc.setDrawColor(0,66,137); doc.setLineWidth(0.5);
+            y = addW('DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD', ML, y, {fontSize:13, style:'bold', align:'center'});
+            y = addW('Odbor staveb drah · Oddělení Plzeň', ML, y, {fontSize:9, align:'center'});
+            y += 2; doc.line(ML, y, W-MR, y); y += 6;
+
+            doc.setFontSize(9); doc.setFont('helvetica','normal');
+            doc.text('Spis. zn.: SZ DESU/004539/26', ML, y);
+            doc.text('Vyřizuje: Ing. Kálal', W-MR, y, {align:'right'}); y += 4;
+            doc.text('Č.j.: DESU/121/004594/26', ML, y);
+            doc.text('Datum: ' + new Date().toLocaleDateString('cs-CZ'), W-MR, y, {align:'right'}); y += 10;
+
+            y = addW('VÝZVA', ML, y, {fontSize:14, style:'bold', align:'center'}); y -= 2;
+            y = addW('K ZAPLACENÍ SPRÁVNÍHO POPLATKU', ML, y, {fontSize:11, style:'bold', align:'center'}); y += 6;
+
+            y = addW('RotaGroup a.s., jednající ve věci zmocnění za Industrial Center CR 2 s.r.o. (dále jen „žadatel") dne 11. 6. 2025 podal žádost o povolení záměru:', ML, y, {fontSize:10}); y += 2;
+            y = addW('„Novostavba RD včetně přípojek"', ML, y, {fontSize:10, style:'bolditalic', align:'center'}); y += 4;
+
+            y = addW('DESÚ vyzývá žadatele, aby do 15 dnů ode dne doručení této výzvy zaplatil správní poplatek se slevou podle § 9 odst. 6 zákona o správních poplatcích (podání přes Portál stavebníka — 20 %, max 1 000 Kč):', ML, y, {fontSize:10}); y += 6;
+
+            // Amount box
+            doc.setFillColor(232, 240, 254); doc.roundedRect(ML+20, y-2, PW-40, 20, 3, 3, 'F');
+            y = addW('4 000 Kč', ML, y+4, {fontSize:18, style:'bold', align:'center'}); y += 1;
+            y = addW('(slovy: čtyři tisíce korun českých)', ML, y, {fontSize:9, align:'center'}); y += 1;
+            y = addW('Základní sazba 5 000 Kč − sleva 1 000 Kč', ML, y, {fontSize:8, align:'center'}); y += 8;
+
+            y = addW('Na účet č. 3711-1426011/0710, VS: 2026000147', ML, y, {fontSize:10, style:'bold'}); y += 12;
+
+            doc.setFont('helvetica','bold'); doc.setFontSize(10);
+            doc.text('Ing. Jitka Kotásková', W-MR, y, {align:'right'}); y += 4;
+            doc.setFont('helvetica','normal'); doc.setFontSize(9);
+            doc.text('ředitelka odboru staveb drah', W-MR, y, {align:'right'}); y += 10;
+
+            doc.setLineWidth(0.2); doc.line(ML, y, W-MR, y); y += 4;
+            doc.setFontSize(9); doc.setFont('helvetica','bold');
+            doc.text('Obdrží:', ML, y); y += 4;
+            doc.setFont('helvetica','normal');
+            doc.text('RotaGroup a.s., IDDS: 78hx792', ML, y);
+
+            doc.save('Vyzva_poplatek_DESU-004539-26.pdf');
+            finalizePoplatek();
+        }
+
+        function finalizePoplatek() {
             state.poplatek.done = true;
             closeControl('controlPoplatek');
             updateUI();
