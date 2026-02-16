@@ -29,7 +29,7 @@
 .dm-overlay.open { display: flex; }
 .dm-modal {
     background: #fff; border-radius: 12px; width: 94vw; max-width: 1200px;
-    max-height: 90vh; display: flex; flex-direction: column;
+    height: 80vh; display: flex; flex-direction: column;
     box-shadow: 0 24px 80px rgba(0,0,0,0.25);
 }
 .dm-header {
@@ -48,9 +48,9 @@
     border-radius: 50%; color: #5f6368; display: flex; align-items: center;
 }
 .dm-close:hover { background: #f1f3f4; }
-.dm-body { flex: 1; overflow: hidden; display: flex; }
+.dm-body { flex: 1; overflow: hidden; display: flex; min-height: 0; }
 .dm-body-scroll { padding: 16px 20px; overflow-y: auto; flex: 1; }
-.dm-body-split { display: flex; height: 65vh; padding: 0; }
+.dm-body-split { display: flex; flex: 1; padding: 0; min-height: 0; }
 .dm-list-panel {
     width: 280px; min-width: 280px; border-right: 1px solid #e0e0e0;
     overflow-y: auto; padding: 12px;
