@@ -21288,12 +21288,14 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         
         // UPD obrázky a iframe
         const updImages = {
-            urp: '../images/URP.png',
-            zur: '../images/URP.png' // Zatím stejný, můžete přidat ZUR.png
+            urp: '../images/URP.png'
         };
         
-        // ÚP jako iframe
-        const upIframeUrl = 'https://mapy.kr-vysocina.cz/pupo_pfa/apps/webappviewer/index.html?id=61cce275226a49a69c5b95254afda53d';
+        // ZÚR a ÚP jako iframe (reálné mapové portály KHK)
+        const updIframeUrls = {
+            zur: 'https://www.khk.cz/oblasti/uzemni-planovani/zasady-uzemniho-rozvoje-kraje-zur/aktualizace/uplne-zneni-zasad-uzemniho-rozvoje-kralovehradeckeho-kraje-po-vydani-aktualizaci-c-1-2-3-4-5',
+            up: 'https://up.khk.cz/upd/_mapy/bezesve_akt/?MAP=zd_hlv&lon=15.8403568&lat=50.436676&scale=200000'
+        };
         
         const situaceImages = {
             c1: '../images/C-01.png',
@@ -21430,11 +21432,18 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         
         function openImageFullscreen(viewerId) {
             if (viewerId === 'upd') {
-                // Zkontrolovat, zda je aktivní ÚP tab
+                // Zkontrolovat, zda je aktivní ZÚR nebo ÚP tab (iframe)
                 const activeTab = document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-vtab.active');
-                if (activeTab && activeTab.textContent === 'ÚP') {
-                    window.open(upIframeUrl, '_blank');
-                    return;
+                if (activeTab) {
+                    const tabText = activeTab.textContent.trim();
+                    if (tabText === 'ÚP' && updIframeUrls.up) {
+                        window.open(updIframeUrls.up, '_blank');
+                        return;
+                    }
+                    if (tabText === 'ZÚR' && updIframeUrls.zur) {
+                        window.open(updIframeUrls.zur, '_blank');
+                        return;
+                    }
                 }
             }
             const img = document.getElementById(viewerId + 'Image');
@@ -21460,24 +21469,28 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             btn.classList.add('active');
             
             const viewer = document.getElementById('updMapViewer');
+            const panel = viewer.closest('.upd-viewer-panel');
+            const zoomControls = panel.querySelector('.upd-zoom-controls');
             
-            if (type === 'up') {
-                // ÚP jako iframe
+            if (type === 'zur' || type === 'up') {
+                // ZÚR a ÚP jako iframe (reálné webové portály KHK)
+                const iframeUrl = updIframeUrls[type];
+                const label = type === 'zur' ? 'Zásady územního rozvoje KHK' : 'Územní plán — bezešvá mapa KHK';
                 viewer.innerHTML = `
-                    <iframe src="${upIframeUrl}" 
+                    <iframe src="${iframeUrl}" 
                             style="width: 100%; height: 100%; border: none;"
                             allow="geolocation"
                             id="upIframe"></iframe>
                     <div class="upd-iframe-fallback" id="iframeFallback" style="display: none;">
                         <span class="material-icons-outlined">block</span>
                         <span>Web neumožňuje vložení</span>
-                        <a href="${upIframeUrl}" target="_blank" class="upd-link">Otevřít v novém okně</a>
+                        <a href="${iframeUrl}" target="_blank" class="upd-link">Otevřít v novém okně ↗</a>
                     </div>
                 `;
                 // Skrýt zoom controls pro iframe
-                document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-zoom-controls').style.display = 'none';
+                zoomControls.style.display = 'none';
             } else {
-                // ÚRP/ZÚR jako obrázek
+                // ÚRP jako obrázek
                 const existingImg = document.getElementById('updImage');
                 if (!existingImg) {
                     viewer.innerHTML = `
@@ -21492,7 +21505,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     existingImg.src = updImages[type];
                 }
                 // Zobrazit zoom controls
-                document.querySelector('#updMapViewer').closest('.upd-viewer-panel').querySelector('.upd-zoom-controls').style.display = 'flex';
+                zoomControls.style.display = 'flex';
             }
         }
         
