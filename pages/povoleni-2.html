@@ -12049,24 +12049,24 @@
             <div class="workflow-bar" style="display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 12px 32px !important; background: #f8f9fa !important; flex-wrap: nowrap !important;">
                 <!-- Document access buttons - vlevo -->
                 <div class="document-access-buttons" style="display: flex !important; gap: 8px !important; flex-wrap: nowrap !important;">
-                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('zadostModal'); return false;">
+                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openDocModal('zadostModal'); return false;">
                         <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">description</span>
                         Žádost
                     </a>
-                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('prilohyModal'); return false;">
+                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openDocModal('prilohyModal'); return false;">
                         <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">attach_file</span>
                         Přílohy
                         <span class="badge" style="background: #e8f4fd !important; color: #004289 !important; padding: 2px 6px !important; border-radius: 10px !important; font-size: 10px !important; font-weight: 500 !important;">12</span>
                     </a>
-                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('eedModal'); return false;">
+                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openDocModal('eedModal'); return false;">
                         <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">folder</span>
                         El. dokumentace
                     </a>
-                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('dokladyModal'); return false;">
+                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openDocModal('dokladyModal'); return false;">
                         <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">fact_check</span>
                         Dokladová část
                     </a>
-                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openModal('bimModal'); return false;">
+                    <a href="#" class="doc-access-btn" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; padding: 6px 12px !important; background: #fff !important; border: 1px solid #dadce0 !important; border-radius: 6px !important; font-size: 12px !important; font-weight: 400 !important; color: #202124 !important; text-decoration: none !important; white-space: nowrap !important;" onclick="openDocModal('bimModal'); return false;">
                         <span class="material-icons-outlined" style="font-size: 16px !important; color: #5f6368 !important;">view_in_ar</span>
                         BIM model
                     </a>
@@ -12428,22 +12428,34 @@
                     <!-- TAB: Přílohy -->
                     <div class="viewer-placeholder" id="prislusnostTabPrilohy" style="display: none;">
                         <span class="material-icons-outlined">attach_file</span>
-                        <div class="viewer-placeholder-title">Přílohy žádosti</div>
-                        <div class="viewer-placeholder-text">V ostré verzi by se zde zobrazil seznam příloh</div>
+                        <div class="viewer-placeholder-title">Přílohy žádosti (5)</div>
+                        <div class="viewer-placeholder-text" style="margin-bottom: 12px;">Plné moci, pověření, sousední pozemky, příl. dle vyhlášky</div>
+                        <button class="btn btn-secondary" style="font-size: 12px;" onclick="openDocModal('prilohyModal')">
+                            <span class="material-icons-outlined" style="font-size: 16px;">open_in_new</span>
+                            Otevřít přílohy
+                        </button>
                     </div>
                     
                     <!-- TAB: El. dokumentace -->
                     <div class="viewer-placeholder" id="prislusnostTabDokumentace" style="display: none;">
                         <span class="material-icons-outlined">folder</span>
-                        <div class="viewer-placeholder-title">Elektronická dokumentace</div>
-                        <div class="viewer-placeholder-text">V ostré verzi by se zde zobrazila projektová dokumentace</div>
+                        <div class="viewer-placeholder-title">Elektronická dokumentace (247 souborů)</div>
+                        <div class="viewer-placeholder-text" style="margin-bottom: 12px;">A — Průvodní list, B — Souhrnná TZ, C — Situace, D — Objekty</div>
+                        <button class="btn btn-secondary" style="font-size: 12px;" onclick="openDocModal('eedModal')">
+                            <span class="material-icons-outlined" style="font-size: 16px;">open_in_new</span>
+                            Otevřít dokumentaci
+                        </button>
                     </div>
                     
                     <!-- TAB: Dokladová část -->
                     <div class="viewer-placeholder" id="prislusnostTabDoklady" style="display: none;">
                         <span class="material-icons-outlined">fact_check</span>
-                        <div class="viewer-placeholder-title">Dokladová část</div>
-                        <div class="viewer-placeholder-text">V ostré verzi by se zde zobrazila stanoviska DO</div>
+                        <div class="viewer-placeholder-title">Dokladová část (63 dokumentů)</div>
+                        <div class="viewer-placeholder-text" style="margin-bottom: 12px;">Závazná stanoviska, NATURA, vyjádření vlastníků VTI, souhlasy</div>
+                        <button class="btn btn-secondary" style="font-size: 12px;" onclick="openDocModal('dokladyModal')">
+                            <span class="material-icons-outlined" style="font-size: 16px;">open_in_new</span>
+                            Otevřít dokladovou část
+                        </button>
                     </div>
                 </div>
             </div>
@@ -13143,7 +13155,7 @@
                                         <div class="prilohy-item-name">PM-036-2024-SŽ - Signal projekt.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Plná moc • 156 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-036-2024-SZ - Signal projekt.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13155,7 +13167,7 @@
                                         <div class="prilohy-item-name">PM-037-2024-Mikulová.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Plná moc • 98 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-037-2024-Mikulova.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13167,7 +13179,7 @@
                                         <div class="prilohy-item-name">Sousední pozemky do 2m od plánované stavby.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Výpis z KN • 245 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Sousedni pozemky do 2m od planovane stavby.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13179,7 +13191,7 @@
                                         <div class="prilohy-item-name">podle části F k bodu B.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Dle vyhl. č. 149/2024 Sb. • 312 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','podle casti F k bodu B.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13191,7 +13203,7 @@
                                         <div class="prilohy-item-name">Pověření ředitele Kosinová 9910 eč 3430.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Pověření k jednání • 78 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Povereni reditele Kosinova 9910 ec 3430.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13406,7 +13418,7 @@
                                         <div class="prilohy-item-name">SR00X01HLDRP (BPP balíček PD)</div>
                                         <div class="prilohy-item-meta">BPP • 247 souborů • Verze 3 — 10. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocModal('eedModal')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13418,7 +13430,7 @@
                                         <div class="prilohy-item-name">Dokladová část (63 dokladů)</div>
                                         <div class="prilohy-item-meta">PDF • ZS, JES, vyjádření DO/VTI/VDI, souhlasy, SBVB</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocModal('dokladyModal')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13430,7 +13442,7 @@
                                         <div class="prilohy-item-name">PM-036-2024-SŽ - Signal projekt.pdf</div>
                                         <div class="prilohy-item-meta">PDF • 156 KB • Plná moc — Signal Projekt s.r.o. zastupuje SŽ</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-036-2024-SZ - Signal projekt.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13442,7 +13454,7 @@
                                         <div class="prilohy-item-name">PM-037-2024-Mikulová.pdf</div>
                                         <div class="prilohy-item-meta">PDF • 98 KB • Plná moc — Mikulová jedná za Signal Projekt</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-037-2024-Mikulova.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13454,7 +13466,7 @@
                                         <div class="prilohy-item-name">Pověření ředitele Kosinová 9910 eč 3430.pdf</div>
                                         <div class="prilohy-item-meta">PDF • 78 KB • Pověření k jednání za SŽ, s.o.</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Povereni reditele Kosinova 9910 ec 3430.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13466,7 +13478,7 @@
                                         <div class="prilohy-item-name">Sousední pozemky do 2m od plánované stavby.pdf</div>
                                         <div class="prilohy-item-meta">PDF • 245 KB • Výpis vlastníků pozemků</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Sousedni pozemky do 2m od planovane stavby.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13478,7 +13490,7 @@
                                         <div class="prilohy-item-name">podle části F k bodu B.pdf</div>
                                         <div class="prilohy-item-meta">PDF • 312 KB • Dle vyhl. č. 149/2024 Sb.</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','podle casti F k bodu B.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13509,7 +13521,7 @@
                                             <div class="doklady-item-name">MěÚ Kostelec n.O. — koord. ZS</div>
                                             <div class="doklady-item-meta">R/2025/18662/4 • Kladné s podmínkami</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick=\"openDocFile('doklady','1.1._MeU Kostelec nO-koord.zav.stan..pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13521,7 +13533,7 @@
                                             <div class="doklady-item-name">MěÚ Rychnov n.K. — JES</div>
                                             <div class="doklady-item-meta">R/2025/14716 • Kladné</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick=\"openDocFile('doklady','1.2._MeU Rychnov nK-zav.stan.JES.pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13533,7 +13545,7 @@
                                             <div class="doklady-item-name">Policie ČR, DI Rychnov n.K.</div>
                                             <div class="doklady-item-meta">KRPH-69305/ČJ-2024-050706 • Kladné</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','1.2._MeU Rychnov nK-zav.stan.JES.pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13545,7 +13557,7 @@
                                             <div class="doklady-item-name">Drážní úřad</div>
                                             <div class="doklady-item-meta">DUCR-44974/24/Bd • Kladné s podmínkami</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','1.8._DU-Rozhodnuti-zmena zab..pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13568,7 +13580,7 @@
                                             <div class="doklady-item-name">CETIN a.s.</div>
                                             <div class="doklady-item-meta">Telekomunikace • Přiloženo</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.1._CETIN-vyj.exist..pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13580,7 +13592,7 @@
                                             <div class="doklady-item-name">ČEZ Distribuce a.s. (2×)</div>
                                             <div class="doklady-item-meta">Elektřina — existence + k PD</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.3._CEZ DSO-vyj.exist..pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13592,7 +13604,7 @@
                                             <div class="doklady-item-name">GasNet s.r.o. (2×)</div>
                                             <div class="doklady-item-meta">Plyn — existence + k PD</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.8._GasNet-vyj.exist..pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -13604,7 +13616,7 @@
                                             <div class="doklady-item-name">T-Mobile, Vodafone, MO</div>
                                             <div class="doklady-item-meta" style="color: #ea8600;">3× prošla platnost vyjádření</div>
                                         </div>
-                                        <button class="doklady-item-btn" title="Zobrazit">
+                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.10._T-Mobile-vyj.exist..pdf')">
                                             <span class="material-icons-outlined">visibility</span>
                                         </button>
                                     </div>
@@ -15992,29 +16004,6 @@
     <!-- ============================================ -->
     <!-- POMOCNÉ MODÁLY PRO NÁHLED DOKUMENTŮ -->
     <!-- ============================================ -->
-    <div class="modal-overlay" id="zadostModal" onclick="closeModal('zadostModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">description</span>
-                    Žádost o povolení stavby
-                </div>
-                <button class="modal-close" onclick="closeModal('zadostModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="background: #f8f9fa; border: 2px dashed #dadce0; border-radius: 8px; padding: 40px 24px; text-align: center;">
-                    <span class="material-icons-outlined" style="font-size: 48px; color: #9aa0a6;">preview</span>
-                    <p style="margin-top: 16px; color: #5f6368;">Náhled žádosti o povolení stavby</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('zadostModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal: REZA - Informace o elektronické plné moci -->
     <div class="modal-overlay" id="rezaModal" onclick="closeModal('rezaModal', event)">
         <div class="modal" onclick="event.stopPropagation()" style="max-width: 600px;">
@@ -16116,201 +16105,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="prilohyModal" onclick="closeModal('prilohyModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">attach_file</span>
-                    Přílohy žádosti
-                </div>
-                <button class="modal-close" onclick="closeModal('prilohyModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="background: #f8f9fa; border: 2px dashed #dadce0; border-radius: 8px; padding: 40px 24px; text-align: center;">
-                    <span class="material-icons-outlined" style="font-size: 48px; color: #9aa0a6;">folder_open</span>
-                    <p style="margin-top: 16px; color: #5f6368;">Seznam příloh žádosti (7 položek: BPP balíček PD, dokladová část, 2× plná moc, pověření, sousední pozemky, příl. dle vyhl.)</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('prilohyModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="eedModal" onclick="closeModal('eedModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">folder</span>
-                    Elektronická dokumentace
-                </div>
-                <button class="modal-close" onclick="closeModal('eedModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="background: #f8f9fa; border: 2px dashed #dadce0; border-radius: 8px; padding: 40px 24px; text-align: center;">
-                    <span class="material-icons-outlined" style="font-size: 48px; color: #9aa0a6;">architecture</span>
-                    <p style="margin-top: 16px; color: #5f6368;">Projektová dokumentace v EED</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('eedModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="dokladyModal" onclick="closeModal('dokladyModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">fact_check</span>
-                    Dokladová část
-                </div>
-                <button class="modal-close" onclick="closeModal('dokladyModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="background: #f8f9fa; border: 2px dashed #dadce0; border-radius: 8px; padding: 40px 24px; text-align: center;">
-                    <span class="material-icons-outlined" style="font-size: 48px; color: #9aa0a6;">checklist</span>
-                    <p style="margin-top: 16px; color: #5f6368;">Stanoviska DO a vyjádření správců sítí</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('dokladyModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal pro BIM model -->
-    <div class="modal-overlay" id="bimModal" onclick="closeModal('bimModal', event)">
-        <div class="modal modal-large" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span class="material-icons-outlined">view_in_ar</span>
-                    BIM model
-                </div>
-                <button class="modal-close" onclick="closeModal('bimModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-            </div>
-            <div class="modal-body" style="padding: 0;">
-                <!-- BIM info panel -->
-                <div style="padding: 16px 24px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-                        <div>
-                            <div style="font-size: 14px; font-weight: 600; color: #202124; margin-bottom: 4px;">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
-                            <div style="font-size: 12px; color: #5f6368;">IFC model · Verze 3.0 · Nahrán 10. 1. 2026</div>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
-                                <span class="material-icons-outlined" style="font-size: 16px; margin-right: 4px;">download</span>
-                                Stáhnout IFC
-                            </button>
-                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">
-                                <span class="material-icons-outlined" style="font-size: 16px; margin-right: 4px;">open_in_new</span>
-                                Otevřít v prohlížeči
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- BIM viewer placeholder -->
-                <div style="height: 450px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
-                    <!-- 3D grid simulace -->
-                    <div style="position: absolute; inset: 0; opacity: 0.1; background-image: 
-                        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-                        background-size: 40px 40px;"></div>
-                    
-                    <!-- Model placeholder -->
-                    <div style="position: relative; z-index: 1; text-align: center;">
-                        <div style="width: 200px; height: 140px; margin: 0 auto 24px; position: relative;">
-                            <!-- Jednoduchá 3D ikona domu -->
-                            <svg viewBox="0 0 200 140" style="width: 100%; height: 100%;">
-                                <!-- Základna -->
-                                <path d="M30 100 L100 130 L170 100 L100 70 Z" fill="#4fc3f7" opacity="0.3"/>
-                                <!-- Přední stěna -->
-                                <path d="M30 100 L30 50 L100 20 L100 70 Z" fill="#29b6f6" opacity="0.7"/>
-                                <!-- Boční stěna -->
-                                <path d="M100 70 L100 20 L170 50 L170 100 Z" fill="#0288d1" opacity="0.7"/>
-                                <!-- Střecha přední -->
-                                <path d="M20 50 L100 10 L100 20 L30 50 Z" fill="#ff7043" opacity="0.8"/>
-                                <!-- Střecha boční -->
-                                <path d="M100 10 L180 50 L170 50 L100 20 Z" fill="#e64a19" opacity="0.8"/>
-                                <!-- Okna -->
-                                <rect x="45" y="60" width="20" height="25" fill="#81d4fa" opacity="0.9"/>
-                                <rect x="120" y="55" width="20" height="25" fill="#4fc3f7" opacity="0.9"/>
-                            </svg>
-                        </div>
-                        <div style="color: #fff; font-size: 16px; font-weight: 500; margin-bottom: 8px;">
-                            <span class="material-icons-outlined" style="font-size: 24px; vertical-align: middle; margin-right: 8px;">view_in_ar</span>
-                            3D BIM Model
-                        </div>
-                        <div style="color: rgba(255,255,255,0.6); font-size: 13px;">
-                            V ostré verzi by se zde zobrazil interaktivní 3D model stavby
-                        </div>
-                    </div>
-                    
-                    <!-- Ovládací prvky simulace -->
-                    <div style="position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px;">
-                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Otočit vlevo">
-                            <span class="material-icons-outlined" style="font-size: 18px;">rotate_left</span>
-                        </button>
-                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Přiblížit">
-                            <span class="material-icons-outlined" style="font-size: 18px;">zoom_in</span>
-                        </button>
-                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Oddálit">
-                            <span class="material-icons-outlined" style="font-size: 18px;">zoom_out</span>
-                        </button>
-                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Otočit vpravo">
-                            <span class="material-icons-outlined" style="font-size: 18px;">rotate_right</span>
-                        </button>
-                        <button style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Celá obrazovka">
-                            <span class="material-icons-outlined" style="font-size: 18px;">fullscreen</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- BIM metadata -->
-                <div style="padding: 20px 24px; border-top: 1px solid #e0e0e0;">
-                    <div style="font-size: 13px; font-weight: 600; color: #202124; margin-bottom: 12px;">Informace o modelu</div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                        <div>
-                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Formát</div>
-                            <div style="font-size: 13px; color: #202124;">IFC 4.0 (Industry Foundation Classes)</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Velikost souboru</div>
-                            <div style="font-size: 13px; color: #202124;">24.8 MB</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Software</div>
-                            <div style="font-size: 13px; color: #202124;">Autodesk Revit 2024</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Počet elementů</div>
-                            <div style="font-size: 13px; color: #202124;">1,247 objektů</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">Zpracoval</div>
-                            <div style="font-size: 13px; color: #202124;">Ing. arch. Pavel Projektant</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 11px; color: #5f6368; margin-bottom: 2px;">LOD (Level of Detail)</div>
-                            <div style="font-size: 13px; color: #202124;">LOD 300</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('bimModal')">Zavřít</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal pro editaci podmínek subjektu -->
     <div class="podminky-modal-overlay" id="podminkyModal">
@@ -26340,5 +26134,7 @@ ${reportContent}
             initSimulationPanel();
         });
     </script>
+    <script src="doc-modals.js"></script>
+    <script>initDocModals({ basePath: '../docs/' });</script>
 </body>
 </html>
