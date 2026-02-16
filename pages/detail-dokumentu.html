@@ -844,6 +844,98 @@
             border-top: 1px solid #e0e0e0;
             background: #fafafa;
         }
+        /* ====== Žádost readonly data ====== */
+        .zadost-readonly-content { padding: 4px 0; }
+        .zadost-readonly-section { margin-bottom: 20px; }
+        .zadost-readonly-section:last-child { margin-bottom: 0; }
+        .zadost-readonly-header {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 13px; font-weight: 600; color: #004289;
+            padding: 8px 0; border-bottom: 2px solid #e8f0fe; margin-bottom: 10px;
+        }
+        .zadost-readonly-header .material-icons-outlined { font-size: 18px; }
+        .zadost-readonly-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px;
+        }
+        .zadost-readonly-item { padding: 4px 0; }
+        .zadost-readonly-item.full-width { grid-column: 1 / -1; }
+        .zadost-readonly-label { font-size: 11px; color: #5f6368; margin-bottom: 1px; }
+        .zadost-readonly-value { font-size: 13px; color: #202124; font-weight: 500; }
+        .zadost-readonly-table { overflow-x: auto; }
+        .zadost-readonly-table table {
+            width: 100%; border-collapse: collapse; font-size: 12px;
+        }
+        .zadost-readonly-table th {
+            background: #f8f9fa; padding: 6px 10px; text-align: left;
+            font-weight: 500; color: #5f6368; border-bottom: 1px solid #e0e0e0;
+        }
+        .zadost-readonly-table td {
+            padding: 6px 10px; border-bottom: 1px solid #f0f0f0; color: #202124;
+        }
+        /* ====== Doc list items ====== */
+        .doc-list-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; border-radius: 6px; border: 1px solid #e0e0e0;
+            transition: background 0.15s; cursor: default;
+        }
+        .doc-list-item:hover { background: #f8f9fa; }
+        .doc-list-item .doc-icon { font-size: 20px; flex-shrink: 0; }
+        .doc-list-item .doc-info { flex: 1; min-width: 0; }
+        .doc-list-item .doc-name {
+            font-size: 13px; font-weight: 500; color: #202124;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .doc-list-item .doc-meta { font-size: 11px; color: #5f6368; }
+        .doc-list-item .doc-actions { display: flex; gap: 4px; }
+        .doc-list-item .doc-btn {
+            width: 28px; height: 28px; border: none; background: transparent;
+            border-radius: 4px; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; color: #5f6368; transition: all 0.15s;
+        }
+        .doc-list-item .doc-btn:hover { background: #e8f0fe; color: #004289; }
+        /* ====== ED tree (mini version for modal) ====== */
+        .ed-tree-modal .ed-folder-m {
+            margin-bottom: 2px;
+        }
+        .ed-tree-modal .ed-folder-header-m {
+            display: flex; align-items: center; gap: 6px; padding: 6px 8px;
+            border-radius: 4px; cursor: pointer; font-size: 13px; color: #202124;
+            transition: background 0.15s;
+        }
+        .ed-tree-modal .ed-folder-header-m:hover { background: #f1f3f4; }
+        .ed-tree-modal .ed-folder-header-m .material-icons-outlined { font-size: 18px; color: #f9ab00; }
+        .ed-tree-modal .ed-folder-count { font-size: 11px; color: #5f6368; margin-left: auto; }
+        .ed-tree-modal .ed-folder-content-m { display: none; padding-left: 24px; }
+        .ed-tree-modal .ed-folder-m.open > .ed-folder-content-m { display: block; }
+        .ed-tree-modal .ed-file-m {
+            display: flex; align-items: center; gap: 6px; padding: 4px 8px;
+            font-size: 12px; color: #5f6368; border-radius: 3px; cursor: pointer;
+        }
+        .ed-tree-modal .ed-file-m:hover { background: #e8f0fe; color: #004289; }
+        .ed-tree-modal .ed-file-m .material-icons-outlined { font-size: 16px; }
+        .ed-tree-modal .ed-file-size { margin-left: auto; font-size: 11px; color: #9aa0a6; }
+        .ed-tree-modal .ed-more { font-size: 11px; color: #5f6368; font-style: italic; padding: 2px 8px; }
+        /* ====== Dokladová část categories ====== */
+        .doklady-category {
+            margin-bottom: 16px;
+        }
+        .doklady-category:last-child { margin-bottom: 0; }
+        .doklady-cat-header {
+            display: flex; align-items: center; gap: 8px; padding: 8px 0;
+            font-size: 12px; font-weight: 600; color: #004289;
+            border-bottom: 1px solid #e8f0fe; margin-bottom: 6px; cursor: pointer;
+        }
+        .doklady-cat-header .material-icons-outlined { font-size: 16px; }
+        .doklady-cat-count {
+            margin-left: auto; background: #e8f0fe; color: #004289;
+            padding: 1px 8px; border-radius: 10px; font-size: 10px; font-weight: 500;
+        }
+        .doklady-cat-list { display: flex; flex-direction: column; gap: 3px; }
+        .doklady-cat-list .doc-list-item { padding: 6px 10px; }
+        .doklady-cat-list .doc-name { font-size: 12px; }
+        /* Modal scrollable */
+        .modal.modal-large .modal-body { max-height: 70vh; overflow-y: auto; }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .content-grid {
@@ -992,7 +1084,7 @@
                     <a href="#" class="doc-access-btn" onclick="openModal('prilohyModal'); return false;">
                         <span class="material-icons-outlined">attach_file</span>
                         Přílohy
-                        <span class="badge">7</span>
+                        <span class="badge">5</span>
                     </a>
                     <a href="#" class="doc-access-btn" onclick="openModal('eedModal'); return false;">
                         <span class="material-icons-outlined">folder</span>
@@ -1247,29 +1339,211 @@
 
     <!-- Modal: Žádost -->
     <div class="modal-overlay" id="zadostModal" onclick="closeModal('zadostModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">description</span>
                     Žádost o povolení stavby
                 </div>
-                <button class="modal-close" onclick="closeModal('zadostModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 11px; color: #5f6368;">build-application-04_20260106091657308.pdf</span>
+                    <button class="modal-close" onclick="closeModal('zadostModal')">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
             </div>
             <div class="modal-body">
-                <div class="modal-placeholder">
-                    <div class="modal-placeholder-icon">
-                        <span class="material-icons-outlined" style="font-size: 48px;">preview</span>
+                <div class="zadost-readonly-content">
+                    <!-- 1. Údaje o podání -->
+                    <div class="zadost-readonly-section">
+                        <div class="zadost-readonly-header">
+                            <span class="material-icons-outlined">assignment_ind</span>
+                            Údaje o podání
+                        </div>
+                        <div class="zadost-readonly-grid">
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Podatel (kdo činí podání)</div>
+                                <div class="zadost-readonly-value">Signal Projekt s.r.o. (zástupce na základě PM)</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Vztah k žadateli</div>
+                                <div class="zadost-readonly-value">
+                                    <span class="material-icons-outlined" style="font-size: 16px; color: #f9ab00; vertical-align: middle;">info</span>
+                                    Zástupce na základě plné moci
+                                </div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Věc podání</div>
+                                <div class="zadost-readonly-value">Žádost o povolení stavby</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Správní orgán</div>
+                                <div class="zadost-readonly-value">Dopravní a energetický stavební úřad</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-placeholder-text">
-                        <strong>Žádost o povolení stavby</strong><br>
-                        build-application-04_20260106091657308.pdf<br>
-                        <span style="font-size: 12px; color: #80868b;">Podána: 6. 1. 2026 přes Portál stavebníka • Formulář dle vyhl. č. 149/2024 Sb.</span>
+                    
+                    <!-- 2. Žadatel -->
+                    <div class="zadost-readonly-section">
+                        <div class="zadost-readonly-header">
+                            <span class="material-icons-outlined">business</span>
+                            Žadatel — Právnická osoba
+                        </div>
+                        <div class="zadost-readonly-grid">
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Název / obchodní firma</div>
+                                <div class="zadost-readonly-value">Správa železnic, státní organizace</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">IČO</div>
+                                <div class="zadost-readonly-value">70994234</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Sídlo</div>
+                                <div class="zadost-readonly-value">Dlážděná 1003/7, 110 00 Praha 1</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Datová schránka</div>
+                                <div class="zadost-readonly-value">uccchjm</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2b. Zástupce -->
+                    <div class="zadost-readonly-section">
+                        <div class="zadost-readonly-header">
+                            <span class="material-icons-outlined">people</span>
+                            Zástupce na základě plné moci
+                        </div>
+                        <div class="zadost-readonly-grid">
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Název / obchodní firma</div>
+                                <div class="zadost-readonly-value">Signal Projekt s.r.o.</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">IČO</div>
+                                <div class="zadost-readonly-value">25525441</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Sídlo</div>
+                                <div class="zadost-readonly-value">Pod Bohdalcem I 3254/3, 101 00 Praha 10</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Plná moc</div>
+                                <div class="zadost-readonly-value">PM-036-2024 (SŽ → Signal Projekt)</div>
+                            </div>
+                            <div class="zadost-readonly-item full-width">
+                                <div class="zadost-readonly-label">Jednající osoba</div>
+                                <div class="zadost-readonly-value">Mikulová (PM-037-2024, Signal Projekt → Mikulová)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3. Identifikace záměru -->
+                    <div class="zadost-readonly-section">
+                        <div class="zadost-readonly-header">
+                            <span class="material-icons-outlined">domain</span>
+                            Identifikace záměru
+                        </div>
+                        <div class="zadost-readonly-grid">
+                            <div class="zadost-readonly-item full-width">
+                                <div class="zadost-readonly-label">Název záměru</div>
+                                <div class="zadost-readonly-value">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Druh stavby</div>
+                                <div class="zadost-readonly-value">Stavba dráhy</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Účel stavby</div>
+                                <div class="zadost-readonly-value">Stavba dráhy — zabezpečovací zařízení</div>
+                            </div>
+                            <div class="zadost-readonly-item full-width">
+                                <div class="zadost-readonly-label">Místo stavby</div>
+                                <div class="zadost-readonly-value">Doudleby n.O., Vamberk, Záměl, Potštejn, Kostelec n.O.</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Kraj</div>
+                                <div class="zadost-readonly-value">Královéhradecký</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Okres</div>
+                                <div class="zadost-readonly-value">Rychnov nad Kněžnou</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 4. Pozemky -->
+                    <div class="zadost-readonly-section">
+                        <div class="zadost-readonly-header">
+                            <span class="material-icons-outlined">grid_on</span>
+                            Pozemky záměru
+                        </div>
+                        <div class="zadost-readonly-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Parcela</th>
+                                        <th>Katastrální území</th>
+                                        <th>Výměra</th>
+                                        <th>Druh pozemku</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>st. 321</strong></td>
+                                        <td>Doudleby n.O. [631761]</td>
+                                        <td>—</td>
+                                        <td>Zastavěná plocha</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>1549</strong></td>
+                                        <td>Doudleby n.O. [631761]</td>
+                                        <td>—</td>
+                                        <td>Ostatní plocha — dráha</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>1550/1</strong></td>
+                                        <td>Záměl [790591]</td>
+                                        <td>—</td>
+                                        <td>Ostatní plocha — dráha</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; color: #5f6368; font-style: italic;">… a dalších 35 pozemků ve 4 k.ú.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- 5. Charakteristika záměru -->
+                    <div class="zadost-readonly-section">
+                        <div class="zadost-readonly-header">
+                            <span class="material-icons-outlined">architecture</span>
+                            Charakteristika záměru
+                        </div>
+                        <div class="zadost-readonly-grid">
+                            <div class="zadost-readonly-item full-width">
+                                <div class="zadost-readonly-label">Popis záměru</div>
+                                <div class="zadost-readonly-value">Oprava stávajícího zabezpečovacího zařízení v žst. Doudleby nad Orlicí včetně kabelových rozvodů, silnoproudé technologie, informačního systému a stavebních úprav výpravní budovy</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Zastavěná plocha</div>
+                                <div class="zadost-readonly-value">—</div>
+                            </div>
+                            <div class="zadost-readonly-item">
+                                <div class="zadost-readonly-label">Obestavěný prostor</div>
+                                <div class="zadost-readonly-value">—</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="../docs/zadost/build-application-04_20260106091657308.pdf" target="_blank" class="btn btn-secondary" style="font-size: 12px;">
+                    <span class="material-icons-outlined">picture_as_pdf</span>
+                    Zobrazit originál PDF
+                </a>
                 <button class="btn btn-secondary" onclick="closeModal('zadostModal')">Zavřít</button>
             </div>
         </div>
@@ -1277,77 +1551,72 @@
 
     <!-- Modal: Přílohy -->
     <div class="modal-overlay" id="prilohyModal" onclick="closeModal('prilohyModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">attach_file</span>
-                    Přílohy žádosti (7)
+                    Přílohy žádosti (5)
                 </div>
                 <button class="modal-close" onclick="closeModal('prilohyModal')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
-            <div class="modal-body" style="padding: 16px 20px;">
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #004289;">folder_zip</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">SR00X01HLDRP (BPP balíček PD)</div>
-                            <div style="font-size: 11px; color: #5f6368;">BPP • 247 souborů • Verze 3 — 10. 1. 2026</div>
+            <div class="modal-body" style="padding: 0; display: flex; height: 65vh;">
+                <!-- Seznam příloh -->
+                <div style="width: 340px; min-width: 340px; border-right: 1px solid #e0e0e0; overflow-y: auto; padding: 12px;">
+                    <div style="display: flex; flex-direction: column; gap: 4px;" id="prilohyList">
+                        <div class="doc-list-item" style="background: #e8f0fe; border-color: #004289;" onclick="showPrilohaPreview(this, '../docs/prilohy/PM-036-2024-SŽ - Signal projekt.pdf', 'PM-036-2024-SŽ - Signal projekt.pdf')">
+                            <span class="material-icons-outlined doc-icon" style="color: #ea4335;">picture_as_pdf</span>
+                            <div class="doc-info">
+                                <div class="doc-name">PM-036-2024-SŽ - Signal projekt.pdf</div>
+                                <div class="doc-meta">Plná moc — SŽ → Signal Projekt s.r.o.</div>
+                            </div>
                         </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
+                        <div class="doc-list-item" onclick="showPrilohaPreview(this, '../docs/prilohy/PM-037-2024-Mikulová.pdf', 'PM-037-2024-Mikulová.pdf')">
+                            <span class="material-icons-outlined doc-icon" style="color: #ea4335;">picture_as_pdf</span>
+                            <div class="doc-info">
+                                <div class="doc-name">PM-037-2024-Mikulová.pdf</div>
+                                <div class="doc-meta">Plná moc — Signal Projekt → Mikulová</div>
+                            </div>
+                        </div>
+                        <div class="doc-list-item" onclick="showPrilohaPreview(this, '../docs/prilohy/Pověření ředitele Kosinová 9910 eč 3430.pdf', 'Pověření ředitele Kosinová 9910 eč 3430.pdf')">
+                            <span class="material-icons-outlined doc-icon" style="color: #ea4335;">picture_as_pdf</span>
+                            <div class="doc-info">
+                                <div class="doc-name">Pověření ředitele Kosinová 9910 eč 3430.pdf</div>
+                                <div class="doc-meta">Pověření k jednání za SŽ, s.o.</div>
+                            </div>
+                        </div>
+                        <div class="doc-list-item" onclick="showPrilohaPreview(this, '../docs/prilohy/Sousední pozemky do 2m od plánované stavby.pdf', 'Sousední pozemky do 2m od plánované stavby.pdf')">
+                            <span class="material-icons-outlined doc-icon" style="color: #ea4335;">picture_as_pdf</span>
+                            <div class="doc-info">
+                                <div class="doc-name">Sousední pozemky do 2m od plánované stavby.pdf</div>
+                                <div class="doc-meta">Výpis vlastníků pozemků</div>
+                            </div>
+                        </div>
+                        <div class="doc-list-item" onclick="showPrilohaPreview(this, '../docs/prilohy/podle části F k bodu B.pdf', 'podle části F k bodu B.pdf')">
+                            <span class="material-icons-outlined doc-icon" style="color: #ea4335;">picture_as_pdf</span>
+                            <div class="doc-info">
+                                <div class="doc-name">podle části F k bodu B.pdf</div>
+                                <div class="doc-meta">Příloha dle vyhl. č. 149/2024 Sb.</div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #004289;">folder</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">Dokladová část (63 dokladů)</div>
-                            <div style="font-size: 11px; color: #5f6368;">PDF • ZS, JES, vyjádření DO/VTI/VDI, souhlasy, SBVB</div>
+                </div>
+                <!-- Náhled PDF -->
+                <div style="flex: 1; display: flex; flex-direction: column; background: #f5f5f5;">
+                    <div id="prilohyPreviewArea" style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                        <div style="text-align: center; color: #9aa0a6;">
+                            <span class="material-icons-outlined" style="font-size: 48px;">preview</span>
+                            <div style="margin-top: 8px; font-size: 13px;">Klikněte na soubor pro zobrazení náhledu</div>
                         </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #ea4335;">picture_as_pdf</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">PM-036-2024-SŽ - Signal projekt.pdf</div>
-                            <div style="font-size: 11px; color: #5f6368;">PDF • 156 KB • Plná moc — SŽ → Signal Projekt s.r.o.</div>
-                        </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #ea4335;">picture_as_pdf</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">PM-037-2024-Mikulová.pdf</div>
-                            <div style="font-size: 11px; color: #5f6368;">PDF • 98 KB • Plná moc — Signal Projekt → Mikulová</div>
-                        </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #ea4335;">picture_as_pdf</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">Pověření ředitele Kosinová 9910 eč 3430.pdf</div>
-                            <div style="font-size: 11px; color: #5f6368;">PDF • 78 KB • Pověření k jednání za SŽ, s.o.</div>
-                        </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #ea4335;">picture_as_pdf</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">Sousední pozemky do 2m od plánované stavby.pdf</div>
-                            <div style="font-size: 11px; color: #5f6368;">PDF • 245 KB • Výpis vlastníků pozemků</div>
-                        </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 6px; border: 1px solid #e0e0e0;">
-                        <span class="material-icons-outlined" style="font-size: 20px; color: #ea4335;">picture_as_pdf</span>
-                        <div style="flex: 1;">
-                            <div style="font-size: 13px; font-weight: 500; color: #202124;">podle části F k bodu B.pdf</div>
-                            <div style="font-size: 11px; color: #5f6368;">PDF • 312 KB • Dle vyhl. č. 149/2024 Sb.</div>
-                        </div>
-                        <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368; cursor: pointer;">visibility</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-secondary" id="prilohyOpenBtn" style="display: none;" onclick="window.open(currentPrilohaUrl, '_blank')">
+                    <span class="material-icons-outlined">open_in_new</span>
+                    Otevřít v novém okně
+                </button>
                 <button class="btn btn-secondary" onclick="closeModal('prilohyModal')">Zavřít</button>
             </div>
         </div>
@@ -1355,25 +1624,158 @@
 
     <!-- Modal: Elektronická dokumentace -->
     <div class="modal-overlay" id="eedModal" onclick="closeModal('eedModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">folder</span>
                     Elektronická dokumentace
                 </div>
-                <button class="modal-close" onclick="closeModal('eedModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 11px; color: #5f6368;">SR00X01HLDRP • BPP balíček • 247 souborů</span>
+                    <button class="modal-close" onclick="closeModal('eedModal')">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="modal-placeholder">
-                    <div class="modal-placeholder-icon">
-                        <span class="material-icons-outlined" style="font-size: 48px;">architecture</span>
+            <div class="modal-body" style="padding: 16px 20px;">
+                <div class="ed-tree-modal">
+                    <!-- A. Průvodní list -->
+                    <div class="ed-folder-m">
+                        <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                            <span class="material-icons-outlined">folder</span>
+                            <strong>A</strong> Průvodní list
+                            <span class="ed-folder-count">1 soubor</span>
+                        </div>
+                        <div class="ed-folder-content-m">
+                            <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> A - akt..pdf <span class="ed-file-size">PDF</span></div>
+                        </div>
                     </div>
-                    <div class="modal-placeholder-text">
-                        V ostré verzi by se zde zobrazila<br>
-                        <strong>projektová dokumentace</strong><br>
-                        v evidenci elektronických dokumentací (EED).
+                    <!-- B. Souhrnná technická zpráva -->
+                    <div class="ed-folder-m">
+                        <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                            <span class="material-icons-outlined">folder</span>
+                            <strong>B</strong> Souhrnná technická zpráva
+                            <span class="ed-folder-count">1 soubor</span>
+                        </div>
+                        <div class="ed-folder-content-m">
+                            <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> B - akt..pdf <span class="ed-file-size">PDF</span></div>
+                        </div>
+                    </div>
+                    <!-- C. Situační výkresy -->
+                    <div class="ed-folder-m open">
+                        <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                            <span class="material-icons-outlined">folder_open</span>
+                            <strong>C</strong> Situační výkresy
+                            <span class="ed-folder-count">32 souborů</span>
+                        </div>
+                        <div class="ed-folder-content-m">
+                            <!-- C.1 -->
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    <strong>C.1</strong> Výkres širších vztahů
+                                    <span class="ed-folder-count">2</span>
+                                </div>
+                                <div class="ed-folder-content-m">
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> C.pdf <span class="ed-file-size">obálka</span></div>
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> C.1-001.pdf</div>
+                                </div>
+                            </div>
+                            <!-- C.2 -->
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    <strong>C.2</strong> Katastrální výkres
+                                    <span class="ed-folder-count">15</span>
+                                </div>
+                                <div class="ed-folder-content-m">
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> C.2-001 - akt..pdf</div>
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> C.2-002 - akt..pdf</div>
+                                    <div class="ed-more">… a dalších 13 souborů</div>
+                                </div>
+                            </div>
+                            <!-- C.3 -->
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    <strong>C.3</strong> Koordinační výkres
+                                    <span class="ed-folder-count">15</span>
+                                </div>
+                                <div class="ed-folder-content-m">
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> C.3-001- akt..pdf</div>
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> C.3-002- akt..pdf</div>
+                                    <div class="ed-more">… a dalších 13 souborů</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- D. Dokumentace objektů a technických a technologických zařízení -->
+                    <div class="ed-folder-m open">
+                        <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                            <span class="material-icons-outlined">folder_open</span>
+                            <strong>D</strong> Dokumentace objektů a technických a technologických zařízení
+                            <span class="ed-folder-count">213 souborů</span>
+                        </div>
+                        <div class="ed-folder-content-m">
+                            <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> D.pdf <span class="ed-file-size">obálka</span></div>
+                            <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> D.1.pdf <span class="ed-file-size">obálka SO</span></div>
+                            <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> D.2.pdf <span class="ed-file-size">obálka PS</span></div>
+                            
+                            <!-- SO section -->
+                            <div style="font-size: 11px; font-weight: 600; color: #004289; padding: 8px 8px 4px; border-top: 1px solid #e8f0fe; margin-top: 4px;">STAVEBNÍ OBJEKTY (SO)</div>
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    SO 12-12-01 Úprava nástupiště
+                                    <span class="ed-folder-count">8</span>
+                                </div>
+                                <div class="ed-folder-content-m">
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> SO121201_D.1.1-001.pdf</div>
+                                    <div class="ed-more">… a dalších 7 souborů</div>
+                                </div>
+                            </div>
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    SO 12-71-02 Kabelovod
+                                </div>
+                            </div>
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    SO 12-71-03 Úpr. kabelových tras
+                                </div>
+                            </div>
+                            <div class="ed-more" style="padding-left: 8px;">… a dalších 9 stavebních objektů (SO 12-16-01 až SO 12-88-01)</div>
+                            
+                            <!-- PS section -->
+                            <div style="font-size: 11px; font-weight: 600; color: #004289; padding: 8px 8px 4px; border-top: 1px solid #e8f0fe; margin-top: 4px;">PROVOZNÍ SOUBORY (PS)</div>
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    PS 11-01-21 Žel. zabezpečovací zařízení
+                                    <span class="ed-folder-count">42</span>
+                                </div>
+                                <div class="ed-folder-content-m">
+                                    <div class="ed-file-m"><span class="material-icons-outlined">picture_as_pdf</span> PS110121_D.2.1-001.pdf</div>
+                                    <div class="ed-more">… a dalších 41 souborů</div>
+                                </div>
+                            </div>
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')">
+                                    <span class="material-icons-outlined">folder</span>
+                                    PS 12-01-11 Silnoproudá technologie
+                                </div>
+                            </div>
+                            <div class="ed-folder-m">
+                                <div class="ed-folder-header-m" onclick="this.parentElement.classList.toggle('open')" style="color: #e65100;">
+                                    <span class="material-icons-outlined" style="color: #e65100;">folder</span>
+                                    ⚠️ PS 12-02-11 Rozvodna 22kV
+                                    <span style="font-size: 10px; background: #fff3e0; color: #e65100; padding: 1px 6px; border-radius: 8px; margin-left: 4px;">locked</span>
+                                </div>
+                            </div>
+                            <div class="ed-more" style="padding-left: 8px;">… a dalších 11 provozních souborů (PS 12-02-61 až PS 14-02-51)</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1385,29 +1787,258 @@
 
     <!-- Modal: Dokladová část -->
     <div class="modal-overlay" id="dokladyModal" onclick="closeModal('dokladyModal', event)">
-        <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">fact_check</span>
                     Dokladová část
                 </div>
-                <button class="modal-close" onclick="closeModal('dokladyModal')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 11px; color: #5f6368;">63 dokladů</span>
+                    <button class="modal-close" onclick="closeModal('dokladyModal')">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="modal-placeholder">
-                    <div class="modal-placeholder-icon">
-                        <span class="material-icons-outlined" style="font-size: 48px;">checklist</span>
+            <div class="modal-body" style="padding: 0; display: flex; height: 65vh;">
+                <!-- Seznam dokladů -->
+                <div style="width: 420px; min-width: 420px; border-right: 1px solid #e0e0e0; overflow-y: auto; padding: 12px 16px;">
+                    
+                    <!-- 1. Závazná stanoviska a rozhodnutí -->
+                    <div class="doklady-category">
+                        <div class="doklady-cat-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
+                            <span class="material-icons-outlined">gavel</span>
+                            1. Závazná stanoviska a rozhodnutí
+                            <span class="doklady-cat-count">8</span>
+                        </div>
+                        <div class="doklady-cat-list">
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.1._MěÚ Kostelec nO-koord.záv.stan..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info">
+                                    <div class="doc-name">1.1. MěÚ Kostelec nO — koord. záv. stan.</div>
+                                </div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.2._MěÚ Rychnov nK-záv.stan.JES.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info">
+                                    <div class="doc-name">1.2. MěÚ Rychnov nK — záv. stan. JES</div>
+                                </div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.3._Městys Doudleby nO-exist+souhlas.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info">
+                                    <div class="doc-name">1.3. Městys Doudleby nO — exist. + souhlas</div>
+                                </div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.4._Obec Záměl-exist+souhlas.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">1.4. Obec Záměl — exist. + souhlas</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.5._Obec Potštejn-vyj.-souhlas.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">1.5. Obec Potštejn — vyj. souhlas</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.6._Město Vamberk_Souhlas se stavbou.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">1.6. Město Vamberk — souhlas se stavbou</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.7._PČR-vyj.k PD.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">1.7. PČR — vyj. k PD</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '1.8._DÚ-Rozhodnutí-změna zab..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">1.8. DÚ — Rozhodnutí změna zab.</div></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-placeholder-text">
-                        V ostré verzi by se zde zobrazila<br>
-                        <strong>dokladová část</strong><br>
-                        obsahující stanoviska DO a vyjádření správců sítí.
+                    
+                    <!-- 3. NATURA 2000 -->
+                    <div class="doklady-category">
+                        <div class="doklady-cat-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
+                            <span class="material-icons-outlined">eco</span>
+                            3. Posouzení NATURA 2000
+                            <span class="doklady-cat-count">2</span>
+                        </div>
+                        <div class="doklady-cat-list">
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '3.1._KÚKHK-NATURA 100.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">3.1. KÚKHK — NATURA 100</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '3.2._KÚKHK-NATURA 114.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">3.2. KÚKHK — NATURA 114</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 4.2. Vyjádření vlastníků VTI/VDI -->
+                    <div class="doklady-category">
+                        <div class="doklady-cat-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
+                            <span class="material-icons-outlined">electrical_services</span>
+                            4.2. Vyjádření vlastníků VTI / VDI
+                            <span class="doklady-cat-count">33</span>
+                        </div>
+                        <div class="doklady-cat-list">
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.1._CETIN-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.1. CETIN — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.3._ČEZ DSO-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.3. ČEZ DSO — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.4._ČEZ DSO-vyj. k PD.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.4. ČEZ DSO — vyj. k PD</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.5._ČEZ Telco-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.5. ČEZ Telco — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.6._ČEZ ICT-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.6. ČEZ ICT — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.7._Telco Infrastr.-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.7. Telco Infrastr. — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.8._GasNet-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.8. GasNet — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.9._GasNet-vyj. k PD.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.9. GasNet — vyj. k PD</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.10._T-Mobile-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.10. T-Mobile — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.11._Vodafone-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.11. Vodafone — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.12._ČEZ Energo-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.12. ČEZ Energo — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.13._ESAB-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.13. ESAB — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.14._ČEPS-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.14. ČEPS — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.15._ČEPS-vyj.vlastníka TI.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.15. ČEPS — vyj. vlastníka TI</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.16._ČEPS-souhlas v OP.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.16. ČEPS — souhlas v OP</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.17._PTES-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.17. PTES — vyj. exist.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.19._Aqua Servis-vyj. k PD.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.19. Aqua Servis — vyj. k PD</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '4.2.20._PODA-vyj.exist..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">4.2.20. PODA — vyj. exist.</div></div>
+                            </div>
+                            <div style="padding: 4px 8px; font-size: 11px; color: #5f6368; font-style: italic;">… a dalších 15 vyjádření (Vambekon, Vamberecká voda, TS Kostelec, Solar Rentiers, MO, ČDT, ČD RSM aj.)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 6. Souhlasy, SBVB, další -->
+                    <div class="doklady-category">
+                        <div class="doklady-cat-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
+                            <span class="material-icons-outlined">handshake</span>
+                            6. Souhlasy vlastníků, SBVB, další doklady
+                            <span class="doklady-cat-count">18</span>
+                        </div>
+                        <div class="doklady-cat-list">
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.2._ČD RSM-vyjádření k PD.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.2. ČD RSM — vyjádření k PD</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.3._ČD_Podepsaná SBVB.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.3. ČD — Podepsaná SBVB</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.4._Městys Doudleby n.O.-souhlas vl..pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.4. Městys Doudleby n.O. — souhlas vl.</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.5._Městys Doudleby n.O.-SBVB.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.5. Městys Doudleby n.O. — SBVB</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.8._SSKHK-stanovisko k PD.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.8. SSKHK — stanovisko k PD</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.9._Povodí Labe-stan.správce povodí.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.9. Povodí Labe — stan. správce povodí</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.10._Povodí Labe-SoVB.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.10. Povodí Labe — SoVB</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.18._SŽ-záznam z MŠ.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.18. SŽ — záznam z místního šetření</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '6.20._Biologický a dendrologický průzkum.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">6.20. Biologický a dendrologický průzkum</div></div>
+                            </div>
+                            <div style="padding: 4px 8px; font-size: 11px; color: #5f6368; font-style: italic;">… a dalších 9 dokladů (souhlasy OP, Město Vamberk, Obec Záměl aj.)</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 9. Další -->
+                    <div class="doklady-category">
+                        <div class="doklady-cat-header" onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'flex' : 'none'">
+                            <span class="material-icons-outlined">more_horiz</span>
+                            9. Ostatní
+                            <span class="doklady-cat-count">2</span>
+                        </div>
+                        <div class="doklady-cat-list">
+                            <div class="doc-list-item" onclick="showDokladPreview(this, '9.1._VÚŽ.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">9.1. VÚŽ</div></div>
+                            </div>
+                            <div class="doc-list-item" onclick="showDokladPreview(this, 'Doklady seznam-DESU-227.pdf')">
+                                <span class="material-icons-outlined doc-icon" style="color: #ea4335; font-size: 16px;">picture_as_pdf</span>
+                                <div class="doc-info"><div class="doc-name">Doklady seznam DESÚ-227</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Náhled PDF -->
+                <div style="flex: 1; display: flex; flex-direction: column; background: #f5f5f5;">
+                    <div id="dokladyPreviewArea" style="flex: 1; display: flex; align-items: center; justify-content: center;">
+                        <div style="text-align: center; color: #9aa0a6;">
+                            <span class="material-icons-outlined" style="font-size: 48px;">preview</span>
+                            <div style="margin-top: 8px; font-size: 13px;">Klikněte na doklad pro zobrazení náhledu</div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-secondary" id="dokladyOpenBtn" style="display: none;" onclick="window.open(currentDokladUrl, '_blank')">
+                    <span class="material-icons-outlined">open_in_new</span>
+                    Otevřít v novém okně
+                </button>
                 <button class="btn btn-secondary" onclick="closeModal('dokladyModal')">Zavřít</button>
             </div>
         </div>
@@ -1609,6 +2240,67 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // ====== PDF Preview pro Přílohy ======
+        let currentPrilohaUrl = '';
+        
+        function showPrilohaPreview(item, url, filename) {
+            // Highlight selected
+            document.querySelectorAll('#prilohyList .doc-list-item').forEach(el => {
+                el.style.background = '';
+                el.style.borderColor = '#e0e0e0';
+            });
+            item.style.background = '#e8f0fe';
+            item.style.borderColor = '#004289';
+            
+            currentPrilohaUrl = url;
+            const area = document.getElementById('prilohyPreviewArea');
+            area.innerHTML = `
+                <iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>
+                <div style="display: none; position: absolute; inset: 0; flex-direction: column; align-items: center; justify-content: center; background: #f5f5f5;" id="prilohyFallback">
+                    <span class="material-icons-outlined" style="font-size: 48px; color: #ea4335;">picture_as_pdf</span>
+                    <div style="margin-top: 12px; font-size: 14px; font-weight: 500; color: #202124;">${filename}</div>
+                    <div style="margin-top: 4px; font-size: 12px; color: #5f6368;">PDF soubor</div>
+                    <a href="${url}" target="_blank" style="margin-top: 12px; color: #004289; font-size: 13px;">Otevřít v novém okně ↗</a>
+                </div>
+            `;
+            area.style.position = 'relative';
+            document.getElementById('prilohyOpenBtn').style.display = 'inline-flex';
+        }
+
+        // ====== PDF Preview pro Dokladovou část ======
+        let currentDokladUrl = '';
+        const dokladyBasePath = '../docs/dokladova-cast/';
+        
+        function showDokladPreview(item, filename) {
+            // Highlight selected
+            item.closest('.doklady-cat-list').parentElement.parentElement
+                .querySelectorAll('.doc-list-item').forEach(el => {
+                    el.style.background = '';
+                    el.style.borderColor = '#e0e0e0';
+                });
+            // Also deselect in other categories
+            document.querySelectorAll('#dokladyModal .doc-list-item').forEach(el => {
+                el.style.background = '';
+                el.style.borderColor = '#e0e0e0';
+            });
+            item.style.background = '#e8f0fe';
+            item.style.borderColor = '#004289';
+            
+            const url = dokladyBasePath + encodeURIComponent(filename);
+            currentDokladUrl = url;
+            const area = document.getElementById('dokladyPreviewArea');
+            area.innerHTML = `
+                <iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>
+                <div style="display: none; position: absolute; inset: 0; flex-direction: column; align-items: center; justify-content: center; background: #f5f5f5;" id="dokladyFallback">
+                    <span class="material-icons-outlined" style="font-size: 48px; color: #ea4335;">picture_as_pdf</span>
+                    <div style="margin-top: 12px; font-size: 14px; font-weight: 500; color: #202124;">${filename}</div>
+                    <a href="${url}" target="_blank" style="margin-top: 12px; color: #004289; font-size: 13px;">Otevřít v novém okně ↗</a>
+                </div>
+            `;
+            area.style.position = 'relative';
+            document.getElementById('dokladyOpenBtn').style.display = 'inline-flex';
+        }
     </script>
 </body>
 </html>
