@@ -146,6 +146,41 @@
 .dm-zadost-table table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .dm-zadost-table th { text-align: left; padding: 6px 8px; background: #f8f9fa; border-bottom: 2px solid #e0e0e0; font-weight: 600; color: #5f6368; font-size: 11px; }
 .dm-zadost-table td { padding: 6px 8px; border-bottom: 1px solid #f1f3f4; }
+
+/* ── Embedded viewers (in kontroly panels) ── */
+.viewer-content:has(.ev-split) { padding: 0; overflow: hidden; }
+.ev-split {
+    display: flex; height: 100%; width: 100%;
+}
+.ev-list {
+    width: 220px; min-width: 220px; border-right: 1px solid #e0e0e0;
+    overflow-y: auto; padding: 8px; background: #fff;
+}
+.ev-preview {
+    flex: 1; display: flex; flex-direction: column; background: #f5f5f5; min-width: 0;
+}
+.ev-preview-area {
+    flex: 1; display: flex; align-items: center; justify-content: center; overflow: auto;
+}
+.ev-placeholder {
+    text-align: center; color: #9aa0a6;
+}
+.ev-placeholder .material-icons-outlined { font-size: 40px; }
+.ev-placeholder div { margin-top: 6px; font-size: 12px; }
+.ev-toolbar {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    padding: 6px 12px; border-top: 1px solid #e0e0e0; background: #fff; flex-shrink: 0;
+}
+.ev-toolbar .dm-btn { padding: 4px 10px; font-size: 11px; }
+
+/* Override zadost-data-tab when containing embedded viewer */
+.zadost-data-tab:has(.ev-split) { padding: 0; }
+.zadost-data-tab.active:has(.ev-split) { display: flex; height: 100%; }
+.zadost-data-content:has(.ev-split) { overflow: hidden; }
+
+/* Viewer tab containers (kontroly panels) */
+.vt-tab:has(.ev-split) { padding: 0; }
+.vt-tab:has(.viewer-placeholder) { display: flex; }
 `;
 
     // ── HTML GENERATORS ─────────────────────────────────────────────────
@@ -542,6 +577,157 @@
         clearActive('#dm-eedModal', '.dm-tree-file');
         item.classList.add('active');
         showInPreview('dm-edPreview', 'dm-edOpenBtn', path, file);
+    };
+
+    // ── EMBEDDED VIEWERS (for kontroly panels) ──────────────────────────
+
+    // Embedded preview click handler (generic for all embedded viewers)
+    window._evShow = function(item, prefix, subdir) {
+        var file = item.getAttribute('data-file');
+        var name = (item.querySelector('.dm-file-name') || item).textContent.trim();
+        var path = _basePath + subdir + '/' + file;
+
+        // Store current URL
+        window['_evUrl_' + prefix] = path;
+
+        // Clear active states in this viewer
+        var container = item.closest('.ev-split');
+        var items = container.querySelectorAll('.dm-file-item, .dm-tree-file');
+        for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
+        item.classList.add('active');
+
+        // Show PDF
+        var area = document.getElementById('ev-preview-' + prefix);
+        area.style.alignItems = 'stretch';
+        area.style.justifyContent = 'flex-start';
+        area.innerHTML = buildPdf(path, name);
+
+        var btn = document.getElementById('ev-open-' + prefix);
+        if (btn) btn.style.display = 'inline-flex';
+    };
+
+    function evFileItem(file, name, prefix, subdir) {
+        return '<div class="dm-file-item" data-file="' + file + '" onclick="_evShow(this,\'' + prefix + '\',\'' + subdir + '\')">' +
+            '<span class="material-icons-outlined">picture_as_pdf</span>' +
+            '<div class="dm-file-info"><div class="dm-file-name">' + name + '</div></div></div>';
+    }
+
+    function evPreviewPanel(prefix) {
+        return '<div class="ev-preview">' +
+            '<div class="ev-preview-area" id="ev-preview-' + prefix + '">' +
+            '<div class="ev-placeholder"><span class="material-icons-outlined">preview</span><div>Klikněte na soubor</div></div>' +
+            '</div>' +
+            '<div class="ev-toolbar">' +
+            '<button class="dm-btn" id="ev-open-' + prefix + '" style="display:none" onclick="window.open(window[\'_evUrl_\'+\'' + prefix + '\'],\'_blank\')"><span class="material-icons-outlined">open_in_new</span>Nové okno</button>' +
+            '</div></div>';
+    }
+
+    function embeddedPrilohy(prefix) {
+        var items = [
+            ['PM-036-2024-SZ - Signal projekt.pdf', 'PM-036-2024-SŽ — Signal projekt'],
+            ['PM-037-2024-Mikulova.pdf', 'PM-037-2024-Mikulová'],
+            ['Povereni reditele Kosinova 9910 ec 3430.pdf', 'Pověření ředitele Kosinová'],
+            ['Sousedni pozemky do 2m od planovane stavby.pdf', 'Sousední pozemky do 2m'],
+            ['podle casti F k bodu B.pdf', 'podle části F k bodu B']
+        ];
+        var list = items.map(function(i) { return evFileItem(i[0], i[1], prefix, 'prilohy'); }).join('');
+        return '<div class="ev-split"><div class="ev-list">' +
+            '<div style="padding:4px 4px 8px;font-size:11px;font-weight:600;color:#004289;">Přílohy žádosti (5)</div>' +
+            list + '</div>' + evPreviewPanel(prefix) + '</div>';
+    }
+
+    function embeddedDokumentace(prefix) {
+        return '<div class="ev-split"><div class="ev-list">' +
+            '<div class="dm-tree">' +
+            '<div class="dm-folder open">' +
+            '<div class="dm-folder-header" onclick="this.parentElement.classList.toggle(\'open\')"><span class="material-icons-outlined">folder_open</span><strong>A</strong> Průvodní list<span class="dm-folder-count">1</span></div>' +
+            '<div class="dm-folder-content"><div class="dm-tree-file" data-file="A - akt..pdf" onclick="_evShow(this,\'' + prefix + '\',\'dokumentace\')"><span class="material-icons-outlined">picture_as_pdf</span> A - akt..pdf</div></div></div>' +
+            '<div class="dm-folder open">' +
+            '<div class="dm-folder-header" onclick="this.parentElement.classList.toggle(\'open\')"><span class="material-icons-outlined">folder_open</span><strong>B</strong> Souhrnná TZ<span class="dm-folder-count">1</span></div>' +
+            '<div class="dm-folder-content"><div class="dm-tree-file" data-file="B - akt..pdf" onclick="_evShow(this,\'' + prefix + '\',\'dokumentace\')"><span class="material-icons-outlined">picture_as_pdf</span> B - akt..pdf</div></div></div>' +
+            '<div class="dm-folder open">' +
+            '<div class="dm-folder-header" onclick="this.parentElement.classList.toggle(\'open\')"><span class="material-icons-outlined">folder_open</span><strong>C</strong> Situační výkresy<span class="dm-folder-count">3</span></div>' +
+            '<div class="dm-folder-content">' +
+            '<div class="dm-tree-file" data-file="C.1-001.pdf" onclick="_evShow(this,\'' + prefix + '\',\'dokumentace\')"><span class="material-icons-outlined">picture_as_pdf</span> C.1-001.pdf</div>' +
+            '<div class="dm-tree-file" data-file="C.2-001 - akt..pdf" onclick="_evShow(this,\'' + prefix + '\',\'dokumentace\')"><span class="material-icons-outlined">picture_as_pdf</span> C.2-001 - akt..pdf</div>' +
+            '<div class="dm-tree-file" data-file="C.3-001- akt..pdf" onclick="_evShow(this,\'' + prefix + '\',\'dokumentace\')"><span class="material-icons-outlined">picture_as_pdf</span> C.3-001- akt..pdf</div>' +
+            '</div></div>' +
+            '<div class="dm-folder">' +
+            '<div class="dm-folder-header" onclick="this.parentElement.classList.toggle(\'open\')"><span class="material-icons-outlined">folder</span><strong>D</strong> Dokumentace objektů<span class="dm-folder-count">213</span></div>' +
+            '<div class="dm-folder-content"><div class="dm-tree-more">Soubory části D nejsou v demo datasetu</div></div></div>' +
+            '</div></div>' + evPreviewPanel(prefix) + '</div>';
+    }
+
+    function embeddedDoklady(prefix) {
+        function cat(icon, title, count, items) {
+            return '<div class="dm-category"><div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display===\'none\'?\'flex\':\'none\'">' +
+                '<span class="material-icons-outlined">' + icon + '</span>' + title + '<span class="dm-cat-count">' + count + '</span></div>' +
+                '<div class="dm-cat-list">' + items + '</div></div>';
+        }
+        function f(file, name) { return evFileItem(file, name, prefix, 'dokladova-cast'); }
+
+        var html = cat('gavel', '1. Závazná stanoviska', 8,
+            f('1.1._MeU Kostelec nO-koord.zav.stan..pdf','1.1. MěÚ Kostelec nO') +
+            f('1.2._MeU Rychnov nK-zav.stan.JES.pdf','1.2. MěÚ Rychnov nK — JES') +
+            f('1.3._Mestys Doudleby nO-exist+souhlas.pdf','1.3. Městys Doudleby nO') +
+            f('1.4._Obec Zamel-exist+souhlas.pdf','1.4. Obec Záměl') +
+            f('1.5._Obec Potstejn-vyj.-souhlas.pdf','1.5. Obec Potštejn') +
+            f('1.6._Mesto Vamberk_Souhlas se stavbou.pdf','1.6. Město Vamberk') +
+            f('1.7._PCR-vyj.k PD.pdf','1.7. PČR — vyj. k PD') +
+            f('1.8._DU-Rozhodnuti-zmena zab..pdf','1.8. DÚ — Rozhodnutí')
+        ) + cat('eco', '3. NATURA 2000', 2,
+            f('3.1._KUKHK-NATURA 100.pdf','3.1. KÚKHK — NATURA 100') +
+            f('3.2._KUKHK-NATURA 114.pdf','3.2. KÚKHK — NATURA 114')
+        ) + cat('electrical_services', '4.2. Vyjádření VTI/VDI', 33,
+            f('4.2.1._CETIN-vyj.exist..pdf','4.2.1. CETIN') +
+            f('4.2.3._CEZ DSO-vyj.exist..pdf','4.2.3. ČEZ DSO — exist.') +
+            f('4.2.4._CEZ DSO-vyj. k PD.pdf','4.2.4. ČEZ DSO — k PD') +
+            f('4.2.8._GasNet-vyj.exist..pdf','4.2.8. GasNet — exist.') +
+            f('4.2.9._GasNet-vyj. k PD.pdf','4.2.9. GasNet — k PD') +
+            f('4.2.10._T-Mobile-vyj.exist..pdf','4.2.10. T-Mobile') +
+            f('4.2.11._Vodafone-vyj.exist..pdf','4.2.11. Vodafone') +
+            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 15</div>'
+        ) + cat('handshake', '6. Souhlasy, SBVB', 18,
+            f('6.2._CD RSM-vyjadreni k PD.pdf','6.2. ČD RSM — vyj. k PD') +
+            f('6.3._CD_Podepsana SBVB.pdf','6.3. ČD — SBVB') +
+            f('6.4._Mestys Doudleby n.O.-souhlas vl..pdf','6.4. Městys Doudleby') +
+            f('6.8._SSKHK-stanovisko k PD.pdf','6.8. SSKHK') +
+            f('6.9._Povodi Labe-stan.spravce povodi.pdf','6.9. Povodí Labe') +
+            f('6.20._Biologicky a dendrologicky pruzkum.pdf','6.20. Bio+dendro průzkum') +
+            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 9</div>'
+        ) + cat('more_horiz', '9. Ostatní', 2,
+            f('9.1._VUZ.pdf','9.1. VÚŽ') +
+            f('Doklady seznam-DESU-227.pdf','Doklady seznam DESÚ-227')
+        );
+
+        return '<div class="ev-split"><div class="ev-list" style="padding:8px 10px">' + html + '</div>' + evPreviewPanel(prefix) + '</div>';
+    }
+
+    /**
+     * Render an embedded viewer into a container element.
+     * @param {string} containerId - ID of the container element
+     * @param {string} type - 'prilohy', 'dokumentace', or 'doklady'
+     * @param {string} [prefix] - unique prefix for IDs (defaults to containerId)
+     */
+    window.renderEmbeddedViewer = function(containerId, type, prefix) {
+        prefix = prefix || containerId;
+        var el = document.getElementById(containerId);
+        if (!el) return;
+
+        var html;
+        switch(type) {
+            case 'prilohy': html = embeddedPrilohy(prefix); break;
+            case 'dokumentace': case 'eed': html = embeddedDokumentace(prefix); break;
+            case 'doklady': case 'dokladova-cast': html = embeddedDoklady(prefix); break;
+            default: return;
+        }
+        el.innerHTML = html;
+        // Remove placeholder styling
+        el.classList.remove('viewer-placeholder');
+        el.style.padding = '0';
+        el.style.border = 'none';
+        el.style.borderRadius = '0';
+        el.style.textAlign = '';
     };
 
     // ── PUBLIC API ──────────────────────────────────────────────────────
