@@ -12426,37 +12426,13 @@
                     </div>
                     
                     <!-- TAB: Přílohy -->
-                    <div class="viewer-placeholder" id="prislusnostTabPrilohy" style="display: none;">
-                        <span class="material-icons-outlined">attach_file</span>
-                        <div class="viewer-placeholder-title">Přílohy žádosti (5)</div>
-                        <div class="viewer-placeholder-text" style="margin-bottom: 12px;">Plné moci, pověření, sousední pozemky, příl. dle vyhlášky</div>
-                        <button class="btn btn-secondary" style="font-size: 12px;" onclick="openDocModal('prilohyModal')">
-                            <span class="material-icons-outlined" style="font-size: 16px;">open_in_new</span>
-                            Otevřít přílohy
-                        </button>
-                    </div>
+                    <div id="prislusnostTabPrilohy" style="display: none; height: 100%;"></div>
                     
                     <!-- TAB: El. dokumentace -->
-                    <div class="viewer-placeholder" id="prislusnostTabDokumentace" style="display: none;">
-                        <span class="material-icons-outlined">folder</span>
-                        <div class="viewer-placeholder-title">Elektronická dokumentace (247 souborů)</div>
-                        <div class="viewer-placeholder-text" style="margin-bottom: 12px;">A — Průvodní list, B — Souhrnná TZ, C — Situace, D — Objekty</div>
-                        <button class="btn btn-secondary" style="font-size: 12px;" onclick="openDocModal('eedModal')">
-                            <span class="material-icons-outlined" style="font-size: 16px;">open_in_new</span>
-                            Otevřít dokumentaci
-                        </button>
-                    </div>
+                    <div id="prislusnostTabDokumentace" style="display: none; height: 100%;"></div>
                     
                     <!-- TAB: Dokladová část -->
-                    <div class="viewer-placeholder" id="prislusnostTabDoklady" style="display: none;">
-                        <span class="material-icons-outlined">fact_check</span>
-                        <div class="viewer-placeholder-title">Dokladová část (63 dokumentů)</div>
-                        <div class="viewer-placeholder-text" style="margin-bottom: 12px;">Závazná stanoviska, NATURA, vyjádření vlastníků VTI, souhlasy</div>
-                        <button class="btn btn-secondary" style="font-size: 12px;" onclick="openDocModal('dokladyModal')">
-                            <span class="material-icons-outlined" style="font-size: 16px;">open_in_new</span>
-                            Otevřít dokladovou část
-                        </button>
-                    </div>
+                    <div id="prislusnostTabDoklady" style="display: none; height: 100%;"></div>
                 </div>
             </div>
             <div class="control-form">
@@ -13131,7 +13107,7 @@
                                         <div class="prilohy-item-name">SR00X01HLDRP (BPP balíček PD)</div>
                                         <div class="prilohy-item-meta">ZIP/BPP • 247 souborů • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('prilohy')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13143,7 +13119,7 @@
                                         <div class="prilohy-item-name">Dokladová část (63 dokladů)</div>
                                         <div class="prilohy-item-meta">PDF • ZS, JES, vyjádření VTI/VDI • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('doklady')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13155,7 +13131,7 @@
                                         <div class="prilohy-item-name">PM-036-2024-SŽ - Signal projekt.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Plná moc • 156 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-036-2024-SZ - Signal projekt.pdf')">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('prilohy','PM-036-2024-SZ - Signal projekt.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13167,7 +13143,7 @@
                                         <div class="prilohy-item-name">PM-037-2024-Mikulová.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Plná moc • 98 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-037-2024-Mikulova.pdf')">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('prilohy','PM-037-2024-Mikulova.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13179,7 +13155,7 @@
                                         <div class="prilohy-item-name">Sousední pozemky do 2m od plánované stavby.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Výpis z KN • 245 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Sousedni pozemky do 2m od planovane stavby.pdf')">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('prilohy','Sousedni pozemky do 2m od planovane stavby.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13191,7 +13167,7 @@
                                         <div class="prilohy-item-name">podle části F k bodu B.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Dle vyhl. č. 149/2024 Sb. • 312 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','podle casti F k bodu B.pdf')">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('prilohy','podle casti F k bodu B.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13203,7 +13179,7 @@
                                         <div class="prilohy-item-name">Pověření ředitele Kosinová 9910 eč 3430.pdf</div>
                                         <div class="prilohy-item-meta">PDF • Pověření k jednání • 78 KB • Nahráno 6. 1. 2026</div>
                                     </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Povereni reditele Kosinova 9910 ec 3430.pdf')">
+                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="showInlineFile('prilohy','Povereni reditele Kosinova 9910 ec 3430.pdf')">
                                         <span class="material-icons-outlined">visibility</span>
                                     </button>
                                 </div>
@@ -13407,240 +13383,10 @@
                     </div>
                     
                     <!-- TAB: Přílohy (aktivní pouze v režimu Formulář) -->
-                    <div class="zadost-data-tab" id="zadostDataPrilohy">
-                        <div class="prilohy-viewer">
-                            <div class="prilohy-list">
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">folder_zip</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">SR00X01HLDRP (BPP balíček PD)</div>
-                                        <div class="prilohy-item-meta">BPP • 247 souborů • Verze 3 — 10. 1. 2026</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocModal('eedModal')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">folder</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">Dokladová část (63 dokladů)</div>
-                                        <div class="prilohy-item-meta">PDF • ZS, JES, vyjádření DO/VTI/VDI, souhlasy, SBVB</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocModal('dokladyModal')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">picture_as_pdf</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">PM-036-2024-SŽ - Signal projekt.pdf</div>
-                                        <div class="prilohy-item-meta">PDF • 156 KB • Plná moc — Signal Projekt s.r.o. zastupuje SŽ</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-036-2024-SZ - Signal projekt.pdf')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">picture_as_pdf</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">PM-037-2024-Mikulová.pdf</div>
-                                        <div class="prilohy-item-meta">PDF • 98 KB • Plná moc — Mikulová jedná za Signal Projekt</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','PM-037-2024-Mikulova.pdf')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">picture_as_pdf</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">Pověření ředitele Kosinová 9910 eč 3430.pdf</div>
-                                        <div class="prilohy-item-meta">PDF • 78 KB • Pověření k jednání za SŽ, s.o.</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Povereni reditele Kosinova 9910 ec 3430.pdf')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">picture_as_pdf</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">Sousední pozemky do 2m od plánované stavby.pdf</div>
-                                        <div class="prilohy-item-meta">PDF • 245 KB • Výpis vlastníků pozemků</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','Sousedni pozemky do 2m od planovane stavby.pdf')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                                <div class="prilohy-item">
-                                    <div class="prilohy-item-icon">
-                                        <span class="material-icons-outlined">picture_as_pdf</span>
-                                    </div>
-                                    <div class="prilohy-item-info">
-                                        <div class="prilohy-item-name">podle části F k bodu B.pdf</div>
-                                        <div class="prilohy-item-meta">PDF • 312 KB • Dle vyhl. č. 149/2024 Sb.</div>
-                                    </div>
-                                    <button class="prilohy-item-btn" title="Zobrazit" onclick="openDocFile('prilohy','podle casti F k bodu B.pdf')">
-                                        <span class="material-icons-outlined">visibility</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="prilohy-note">
-                                <span class="material-icons-outlined">info</span>
-                                Kliknutím na ikonu oka zobrazíte náhled přílohy. Kontrolu příloh proveďte v pravém panelu.
-                            </div>
-                        </div>
-                    </div>
+                    <div class="zadost-data-tab" id="zadostDataPrilohy"></div>
                     
                     <!-- TAB: Dokladová část -->
-                    <div class="zadost-data-tab" id="zadostDataDoklady">
-                        <div class="doklady-viewer">
-                            <!-- Dotčené orgány -->
-                            <div class="doklady-section">
-                                <div class="doklady-section-header">
-                                    <span class="material-icons-outlined">account_balance</span>
-                                    Dotčené orgány (DO) — závazná stanoviska
-                                    <span class="doklady-count">7</span>
-                                </div>
-                                <div class="doklady-list">
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">MěÚ Kostelec n.O. — koord. ZS</div>
-                                            <div class="doklady-item-meta">R/2025/18662/4 • Kladné s podmínkami</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick=\"openDocFile('doklady','1.1._MeU Kostelec nO-koord.zav.stan..pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">MěÚ Rychnov n.K. — JES</div>
-                                            <div class="doklady-item-meta">R/2025/14716 • Kladné</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick=\"openDocFile('doklady','1.2._MeU Rychnov nK-zav.stan.JES.pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">Policie ČR, DI Rychnov n.K.</div>
-                                            <div class="doklady-item-meta">KRPH-69305/ČJ-2024-050706 • Kladné</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','1.2._MeU Rychnov nK-zav.stan.JES.pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">Drážní úřad</div>
-                                            <div class="doklady-item-meta">DUCR-44974/24/Bd • Kladné s podmínkami</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','1.8._DU-Rozhodnuti-zmena zab..pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Vlastníci technické infrastruktury -->
-                            <div class="doklady-section">
-                                <div class="doklady-section-header">
-                                    <span class="material-icons-outlined">electric_bolt</span>
-                                    Vlastníci TI/DI (VTI/VDI) — z DTM
-                                    <span class="doklady-count">18</span>
-                                </div>
-                                <div class="doklady-list">
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">CETIN a.s.</div>
-                                            <div class="doklady-item-meta">Telekomunikace • Přiloženo</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.1._CETIN-vyj.exist..pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">ČEZ Distribuce a.s. (2×)</div>
-                                            <div class="doklady-item-meta">Elektřina — existence + k PD</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.3._CEZ DSO-vyj.exist..pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-ok">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">check_circle</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">GasNet s.r.o. (2×)</div>
-                                            <div class="doklady-item-meta">Plyn — existence + k PD</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.8._GasNet-vyj.exist..pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-pending">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">warning</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">T-Mobile, Vodafone, MO</div>
-                                            <div class="doklady-item-meta" style="color: #ea8600;">3× prošla platnost vyjádření</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" onclick="openDocFile('doklady','4.2.10._T-Mobile-vyj.exist..pdf')">
-                                            <span class="material-icons-outlined">visibility</span>
-                                        </button>
-                                    </div>
-                                    <div class="doklady-item status-pending">
-                                        <div class="doklady-item-icon">
-                                            <span class="material-icons-outlined">error_outline</span>
-                                        </div>
-                                        <div class="doklady-item-info">
-                                            <div class="doklady-item-name">České radiokomunikace, ŘSD, SPÚ</div>
-                                            <div class="doklady-item-meta" style="color: #c5221f;">3× chybí zcela (dle DTM)</div>
-                                        </div>
-                                        <button class="doklady-item-btn" title="Zobrazit" disabled>
-                                            <span class="material-icons-outlined">visibility_off</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="doklady-note">
-                                <span class="material-icons-outlined">info</span>
-                                Toto je náhled dokladové části. Úplnou správu stanovisek proveďte v kontrole „Dokladová část".
-                            </div>
-                        </div>
-                    </div>
+                    <div class="zadost-data-tab" id="zadostDataDoklady"></div>
                     
                 </div>
             </div>
@@ -14999,11 +14745,21 @@
                         <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
-                <div class="viewer-content">
-                    <div class="viewer-placeholder" id="viewer-identifikace">
-                        <span class="material-icons-outlined">layers</span>
-                        <div class="viewer-placeholder-title">Digitální technická mapa</div>
-                        <div class="viewer-placeholder-text">Sítě technické infrastruktury v okolí stavby</div>
+                <div class="viewer-content" id="identifikaceViewerContent" style="overflow:hidden">
+                    <div class="vt-tab active" id="idTab-dtm" style="height:100%">
+                        <div class="viewer-placeholder" style="height:100%">
+                            <span class="material-icons-outlined">layers</span>
+                            <div class="viewer-placeholder-title">Digitální technická mapa</div>
+                            <div class="viewer-placeholder-text">Sítě technické infrastruktury v okolí stavby</div>
+                        </div>
+                    </div>
+                    <div class="vt-tab" id="idTab-doklady" style="display:none;height:100%"></div>
+                    <div class="vt-tab" id="idTab-zadost" style="display:none;height:100%">
+                        <div class="viewer-placeholder" style="height:100%">
+                            <span class="material-icons-outlined">description</span>
+                            <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
+                            <div class="viewer-placeholder-text">Formulář žádosti s údaji o stavebníkovi a záměru</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -15922,12 +15678,17 @@
                         <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
-                <div class="viewer-content">
-                    <div class="viewer-placeholder" id="viewer-zrychlene">
-                        <span class="material-icons-outlined">description</span>
-                        <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
-                        <div class="viewer-placeholder-text">Souhrnná kontrola podmínek pro zrychlené řízení</div>
+                <div class="viewer-content" id="zrychleneViewerContent" style="overflow:hidden">
+                    <div class="vt-tab active" id="zrTab-zadost" style="height:100%">
+                        <div class="viewer-placeholder" style="height:100%">
+                            <span class="material-icons-outlined">description</span>
+                            <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
+                            <div class="viewer-placeholder-text">Formulář žádosti s údaji o stavebníkovi a záměru</div>
+                        </div>
                     </div>
+                    <div class="vt-tab" id="zrTab-prilohy" style="display:none;height:100%"></div>
+                    <div class="vt-tab" id="zrTab-eed" style="display:none;height:100%"></div>
+                    <div class="vt-tab" id="zrTab-doklady" style="display:none;height:100%"></div>
                 </div>
             </div>
             <div class="control-form">
@@ -16988,31 +16749,31 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
 
         // Viewer tab switching
         function switchViewerTab(button, controlType, docType) {
-            // Update active tab
+            // Update active tab button
             const tabs = button.parentElement.querySelectorAll('.viewer-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             button.classList.add('active');
 
-            // Update viewer content
-            const viewer = document.getElementById('viewer-' + controlType);
-            const docConfig = {
-                zadost: { icon: 'description', title: 'Žádost o povolení stavby', desc: 'Formulář žádosti s údaji o stavebníkovi a záměru' },
-                prilohy: { icon: 'attach_file', title: 'Přílohy žádosti (12)', desc: 'Plné moci, souhlasy vlastníků, další dokumenty' },
-                dokumentace: { icon: 'architecture', title: 'Elektronická dokumentace', desc: 'Projektová dokumentace v evidenci EED' },
-                eed: { icon: 'architecture', title: 'Elektronická dokumentace', desc: 'Projektová dokumentace v evidenci EED' },
-                doklady: { icon: 'checklist', title: 'Dokladová část', desc: 'Stanoviska DO a vyjádření správců sítí' },
-                dokladova: { icon: 'checklist', title: 'Dokladová část', desc: 'Stanoviska DO a vyjádření správců sítí' },
-                kn: { icon: 'terrain', title: 'Katastr nemovitostí', desc: 'Informace o vlastnících pozemků a sousedech' },
-                uplan: { icon: 'map', title: 'Územní plán', desc: 'Platný územní plán obce s regulativy' },
-                mapa: { icon: 'map', title: 'Mapa parcel', desc: 'Vizuální zobrazení pozemků záměru a sousedů' }
-            };
+            // Prefix map: controlType → tab ID prefix
+            const prefixMap = { zrychlene: 'zrTab', identifikace: 'idTab' };
+            const pfx = prefixMap[controlType];
+            if (!pfx) return;
 
-            const config = docConfig[docType] || docConfig.zadost;
-            viewer.innerHTML = `
-                <span class="material-icons-outlined">${config.icon}</span>
-                <div class="viewer-placeholder-title">${config.title}</div>
-                <div class="viewer-placeholder-text">${config.desc}</div>
-            `;
+            // Hide all vt-tab children, show selected
+            const container = document.getElementById(controlType + 'ViewerContent');
+            if (!container) return;
+            const allTabs = container.querySelectorAll('.vt-tab');
+            allTabs.forEach(t => t.style.display = 'none');
+            const target = document.getElementById(pfx + '-' + docType);
+            if (target) target.style.display = '';
+
+            // Lazy-render embedded viewers
+            if (target && !target.innerHTML.trim()) {
+                const evPrefix = controlType.substring(0, 2) + docType.charAt(0).toUpperCase() + docType.substring(1);
+                if (docType === 'prilohy') renderEmbeddedViewer(target.id, 'prilohy', evPrefix);
+                else if (docType === 'eed') renderEmbeddedViewer(target.id, 'dokumentace', evPrefix);
+                else if (docType === 'doklady') renderEmbeddedViewer(target.id, 'doklady', evPrefix);
+            }
         }
 
         // Option selection with visual feedback
@@ -19067,6 +18828,16 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 if (tabName === 'formular' && !target.innerHTML.trim()) {
                     target.innerHTML = generateFormularPreview();
                 }
+                // Embedded viewers – lazy init
+                if (tabName === 'prilohy' && !target.innerHTML.trim()) {
+                    renderEmbeddedViewer('prislusnostTabPrilohy', 'prilohy', 'prisPril');
+                }
+                if (tabName === 'dokumentace' && !target.innerHTML.trim()) {
+                    renderEmbeddedViewer('prislusnostTabDokumentace', 'dokumentace', 'prisDok');
+                }
+                if (tabName === 'doklady' && !target.innerHTML.trim()) {
+                    renderEmbeddedViewer('prislusnostTabDoklady', 'doklady', 'prisDokl');
+                }
             }
         }
 
@@ -19403,6 +19174,15 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             else tabId = 'zadostDataZadost'; // fallback
             document.getElementById(tabId).classList.add('active');
             
+            // Embedded viewers – lazy init
+            var tabEl = document.getElementById(tabId);
+            if (tabName === 'prilohy' && !tabEl.innerHTML.trim()) {
+                renderEmbeddedViewer('zadostDataPrilohy', 'prilohy', 'zadPril');
+            }
+            if (tabName === 'doklady' && !tabEl.innerHTML.trim()) {
+                renderEmbeddedViewer('zadostDataDoklady', 'doklady', 'zadDokl');
+            }
+            
             // Přepnout pravý panel podle režimu
             document.querySelectorAll('.zadost-panel-mode').forEach(m => m.classList.remove('active'));
             
@@ -19432,6 +19212,35 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     tabPrilohy.style.display = 'none';
                 }
                 currentZadostMode = 'zadost';
+            }
+        }
+        
+        /**
+         * Z inline seznamu příloh přepne na záložku a vybere konkrétní soubor v embedded vieweru.
+         * @param {string} tabName - 'prilohy' nebo 'doklady'
+         * @param {string} [asciiFile] - název ASCII souboru, pokud chceme předvybrat
+         */
+        function showInlineFile(tabName, asciiFile) {
+            // Najít a kliknout na správný tab button
+            const tabBtn = document.getElementById(tabName === 'prilohy' ? 'tabPrilohy' : 'tabDoklady');
+            if (tabBtn) {
+                // Zobrazit tab Přílohy pokud je skrytý
+                if (tabBtn.style.display === 'none') tabBtn.style.display = '';
+                switchZadostDataTab(tabBtn, tabName);
+            }
+            // Předvybrat soubor po krátké prodlevě (čeká na renderEmbeddedViewer)
+            if (asciiFile) {
+                setTimeout(function() {
+                    const tabEl = document.getElementById(tabName === 'prilohy' ? 'zadostDataPrilohy' : 'zadostDataDoklady');
+                    if (!tabEl) return;
+                    var items = tabEl.querySelectorAll('[data-file]');
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].getAttribute('data-file') === asciiFile) {
+                            items[i].click();
+                            break;
+                        }
+                    }
+                }, 50);
             }
         }
         
