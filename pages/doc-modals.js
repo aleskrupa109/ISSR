@@ -148,7 +148,16 @@
 .dm-zadost-table td { padding: 6px 8px; border-bottom: 1px solid #f1f3f4; }
 
 /* ── Embedded viewers (in kontroly panels) ── */
-.viewer-content:has(.ev-split) { padding: 0; overflow: hidden; }
+.viewer-content.ev-active { padding: 0 !important; overflow: hidden !important; }
+.ev-container {
+    display: flex !important; height: 100% !important;
+    padding: 0 !important; border: none !important; border-radius: 0 !important;
+    text-align: left !important; overflow: hidden !important;
+}
+/* Hide ev-container when not active (for CSS class-toggled systems like zadost-data-tab) */
+.zadost-data-tab.ev-container { display: none !important; }
+.zadost-data-tab.active.ev-container { display: flex !important; height: 100% !important; }
+/* vt-tab inline-display managed — ev-container flex applies when visible */
 .ev-split {
     display: flex; height: 100%; width: 100%;
 }
@@ -173,14 +182,7 @@
 }
 .ev-toolbar .dm-btn { padding: 4px 10px; font-size: 11px; }
 
-/* Override zadost-data-tab when containing embedded viewer */
-.zadost-data-tab:has(.ev-split) { padding: 0; }
-.zadost-data-tab.active:has(.ev-split) { display: flex; height: 100%; }
-.zadost-data-content:has(.ev-split) { overflow: hidden; }
-
 /* Viewer tab containers (kontroly panels) */
-.vt-tab:has(.ev-split) { padding: 0; }
-.vt-tab:has(.viewer-placeholder) { display: flex; }
 `;
 
     // ── HTML GENERATORS ─────────────────────────────────────────────────
@@ -722,12 +724,13 @@
             default: return;
         }
         el.innerHTML = html;
-        // Remove placeholder styling
+        // Add ev-container class — CSS handles layout (display, height, padding)
         el.classList.remove('viewer-placeholder');
-        el.style.padding = '0';
-        el.style.border = 'none';
-        el.style.borderRadius = '0';
-        el.style.textAlign = '';
+        el.classList.add('ev-container');
+
+        // Fix parent .viewer-content — remove padding when showing embedded viewer
+        var parent = el.closest('.viewer-content');
+        if (parent) parent.classList.add('ev-active');
     };
 
     // ── PUBLIC API ──────────────────────────────────────────────────────
