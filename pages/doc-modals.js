@@ -148,15 +148,14 @@
 .dm-zadost-table td { padding: 6px 8px; border-bottom: 1px solid #f1f3f4; }
 
 /* ── Embedded viewers (in kontroly panels) ── */
-.viewer-content.ev-active { padding: 0 !important; overflow: hidden !important; }
+.viewer-content.ev-active { padding: 0; overflow: hidden; }
 .ev-container {
-    display: flex !important; height: 100% !important;
-    padding: 0 !important; border: none !important; border-radius: 0 !important;
-    text-align: left !important; overflow: hidden !important;
+    height: 100%; padding: 0; border: none; border-radius: 0;
+    text-align: left; overflow: hidden;
 }
-/* Hide ev-container when not active (for CSS class-toggled systems like zadost-data-tab) */
-.zadost-data-tab.ev-container { display: none !important; }
-.zadost-data-tab.active.ev-container { display: flex !important; height: 100% !important; }
+/* For CSS class-toggled system (zadost-data-tab uses .active for visibility) */
+.zadost-data-tab.ev-container { display: none; }
+.zadost-data-tab.active.ev-container { display: flex; height: 100%; }
 /* vt-tab inline-display managed — ev-container flex applies when visible */
 .ev-split {
     display: flex; height: 100%; width: 100%;
