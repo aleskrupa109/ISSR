@@ -16759,29 +16759,26 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const pfx = prefixMap[controlType];
             if (!pfx) return;
 
-            // Hide all vt-tab children, show selected
+            // Hide all vt-tab children
             const container = document.getElementById(controlType + 'ViewerContent');
             if (!container) return;
             const allTabs = container.querySelectorAll('.vt-tab');
             allTabs.forEach(t => t.style.display = 'none');
+            
             const target = document.getElementById(pfx + '-' + docType);
             if (target) {
-                // Embedded viewers need display:flex, others default block
+                // 1) Lazy-render BEFORE showing
+                if (!target.innerHTML.trim()) {
+                    const evPrefix = controlType.substring(0, 2) + docType.charAt(0).toUpperCase() + docType.substring(1);
+                    if (docType === 'prilohy') renderEmbeddedViewer(target.id, 'prilohy', evPrefix);
+                    else if (docType === 'eed') renderEmbeddedViewer(target.id, 'dokumentace', evPrefix);
+                    else if (docType === 'doklady') renderEmbeddedViewer(target.id, 'doklady', evPrefix);
+                }
+                
+                // 2) Show — ev-container as flex, others as block
                 target.style.display = target.classList.contains('ev-container') ? 'flex' : '';
-            }
 
-            // Lazy-render embedded viewers
-            if (target && !target.innerHTML.trim()) {
-                const evPrefix = controlType.substring(0, 2) + docType.charAt(0).toUpperCase() + docType.substring(1);
-                if (docType === 'prilohy') renderEmbeddedViewer(target.id, 'prilohy', evPrefix);
-                else if (docType === 'eed') renderEmbeddedViewer(target.id, 'dokumentace', evPrefix);
-                else if (docType === 'doklady') renderEmbeddedViewer(target.id, 'doklady', evPrefix);
-                // After render, set display:flex (now has ev-container class)
-                if (target.classList.contains('ev-container')) target.style.display = 'flex';
-            }
-
-            // Toggle ev-active on parent viewer-content
-            if (target) {
+                // 3) Toggle ev-active on viewer-content
                 if (target.classList.contains('ev-container')) {
                     container.classList.add('ev-active');
                 } else {
@@ -18834,29 +18831,13 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             
             const target = document.getElementById(targetId);
             if (target) {
-                // Embedded viewers are flex, others default
-                if (target.classList.contains('ev-container')) {
-                    target.style.display = 'flex';
-                } else {
-                    target.style.display = '';
-                }
-                // Toggle ev-active on viewer-content
-                var vc = document.getElementById('prislusnostViewerContent');
-                if (vc) {
-                    if (target.classList.contains('ev-container')) {
-                        vc.classList.add('ev-active');
-                    } else {
-                        vc.classList.remove('ev-active');
-                    }
-                }
-                // Inicializovat obsah pokud je prázdný
+                // 1) Lazy init — naplnit obsah PŘED zobrazením
                 if (tabName === 'zadost' && !target.innerHTML.trim()) {
                     target.innerHTML = generateZadostDataReadOnly();
                 }
                 if (tabName === 'formular' && !target.innerHTML.trim()) {
                     target.innerHTML = generateFormularPreview();
                 }
-                // Embedded viewers – lazy init
                 if (tabName === 'prilohy' && !target.innerHTML.trim()) {
                     renderEmbeddedViewer('prislusnostTabPrilohy', 'prilohy', 'prisPril');
                 }
@@ -18865,6 +18846,19 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 }
                 if (tabName === 'doklady' && !target.innerHTML.trim()) {
                     renderEmbeddedViewer('prislusnostTabDoklady', 'doklady', 'prisDokl');
+                }
+                
+                // 2) Zobrazit — ev-container jako flex, ostatní jako block
+                target.style.display = target.classList.contains('ev-container') ? 'flex' : '';
+                
+                // 3) Toggle ev-active na viewer-content (padding/overflow)
+                var vc = document.getElementById('prislusnostViewerContent');
+                if (vc) {
+                    if (target.classList.contains('ev-container')) {
+                        vc.classList.add('ev-active');
+                    } else {
+                        vc.classList.remove('ev-active');
+                    }
                 }
             }
         }
@@ -19200,9 +19194,8 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             else if (tabName === 'prilohy') tabId = 'zadostDataPrilohy';
             else if (tabName === 'doklady') tabId = 'zadostDataDoklady';
             else tabId = 'zadostDataZadost'; // fallback
-            document.getElementById(tabId).classList.add('active');
             
-            // Embedded viewers – lazy init
+            // Embedded viewers – lazy init BEFORE making visible
             var tabEl = document.getElementById(tabId);
             if (tabName === 'prilohy' && !tabEl.innerHTML.trim()) {
                 renderEmbeddedViewer('zadostDataPrilohy', 'prilohy', 'zadPril');
@@ -19210,6 +19203,10 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             if (tabName === 'doklady' && !tabEl.innerHTML.trim()) {
                 renderEmbeddedViewer('zadostDataDoklady', 'doklady', 'zadDokl');
             }
+            
+            // Aktivovat záložku (CSS .active řídí zobrazení)
+            tabEl.classList.add('active');
+            
             // Toggle ev-active on parent viewer-content
             var zadVc = tabEl.closest('.viewer-content');
             if (zadVc) {
