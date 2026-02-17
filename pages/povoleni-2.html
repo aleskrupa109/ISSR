@@ -16765,7 +16765,10 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const allTabs = container.querySelectorAll('.vt-tab');
             allTabs.forEach(t => t.style.display = 'none');
             const target = document.getElementById(pfx + '-' + docType);
-            if (target) target.style.display = '';
+            if (target) {
+                // Embedded viewers need display:flex, others default block
+                target.style.display = target.classList.contains('ev-container') ? 'flex' : '';
+            }
 
             // Lazy-render embedded viewers
             if (target && !target.innerHTML.trim()) {
@@ -16773,6 +16776,17 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 if (docType === 'prilohy') renderEmbeddedViewer(target.id, 'prilohy', evPrefix);
                 else if (docType === 'eed') renderEmbeddedViewer(target.id, 'dokumentace', evPrefix);
                 else if (docType === 'doklady') renderEmbeddedViewer(target.id, 'doklady', evPrefix);
+                // After render, set display:flex (now has ev-container class)
+                if (target.classList.contains('ev-container')) target.style.display = 'flex';
+            }
+
+            // Toggle ev-active on parent viewer-content
+            if (target) {
+                if (target.classList.contains('ev-container')) {
+                    container.classList.add('ev-active');
+                } else {
+                    container.classList.remove('ev-active');
+                }
             }
         }
 
@@ -18820,7 +18834,21 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             
             const target = document.getElementById(targetId);
             if (target) {
-                target.style.display = '';
+                // Embedded viewers are flex, others default
+                if (target.classList.contains('ev-container')) {
+                    target.style.display = 'flex';
+                } else {
+                    target.style.display = '';
+                }
+                // Toggle ev-active on viewer-content
+                var vc = document.getElementById('prislusnostViewerContent');
+                if (vc) {
+                    if (target.classList.contains('ev-container')) {
+                        vc.classList.add('ev-active');
+                    } else {
+                        vc.classList.remove('ev-active');
+                    }
+                }
                 // Inicializovat obsah pokud je prázdný
                 if (tabName === 'zadost' && !target.innerHTML.trim()) {
                     target.innerHTML = generateZadostDataReadOnly();
@@ -19181,6 +19209,15 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             }
             if (tabName === 'doklady' && !tabEl.innerHTML.trim()) {
                 renderEmbeddedViewer('zadostDataDoklady', 'doklady', 'zadDokl');
+            }
+            // Toggle ev-active on parent viewer-content
+            var zadVc = tabEl.closest('.viewer-content');
+            if (zadVc) {
+                if (tabEl.classList.contains('ev-container')) {
+                    zadVc.classList.add('ev-active');
+                } else {
+                    zadVc.classList.remove('ev-active');
+                }
             }
             
             // Přepnout pravý panel podle režimu
