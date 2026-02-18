@@ -156,7 +156,6 @@
 /* For CSS class-toggled system (zadost-data-tab uses .active for visibility) */
 .zadost-data-tab.ev-container { display: none; }
 .zadost-data-tab.active.ev-container { display: flex; height: 100%; }
-/* vt-tab inline-display managed — ev-container flex applies when visible */
 .ev-split {
     display: flex; height: 100%; width: 100%;
 }
@@ -180,8 +179,6 @@
     padding: 6px 12px; border-top: 1px solid #e0e0e0; background: #fff; flex-shrink: 0;
 }
 .ev-toolbar .dm-btn { padding: 4px 10px; font-size: 11px; }
-
-/* Viewer tab containers (kontroly panels) */
 `;
 
     // ── HTML GENERATORS ─────────────────────────────────────────────────
