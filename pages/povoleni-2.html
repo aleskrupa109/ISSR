@@ -12415,24 +12415,8 @@
                     </button>
                 </div>
                 <div class="viewer-content" id="prislusnostViewerContent">
-                    <!-- TAB: Žádost - strukturovaná data (read-only) -->
-                    <div class="reusable-zadost-data active" id="prislusnostTabZadost">
-                        <!-- Bude naplněno JavaScriptem -->
-                    </div>
-                    
-                    <!-- TAB: Formulář žádosti - PDF simulace -->
-                    <div class="reusable-formular-preview" id="prislusnostTabFormular" style="display: none;">
-                        <!-- Bude naplněno JavaScriptem -->
-                    </div>
-                    
-                    <!-- TAB: Přílohy -->
-                    <div id="prislusnostTabPrilohy" style="display: none; height: 100%;"></div>
-                    
-                    <!-- TAB: El. dokumentace -->
-                    <div id="prislusnostTabDokumentace" style="display: none; height: 100%;"></div>
-                    
-                    <!-- TAB: Dokladová část -->
-                    <div id="prislusnostTabDoklady" style="display: none; height: 100%;"></div>
+                    <!-- Obsah se přepíná JavaScriptem -->
+                    <div id="prislusnostViewerInner"></div>
                 </div>
             </div>
             <div class="control-form">
@@ -14745,20 +14729,12 @@
                         <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
-                <div class="viewer-content" id="identifikaceViewerContent" style="overflow:hidden">
-                    <div class="vt-tab active" id="idTab-dtm" style="height:100%">
-                        <div class="viewer-placeholder" style="height:100%">
+                <div class="viewer-content" id="identifikaceViewerContent">
+                    <div id="identifikaceViewerInner">
+                        <div class="viewer-placeholder">
                             <span class="material-icons-outlined">layers</span>
                             <div class="viewer-placeholder-title">Digitální technická mapa</div>
                             <div class="viewer-placeholder-text">Sítě technické infrastruktury v okolí stavby</div>
-                        </div>
-                    </div>
-                    <div class="vt-tab" id="idTab-doklady" style="display:none;height:100%"></div>
-                    <div class="vt-tab" id="idTab-zadost" style="display:none;height:100%">
-                        <div class="viewer-placeholder" style="height:100%">
-                            <span class="material-icons-outlined">description</span>
-                            <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
-                            <div class="viewer-placeholder-text">Formulář žádosti s údaji o stavebníkovi a záměru</div>
                         </div>
                     </div>
                 </div>
@@ -15678,17 +15654,14 @@
                         <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
-                <div class="viewer-content" id="zrychleneViewerContent" style="overflow:hidden">
-                    <div class="vt-tab active" id="zrTab-zadost" style="height:100%">
-                        <div class="viewer-placeholder" style="height:100%">
+                <div class="viewer-content" id="zrychleneViewerContent">
+                    <div id="zrychleneViewerInner">
+                        <div class="viewer-placeholder">
                             <span class="material-icons-outlined">description</span>
                             <div class="viewer-placeholder-title">Žádost o povolení stavby</div>
                             <div class="viewer-placeholder-text">Formulář žádosti s údaji o stavebníkovi a záměru</div>
                         </div>
                     </div>
-                    <div class="vt-tab" id="zrTab-prilohy" style="display:none;height:100%"></div>
-                    <div class="vt-tab" id="zrTab-eed" style="display:none;height:100%"></div>
-                    <div class="vt-tab" id="zrTab-doklady" style="display:none;height:100%"></div>
                 </div>
             </div>
             <div class="control-form">
@@ -16748,43 +16721,43 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         }
 
         // Viewer tab switching
+        // Placeholdery pro kontroly s jedním kontejnerem
+        const _viewerPlaceholders = {
+            zadost:  { icon: 'description', title: 'Žádost o povolení stavby', desc: 'Formulář žádosti s údaji o stavebníkovi a záměru' },
+            dtm:     { icon: 'layers', title: 'Digitální technická mapa', desc: 'Sítě technické infrastruktury v okolí stavby' },
+            kn:      { icon: 'terrain', title: 'Katastr nemovitostí', desc: 'Informace o vlastnících pozemků a sousedech' },
+            uplan:   { icon: 'map', title: 'Územní plán', desc: 'Platný územní plán obce s regulativy' },
+            mapa:    { icon: 'map', title: 'Mapa parcel', desc: 'Vizuální zobrazení pozemků záměru a sousedů' }
+        };
+        
         function switchViewerTab(button, controlType, docType) {
             // Update active tab button
             const tabs = button.parentElement.querySelectorAll('.viewer-tab');
             tabs.forEach(tab => tab.classList.remove('active'));
             button.classList.add('active');
 
-            // Prefix map: controlType → tab ID prefix
-            const prefixMap = { zrychlene: 'zrTab', identifikace: 'idTab' };
-            const pfx = prefixMap[controlType];
-            if (!pfx) return;
+            var vc = document.getElementById(controlType + 'ViewerContent');
+            var inner = document.getElementById(controlType + 'ViewerInner');
+            if (!vc || !inner) return;
 
-            // Hide all vt-tab children
-            const container = document.getElementById(controlType + 'ViewerContent');
-            if (!container) return;
-            const allTabs = container.querySelectorAll('.vt-tab');
-            allTabs.forEach(t => t.style.display = 'none');
-            
-            const target = document.getElementById(pfx + '-' + docType);
-            if (target) {
-                // 1) Lazy-render BEFORE showing
-                if (!target.innerHTML.trim()) {
-                    const evPrefix = controlType.substring(0, 2) + docType.charAt(0).toUpperCase() + docType.substring(1);
-                    if (docType === 'prilohy') renderEmbeddedViewer(target.id, 'prilohy', evPrefix);
-                    else if (docType === 'eed') renderEmbeddedViewer(target.id, 'dokumentace', evPrefix);
-                    else if (docType === 'doklady') renderEmbeddedViewer(target.id, 'doklady', evPrefix);
-                }
-                
-                // 2) Show — ev-container as flex, others as block
-                target.style.display = target.classList.contains('ev-container') ? 'flex' : '';
-
-                // 3) Toggle ev-active on viewer-content
-                if (target.classList.contains('ev-container')) {
-                    container.classList.add('ev-active');
-                } else {
-                    container.classList.remove('ev-active');
-                }
+            // Embedded viewer záložky
+            if (docType === 'prilohy' || docType === 'eed' || docType === 'doklady') {
+                vc.classList.add('ev-active');
+                inner.style.height = '100%';
+                inner.innerHTML = '';
+                var evType = docType === 'eed' ? 'dokumentace' : docType;
+                renderEmbeddedViewer(inner.id, evType, controlType + '_' + docType);
+                return;
             }
+            
+            // Statické záložky (placeholder)
+            vc.classList.remove('ev-active');
+            inner.style.height = '';
+            inner.className = '';
+            var cfg = _viewerPlaceholders[docType] || _viewerPlaceholders.zadost;
+            inner.innerHTML = '<div class="viewer-placeholder"><span class="material-icons-outlined">' + cfg.icon + '</span>' +
+                '<div class="viewer-placeholder-title">' + cfg.title + '</div>' +
+                '<div class="viewer-placeholder-text">' + cfg.desc + '</div></div>';
         }
 
         // Option selection with visual feedback
@@ -18779,87 +18752,79 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 tabsVlozena.forEach(tab => tab.style.display = isVlozena ? '' : 'none');
                 
                 // Obsah
-                const tabZadost = document.getElementById('prislusnostTabZadost');
-                const tabFormular = document.getElementById('prislusnostTabFormular');
+                const inner = document.getElementById('prislusnostViewerInner');
                 
                 if (isVlozena) {
                     // Vložená žádost - zobrazit formulář
-                    if (tabZadost) tabZadost.style.display = 'none';
-                    if (tabFormular) {
-                        tabFormular.style.display = '';
-                        tabFormular.innerHTML = generateFormularPreview();
+                    if (inner) {
+                        inner.className = 'reusable-formular-preview';
+                        inner.style.height = '';
+                        inner.innerHTML = generateFormularPreview();
+                        _prislusnostCache.formular = inner.innerHTML;
                     }
+                    document.getElementById('prislusnostViewerContent')?.classList.remove('ev-active');
                     // Aktivovat správnou záložku
                     document.querySelectorAll('#prislusnostViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
                     document.querySelector('.prislusnost-tab-vlozena')?.classList.add('active');
+                    _prislusnostCurrentTab = 'formular';
                 } else {
                     // Portál stavebníka - zobrazit strukturovaná data
-                    if (tabFormular) tabFormular.style.display = 'none';
-                    if (tabZadost) {
-                        tabZadost.style.display = '';
-                        tabZadost.innerHTML = generateZadostDataReadOnly();
+                    if (inner) {
+                        inner.className = 'reusable-zadost-data active';
+                        inner.style.height = '';
+                        inner.innerHTML = generateZadostDataReadOnly();
+                        _prislusnostCache.zadost = inner.innerHTML;
                     }
+                    document.getElementById('prislusnostViewerContent')?.classList.remove('ev-active');
                     // Aktivovat správnou záložku
                     document.querySelectorAll('#prislusnostViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
                     document.querySelector('.prislusnost-tab-portal')?.classList.add('active');
+                    _prislusnostCurrentTab = 'zadost';
                 }
             }
         }
         
         // Přepínání záložek v kontrole Příslušnost
+        // Cache pro obsah záložek příslušnosti (aby se nemusel pokaždé znovu generovat)
+        const _prislusnostCache = {};
+        let _prislusnostCurrentTab = 'zadost';
+        
         function switchPrislusnostViewerTab(btn, tabName) {
             // Deaktivovat všechny záložky
             document.querySelectorAll('#prislusnostViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
             btn.classList.add('active');
+            _prislusnostCurrentTab = tabName;
             
-            // Skrýt všechny obsahy
-            const tabs = ['prislusnostTabZadost', 'prislusnostTabFormular', 'prislusnostTabPrilohy', 'prislusnostTabDokumentace', 'prislusnostTabDoklady'];
-            tabs.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
-            });
+            var vc = document.getElementById('prislusnostViewerContent');
+            var inner = document.getElementById('prislusnostViewerInner');
             
-            // Zobrazit vybraný obsah
-            let targetId;
-            switch(tabName) {
-                case 'zadost': targetId = 'prislusnostTabZadost'; break;
-                case 'formular': targetId = 'prislusnostTabFormular'; break;
-                case 'prilohy': targetId = 'prislusnostTabPrilohy'; break;
-                case 'dokumentace': targetId = 'prislusnostTabDokumentace'; break;
-                case 'doklady': targetId = 'prislusnostTabDoklady'; break;
+            // Embedded viewer záložky
+            if (tabName === 'prilohy' || tabName === 'dokumentace' || tabName === 'doklady') {
+                vc.classList.add('ev-active');
+                inner.style.height = '100%';
+                inner.innerHTML = '';
+                var evType = tabName === 'dokumentace' ? 'dokumentace' : tabName;
+                renderEmbeddedViewer('prislusnostViewerInner', evType, 'pris_' + tabName);
+                return;
             }
             
-            const target = document.getElementById(targetId);
-            if (target) {
-                // 1) Lazy init — naplnit obsah PŘED zobrazením
-                if (tabName === 'zadost' && !target.innerHTML.trim()) {
-                    target.innerHTML = generateZadostDataReadOnly();
+            // Žádost / Formulář záložky
+            vc.classList.remove('ev-active');
+            inner.style.height = '';
+            inner.className = '';
+            
+            if (tabName === 'zadost') {
+                if (!_prislusnostCache.zadost) {
+                    _prislusnostCache.zadost = generateZadostDataReadOnly();
                 }
-                if (tabName === 'formular' && !target.innerHTML.trim()) {
-                    target.innerHTML = generateFormularPreview();
+                inner.className = 'reusable-zadost-data active';
+                inner.innerHTML = _prislusnostCache.zadost;
+            } else if (tabName === 'formular') {
+                if (!_prislusnostCache.formular) {
+                    _prislusnostCache.formular = generateFormularPreview();
                 }
-                if (tabName === 'prilohy' && !target.innerHTML.trim()) {
-                    renderEmbeddedViewer('prislusnostTabPrilohy', 'prilohy', 'prisPril');
-                }
-                if (tabName === 'dokumentace' && !target.innerHTML.trim()) {
-                    renderEmbeddedViewer('prislusnostTabDokumentace', 'dokumentace', 'prisDok');
-                }
-                if (tabName === 'doklady' && !target.innerHTML.trim()) {
-                    renderEmbeddedViewer('prislusnostTabDoklady', 'doklady', 'prisDokl');
-                }
-                
-                // 2) Zobrazit — ev-container jako flex, ostatní jako block
-                target.style.display = target.classList.contains('ev-container') ? 'flex' : '';
-                
-                // 3) Toggle ev-active na viewer-content (padding/overflow)
-                var vc = document.getElementById('prislusnostViewerContent');
-                if (vc) {
-                    if (target.classList.contains('ev-container')) {
-                        vc.classList.add('ev-active');
-                    } else {
-                        vc.classList.remove('ev-active');
-                    }
-                }
+                inner.className = 'reusable-formular-preview';
+                inner.innerHTML = _prislusnostCache.formular;
             }
         }
 
