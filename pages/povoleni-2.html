@@ -16166,6 +16166,9 @@
             zrychlene: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky', 'up', 'identifikace', 'ucastnici'], result: 'ok' }
         };
 
+        // Akce hlavního tlačítka: 'zahajit' | 'vyzva' | 'postoupit' | 'disabled'
+        let _btnAction = 'disabled';
+
         // Control overlay functions
         function openControl(controlId) {
             document.getElementById(controlId).classList.add('open');
@@ -16556,6 +16559,11 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         // Escape key closes overlays
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                // Výzva editor (highest priority)
+                if (document.getElementById('vyzvaEditorOverlay')) {
+                    closeVyzvaEditor();
+                    return;
+                }
                 document.querySelectorAll('.control-overlay.open').forEach(function(overlay) {
                     overlay.classList.remove('open');
                 });
@@ -21482,17 +21490,20 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 document.getElementById('summaryDesc').textContent = 'Řízení bude postoupeno příslušnému stavebnímu úřadu.';
                 document.getElementById('btnZahajit').disabled = false;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">send</span>Postoupit řízení';
+                _btnAction = 'postoupit';
             } else if (allDone && allOk) {
                 document.getElementById('summaryTitle').textContent = 'Všechny kontroly dokončeny';
                 document.getElementById('summaryDesc').textContent = 'Řízení je připraveno k zahájení. Lhůta začne běžet od 6. 1. 2026.';
                 document.getElementById('btnZahajit').disabled = false;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
+                _btnAction = 'zahajit';
             } else if (allDone && hasVady && !hasBlocking) {
                 // Všechny kontroly hotové, ale jsou vady - nabídnout Výzvu k doplnění
                 document.getElementById('summaryTitle').textContent = 'Zjištěny nedostatky v žádosti';
                 document.getElementById('summaryDesc').textContent = 'Kontroly dokončeny. Žádost vykazuje nedostatky, bude vydána výzva k doplnění.';
                 document.getElementById('btnZahajit').disabled = false;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">mail</span>Vydat výzvu k doplnění';
+                _btnAction = 'vyzva';
             } else if (hasVady) {
                 // Jsou vady, ale ne všechny kontroly hotové
                 const remaining = Object.values(controls).filter(c => !c.done).length;
@@ -21500,17 +21511,20 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 document.getElementById('summaryDesc').textContent = 'Zjištěny nedostatky. Zbývá ' + remaining + ' kontrol. Dokončete kontroly nebo vydejte výzvu.';
                 document.getElementById('btnZahajit').disabled = false;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">mail</span>Vydat výzvu k doplnění';
+                _btnAction = 'vyzva';
             } else if (hasBlocking) {
                 document.getElementById('summaryTitle').textContent = 'Řízení nelze pokračovat';
                 document.getElementById('summaryDesc').textContent = 'Některé kontroly blokují pokračování řízení.';
                 document.getElementById('btnZahajit').disabled = true;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">block</span>Řízení blokováno';
+                _btnAction = 'disabled';
             } else {
                 document.getElementById('summaryTitle').textContent = 'Dokončete všechny kontroly';
                 const remaining = Object.values(controls).filter(c => !c.done).length;
                 document.getElementById('summaryDesc').textContent = 'Zbývá ' + remaining + ' kontrol k dokončení.';
                 document.getElementById('btnZahajit').disabled = true;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
+                _btnAction = 'disabled';
             }
             
             // Aktualizovat stav kontroly Zrychlené řízení
@@ -23944,7 +23958,7 @@ ${reportContent}
         }
 
         function zahajitRizeni() {
-            if (controls.prislusnost.result === 'neprislusny') {
+            if (_btnAction === 'postoupit') {
                 const postoupit = controls.prislusnost.postoupit;
                 let msg = 'Řízení bude postoupeno příslušnému stavebnímu úřadu.\n\n';
                 
@@ -23967,9 +23981,206 @@ ${reportContent}
                 
                 msg += '\nV ostré verzi by následovalo flow pro postoupení řízení.';
                 alert(msg);
+            } else if (_btnAction === 'vyzva') {
+                openVyzvaEditor();
             } else {
                 // Přechod na krok 3: Projednání
                 window.location.href = 'povoleni-3.html';
+            }
+        }
+
+        // ==========================================
+        // EDITOR: Výzva k doplnění + Usnesení o přerušení
+        // ==========================================
+        function openVyzvaEditor() {
+            // Sesbírat nedostatky z globalIssues.vyzva
+            const issues = globalIssues.vyzva.filter(i => !i.resolved);
+            
+            // Kategorizovat nedostatky
+            const kategorieMap = {
+                'autorizace': 'Autorizace',
+                'dokladova_cast': 'Dokladová část',
+                'obsah_pd': 'Obsah projektové dokumentace',
+                'prurezovy': 'Průřezové nedostatky',
+                'formalni': 'Formální nedostatky'
+            };
+            
+            // Sestavit seznam nedostatků pro výzvu
+            let nedostatkyHtml = '';
+            if (issues.length === 0) {
+                nedostatkyHtml = '<div style="padding:16px;color:#9aa0a6;text-align:center;">Nebyly identifikovány žádné nedostatky pro výzvu.</div>';
+            } else {
+                // Seskupit podle kategorie
+                const grouped = {};
+                issues.forEach(i => {
+                    const kat = i.kategorie || 'ostatni';
+                    if (!grouped[kat]) grouped[kat] = [];
+                    grouped[kat].push(i);
+                });
+                
+                let poradoveCislo = 1;
+                Object.entries(grouped).forEach(([kat, items]) => {
+                    const katLabel = kategorieMap[kat] || 'Ostatní';
+                    nedostatkyHtml += `<div style="font-weight:600;font-size:12px;color:#004289;margin:12px 0 6px;padding:4px 0;border-bottom:1px solid #e0e0e0;">${katLabel}</div>`;
+                    items.forEach(item => {
+                        const text = (item.hlavniText || item.text || '').replace(/\n/g, '<br>');
+                        const src = item.controlName ? `<span style="color:#9aa0a6;font-size:11px;margin-left:8px;">(${item.controlName})</span>` : '';
+                        const legal = item.pravniPredpis ? `<div style="font-size:11px;color:#5f6368;margin-top:2px;">Právní předpis: ${item.pravniPredpis}</div>` : '';
+                        nedostatkyHtml += `
+                            <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f3f4;align-items:flex-start;">
+                                <span style="font-weight:600;color:#5f6368;min-width:24px;font-size:13px;">${poradoveCislo}.</span>
+                                <div style="flex:1;font-size:13px;">
+                                    <div>${text}${src}</div>
+                                    ${legal}
+                                </div>
+                                <button onclick="this.closest('div[style]').remove()" style="background:none;border:none;cursor:pointer;color:#9aa0a6;padding:2px;" title="Odebrat z výzvy">
+                                    <span class="material-icons-outlined" style="font-size:16px;">close</span>
+                                </button>
+                            </div>`;
+                        poradoveCislo++;
+                    });
+                });
+            }
+
+            // Dnes + 30 dní jako výchozí lhůta
+            const dnes = new Date();
+            const lhutaDatum = new Date(dnes.getTime() + 30 * 24 * 60 * 60 * 1000);
+            const lhutaStr = lhutaDatum.toISOString().split('T')[0];
+            const dnesStr = dnes.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric' });
+
+            // Vytvořit overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'vyzvaEditorOverlay';
+            overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;display:flex;align-items:center;justify-content:center;';
+            overlay.onclick = function(e) { if (e.target === overlay) closeVyzvaEditor(); };
+
+            overlay.innerHTML = `
+            <div style="background:#fff;border-radius:12px;width:90vw;max-width:960px;height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 48px rgba(0,0,0,0.2);" onclick="event.stopPropagation()">
+                <!-- Header -->
+                <div style="padding:16px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:12px;">
+                    <span class="material-icons-outlined" style="color:#e8710a;font-size:24px;">mail</span>
+                    <div style="flex:1;">
+                        <div style="font-size:16px;font-weight:600;color:#1a1a2e;">Výzva k doplnění žádosti</div>
+                        <div style="font-size:12px;color:#5f6368;">+ Usnesení o přerušení řízení • R/2026/000147</div>
+                    </div>
+                    <button onclick="closeVyzvaEditor()" style="background:none;border:none;cursor:pointer;padding:4px;">
+                        <span class="material-icons-outlined" style="color:#5f6368;">close</span>
+                    </button>
+                </div>
+
+                <!-- Body - dva sloupce -->
+                <div style="flex:1;display:flex;overflow:hidden;">
+                    <!-- Levý sloupec: nastavení -->
+                    <div style="width:340px;min-width:340px;border-right:1px solid #e0e0e0;overflow-y:auto;padding:20px;">
+                        <div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:12px;">Parametry výzvy</div>
+                        
+                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Spisová značka</label>
+                        <input type="text" value="R/2026/000147" readonly style="width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#f8f9fa;margin-bottom:12px;">
+
+                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Stavebník (adresát)</label>
+                        <input type="text" value="Správa železnic, s.o., Dlážděná 1003/7, 110 00 Praha 1" readonly style="width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#f8f9fa;margin-bottom:12px;">
+
+                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Zástupce stavebníka (adresát)</label>
+                        <input type="text" value="Signal Projekt s.r.o., Vídeňská 546/55, 639 00 Brno" readonly style="width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#f8f9fa;margin-bottom:12px;">
+
+                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Lhůta pro doplnění</label>
+                        <div style="display:flex;gap:8px;margin-bottom:12px;">
+                            <input type="number" value="30" min="7" max="90" style="width:70px;padding:8px;border:1px solid #dadce0;border-radius:6px;font-size:13px;text-align:center;" id="vyzvaLhutaDni" onchange="document.getElementById('vyzvaLhutaDatum').value=new Date(Date.now()+this.value*86400000).toISOString().split('T')[0]">
+                            <span style="padding:8px 0;font-size:13px;color:#5f6368;">dní →</span>
+                            <input type="date" value="${lhutaStr}" style="flex:1;padding:8px;border:1px solid #dadce0;border-radius:6px;font-size:13px;" id="vyzvaLhutaDatum">
+                        </div>
+
+                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Právní základ</label>
+                        <select style="width:100%;padding:8px;border:1px solid #dadce0;border-radius:6px;font-size:13px;margin-bottom:12px;">
+                            <option selected>§ 45 odst. 2 správního řádu</option>
+                            <option>§ 196 odst. 2 stavebního zákona</option>
+                        </select>
+
+                        <div style="margin-top:8px;padding:12px;background:#fef7e0;border-radius:8px;border-left:3px solid #e8710a;">
+                            <div style="font-size:12px;font-weight:600;color:#e8710a;margin-bottom:4px;">
+                                <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">info</span>
+                                Automaticky se vytvoří
+                            </div>
+                            <div style="font-size:12px;color:#5f6368;line-height:1.5;">
+                                1. <strong>Výzva k doplnění žádosti</strong> — odeslaná do DS stavebníka/zástupce<br>
+                                2. <strong>Usnesení o přerušení řízení</strong> — po dobu lhůty pro doplnění
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pravý sloupec: náhled dokumentu -->
+                    <div style="flex:1;overflow-y:auto;padding:20px;background:#f8f9fa;">
+                        <div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:12px;">Nedostatky ve výzvě (${issues.length})</div>
+                        <div style="background:#fff;border-radius:8px;border:1px solid #e0e0e0;padding:16px;">
+                            <!-- Hlavička dokumentu -->
+                            <div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e0e0e0;">
+                                <div style="font-size:11px;color:#5f6368;text-transform:uppercase;letter-spacing:1px;">Dopravní a energetický stavební úřad</div>
+                                <div style="font-size:15px;font-weight:700;color:#1a1a2e;margin-top:6px;">Výzva k doplnění žádosti</div>
+                                <div style="font-size:12px;color:#5f6368;margin-top:4px;">sp. zn. R/2026/000147 • ze dne ${dnesStr}</div>
+                            </div>
+
+                            <div style="font-size:13px;color:#3c4043;margin-bottom:12px;line-height:1.6;">
+                                Stavební úřad obdržel dne 6. 1. 2026 žádost stavebníka <strong>Správa železnic, s.o.</strong>, zastoupeného společností <strong>Signal Projekt s.r.o.</strong>, 
+                                o vydání povolení stavby <em>„Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí"</em>.
+                            </div>
+                            <div style="font-size:13px;color:#3c4043;margin-bottom:12px;line-height:1.6;">
+                                Stavební úřad přezkoumal podanou žádost a zjistil následující nedostatky, které brání pokračování v řízení:
+                            </div>
+
+                            <!-- Seznam nedostatků -->
+                            <div id="vyzvaIssuesList">
+                                ${nedostatkyHtml}
+                            </div>
+
+                            <div style="font-size:13px;color:#3c4043;margin-top:16px;line-height:1.6;padding-top:12px;border-top:1px solid #e0e0e0;">
+                                Stavební úřad Vás vyzývá, abyste ve lhůtě <strong id="vyzvaLhutaText">30 dnů</strong> ode dne doručení této výzvy 
+                                výše uvedené nedostatky odstranili. Současně stavební úřad řízení přerušuje.
+                            </div>
+                            <div style="font-size:12px;color:#5f6368;margin-top:8px;font-style:italic;">
+                                Nebudou-li nedostatky ve stanovené lhůtě odstraněny, stavební úřad žádost odloží podle § 45 odst. 2 správního řádu.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style="padding:12px 24px;border-top:1px solid #e0e0e0;display:flex;justify-content:flex-end;gap:8px;background:#f8f9fa;border-radius:0 0 12px 12px;">
+                    <button onclick="closeVyzvaEditor()" style="padding:8px 20px;border:1px solid #dadce0;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#3c4043;">
+                        Zrušit
+                    </button>
+                    <button onclick="exportVyzva('preview')" style="padding:8px 20px;border:1px solid #dadce0;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#004289;">
+                        <span class="material-icons-outlined" style="font-size:16px;vertical-align:-3px;">visibility</span>
+                        Náhled PDF
+                    </button>
+                    <button onclick="exportVyzva('send')" style="padding:8px 20px;border:none;border-radius:6px;background:#004289;font-size:13px;cursor:pointer;color:#fff;font-weight:500;">
+                        <span class="material-icons-outlined" style="font-size:16px;vertical-align:-3px;">send</span>
+                        Vydat a odeslat
+                    </button>
+                </div>
+            </div>`;
+
+            document.body.appendChild(overlay);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVyzvaEditor() {
+            const overlay = document.getElementById('vyzvaEditorOverlay');
+            if (overlay) overlay.remove();
+            document.body.style.overflow = '';
+        }
+
+        function exportVyzva(action) {
+            if (action === 'preview') {
+                alert('V ostré verzi se vygeneruje PDF náhled výzvy k doplnění a usnesení o přerušení řízení.');
+            } else {
+                const lhuta = document.getElementById('vyzvaLhutaDni')?.value || 30;
+                alert('Výzva k doplnění žádosti a Usnesení o přerušení řízení budou:\n\n' +
+                    '1. Vygenerovány jako PDF dokumenty\n' +
+                    '2. Odeslány do DS stavebníka (uccchjm) a zástupce (swz2av2)\n' +
+                    '3. Řízení bude přerušeno na ' + lhuta + ' dní\n' +
+                    '4. Stav řízení se změní na „Přerušeno — čeká na doplnění"\n\n' +
+                    'V ostré verzi by následovalo odeslání do datových schránek.');
+                closeVyzvaEditor();
             }
         }
 
