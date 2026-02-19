@@ -3174,7 +3174,87 @@
         }
         
         /* Strukturovaný formulář pro nedostatky */
-        .part-issues-add-structured {
+        /* ── Inline editor pro části PD (změna 3+4) ── */
+        .part-inline-editor {
+            background: #fff8f8;
+            border: 1px solid #f5c6c6;
+            border-top: 3px solid #c5221f;
+            border-radius: 0 0 8px 8px;
+            margin-top: -1px;
+            padding: 12px 14px 14px;
+            animation: pieSlideIn 0.15s ease-out;
+        }
+        @keyframes pieSlideIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .pie-header {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 10px; padding-bottom: 8px;
+            border-bottom: 1px solid #fce8e6;
+        }
+        .pie-form {
+            display: flex; flex-direction: column; gap: 7px;
+        }
+        .pie-ref-row {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .pie-editor-wrap {
+            position: relative;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            overflow: visible;
+            background: #fff;
+        }
+        .pie-toolbar {
+            display: flex; align-items: center; gap: 2px;
+            padding: 5px 8px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 6px 6px 0 0;
+        }
+        .pie-toolbar button {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 26px; height: 26px;
+            border: 1px solid transparent; border-radius: 4px;
+            background: none; cursor: pointer; font-size: 12px; color: #3c4043;
+            font-family: inherit; padding: 0;
+        }
+        .pie-toolbar button:hover { background: #e8eaed; border-color: #dadce0; }
+        .pie-toolbar button:active { background: #d2e3fc; }
+        .pie-tb-sep {
+            width: 1px; height: 18px; background: #e0e0e0; margin: 0 3px;
+        }
+        .pie-richtext {
+            min-height: 70px;
+            max-height: 300px;
+            padding: 8px 10px;
+            font-size: 12px; line-height: 1.6; color: #202124;
+            outline: none;
+            overflow-y: auto;
+            resize: vertical;
+        }
+        .pie-richtext:focus {
+            background: #fafffe;
+        }
+        .pie-richtext:empty:before {
+            content: attr(data-placeholder);
+            color: #9aa0a6; font-style: italic; pointer-events: none;
+        }
+        .pie-richtext ul, .pie-richtext ol {
+            margin-left: 18px; margin-top: 4px; margin-bottom: 4px;
+        }
+        .pie-richtext p { margin-bottom: 4px; }
+        .pie-resize-hint {
+            position: absolute; bottom: 2px; right: 2px;
+            cursor: ns-resize; opacity: 0.4; user-select: none;
+        }
+        .pie-actions {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 2px;
+        }
+
+                .part-issues-add-structured {
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -14441,12 +14521,58 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('A', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('A', 'error')" title="Chyba">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('A', 'error')" title="Nedostatky">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
                                 </div>
                             </div>
-                            
+                            <!-- Inline editor pro část A -->
+                            <div class="part-inline-editor" id="inlineEditorA" style="display:none;">
+                                <div class="pie-header">
+                                    <span class="part-letter" style="font-size:13px;">A</span>
+                                    <span style="font-size:12px;font-weight:600;color:#c5221f;">Nedostatky v části A. Průvodní zpráva</span>
+                                </div>
+                                <div class="part-issues-list" id="partIssuesListA"></div>
+                                <div class="pie-form">
+                                    <div class="pie-ref-row">
+                                        <input type="text" class="issue-ref-input" id="partIssueRefA" placeholder="Reference (např. A.1.2)" style="width:140px;">
+                                        <span style="font-size:11px;color:#9aa0a6;align-self:center;">Bod PD</span>
+                                    </div>
+                                    <div class="pie-editor-wrap">
+                                        <div class="pie-toolbar">
+                                            <button type="button" onclick="pieFmt('A','bold')" title="Tučné"><b>B</b></button>
+                                            <button type="button" onclick="pieFmt('A','italic')" title="Kurzíva"><i>I</i></button>
+                                            <button type="button" onclick="pieFmt('A','underline')" title="Podtržení"><u>U</u></button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('A','insertUnorderedList')" title="Odrážky">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_bulleted</span>
+                                            </button>
+                                            <button type="button" onclick="pieFmt('A','insertOrderedList')" title="Číslování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_numbered</span>
+                                            </button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('A','removeFormat')" title="Odstranit formátování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_clear</span>
+                                            </button>
+                                        </div>
+                                        <div id="partIssueTextA" class="pie-richtext" contenteditable="true"
+                                             data-placeholder="Popis nedostatku — co chybí nebo je nesprávné..."
+                                             onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))addPartIssue('A')"></div>
+                                        <div class="pie-resize-hint">
+                                            <span class="material-icons-outlined" style="font-size:13px;color:#dadce0;">open_in_full</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesA" placeholder="Příklady (např. soubor PS110121_1_001_TZ.pdf, ...)">
+                                    <div class="pie-actions">
+                                        <span style="font-size:11px;color:#9aa0a6;">Ctrl+Enter pro rychlé přidání</span>
+                                        <button class="btn-add-part-issue" onclick="addPartIssue('A')">
+                                            <span class="material-icons-outlined">playlist_add</span>
+                                            Zapsat do výzvy
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- B. Souhrnná technická zpráva -->
                             <div class="doc-part-item" data-part="B">
                                 <div class="doc-part-info">
@@ -14457,12 +14583,58 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('B', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')" title="Chyba">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')" title="Nedostatky">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
                                 </div>
                             </div>
-                            
+                            <!-- Inline editor pro část B -->
+                            <div class="part-inline-editor" id="inlineEditorB" style="display:none;">
+                                <div class="pie-header">
+                                    <span class="part-letter" style="font-size:13px;">B</span>
+                                    <span style="font-size:12px;font-weight:600;color:#c5221f;">Nedostatky v části B. Souhrnná technická zpráva</span>
+                                </div>
+                                <div class="part-issues-list" id="partIssuesListB"></div>
+                                <div class="pie-form">
+                                    <div class="pie-ref-row">
+                                        <input type="text" class="issue-ref-input" id="partIssueRefB" placeholder="Reference (např. B.2.1)" style="width:140px;">
+                                        <span style="font-size:11px;color:#9aa0a6;align-self:center;">Bod PD</span>
+                                    </div>
+                                    <div class="pie-editor-wrap">
+                                        <div class="pie-toolbar">
+                                            <button type="button" onclick="pieFmt('B','bold')" title="Tučné"><b>B</b></button>
+                                            <button type="button" onclick="pieFmt('B','italic')" title="Kurzíva"><i>I</i></button>
+                                            <button type="button" onclick="pieFmt('B','underline')" title="Podtržení"><u>U</u></button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('B','insertUnorderedList')" title="Odrážky">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_bulleted</span>
+                                            </button>
+                                            <button type="button" onclick="pieFmt('B','insertOrderedList')" title="Číslování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_numbered</span>
+                                            </button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('B','removeFormat')" title="Odstranit formátování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_clear</span>
+                                            </button>
+                                        </div>
+                                        <div id="partIssueTextB" class="pie-richtext" contenteditable="true"
+                                             data-placeholder="Popis nedostatku — co chybí nebo je nesprávné..."
+                                             onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))addPartIssue('B')"></div>
+                                        <div class="pie-resize-hint">
+                                            <span class="material-icons-outlined" style="font-size:13px;color:#dadce0;">open_in_full</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesB" placeholder="Příklady (např. konkrétní soubory, údaje...)">
+                                    <div class="pie-actions">
+                                        <span style="font-size:11px;color:#9aa0a6;">Ctrl+Enter pro rychlé přidání</span>
+                                        <button class="btn-add-part-issue" onclick="addPartIssue('B')">
+                                            <span class="material-icons-outlined">playlist_add</span>
+                                            Zapsat do výzvy
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- C. Situační výkresy -->
                             <div class="doc-part-item" data-part="C">
                                 <div class="doc-part-info">
@@ -14473,12 +14645,58 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('C', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('C', 'error')" title="Chyba">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('C', 'error')" title="Nedostatky">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
                                 </div>
                             </div>
-                            
+                            <!-- Inline editor pro část C -->
+                            <div class="part-inline-editor" id="inlineEditorC" style="display:none;">
+                                <div class="pie-header">
+                                    <span class="part-letter" style="font-size:13px;">C</span>
+                                    <span style="font-size:12px;font-weight:600;color:#c5221f;">Nedostatky v části C. Situační výkresy</span>
+                                </div>
+                                <div class="part-issues-list" id="partIssuesListC"></div>
+                                <div class="pie-form">
+                                    <div class="pie-ref-row">
+                                        <input type="text" class="issue-ref-input" id="partIssueRefC" placeholder="Reference (např. C.2)" style="width:140px;">
+                                        <span style="font-size:11px;color:#9aa0a6;align-self:center;">Bod PD</span>
+                                    </div>
+                                    <div class="pie-editor-wrap">
+                                        <div class="pie-toolbar">
+                                            <button type="button" onclick="pieFmt('C','bold')" title="Tučné"><b>B</b></button>
+                                            <button type="button" onclick="pieFmt('C','italic')" title="Kurzíva"><i>I</i></button>
+                                            <button type="button" onclick="pieFmt('C','underline')" title="Podtržení"><u>U</u></button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('C','insertUnorderedList')" title="Odrážky">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_bulleted</span>
+                                            </button>
+                                            <button type="button" onclick="pieFmt('C','insertOrderedList')" title="Číslování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_numbered</span>
+                                            </button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('C','removeFormat')" title="Odstranit formátování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_clear</span>
+                                            </button>
+                                        </div>
+                                        <div id="partIssueTextC" class="pie-richtext" contenteditable="true"
+                                             data-placeholder="Popis nedostatku — co chybí nebo je nesprávné..."
+                                             onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))addPartIssue('C')"></div>
+                                        <div class="pie-resize-hint">
+                                            <span class="material-icons-outlined" style="font-size:13px;color:#dadce0;">open_in_full</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesC" placeholder="Příklady (např. C.2-001, C.2-009, C.2-015...)">
+                                    <div class="pie-actions">
+                                        <span style="font-size:11px;color:#9aa0a6;">Ctrl+Enter pro rychlé přidání</span>
+                                        <button class="btn-add-part-issue" onclick="addPartIssue('C')">
+                                            <span class="material-icons-outlined">playlist_add</span>
+                                            Zapsat do výzvy
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- D. Dokumentace objektů -->
                             <div class="doc-part-item" data-part="D">
                                 <div class="doc-part-info">
@@ -14489,15 +14707,61 @@
                                     <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('D', 'ok')" title="V pořádku">
                                         <span class="material-icons-outlined">check</span>
                                     </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('D', 'error')" title="Chyba">
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('D', 'error')" title="Nedostatky">
                                         <span class="material-icons-outlined">close</span>
                                     </button>
+                                </div>
+                            </div>
+                            <!-- Inline editor pro část D -->
+                            <div class="part-inline-editor" id="inlineEditorD" style="display:none;">
+                                <div class="pie-header">
+                                    <span class="part-letter" style="font-size:13px;">D</span>
+                                    <span style="font-size:12px;font-weight:600;color:#c5221f;">Nedostatky v části D. Dokumentace objektů</span>
+                                </div>
+                                <div class="part-issues-list" id="partIssuesListD"></div>
+                                <div class="pie-form">
+                                    <div class="pie-ref-row">
+                                        <input type="text" class="issue-ref-input" id="partIssueRefD" placeholder="Reference (např. D.1.1)" style="width:140px;">
+                                        <span style="font-size:11px;color:#9aa0a6;align-self:center;">Bod PD</span>
+                                    </div>
+                                    <div class="pie-editor-wrap">
+                                        <div class="pie-toolbar">
+                                            <button type="button" onclick="pieFmt('D','bold')" title="Tučné"><b>B</b></button>
+                                            <button type="button" onclick="pieFmt('D','italic')" title="Kurzíva"><i>I</i></button>
+                                            <button type="button" onclick="pieFmt('D','underline')" title="Podtržení"><u>U</u></button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('D','insertUnorderedList')" title="Odrážky">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_bulleted</span>
+                                            </button>
+                                            <button type="button" onclick="pieFmt('D','insertOrderedList')" title="Číslování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_list_numbered</span>
+                                            </button>
+                                            <div class="pie-tb-sep"></div>
+                                            <button type="button" onclick="pieFmt('D','removeFormat')" title="Odstranit formátování">
+                                                <span class="material-icons-outlined" style="font-size:14px;">format_clear</span>
+                                            </button>
+                                        </div>
+                                        <div id="partIssueTextD" class="pie-richtext" contenteditable="true"
+                                             data-placeholder="Popis nedostatku — co chybí nebo je nesprávné..."
+                                             onkeydown="if(event.key==='Enter'&&(event.ctrlKey||event.metaKey))addPartIssue('D')"></div>
+                                        <div class="pie-resize-hint">
+                                            <span class="material-icons-outlined" style="font-size:13px;color:#dadce0;">open_in_full</span>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="issue-examples-input" id="partIssueExamplesD" placeholder="Příklady (např. PS120201_1_001_TZ, SO127102_1_001_TZ...)">
+                                    <div class="pie-actions">
+                                        <span style="font-size:11px;color:#9aa0a6;">Ctrl+Enter pro rychlé přidání</span>
+                                        <button class="btn-add-part-issue" onclick="addPartIssue('D')">
+                                            <span class="material-icons-outlined">playlist_add</span>
+                                            Zapsat do výzvy
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Zjištěné nedostatky dokumentace - strukturované podle částí -->
+                    <!-- Souhrnná sekce nedostatků (auto + průřezové + celkový přehled) -->
                     <div style="margin: 8px 0;">
                         <button id="btnToggleCross" onclick="toggleCrossSection()" style="
                             display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
@@ -14519,115 +14783,17 @@
                         <p style="font-size: 12px; color: #5f6368; margin-bottom: 16px;">
                             Seznam nedostatků se stane součástí dokumentu <strong>Výzva k doplnění a usnesení o přerušení řízení</strong>.
                         </p>
-                        
+
                         <!-- Automaticky zjištěné nedostatky -->
                         <div class="part-issues-section" id="autoIssuesSection" style="display: none;">
                             <div class="part-issues-header">
                                 <span class="material-icons-outlined" style="color: #1a73e8;">auto_awesome</span>
                                 Automaticky zjištěné nedostatky (validátor)
                             </div>
-                            <div class="part-issues-list" id="autoIssuesList">
-                                <!-- Automatické nedostatky -->
-                            </div>
+                            <div class="part-issues-list" id="autoIssuesList"></div>
                         </div>
-                        
-                        <!-- Sekce pro část A -->
-                        <div class="part-issues-section" id="partIssuesA" style="display: none;">
-                            <div class="part-issues-header">
-                                <span class="part-letter">A</span>
-                                Nedostatky v části A. Průvodní zpráva
-                            </div>
-                            <div class="part-issues-list" id="partIssuesListA"></div>
-                            <div class="part-issues-add-structured">
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-ref-input" id="partIssueRefA" placeholder="Reference (např. A.1.2)" style="width: 140px;">
-                                    <input type="text" class="issue-text-input" id="partIssueTextA" placeholder="Popis nedostatku...">
-                                </div>
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-examples-input" id="partIssueExamplesA" placeholder="Příklady (např. soubor PS110121_1_001_TZ.pdf, ...)">
-                                </div>
-                                <div class="issue-form-actions">
-                                    <button class="btn-add-part-issue" onclick="addPartIssue('A')">
-                                        <span class="material-icons-outlined">add</span>
-                                        Přidat nedostatek
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Sekce pro část B -->
-                        <div class="part-issues-section" id="partIssuesB" style="display: none;">
-                            <div class="part-issues-header">
-                                <span class="part-letter">B</span>
-                                Nedostatky v části B. Souhrnná technická zpráva
-                            </div>
-                            <div class="part-issues-list" id="partIssuesListB"></div>
-                            <div class="part-issues-add-structured">
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-ref-input" id="partIssueRefB" placeholder="Reference (např. B.2.1)" style="width: 140px;">
-                                    <input type="text" class="issue-text-input" id="partIssueTextB" placeholder="Popis nedostatku...">
-                                </div>
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-examples-input" id="partIssueExamplesB" placeholder="Příklady (např. konkrétní soubory, údaje...)">
-                                </div>
-                                <div class="issue-form-actions">
-                                    <button class="btn-add-part-issue" onclick="addPartIssue('B')">
-                                        <span class="material-icons-outlined">add</span>
-                                        Přidat nedostatek
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Sekce pro část C -->
-                        <div class="part-issues-section" id="partIssuesC" style="display: none;">
-                            <div class="part-issues-header">
-                                <span class="part-letter">C</span>
-                                Nedostatky v části C. Situační výkresy
-                            </div>
-                            <div class="part-issues-list" id="partIssuesListC"></div>
-                            <div class="part-issues-add-structured">
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-ref-input" id="partIssueRefC" placeholder="Reference (např. C.2)" style="width: 140px;">
-                                    <input type="text" class="issue-text-input" id="partIssueTextC" placeholder="Popis nedostatku...">
-                                </div>
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-examples-input" id="partIssueExamplesC" placeholder="Příklady (např. C.2-001, C.2-009, C.2-015...)">
-                                </div>
-                                <div class="issue-form-actions">
-                                    <button class="btn-add-part-issue" onclick="addPartIssue('C')">
-                                        <span class="material-icons-outlined">add</span>
-                                        Přidat nedostatek
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Sekce pro část D -->
-                        <div class="part-issues-section" id="partIssuesD" style="display: none;">
-                            <div class="part-issues-header">
-                                <span class="part-letter">D</span>
-                                Nedostatky v části D. Dokumentace objektů
-                            </div>
-                            <div class="part-issues-list" id="partIssuesListD"></div>
-                            <div class="part-issues-add-structured">
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-ref-input" id="partIssueRefD" placeholder="Reference (např. D.1.1)" style="width: 140px;">
-                                    <input type="text" class="issue-text-input" id="partIssueTextD" placeholder="Popis nedostatku...">
-                                </div>
-                                <div class="issue-form-row">
-                                    <input type="text" class="issue-examples-input" id="partIssueExamplesD" placeholder="Příklady (např. PS120201_1_001_TZ, SO127102_1_001_TZ...)">
-                                </div>
-                                <div class="issue-form-actions">
-                                    <button class="btn-add-part-issue" onclick="addPartIssue('D')">
-                                        <span class="material-icons-outlined">add</span>
-                                        Přidat nedostatek
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Průřezové nedostatky (přes více částí) -->
+
+                        <!-- Průřezové nedostatky -->
                         <div class="part-issues-section" id="partIssuesCross" style="display: none;">
                             <div class="part-issues-header">
                                 <span class="material-icons-outlined" style="color: #7b1fa2; font-size: 18px;">link</span>
@@ -14642,20 +14808,20 @@
                                         <option value="B,C,D">B + C + D</option>
                                         <option value="C,D">C + D</option>
                                     </select>
-                                    <input type="text" class="issue-text-input" id="partIssueTextCross" placeholder="Popis průřezového nedostatku (např. nesoulad PS 12-02-61 mezi částmi PD)...">
+                                    <input type="text" class="issue-text-input" id="partIssueTextCross" placeholder="Popis průřezového nedostatku...">
                                 </div>
                                 <div class="issue-form-row">
                                     <input type="text" class="issue-examples-input" id="partIssueExamplesCross" placeholder="Příklady (např. v části A neuvedeno, v části B uvedeno, výkresy C.2-006 přítomny...)">
                                 </div>
                                 <div class="issue-form-actions">
                                     <button class="btn-add-part-issue" onclick="addCrossCuttingIssue()">
-                                        <span class="material-icons-outlined">add</span>
-                                        Přidat průřezový nedostatek
+                                        <span class="material-icons-outlined">playlist_add</span>
+                                        Zapsat do výzvy
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Prázdný stav -->
                         <div class="issues-empty" id="issuesEmpty">
                             <span class="material-icons-outlined" style="font-size: 32px; color: #9aa0a6; margin-bottom: 8px;">check_circle</span>
@@ -20288,13 +20454,9 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             item.classList.remove('status-ok', 'status-warning', 'status-error', 'status-unchecked');
             item.classList.add('status-' + status);
             
-            // Update buttons - odstranit active a unchecked ze všech
             const buttons = item.querySelectorAll('.doc-part-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('active', 'unchecked');
-            });
+            buttons.forEach(btn => btn.classList.remove('active', 'unchecked'));
             
-            // Nastavit správný stav tlačítku
             const targetBtn = item.querySelector('.doc-part-btn.' + status) || item.querySelector('.doc-part-btn.ok');
             if (status === 'ok') {
                 targetBtn.classList.add('active');
@@ -20304,46 +20466,53 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 targetBtn.classList.add('active');
             }
             
-            // Zobrazení/skrytí sekce pro nedostatky dané části
-            const partSection = document.getElementById('partIssues' + part);
+            // Inline editor – zobrazit/skrýt přímo pod danou částí
+            const inlineEditor = document.getElementById('inlineEditor' + part);
             
             if (status === 'error') {
-                if (partSection) {
-                    partSection.style.display = 'block';
-                    // Focus na textarea
+                if (inlineEditor) {
+                    inlineEditor.style.display = 'block';
                     setTimeout(() => {
-                        const textarea = document.getElementById('partIssueText' + part);
-                        if (textarea) textarea.focus();
-                    }, 100);
+                        const richtext = document.getElementById('partIssueText' + part);
+                        if (richtext) {
+                            richtext.focus();
+                            // Scroll inline editor into view smoothly
+                            inlineEditor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    }, 120);
                 }
             } else {
-                if (partSection) {
-                    partSection.style.display = 'none';
+                if (inlineEditor) {
+                    inlineEditor.style.display = 'none';
                 }
-                // Odeber všechny nedostatky pro tuto část
+                // Odebrat nedostatky pro tuto část pokud se přepne zpět na OK
                 docCheckState.issues = docCheckState.issues.filter(i => i.part !== part);
                 const listEl = document.getElementById('partIssuesList' + part);
                 if (listEl) listEl.innerHTML = '';
-                const textEl = document.getElementById('partIssueText' + part);
-                if (textEl) textEl.value = '';
+                const richtext = document.getElementById('partIssueText' + part);
+                if (richtext) richtext.innerHTML = '';
+                const refEl = document.getElementById('partIssueRef' + part);
+                if (refEl) refEl.value = '';
             }
             
             updateIssuesVisibility();
             updateDokumentaceResult();
         }
         
-        // Přidání nedostatku k části dokumentace (strukturovaný formulář)
+        // Přidání nedostatku k části dokumentace (rich-text inline editor)
         function addPartIssue(part) {
-            const textInput = document.getElementById('partIssueText' + part);
+            const textEl = document.getElementById('partIssueText' + part);
             const refInput = document.getElementById('partIssueRef' + part);
             const examplesInput = document.getElementById('partIssueExamples' + part);
             
-            const text = textInput ? textInput.value.trim() : '';
+            // Číst z contenteditable — textContent pro čistý text, innerHTML pro rich-text
+            const rawHtml = textEl ? textEl.innerHTML.trim() : '';
+            const text = textEl ? textEl.innerText.trim() : '';
             const ref = refInput ? refInput.value.trim() : '';
             const examples = examplesInput ? examplesInput.value.trim() : '';
             
             if (!text) {
-                if (textInput) textInput.focus();
+                if (textEl) textEl.focus();
                 return;
             }
             
@@ -20389,10 +20558,9 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             renderPartIssues(part);
             
             // Vyčistit
-            if (textInput) textInput.value = '';
+            if (textEl) { textEl.innerHTML = ''; textEl.focus(); }
             if (refInput) refInput.value = '';
             if (examplesInput) examplesInput.value = '';
-            if (textInput) textInput.focus();
             
             updateIssuesVisibility();
             updateDokumentaceResult();
@@ -20509,7 +20677,10 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const totalIssues = docCheckState.issues.length;
             const autoIssues = docCheckState.issues.filter(i => i.source === 'auto');
             const crossIssues = docCheckState.issues.filter(i => i.part === 'CROSS');
-            const hasPartSections = ['A', 'B', 'C', 'D'].some(p => docCheckState.partStatus[p] === 'error');
+            const hasPartSections = ['A', 'B', 'C', 'D'].some(p => {
+                const ie = document.getElementById('inlineEditor' + p);
+                return ie && ie.style.display !== 'none';
+            });
             
             countEl.textContent = totalIssues;
             
@@ -20611,30 +20782,27 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     { icon: 'check', cls: 'success', label: 'Formát PDF/A', detail: '247/247 souborů ve správném formátu' },
                     { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Neplatný', 
                       detail: '~12 souborů: chybí podpis nebo EAR na soupisech příloh (přílohy částí A–D)',
-                      issueText: 'Uvedl PD do souladu s § 13 písm. b) zák. č. 360/1992 Sb. — soupisy příloh jednotlivých částí PD neobsahují platný elektronický podpis ani elektronické autorizační razítko (EAR)',
+                      issueText: 'Soupisy příloh jednotlivých částí PD neobsahují platný elektronický podpis ani elektronické autorizační razítko (EAR)',
                       kategorie: 'autorizace' },
                     { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Technicky nevyhovující',
                       detail: '~30 souborů: uzamčené podpisy v sérii PS120211–PS140251 (PDF locked — nelze ověřit platnost)',
-                      issueText: 'Uvedl PD do souladu s § 13 písm. b) zák. č. 360/1992 Sb. — v provozních souborech PS 12-02-11 až PS 14-02-51 jsou elektronické podpisy technicky nevyhovující (PDF locked, nelze ověřit platnost)',
+                      issueText: 'V provozních souborech PS 12-02-11 až PS 14-02-51 jsou elektronické podpisy technicky nevyhovující (PDF locked, nelze ověřit platnost)',
                       kategorie: 'autorizace' },
                     { icon: 'warning', cls: 'warning', label: 'Časová razítka',
                       detail: '1 soubor bez časového razítka (A.1_Průvodní zpráva_soupis.pdf)',
-                      issueText: 'Uvedl PD do souladu s § 13 písm. b) zák. č. 360/1992 Sb. — soubor A.1_Průvodní zpráva_soupis.pdf nemá připojené kvalifikované elektronické časové razítko',
+                      issueText: 'Soubor A.1_Průvodní zpráva_soupis.pdf nemá připojené kvalifikované elektronické časové razítko',
                       kategorie: 'autorizace' },
                     { icon: 'check', cls: 'success', label: 'Autorizační razítka (EAR)', detail: 'Projektant má platnou autorizaci ČKAIT č. 0123456, obor dopravní stavby' }
                 ];
                 
                 results.classList.add('visible');
                 results.innerHTML = validatorResults.map((r, idx) => {
-                    const addBtn = r.issueText ? `
-                        <button class="validator-add-btn" id="validatorAddBtn${idx}" onclick="addValidatorIssue(${idx})" title="Přidat do výzvy" style="
-                            margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
-                            border: 1px solid #c5221f; border-radius: 4px; background: #fff; color: #c5221f;
-                            font-size: 11px; cursor: pointer; white-space: nowrap; flex-shrink: 0;
-                        ">
-                            <span class="material-icons-outlined" style="font-size: 14px;">add_circle</span>
-                            Do výzvy
-                        </button>
+                    const badge = r.issueText ? `
+                        <span style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;padding:3px 8px;
+                            border-radius:4px;background:#e6f4ea;color:#137333;font-size:11px;white-space:nowrap;flex-shrink:0;">
+                            <span class="material-icons-outlined" style="font-size:13px;">check_circle</span>
+                            Přidáno do výzvy
+                        </span>
                     ` : '';
                     return `
                         <div class="check-result-item">
@@ -20645,14 +20813,17 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                                 <div class="check-result-label">${r.label}</div>
                                 <div class="check-result-detail">${r.detail}</div>
                             </div>
-                            ${addBtn}
+                            ${badge}
                         </div>
                     `;
                 }).join('');
                 
-                // Uložit výsledky pro pozdější reference
+                // Uložit výsledky a automaticky přidat chyby do výzvy
                 docCheckState.validatorResults = validatorResults;
                 docCheckState.autoCheckDone = true;
+                validatorResults.forEach((r, idx) => {
+                    if (r.issueText) addValidatorIssue(idx);
+                });
                 updateDokumentaceResult();
             }, 2000);
         }
@@ -24691,7 +24862,14 @@ ${reportContent}
             showVyzvaToast('AI asistent — připravujeme');
         }
 
-        function showVyzvaToast(text) {
+        function pieFmt(part, cmd) {
+            const el = document.getElementById('partIssueText' + part);
+            if (!el) return;
+            el.focus();
+            document.execCommand(cmd, false, null);
+        }
+
+                function showVyzvaToast(text) {
             // Jednoduchý toast bez závislosti na externím kódu
             let t = document.getElementById('vyzvaToast');
             if (!t) {
