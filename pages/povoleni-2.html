@@ -23993,180 +23993,584 @@ ${reportContent}
         // EDITOR: Výzva k doplnění + Usnesení o přerušení
         // ==========================================
         function openVyzvaEditor() {
-            // Sesbírat nedostatky z globalIssues.vyzva
+            if (document.getElementById('vyzvaEditorOverlay')) return;
+
+            // === DATOVÝ MODEL DOKUMENTU (JSON) ===
             const issues = globalIssues.vyzva.filter(i => !i.resolved);
-            
-            // Kategorizovat nedostatky
+            const dnes = new Date();
+            const lhutaDate = new Date(dnes.getTime() + 30 * 24 * 60 * 60 * 1000);
+            const lhutaStr = lhutaDate.toISOString().split('T')[0];
+            const dnesFormatted = dnes.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            // Kategorizace
             const kategorieMap = {
-                'autorizace': 'Autorizace',
+                'autorizace': 'Autorizace a ověření PD',
                 'dokladova_cast': 'Dokladová část',
                 'obsah_pd': 'Obsah projektové dokumentace',
                 'prurezovy': 'Průřezové nedostatky',
                 'formalni': 'Formální nedostatky'
             };
-            
-            // Sestavit seznam nedostatků pro výzvu
-            let nedostatkyHtml = '';
-            if (issues.length === 0) {
-                nedostatkyHtml = '<div style="padding:16px;color:#9aa0a6;text-align:center;">Nebyly identifikovány žádné nedostatky pro výzvu.</div>';
-            } else {
-                // Seskupit podle kategorie
-                const grouped = {};
-                issues.forEach(i => {
-                    const kat = i.kategorie || 'ostatni';
-                    if (!grouped[kat]) grouped[kat] = [];
-                    grouped[kat].push(i);
-                });
-                
-                let poradoveCislo = 1;
-                Object.entries(grouped).forEach(([kat, items]) => {
-                    const katLabel = kategorieMap[kat] || 'Ostatní';
-                    nedostatkyHtml += `<div style="font-weight:600;font-size:12px;color:#004289;margin:12px 0 6px;padding:4px 0;border-bottom:1px solid #e0e0e0;">${katLabel}</div>`;
-                    items.forEach(item => {
-                        const text = (item.hlavniText || item.text || '').replace(/\n/g, '<br>');
-                        const src = item.controlName ? `<span style="color:#9aa0a6;font-size:11px;margin-left:8px;">(${item.controlName})</span>` : '';
-                        const legal = item.pravniPredpis ? `<div style="font-size:11px;color:#5f6368;margin-top:2px;">Právní předpis: ${item.pravniPredpis}</div>` : '';
-                        nedostatkyHtml += `
-                            <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #f1f3f4;align-items:flex-start;">
-                                <span style="font-weight:600;color:#5f6368;min-width:24px;font-size:13px;">${poradoveCislo}.</span>
-                                <div style="flex:1;font-size:13px;">
-                                    <div>${text}${src}</div>
-                                    ${legal}
-                                </div>
-                                <button onclick="this.closest('div[style]').remove()" style="background:none;border:none;cursor:pointer;color:#9aa0a6;padding:2px;" title="Odebrat z výzvy">
-                                    <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                </button>
-                            </div>`;
-                        poradoveCislo++;
-                    });
-                });
+            const grouped = {};
+            issues.forEach(i => {
+                const k = i.kategorie || 'ostatni';
+                if (!grouped[k]) grouped[k] = [];
+                grouped[k].push(i);
+            });
+
+            // === BLOKY ŠABLONY ===
+            // Každý blok má: id, type (auto|semi|edit), source, label, obsah
+            const templateBlocks = [
+                {
+                    id: 'b-header',
+                    type: 'auto',
+                    source: 'workflow',
+                    label: 'Identifikační záhlaví',
+                    icon: 'account_balance',
+                    locked: true
+                },
+                {
+                    id: 'b-adresat',
+                    type: 'auto',
+                    source: 'workflow / registr účastníků',
+                    label: 'Adresát a záměr',
+                    icon: 'person',
+                    locked: true
+                },
+                {
+                    id: 'b-uvod',
+                    type: 'auto',
+                    source: 'workflow',
+                    label: 'Úvodní věta výzvy',
+                    icon: 'article',
+                    locked: true
+                },
+                {
+                    id: 'b-nedostatky',
+                    type: 'semi',
+                    source: 'moduly kontrol',
+                    label: 'Seznam nedostatků',
+                    icon: 'checklist',
+                    locked: false
+                },
+                {
+                    id: 'b-oduvodneni',
+                    type: 'edit',
+                    source: 'refstat (volný text)',
+                    label: 'Odůvodnění',
+                    icon: 'edit_note',
+                    locked: false,
+                    aiHelper: true
+                },
+                {
+                    id: 'b-vyzva-text',
+                    type: 'auto',
+                    source: 'šablona + lhůta',
+                    label: 'Text výzvy a lhůta',
+                    icon: 'timer',
+                    locked: true
+                },
+                {
+                    id: 'b-usneseni',
+                    type: 'auto',
+                    source: 'šablona + záměr',
+                    label: 'Usnesení o přerušení',
+                    icon: 'gavel',
+                    locked: true
+                },
+                {
+                    id: 'b-pouceni',
+                    type: 'auto',
+                    source: 'šablona',
+                    label: 'Poučení',
+                    icon: 'info',
+                    locked: true
+                }
+            ];
+
+            // === GENERÁTOR OBSAHU BLOKŮ ===
+            function renderBlockContent(block) {
+                if (block.id === 'b-header') {
+                    return `<div class="doc-block-inner auto-block">
+                        <div class="block-field-row">
+                            <span class="field-label">Č.j.:</span>
+                            <span class="field-value">DESU/122/000147/26</span>
+                        </div>
+                        <div class="block-field-row">
+                            <span class="field-label">Spis. zn.:</span>
+                            <span class="field-value">SZ DESU/R/2026/000147</span>
+                        </div>
+                        <div class="block-field-row">
+                            <span class="field-label">Datum:</span>
+                            <span class="field-value">${dnesFormatted}</span>
+                        </div>
+                        <div class="block-field-row">
+                            <span class="field-label">Vyřizuje:</span>
+                            <span class="field-value">Ing. Tomáš Novák · tomas.novak@desu.gov.cz</span>
+                        </div>
+                    </div>`;
+                }
+                if (block.id === 'b-adresat') {
+                    return `<div class="doc-block-inner auto-block">
+                        <div style="font-size:13px;color:#3c4043;line-height:1.7;">
+                            <strong>Správa železnic, státní organizace</strong><br>
+                            Dlážděná 1003/7, 110 00 Praha 1-Nové Město<br>
+                            <span style="color:#9aa0a6;font-size:12px;">v zastoupení: Signal Projekt s.r.o., Vídeňská 546/55, 639 00 Brno · IDDS: signal01</span>
+                        </div>
+                    </div>`;
+                }
+                if (block.id === 'b-uvod') {
+                    return `<div class="doc-block-inner auto-block">
+                        <p style="font-size:13px;color:#3c4043;line-height:1.7;">
+                            DESÚ jako stavební úřad příslušný dle § 33 odst. 2 zákona č. 283/2021 Sb. obdržel
+                            dne 6. 1. 2026 žádost stavebníka <strong>Správa železnic, státní organizace</strong>,
+                            zastoupeného společností <strong>Signal Projekt s.r.o.</strong>, o vydání povolení záměru:
+                            <em style="color:#004289;">„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</em>.
+                            Po přezkoumání žádosti stavební úřad zjistil následující nedostatky:
+                        </p>
+                    </div>`;
+                }
+                if (block.id === 'b-nedostatky') {
+                    let html = '<div class="doc-block-inner semi-block">';
+                    if (issues.length === 0) {
+                        html += `<div class="empty-issues">
+                            <span class="material-icons-outlined" style="font-size:28px;color:#9aa0a6;display:block;margin-bottom:6px;">check_circle_outline</span>
+                            Žádné nedostatky z kontrol. Přidejte ručně nebo dokončete kontroly.
+                        </div>`;
+                    } else {
+                        let num = 1;
+                        Object.entries(grouped).forEach(([kat, items]) => {
+                            const label = kategorieMap[kat] || 'Ostatní';
+                            html += `<div class="issue-category-label">${label}</div>`;
+                            items.forEach(item => {
+                                const text = (item.hlavniText || item.text || '').replace(/\n/g, '<br>');
+                                const src = item.controlName ? `<span class="issue-source">${item.controlName}</span>` : '';
+                                const legal = item.pravniPredpis ? `<div class="issue-legal">${item.pravniPredpis}</div>` : '';
+                                html += `<div class="issue-row" id="irow-${item.id}">
+                                    <span class="issue-num">${num}.</span>
+                                    <div class="issue-body">
+                                        <div>${text}${src}</div>
+                                        ${legal}
+                                    </div>
+                                    <button class="issue-remove-btn" onclick="removeIssueRow('${item.id}')" title="Odebrat z výzvy">
+                                        <span class="material-icons-outlined" style="font-size:15px;">close</span>
+                                    </button>
+                                </div>`;
+                                num++;
+                            });
+                        });
+                    }
+                    html += `<button class="add-issue-btn" onclick="addManualIssue()">
+                        <span class="material-icons-outlined" style="font-size:15px;vertical-align:-2px;">add</span>
+                        Přidat nedostatek ručně
+                    </button>`;
+                    html += '</div>';
+                    return html;
+                }
+                if (block.id === 'b-oduvodneni') {
+                    return `<div class="doc-block-inner edit-block">
+                        <div class="edit-toolbar">
+                            <button onclick="fmtDoc('bold')" title="Tučné"><b>B</b></button>
+                            <button onclick="fmtDoc('italic')" title="Kurzíva"><i>I</i></button>
+                            <button onclick="fmtDoc('underline')" title="Podtrž"><u>U</u></button>
+                            <div class="toolbar-sep"></div>
+                            <button onclick="fmtDoc('insertUnorderedList')" title="Odrážky">≡</button>
+                            <button onclick="fmtDoc('insertOrderedList')" title="Číslov.">1.</button>
+                        </div>
+                        <div id="oduvodneniEditor" class="rich-editor" contenteditable="true"
+                             data-placeholder="Doplňte odůvodnění výzvy — důvody pro vydání, odkaz na kontrolní zjištění, právní základ..."
+                             spellcheck="true">
+                        </div>
+                        <div class="ai-hint-bar">
+                            <span class="material-icons-outlined" style="font-size:15px;color:#7c4dff;vertical-align:-3px;">auto_awesome</span>
+                            <span style="font-size:12px;color:#7c4dff;font-weight:500;">AI asistent</span>
+                            <span style="font-size:12px;color:#9aa0a6;margin:0 6px;">·</span>
+                            <span style="font-size:12px;color:#5f6368;">Navrhnout odůvodnění na základě zjištěných nedostatků</span>
+                            <button onclick="aiSuggestOduvodneni()" class="ai-suggest-btn">Navrhnout</button>
+                        </div>
+                    </div>`;
+                }
+                if (block.id === 'b-vyzva-text') {
+                    return `<div class="doc-block-inner auto-block">
+                        <p style="font-size:13px;color:#3c4043;line-height:1.7;">
+                            DESÚ Vás vyzývá, abyste ve lhůtě
+                            <strong style="color:#c0392b;" id="lhutaInlineText">30 dnů</strong>
+                            ode dne doručení této výzvy výše uvedené nedostatky odstranili nebo doplnili. Pokud nedostatky neodstraníte,
+                            stavební úřad žádost odloží dle § 45 odst. 2 správního řádu.
+                        </p>
+                    </div>`;
+                }
+                if (block.id === 'b-usneseni') {
+                    return `<div class="doc-block-inner auto-block">
+                        <div style="font-size:12px;font-weight:700;color:#1565c0;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Usnesení</div>
+                        <p style="font-size:13px;color:#3c4043;line-height:1.7;">
+                            DESÚ dle § 185 odst. 2 stavebního zákona <strong>přerušuje řízení</strong> o záměru
+                            <em>„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</em>
+                            do doby doplnění žádosti, nejdéle na dobu
+                            <strong style="color:#c0392b;" id="lhutaUsneseniText">30 dnů</strong> od doručení výzvy.
+                        </p>
+                        <p style="font-size:12px;color:#5f6368;margin-top:8px;font-style:italic;">
+                            Účastníci řízení: Správa železnic, státní organizace, Dlážděná 1003/7, 110 00 Praha 1-Nové Město
+                        </p>
+                    </div>`;
+                }
+                if (block.id === 'b-pouceni') {
+                    return `<div class="doc-block-inner auto-block">
+                        <p style="font-size:12px;color:#5f6368;line-height:1.6;font-style:italic;">
+                            Proti tomuto usnesení se nelze odvolat (§ 185 odst. 2 stavebního zákona).
+                        </p>
+                    </div>`;
+                }
+                return '<div class="doc-block-inner auto-block"><em style="color:#9aa0a6;">Obsah bloku</em></div>';
             }
 
-            // Dnes + 30 dní jako výchozí lhůta
-            const dnes = new Date();
-            const lhutaDatum = new Date(dnes.getTime() + 30 * 24 * 60 * 60 * 1000);
-            const lhutaStr = lhutaDatum.toISOString().split('T')[0];
-            const dnesStr = dnes.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric' });
+            // === LEGENDA TYPŮ BLOKŮ ===
+            const typeConfig = {
+                auto: { label: 'Automatický', color: '#1565c0', bg: '#e8f4fd', icon: 'lock', desc: 'Data ze workflow, nelze editovat' },
+                semi: { label: 'Poloautomatický', color: '#e65100', bg: '#fff3e0', icon: 'tune', desc: 'Předvyplněno z kontrol, lze upravit' },
+                edit: { label: 'Editovatelný', color: '#1b5e20', bg: '#e8f5e9', icon: 'edit', desc: 'Volný text, rich-text editor + AI' }
+            };
 
-            // Vytvořit overlay
+            // === SESTAVIT HTML LEVÉHO SIDEBARU (struktura šablony) ===
+            let sidebarHtml = '';
+            templateBlocks.forEach((b, idx) => {
+                const tc = typeConfig[b.type];
+                sidebarHtml += `
+                <div class="block-nav-item" id="nav-${b.id}" onclick="scrollToBlock('${b.id}')">
+                    <span class="material-icons-outlined" style="font-size:16px;color:${tc.color};">${b.icon}</span>
+                    <div class="block-nav-info">
+                        <div class="block-nav-label">${b.label}</div>
+                        <div class="block-nav-source">${b.source}</div>
+                    </div>
+                    <span class="block-type-badge" style="background:${tc.bg};color:${tc.color};">${tc.label}</span>
+                </div>`;
+            });
+
+            // === SESTAVIT HTML EDITORU DOKUMENTU ===
+            let editorHtml = '';
+            templateBlocks.forEach(b => {
+                const tc = typeConfig[b.type];
+                const content = renderBlockContent(b);
+                const lockBadge = b.locked
+                    ? `<span class="material-icons-outlined block-lock-icon" title="Automaticky generováno ze systému">lock</span>`
+                    : (b.type === 'edit' ? `<span class="material-icons-outlined block-lock-icon" style="color:#2e7d32;" title="Editovatelný blok">edit</span>` : `<span class="material-icons-outlined block-lock-icon" style="color:#e65100;" title="Poloautomatický — upravitelný">tune</span>`);
+
+                editorHtml += `
+                <div class="doc-block" id="block-${b.id}" data-type="${b.type}">
+                    <div class="doc-block-header">
+                        <div class="doc-block-title-row">
+                            <span class="material-icons-outlined" style="font-size:16px;color:${tc.color};">${b.icon}</span>
+                            <span class="doc-block-title">${b.label}</span>
+                            <span class="block-source-tag">${b.source}</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span class="block-type-pill" style="background:${tc.bg};color:${tc.color};">
+                                <span class="material-icons-outlined" style="font-size:12px;vertical-align:-2px;">${tc.icon}</span>
+                                ${tc.label}
+                            </span>
+                            ${lockBadge}
+                        </div>
+                    </div>
+                    <div class="doc-block-content">
+                        ${content}
+                    </div>
+                </div>`;
+            });
+
+            // === SESTAVIT OVERLAY ===
             const overlay = document.createElement('div');
             overlay.id = 'vyzvaEditorOverlay';
-            overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10000;display:flex;align-items:center;justify-content:center;';
+            overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:10000;display:flex;align-items:stretch;justify-content:center;padding:24px;';
             overlay.onclick = function(e) { if (e.target === overlay) closeVyzvaEditor(); };
 
             overlay.innerHTML = `
-            <div style="background:#fff;border-radius:12px;width:90vw;max-width:960px;height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 48px rgba(0,0,0,0.2);" onclick="event.stopPropagation()">
-                <!-- Header -->
-                <div style="padding:16px 24px;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;gap:12px;">
-                    <span class="material-icons-outlined" style="color:#e8710a;font-size:24px;">mail</span>
+            <div style="background:#fff;border-radius:12px;width:100%;max-width:1200px;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.25);overflow:hidden;" onclick="event.stopPropagation()">
+
+                <!-- === TOP BAR === -->
+                <div style="background:#1a1a2e;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+                    <span class="material-icons-outlined" style="color:#e8710a;font-size:20px;">mail</span>
                     <div style="flex:1;">
-                        <div style="font-size:16px;font-weight:600;color:#1a1a2e;">Výzva k doplnění žádosti</div>
-                        <div style="font-size:12px;color:#5f6368;">+ Usnesení o přerušení řízení • R/2026/000147</div>
+                        <div style="font-size:14px;font-weight:600;color:#fff;">Editor dokumentu — Výzva k doplnění žádosti</div>
+                        <div style="font-size:11px;color:#9aa0a6;margin-top:1px;">sp. zn. R/2026/000147 · Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</div>
                     </div>
-                    <button onclick="closeVyzvaEditor()" style="background:none;border:none;cursor:pointer;padding:4px;">
-                        <span class="material-icons-outlined" style="color:#5f6368;">close</span>
+                    <!-- Lhůta (editovatelná) -->
+                    <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border-radius:8px;padding:6px 12px;">
+                        <span class="material-icons-outlined" style="font-size:16px;color:#f9ab00;">timer</span>
+                        <span style="font-size:12px;color:#9aa0a6;">Lhůta:</span>
+                        <input type="number" value="30" min="7" max="90" id="vyzvaLhutaDni"
+                            style="width:44px;padding:3px 5px;border:1px solid rgba(255,255,255,0.2);border-radius:4px;font-size:13px;font-weight:600;background:transparent;color:#fff;text-align:center;"
+                            onchange="updateLhutaInEditor(this.value)">
+                        <span style="font-size:12px;color:#9aa0a6;">dní</span>
+                        <input type="date" value="${lhutaStr}" id="vyzvaLhutaDatum"
+                            style="padding:3px 6px;border:1px solid rgba(255,255,255,0.2);border-radius:4px;font-size:12px;background:transparent;color:#ccc;">
+                    </div>
+                    <button onclick="closeVyzvaEditor()" style="background:rgba(255,255,255,0.08);border:none;cursor:pointer;padding:6px;border-radius:6px;color:#9aa0a6;">
+                        <span class="material-icons-outlined">close</span>
                     </button>
                 </div>
 
-                <!-- Body - dva sloupce -->
+                <!-- === MAIN AREA === -->
                 <div style="flex:1;display:flex;overflow:hidden;">
-                    <!-- Levý sloupec: nastavení -->
-                    <div style="width:340px;min-width:340px;border-right:1px solid #e0e0e0;overflow-y:auto;padding:20px;">
-                        <div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:12px;">Parametry výzvy</div>
-                        
-                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Spisová značka</label>
-                        <input type="text" value="R/2026/000147" readonly style="width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#f8f9fa;margin-bottom:12px;">
 
-                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Stavebník (adresát)</label>
-                        <input type="text" value="Správa železnic, s.o., Dlážděná 1003/7, 110 00 Praha 1" readonly style="width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#f8f9fa;margin-bottom:12px;">
-
-                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Zástupce stavebníka (adresát)</label>
-                        <input type="text" value="Signal Projekt s.r.o., Vídeňská 546/55, 639 00 Brno" readonly style="width:100%;padding:8px;border:1px solid #e0e0e0;border-radius:6px;font-size:13px;background:#f8f9fa;margin-bottom:12px;">
-
-                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Lhůta pro doplnění</label>
-                        <div style="display:flex;gap:8px;margin-bottom:12px;">
-                            <input type="number" value="30" min="7" max="90" style="width:70px;padding:8px;border:1px solid #dadce0;border-radius:6px;font-size:13px;text-align:center;" id="vyzvaLhutaDni" onchange="document.getElementById('vyzvaLhutaDatum').value=new Date(Date.now()+this.value*86400000).toISOString().split('T')[0]">
-                            <span style="padding:8px 0;font-size:13px;color:#5f6368;">dní →</span>
-                            <input type="date" value="${lhutaStr}" style="flex:1;padding:8px;border:1px solid #dadce0;border-radius:6px;font-size:13px;" id="vyzvaLhutaDatum">
+                    <!-- LEFT: Struktura šablony -->
+                    <div style="width:260px;min-width:260px;border-right:1px solid #e0e0e0;overflow-y:auto;background:#fafafa;display:flex;flex-direction:column;">
+                        <!-- Legenda -->
+                        <div style="padding:12px 14px;border-bottom:1px solid #e0e0e0;">
+                            <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Struktura šablony</div>
+                            <div style="display:flex;flex-direction:column;gap:4px;">
+                                <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#1565c0;">
+                                    <span style="width:8px;height:8px;border-radius:2px;background:#e8f4fd;border:1px solid #90caf9;display:inline-block;"></span>
+                                    Automatický — ze systému
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#e65100;">
+                                    <span style="width:8px;height:8px;border-radius:2px;background:#fff3e0;border:1px solid #ffcc80;display:inline-block;"></span>
+                                    Poloautomatický — z kontrol
+                                </div>
+                                <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#1b5e20;">
+                                    <span style="width:8px;height:8px;border-radius:2px;background:#e8f5e9;border:1px solid #a5d6a7;display:inline-block;"></span>
+                                    Editovatelný — rich-text + AI
+                                </div>
+                            </div>
                         </div>
-
-                        <label style="display:block;font-size:12px;color:#5f6368;margin-bottom:4px;">Právní základ</label>
-                        <select style="width:100%;padding:8px;border:1px solid #dadce0;border-radius:6px;font-size:13px;margin-bottom:12px;">
-                            <option selected>§ 45 odst. 2 správního řádu</option>
-                            <option>§ 196 odst. 2 stavebního zákona</option>
-                        </select>
-
-                        <div style="margin-top:8px;padding:12px;background:#fef7e0;border-radius:8px;border-left:3px solid #e8710a;">
-                            <div style="font-size:12px;font-weight:600;color:#e8710a;margin-bottom:4px;">
-                                <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">info</span>
-                                Automaticky se vytvoří
-                            </div>
-                            <div style="font-size:12px;color:#5f6368;line-height:1.5;">
-                                1. <strong>Výzva k doplnění žádosti</strong> — odeslaná do DS stavebníka/zástupce<br>
-                                2. <strong>Usnesení o přerušení řízení</strong> — po dobu lhůty pro doplnění
-                            </div>
+                        <!-- Bloky -->
+                        <div style="flex:1;padding:8px 0;">
+                            ${sidebarHtml}
+                        </div>
+                        <!-- Statistika -->
+                        <div style="padding:10px 14px;border-top:1px solid #e0e0e0;font-size:11px;color:#9aa0a6;">
+                            <div style="margin-bottom:3px;">Nedostatků: <strong style="color:#3c4043;">${issues.length}</strong></div>
+                            <div>Šablona: <strong style="color:#3c4043;">VYZ-001 v2.4</strong></div>
                         </div>
                     </div>
 
-                    <!-- Pravý sloupec: náhled dokumentu -->
-                    <div style="flex:1;overflow-y:auto;padding:20px;background:#f8f9fa;">
-                        <div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:12px;">Nedostatky ve výzvě (${issues.length})</div>
-                        <div style="background:#fff;border-radius:8px;border:1px solid #e0e0e0;padding:16px;">
-                            <!-- Hlavička dokumentu -->
-                            <div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e0e0e0;">
-                                <div style="font-size:11px;color:#5f6368;text-transform:uppercase;letter-spacing:1px;">Dopravní a energetický stavební úřad</div>
-                                <div style="font-size:15px;font-weight:700;color:#1a1a2e;margin-top:6px;">Výzva k doplnění žádosti</div>
-                                <div style="font-size:12px;color:#5f6368;margin-top:4px;">sp. zn. R/2026/000147 • ze dne ${dnesStr}</div>
-                            </div>
+                    <!-- RIGHT: Editor dokumentu -->
+                    <div style="flex:1;overflow-y:auto;background:#f0f2f5;padding:24px 28px;" id="vyzvaEditorCanvas">
 
-                            <div style="font-size:13px;color:#3c4043;margin-bottom:12px;line-height:1.6;">
-                                Stavební úřad obdržel dne 6. 1. 2026 žádost stavebníka <strong>Správa železnic, s.o.</strong>, zastoupeného společností <strong>Signal Projekt s.r.o.</strong>, 
-                                o vydání povolení stavby <em>„Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí"</em>.
+                        <!-- Hlavička dokumentu (jen dekorativní v editoru) -->
+                        <div style="background:#004289;color:#fff;padding:12px 18px;border-radius:8px 8px 0 0;margin-bottom:0;display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;">DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD</div>
+                                <div style="font-size:10px;opacity:0.75;margin-top:2px;">Odbor staveb drah · ÚP Praha</div>
                             </div>
-                            <div style="font-size:13px;color:#3c4043;margin-bottom:12px;line-height:1.6;">
-                                Stavební úřad přezkoumal podanou žádost a zjistil následující nedostatky, které brání pokračování v řízení:
-                            </div>
-
-                            <!-- Seznam nedostatků -->
-                            <div id="vyzvaIssuesList">
-                                ${nedostatkyHtml}
-                            </div>
-
-                            <div style="font-size:13px;color:#3c4043;margin-top:16px;line-height:1.6;padding-top:12px;border-top:1px solid #e0e0e0;">
-                                Stavební úřad Vás vyzývá, abyste ve lhůtě <strong id="vyzvaLhutaText">30 dnů</strong> ode dne doručení této výzvy 
-                                výše uvedené nedostatky odstranili. Současně stavební úřad řízení přerušuje.
-                            </div>
-                            <div style="font-size:12px;color:#5f6368;margin-top:8px;font-style:italic;">
-                                Nebudou-li nedostatky ve stanovené lhůtě odstraněny, stavební úřad žádost odloží podle § 45 odst. 2 správního řádu.
+                            <div style="font-size:11px;opacity:0.8;text-align:right;">
+                                <div>Č.j.: DESU/122/000147/26</div>
+                                <div>Spis. zn.: SZ DESU/R/2026/000147</div>
                             </div>
                         </div>
+
+                        <!-- Bloky dokumentu -->
+                        <div style="background:#fff;border-radius:0 0 8px 8px;border:1px solid #e0e0e0;border-top:none;margin-bottom:24px;overflow:hidden;">
+                            ${editorHtml}
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- Footer -->
-                <div style="padding:12px 24px;border-top:1px solid #e0e0e0;display:flex;justify-content:flex-end;gap:8px;background:#f8f9fa;border-radius:0 0 12px 12px;">
-                    <button onclick="closeVyzvaEditor()" style="padding:8px 20px;border:1px solid #dadce0;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#3c4043;">
-                        Zrušit
-                    </button>
-                    <button onclick="exportVyzva('preview')" style="padding:8px 20px;border:1px solid #dadce0;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#004289;">
-                        <span class="material-icons-outlined" style="font-size:16px;vertical-align:-3px;">visibility</span>
-                        Náhled PDF
-                    </button>
-                    <button onclick="exportVyzva('send')" style="padding:8px 20px;border:none;border-radius:6px;background:#004289;font-size:13px;cursor:pointer;color:#fff;font-weight:500;">
-                        <span class="material-icons-outlined" style="font-size:16px;vertical-align:-3px;">send</span>
-                        Vydat a odeslat
-                    </button>
+                <!-- === FOOTER === -->
+                <div style="padding:12px 20px;border-top:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;background:#fafafa;flex-shrink:0;">
+                    <div style="font-size:12px;color:#9aa0a6;display:flex;align-items:center;gap:8px;">
+                        <span class="material-icons-outlined" style="font-size:15px;">info_outline</span>
+                        Dokument bude uložen jako JSON · Výstup do PDF generován při odeslání
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button onclick="closeVyzvaEditor()" style="padding:8px 18px;border:1px solid #dadce0;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#3c4043;">Zrušit</button>
+                        <button onclick="exportVyzva('preview')" style="padding:8px 18px;border:1px solid #004289;border-radius:6px;background:#fff;font-size:13px;cursor:pointer;color:#004289;display:flex;align-items:center;gap:5px;">
+                            <span class="material-icons-outlined" style="font-size:16px;">visibility</span>Náhled PDF
+                        </button>
+                        <button onclick="exportVyzva('send')" style="padding:8px 20px;border:none;border-radius:6px;background:#004289;font-size:13px;cursor:pointer;color:#fff;font-weight:500;display:flex;align-items:center;gap:5px;">
+                            <span class="material-icons-outlined" style="font-size:16px;">send</span>Vydat a odeslat do DS
+                        </button>
+                    </div>
                 </div>
-            </div>`;
+            </div>
+
+            <!-- INLINE STYLY EDITORU -->
+            <style>
+                /* Navigace bloků */
+                .block-nav-item {
+                    display:flex;align-items:flex-start;gap:8px;padding:8px 14px;cursor:pointer;
+                    border-bottom:1px solid #f0f0f0;transition:background 0.15s;
+                }
+                .block-nav-item:hover { background:#f0f4fa; }
+                .block-nav-item.active { background:#e8f0fe; border-left:3px solid #004289; }
+                .block-nav-info { flex:1;min-width:0; }
+                .block-nav-label { font-size:12px;font-weight:500;color:#3c4043;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+                .block-nav-source { font-size:10.5px;color:#9aa0a6;margin-top:1px; }
+                .block-type-badge { font-size:10px;padding:1px 5px;border-radius:4px;white-space:nowrap;margin-top:2px;flex-shrink:0; }
+
+                /* Bloky editoru */
+                .doc-block {
+                    border-bottom:1px solid #e8eaf0;
+                }
+                .doc-block:last-child { border-bottom:none; }
+                .doc-block-header {
+                    display:flex;align-items:center;justify-content:space-between;
+                    padding:8px 16px;background:#f8f9fa;border-bottom:1px solid #e0e0e0;
+                }
+                .doc-block-title-row { display:flex;align-items:center;gap:6px; }
+                .doc-block-title { font-size:12px;font-weight:600;color:#3c4043; }
+                .block-source-tag { font-size:10.5px;color:#9aa0a6;background:#f0f0f0;padding:1px 6px;border-radius:3px; }
+                .block-type-pill { display:flex;align-items:center;gap:3px;font-size:11px;padding:2px 7px;border-radius:4px; }
+                .block-lock-icon { font-size:14px;color:#9aa0a6; }
+                .doc-block-content { padding:0; }
+
+                /* Typy bloků */
+                .auto-block { padding:12px 16px;background:#f8fbff;font-size:13px; }
+                .semi-block { padding:12px 16px;background:#fffdf8; }
+                .edit-block { background:#fff; }
+
+                /* Pole auto-bloku */
+                .block-field-row { display:flex;gap:6px;font-size:13px;margin-bottom:5px; }
+                .field-label { font-weight:500;color:#5f6368;min-width:70px; }
+                .field-value { color:#3c4043; }
+
+                /* Nedostatky */
+                .issue-category-label {
+                    font-size:11px;font-weight:600;color:#004289;text-transform:uppercase;
+                    letter-spacing:0.4px;padding:6px 0 4px;margin-top:6px;
+                    border-bottom:1px solid #e8f0fe;margin-bottom:6px;
+                }
+                .issue-row {
+                    display:flex;align-items:flex-start;gap:8px;padding:5px 0;
+                    border-bottom:1px solid #f1f3f4;
+                }
+                .issue-num { font-weight:600;color:#9aa0a6;min-width:22px;font-size:13px; }
+                .issue-body { flex:1;font-size:13px;line-height:1.55;color:#3c4043; }
+                .issue-source { font-size:10.5px;color:#9aa0a6;margin-left:6px;background:#f1f3f4;padding:1px 5px;border-radius:3px; }
+                .issue-legal { font-size:11px;color:#5f6368;font-style:italic;margin-top:2px; }
+                .issue-remove-btn { background:none;border:none;cursor:pointer;color:#dadce0;padding:2px;flex-shrink:0; }
+                .issue-remove-btn:hover { color:#d32f2f; }
+                .add-issue-btn {
+                    margin-top:10px;padding:5px 12px;background:#f8f9fa;border:1px dashed #dadce0;
+                    border-radius:6px;font-size:12px;color:#5f6368;cursor:pointer;
+                }
+                .add-issue-btn:hover { background:#f0f4fa;color:#004289; }
+                .empty-issues { text-align:center;padding:16px;color:#9aa0a6;font-size:12px; }
+
+                /* Rich-text editor */
+                .edit-toolbar {
+                    padding:6px 12px;background:#f8f9fa;border-bottom:1px solid #e0e0e0;
+                    display:flex;align-items:center;gap:2px;
+                }
+                .edit-toolbar button {
+                    padding:3px 7px;border:1px solid #dadce0;border-radius:4px;
+                    background:#fff;cursor:pointer;font-size:12px;color:#3c4043;
+                }
+                .edit-toolbar button:hover { background:#f0f4fa; }
+                .toolbar-sep { width:1px;height:18px;background:#e0e0e0;margin:0 4px; }
+                .rich-editor {
+                    min-height:80px;padding:12px 16px;font-size:13px;line-height:1.7;
+                    color:#3c4043;outline:none;
+                }
+                .rich-editor:empty:before {
+                    content:attr(data-placeholder);color:#bdc1c6;font-style:italic;
+                }
+                .rich-editor:focus { background:#fafffe; }
+
+                /* AI helper */
+                .ai-hint-bar {
+                    padding:7px 14px;background:#f3e8ff;border-top:1px solid #e9d5ff;
+                    display:flex;align-items:center;gap:6px;
+                }
+                .ai-suggest-btn {
+                    margin-left:auto;padding:4px 12px;border:1px solid #7c4dff;
+                    border-radius:4px;background:#fff;color:#7c4dff;font-size:12px;
+                    cursor:pointer;font-weight:500;
+                }
+                .ai-suggest-btn:hover { background:#f3e8ff; }
+            </style>`;
 
             document.body.appendChild(overlay);
             document.body.style.overflow = 'hidden';
+
+            // Zvýraznit první blok v navigaci
+            setTimeout(() => {
+                const first = overlay.querySelector('.block-nav-item');
+                if (first) first.classList.add('active');
+            }, 50);
         }
 
         function closeVyzvaEditor() {
             const overlay = document.getElementById('vyzvaEditorOverlay');
             if (overlay) overlay.remove();
             document.body.style.overflow = '';
+        }
+
+        // Helper funkce pro editor výzvy
+        function updateLhutaInEditor(days) {
+            const el1 = document.getElementById('lhutaInlineText');
+            const el2 = document.getElementById('lhutaUsneseniText');
+            const txt = days + ' dní';
+            if (el1) el1.textContent = txt;
+            if (el2) el2.textContent = txt;
+            const datInput = document.getElementById('vyzvaLhutaDatum');
+            if (datInput) {
+                datInput.value = new Date(Date.now() + days * 86400000).toISOString().split('T')[0];
+            }
+        }
+
+        function scrollToBlock(blockId) {
+            const el = document.getElementById('block-' + blockId);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Aktivní stav v navigaci
+            document.querySelectorAll('.block-nav-item').forEach(n => n.classList.remove('active'));
+            const nav = document.getElementById('nav-' + blockId);
+            if (nav) nav.classList.add('active');
+        }
+
+        function removeIssueRow(issueId) {
+            const row = document.getElementById('irow-' + issueId);
+            if (row) row.remove();
+            // Přenumerovat
+            let num = 1;
+            document.querySelectorAll('.issue-row').forEach(r => {
+                const numEl = r.querySelector('.issue-num');
+                if (numEl) numEl.textContent = num++ + '.';
+            });
+        }
+
+        function addManualIssue() {
+            const text = prompt('Zadejte text nedostatku:');
+            if (!text || !text.trim()) return;
+            const newId = 'manual-' + Date.now();
+            const list = document.querySelector('.semi-block');
+            if (!list) return;
+            const addBtn = list.querySelector('.add-issue-btn');
+            const count = list.querySelectorAll('.issue-row').length;
+            const row = document.createElement('div');
+            row.className = 'issue-row';
+            row.id = 'irow-' + newId;
+            row.innerHTML = `
+                <span class="issue-num">${count + 1}.</span>
+                <div class="issue-body">
+                    <div>${text.trim()} <span class="issue-source">ručně přidáno</span></div>
+                </div>
+                <button class="issue-remove-btn" onclick="removeIssueRow('${newId}')" title="Odebrat z výzvy">
+                    <span class="material-icons-outlined" style="font-size:15px;">close</span>
+                </button>`;
+            list.insertBefore(row, addBtn);
+        }
+
+        function fmtDoc(cmd) {
+            document.execCommand(cmd, false, null);
+            document.getElementById('oduvodneniEditor')?.focus();
+        }
+
+        function aiSuggestOduvodneni() {
+            const editor = document.getElementById('oduvodneniEditor');
+            if (!editor) return;
+            // Simulace AI návrhu — v ostré verzi API call
+            const issues = globalIssues.vyzva.filter(i => !i.resolved);
+            const issueCount = issues.length;
+            const suggested = `Stavební úřad přezkoumal předloženou žádost a zjistil, že obsahuje ${issueCount} nedostatek${issueCount > 4 ? 'ů' : issueCount > 1 ? 'y' : ''}, který${issueCount > 1 ? 'é' : ''} brání pokračování v řízení. Konkrétní nedostatky jsou specifikovány výše. Stavební úřad proto vydává tuto výzvu k jejich odstranění ve stanovené lhůtě, a to v souladu s § 45 odst. 2 správního řádu.`;
+            editor.innerHTML = `<p>${suggested}</p>`;
+            // Vizuální feedback
+            const btn = document.querySelector('.ai-suggest-btn');
+            if (btn) {
+                btn.textContent = '✓ Navrženo';
+                btn.style.background = '#e8f5e9';
+                btn.style.color = '#1b5e20';
+                setTimeout(() => { btn.textContent = 'Navrhnout'; btn.style.background = ''; btn.style.color = ''; }, 2000);
+            }
         }
 
         function exportVyzva(action) {
