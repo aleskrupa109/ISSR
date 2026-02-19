@@ -24170,17 +24170,249 @@ ${reportContent}
         }
 
         function exportVyzva(action) {
-            if (action === 'preview') {
-                alert('V ostré verzi se vygeneruje PDF náhled výzvy k doplnění a usnesení o přerušení řízení.');
-            } else {
-                const lhuta = document.getElementById('vyzvaLhutaDni')?.value || 30;
-                alert('Výzva k doplnění žádosti a Usnesení o přerušení řízení budou:\n\n' +
-                    '1. Vygenerovány jako PDF dokumenty\n' +
-                    '2. Odeslány do DS stavebníka (uccchjm) a zástupce (swz2av2)\n' +
-                    '3. Řízení bude přerušeno na ' + lhuta + ' dní\n' +
-                    '4. Stav řízení se změní na „Přerušeno — čeká na doplnění"\n\n' +
-                    'V ostré verzi by následovalo odeslání do datových schránek.');
-                closeVyzvaEditor();
+            // Sesbírat aktuální data z editoru
+            const lhutaDni = document.getElementById('vyzvaLhutaDni')?.value || 30;
+            const lhutaDatum = document.getElementById('vyzvaLhutaDatum')?.value || '';
+            const issues = globalIssues.vyzva.filter(i => !i.resolved);
+
+            // Formátovat datum lhůty
+            let lhutaFormatted = lhutaDatum;
+            if (lhutaDatum) {
+                const d = new Date(lhutaDatum);
+                lhutaFormatted = d.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'numeric', year: 'numeric' });
+            }
+
+            // Datum dnes
+            const dnes = new Date();
+            const dnesFormatted = dnes.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            // Kategorizovat nedostatky
+            const kategorieMap = {
+                'autorizace': 'Autorizace a elektronické ověření projektové dokumentace',
+                'dokladova_cast': 'Dokladová část — vyjádření a závazná stanoviska dotčených orgánů',
+                'obsah_pd': 'Obsah projektové dokumentace',
+                'prurezovy': 'Průřezové nedostatky',
+                'formalni': 'Formální nedostatky'
+            };
+
+            // Seskupit nedostatky
+            const grouped = {};
+            issues.forEach(i => {
+                const kat = i.kategorie || 'ostatni';
+                if (!grouped[kat]) grouped[kat] = [];
+                grouped[kat].push(i);
+            });
+
+            // Sestavit HTML bloky nedostatků
+            const circled = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩'];
+            let nedostatkyBlocks = '';
+            let katIdx = 0;
+            Object.entries(grouped).forEach(([kat, items]) => {
+                const katLabel = kategorieMap[kat] || 'Ostatní';
+                const sym = circled[katIdx] || (katIdx + 1) + '.';
+                let itemsHtml = '';
+                items.forEach(item => {
+                    const text = (item.hlavniText || item.text || '').replace(/\n/g, '<br>');
+                    const legal = item.pravniPredpis ? `<div class="legal-ref">Právní základ: ${item.pravniPredpis}</div>` : '';
+                    itemsHtml += `<div class="nedostatek-item">${text}${legal}</div>`;
+                });
+                nedostatkyBlocks += `
+                <div class="nedostatek-skupina">
+                    <div class="nedostatek-hlavicka">${sym} ${katLabel}</div>
+                    ${itemsHtml}
+                </div>`;
+                katIdx++;
+            });
+
+            if (!nedostatkyBlocks) {
+                nedostatkyBlocks = '<p style="color:#666;font-style:italic;">Nebyly identifikovány žádné nedostatky.</p>';
+            }
+
+            const docHtml = `<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Výzva k doplnění žádosti — R/2026/000147</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 9.5pt; color: #000; background: #f4f4f4; }
+    .page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 18mm 20mm 20mm 20mm; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+    .header { border-bottom: 2.5px solid #004289; padding-bottom: 8pt; margin-bottom: 10pt; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .header-organ { font-size: 11pt; font-weight: bold; color: #004289; letter-spacing: 0.3px; }
+    .header-odbor { font-size: 8.5pt; color: #555; margin-top: 2pt; }
+    .header-cj { font-size: 8pt; color: #444; margin-top: 3pt; text-align: right; }
+    .info-table { width: 100%; border-collapse: collapse; margin-bottom: 12pt; }
+    .info-table td { padding: 2pt 6pt; font-size: 8.5pt; vertical-align: top; }
+    .info-table .label { font-weight: bold; width: 80pt; color: #333; }
+    .zamer-box { background: #f0f4fa; border-left: 3pt solid #004289; padding: 8pt 10pt; margin-bottom: 14pt; font-size: 9pt; }
+    .zamer-title { font-weight: bold; font-size: 10pt; color: #004289; margin-bottom: 3pt; }
+    .zamer-meta { font-size: 8pt; color: #555; margin-top: 2pt; }
+    .sekce-hlavicka { display: flex; align-items: baseline; gap: 8pt; margin-bottom: 8pt; }
+    .sekce-cislo { font-size: 11pt; font-weight: bold; color: #004289; }
+    .sekce-nazev { font-size: 10.5pt; font-weight: bold; color: #004289; }
+    .sekce-lhuta { font-size: 7.5pt; font-weight: bold; color: #c0392b; background: #fde8e8; border: 1pt solid #e57373; padding: 1.5pt 5pt; border-radius: 3pt; margin-left: auto; }
+    .sekce-lhuta-modra { font-size: 7.5pt; font-weight: bold; color: #1565c0; background: #e8f4fd; border: 1pt solid #90caf9; padding: 1.5pt 5pt; border-radius: 3pt; margin-left: auto; }
+    .uvodni-text { font-size: 9.5pt; line-height: 1.6; margin-bottom: 12pt; text-align: justify; }
+    .nedostatek-skupina { margin-bottom: 12pt; }
+    .nedostatek-hlavicka { font-weight: bold; font-size: 9.5pt; color: #1a1a2e; padding: 4pt 0 4pt; border-bottom: 1pt solid #ccc; margin-bottom: 6pt; }
+    .nedostatek-item { font-size: 9pt; line-height: 1.55; margin-bottom: 5pt; padding-left: 10pt; text-align: justify; }
+    .legal-ref { font-size: 8pt; color: #555; margin-top: 2pt; font-style: italic; }
+    .zaverecna-vyzva { font-size: 9pt; line-height: 1.6; font-style: italic; margin: 12pt 0; padding: 8pt 10pt; border: 1pt solid #e0e0e0; background: #fafafa; }
+    .oddelovac { border-top: 1pt solid #ccc; margin: 18pt 0 14pt; }
+    .usneseni-text { font-size: 9.5pt; line-height: 1.6; margin-bottom: 8pt; text-align: justify; }
+    .podnadpis { font-size: 9pt; font-weight: bold; margin: 10pt 0 4pt; color: #333; text-decoration: underline; }
+    .oduvodneni-text { font-size: 9pt; line-height: 1.6; text-align: justify; margin-bottom: 6pt; }
+    .podpis-blok { margin-top: 24pt; display: flex; justify-content: flex-end; }
+    .podpis { text-align: center; min-width: 180pt; }
+    .podpis-jmeno { font-weight: bold; font-size: 9.5pt; border-top: 1pt solid #000; padding-top: 4pt; margin-top: 24pt; }
+    .podpis-funkce { font-size: 8.5pt; color: #444; }
+    .obdrzí { margin-top: 18pt; font-size: 8.5pt; border-top: 1pt dashed #ccc; padding-top: 8pt; }
+    .obdrzí-nadpis { font-weight: bold; font-size: 9pt; margin-bottom: 4pt; }
+    .obdrzí-item { margin-bottom: 2pt; }
+    @media print {
+        body { background: white; }
+        .page { margin: 0; padding: 15mm 18mm 18mm 18mm; box-shadow: none; }
+        .no-print { display: none !important; }
+        @page { size: A4; margin: 0; }
+    }
+    .print-toolbar {
+        position: fixed; top: 0; left: 0; right: 0; background: #004289; color: #fff;
+        padding: 10px 24px; display: flex; align-items: center; justify-content: space-between;
+        z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.3); font-family: Arial, sans-serif;
+    }
+    .print-toolbar h3 { font-size: 14px; font-weight: 600; }
+    .btn-print { padding: 7px 18px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; background: #fff; color: #004289; }
+    .btn-close-win { padding: 7px 18px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; background: rgba(255,255,255,0.15); color: #fff; margin-left: 8px; }
+    body.with-toolbar .page { margin-top: 56px; }
+</style>
+</head>
+<body class="with-toolbar">
+<div class="print-toolbar no-print">
+    <h3>&#128196; Náhled dokumentu — Výzva + Usnesení o přerušení řízení</h3>
+    <div>
+        <button class="btn-print" onclick="window.print()">&#128424; Uložit jako PDF / Tisknout</button>
+        <button class="btn-close-win" onclick="window.close()">Zavřít</button>
+    </div>
+</div>
+<div class="page">
+    <div class="header">
+        <div class="header-top">
+            <div>
+                <div class="header-organ">DOPRAVNÍ A ENERGETICKÝ STAVEBNÍ ÚŘAD</div>
+                <div class="header-odbor">Odbor staveb drah · ÚP Praha</div>
+            </div>
+            <div>
+                <div class="header-cj">Č.j.: DESU/122/000147/26</div>
+                <div class="header-cj">Spis. zn.: SZ DESU/R/2026/000147</div>
+                <div class="header-cj">Strana 1</div>
+            </div>
+        </div>
+    </div>
+    <table class="info-table">
+        <tr>
+            <td class="label">Spis. zn.</td><td>R/2026/000147</td>
+            <td class="label">Záměr</td><td>Z/2026/00147</td>
+        </tr>
+        <tr>
+            <td class="label">Č.j.</td><td>DESU/122/000147/26</td>
+            <td class="label">Tel.</td><td>221 220 315</td>
+        </tr>
+        <tr>
+            <td class="label">Vyřizuje</td><td>Ing. Tomáš Novák</td>
+            <td class="label">E-mail</td><td>tomas.novak@desu.gov.cz</td>
+        </tr>
+        <tr>
+            <td class="label">Datum</td><td>${dnesFormatted}</td>
+            <td class="label">Pracoviště</td><td>Praha</td>
+        </tr>
+    </table>
+    <div class="zamer-box">
+        <div class="zamer-title">Záměr: Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</div>
+        <div>parc. č. 2345/1, 2345/2 · k.ú. Doudleby nad Orlicí</div>
+        <div class="zamer-meta">Stavebník: Správa železnic, státní organizace (IČO: 70994234) · zast. Signal Projekt s.r.o. (IČO: 27376504)</div>
+        <div class="zamer-meta">Žádost podána 6. 1. 2026 prostřednictvím Portálu stavebníka</div>
+    </div>
+    <div class="sekce-hlavicka">
+        <span class="sekce-cislo">I.</span>
+        <span class="sekce-nazev">Výzva k odstranění nedostatků žádosti</span>
+        <span class="sekce-lhuta">LHŮTA ${lhutaDni} DNŮ</span>
+    </div>
+    <div class="uvodni-text">
+        DESÚ jako stavební úřad příslušný dle § 33 odst. 2 zákona č. 283/2021 Sb. zjistil, že žádost neobsahuje požadované
+        náležitosti, a proto dle § 185 odst. 2 stavebního zákona vyzývá stavebníka, aby nejpozději do <strong>${lhutaDni} dnů</strong>
+        od doručení předloženou žádost doplnil o následující chybějící náležitosti:
+    </div>
+    ${nedostatkyBlocks}
+    <div class="zaverecna-vyzva">
+        Pokud nebudou nedostatky žádosti ve stanovené lhůtě odstraněny, bude řízení zastaveno podle
+        § 66 odst. 1 písm. c) zákona č. 500/2004 Sb., správní řád.
+    </div>
+    <div class="oddelovac"></div>
+    <div class="sekce-hlavicka">
+        <span class="sekce-cislo">II.</span>
+        <span class="sekce-nazev">Usnesení o přerušení řízení</span>
+        <span class="sekce-lhuta-modra">BEZ ODVOLÁNÍ</span>
+    </div>
+    <div class="usneseni-text">
+        DESÚ dle § 185 odst. 2 stavebního zákona <strong>přerušuje řízení</strong> o záměru zahájené podáním
+        žádosti dne 6. 1. 2026 o vydání povolení záměru na stavbu dráhy:
+    </div>
+    <div style="font-weight:bold;font-size:10pt;text-align:center;margin:10pt 0;color:#004289;">
+        Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí
+    </div>
+    <div class="usneseni-text">
+        na pozemcích parc. č. 2345/1, 2345/2 v k.ú. Doudleby nad Orlicí, kterou podala
+        Správa železnic, státní organizace (IČO 70994234), zastoupena Signal Projekt s.r.o. (IČO 27376504).
+    </div>
+    <div class="usneseni-text">
+        Řízení se přerušuje do doby doplnění žádosti o povolení záměru, nejdéle však na dobu
+        <strong>${lhutaDni} dnů</strong> ode dne doručení výzvy.
+    </div>
+    <div class="usneseni-text"><strong>Účastníci řízení, na něž se vztahuje rozhodnutí:</strong><br>
+    Správa železnic, státní organizace, Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
+    <div class="podnadpis">Odůvodnění:</div>
+    <div class="oduvodneni-text">
+        Řízení o povolení záměru bylo zahájeno dnem podání žádosti. Stavební úřad zjistil, že žádost neobsahuje
+        požadované náležitosti, a proto stavebníka vyzval k doplnění. Současně určil lhůtu k provedení úkonu
+        na dobu ${lhutaDni} dnů ode dne doručení výzvy.
+    </div>
+    <div class="oduvodneni-text">
+        Stavební úřad řízení přerušil do doby doplnění žádosti, nejdéle však na dobu ${lhutaDni} dnů ode dne
+        doručení výzvy. Po dobu přerušení lhůta podle § 65 odst. 1 správního řádu neběží.
+    </div>
+    <div class="podnadpis">Poučení:</div>
+    <div class="oduvodneni-text">
+        Proti tomuto usnesení se podle § 185 odst. 2 stavebního zákona nelze odvolat.
+    </div>
+    <div class="podpis-blok">
+        <div class="podpis">
+            <div class="podpis-jmeno">Ing. Jitka Kotásková</div>
+            <div class="podpis-funkce">ředitelka</div>
+            <div class="podpis-funkce">Odbor staveb drah</div>
+        </div>
+    </div>
+    <div class="obdrzí">
+        <div class="obdrzí-nadpis">Obdrží:</div>
+        <div class="obdrzí-item">Správa železnic, státní organizace, Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
+        <div class="obdrzí-item">v zastoupení: Signal Projekt s.r.o., IDDS: signal01</div>
+        <div class="obdrzí-item">sídlo: Vídeňská 546/55, 639 00 Brno</div>
+        <div class="obdrzí-item" style="margin-top:4pt;">DESÚ — spis</div>
+    </div>
+</div>
+</body>
+</html>`;
+
+            const printWin = window.open('', '_blank', 'width=960,height=780,scrollbars=yes,resizable=yes');
+            if (!printWin) {
+                alert('Prohlížeč zablokoval otevření okna. Povolte prosím pop-up okna pro tuto stránku.');
+                return;
+            }
+            printWin.document.write(docHtml);
+            printWin.document.close();
+
+            if (action === 'send') {
+                setTimeout(() => { closeVyzvaEditor(); }, 400);
             }
         }
 
