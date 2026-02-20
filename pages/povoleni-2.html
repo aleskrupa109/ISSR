@@ -24303,12 +24303,10 @@ ${reportContent}
                                 <div class="vyzva-def-source control">${label}</div>
                                 <div class="vyzva-def-text" id="vdeftext-${item.id}">${text}${legal ? `<div style="font-size:11px;color:#5f6368;font-style:italic;margin-top:2px;">${legal}</div>` : ''}</div>
                             </div>
-                            <button class="vdef-edit-btn" onclick="openRichEditor({
-                                title: '${label.replace(/'/g, '\\'')}',
-                                targetId: 'vdeftext-${item.id}',
-                                issueId: '${item.id}',
-                                placeholder: 'Upravte popis nedostatku...'
-                            })" title="Upravit text nedostatku">
+                            <button class="vdef-edit-btn" onclick="veEditControlDef(this)" title="Upravit text nedostatku"
+                                data-target="vdeftext-${item.id}"
+                                data-issue-id="${item.id}"
+                                data-label="${label}">
                                 <span class="material-icons-outlined" style="font-size:15px">edit</span>
                             </button>
                         </div>`;
@@ -24926,7 +24924,15 @@ ${reportContent}
             veUpdateCounts();
         }
 
-        function veAddUserDef() {
+        function veEditControlDef(btn) {
+            const targetId = btn.getAttribute('data-target');
+            const issueId = btn.getAttribute('data-issue-id') || null;
+            const label = btn.getAttribute('data-label') || 'Upravit text';
+            const placeholder = btn.getAttribute('data-placeholder') || 'Upravte popis nedostatku...';
+            openRichEditor({ title: label, targetId: targetId, issueId: issueId, placeholder: placeholder });
+        }
+
+                function veAddUserDef() {
             const container = document.getElementById('veUserDefs');
             if (!container) return;
             const uid = 'udef-' + Date.now();
@@ -24942,11 +24948,10 @@ ${reportContent}
                     <div class="vdef-inline-wrap">
                         <div contenteditable="true" class="vdef-inline-input" id="vtxt-${uid}"
                              data-placeholder="Popište nedostatek — jednořádkově nebo rozbalte pro více..."></div>
-                        <button class="vdef-expand-btn" onclick="openRichEditor({
-                            title: 'Doplňující nedostatek',
-                            targetId: 'vtxt-${uid}',
-                            placeholder: 'Popište nedostatek podrobně...'
-                        })" title="Otevřít rozšířený editor">
+                        <button class="vdef-expand-btn" onclick="veEditControlDef(this)" title="Otevřít rozšířený editor"
+                            data-target="vtxt-${uid}"
+                            data-label="Doplňující nedostatek"
+                            data-placeholder="Popište nedostatek podrobně...">
                             <span class="material-icons-outlined" style="font-size:15px">open_in_full</span>
                         </button>
                     </div>
