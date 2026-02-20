@@ -12013,6 +12013,98 @@
             }
         }
     </style>
+    <style>
+        /* ══════════════════════════════════════════
+           SDÍLENÝ RICH EDITOR (openRichEditor)
+           ══════════════════════════════════════════ */
+        .re-overlay {
+            position: fixed; inset: 0; z-index: 30000;
+            background: rgba(0,0,0,.45); backdrop-filter: blur(2px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+            animation: reFadeIn .15s ease-out;
+        }
+        @keyframes reFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .re-modal {
+            background: #fff; border-radius: 12px; width: 100%;
+            max-width: 680px;
+            box-shadow: 0 8px 24px rgba(60,64,67,.35);
+            display: flex; flex-direction: column; overflow: hidden;
+            animation: reSlideUp .18s ease-out;
+        }
+        @keyframes reSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .re-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 18px 12px; border-bottom: 1px solid #e0e0e0;
+        }
+        .re-title { flex: 1; font-size: 14px; font-weight: 600; color: #202124; font-family: 'Google Sans','Roboto',sans-serif; }
+        .re-close-btn {
+            width: 30px; height: 30px; border-radius: 50%; border: none;
+            background: none; cursor: pointer; color: #5f6368;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .re-close-btn:hover { background: #f1f3f4; }
+        .re-toolbar {
+            display: flex; align-items: center; gap: 2px;
+            padding: 6px 10px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0;
+        }
+        .re-tb-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 28px; height: 28px; padding: 0 4px;
+            border: 1px solid transparent; border-radius: 4px;
+            background: none; cursor: pointer; font-size: 12px;
+            color: #3c4043; font-family: inherit; transition: background .1s;
+        }
+        .re-tb-btn:hover { background: #e8eaed; border-color: #dadce0; }
+        .re-tb-btn .material-icons-outlined { font-size: 16px; }
+        .re-tb-sep { width: 1px; height: 20px; background: #e0e0e0; margin: 0 4px; }
+        .re-editor {
+            min-height: 140px; max-height: 420px;
+            padding: 14px 18px; font-size: 13px; line-height: 1.7;
+            color: #202124; outline: none; overflow-y: auto; resize: vertical;
+            font-family: inherit;
+        }
+        .re-editor:empty:before { content: attr(data-placeholder); color: #9aa0a6; font-style: italic; pointer-events: none; }
+        .re-editor p { margin-bottom: 6px; }
+        .re-editor ul, .re-editor ol { margin-left: 20px; margin-bottom: 6px; }
+        .re-footer {
+            display: flex; align-items: center; justify-content: flex-end;
+            gap: 8px; padding: 10px 18px; border-top: 1px solid #e0e0e0; background: #fafafa;
+        }
+        .re-btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 7px 18px; border-radius: 20px; font-size: 13px;
+            font-weight: 500; cursor: pointer; font-family: inherit; transition: all .15s;
+        }
+        .re-btn-cancel { background: #fff; color: #3c4043; border: 1px solid #dadce0; }
+        .re-btn-cancel:hover { background: #f1f3f4; }
+        .re-btn-save { background: #1a73e8; color: #fff; border: none; }
+        .re-btn-save:hover { background: #1557b0; }
+        /* Inline kompaktní vstup */
+        .vdef-inline-wrap {
+            display: flex; align-items: flex-start; gap: 0;
+            border: 1px solid #dadce0; border-radius: 6px;
+            background: #fff; transition: border-color .15s;
+        }
+        .vdef-inline-wrap:focus-within { border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,.1); }
+        .vdef-inline-input {
+            flex: 1; min-height: 32px; max-height: 80px;
+            padding: 6px 8px; font-size: 12px; line-height: 1.5;
+            color: #202124; outline: none; overflow-y: auto; font-family: inherit;
+        }
+        .vdef-inline-input:empty:before { content: attr(data-placeholder); color: #9aa0a6; font-style: italic; pointer-events: none; }
+        .vdef-expand-btn, .vdef-edit-btn, .vdef-remove-btn {
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            justify-content: center; width: 26px; height: 26px;
+            border: none; background: none; cursor: pointer;
+            border-radius: 4px; color: #9aa0a6; margin: 3px 2px; transition: color .1s, background .1s;
+        }
+        .vdef-expand-btn:hover, .vdef-edit-btn:hover { color: #1a73e8; background: #e8f0fe; }
+        .vdef-remove-btn:hover { color: #d32f2f; background: #fce8e6; }
+    </style>
 </head>
 <body>
     <!-- ISSŘ Hlavička -->
@@ -13462,7 +13554,7 @@
                     <div class="deficiency-panel-header">
                         <div class="deficiency-panel-title">
                             <span class="material-icons-outlined">checklist</span>
-                            Přehled kontroly
+                            Formální nedostatky žádosti
                         </div>
                         <div class="deficiency-panel-summary" id="deficiencySummary">
                             <span class="deficiency-stat ok">
@@ -14367,14 +14459,14 @@
                             <div class="stavba-field-label">Kategorie stavby</div>
                             <div class="stavba-kategorie-options">
                                 <label class="stavba-kategorie-option">
-                                    <input type="radio" name="kategorieStavby" value="vyhrazena">
+                                    <input type="radio" name="kategorieStavby" value="vyhrazena" checked>
                                     <span class="stavba-kategorie-box">
                                         <span class="kategorie-name">Vyhrazená</span>
                                         <span class="kategorie-desc">§ 5 vyhl. č. 600/2006</span>
                                     </span>
                                 </label>
                                 <label class="stavba-kategorie-option">
-                                    <input type="radio" name="kategorieStavby" value="ostatni" checked>
+                                    <input type="radio" name="kategorieStavby" value="ostatni">
                                     <span class="stavba-kategorie-box">
                                         <span class="kategorie-name">Ostatní</span>
                                         <span class="kategorie-desc">Běžné stavby</span>
@@ -19727,7 +19819,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 // Přidat každou vadu jako globalIssue
                 deficiencyNotes.forEach(note => {
                     addGlobalIssue('vyzva', {
-                        text: 'Odstranil formální vadu žádosti: ' + note,
+                        text: note,
                         source: 'auto',
                         controlName: 'Kontrola žádosti',
                         kategorie: 'formalni',
@@ -24209,8 +24301,16 @@ ${reportContent}
                             </div>
                             <div class="vyzva-def-body">
                                 <div class="vyzva-def-source control">${label}</div>
-                                <div class="vyzva-def-text">${text}${legal ? `<div style="font-size:11px;color:#5f6368;font-style:italic;margin-top:2px;">${legal}</div>` : ''}</div>
+                                <div class="vyzva-def-text" id="vdeftext-${item.id}">${text}${legal ? `<div style="font-size:11px;color:#5f6368;font-style:italic;margin-top:2px;">${legal}</div>` : ''}</div>
                             </div>
+                            <button class="vdef-edit-btn" onclick="openRichEditor({
+                                title: '${label.replace(/'/g, '\\'')}',
+                                targetId: 'vdeftext-${item.id}',
+                                issueId: '${item.id}',
+                                placeholder: 'Upravte popis nedostatku...'
+                            })" title="Upravit text nedostatku">
+                                <span class="material-icons-outlined" style="font-size:15px">edit</span>
+                            </button>
                         </div>`;
                         controlCount++;
                     });
@@ -24472,7 +24572,7 @@ ${reportContent}
                             </div>
                             <div class="ve-sidebar-item" onclick="veScrollTo('blk-vlastni', this)">
                                 <div class="ve-si-icon free"><span class="material-icons-outlined">edit</span></div>
-                                <span class="ve-si-label">Vlastní body úředníka</span>
+                                <span class="ve-si-label">Doplňující nedostatky</span>
                             </div>
                             <div class="ve-sidebar-item" onclick="veScrollTo('blk-upozorneni', this)">
                                 <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
@@ -24605,12 +24705,12 @@ ${reportContent}
                                 <span class="ve-blk-label free"><span class="material-icons-outlined">edit</span> volný text</span>
                                 <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#e37400;margin-bottom:8px;display:flex;align-items:center;gap:6px">
                                     <span class="material-icons-outlined" style="font-size:16px">edit_note</span>
-                                    Vlastní body úředníka
+                                    Doplňující nedostatky
                                 </div>
                                 <div id="veUserDefs"></div>
                                 <button class="vyzva-add-btn" onclick="veAddUserDef()">
                                     <span class="material-icons-outlined">add_circle_outline</span>
-                                    Přidat vlastní bod
+                                    Přidat nedostatek
                                 </button>
                                 <div style="margin-top:8px;text-align:right">
                                     <button class="ve-btn-ghost" onclick="veAiSuggest()" style="font-size:12px;padding:4px 12px">
@@ -24705,7 +24805,7 @@ ${reportContent}
                         <div class="ve-props-section">
                             <div class="ve-props-title">Nedostatky</div>
                             <div class="ve-props-stat"><span class="lbl">Z kontrol</span><span class="val" id="vePropsCnt">${controlCount} zaškrtnuto</span></div>
-                            <div class="ve-props-stat"><span class="lbl">Vlastní body</span><span class="val" id="vePropsUserCnt">0 bodů</span></div>
+                            <div class="ve-props-stat"><span class="lbl">Doplňující nedostatky</span><span class="val" id="vePropsUserCnt">0 bodů</span></div>
                             <div class="ve-props-stat"><span class="lbl" style="font-weight:600">Celkem</span><span class="val" style="font-weight:700;color:#1a73e8" id="vePropsTotalCnt">${controlCount} bodů</span></div>
                         </div>
                         <div class="ve-props-section">
@@ -24829,18 +24929,33 @@ ${reportContent}
         function veAddUserDef() {
             const container = document.getElementById('veUserDefs');
             if (!container) return;
+            const uid = 'udef-' + Date.now();
             const div = document.createElement('div');
             div.className = 'vyzva-def-item user-added';
+            div.id = uid;
             div.innerHTML = `
                 <div class="vyzva-def-checkbox checked" onclick="vyzvaToggleDef(this)">
                     <span class="material-icons" style="font-size:14px">check</span>
                 </div>
                 <div class="vyzva-def-body">
-                    <div class="vyzva-def-source manual">Vlastní bod</div>
-                    <div contenteditable="true" class="vyzva-free-area" placeholder="Popište nedostatek..." style="min-height:40px"></div>
-                </div>`;
+                    <div class="vyzva-def-source manual">Doplňující nedostatek</div>
+                    <div class="vdef-inline-wrap">
+                        <div contenteditable="true" class="vdef-inline-input" id="vtxt-${uid}"
+                             data-placeholder="Popište nedostatek — jednořádkově nebo rozbalte pro více..."></div>
+                        <button class="vdef-expand-btn" onclick="openRichEditor({
+                            title: 'Doplňující nedostatek',
+                            targetId: 'vtxt-${uid}',
+                            placeholder: 'Popište nedostatek podrobně...'
+                        })" title="Otevřít rozšířený editor">
+                            <span class="material-icons-outlined" style="font-size:15px">open_in_full</span>
+                        </button>
+                    </div>
+                </div>
+                <button class="vdef-remove-btn" onclick="this.closest('.vyzva-def-item').remove();veUpdateCounts();" title="Odebrat">
+                    <span class="material-icons-outlined" style="font-size:15px">close</span>
+                </button>`;
             container.appendChild(div);
-            div.querySelector('.vyzva-free-area').focus();
+            div.querySelector('.vdef-inline-input').focus();
             veUpdateCounts();
         }
 
@@ -24867,6 +24982,123 @@ ${reportContent}
             if (!el) return;
             el.focus();
             document.execCommand(cmd, false, null);
+        }
+
+                // ══════════════════════════════════════════════════════
+        // SDÍLENÝ RICH EDITOR — openRichEditor(opts)
+        // opts: { title, targetId, issueId?, placeholder, onSave? }
+        //   targetId  - id prvku jehož innerHTML se předvyplní a aktualizuje
+        //   issueId   - (volitelné) id v globalIssues.vyzva pro sync
+        //   onSave    - (volitelné) callback(html, text) místo auto-update
+        // ══════════════════════════════════════════════════════
+        function openRichEditor(opts) {
+            // Zamezit duplicitě
+            if (document.getElementById('richEditorOverlay')) return;
+
+            const { title = 'Upravit text', targetId, issueId, placeholder = 'Zadejte text...', onSave } = opts;
+
+            // Načíst aktuální obsah cílového prvku
+            const targetEl = targetId ? document.getElementById(targetId) : null;
+            const initialHtml = targetEl ? targetEl.innerHTML : '';
+
+            const overlay = document.createElement('div');
+            overlay.id = 'richEditorOverlay';
+            overlay.className = 're-overlay';
+            overlay.onclick = e => { if (e.target === overlay) closeRichEditor(false); };
+
+            overlay.innerHTML = `
+            <div class="re-modal" onclick="event.stopPropagation()">
+                <div class="re-header">
+                    <span class="material-icons-outlined" style="color:#1a73e8;font-size:20px;">edit_note</span>
+                    <div class="re-title">${title}</div>
+                    <button class="re-close-btn" onclick="closeRichEditor(false)" title="Zavrít bez uložení">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="re-toolbar">
+                    <button class="re-tb-btn" onclick="reFmt('bold')" title="Tučné (Ctrl+B)"><b>B</b></button>
+                    <button class="re-tb-btn" onclick="reFmt('italic')" title="Kurzíva (Ctrl+I)"><i>I</i></button>
+                    <button class="re-tb-btn" onclick="reFmt('underline')" title="Podtržení (Ctrl+U)"><u>U</u></button>
+                    <div class="re-tb-sep"></div>
+                    <button class="re-tb-btn" onclick="reFmt('insertUnorderedList')" title="Odrážky">
+                        <span class="material-icons-outlined">format_list_bulleted</span>
+                    </button>
+                    <button class="re-tb-btn" onclick="reFmt('insertOrderedList')" title="Číslovaný seznam">
+                        <span class="material-icons-outlined">format_list_numbered</span>
+                    </button>
+                    <div class="re-tb-sep"></div>
+                    <button class="re-tb-btn" onclick="reFmt('formatBlock','p')" title="Odstavec">¶</button>
+                    <button class="re-tb-btn" onclick="reFmt('removeFormat')" title="Odstranit formátování">
+                        <span class="material-icons-outlined">format_clear</span>
+                    </button>
+                </div>
+                <div class="re-editor" id="reEditorContent" contenteditable="true"
+                     data-placeholder="${placeholder}"
+                     spellcheck="true">${initialHtml}</div>
+                <div class="re-footer">
+                    <button class="re-btn re-btn-cancel" onclick="closeRichEditor(false)">Zrušit</button>
+                    <button class="re-btn re-btn-save" onclick="closeRichEditor(true)">
+                        <span class="material-icons-outlined" style="font-size:16px;">check</span>
+                        Uložit
+                    </button>
+                </div>
+            </div>`;
+
+            document.body.appendChild(overlay);
+
+            // Uložit callback a cíl pro closeRichEditor
+            overlay._targetId = targetId;
+            overlay._issueId = issueId;
+            overlay._onSave = onSave || null;
+
+            // Focus na konec textu
+            const editor = document.getElementById('reEditorContent');
+            if (editor) {
+                editor.focus();
+                const range = document.createRange();
+                range.selectNodeContents(editor);
+                range.collapse(false);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+
+        function closeRichEditor(save) {
+            const overlay = document.getElementById('richEditorOverlay');
+            if (!overlay) return;
+
+            if (save) {
+                const editor = document.getElementById('reEditorContent');
+                if (!editor) return;
+                const html = editor.innerHTML.trim();
+                const text = editor.innerText.trim();
+
+                if (overlay._onSave) {
+                    overlay._onSave(html, text);
+                } else if (overlay._targetId) {
+                    const target = document.getElementById(overlay._targetId);
+                    if (target) target.innerHTML = html;
+                }
+
+                // Sync do globalIssues.vyzva pokud máme issueId
+                if (overlay._issueId) {
+                    const issue = globalIssues.vyzva.find(i => i.id === overlay._issueId);
+                    if (issue) {
+                        issue.hlavniText = text;
+                        issue.text = text;
+                    }
+                }
+            }
+
+            overlay.remove();
+        }
+
+        function reFmt(cmd, val) {
+            const editor = document.getElementById('reEditorContent');
+            if (!editor) return;
+            editor.focus();
+            document.execCommand(cmd, false, val || null);
         }
 
                 function showVyzvaToast(text) {
