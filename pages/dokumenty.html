@@ -482,6 +482,46 @@
             background: rgba(255,255,255,0.2);
             margin: 8px 0;
         }
+        
+        /* ===========================================
+           MOCKUP - DISABLED & ACTIVE ROWS
+           =========================================== */
+        .data-table tbody tr.disabled {
+            opacity: 0.55;
+            pointer-events: none;
+            cursor: default;
+        }
+        .data-table tbody tr.disabled td {
+            color: #80868b;
+        }
+        .data-table tbody tr.disabled .link-open,
+        .data-table tbody tr.disabled .icon-link {
+            pointer-events: none;
+            color: #9aa0a6;
+        }
+        
+        .data-table tbody tr.active-row {
+            background: #e8f0fe !important;
+            border-left: 4px solid #1a73e8;
+            cursor: pointer;
+        }
+        .data-table tbody tr.active-row:hover {
+            background: #d2e3fc !important;
+        }
+        .data-table tbody tr.active-row td.col-name {
+            color: #202124;
+            font-weight: 500;
+        }
+        .data-table tbody tr.active-row .link-open {
+            background: #1a73e8;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .data-table tbody tr.active-row .link-open:hover {
+            background: #1557b0;
+        }
     </style>
 </head>
 <body>
@@ -631,6 +671,7 @@
                 <span class="material-icons-outlined toolbar-icon">view_list</span>
                 <span class="material-icons-outlined toolbar-icon">settings</span>
             </div>
+            
             <!-- Table -->
             <div class="table-container">
                 <table class="data-table">
@@ -694,7 +735,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">7. 1. 2026 11:13:17</td>
                             <td class="col-pid">SR00X01HSU37</td>
                             <td class="col-name">Odstranění železničního přejezdu P1533</td>
@@ -705,11 +746,11 @@
                             <td class="col-iddok">SR00X01HSU0M</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">7. 1. 2026 10:44:14</td>
                             <td class="col-pid">SR00X01HSLN6</td>
                             <td class="col-name">D01xD48 zřízení a propojení DIS</td>
@@ -720,11 +761,11 @@
                             <td class="col-iddok">SR00X01HSLKL</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">7. 1. 2026 10:23:04</td>
                             <td class="col-pid">SR00X01HSFWL</td>
                             <td class="col-name">Test rozpracovaného dokumentu</td>
@@ -735,11 +776,11 @@
                             <td class="col-iddok">SR00X01HSFUI</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">7. 1. 2026 9:47:37</td>
                             <td class="col-pid">SR00X01HS6PQ</td>
                             <td class="col-name">Vodovod Skalice</td>
@@ -750,11 +791,11 @@
                             <td class="col-iddok">SR00X01HS6N2</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">6. 1. 2026 19:21:25</td>
                             <td class="col-pid">SR00X01HNKRM</td>
                             <td class="col-name">Výstavba haly v SÚ Havlíčkův Brod</td>
@@ -765,11 +806,11 @@
                             <td class="col-iddok">SR00X01HNKN6</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">6. 1. 2026 16:45:59</td>
                             <td class="col-pid">SR00X01HM1YP</td>
                             <td class="col-name">ETU 1 - Oprava budovy BČOV</td>
@@ -780,11 +821,11 @@
                             <td class="col-iddok">SR00X0115XY6</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">6. 1. 2026 15:20:48</td>
                             <td class="col-pid">SR00X01HLQ9O</td>
                             <td class="col-name">zavedení zkušebního provozu</td>
@@ -795,16 +836,17 @@
                             <td class="col-iddok"></td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <!-- AKTIVNÍ ŘÁDEK - pokračování v makete -->
+                        <tr class="active-row" onclick="window.location='detail-dokumentu.html'">
                             <td class="col-date">6. 1. 2026 13:16:01</td>
                             <td class="col-pid">SR00X01HLE5K</td>
-                            <td class="col-name">Vypracování projektové dokumentace "Oprava zabe...</td>
+                            <td class="col-name">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</td>
                             <td class="col-druh">Žádost o vydání povol...</td>
-                            <td class="col-zpracovatel">Eva Čejchanová</td>
+                            <td class="col-zpracovatel">Aleš Krupa</td>
                             <td class="col-date">6. 1. 2026 13:16:03</td>
                             <td class="col-stav">Ke zpracování</td>
                             <td class="col-iddok">SR00X01HLDRP</td>
@@ -814,7 +856,7 @@
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">6. 1. 2026 13:14:40</td>
                             <td class="col-pid">SR00X01HLCLQ</td>
                             <td class="col-name">Přeložka trakčních vedení kabelů k.ú. Teplice - Trno...</td>
@@ -825,11 +867,11 @@
                             <td class="col-iddok"></td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">6. 1. 2026 12:21:52</td>
                             <td class="col-pid">SR00X01HKOX3</td>
                             <td class="col-name">Společné dispečinkové pracoviště APOC - letiště Pr...</td>
@@ -840,11 +882,11 @@
                             <td class="col-iddok">SR00X01HKOTN</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">6. 1. 2026 7:50:48</td>
                             <td class="col-pid">SR00X01HJDKE</td>
                             <td class="col-name">Vypracování projektové dokumentace na opravu PZ...</td>
@@ -855,11 +897,11 @@
                             <td class="col-iddok">SR00X01HJDHT</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">5. 1. 2026 16:23:05</td>
                             <td class="col-pid">SR00X01HDVAG</td>
                             <td class="col-name">Rekonstrukce ŽST Čáslav</td>
@@ -870,11 +912,11 @@
                             <td class="col-iddok">SR00X01HDUE3</td>
                             <td class="col-mimo">✓ Ano</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">5. 1. 2026 15:24:37</td>
                             <td class="col-pid">SR00X01HDHJX</td>
                             <td class="col-name">PRE - T401 A TL401 výměna</td>
@@ -885,11 +927,11 @@
                             <td class="col-iddok"></td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
-                        <tr onclick="window.location='detail-dokumentu.html'">
+                        <tr class="disabled">
                             <td class="col-date">5. 1. 2026 13:29:14</td>
                             <td class="col-pid">SR00X01HD232</td>
                             <td class="col-name">KOC – rozšíření skladové kapacity</td>
@@ -900,7 +942,7 @@
                             <td class="col-iddok">SR00X018YL31</td>
                             <td class="col-mimo">× Ne</td>
                             <td>
-                                <a href="detail-dokumentu.html" class="link-open">Otevřít</a>
+                                <a href="#" class="link-open">Otevřít</a>
                                 <span class="icon-link material-icons-outlined">open_in_new</span>
                             </td>
                         </tr>
