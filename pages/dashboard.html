@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISSŘ - Dashboard</title>
+    <title>ISSŘ - Nástěnka</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
@@ -1086,6 +1086,938 @@
                 display: none;
             }
         }
+        
+        /* ===========================================
+           DASHBOARD SETTINGS BUTTON
+           =========================================== */
+        .dashboard-settings-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            color: #5f6368;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .dashboard-settings-btn:hover {
+            background: #f8f9fa;
+            color: #202124;
+            border-color: #c0c0c0;
+        }
+        .dashboard-settings-btn .material-icons-outlined {
+            font-size: 22px;
+        }
+        
+        /* ===========================================
+           DASHBOARD SETTINGS MODAL
+           =========================================== */
+        .dashboard-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .dashboard-modal-overlay.open {
+            display: flex;
+        }
+        .dashboard-modal {
+            background: #fff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+        }
+        .dashboard-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .dashboard-modal-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dashboard-modal-title .material-icons-outlined {
+            color: #1a73e8;
+        }
+        .dashboard-modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            transition: background 0.15s;
+        }
+        .dashboard-modal-close:hover {
+            background: #f1f3f4;
+        }
+        .dashboard-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .dashboard-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* Widget Configuration */
+        .widget-config-section {
+            margin-bottom: 24px;
+        }
+        .widget-config-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        .widget-config-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .widget-config-item {
+            background: #f8f9fa;
+            border: 2px solid #e8eaed;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+        .widget-config-item:hover {
+            border-color: #c0c0c0;
+        }
+        .widget-config-item.active {
+            border-color: #1a73e8;
+            background: #e8f0fe;
+        }
+        .widget-config-item.active::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: #1a73e8;
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+            background-size: 14px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .widget-config-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: #5f6368;
+        }
+        .widget-config-item.active .widget-config-icon {
+            background: #1a73e8;
+            color: #fff;
+        }
+        .widget-config-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .widget-config-desc {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 4px;
+        }
+        
+        /* Layout Preview */
+        .layout-preview {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+        .layout-preview-title {
+            font-size: 12px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-bottom: 12px;
+        }
+        .layout-preview-grid {
+            display: grid;
+            gap: 8px;
+        }
+        .layout-preview-item {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 11px;
+            color: #5f6368;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: move;
+        }
+        .layout-preview-item .material-icons-outlined {
+            font-size: 16px;
+            color: #9aa0a6;
+        }
+        .layout-preview-item.dragging {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+        .layout-preview-item .drag-handle {
+            cursor: grab;
+        }
+        
+        /* Modal buttons */
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .modal-btn-secondary {
+            background: #fff;
+            border: 1px solid #dadce0;
+            color: #5f6368;
+        }
+        .modal-btn-secondary:hover {
+            background: #f8f9fa;
+        }
+        .modal-btn-primary {
+            background: #1a73e8;
+            border: 1px solid #1a73e8;
+            color: #fff;
+        }
+        .modal-btn-primary:hover {
+            background: #1557b0;
+        }
+        
+        /* Priority Section */
+        .priority-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 900px) {
+            .priority-section {
+                grid-template-columns: 1fr;
+            }
+            .widget-config-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* ===========================================
+           DASHBOARD WIDGET SYSTEM
+           =========================================== */
+        .dashboard-widgets-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        .dashboard-widget {
+            position: relative;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        /* Full-width widgets */
+        .dashboard-widget.full-width {
+            grid-column: span 2;
+        }
+        
+        .dashboard-widget.hidden {
+            display: none;
+        }
+        
+        .dashboard-widget.dragging {
+            opacity: 0.5;
+            z-index: 100;
+        }
+        
+        .dashboard-widget.drag-over {
+            border-top: 3px solid #1a73e8;
+            padding-top: 20px;
+        }
+        
+        .widget-drag-handle {
+            position: absolute;
+            left: -32px;
+            top: 16px;
+            width: 28px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9aa0a6;
+            cursor: grab;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border-radius: 4px;
+        }
+        
+        .dashboard-widget:hover .widget-drag-handle,
+        .edit-mode .widget-drag-handle {
+            opacity: 1;
+        }
+        
+        .widget-drag-handle:hover {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+        
+        .widget-drag-handle:active {
+            cursor: grabbing;
+        }
+        
+        /* Edit Mode */
+        .edit-mode .dashboard-widget {
+            outline: 2px dashed transparent;
+            outline-offset: 4px;
+            transition: outline-color 0.2s;
+        }
+        
+        .edit-mode .dashboard-widget:hover {
+            outline-color: #dadce0;
+        }
+        
+        .edit-mode .dashboard-widget.dragging {
+            outline-color: #1a73e8;
+        }
+        
+        /* Widget stats-row needs special handling */
+        .dashboard-widget[data-widget="stats"] .stats-row {
+            margin-bottom: 0;
+        }
+        
+        /* Charts row inside widget */
+        .dashboard-widget .charts-row {
+            margin-top: 0;
+        }
+        
+        /* Responsive: single column on smaller screens */
+        @media (max-width: 1000px) {
+            .dashboard-widgets-container {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-widget.full-width {
+                grid-column: span 1;
+            }
+        }
+        
+        /* ===========================================
+           CALENDAR WIDGET
+           =========================================== */
+        .calendar-widget {
+            display: flex;
+            gap: 8px;
+        }
+        .calendar-day {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px;
+            min-width: 0;
+        }
+        .calendar-day.today {
+            background: #e8f0fe;
+            border: 2px solid #1a73e8;
+        }
+        .calendar-day-header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .calendar-day.today .calendar-day-header {
+            border-color: #c2d7f8;
+        }
+        .calendar-day-name {
+            display: block;
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .calendar-day.today .calendar-day-name {
+            color: #1a73e8;
+        }
+        .calendar-day-date {
+            display: block;
+            font-size: 20px;
+            font-weight: 600;
+            color: #202124;
+            margin-top: 2px;
+        }
+        .calendar-day.today .calendar-day-date {
+            color: #1a73e8;
+        }
+        .calendar-events {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .calendar-event {
+            background: #fff;
+            border-radius: 4px;
+            padding: 6px 8px;
+            font-size: 11px;
+            border-left: 3px solid #dadce0;
+        }
+        .calendar-event.warning {
+            border-color: #f9ab00;
+            background: #fef7e0;
+        }
+        .calendar-event.danger {
+            border-color: #ea4335;
+            background: #fce8e6;
+        }
+        .calendar-event-time {
+            display: block;
+            color: #5f6368;
+            font-size: 10px;
+        }
+        .calendar-event-title {
+            display: block;
+            color: #202124;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* ===========================================
+           FAVORITES WIDGET
+           =========================================== */
+        .favorites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .favorite-item:hover {
+            background: #e8eaed;
+        }
+        .favorite-star {
+            color: #f9ab00;
+            font-size: 20px;
+        }
+        .favorite-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .favorite-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .favorite-meta {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+        .favorite-status {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .favorite-status.aktivni {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .favorite-status.cekajici {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        .favorites-empty-hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .favorites-empty-hint .material-icons-outlined {
+            font-size: 18px;
+            color: #9aa0a6;
+        }
+        
+        /* ===========================================
+           ACTIVITY WIDGET
+           =========================================== */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .activity-icon .material-icons-outlined {
+            font-size: 18px;
+        }
+        .activity-icon.blue {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .activity-icon.green {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .activity-icon.orange {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        .activity-icon.purple {
+            background: #f3e8fd;
+            color: #9334e6;
+        }
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .activity-text {
+            font-size: 13px;
+            color: #202124;
+            line-height: 1.4;
+        }
+        .activity-text strong {
+            font-weight: 500;
+            color: #1a73e8;
+        }
+        .activity-time {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+        
+        /* Responsive calendar */
+        @media (max-width: 600px) {
+            .calendar-widget {
+                flex-wrap: wrap;
+            }
+            .calendar-day {
+                flex: 0 0 calc(50% - 4px);
+            }
+        }
+        
+        /* ===========================================
+           CALENDAR MODAL
+           =========================================== */
+        .calendar-modal {
+            max-width: 900px;
+            width: 95%;
+        }
+        .calendar-modal-body {
+            padding: 0;
+            display: flex;
+            height: 600px;
+            max-height: 70vh;
+        }
+        .calendar-sidebar {
+            width: 280px;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            background: #f8f9fa;
+        }
+        .calendar-sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .calendar-search {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            gap: 8px;
+        }
+        .calendar-search input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 13px;
+        }
+        .calendar-search .material-icons-outlined {
+            color: #5f6368;
+            font-size: 20px;
+        }
+        .calendar-mini {
+            padding: 16px;
+        }
+        .calendar-mini-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .calendar-mini-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .calendar-mini-nav {
+            display: flex;
+            gap: 4px;
+        }
+        .calendar-mini-nav button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+        }
+        .calendar-mini-nav button:hover {
+            background: #e8eaed;
+        }
+        .calendar-mini-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+        }
+        .calendar-mini-weekday {
+            font-size: 10px;
+            color: #5f6368;
+            padding: 4px;
+            font-weight: 500;
+        }
+        .calendar-mini-day {
+            font-size: 12px;
+            padding: 6px 4px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #202124;
+        }
+        .calendar-mini-day:hover {
+            background: #e8eaed;
+        }
+        .calendar-mini-day.other-month {
+            color: #9aa0a6;
+        }
+        .calendar-mini-day.today {
+            background: #1a73e8;
+            color: #fff;
+        }
+        .calendar-mini-day.selected {
+            background: #e8f0fe;
+            color: #1a73e8;
+            font-weight: 500;
+        }
+        .calendar-mini-day.has-event::after {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 4px;
+            background: #ea4335;
+            border-radius: 50%;
+            margin: 2px auto 0;
+        }
+        .calendar-mini-day.today.has-event::after {
+            background: #fff;
+        }
+        .calendar-filters {
+            padding: 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .calendar-filter-title {
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .calendar-filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 13px;
+            color: #202124;
+            cursor: pointer;
+        }
+        .calendar-filter-item input {
+            margin: 0;
+        }
+        .calendar-filter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .calendar-filter-dot.red { background: #ea4335; }
+        .calendar-filter-dot.orange { background: #f9ab00; }
+        .calendar-filter-dot.blue { background: #1a73e8; }
+        .calendar-filter-dot.green { background: #34a853; }
+        
+        .calendar-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .calendar-main-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .calendar-main-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .calendar-main-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .calendar-main-nav button {
+            padding: 8px 16px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #5f6368;
+        }
+        .calendar-main-nav button:hover {
+            background: #f8f9fa;
+        }
+        .calendar-main-nav button.primary {
+            background: #1a73e8;
+            border-color: #1a73e8;
+            color: #fff;
+        }
+        .calendar-main-nav button.primary:hover {
+            background: #1557b0;
+        }
+        .calendar-week-header {
+            display: grid;
+            grid-template-columns: 60px repeat(7, 1fr);
+            border-bottom: 1px solid #e0e0e0;
+            background: #f8f9fa;
+        }
+        .calendar-week-header-cell {
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .calendar-week-header-cell.today {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+        .calendar-week-body {
+            flex: 1;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 60px repeat(7, 1fr);
+        }
+        .calendar-time-col {
+            border-right: 1px solid #e0e0e0;
+        }
+        .calendar-time-slot {
+            height: 48px;
+            padding: 4px 8px;
+            font-size: 10px;
+            color: #5f6368;
+            text-align: right;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .calendar-day-col {
+            border-right: 1px solid #f0f0f0;
+            position: relative;
+        }
+        .calendar-day-col:last-child {
+            border-right: none;
+        }
+        .calendar-hour-slot {
+            height: 48px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .calendar-event-block {
+            position: absolute;
+            left: 2px;
+            right: 2px;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .calendar-event-block.deadline {
+            background: #fce8e6;
+            border-left: 3px solid #ea4335;
+            color: #c5221f;
+        }
+        .calendar-event-block.warning {
+            background: #fef7e0;
+            border-left: 3px solid #f9ab00;
+            color: #b06000;
+        }
+        .calendar-event-block.meeting {
+            background: #e8f0fe;
+            border-left: 3px solid #1a73e8;
+            color: #1a73e8;
+        }
+        .calendar-event-block.task {
+            background: #e6f4ea;
+            border-left: 3px solid #34a853;
+            color: #137333;
+        }
+        .calendar-event-block-title {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .calendar-event-block-time {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        /* Add Event Form */
+        .add-event-form {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            display: none;
+        }
+        .add-event-form.visible {
+            display: block;
+        }
+        .add-event-form h4 {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #202124;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .form-group {
+            flex: 1;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #5f6368;
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-modal-body {
+                flex-direction: column;
+                height: auto;
+                max-height: 80vh;
+            }
+            .calendar-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            .calendar-mini {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1161,160 +2093,72 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">Dashboard</h1>
+                    <h1 class="page-title">Nástěnka</h1>
                     <p class="page-subtitle">Přehled řízení a aktuální informace • Dopravní a energetický SÚ</p>
                 </div>
                 
-                <!-- View Toggle -->
-                <div class="view-toggle">
-                    <button class="view-toggle-btn active" onclick="switchView('moje')">
-                        <span class="material-icons-outlined">person</span>
-                        Moje řízení
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <!-- View Toggle -->
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn active" onclick="switchView('moje')">
+                            <span class="material-icons-outlined">person</span>
+                            Moje řízení
+                        </button>
+                        <button class="view-toggle-btn" onclick="switchView('urad')">
+                            <span class="material-icons-outlined">account_balance</span>
+                            Řízení úřadu
+                        </button>
+                    </div>
+                    
+                    <!-- Dashboard Settings Button -->
+                    <button class="dashboard-settings-btn" onclick="openDashboardSettings()" title="Přizpůsobit nástěnku">
+                        <span class="material-icons-outlined">dashboard_customize</span>
                     </button>
-                    <button class="view-toggle-btn" onclick="switchView('urad')">
-                        <span class="material-icons-outlined">account_balance</span>
-                        Řízení úřadu
-                    </button>
                 </div>
             </div>
 
-            <!-- Stats Row -->
-            <div class="stats-row" id="statsRow">
-                <div class="stat-card blue" onclick="filterByStatus('all')">
-                    <div class="stat-label">Celkem řízení</div>
-                    <div class="stat-value">47</div>
-                    <div class="stat-change">aktivních případů</div>
-                </div>
-                <div class="stat-card green" onclick="filterByStatus('aktivni')">
-                    <div class="stat-label">Probíhající</div>
-                    <div class="stat-value">32</div>
-                    <div class="stat-change positive">+3 tento týden</div>
-                </div>
-                <div class="stat-card orange" onclick="filterByStatus('cekajici')">
-                    <div class="stat-label">Čekající na akci</div>
-                    <div class="stat-value">8</div>
-                    <div class="stat-change">vyžaduje pozornost</div>
-                </div>
-                <div class="stat-card purple" onclick="filterByStatus('ukonceno')">
-                    <div class="stat-label">Ukončeno (měsíc)</div>
-                    <div class="stat-value">15</div>
-                    <div class="stat-change positive">+5 oproti minulému</div>
-                </div>
-                <div class="stat-card red" onclick="filterByStatus('lhuta')">
-                    <div class="stat-label">Překročená lhůta</div>
-                    <div class="stat-value">2</div>
-                    <div class="stat-change negative">vyžaduje řešení</div>
-                </div>
-            </div>
-
-            <!-- Charts Row -->
-            <div class="charts-row">
-                <!-- Stav řízení -->
-                <div class="chart-card">
-                    <div class="chart-title">Stav řízení</div>
-                    <div class="chart-container">
-                        <div class="donut-chart">
-                            <svg viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" stroke="#e8eaed" stroke-dasharray="251.2" stroke-dashoffset="0"></circle>
-                                <circle cx="50" cy="50" r="40" stroke="#34a853" stroke-dasharray="251.2" stroke-dashoffset="80"></circle>
-                                <circle cx="50" cy="50" r="40" stroke="#f9ab00" stroke-dasharray="251.2" stroke-dashoffset="171"></circle>
-                                <circle cx="50" cy="50" r="40" stroke="#ea4335" stroke-dasharray="251.2" stroke-dashoffset="240"></circle>
-                            </svg>
-                            <div class="donut-center">
-                                <div class="donut-center-value">47</div>
-                                <div class="donut-center-label">řízení</div>
-                            </div>
-                        </div>
+            <!-- Dashboard Widgets Container -->
+            <div class="dashboard-widgets-container" id="dashboardWidgetsContainer">
+            
+                <!-- Widget: Přehled čísel -->
+                <div class="dashboard-widget full-width" data-widget="stats" id="widget-stats">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
                     </div>
-                    <div class="chart-legend">
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #34a853;"></span>Probíhající</span>
-                            <span class="legend-value">32 (68%)</span>
+                    <div class="stats-row" id="statsRow">
+                        <div class="stat-card blue" onclick="filterByStatus('all')">
+                            <div class="stat-label">Celkem řízení</div>
+                            <div class="stat-value">47</div>
+                            <div class="stat-change">aktivních případů</div>
                         </div>
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #f9ab00;"></span>Čekající</span>
-                            <span class="legend-value">8 (17%)</span>
+                        <div class="stat-card green" onclick="filterByStatus('aktivni')">
+                            <div class="stat-label">Probíhající</div>
+                            <div class="stat-value">32</div>
+                            <div class="stat-change positive">+3 tento týden</div>
                         </div>
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #ea4335;"></span>Překročená lhůta</span>
-                            <span class="legend-value">2 (4%)</span>
+                        <div class="stat-card orange" onclick="filterByStatus('cekajici')">
+                            <div class="stat-label">Čekající na akci</div>
+                            <div class="stat-value">8</div>
+                            <div class="stat-change">vyžaduje pozornost</div>
                         </div>
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #e8eaed;"></span>Pozastaveno</span>
-                            <span class="legend-value">5 (11%)</span>
+                        <div class="stat-card purple" onclick="filterByStatus('ukonceno')">
+                            <div class="stat-label">Ukončeno (měsíc)</div>
+                            <div class="stat-value">15</div>
+                            <div class="stat-change positive">+5 oproti minulému</div>
+                        </div>
+                        <div class="stat-card red" onclick="filterByStatus('lhuta')">
+                            <div class="stat-label">Překročená lhůta</div>
+                            <div class="stat-value">2</div>
+                            <div class="stat-change negative">vyžaduje řešení</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Typ řízení -->
-                <div class="chart-card">
-                    <div class="chart-title">Typ řízení</div>
-                    <div class="chart-container">
-                        <div class="donut-chart">
-                            <svg viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" stroke="#1a73e8" stroke-dasharray="251.2" stroke-dashoffset="0"></circle>
-                                <circle cx="50" cy="50" r="40" stroke="#9334e6" stroke-dasharray="251.2" stroke-dashoffset="126"></circle>
-                                <circle cx="50" cy="50" r="40" stroke="#00bcd4" stroke-dasharray="251.2" stroke-dashoffset="188"></circle>
-                                <circle cx="50" cy="50" r="40" stroke="#ff9800" stroke-dasharray="251.2" stroke-dashoffset="220"></circle>
-                            </svg>
-                            <div class="donut-center">
-                                <div class="donut-center-value">47</div>
-                                <div class="donut-center-label">řízení</div>
-                            </div>
-                        </div>
+                <!-- Widget: Upozornění -->
+                <div class="dashboard-widget" data-widget="alerts" id="widget-alerts">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
                     </div>
-                    <div class="chart-legend">
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #1a73e8;"></span>Povolení stavby</span>
-                            <span class="legend-value">24 (51%)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #9334e6;"></span>Předběžná informace</span>
-                            <span class="legend-value">12 (26%)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #00bcd4;"></span>Kolaudace</span>
-                            <span class="legend-value">7 (15%)</span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="legend-label"><span class="legend-dot" style="background: #ff9800;"></span>Odstranění stavby</span>
-                            <span class="legend-value">4 (8%)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lhůty -->
-                <div class="chart-card">
-                    <div class="chart-title">Přehled lhůt</div>
-                    <div class="card-body" style="padding: 0;">
-                        <div class="lhuty-bars">
-                            <div class="lhuta-item">
-                                <span class="lhuta-label">V pořádku</span>
-                                <div class="lhuta-bar-container">
-                                    <div class="lhuta-bar green" style="width: 70%;">33</div>
-                                </div>
-                            </div>
-                            <div class="lhuta-item">
-                                <span class="lhuta-label">Do 7 dnů</span>
-                                <div class="lhuta-bar-container">
-                                    <div class="lhuta-bar orange" style="width: 25%;">12</div>
-                                </div>
-                            </div>
-                            <div class="lhuta-item">
-                                <span class="lhuta-label">Překročeno</span>
-                                <div class="lhuta-bar-container">
-                                    <div class="lhuta-bar red" style="width: 5%;">2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Dashboard Grid -->
-            <div class="dashboard-grid" style="margin-top: 24px;">
-                <div class="dashboard-main">
-                    <!-- Upozornění -->
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
@@ -1351,8 +2195,78 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Widget: Rychlé akce -->
+                <div class="dashboard-widget" data-widget="quick-actions" id="widget-quick-actions">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">bolt</span>
+                                Rychlé akce
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="quick-actions">
+                                <a href="dokumenty.html" class="quick-action-alert documents">
+                                    <div class="quick-action-alert-header">
+                                        <div class="quick-action-alert-icon">
+                                            <span class="material-icons-outlined">mark_email_unread</span>
+                                        </div>
+                                        <div class="quick-action-alert-badge">12</div>
+                                    </div>
+                                    <div class="quick-action-alert-title">Nové dokumenty</div>
+                                    <div class="quick-action-alert-desc">Doručené dokumenty čekající na zpracování</div>
+                                    <div class="quick-action-alert-link">
+                                        Zobrazit
+                                        <span class="material-icons-outlined">arrow_forward</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="rizeni.html" class="quick-action-alert rizeni">
+                                    <div class="quick-action-alert-header">
+                                        <div class="quick-action-alert-icon">
+                                            <span class="material-icons-outlined">assignment_ind</span>
+                                        </div>
+                                        <div class="quick-action-alert-badge">3</div>
+                                    </div>
+                                    <div class="quick-action-alert-title">Přidělená řízení</div>
+                                    <div class="quick-action-alert-desc">Nově postoupená nebo předaná řízení</div>
+                                    <div class="quick-action-alert-link">
+                                        Zobrazit
+                                        <span class="material-icons-outlined">arrow_forward</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">add_circle</span>
+                                    <span>Nové řízení</span>
+                                </a>
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">search</span>
+                                    <span>Hledat v ISSŘ</span>
+                                </a>
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">calendar_today</span>
+                                    <span>Kalendář lhůt</span>
+                                </a>
+                                <a href="#" class="quick-action-btn">
+                                    <span class="material-icons-outlined">assessment</span>
+                                    <span>Statistiky</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Seznam řízení -->
+                <!-- Widget: Seznam řízení -->
+                <div class="dashboard-widget" data-widget="proceedings" id="widget-proceedings">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
+                    </div>
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
@@ -1456,70 +2370,11 @@
                     </div>
                 </div>
 
-                <div class="dashboard-side">
-                    <!-- Rychlé akce -->
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <span class="material-icons-outlined">bolt</span>
-                                Rychlé akce
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="quick-actions">
-                                <!-- Zvýrazněné alert dlaždice -->
-                                <a href="dokumenty.html" class="quick-action-alert documents">
-                                    <div class="quick-action-alert-header">
-                                        <div class="quick-action-alert-icon">
-                                            <span class="material-icons-outlined">mark_email_unread</span>
-                                        </div>
-                                        <div class="quick-action-alert-badge">12</div>
-                                    </div>
-                                    <div class="quick-action-alert-title">Nové dokumenty</div>
-                                    <div class="quick-action-alert-desc">Doručené dokumenty čekající na zpracování</div>
-                                    <div class="quick-action-alert-link">
-                                        Zobrazit
-                                        <span class="material-icons-outlined">arrow_forward</span>
-                                    </div>
-                                </a>
-                                
-                                <a href="rizeni.html" class="quick-action-alert rizeni">
-                                    <div class="quick-action-alert-header">
-                                        <div class="quick-action-alert-icon">
-                                            <span class="material-icons-outlined">assignment_ind</span>
-                                        </div>
-                                        <div class="quick-action-alert-badge">3</div>
-                                    </div>
-                                    <div class="quick-action-alert-title">Přidělená řízení</div>
-                                    <div class="quick-action-alert-desc">Nově postoupená nebo předaná řízení</div>
-                                    <div class="quick-action-alert-link">
-                                        Zobrazit
-                                        <span class="material-icons-outlined">arrow_forward</span>
-                                    </div>
-                                </a>
-                                
-                                <!-- Standardní dlaždice -->
-                                <a href="#" class="quick-action-btn">
-                                    <span class="material-icons-outlined">add_circle</span>
-                                    <span>Nové řízení</span>
-                                </a>
-                                <a href="#" class="quick-action-btn">
-                                    <span class="material-icons-outlined">search</span>
-                                    <span>Hledat v ISSŘ</span>
-                                </a>
-                                <a href="#" class="quick-action-btn">
-                                    <span class="material-icons-outlined">calendar_today</span>
-                                    <span>Kalendář lhůt</span>
-                                </a>
-                                <a href="#" class="quick-action-btn">
-                                    <span class="material-icons-outlined">assessment</span>
-                                    <span>Statistiky</span>
-                                </a>
-                            </div>
-                        </div>
+                <!-- Widget: Aktuality -->
+                <div class="dashboard-widget" data-widget="news" id="widget-news">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
                     </div>
-
-                    <!-- Aktuality -->
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">
@@ -1568,7 +2423,317 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Widget: Grafy a statistiky -->
+                <div class="dashboard-widget full-width" data-widget="charts" id="widget-charts">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
+                    </div>
+                    <div class="charts-row">
+                        <!-- Stav řízení -->
+                        <div class="chart-card">
+                            <div class="chart-title">Stav řízení</div>
+                            <div class="chart-container">
+                                <div class="donut-chart">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="40" stroke="#e8eaed" stroke-dasharray="251.2" stroke-dashoffset="0"></circle>
+                                        <circle cx="50" cy="50" r="40" stroke="#34a853" stroke-dasharray="251.2" stroke-dashoffset="80"></circle>
+                                        <circle cx="50" cy="50" r="40" stroke="#f9ab00" stroke-dasharray="251.2" stroke-dashoffset="171"></circle>
+                                        <circle cx="50" cy="50" r="40" stroke="#ea4335" stroke-dasharray="251.2" stroke-dashoffset="240"></circle>
+                                    </svg>
+                                    <div class="donut-center">
+                                        <div class="donut-center-value">47</div>
+                                        <div class="donut-center-label">řízení</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #34a853;"></span>Probíhající</span>
+                                    <span class="legend-value">32 (68%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #f9ab00;"></span>Čekající</span>
+                                    <span class="legend-value">8 (17%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #ea4335;"></span>Překročená lhůta</span>
+                                    <span class="legend-value">2 (4%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #e8eaed;"></span>Pozastaveno</span>
+                                    <span class="legend-value">5 (11%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typ řízení -->
+                        <div class="chart-card">
+                            <div class="chart-title">Typ řízení</div>
+                            <div class="chart-container">
+                                <div class="donut-chart">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="40" stroke="#1a73e8" stroke-dasharray="251.2" stroke-dashoffset="0"></circle>
+                                        <circle cx="50" cy="50" r="40" stroke="#9334e6" stroke-dasharray="251.2" stroke-dashoffset="126"></circle>
+                                        <circle cx="50" cy="50" r="40" stroke="#00bcd4" stroke-dasharray="251.2" stroke-dashoffset="188"></circle>
+                                        <circle cx="50" cy="50" r="40" stroke="#ff9800" stroke-dasharray="251.2" stroke-dashoffset="220"></circle>
+                                    </svg>
+                                    <div class="donut-center">
+                                        <div class="donut-center-value">47</div>
+                                        <div class="donut-center-label">řízení</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #1a73e8;"></span>Povolení stavby</span>
+                                    <span class="legend-value">24 (51%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #9334e6;"></span>Předběžná informace</span>
+                                    <span class="legend-value">12 (26%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #00bcd4;"></span>Kolaudace</span>
+                                    <span class="legend-value">7 (15%)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-label"><span class="legend-dot" style="background: #ff9800;"></span>Odstranění stavby</span>
+                                    <span class="legend-value">4 (8%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lhůty -->
+                        <div class="chart-card">
+                            <div class="chart-title">Přehled lhůt</div>
+                            <div class="card-body" style="padding: 0;">
+                                <div class="lhuty-bars">
+                                    <div class="lhuta-item">
+                                        <span class="lhuta-label">V pořádku</span>
+                                        <div class="lhuta-bar-container">
+                                            <div class="lhuta-bar green" style="width: 70%;">33</div>
+                                        </div>
+                                    </div>
+                                    <div class="lhuta-item">
+                                        <span class="lhuta-label">Do 7 dnů</span>
+                                        <div class="lhuta-bar-container">
+                                            <div class="lhuta-bar orange" style="width: 25%;">12</div>
+                                        </div>
+                                    </div>
+                                    <div class="lhuta-item">
+                                        <span class="lhuta-label">Překročeno</span>
+                                        <div class="lhuta-bar-container">
+                                            <div class="lhuta-bar red" style="width: 5%;">2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget: Kalendář lhůt -->
+                <div class="dashboard-widget" data-widget="calendar" id="widget-calendar" style="display: none;">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
+                    </div>
+                    <div class="card" style="cursor: pointer;" onclick="openCalendarModal()">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">calendar_today</span>
+                                Kalendář lhůt
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-action-btn" onclick="event.stopPropagation(); openCalendarModal()">Otevřít kalendář</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="calendar-widget">
+                                <div class="calendar-day">
+                                    <div class="calendar-day-header">
+                                        <span class="calendar-day-name">Po</span>
+                                        <span class="calendar-day-date">10</span>
+                                    </div>
+                                    <div class="calendar-events">
+                                        <div class="calendar-event warning">
+                                            <span class="calendar-event-time">09:00</span>
+                                            <span class="calendar-event-title">Lhůta pro vyjádření DO</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="calendar-day-header">
+                                        <span class="calendar-day-name">Út</span>
+                                        <span class="calendar-day-date">11</span>
+                                    </div>
+                                    <div class="calendar-events">
+                                        <div class="calendar-event">
+                                            <span class="calendar-event-time">—</span>
+                                            <span class="calendar-event-title">Žádné lhůty</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calendar-day today">
+                                    <div class="calendar-day-header">
+                                        <span class="calendar-day-name">St</span>
+                                        <span class="calendar-day-date">12</span>
+                                    </div>
+                                    <div class="calendar-events">
+                                        <div class="calendar-event danger">
+                                            <span class="calendar-event-time">—</span>
+                                            <span class="calendar-event-title">Vydání rozhodnutí</span>
+                                        </div>
+                                        <div class="calendar-event">
+                                            <span class="calendar-event-time">14:00</span>
+                                            <span class="calendar-event-title">Ústní jednání</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="calendar-day-header">
+                                        <span class="calendar-day-name">Čt</span>
+                                        <span class="calendar-day-date">13</span>
+                                    </div>
+                                    <div class="calendar-events">
+                                        <div class="calendar-event">
+                                            <span class="calendar-event-time">10:00</span>
+                                            <span class="calendar-event-title">Kontrolní prohlídka</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calendar-day">
+                                    <div class="calendar-day-header">
+                                        <span class="calendar-day-name">Pá</span>
+                                        <span class="calendar-day-date">14</span>
+                                    </div>
+                                    <div class="calendar-events">
+                                        <div class="calendar-event warning">
+                                            <span class="calendar-event-time">—</span>
+                                            <span class="calendar-event-title">2× konec lhůty</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget: Oblíbená řízení -->
+                <div class="dashboard-widget" data-widget="favorites" id="widget-favorites" style="display: none;">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">star</span>
+                                Oblíbená řízení
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="favorites-list">
+                                <a href="povoleni-2.html" class="favorite-item">
+                                    <span class="material-icons-outlined favorite-star">star</span>
+                                    <div class="favorite-info">
+                                        <div class="favorite-name">Odstranění části vlečky ŠKODA</div>
+                                        <div class="favorite-meta">R/2026/000147 • Povolení stavby</div>
+                                    </div>
+                                    <span class="favorite-status aktivni">Probíhá</span>
+                                </a>
+                                <a href="#" class="favorite-item">
+                                    <span class="material-icons-outlined favorite-star">star</span>
+                                    <div class="favorite-info">
+                                        <div class="favorite-name">Paroplynová elektrárna Mělník</div>
+                                        <div class="favorite-meta">R/2025/015892 • Povolení stavby</div>
+                                    </div>
+                                    <span class="favorite-status aktivni">Probíhá</span>
+                                </a>
+                                <a href="#" class="favorite-item">
+                                    <span class="material-icons-outlined favorite-star">star</span>
+                                    <div class="favorite-info">
+                                        <div class="favorite-name">VTL plynovod Příbram–Dobříš</div>
+                                        <div class="favorite-meta">R/2025/014523 • Povolení stavby</div>
+                                    </div>
+                                    <span class="favorite-status cekajici">Čeká</span>
+                                </a>
+                                <div class="favorites-empty-hint">
+                                    <span class="material-icons-outlined">info</span>
+                                    Řízení označíte hvězdičkou v detailu
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget: Nedávná aktivita -->
+                <div class="dashboard-widget" data-widget="recent" id="widget-recent" style="display: none;">
+                    <div class="widget-drag-handle" title="Přetáhněte pro změnu pořadí">
+                        <span class="material-icons-outlined">drag_indicator</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <span class="material-icons-outlined">history</span>
+                                Nedávná aktivita
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-action-btn">Dnes</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon blue">
+                                        <span class="material-icons-outlined">edit_document</span>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Upraveno rozhodnutí v řízení <strong>R/2026/000147</strong></div>
+                                        <div class="activity-time">Před 15 minutami</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon green">
+                                        <span class="material-icons-outlined">check_circle</span>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Dokončena kontrola příslušnosti <strong>R/2026/000152</strong></div>
+                                        <div class="activity-time">Před 1 hodinou</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon purple">
+                                        <span class="material-icons-outlined">mail</span>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Odesláno vyjádření DO v řízení <strong>R/2026/000089</strong></div>
+                                        <div class="activity-time">Před 2 hodinami</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon orange">
+                                        <span class="material-icons-outlined">person_add</span>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Přidán účastník do řízení <strong>R/2025/018742</strong></div>
+                                        <div class="activity-time">Před 3 hodinami</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon blue">
+                                        <span class="material-icons-outlined">folder_open</span>
+                                    </div>
+                                    <div class="activity-content">
+                                        <div class="activity-text">Otevřeno řízení <strong>R/2026/000147</strong></div>
+                                        <div class="activity-time">Před 4 hodinami</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- end dashboard-widgets-container -->
 
             <!-- ============================================
                  SEKCE PRO VEDOUCÍ - Výkonnost úředníků
@@ -2077,7 +3242,361 @@
     </div>
 
     <script>
-        // Switch view between "Moje řízení" and "Řízení úřadu"
+        // =============================================
+        // DASHBOARD CONFIGURATION SYSTEM
+        // =============================================
+        
+        // Default widget configuration
+        const DEFAULT_CONFIG = {
+            widgets: ['stats', 'alerts', 'quick-actions', 'proceedings', 'news', 'charts'],
+            order: ['stats', 'alerts', 'quick-actions', 'proceedings', 'news', 'charts', 'calendar', 'favorites', 'recent']
+        };
+        
+        // Widget metadata
+        const WIDGET_META = {
+            'stats': { name: 'Přehled čísel', icon: 'analytics', desc: 'Počty řízení podle stavů', fullWidth: true },
+            'alerts': { name: 'Upozornění', icon: 'warning_amber', desc: 'Překročené lhůty, nová řízení', fullWidth: false },
+            'quick-actions': { name: 'Rychlé akce', icon: 'bolt', desc: 'Nové dokumenty, přidělená řízení', fullWidth: false },
+            'proceedings': { name: 'Seznam řízení', icon: 'gavel', desc: 'Řízení vyžadující pozornost', fullWidth: false },
+            'news': { name: 'Aktuality', icon: 'campaign', desc: 'Novinky z ústředí', fullWidth: false },
+            'charts': { name: 'Grafy a statistiky', icon: 'pie_chart', desc: 'Vizuální přehled stavu', fullWidth: true },
+            'calendar': { name: 'Kalendář lhůt', icon: 'calendar_today', desc: 'Přehled blížících se lhůt', fullWidth: false },
+            'favorites': { name: 'Oblíbená řízení', icon: 'star', desc: 'Rychlý přístup k označeným', fullWidth: false },
+            'recent': { name: 'Nedávná aktivita', icon: 'history', desc: 'Historie posledních akcí', fullWidth: false }
+        };
+        
+        // Current configuration
+        let dashboardConfig = loadDashboardConfig();
+        
+        // Load configuration from localStorage
+        function loadDashboardConfig() {
+            try {
+                const saved = localStorage.getItem('dashboardConfig');
+                if (saved) {
+                    const config = JSON.parse(saved);
+                    // Migration: add charts if not in order
+                    if (!config.order.includes('charts')) {
+                        config.order.push('charts');
+                    }
+                    // Migration: add new widgets to order if missing
+                    ['calendar', 'favorites', 'recent'].forEach(w => {
+                        if (!config.order.includes(w)) {
+                            config.order.push(w);
+                        }
+                    });
+                    return config;
+                }
+            } catch (e) {
+                console.warn('Could not load dashboard config:', e);
+            }
+            return { ...DEFAULT_CONFIG };
+        }
+        
+        // Save configuration to localStorage
+        function saveDashboardConfig() {
+            try {
+                localStorage.setItem('dashboardConfig', JSON.stringify(dashboardConfig));
+            } catch (e) {
+                console.warn('Could not save dashboard config:', e);
+            }
+        }
+        
+        // Apply configuration to dashboard
+        function applyDashboardConfig() {
+            const container = document.getElementById('dashboardWidgetsContainer');
+            if (!container) return;
+            
+            // Sort widgets according to order
+            const widgets = Array.from(container.querySelectorAll('.dashboard-widget'));
+            
+            dashboardConfig.order.forEach(widgetId => {
+                const widget = document.getElementById('widget-' + widgetId);
+                if (widget) {
+                    container.appendChild(widget);
+                }
+            });
+            
+            // Show/hide widgets
+            widgets.forEach(widget => {
+                const widgetId = widget.dataset.widget;
+                if (dashboardConfig.widgets.includes(widgetId)) {
+                    widget.style.display = '';
+                    widget.classList.remove('hidden');
+                } else {
+                    widget.style.display = 'none';
+                    widget.classList.add('hidden');
+                }
+            });
+        }
+        
+        // =============================================
+        // DRAG & DROP FOR DASHBOARD WIDGETS
+        // =============================================
+        
+        let draggedWidget = null;
+        
+        function initDashboardDragDrop() {
+            const container = document.getElementById('dashboardWidgetsContainer');
+            if (!container) return;
+            
+            const widgets = container.querySelectorAll('.dashboard-widget');
+            
+            widgets.forEach(widget => {
+                const handle = widget.querySelector('.widget-drag-handle');
+                
+                // Make widget draggable via handle
+                handle.addEventListener('mousedown', (e) => {
+                    widget.draggable = true;
+                });
+                
+                handle.addEventListener('mouseup', (e) => {
+                    widget.draggable = false;
+                });
+                
+                widget.addEventListener('dragstart', (e) => {
+                    if (!e.target.classList.contains('dashboard-widget')) return;
+                    draggedWidget = widget;
+                    widget.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', widget.dataset.widget);
+                });
+                
+                widget.addEventListener('dragend', (e) => {
+                    widget.classList.remove('dragging');
+                    widget.draggable = false;
+                    draggedWidget = null;
+                    
+                    // Remove all drag-over classes
+                    document.querySelectorAll('.drag-over').forEach(el => {
+                        el.classList.remove('drag-over');
+                    });
+                    
+                    // Update config order
+                    updateConfigOrder();
+                });
+                
+                widget.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!draggedWidget || draggedWidget === widget) return;
+                    
+                    widget.classList.add('drag-over');
+                });
+                
+                widget.addEventListener('dragleave', (e) => {
+                    widget.classList.remove('drag-over');
+                });
+                
+                widget.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    widget.classList.remove('drag-over');
+                    
+                    if (!draggedWidget || draggedWidget === widget) return;
+                    
+                    const container = document.getElementById('dashboardWidgetsContainer');
+                    const allWidgets = Array.from(container.querySelectorAll('.dashboard-widget'));
+                    const draggedIndex = allWidgets.indexOf(draggedWidget);
+                    const targetIndex = allWidgets.indexOf(widget);
+                    
+                    if (draggedIndex < targetIndex) {
+                        widget.parentNode.insertBefore(draggedWidget, widget.nextSibling);
+                    } else {
+                        widget.parentNode.insertBefore(draggedWidget, widget);
+                    }
+                });
+            });
+        }
+        
+        function updateConfigOrder() {
+            const container = document.getElementById('dashboardWidgetsContainer');
+            const widgets = container.querySelectorAll('.dashboard-widget');
+            dashboardConfig.order = Array.from(widgets).map(w => w.dataset.widget);
+            saveDashboardConfig();
+        }
+        
+        // =============================================
+        // SETTINGS MODAL
+        // =============================================
+        
+        function openDashboardSettings() {
+            const modal = document.getElementById('dashboardSettingsModal');
+            modal.classList.add('open');
+            
+            // Sync modal state with current config
+            syncModalWithConfig();
+            updateLayoutPreview();
+        }
+        
+        function closeDashboardSettings() {
+            document.getElementById('dashboardSettingsModal').classList.remove('open');
+        }
+        
+        function syncModalWithConfig() {
+            // Update checkboxes in modal
+            document.querySelectorAll('.widget-config-item').forEach(item => {
+                const widgetId = item.dataset.widget;
+                if (dashboardConfig.widgets.includes(widgetId)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        function toggleWidget(widgetId) {
+            const item = document.querySelector(`.widget-config-item[data-widget="${widgetId}"]`);
+            item.classList.toggle('active');
+            updateLayoutPreview();
+        }
+        
+        function updateLayoutPreview() {
+            const previewContainer = document.getElementById('layoutPreview');
+            previewContainer.innerHTML = '';
+            
+            // Get active widgets from modal in current order
+            const activeWidgetIds = [];
+            document.querySelectorAll('.widget-config-item.active').forEach(item => {
+                activeWidgetIds.push(item.dataset.widget);
+            });
+            
+            // Sort by current dashboard order
+            const sortedIds = dashboardConfig.order.filter(id => activeWidgetIds.includes(id));
+            // Add any new ones not in order
+            activeWidgetIds.forEach(id => {
+                if (!sortedIds.includes(id)) sortedIds.push(id);
+            });
+            
+            sortedIds.forEach(widgetId => {
+                const meta = WIDGET_META[widgetId];
+                if (!meta) return;
+                
+                const previewItem = document.createElement('div');
+                previewItem.className = 'layout-preview-item';
+                previewItem.draggable = true;
+                previewItem.dataset.widget = widgetId;
+                previewItem.innerHTML = `
+                    <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                    <span class="material-icons-outlined">${meta.icon}</span>
+                    <span>${meta.name}</span>
+                `;
+                
+                // Drag events for preview items
+                previewItem.addEventListener('dragstart', (e) => {
+                    previewItem.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', widgetId);
+                });
+                
+                previewItem.addEventListener('dragend', () => {
+                    previewItem.classList.remove('dragging');
+                });
+                
+                previewItem.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    const dragging = previewContainer.querySelector('.dragging');
+                    if (dragging && dragging !== previewItem) {
+                        const rect = previewItem.getBoundingClientRect();
+                        const midY = rect.top + rect.height / 2;
+                        if (e.clientY < midY) {
+                            previewContainer.insertBefore(dragging, previewItem);
+                        } else {
+                            previewContainer.insertBefore(dragging, previewItem.nextSibling);
+                        }
+                    }
+                });
+                
+                previewContainer.appendChild(previewItem);
+            });
+        }
+        
+        function saveDashboardSettings() {
+            // Get active widgets from modal
+            const activeWidgets = [];
+            document.querySelectorAll('.widget-config-item.active').forEach(item => {
+                activeWidgets.push(item.dataset.widget);
+            });
+            
+            // Get order from preview
+            const newOrder = [];
+            document.querySelectorAll('#layoutPreview .layout-preview-item').forEach(item => {
+                newOrder.push(item.dataset.widget);
+            });
+            
+            // Add hidden widgets to end of order
+            dashboardConfig.order.forEach(id => {
+                if (!newOrder.includes(id)) newOrder.push(id);
+            });
+            
+            // Update config
+            dashboardConfig.widgets = activeWidgets;
+            dashboardConfig.order = newOrder;
+            
+            // Save and apply
+            saveDashboardConfig();
+            applyDashboardConfig();
+            
+            closeDashboardSettings();
+            showToast('Nastavení nástěnky bylo uloženo');
+        }
+        
+        function resetDashboardSettings() {
+            // Reset to defaults
+            dashboardConfig = { ...DEFAULT_CONFIG };
+            
+            // Update modal UI
+            syncModalWithConfig();
+            updateLayoutPreview();
+            
+            showToast('Nastavení obnoveno na výchozí hodnoty', 'info');
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            const icons = {
+                success: 'check_circle',
+                info: 'info',
+                warning: 'warning',
+                error: 'error'
+            };
+            const colors = {
+                success: '#323232',
+                info: '#1a73e8',
+                warning: '#f9ab00',
+                error: '#ea4335'
+            };
+            
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${colors[type] || colors.success};
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 3000;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideUp 0.3s ease;
+            `;
+            toast.innerHTML = `
+                <span class="material-icons-outlined" style="font-size: 20px;">${icons[type] || icons.success}</span>
+                ${message}
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        // =============================================
+        // VIEW SWITCHING
+        // =============================================
+        
         function switchView(view) {
             const buttons = document.querySelectorAll('.view-toggle-btn');
             const managerSection = document.getElementById('managerSection');
@@ -2107,28 +3626,642 @@
             }
         }
         
-        // Update stats display
         function updateStats(data) {
             const statsRow = document.getElementById('statsRow');
+            if (!statsRow) return;
             const cards = statsRow.querySelectorAll('.stat-card');
             const values = [data.total, data.active, data.waiting, data.completed, data.overdue];
             
             cards.forEach((card, index) => {
                 const valueEl = card.querySelector('.stat-value');
-                valueEl.textContent = values[index];
+                if (valueEl && values[index] !== undefined) {
+                    valueEl.textContent = values[index];
+                }
             });
         }
         
-        // Filter by status (placeholder)
         function filterByStatus(status) {
             console.log('Filter by:', status);
             // In real implementation, this would filter the list
         }
         
-        // Open scoring methodology modal (placeholder)
         function openScoringModal() {
-            alert('Metodika hodnocení výkonnosti úředníků\n\nVýkonnostní skóre kombinuje:\n• Objem práce (počet řízení)\n• Složitost řízení (typ, účastníci, dokumenty, DO)\n• Efektivitu (dodržení lhůt)\n• Vytížení (poměr aktuální/cílové kapacity)\n\nVáhy jednotlivých složek lze konfigurovat v nastavení úřadu.');
+            document.getElementById('scoringModal').style.display = 'flex';
         }
+        
+        function closeScoringModal() {
+            document.getElementById('scoringModal').style.display = 'none';
+        }
+        
+        // =============================================
+        // INITIALIZATION
+        // =============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved configuration
+            applyDashboardConfig();
+            
+            // Initialize drag & drop
+            initDashboardDragDrop();
+            
+            // Close modal on overlay click
+            document.getElementById('dashboardSettingsModal').addEventListener('click', function(e) {
+                if (e.target === this) closeDashboardSettings();
+            });
+            
+            // Add CSS animation for toast
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideUp {
+                    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+    
+    <!-- Dashboard Settings Modal -->
+    <div class="dashboard-modal-overlay" id="dashboardSettingsModal" onclick="if(event.target === this) closeDashboardSettings()">
+        <div class="dashboard-modal">
+            <div class="dashboard-modal-header">
+                <div class="dashboard-modal-title">
+                    <span class="material-icons-outlined">dashboard_customize</span>
+                    Přizpůsobit nástěnku
+                </div>
+                <button class="dashboard-modal-close" onclick="closeDashboardSettings()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="dashboard-modal-body">
+                <!-- Výběr widgetů -->
+                <div class="widget-config-section">
+                    <div class="widget-config-title">Zobrazené sekce</div>
+                    <div class="widget-config-grid">
+                        <div class="widget-config-item active" data-widget="stats" onclick="toggleWidget('stats')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">analytics</span>
+                            </div>
+                            <div class="widget-config-name">Přehled čísel</div>
+                            <div class="widget-config-desc">Počty řízení podle stavů</div>
+                        </div>
+                        <div class="widget-config-item active" data-widget="alerts" onclick="toggleWidget('alerts')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">warning_amber</span>
+                            </div>
+                            <div class="widget-config-name">Upozornění</div>
+                            <div class="widget-config-desc">Překročené lhůty, nová řízení</div>
+                        </div>
+                        <div class="widget-config-item active" data-widget="quick-actions" onclick="toggleWidget('quick-actions')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">bolt</span>
+                            </div>
+                            <div class="widget-config-name">Rychlé akce</div>
+                            <div class="widget-config-desc">Nové dokumenty, přidělená řízení</div>
+                        </div>
+                        <div class="widget-config-item active" data-widget="proceedings" onclick="toggleWidget('proceedings')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">gavel</span>
+                            </div>
+                            <div class="widget-config-name">Seznam řízení</div>
+                            <div class="widget-config-desc">Řízení vyžadující pozornost</div>
+                        </div>
+                        <div class="widget-config-item active" data-widget="news" onclick="toggleWidget('news')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">campaign</span>
+                            </div>
+                            <div class="widget-config-name">Aktuality</div>
+                            <div class="widget-config-desc">Novinky z ústředí</div>
+                        </div>
+                        <div class="widget-config-item active" data-widget="charts" onclick="toggleWidget('charts')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">pie_chart</span>
+                            </div>
+                            <div class="widget-config-name">Grafy a statistiky</div>
+                            <div class="widget-config-desc">Vizuální přehled stavu</div>
+                        </div>
+                        <div class="widget-config-item" data-widget="calendar" onclick="toggleWidget('calendar')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">calendar_today</span>
+                            </div>
+                            <div class="widget-config-name">Kalendář lhůt</div>
+                            <div class="widget-config-desc">Přehled blížících se lhůt</div>
+                        </div>
+                        <div class="widget-config-item" data-widget="favorites" onclick="toggleWidget('favorites')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">star</span>
+                            </div>
+                            <div class="widget-config-name">Oblíbená řízení</div>
+                            <div class="widget-config-desc">Rychlý přístup k označeným</div>
+                        </div>
+                        <div class="widget-config-item" data-widget="recent" onclick="toggleWidget('recent')">
+                            <div class="widget-config-icon">
+                                <span class="material-icons-outlined">history</span>
+                            </div>
+                            <div class="widget-config-name">Nedávná aktivita</div>
+                            <div class="widget-config-desc">Historie posledních akcí</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Náhled rozložení -->
+                <div class="layout-preview">
+                    <div class="layout-preview-title">
+                        <span class="material-icons-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">reorder</span>
+                        Pořadí sekcí (přetažením lze změnit)
+                    </div>
+                    <div class="layout-preview-grid" id="layoutPreview">
+                        <div class="layout-preview-item">
+                            <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                            <span class="material-icons-outlined">analytics</span>
+                            <span>Přehled čísel</span>
+                        </div>
+                        <div class="layout-preview-item">
+                            <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                            <span class="material-icons-outlined">warning_amber</span>
+                            <span>Upozornění</span>
+                        </div>
+                        <div class="layout-preview-item">
+                            <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                            <span class="material-icons-outlined">bolt</span>
+                            <span>Rychlé akce</span>
+                        </div>
+                        <div class="layout-preview-item">
+                            <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                            <span class="material-icons-outlined">gavel</span>
+                            <span>Seznam řízení</span>
+                        </div>
+                        <div class="layout-preview-item">
+                            <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                            <span class="material-icons-outlined">campaign</span>
+                            <span>Aktuality</span>
+                        </div>
+                        <div class="layout-preview-item">
+                            <span class="material-icons-outlined drag-handle">drag_indicator</span>
+                            <span class="material-icons-outlined">pie_chart</span>
+                            <span>Grafy a statistiky</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="resetDashboardSettings()">
+                    Obnovit výchozí
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeDashboardSettings()">
+                    Zrušit
+                </button>
+                <button class="modal-btn modal-btn-primary" onclick="saveDashboardSettings()">
+                    Uložit nastavení
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Calendar Modal -->
+    <div class="dashboard-modal-overlay" id="calendarModal" onclick="if(event.target === this) closeCalendarModal()">
+        <div class="dashboard-modal calendar-modal">
+            <div class="dashboard-modal-header">
+                <div class="dashboard-modal-title">
+                    <span class="material-icons-outlined">calendar_today</span>
+                    Kalendář lhůt a událostí
+                </div>
+                <button class="dashboard-modal-close" onclick="closeCalendarModal()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="calendar-modal-body">
+                <!-- Sidebar -->
+                <div class="calendar-sidebar">
+                    <div class="calendar-sidebar-header">
+                        <div class="calendar-search">
+                            <span class="material-icons-outlined">search</span>
+                            <input type="text" placeholder="Hledat události..." id="calendarSearch" oninput="filterCalendarEvents(this.value)">
+                        </div>
+                    </div>
+                    
+                    <!-- Mini Calendar -->
+                    <div class="calendar-mini">
+                        <div class="calendar-mini-header">
+                            <span class="calendar-mini-title" id="miniCalendarTitle">Březen 2026</span>
+                            <div class="calendar-mini-nav">
+                                <button onclick="changeMonth(-1)">
+                                    <span class="material-icons-outlined">chevron_left</span>
+                                </button>
+                                <button onclick="changeMonth(1)">
+                                    <span class="material-icons-outlined">chevron_right</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-mini-grid" id="miniCalendarGrid">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Filters -->
+                    <div class="calendar-filters">
+                        <div class="calendar-filter-title">Typy událostí</div>
+                        <label class="calendar-filter-item">
+                            <input type="checkbox" checked onchange="toggleEventType('deadline')">
+                            <span class="calendar-filter-dot red"></span>
+                            Lhůty
+                        </label>
+                        <label class="calendar-filter-item">
+                            <input type="checkbox" checked onchange="toggleEventType('warning')">
+                            <span class="calendar-filter-dot orange"></span>
+                            Upozornění
+                        </label>
+                        <label class="calendar-filter-item">
+                            <input type="checkbox" checked onchange="toggleEventType('meeting')">
+                            <span class="calendar-filter-dot blue"></span>
+                            Jednání
+                        </label>
+                        <label class="calendar-filter-item">
+                            <input type="checkbox" checked onchange="toggleEventType('task')">
+                            <span class="calendar-filter-dot green"></span>
+                            Úkoly
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Main Calendar -->
+                <div class="calendar-main">
+                    <div class="calendar-main-header">
+                        <div class="calendar-main-title" id="calendarMainTitle">10. – 14. března 2026</div>
+                        <div class="calendar-main-nav">
+                            <button onclick="changeWeek(-1)">
+                                <span class="material-icons-outlined">chevron_left</span>
+                            </button>
+                            <button onclick="goToToday()">Dnes</button>
+                            <button onclick="changeWeek(1)">
+                                <span class="material-icons-outlined">chevron_right</span>
+                            </button>
+                            <button class="primary" onclick="toggleAddEventForm()">
+                                <span class="material-icons-outlined">add</span>
+                                Přidat událost
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Week Header -->
+                    <div class="calendar-week-header">
+                        <div class="calendar-week-header-cell"></div>
+                        <div class="calendar-week-header-cell" id="weekDay0">Po 10</div>
+                        <div class="calendar-week-header-cell today" id="weekDay1">Út 11</div>
+                        <div class="calendar-week-header-cell" id="weekDay2">St 12</div>
+                        <div class="calendar-week-header-cell" id="weekDay3">Čt 13</div>
+                        <div class="calendar-week-header-cell" id="weekDay4">Pá 14</div>
+                        <div class="calendar-week-header-cell" id="weekDay5">So 15</div>
+                        <div class="calendar-week-header-cell" id="weekDay6">Ne 16</div>
+                    </div>
+                    
+                    <!-- Week Body -->
+                    <div class="calendar-week-body" id="calendarWeekBody">
+                        <!-- Time column -->
+                        <div class="calendar-time-col">
+                            <div class="calendar-time-slot">8:00</div>
+                            <div class="calendar-time-slot">9:00</div>
+                            <div class="calendar-time-slot">10:00</div>
+                            <div class="calendar-time-slot">11:00</div>
+                            <div class="calendar-time-slot">12:00</div>
+                            <div class="calendar-time-slot">13:00</div>
+                            <div class="calendar-time-slot">14:00</div>
+                            <div class="calendar-time-slot">15:00</div>
+                            <div class="calendar-time-slot">16:00</div>
+                            <div class="calendar-time-slot">17:00</div>
+                        </div>
+                        <!-- Day columns generated by JS -->
+                    </div>
+                    
+                    <!-- Add Event Form -->
+                    <div class="add-event-form" id="addEventForm">
+                        <h4>Nová událost</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Název</label>
+                                <input type="text" id="eventTitle" placeholder="Název události">
+                            </div>
+                            <div class="form-group" style="flex: 0 0 150px;">
+                                <label>Typ</label>
+                                <select id="eventType">
+                                    <option value="deadline">Lhůta</option>
+                                    <option value="warning">Upozornění</option>
+                                    <option value="meeting">Jednání</option>
+                                    <option value="task">Úkol</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Datum</label>
+                                <input type="date" id="eventDate" value="2026-03-10">
+                            </div>
+                            <div class="form-group">
+                                <label>Čas</label>
+                                <input type="time" id="eventTime" value="09:00">
+                            </div>
+                            <div class="form-group">
+                                <label>Řízení</label>
+                                <select id="eventRizeni">
+                                    <option value="">— Vyberte —</option>
+                                    <option value="R/2026/000147">R/2026/000147 - Vlečka ŠKODA</option>
+                                    <option value="R/2026/000089">R/2026/000089 - Přeložka VN</option>
+                                    <option value="R/2026/000152">R/2026/000152 - FVE Dětmarovice</option>
+                                    <option value="R/2025/018742">R/2025/018742 - Rozvodna Hostivice</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="modal-btn modal-btn-secondary" onclick="toggleAddEventForm()">Zrušit</button>
+                            <button class="modal-btn modal-btn-primary" onclick="addCalendarEvent()">Přidat událost</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // =============================================
+    // CALENDAR FUNCTIONALITY
+    // =============================================
+    
+    const MONTHS_CS = ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 
+                       'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'];
+    const DAYS_CS = ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'];
+    const DAYS_FULL_CS = ['Neděle', 'Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota'];
+    
+    let currentMonth = 2; // March (0-indexed)
+    let currentYear = 2026;
+    let currentWeekStart = new Date(2026, 2, 9); // Monday March 9, 2026
+    let selectedDate = new Date(2026, 2, 10);
+    
+    // Sample events data
+    let calendarEvents = [
+        { id: 1, title: 'Lhůta pro vyjádření DO', type: 'deadline', date: '2026-03-10', time: '09:00', rizeni: 'R/2026/000089' },
+        { id: 2, title: 'Vydání rozhodnutí', type: 'deadline', date: '2026-03-12', time: null, rizeni: 'R/2025/012847' },
+        { id: 3, title: 'Ústní jednání', type: 'meeting', date: '2026-03-12', time: '14:00', rizeni: 'R/2026/000147' },
+        { id: 4, title: 'Kontrolní prohlídka', type: 'meeting', date: '2026-03-13', time: '10:00', rizeni: 'R/2025/018742' },
+        { id: 5, title: 'Konec lhůty pro odvolání', type: 'warning', date: '2026-03-14', time: null, rizeni: 'R/2026/000089' },
+        { id: 6, title: 'Konec lhůty pro doplnění', type: 'warning', date: '2026-03-14', time: null, rizeni: 'R/2026/000152' },
+        { id: 7, title: 'Zpracovat dokumentaci', type: 'task', date: '2026-03-11', time: '09:00', rizeni: 'R/2026/000147' },
+        { id: 8, title: 'Odeslat výzvu', type: 'task', date: '2026-03-16', time: '10:00', rizeni: 'R/2026/000152' },
+    ];
+    
+    let visibleEventTypes = ['deadline', 'warning', 'meeting', 'task'];
+    let searchQuery = '';
+    
+    function openCalendarModal() {
+        document.getElementById('calendarModal').classList.add('open');
+        renderMiniCalendar();
+        renderWeekView();
+    }
+    
+    function closeCalendarModal() {
+        document.getElementById('calendarModal').classList.remove('open');
+    }
+    
+    function renderMiniCalendar() {
+        const grid = document.getElementById('miniCalendarGrid');
+        document.getElementById('miniCalendarTitle').textContent = `${MONTHS_CS[currentMonth]} ${currentYear}`;
+        
+        const firstDay = new Date(currentYear, currentMonth, 1);
+        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+        const startDay = (firstDay.getDay() + 6) % 7; // Adjust for Monday start
+        
+        let html = '';
+        // Weekday headers
+        ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'].forEach(day => {
+            html += `<div class="calendar-mini-weekday">${day}</div>`;
+        });
+        
+        // Previous month days
+        const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+        for (let i = startDay - 1; i >= 0; i--) {
+            html += `<div class="calendar-mini-day other-month">${prevMonthLastDay - i}</div>`;
+        }
+        
+        // Current month days
+        const today = new Date(2026, 2, 10); // Simulated today
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+            const date = new Date(currentYear, currentMonth, day);
+            const isToday = date.toDateString() === today.toDateString();
+            const isSelected = date.toDateString() === selectedDate.toDateString();
+            const hasEvent = calendarEvents.some(e => e.date === formatDate(date));
+            
+            let classes = 'calendar-mini-day';
+            if (isToday) classes += ' today';
+            if (isSelected && !isToday) classes += ' selected';
+            if (hasEvent) classes += ' has-event';
+            
+            html += `<div class="${classes}" onclick="selectDate(${currentYear}, ${currentMonth}, ${day})">${day}</div>`;
+        }
+        
+        // Next month days
+        const totalCells = Math.ceil((startDay + lastDay.getDate()) / 7) * 7;
+        const remaining = totalCells - startDay - lastDay.getDate();
+        for (let i = 1; i <= remaining; i++) {
+            html += `<div class="calendar-mini-day other-month">${i}</div>`;
+        }
+        
+        grid.innerHTML = html;
+    }
+    
+    function renderWeekView() {
+        const body = document.getElementById('calendarWeekBody');
+        const weekStart = new Date(currentWeekStart);
+        
+        // Update header
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekEnd.getDate() + 4);
+        document.getElementById('calendarMainTitle').textContent = 
+            `${weekStart.getDate()}. – ${weekEnd.getDate()}. ${MONTHS_CS[weekStart.getMonth()].toLowerCase()} ${weekStart.getFullYear()}`;
+        
+        // Update day headers
+        const today = new Date(2026, 2, 10);
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(weekStart);
+            date.setDate(date.getDate() + i);
+            const header = document.getElementById(`weekDay${i}`);
+            if (header) {
+                header.textContent = `${DAYS_CS[date.getDay()]} ${date.getDate()}`;
+                header.classList.toggle('today', date.toDateString() === today.toDateString());
+            }
+        }
+        
+        // Keep time column, rebuild day columns
+        let html = `
+            <div class="calendar-time-col">
+                <div class="calendar-time-slot">8:00</div>
+                <div class="calendar-time-slot">9:00</div>
+                <div class="calendar-time-slot">10:00</div>
+                <div class="calendar-time-slot">11:00</div>
+                <div class="calendar-time-slot">12:00</div>
+                <div class="calendar-time-slot">13:00</div>
+                <div class="calendar-time-slot">14:00</div>
+                <div class="calendar-time-slot">15:00</div>
+                <div class="calendar-time-slot">16:00</div>
+                <div class="calendar-time-slot">17:00</div>
+            </div>
+        `;
+        
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(weekStart);
+            date.setDate(date.getDate() + i);
+            const dateStr = formatDate(date);
+            
+            // Get events for this day
+            const dayEvents = calendarEvents.filter(e => 
+                e.date === dateStr && 
+                visibleEventTypes.includes(e.type) &&
+                (searchQuery === '' || e.title.toLowerCase().includes(searchQuery.toLowerCase()))
+            );
+            
+            html += `<div class="calendar-day-col">`;
+            // Hour slots
+            for (let h = 8; h < 18; h++) {
+                html += `<div class="calendar-hour-slot"></div>`;
+            }
+            
+            // Events
+            dayEvents.forEach(event => {
+                let top = 0;
+                let height = 48;
+                
+                if (event.time) {
+                    const [hours, minutes] = event.time.split(':').map(Number);
+                    top = (hours - 8) * 48 + (minutes / 60) * 48;
+                    height = 48;
+                } else {
+                    top = 4;
+                    height = 40;
+                }
+                
+                html += `
+                    <div class="calendar-event-block ${event.type}" style="top: ${top}px; height: ${height}px;" onclick="showEventDetail(${event.id})">
+                        <div class="calendar-event-block-title">${event.title}</div>
+                        <div class="calendar-event-block-time">${event.time || 'Celý den'} • ${event.rizeni}</div>
+                    </div>
+                `;
+            });
+            
+            html += `</div>`;
+        }
+        
+        body.innerHTML = html;
+    }
+    
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
+    function changeMonth(delta) {
+        currentMonth += delta;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderMiniCalendar();
+    }
+    
+    function changeWeek(delta) {
+        currentWeekStart.setDate(currentWeekStart.getDate() + delta * 7);
+        renderWeekView();
+    }
+    
+    function goToToday() {
+        currentWeekStart = new Date(2026, 2, 9); // Monday of current week
+        currentMonth = 2;
+        currentYear = 2026;
+        selectedDate = new Date(2026, 2, 10);
+        renderMiniCalendar();
+        renderWeekView();
+    }
+    
+    function selectDate(year, month, day) {
+        selectedDate = new Date(year, month, day);
+        // Navigate to week containing this date
+        const dayOfWeek = (selectedDate.getDay() + 6) % 7; // Monday = 0
+        currentWeekStart = new Date(selectedDate);
+        currentWeekStart.setDate(currentWeekStart.getDate() - dayOfWeek);
+        renderMiniCalendar();
+        renderWeekView();
+    }
+    
+    function toggleEventType(type) {
+        const index = visibleEventTypes.indexOf(type);
+        if (index > -1) {
+            visibleEventTypes.splice(index, 1);
+        } else {
+            visibleEventTypes.push(type);
+        }
+        renderWeekView();
+    }
+    
+    function filterCalendarEvents(query) {
+        searchQuery = query;
+        renderWeekView();
+    }
+    
+    function toggleAddEventForm() {
+        const form = document.getElementById('addEventForm');
+        form.classList.toggle('visible');
+    }
+    
+    function addCalendarEvent() {
+        const title = document.getElementById('eventTitle').value;
+        const type = document.getElementById('eventType').value;
+        const date = document.getElementById('eventDate').value;
+        const time = document.getElementById('eventTime').value;
+        const rizeni = document.getElementById('eventRizeni').value;
+        
+        if (!title || !date) {
+            alert('Vyplňte název a datum události');
+            return;
+        }
+        
+        const newEvent = {
+            id: calendarEvents.length + 1,
+            title: title,
+            type: type,
+            date: date,
+            time: time || null,
+            rizeni: rizeni || 'Bez přiřazení'
+        };
+        
+        calendarEvents.push(newEvent);
+        
+        // Clear form
+        document.getElementById('eventTitle').value = '';
+        document.getElementById('eventDate').value = '2026-03-10';
+        document.getElementById('eventTime').value = '09:00';
+        document.getElementById('eventRizeni').value = '';
+        
+        toggleAddEventForm();
+        renderMiniCalendar();
+        renderWeekView();
+        
+        showToast('Událost byla přidána');
+    }
+    
+    function showEventDetail(eventId) {
+        const event = calendarEvents.find(e => e.id === eventId);
+        if (event) {
+            const typeLabels = {
+                'deadline': 'Lhůta',
+                'warning': 'Upozornění',
+                'meeting': 'Jednání',
+                'task': 'Úkol'
+            };
+            alert(`${event.title}\n\nTyp: ${typeLabels[event.type]}\nDatum: ${event.date}\nČas: ${event.time || 'Celý den'}\nŘízení: ${event.rizeni}`);
+        }
+    }
     </script>
 </body>
 </html>
