@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISSŘ - Dokumenty</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>ISSŘ - Detail dokumentu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
         /* ===========================================
@@ -35,6 +35,1612 @@
             width: auto;
         }
 
+        .issr-header__title {
+            font-size: 12px;
+            font-weight: 400;
+            color: white;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .issr-header__search {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 40px;
+        }
+
+        .issr-header__search-input {
+            width: 100%;
+            height: 32px;
+            padding: 0 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .issr-header__search-input::placeholder {
+            color: #adb5bd;
+        }
+
+        .issr-header__actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: auto;
+        }
+
+        .issr-header__notification {
+            position: relative;
+            color: white;
+            cursor: pointer;
+        }
+
+        .issr-header__notification-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .issr-header__notification-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: #0066cc;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .issr-header__user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .issr-header__user-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 992px) {
+            .issr-header__search {
+                max-width: 300px;
+                margin: 0 20px;
+            }
+            
+            .issr-header__title {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .issr-header {
+                padding: 0 16px;
+            }
+            
+            .issr-header__search {
+                display: none;
+            }
+        }
+
+        /* ===========================================
+           STYLY STRÁNKY
+           =========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
+            font-size: 13px !important;
+            color: #333 !important;
+            background: #f5f5f5 !important;
+            line-height: 1.5 !important;
+            text-align: left !important;
+        }
+        * {
+            text-align: left !important;
+        }
+        .btn, .btn-primary, .btn-secondary, .btn-back {
+            text-align: center !important;
+        }
+        /* Main layout */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 56px);
+        }
+        /* Page header */
+        .page-header {
+            background: #fff !important;
+            position: sticky !important;
+            top: 56px !important;
+            z-index: 100 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        }
+        .page-header-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 24px !important;
+            padding: 16px 32px !important;
+            border-bottom: 1px solid #f0f0f0 !important;
+        }
+        .page-header-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
+        }
+        .btn-back {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 10px 16px !important;
+            border: 1px solid #dadce0 !important;
+            border-radius: 4px !important;
+            background: #fff !important;
+            color: #5f6368 !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.15s !important;
+            text-decoration: none !important;
+        }
+        .btn-back:hover {
+            background: #f1f3f4 !important;
+            border-color: #5f6368 !important;
+        }
+        .btn-back .material-icons-outlined {
+            font-size: 18px !important;
+        }
+        .page-label {
+            font-size: 11px !important;
+            font-weight: 500 !important;
+            color: #5f6368 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            margin-bottom: 2px !important;
+        }
+        .page-title {
+            font-size: 18px !important;
+            font-weight: 500 !important;
+            color: #202124 !important;
+            font-style: normal !important;
+        }
+        .page-subtitle {
+            font-size: 13px !important;
+            color: #5f6368 !important;
+            margin-top: 2px !important;
+            font-style: normal !important;
+        }
+        /* Page meta row with links */
+        .page-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 6px;
+        }
+        .page-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .page-meta-item .material-icons-outlined {
+            font-size: 16px;
+        }
+        .page-meta-link {
+            text-decoration: none;
+            color: #1a73e8 !important;
+            cursor: pointer;
+            padding: 4px 8px;
+            margin: -4px -8px;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .page-meta-link:hover {
+            background: #e8f0fe;
+        }
+        .page-meta-link .material-icons-outlined {
+            color: #1a73e8;
+        }
+        /* Header bottom row - document access */
+        .page-header-bottom {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            padding: 12px 32px !important;
+            background: #f8f9fa !important;
+            gap: 24px !important;
+        }
+        /* Document access buttons */
+        .document-access-buttons {
+            display: flex !important;
+            gap: 8px !important;
+        }
+        .doc-access-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 6px 12px !important;
+            background: #fff !important;
+            border: 1px solid #dadce0 !important;
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            color: #202124 !important;
+            cursor: pointer !important;
+            transition: all 0.15s !important;
+            text-decoration: none !important;
+            font-style: normal !important;
+        }
+        .doc-access-btn:hover {
+            background: #e8f4fd !important;
+            border-color: #004289 !important;
+            color: #004289 !important;
+        }
+        .doc-access-btn .material-icons-outlined {
+            font-size: 16px !important;
+        }
+        .doc-access-btn .badge {
+            background: #e8f4fd !important;
+            color: #004289 !important;
+            padding: 2px 6px !important;
+            border-radius: 10px !important;
+            font-size: 10px !important;
+            font-weight: 500 !important;
+        }
+        /* Dropdown pro přidělení zpracovatele */
+        .assignee-dropdown {
+            position: relative;
+        }
+        .assignee-dropdown-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            padding: 10px 16px !important;
+            border-radius: 4px !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.15s !important;
+            border: 1px solid #004289 !important;
+            background: #004289 !important;
+            color: white !important;
+        }
+        .assignee-dropdown-btn:hover {
+            background: #003366 !important;
+            border-color: #003366 !important;
+        }
+        .assignee-dropdown-btn.assigned {
+            background: #fff !important;
+            color: #004289 !important;
+            border-color: #004289 !important;
+        }
+        .assignee-dropdown-btn.assigned:hover {
+            background: #e8f4fd !important;
+        }
+        .assignee-dropdown-btn .material-icons-outlined {
+            font-size: 18px !important;
+        }
+        .assignee-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 4px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            min-width: 280px;
+            z-index: 200;
+            display: none;
+            overflow: hidden;
+        }
+        .assignee-dropdown-menu.open {
+            display: block;
+        }
+        .assignee-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .assignee-dropdown-item:last-child {
+            border-bottom: none;
+        }
+        .assignee-dropdown-item:hover {
+            background: #f8f9fa;
+        }
+        .assignee-dropdown-item.highlight {
+            background: #e8f4fd;
+        }
+        .assignee-dropdown-item.highlight:hover {
+            background: #cce5f7;
+        }
+        .assignee-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e8f4fd;
+            color: #004289;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .assignee-dropdown-item.highlight .assignee-avatar {
+            background: #004289;
+            color: #fff;
+        }
+        .assignee-info {
+            flex: 1;
+        }
+        .assignee-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .assignee-role {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        /* Content area */
+        .page-content {
+            flex: 1;
+            padding: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        /* Two column layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 24px;
+            align-items: start;
+        }
+        .content-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .content-aside {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: sticky;
+            top: 220px; /* pod ISSŘ header (56px) + page-header (~160px) */
+            align-self: start;
+        }
+        /* Form card */
+        .form-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        .form-card-header {
+            padding: 16px 24px;
+            background: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .form-card-header .material-icons-outlined {
+            font-size: 24px;
+            color: #004289;
+        }
+        .form-card-title {
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            color: #202124 !important;
+        }
+        .form-card-body {
+            padding: 24px !important;
+        }
+        .form-card-actions {
+            display: flex;
+            gap: 4px;
+            margin-left: auto;
+        }
+        .form-card-action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #5f6368;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-card-action-btn:hover {
+            background: #e8eaed;
+            color: #004289;
+        }
+        /* Person compact layout */
+        .person-compact {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .person-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #e8f4fd;
+            color: #004289;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+        .person-main {
+            min-width: 150px;
+        }
+        .person-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .person-type {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .person-contacts {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #5f6368;
+            text-decoration: none;
+        }
+        .contact-link .material-icons-outlined {
+            font-size: 18px;
+        }
+        a.contact-link:hover {
+            color: #004289;
+        }
+        /* Expandable section inside card */
+        .expandable-section {
+            border-top: 1px solid #f0f0f0;
+            margin-top: 16px;
+            padding-top: 8px;
+        }
+        .expandable-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 8px 0;
+            background: none;
+            border: none;
+            font-size: 13px;
+            color: #5f6368;
+            cursor: pointer;
+        }
+        .expandable-toggle:hover {
+            color: #004289;
+        }
+        .expandable-toggle .material-icons-outlined {
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+        .expandable-toggle.expanded .material-icons-outlined {
+            transform: rotate(180deg);
+        }
+        .expandable-content {
+            display: none;
+            padding-top: 12px;
+        }
+        .expandable-content.expanded {
+            display: block;
+        }
+        /* Data grid */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px 24px;
+        }
+        .data-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .data-item-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #9aa0a6;
+        }
+        .data-item-value {
+            font-size: 13px;
+            color: #202124;
+        }
+        .data-item-value.mono {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: #5f6368;
+        }
+        /* Collapsed card */
+        .collapsed-card {
+            overflow: hidden;
+        }
+        .collapsed-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 16px 24px;
+            background: #fafafa;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+        .collapsed-card-header:hover {
+            background: #f5f5f5;
+        }
+        .collapsed-card-header .card-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #202124;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .collapsed-card-header .card-title .material-icons-outlined {
+            font-size: 24px;
+            color: #004289;
+        }
+        .collapse-icon {
+            font-size: 20px;
+            color: #5f6368;
+            transition: transform 0.2s;
+        }
+        .collapsed-card-header.expanded .collapse-icon {
+            transform: rotate(180deg);
+        }
+        .collapsed-card-content {
+            display: none;
+            border-top: 1px solid #e0e0e0;
+        }
+        .collapsed-card-content.expanded {
+            display: block;
+        }
+        /* Processing info */
+        .processing-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .processing-status {
+            margin-bottom: 4px;
+        }
+        .processing-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .processing-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #5f6368;
+        }
+        .processing-row .material-icons-outlined {
+            font-size: 18px;
+            color: #9aa0a6;
+        }
+        /* Status badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-badge.pending {
+            background: #fef7e0;
+            color: #b06000;
+        }
+        /* Řízení v záměru - sidebar karta */
+        .zamer-rizeni-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .zamer-rizeni-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 12px;
+        }
+        .zamer-rizeni-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .zamer-rizeni-item:first-child {
+            padding-top: 0;
+        }
+        .zamer-rizeni-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .zamer-rizeni-icon.completed {
+            background: #e6f4ea;
+            color: #1e8e3e;
+        }
+        .zamer-rizeni-icon.current {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .zamer-rizeni-icon.pending {
+            background: #f1f3f4;
+            color: #9aa0a6;
+        }
+        .zamer-rizeni-icon .material-icons-outlined {
+            font-size: 14px;
+        }
+        .zamer-rizeni-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .zamer-rizeni-name {
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .zamer-rizeni-item.current .zamer-rizeni-name {
+            color: #1a73e8;
+        }
+        .zamer-rizeni-item.pending .zamer-rizeni-name {
+            color: #9aa0a6;
+        }
+        .zamer-rizeni-meta {
+            color: #5f6368;
+            font-size: 11px;
+        }
+        .zamer-rizeni-item.current {
+            background: #f8fbff;
+            margin: 0 -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-left: 3px solid #1a73e8;
+        }
+        /* Související řízení - expandable karta v main content */
+        .related-proceedings-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+        }
+        .related-proceedings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .related-proceedings-header:hover {
+            background: #f0f0f0;
+        }
+        .related-proceedings-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .related-proceedings-header-left .material-icons-outlined {
+            font-size: 24px;
+            color: #004289;
+        }
+        .related-proceedings-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .related-proceedings-count {
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        .related-proceedings-header .expand-icon {
+            color: #5f6368;
+            transition: transform 0.2s;
+        }
+        .related-proceedings-header.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        .related-proceedings-body {
+            display: none;
+            padding: 0;
+        }
+        .related-proceedings-body.expanded {
+            display: block;
+        }
+        .related-proceeding-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s;
+        }
+        .related-proceeding-item:last-child {
+            border-bottom: none;
+        }
+        .related-proceeding-item:hover {
+            background: #fafafa;
+        }
+        .related-proceeding-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .related-proceeding-icon.completed {
+            background: #e6f4ea;
+            color: #1e8e3e;
+        }
+        .related-proceeding-icon.current {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .related-proceeding-icon.pending {
+            background: #f1f3f4;
+            color: #9aa0a6;
+        }
+        .related-proceeding-icon .material-icons-outlined {
+            font-size: 20px;
+        }
+        .related-proceeding-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .related-proceeding-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .related-proceeding-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .related-proceeding-status {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+        .related-proceeding-status.completed {
+            background: #e6f4ea;
+            color: #1e8e3e;
+        }
+        .related-proceeding-status.current {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        .related-proceeding-status.pending {
+            background: #f1f3f4;
+            color: #80868b;
+        }
+        .related-proceeding-meta {
+            font-size: 12px;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+        .related-proceeding-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .related-proceeding-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #1a73e8;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+        .related-proceeding-link:hover {
+            background: #e8f0fe;
+        }
+        .related-proceeding-link .material-icons-outlined {
+            font-size: 14px;
+        }
+        /* Auditní timeline */
+        .audit-timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        .audit-timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #e0e0e0;
+        }
+        .audit-item {
+            position: relative;
+            padding-bottom: 16px;
+        }
+        .audit-item:last-child {
+            padding-bottom: 0;
+        }
+        .audit-dot {
+            position: absolute;
+            left: -24px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+        }
+        .audit-item.completed .audit-dot {
+            background: #34a853;
+            border-color: #34a853;
+        }
+        .audit-item.current .audit-dot {
+            background: #004289;
+            border-color: #004289;
+        }
+        .audit-item-content {
+            font-size: 13px;
+        }
+        .audit-item-title {
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 2px;
+        }
+        .audit-item-date {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        /* Actions bar */
+        .actions-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 32px;
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            position: sticky;
+            bottom: 0;
+        }
+        .actions-left {
+            display: flex;
+            gap: 12px;
+        }
+        .actions-right {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-decoration: none;
+            border: 1px solid;
+        }
+        .btn-primary {
+            background: #004289 !important;
+            color: #fff !important;
+            border-color: #004289 !important;
+        }
+        .btn-primary:hover {
+            background: #003366 !important;
+            border-color: #003366 !important;
+        }
+        .btn-secondary {
+            background: #fff !important;
+            color: #5f6368 !important;
+            border-color: #dadce0 !important;
+        }
+        .btn-secondary:hover {
+            background: #f5f5f5 !important;
+            border-color: #5f6368 !important;
+        }
+        .btn .material-icons-outlined {
+            font-size: 18px;
+        }
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .content-aside {
+                flex-direction: row;
+                flex-wrap: wrap;
+                position: static;
+                top: auto;
+            }
+            .content-aside .form-card {
+                flex: 1;
+                min-width: 280px;
+            }
+        }
+        @media (max-width: 768px) {
+            .page-header-top {
+                flex-direction: column;
+                padding: 16px;
+                gap: 16px;
+            }
+            .page-header-left {
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .page-header-bottom {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+            }
+            .document-access-buttons {
+                flex-wrap: wrap;
+            }
+            .page-content {
+                padding: 16px;
+            }
+            .actions-bar {
+                padding: 16px;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .actions-left,
+            .actions-right {
+                width: 100%;
+            }
+            .btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ISSŘ Hlavička -->
+    <header class="issr-header">
+        <a href="../index.html" class="issr-header__logo">
+            <img src="../images/logo-issr.png" alt="ISSŘ Logo" class="issr-header__logo-img">
+            <span class="issr-header__title">INFORMAČNÍ SYSTÉM STAVEBNÍHO ŘÍZENÍ</span>
+        </a>
+        
+        <div class="issr-header__search">
+            <input type="text" class="issr-header__search-input" placeholder="Hledat">
+        </div>
+        
+        <div class="issr-header__actions">
+            <div class="issr-header__notification">
+                <svg class="issr-header__notification-icon" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path>
+                </svg>
+                <span class="issr-header__notification-badge">2</span>
+            </div>
+            
+            <div class="issr-header__user">
+                <span>Aleš Krupa</span>
+                <svg class="issr-header__user-icon" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"></path>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Page header - sticky -->
+        <header class="page-header">
+            <div class="page-header-top">
+                <div class="page-header-left">
+                    <a href="pages/dokumenty.html" class="btn-back">
+                        <span class="material-icons-outlined">arrow_back</span>
+                        <span>Zpět na seznam</span>
+                    </a>
+                    <div>
+                        <div class="page-label">Detail dokumentu</div>
+                        <h1 class="page-title">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</h1>
+                        <div class="page-meta">
+                            <a href="detail-zameru.html" class="page-meta-item page-meta-link" title="Otevřít detail záměru">
+                                <span class="material-icons-outlined">inventory_2</span>
+                                Záměr Z/2026/1596
+                            </a>
+                            <span class="page-meta-item">
+                                <span class="material-icons-outlined">description</span>
+                                Žádost o povolení stavby
+                            </span>
+                            <span class="page-meta-item">
+                                <span class="material-icons-outlined">tag</span>
+                                SR00X01HLDRP
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="assignee-dropdown">
+                    <button class="assignee-dropdown-btn" id="assigneeBtn" onclick="toggleAssigneeDropdown()">
+                        <span class="material-icons-outlined">person_add</span>
+                        <span id="assigneeBtnText">Přidělit zpracovateli</span>
+                        <span class="material-icons-outlined">expand_more</span>
+                    </button>
+                    <div class="assignee-dropdown-menu" id="assigneeMenu">
+                        <div class="assignee-dropdown-item highlight" onclick="assignTo('Přidělit sobě', 'AK', 'Aleš Krupa')">
+                            <div class="assignee-avatar">AK</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Přidělit sobě</div>
+                            </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Jan Novák', 'JN', 'Referent')">
+                            <div class="assignee-avatar">JN</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Jan Novák</div>
+                                <div class="assignee-role">Referent</div>
+                            </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Marie Svobodová', 'MS', 'Referent')">
+                            <div class="assignee-avatar">MS</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Marie Svobodová</div>
+                                <div class="assignee-role">Referent</div>
+                            </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Petr Dvořák', 'PD', 'Vedoucí oddělení')">
+                            <div class="assignee-avatar">PD</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Petr Dvořák</div>
+                                <div class="assignee-role">Vedoucí oddělení</div>
+                            </div>
+                        </div>
+                        <div class="assignee-dropdown-item" onclick="assignTo('Lucie Horáková', 'LH', 'Referent')">
+                            <div class="assignee-avatar">LH</div>
+                            <div class="assignee-info">
+                                <div class="assignee-name">Lucie Horáková</div>
+                                <div class="assignee-role">Referent</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-header-bottom">
+                <!-- Document access - stejné jako v povoleni-1 -->
+                <div class="document-access-buttons">
+                    <a href="#" class="doc-access-btn" onclick="openDocModal('zadostModal'); return false;">
+                        <span class="material-icons-outlined">description</span>
+                        Žádost
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openDocModal('prilohyModal'); return false;">
+                        <span class="material-icons-outlined">attach_file</span>
+                        Přílohy
+                        <span class="badge">5</span>
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openDocModal('eedModal'); return false;">
+                        <span class="material-icons-outlined">folder</span>
+                        El. dokumentace
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openDocModal('dokladyModal'); return false;">
+                        <span class="material-icons-outlined">fact_check</span>
+                        Dokladová část
+                    </a>
+                    <a href="#" class="doc-access-btn" onclick="openDocModal('bimModal'); return false;">
+                        <span class="material-icons-outlined">view_in_ar</span>
+                        BIM model
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="page-content">
+            <div class="content-grid">
+                <!-- Main content column -->
+                <div class="content-main">
+                    <!-- Související řízení v záměru -->
+                    <div class="related-proceedings-card">
+                        <div class="related-proceedings-header" onclick="toggleRelatedProceedings()">
+                            <div class="related-proceedings-header-left">
+                                <span class="material-icons-outlined">account_tree</span>
+                                <span class="related-proceedings-title">Související řízení v záměru</span>
+                                <span class="related-proceedings-count">3</span>
+                            </div>
+                            <span class="material-icons-outlined expand-icon">expand_more</span>
+                        </div>
+                        <div class="related-proceedings-body" id="relatedProceedingsBody">
+                            <!-- Předběžná informace -->
+                            <div class="related-proceeding-item">
+                                <div class="related-proceeding-icon completed">
+                                    <span class="material-icons-outlined">check_circle</span>
+                                </div>
+                                <div class="related-proceeding-content">
+                                    <div class="related-proceeding-top">
+                                        <span class="related-proceeding-name">Předběžná informace</span>
+                                        <span class="related-proceeding-status completed">Ukončeno</span>
+                                    </div>
+                                    <div class="related-proceeding-meta">
+                                        SZ DESU/000412/25 • Vydáno 18. 12. 2024 • Zpracoval: Jan Novák
+                                    </div>
+                                    <div class="related-proceeding-actions">
+                                        <a href="#" class="related-proceeding-link">
+                                            <span class="material-icons-outlined">open_in_new</span>
+                                            Otevřít řízení
+                                        </a>
+                                        <a href="#" class="related-proceeding-link">
+                                            <span class="material-icons-outlined">description</span>
+                                            Zobrazit rozhodnutí
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Závazné stanovisko ŘSD -->
+                            <div class="related-proceeding-item">
+                                <div class="related-proceeding-icon completed">
+                                    <span class="material-icons-outlined">check_circle</span>
+                                </div>
+                                <div class="related-proceeding-content">
+                                    <div class="related-proceeding-top">
+                                        <span class="related-proceeding-name">Závazné stanovisko – Ředitelství silnic a dálnic</span>
+                                        <span class="related-proceeding-status completed">Vydáno</span>
+                                    </div>
+                                    <div class="related-proceeding-meta">
+                                        Č.j. ŘSD/2025/1847 • Vydáno 15. 2. 2025 • Dotčený orgán: ŘSD ČR
+                                    </div>
+                                    <div class="related-proceeding-actions">
+                                        <a href="#" class="related-proceeding-link">
+                                            <span class="material-icons-outlined">description</span>
+                                            Zobrazit stanovisko
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Závazné stanovisko SŽ -->
+                            <div class="related-proceeding-item">
+                                <div class="related-proceeding-icon completed">
+                                    <span class="material-icons-outlined">check_circle</span>
+                                </div>
+                                <div class="related-proceeding-content">
+                                    <div class="related-proceeding-top">
+                                        <span class="related-proceeding-name">Závazné stanovisko – Správa železnic</span>
+                                        <span class="related-proceeding-status completed">Vydáno</span>
+                                    </div>
+                                    <div class="related-proceeding-meta">
+                                        Č.j. SŽ/2025/9823 • Vydáno 28. 3. 2025 • Dotčený orgán: Správa železnic
+                                    </div>
+                                    <div class="related-proceeding-actions">
+                                        <a href="#" class="related-proceeding-link">
+                                            <span class="material-icons-outlined">description</span>
+                                            Zobrazit stanovisko
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Odesílatel -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <span class="material-icons-outlined">person</span>
+                            <span class="form-card-title">Odesílatel (žadatel)</span>
+                            <div class="form-card-actions">
+                                <button class="form-card-action-btn" title="Ověřit v registrech">
+                                    <span class="material-icons-outlined">verified_user</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="person-compact">
+                                <div class="person-avatar">SŽ</div>
+                                <div class="person-main">
+                                    <div class="person-name">SPRÁVA ŽELEZNIC, STÁTNÍ ORGANIZACE</div>
+                                    <div class="person-type">Právnická osoba • IČO: 70994234</div>
+                                </div>
+                                <div class="person-contacts">
+                                    <span class="contact-link">
+                                        <span class="material-icons-outlined">inbox</span>
+                                        DS: uccchjm
+                                    </span>
+                                    <span class="contact-link">
+                                        <span class="material-icons-outlined">location_on</span>
+                                        Dlážděná 1003/7, 110 00 Praha 1
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Zástupce -->
+                            <div style="margin-top: 12px; padding: 12px 16px; background: #f0f4f8; border-radius: 8px; border-left: 3px solid #004289;">
+                                <div style="font-size: 11px; font-weight: 500; color: #5f6368; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Zástupce na základě plné moci</div>
+                                <div class="person-compact" style="padding: 0;">
+                                    <div class="person-avatar" style="width: 32px; height: 32px; font-size: 11px;">SP</div>
+                                    <div class="person-main">
+                                        <div class="person-name" style="font-size: 13px;">SIGNAL PROJEKT s.r.o.</div>
+                                        <div class="person-type">IČO: 25525441 • PM-036-2024</div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 8px; font-size: 12px; color: #5f6368;">
+                                    <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">person</span>
+                                    Jednající: Mikulová (PM-037-2024)
+                                    <span style="margin-left: 12px;">
+                                        <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">location_on</span>
+                                        Pod Bohdalcem I 3254/3, 101 00 Praha 10
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Rozbalitelné údaje o žadateli -->
+                            <div class="expandable-section">
+                                <button class="expandable-toggle" onclick="toggleSection('personDetails')">
+                                    <span>Další údaje o žadateli</span>
+                                    <span class="material-icons-outlined" id="personDetailsIcon">expand_more</span>
+                                </button>
+                                <div class="expandable-content" id="personDetails">
+                                    <div class="data-grid">
+                                        <div class="data-item">
+                                            <span class="data-item-label">Právní forma</span>
+                                            <span class="data-item-value">Státní organizace (st. org.)</span>
+                                        </div>
+                                        <div class="data-item">
+                                            <span class="data-item-label">Sídlo</span>
+                                            <span class="data-item-value">Dlážděná 1003/7, Praha 1</span>
+                                        </div>
+                                        <div class="data-item">
+                                            <span class="data-item-label">Datová schránka</span>
+                                            <span class="data-item-value">uccchjm</span>
+                                        </div>
+                                        <div class="data-item">
+                                            <span class="data-item-label">Ověření v OR/ŽR</span>
+                                            <span class="data-item-value">6. 1. 2026 09:17</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Identifikace a doručení -->
+                    <div class="form-card collapsed-card">
+                        <button class="collapsed-card-header" onclick="toggleCard('docIdentification')">
+                            <span class="card-title">
+                                <span class="material-icons-outlined">description</span>
+                                Identifikace a doručení dokumentu
+                            </span>
+                            <span class="collapse-icon material-icons-outlined" id="docIdentificationIcon">expand_more</span>
+                        </button>
+                        <div class="collapsed-card-content" id="docIdentification">
+                            <div class="form-card-body">
+                                <div class="data-grid">
+                                    <div class="data-item">
+                                        <span class="data-item-label">Jednoznačný identifikátor</span>
+                                        <span class="data-item-value mono">SR00X01HLDRP</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Číslo jednací</span>
+                                        <span class="data-item-value">—</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Druh dokumentu</span>
+                                        <span class="data-item-value">Žádost o povolení stavby</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Forma</span>
+                                        <span class="data-item-value">Digitální</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">ID dokumentace</span>
+                                        <span class="data-item-value mono">SR00X01HLDRP</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Založeno v systému</span>
+                                        <span class="data-item-value">Portál stavebníka</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Datum doručení</span>
+                                        <span class="data-item-value">6. 1. 2026</span>
+                                    </div>
+                                    <div class="data-item">
+                                        <span class="data-item-label">Způsob doručení</span>
+                                        <span class="data-item-value">Portál stavebníka</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Auditní záznamy -->
+                    <div class="form-card collapsed-card">
+                        <button class="collapsed-card-header" onclick="toggleCard('auditRecords')">
+                            <span class="card-title">
+                                <span class="material-icons-outlined">history</span>
+                                Auditní záznamy
+                            </span>
+                            <span class="collapse-icon material-icons-outlined" id="auditRecordsIcon">expand_more</span>
+                        </button>
+                        <div class="collapsed-card-content" id="auditRecords">
+                            <div class="form-card-body">
+                                <div class="audit-timeline">
+                                    <div class="audit-item completed">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Dokument vytvořen</div>
+                                            <div class="audit-item-date">6. 1. 2026 09:17 • Systém (Portál stavebníka)</div>
+                                        </div>
+                                    </div>
+                                    <div class="audit-item completed">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Doručeno na úřad</div>
+                                            <div class="audit-item-date">6. 1. 2026 09:17 • Systém</div>
+                                        </div>
+                                    </div>
+                                    <div class="audit-item completed">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Zaevidováno ve spisové službě</div>
+                                            <div class="audit-item-date">6. 1. 2026 09:22 • Systém</div>
+                                        </div>
+                                    </div>
+                                    <div class="audit-item current">
+                                        <div class="audit-dot"></div>
+                                        <div class="audit-item-content">
+                                            <div class="audit-item-title">Čeká na zpracování</div>
+                                            <div class="audit-item-date">Nyní</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar column -->
+                <div class="content-aside">
+                    <!-- Zpracování -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <span class="material-icons-outlined">assignment_ind</span>
+                            <span class="form-card-title">Zpracování</span>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="processing-info">
+                                <div class="processing-status">
+                                    <span class="pending status-badge">Ke zpracování</span>
+                                </div>
+                                <div class="processing-details">
+                                    <div class="processing-row">
+                                        <span class="material-icons-outlined">account_balance</span>
+                                        <span>Dopravní a energetický stavební úřad</span>
+                                    </div>
+                                    <div class="processing-row">
+                                        <span class="material-icons-outlined">person</span>
+                                        <span id="sidebarAssignee">Nepřidělen</span>
+                                    </div>
+                                    <div class="processing-row">
+                                        <span class="material-icons-outlined">schedule</span>
+                                        <span>Evidováno: 6. 1. 2026 9:22</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Řízení v záměru -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <span class="material-icons-outlined">account_tree</span>
+                            <span class="form-card-title">Řízení v záměru</span>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="zamer-rizeni-list">
+                                <div class="zamer-rizeni-item completed">
+                                    <div class="zamer-rizeni-icon completed">
+                                        <span class="material-icons-outlined">check</span>
+                                    </div>
+                                    <div class="zamer-rizeni-content">
+                                        <div class="zamer-rizeni-name">Předběžná informace</div>
+                                        <div class="zamer-rizeni-meta">SZ DESU/000412/25 • Ukončeno</div>
+                                    </div>
+                                </div>
+                                <div class="zamer-rizeni-item completed">
+                                    <div class="zamer-rizeni-icon completed">
+                                        <span class="material-icons-outlined">check</span>
+                                    </div>
+                                    <div class="zamer-rizeni-content">
+                                        <div class="zamer-rizeni-name">ZS – Ředitelství silnic a dálnic</div>
+                                        <div class="zamer-rizeni-meta">Č.j. ŘSD/2025/1847 • Vydáno</div>
+                                    </div>
+                                </div>
+                                <div class="zamer-rizeni-item completed">
+                                    <div class="zamer-rizeni-icon completed">
+                                        <span class="material-icons-outlined">check</span>
+                                    </div>
+                                    <div class="zamer-rizeni-content">
+                                        <div class="zamer-rizeni-name">ZS – Správa železnic</div>
+                                        <div class="zamer-rizeni-meta">Č.j. SŽ/2025/9823 • Vydáno</div>
+                                    </div>
+                                </div>
+                                <div class="zamer-rizeni-item current">
+                                    <div class="zamer-rizeni-icon current">
+                                        <span class="material-icons-outlined">arrow_forward</span>
+                                    </div>
+                                    <div class="zamer-rizeni-content">
+                                        <div class="zamer-rizeni-name">Povolení stavby</div>
+                                        <div class="zamer-rizeni-meta">Zahajuje se</div>
+                                    </div>
+                                </div>
+                                <div class="zamer-rizeni-item pending">
+                                    <div class="zamer-rizeni-icon pending">
+                                        <span class="material-icons-outlined">radio_button_unchecked</span>
+                                    </div>
+                                    <div class="zamer-rizeni-content">
+                                        <div class="zamer-rizeni-name">Kolaudace</div>
+                                        <div class="zamer-rizeni-meta">Dosud nezahájeno</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions bar - sticky footer (stejné jako v povoleni-1) -->
+        <div class="actions-bar">
+            <div class="actions-left">
+                <a href="vzit-na-vedomi.html" class="btn btn-secondary">
+                    <span class="material-icons-outlined">inventory</span>
+                    Vzít na vědomí
+                </a>
+                <a href="vlozit-do-rizeni.html" class="btn btn-secondary">
+                    <span class="material-icons-outlined">post_add</span>
+                    Vložit do existujícího řízení
+                </a>
+            </div>
+            <div class="actions-right">
+                <a href="povoleni-2.html" class="btn btn-primary">
+                    <span class="material-icons-outlined">add_circle</span>
+                    Založit nové řízení
+                </a>
+            </div>
+        </div>
+    </main>
+
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Dropdown pro přidělení zpracovatele
+        let isAssigned = false;
+
+        function toggleAssigneeDropdown() {
+            const menu = document.getElementById('assigneeMenu');
+            menu.classList.toggle('open');
+        }
+
+        function assignTo(name, initials, role) {
+            const btn = document.getElementById('assigneeBtn');
+            const btnText = document.getElementById('assigneeBtnText');
+            const menu = document.getElementById('assigneeMenu');
+            const sidebarAssignee = document.getElementById('sidebarAssignee');
+            
+            if (name === 'Přidělit sobě') {
+                btnText.textContent = 'Změnit zpracovatele';
+                sidebarAssignee.textContent = 'Aleš Krupa';
+            } else {
+                btnText.textContent = 'Změnit zpracovatele';
+                sidebarAssignee.textContent = name;
+            }
+            
+            btn.classList.add('assigned');
+            btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
+            
+            menu.classList.remove('open');
+            isAssigned = true;
+        }
+
+        // Zavřít dropdown při kliknutí mimo
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.assignee-dropdown');
+            if (!dropdown.contains(e.target)) {
+                document.getElementById('assigneeMenu').classList.remove('open');
+            }
+        });
+
+        // Toggle pro expandable sekce
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = document.getElementById(sectionId + 'Icon');
+            const toggle = icon.closest('.expandable-toggle');
+            
+            content.classList.toggle('expanded');
+            toggle.classList.toggle('expanded');
+        }
+
+        // Toggle pro collapsed karty
+        function toggleCard(cardId) {
+            const content = document.getElementById(cardId);
+            const icon = document.getElementById(cardId + 'Icon');
+            const header = icon.closest('.collapsed-card-header');
+            
+            content.classList.toggle('expanded');
+            header.classList.toggle('expanded');
+        }
+
+        // Toggle pro Související řízení v záměru
+        function toggleRelatedProceedings() {
+            const header = document.querySelector('.related-proceedings-header');
+            const body = document.getElementById('relatedProceedingsBody');
+            
+            header.classList.toggle('expanded');
+            body.classList.toggle('expanded');
+        }
+
+        // Sdílené modály dokumentů — doc-modals.js
+    </script>
+    <script src="doc-modals.js"></script>
+    <script>initDocModals({ basePath: '../docs/' });</script>
+</body>
+</html>
         .issr-header__title {
             font-size: 12px;
             font-weight: 400;
