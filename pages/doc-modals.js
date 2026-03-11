@@ -498,13 +498,13 @@
                 <div class="dm-header-title"><span class="material-icons-outlined">view_in_ar</span>BIM model</div>
                 <button class="dm-close" onclick="closeDocModal('dm-bimModal')"><span class="material-icons-outlined">close</span></button>
             </div>
-            <div class="dm-body"><div class="dm-body-scroll" style="text-align:center;padding:60px 24px">
-                <span class="material-icons-outlined" style="font-size:64px;color:#9aa0a6">view_in_ar</span>
-                <div style="margin-top:16px;font-size:14px;font-weight:600;color:#202124">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
-                <div style="margin-top:8px;font-size:12px;color:#5f6368">IFC model · Verze 3.0 · Nahrán 10. 1. 2026</div>
-                <div style="margin-top:24px;padding:32px;background:#f8f9fa;border-radius:8px;color:#9aa0a6">
-                    <span class="material-icons-outlined" style="font-size:48px">construction</span>
-                    <div style="margin-top:8px;font-size:13px">3D prohlížeč bude k dispozici v další verzi</div>
+            <div class="dm-body"><div class="dm-body-scroll" style="text-align:center;padding:24px">
+                <div style="margin-bottom:16px;font-size:14px;font-weight:600;color:#202124">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
+                <div style="margin-bottom:16px;font-size:12px;color:#5f6368">IFC model · Verze 3.0 · Nahrán 10. 1. 2026</div>
+                <img src="../images/BIM.png" alt="BIM model" style="max-width:100%;max-height:60vh;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+                <div style="display:none;padding:32px;background:#f8f9fa;border-radius:8px;color:#9aa0a6">
+                    <span class="material-icons-outlined" style="font-size:48px">image_not_supported</span>
+                    <div style="margin-top:8px;font-size:13px">Obrázek BIM modelu nelze načíst</div>
                 </div>
             </div></div>
             <div class="dm-footer">
