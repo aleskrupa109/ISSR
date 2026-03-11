@@ -1136,7 +1136,101 @@
             color: #ea4335;
             margin-bottom: 16px;
         }
-        /* Rizeni detail modal */
+        /* Side drawer */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .drawer-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 480px;
+            max-width: 90vw;
+            height: 100vh;
+            background: #fff;
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .drawer.open {
+            transform: translateX(0);
+        }
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fff;
+            flex-shrink: 0;
+        }
+        .drawer-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .drawer-icon {
+            font-size: 24px;
+            color: #004289;
+        }
+        .drawer-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #202124;
+            margin: 0;
+        }
+        .drawer-subtitle {
+            font-size: 12px;
+            color: #5f6368;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .drawer-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #5f6368;
+            transition: background 0.15s;
+        }
+        .drawer-close:hover {
+            background: #f1f3f4;
+        }
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+        .drawer-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            flex-shrink: 0;
+        }
+        /* Rizeni detail */
         .rizeni-detail {
             padding: 0;
         }
@@ -1415,7 +1509,7 @@
                                         SZ DESU/000412/25 • Vydáno 18. 12. 2024 • Zpracoval: Jan Novák
                                     </div>
                                     <div class="related-proceeding-actions">
-                                        <a href="#" class="related-proceeding-link" onclick="openRizeniModal(); return false;">
+                                        <a href="#" class="related-proceeding-link" onclick="openRizeniDrawer(); return false;">
                                             <span class="material-icons-outlined">open_in_new</span>
                                             Otevřít řízení
                                         </a>
@@ -1427,21 +1521,21 @@
                                 </div>
                             </div>
                             
-                            <!-- Závazné stanovisko ŘSD -->
+                            <!-- Koordinované závazné stanovisko - MěÚ Rychnov -->
                             <div class="related-proceeding-item">
                                 <div class="related-proceeding-icon completed">
                                     <span class="material-icons-outlined">check_circle</span>
                                 </div>
                                 <div class="related-proceeding-content">
                                     <div class="related-proceeding-top">
-                                        <span class="related-proceeding-name">Závazné stanovisko – Ředitelství silnic a dálnic</span>
+                                        <span class="related-proceeding-name">Koordinované závazné stanovisko – MěÚ Rychnov n. K.</span>
                                         <span class="related-proceeding-status completed">Vydáno</span>
                                     </div>
                                     <div class="related-proceeding-meta">
-                                        Č.j. ŘSD/2025/1847 • Vydáno 15. 2. 2025 • Dotčený orgán: ŘSD ČR
+                                        Č.j. MURK-OVŽP-4840/2025-Pol • Vydáno 20. 2. 2025 • JES + památková péče
                                     </div>
                                     <div class="related-proceeding-actions">
-                                        <a href="#" class="related-proceeding-link">
+                                        <a href="#" class="related-proceeding-link" onclick="openJESModal(); return false;">
                                             <span class="material-icons-outlined">description</span>
                                             Zobrazit stanovisko
                                         </a>
@@ -1449,23 +1543,23 @@
                                 </div>
                             </div>
                             
-                            <!-- Závazné stanovisko SŽ -->
+                            <!-- Rozhodnutí Drážního úřadu -->
                             <div class="related-proceeding-item">
                                 <div class="related-proceeding-icon completed">
                                     <span class="material-icons-outlined">check_circle</span>
                                 </div>
                                 <div class="related-proceeding-content">
                                     <div class="related-proceeding-top">
-                                        <span class="related-proceeding-name">Závazné stanovisko – Správa železnic</span>
+                                        <span class="related-proceeding-name">Rozhodnutí o změně zabezpečení přejezdu – Drážní úřad</span>
                                         <span class="related-proceeding-status completed">Vydáno</span>
                                     </div>
                                     <div class="related-proceeding-meta">
-                                        Č.j. SŽ/2025/9823 • Vydáno 28. 3. 2025 • Dotčený orgán: Správa železnic
+                                        Č.j. DUCR-44974/24/Bd • Vydáno 27. 9. 2024 • Přejezd P4037
                                     </div>
                                     <div class="related-proceeding-actions">
-                                        <a href="#" class="related-proceeding-link">
+                                        <a href="#" class="related-proceeding-link" onclick="openDUModal(); return false;">
                                             <span class="material-icons-outlined">description</span>
-                                            Zobrazit stanovisko
+                                            Zobrazit rozhodnutí
                                         </a>
                                     </div>
                                 </div>
@@ -1779,100 +1873,99 @@
             </div>
         </div>
 
-        <!-- Modální okno: Detail řízení (Předběžná informace) -->
-        <div class="modal-overlay" id="rizeniModal" onclick="closeRizeniModal(event)">
-            <div class="modal-dialog modal-lg" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <div class="modal-header-left">
-                        <span class="material-icons-outlined modal-icon">assignment</span>
-                        <div>
-                            <h3 class="modal-title">Předběžná informace</h3>
-                            <span class="modal-subtitle">SZ DESU/000412/25</span>
-                        </div>
+        <!-- Side drawer: Detail řízení (Předběžná informace) -->
+        <div class="drawer-overlay" id="rizeniDrawerOverlay" onclick="closeRizeniDrawer()"></div>
+        <div class="drawer" id="rizeniDrawer">
+            <div class="drawer-header">
+                <div class="drawer-header-left">
+                    <span class="material-icons-outlined drawer-icon">assignment</span>
+                    <div>
+                        <h3 class="drawer-title">Předběžná informace</h3>
+                        <span class="drawer-subtitle">SZ DESU/000412/25</span>
                     </div>
-                    <button class="modal-close" onclick="closeRizeniModal()">
-                        <span class="material-icons-outlined">close</span>
-                    </button>
                 </div>
-                <div class="modal-body rizeni-detail">
-                    <div class="rizeni-status-bar">
-                        <span class="rizeni-status completed">
-                            <span class="material-icons-outlined">check_circle</span>
-                            Ukončeno
-                        </span>
-                        <span class="rizeni-date">Vydáno 18. 12. 2024</span>
-                    </div>
-                    
-                    <div class="rizeni-section">
-                        <h4 class="rizeni-section-title">
-                            <span class="material-icons-outlined">info</span>
-                            Základní údaje
-                        </h4>
-                        <div class="rizeni-grid">
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Typ řízení</span>
-                                <span class="rizeni-value">Předběžná informace</span>
-                            </div>
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Spisová značka</span>
-                                <span class="rizeni-value">SZ DESU/000412/25</span>
-                            </div>
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Číslo jednací</span>
-                                <span class="rizeni-value">DESU-1247/2024-PI</span>
-                            </div>
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Datum zahájení</span>
-                                <span class="rizeni-value">5. 11. 2024</span>
-                            </div>
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Datum ukončení</span>
-                                <span class="rizeni-value">18. 12. 2024</span>
-                            </div>
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Zpracoval</span>
-                                <span class="rizeni-value">Jan Novák</span>
-                            </div>
+                <button class="drawer-close" onclick="closeRizeniDrawer()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="drawer-body">
+                <div class="rizeni-status-bar">
+                    <span class="rizeni-status completed">
+                        <span class="material-icons-outlined">check_circle</span>
+                        Ukončeno
+                    </span>
+                    <span class="rizeni-date">Vydáno 18. 12. 2024</span>
+                </div>
+                
+                <div class="rizeni-section">
+                    <h4 class="rizeni-section-title">
+                        <span class="material-icons-outlined">info</span>
+                        Základní údaje
+                    </h4>
+                    <div class="rizeni-grid">
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Typ řízení</span>
+                            <span class="rizeni-value">Předběžná informace</span>
                         </div>
-                    </div>
-                    
-                    <div class="rizeni-section">
-                        <h4 class="rizeni-section-title">
-                            <span class="material-icons-outlined">domain</span>
-                            Stavební úřad
-                        </h4>
-                        <div class="rizeni-grid">
-                            <div class="rizeni-item full">
-                                <span class="rizeni-label">Úřad</span>
-                                <span class="rizeni-value">Dopravní a energetický stavební úřad</span>
-                            </div>
-                            <div class="rizeni-item full">
-                                <span class="rizeni-label">Pracoviště</span>
-                                <span class="rizeni-value">Územní pracoviště Hradec Králové</span>
-                            </div>
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Spisová značka</span>
+                            <span class="rizeni-value">SZ DESU/000412/25</span>
                         </div>
-                    </div>
-                    
-                    <div class="rizeni-section">
-                        <h4 class="rizeni-section-title">
-                            <span class="material-icons-outlined">inventory_2</span>
-                            Záměr
-                        </h4>
-                        <div class="rizeni-grid">
-                            <div class="rizeni-item full">
-                                <span class="rizeni-label">Název záměru</span>
-                                <span class="rizeni-value">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</span>
-                            </div>
-                            <div class="rizeni-item">
-                                <span class="rizeni-label">Identifikátor záměru</span>
-                                <span class="rizeni-value">Z/2026/1596</span>
-                            </div>
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Číslo jednací</span>
+                            <span class="rizeni-value">DESU-1247/2024-PI</span>
+                        </div>
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Datum zahájení</span>
+                            <span class="rizeni-value">5. 11. 2024</span>
+                        </div>
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Datum ukončení</span>
+                            <span class="rizeni-value">18. 12. 2024</span>
+                        </div>
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Zpracoval</span>
+                            <span class="rizeni-value">Jan Novák</span>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="closeRizeniModal()">Zavřít</button>
+                
+                <div class="rizeni-section">
+                    <h4 class="rizeni-section-title">
+                        <span class="material-icons-outlined">domain</span>
+                        Stavební úřad
+                    </h4>
+                    <div class="rizeni-grid">
+                        <div class="rizeni-item full">
+                            <span class="rizeni-label">Úřad</span>
+                            <span class="rizeni-value">Dopravní a energetický stavební úřad</span>
+                        </div>
+                        <div class="rizeni-item full">
+                            <span class="rizeni-label">Pracoviště</span>
+                            <span class="rizeni-value">Územní pracoviště Hradec Králové</span>
+                        </div>
+                    </div>
                 </div>
+                
+                <div class="rizeni-section">
+                    <h4 class="rizeni-section-title">
+                        <span class="material-icons-outlined">inventory_2</span>
+                        Záměr
+                    </h4>
+                    <div class="rizeni-grid">
+                        <div class="rizeni-item full">
+                            <span class="rizeni-label">Název záměru</span>
+                            <span class="rizeni-value">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</span>
+                        </div>
+                        <div class="rizeni-item">
+                            <span class="rizeni-label">Identifikátor záměru</span>
+                            <span class="rizeni-value">Z/2026/1596</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn btn-secondary" onclick="closeRizeniDrawer()">Zavřít</button>
             </div>
         </div>
 
@@ -1906,6 +1999,74 @@
                         Otevřít v novém okně
                     </a>
                     <button class="btn btn-secondary" onclick="closePIDocModal()">Zavřít</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modální okno: Koordinované závazné stanovisko JES -->
+        <div class="modal-overlay" id="jesModal" onclick="closeJESModal(event)">
+            <div class="modal-dialog modal-pdf" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon" style="color: #ea4335;">picture_as_pdf</span>
+                        <div>
+                            <h3 class="modal-title">Koordinované závazné stanovisko</h3>
+                            <span class="modal-subtitle">MURK-OVŽP-4840/2025-Pol</span>
+                        </div>
+                    </div>
+                    <button class="modal-close" onclick="closeJESModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-pdf">
+                    <object data="../docs/dokladova-cast/1.2._MeU Rychnov nK-zav.stan.JES.pdf#navpanes=0&scrollbar=1" type="application/pdf" style="width:100%;height:100%">
+                        <div class="pdf-fallback">
+                            <span class="material-icons-outlined">picture_as_pdf</span>
+                            <p>PDF nelze zobrazit v prohlížeči</p>
+                            <a href="../docs/dokladova-cast/1.2._MeU Rychnov nK-zav.stan.JES.pdf" target="_blank" class="btn btn-primary">Otevřít PDF</a>
+                        </div>
+                    </object>
+                </div>
+                <div class="modal-footer">
+                    <a href="../docs/dokladova-cast/1.2._MeU Rychnov nK-zav.stan.JES.pdf" target="_blank" class="btn btn-secondary">
+                        <span class="material-icons-outlined">open_in_new</span>
+                        Otevřít v novém okně
+                    </a>
+                    <button class="btn btn-secondary" onclick="closeJESModal()">Zavřít</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modální okno: Rozhodnutí Drážního úřadu -->
+        <div class="modal-overlay" id="duModal" onclick="closeDUModal(event)">
+            <div class="modal-dialog modal-pdf" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon" style="color: #ea4335;">picture_as_pdf</span>
+                        <div>
+                            <h3 class="modal-title">Rozhodnutí o změně zabezpečení přejezdu</h3>
+                            <span class="modal-subtitle">DUCR-44974/24/Bd</span>
+                        </div>
+                    </div>
+                    <button class="modal-close" onclick="closeDUModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-pdf">
+                    <object data="../docs/dokladova-cast/1.8._DU-Rozhodnuti-zmena zab..pdf#navpanes=0&scrollbar=1" type="application/pdf" style="width:100%;height:100%">
+                        <div class="pdf-fallback">
+                            <span class="material-icons-outlined">picture_as_pdf</span>
+                            <p>PDF nelze zobrazit v prohlížeči</p>
+                            <a href="../docs/dokladova-cast/1.8._DU-Rozhodnuti-zmena zab..pdf" target="_blank" class="btn btn-primary">Otevřít PDF</a>
+                        </div>
+                    </object>
+                </div>
+                <div class="modal-footer">
+                    <a href="../docs/dokladova-cast/1.8._DU-Rozhodnuti-zmena zab..pdf" target="_blank" class="btn btn-secondary">
+                        <span class="material-icons-outlined">open_in_new</span>
+                        Otevřít v novém okně
+                    </a>
+                    <button class="btn btn-secondary" onclick="closeDUModal()">Zavřít</button>
                 </div>
             </div>
         </div>
@@ -1990,14 +2151,15 @@
             document.getElementById('insertModal').classList.remove('open');
         }
 
-        // Modální okno: Detail řízení
-        function openRizeniModal() {
-            document.getElementById('rizeniModal').classList.add('open');
+        // Side drawer: Detail řízení
+        function openRizeniDrawer() {
+            document.getElementById('rizeniDrawerOverlay').classList.add('open');
+            document.getElementById('rizeniDrawer').classList.add('open');
         }
 
-        function closeRizeniModal(event) {
-            if (event && event.target !== document.getElementById('rizeniModal')) return;
-            document.getElementById('rizeniModal').classList.remove('open');
+        function closeRizeniDrawer() {
+            document.getElementById('rizeniDrawerOverlay').classList.remove('open');
+            document.getElementById('rizeniDrawer').classList.remove('open');
         }
 
         // Modální okno: Náhled dokumentu PI
@@ -2010,12 +2172,34 @@
             document.getElementById('piDocModal').classList.remove('open');
         }
 
-        // Zavření modálu klávesou Escape
+        // Modální okno: Koordinované závazné stanovisko JES
+        function openJESModal() {
+            document.getElementById('jesModal').classList.add('open');
+        }
+
+        function closeJESModal(event) {
+            if (event && event.target !== document.getElementById('jesModal')) return;
+            document.getElementById('jesModal').classList.remove('open');
+        }
+
+        // Modální okno: Rozhodnutí Drážního úřadu
+        function openDUModal() {
+            document.getElementById('duModal').classList.add('open');
+        }
+
+        function closeDUModal(event) {
+            if (event && event.target !== document.getElementById('duModal')) return;
+            document.getElementById('duModal').classList.remove('open');
+        }
+
+        // Zavření modálu/draweru klávesou Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeInsertModal();
-                closeRizeniModal();
+                closeRizeniDrawer();
                 closePIDocModal();
+                closeJESModal();
+                closeDUModal();
             }
         });
 
