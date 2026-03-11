@@ -35,8 +35,8 @@
         bimModal: {
             title: 'BIM model',
             type: 'image',
-            file: 'BIM.png',
-            folder: 'images'
+            file: '../images/BIM.png',
+            useAbsolutePath: true
         }
     };
 
@@ -219,9 +219,8 @@
 
         title.textContent = config.title;
 
-        // Určení složky pro soubor
-        const folder = config.folder || 'docs';
-        const filePath = folder === 'images' ? `images/${config.file}` : `${basePath}${config.file}`;
+        // Určení cesty k souboru
+        const filePath = config.useAbsolutePath ? config.file : `${basePath}${config.file}`;
 
         // Generování obsahu podle typu
         if (config.type === 'image') {
