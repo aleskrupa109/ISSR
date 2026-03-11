@@ -1411,6 +1411,210 @@
             color: #202124;
             font-weight: 500;
         }
+        /* Dokumenty v řízení (drawer) */
+        .rizeni-doc-count {
+            margin-left: auto;
+            background: #e8f0fe;
+            color: #1a73e8;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .rizeni-doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .rizeni-doc-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .rizeni-doc-item:hover {
+            background: #e8f0fe;
+        }
+        .rizeni-doc-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .rizeni-doc-icon .material-icons-outlined {
+            font-size: 16px;
+        }
+        .rizeni-doc-icon.incoming {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        .rizeni-doc-icon.outgoing {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .rizeni-doc-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .rizeni-doc-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .rizeni-doc-meta {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+        .rizeni-doc-action {
+            font-size: 18px;
+            color: #9aa0a6;
+            flex-shrink: 0;
+            transition: color 0.15s;
+        }
+        .rizeni-doc-item:hover .rizeni-doc-action {
+            color: #1a73e8;
+        }
+        .rizeni-doc-item.hidden {
+            display: none;
+        }
+        .rizeni-doc-icon.internal {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        /* Sekce dokumentů - fixní výška se scrollem */
+        .rizeni-section-docs .rizeni-doc-list {
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .rizeni-section-docs .rizeni-doc-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .rizeni-section-docs .rizeni-doc-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        .rizeni-section-docs .rizeni-doc-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        .rizeni-section-docs .rizeni-doc-list::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        /* Toolbar - vyhledávání a filtry */
+        .rizeni-doc-toolbar {
+            margin-bottom: 12px;
+        }
+        .rizeni-doc-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .rizeni-doc-search .material-icons-outlined {
+            font-size: 18px;
+            color: #9aa0a6;
+        }
+        .rizeni-doc-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            color: #202124;
+            outline: none;
+        }
+        .rizeni-doc-search input::placeholder {
+            color: #9aa0a6;
+        }
+        .rizeni-doc-filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .rizeni-filter-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #5f6368;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .rizeni-filter-btn:hover {
+            background: #e8f0fe;
+            border-color: #c2d7f8;
+        }
+        .rizeni-filter-btn.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+            border-color: #1a73e8;
+        }
+        .rizeni-filter-btn .material-icons-outlined {
+            font-size: 14px;
+        }
+        /* Prázdný stav */
+        .rizeni-doc-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+            color: #9aa0a6;
+            text-align: center;
+            gap: 8px;
+        }
+        .rizeni-doc-empty .material-icons-outlined {
+            font-size: 32px;
+        }
+        .rizeni-doc-empty span:last-child {
+            font-size: 13px;
+        }
+        /* Toast notifikace */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #323232;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .toast-notification .material-icons-outlined {
+            font-size: 20px;
+            color: #8ab4f8;
+        }
         /* Responsive */
         @media (max-width: 1024px) {
             .content-grid {
@@ -1960,7 +2164,7 @@
             <div class="actions-right">
                 <a href="povoleni-2.html" class="btn btn-primary">
                     <span class="material-icons-outlined">add_circle</span>
-                    Založit nové řízení
+                    Zahájit nové řízení
                 </a>
             </div>
         </div>
@@ -1976,7 +2180,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Skutečně chcete vložit dokument do existujícího řízení?</p>
-                    <p>Jde o dokument typu <strong>Žádost o povolení stavby</strong>, kde logickým krokem by bylo založení nového řízení.</p>
+                    <p>Jde o dokument typu <strong>Žádost o povolení stavby</strong>, kde logickým krokem by bylo zahájení nového řízení.</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="closeInsertModal()">Zrušit</button>
@@ -2056,6 +2260,97 @@
                             <span class="rizeni-label">Pracoviště</span>
                             <span class="rizeni-value">Územní pracoviště Hradec Králové</span>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="rizeni-section rizeni-section-docs">
+                    <h4 class="rizeni-section-title">
+                        <span class="material-icons-outlined">folder_open</span>
+                        Dokumenty v řízení
+                        <span class="rizeni-doc-count" id="docCountBadge">5</span>
+                    </h4>
+                    
+                    <!-- Vyhledávání a filtry -->
+                    <div class="rizeni-doc-toolbar">
+                        <div class="rizeni-doc-search">
+                            <span class="material-icons-outlined">search</span>
+                            <input type="text" id="docSearchInput" placeholder="Hledat v dokumentech..." oninput="filterDrawerDocs()">
+                        </div>
+                        <div class="rizeni-doc-filters">
+                            <button class="rizeni-filter-btn active" data-filter="all" onclick="setDocFilter('all')">Vše</button>
+                            <button class="rizeni-filter-btn" data-filter="incoming" onclick="setDocFilter('incoming')">
+                                <span class="material-icons-outlined">call_received</span>
+                                Příchozí
+                            </button>
+                            <button class="rizeni-filter-btn" data-filter="outgoing" onclick="setDocFilter('outgoing')">
+                                <span class="material-icons-outlined">call_made</span>
+                                Odchozí
+                            </button>
+                            <button class="rizeni-filter-btn" data-filter="internal" onclick="setDocFilter('internal')">
+                                <span class="material-icons-outlined">swap_horiz</span>
+                                Interní
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Seznam dokumentů -->
+                    <div class="rizeni-doc-list" id="drawerDocList">
+                        <div class="rizeni-doc-item" data-type="incoming" data-name="Žádost o vydání předběžné informace" onclick="openDrawerDoc('zadost-pi')">
+                            <div class="rizeni-doc-icon incoming">
+                                <span class="material-icons-outlined">call_received</span>
+                            </div>
+                            <div class="rizeni-doc-content">
+                                <div class="rizeni-doc-name">Žádost o vydání předběžné informace</div>
+                                <div class="rizeni-doc-meta">Doručeno 5. 11. 2024 • Signal Projekt s.r.o.</div>
+                            </div>
+                            <span class="material-icons-outlined rizeni-doc-action">visibility</span>
+                        </div>
+                        <div class="rizeni-doc-item" data-type="outgoing" data-name="Výzva k doplnění žádosti" onclick="openDrawerDoc('vyzva')">
+                            <div class="rizeni-doc-icon outgoing">
+                                <span class="material-icons-outlined">call_made</span>
+                            </div>
+                            <div class="rizeni-doc-content">
+                                <div class="rizeni-doc-name">Výzva k doplnění žádosti</div>
+                                <div class="rizeni-doc-meta">Odesláno 12. 11. 2024 • DESU-1189/2024</div>
+                            </div>
+                            <span class="material-icons-outlined rizeni-doc-action">visibility</span>
+                        </div>
+                        <div class="rizeni-doc-item" data-type="incoming" data-name="Doplnění žádosti" onclick="openDrawerDoc('doplneni')">
+                            <div class="rizeni-doc-icon incoming">
+                                <span class="material-icons-outlined">call_received</span>
+                            </div>
+                            <div class="rizeni-doc-content">
+                                <div class="rizeni-doc-name">Doplnění žádosti</div>
+                                <div class="rizeni-doc-meta">Doručeno 25. 11. 2024 • Signal Projekt s.r.o.</div>
+                            </div>
+                            <span class="material-icons-outlined rizeni-doc-action">visibility</span>
+                        </div>
+                        <div class="rizeni-doc-item" data-type="internal" data-name="Interní sdělení" onclick="openDrawerDoc('interni')">
+                            <div class="rizeni-doc-icon internal">
+                                <span class="material-icons-outlined">swap_horiz</span>
+                            </div>
+                            <div class="rizeni-doc-content">
+                                <div class="rizeni-doc-name">Interní sdělení</div>
+                                <div class="rizeni-doc-meta">10. 12. 2024 • Jan Novák → Vedoucí oddělení</div>
+                            </div>
+                            <span class="material-icons-outlined rizeni-doc-action">visibility</span>
+                        </div>
+                        <div class="rizeni-doc-item" data-type="outgoing" data-name="Předběžná informace" onclick="openPIDocModal()">
+                            <div class="rizeni-doc-icon outgoing">
+                                <span class="material-icons-outlined">call_made</span>
+                            </div>
+                            <div class="rizeni-doc-content">
+                                <div class="rizeni-doc-name">Předběžná informace</div>
+                                <div class="rizeni-doc-meta">Vydáno 18. 12. 2024 • DESU-1247/2024-PI</div>
+                            </div>
+                            <span class="material-icons-outlined rizeni-doc-action">visibility</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Prázdný stav při filtrování -->
+                    <div class="rizeni-doc-empty" id="docEmptyState" style="display: none;">
+                        <span class="material-icons-outlined">search_off</span>
+                        <span>Žádné dokumenty neodpovídají filtru</span>
                     </div>
                 </div>
                 
@@ -2304,6 +2599,117 @@
         function closeRizeniDrawer() {
             document.getElementById('rizeniDrawerOverlay').classList.remove('open');
             document.getElementById('rizeniDrawer').classList.remove('open');
+            // Reset filtrů při zavření
+            resetDocFilters();
+        }
+
+        // Aktuální filtr dokumentů
+        let currentDocFilter = 'all';
+
+        // Nastavení filtru dokumentů
+        function setDocFilter(filter) {
+            currentDocFilter = filter;
+            
+            // Aktualizace tlačítek
+            document.querySelectorAll('.rizeni-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            
+            filterDrawerDocs();
+        }
+
+        // Filtrování dokumentů podle vyhledávání a filtru
+        function filterDrawerDocs() {
+            const searchTerm = document.getElementById('docSearchInput').value.toLowerCase();
+            const items = document.querySelectorAll('#drawerDocList .rizeni-doc-item');
+            let visibleCount = 0;
+            
+            items.forEach(item => {
+                const name = item.dataset.name.toLowerCase();
+                const type = item.dataset.type;
+                
+                // Kontrola filtru typu
+                let typeMatch = currentDocFilter === 'all' || type === currentDocFilter;
+                
+                // Kontrola vyhledávání
+                const searchMatch = name.includes(searchTerm);
+                
+                const visible = typeMatch && searchMatch;
+                item.classList.toggle('hidden', !visible);
+                if (visible) visibleCount++;
+            });
+            
+            // Aktualizace badge s počtem
+            document.getElementById('docCountBadge').textContent = visibleCount;
+            
+            // Zobrazení prázdného stavu
+            document.getElementById('docEmptyState').style.display = visibleCount === 0 ? 'flex' : 'none';
+            document.getElementById('drawerDocList').style.display = visibleCount === 0 ? 'none' : 'flex';
+        }
+
+        // Reset filtrů
+        function resetDocFilters() {
+            currentDocFilter = 'all';
+            const searchInput = document.getElementById('docSearchInput');
+            if (searchInput) searchInput.value = '';
+            
+            document.querySelectorAll('.rizeni-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === 'all');
+            });
+            
+            document.querySelectorAll('#drawerDocList .rizeni-doc-item').forEach(item => {
+                item.classList.remove('hidden');
+            });
+            
+            const countBadge = document.getElementById('docCountBadge');
+            if (countBadge) countBadge.textContent = '5';
+            
+            const emptyState = document.getElementById('docEmptyState');
+            if (emptyState) emptyState.style.display = 'none';
+            
+            const docList = document.getElementById('drawerDocList');
+            if (docList) docList.style.display = 'flex';
+        }
+
+        // Zobrazení dokumentu z draweru
+        function openDrawerDoc(docId) {
+            // Mapování dokumentů na jejich dostupnost
+            const availableDocs = {
+                'zadost-pi': false,
+                'vyzva': false,
+                'doplneni': false,
+                'interni': false
+            };
+            
+            const docNames = {
+                'zadost-pi': 'Žádost o vydání předběžné informace',
+                'vyzva': 'Výzva k doplnění žádosti',
+                'doplneni': 'Doplnění žádosti',
+                'interni': 'Interní sdělení'
+            };
+            
+            if (!availableDocs[docId]) {
+                showToast('Dokument "' + (docNames[docId] || docId) + '" není v demo verzi k dispozici');
+            }
+        }
+        
+        // Jednoduchá toast notifikace
+        function showToast(message) {
+            // Odstranit existující toast
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = '<span class="material-icons-outlined">info</span>' + message;
+            document.body.appendChild(toast);
+            
+            // Animace
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         // Modální okno: Náhled dokumentu PI
