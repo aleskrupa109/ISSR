@@ -1039,6 +1039,7 @@
         .modal-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 12px;
             padding: 20px 24px 16px;
             border-bottom: 1px solid #e0e0e0;
@@ -1073,6 +1074,139 @@
             gap: 12px;
             padding: 16px 24px 20px;
             background: #f8f9fa;
+        }
+        /* Modal variants */
+        .modal-dialog.modal-lg {
+            max-width: 640px;
+        }
+        .modal-dialog.modal-pdf {
+            max-width: 900px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+        .modal-header-left .modal-icon {
+            color: #004289;
+        }
+        .modal-subtitle {
+            font-size: 12px;
+            color: #5f6368;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .modal-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #5f6368;
+            transition: background 0.15s;
+        }
+        .modal-close:hover {
+            background: #f1f3f4;
+        }
+        .modal-body-pdf {
+            flex: 1;
+            padding: 0;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        .pdf-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #5f6368;
+            text-align: center;
+            padding: 40px;
+        }
+        .pdf-fallback .material-icons-outlined {
+            font-size: 64px;
+            color: #ea4335;
+            margin-bottom: 16px;
+        }
+        /* Rizeni detail modal */
+        .rizeni-detail {
+            padding: 0;
+        }
+        .rizeni-status-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            background: #e6f4ea;
+            border-bottom: 1px solid #ceead6;
+        }
+        .rizeni-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .rizeni-status.completed {
+            color: #137333;
+        }
+        .rizeni-status .material-icons-outlined {
+            font-size: 18px;
+        }
+        .rizeni-date {
+            font-size: 13px;
+            color: #5f6368;
+        }
+        .rizeni-section {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .rizeni-section:last-child {
+            border-bottom: none;
+        }
+        .rizeni-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #004289;
+            margin: 0 0 16px 0;
+        }
+        .rizeni-section-title .material-icons-outlined {
+            font-size: 18px;
+        }
+        .rizeni-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+        }
+        .rizeni-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .rizeni-item.full {
+            grid-column: 1 / -1;
+        }
+        .rizeni-label {
+            font-size: 11px;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .rizeni-value {
+            font-size: 14px;
+            color: #202124;
+            font-weight: 500;
         }
         /* Responsive */
         @media (max-width: 1024px) {
@@ -1281,13 +1415,13 @@
                                         SZ DESU/000412/25 • Vydáno 18. 12. 2024 • Zpracoval: Jan Novák
                                     </div>
                                     <div class="related-proceeding-actions">
-                                        <a href="#" class="related-proceeding-link">
+                                        <a href="#" class="related-proceeding-link" onclick="openRizeniModal(); return false;">
                                             <span class="material-icons-outlined">open_in_new</span>
                                             Otevřít řízení
                                         </a>
-                                        <a href="#" class="related-proceeding-link">
+                                        <a href="#" class="related-proceeding-link" onclick="openPIDocModal(); return false;">
                                             <span class="material-icons-outlined">description</span>
-                                            Zobrazit rozhodnutí
+                                            Zobrazit dokument
                                         </a>
                                     </div>
                                 </div>
@@ -1629,8 +1763,10 @@
         <div class="modal-overlay" id="insertModal" onclick="closeInsertModal(event)">
             <div class="modal-dialog" onclick="event.stopPropagation()">
                 <div class="modal-header">
-                    <span class="material-icons-outlined modal-icon warning">info</span>
-                    <h3 class="modal-title">Vložit do existujícího řízení</h3>
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon warning">info</span>
+                        <h3 class="modal-title">Vložit do existujícího řízení</h3>
+                    </div>
                 </div>
                 <div class="modal-body">
                     <p>Skutečně chcete vložit dokument do existujícího řízení?</p>
@@ -1639,6 +1775,137 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" onclick="closeInsertModal()">Zrušit</button>
                     <a href="dokument-vlozit.html" class="btn btn-primary">Pokračovat</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modální okno: Detail řízení (Předběžná informace) -->
+        <div class="modal-overlay" id="rizeniModal" onclick="closeRizeniModal(event)">
+            <div class="modal-dialog modal-lg" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon">assignment</span>
+                        <div>
+                            <h3 class="modal-title">Předběžná informace</h3>
+                            <span class="modal-subtitle">SZ DESU/000412/25</span>
+                        </div>
+                    </div>
+                    <button class="modal-close" onclick="closeRizeniModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body rizeni-detail">
+                    <div class="rizeni-status-bar">
+                        <span class="rizeni-status completed">
+                            <span class="material-icons-outlined">check_circle</span>
+                            Ukončeno
+                        </span>
+                        <span class="rizeni-date">Vydáno 18. 12. 2024</span>
+                    </div>
+                    
+                    <div class="rizeni-section">
+                        <h4 class="rizeni-section-title">
+                            <span class="material-icons-outlined">info</span>
+                            Základní údaje
+                        </h4>
+                        <div class="rizeni-grid">
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Typ řízení</span>
+                                <span class="rizeni-value">Předběžná informace</span>
+                            </div>
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Spisová značka</span>
+                                <span class="rizeni-value">SZ DESU/000412/25</span>
+                            </div>
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Číslo jednací</span>
+                                <span class="rizeni-value">DESU-1247/2024-PI</span>
+                            </div>
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Datum zahájení</span>
+                                <span class="rizeni-value">5. 11. 2024</span>
+                            </div>
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Datum ukončení</span>
+                                <span class="rizeni-value">18. 12. 2024</span>
+                            </div>
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Zpracoval</span>
+                                <span class="rizeni-value">Jan Novák</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rizeni-section">
+                        <h4 class="rizeni-section-title">
+                            <span class="material-icons-outlined">domain</span>
+                            Stavební úřad
+                        </h4>
+                        <div class="rizeni-grid">
+                            <div class="rizeni-item full">
+                                <span class="rizeni-label">Úřad</span>
+                                <span class="rizeni-value">Dopravní a energetický stavební úřad</span>
+                            </div>
+                            <div class="rizeni-item full">
+                                <span class="rizeni-label">Pracoviště</span>
+                                <span class="rizeni-value">Územní pracoviště Hradec Králové</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="rizeni-section">
+                        <h4 class="rizeni-section-title">
+                            <span class="material-icons-outlined">inventory_2</span>
+                            Záměr
+                        </h4>
+                        <div class="rizeni-grid">
+                            <div class="rizeni-item full">
+                                <span class="rizeni-label">Název záměru</span>
+                                <span class="rizeni-value">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</span>
+                            </div>
+                            <div class="rizeni-item">
+                                <span class="rizeni-label">Identifikátor záměru</span>
+                                <span class="rizeni-value">Z/2026/1596</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeRizeniModal()">Zavřít</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modální okno: Náhled dokumentu PI -->
+        <div class="modal-overlay" id="piDocModal" onclick="closePIDocModal(event)">
+            <div class="modal-dialog modal-pdf" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon" style="color: #ea4335;">picture_as_pdf</span>
+                        <div>
+                            <h3 class="modal-title">Předběžná informace</h3>
+                            <span class="modal-subtitle">DESU-1247/2024-PI</span>
+                        </div>
+                    </div>
+                    <button class="modal-close" onclick="closePIDocModal()">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body modal-body-pdf">
+                    <object data="../docs/PI.pdf#navpanes=0&scrollbar=1" type="application/pdf" style="width:100%;height:100%">
+                        <div class="pdf-fallback">
+                            <span class="material-icons-outlined">picture_as_pdf</span>
+                            <p>PDF nelze zobrazit v prohlížeči</p>
+                            <a href="../docs/PI.pdf" target="_blank" class="btn btn-primary">Otevřít PDF</a>
+                        </div>
+                    </object>
+                </div>
+                <div class="modal-footer">
+                    <a href="../docs/PI.pdf" target="_blank" class="btn btn-secondary">
+                        <span class="material-icons-outlined">open_in_new</span>
+                        Otevřít v novém okně
+                    </a>
+                    <button class="btn btn-secondary" onclick="closePIDocModal()">Zavřít</button>
                 </div>
             </div>
         </div>
@@ -1723,10 +1990,32 @@
             document.getElementById('insertModal').classList.remove('open');
         }
 
+        // Modální okno: Detail řízení
+        function openRizeniModal() {
+            document.getElementById('rizeniModal').classList.add('open');
+        }
+
+        function closeRizeniModal(event) {
+            if (event && event.target !== document.getElementById('rizeniModal')) return;
+            document.getElementById('rizeniModal').classList.remove('open');
+        }
+
+        // Modální okno: Náhled dokumentu PI
+        function openPIDocModal() {
+            document.getElementById('piDocModal').classList.add('open');
+        }
+
+        function closePIDocModal(event) {
+            if (event && event.target !== document.getElementById('piDocModal')) return;
+            document.getElementById('piDocModal').classList.remove('open');
+        }
+
         // Zavření modálu klávesou Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeInsertModal();
+                closeRizeniModal();
+                closePIDocModal();
             }
         });
 
