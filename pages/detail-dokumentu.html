@@ -594,6 +594,49 @@
             font-size: 12px;
             color: #5f6368;
         }
+        /* Odesílatel v sekci Identifikace */
+        .sender-info {
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #1a73e8;
+            margin-bottom: 16px;
+        }
+        .sender-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 8px;
+        }
+        .sender-person {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sender-details {
+            flex: 1;
+            min-width: 0;
+        }
+        .sender-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #202124;
+        }
+        .sender-role {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+        /* Zvýraznění přiděleného zpracovatele */
+        .processing-row.assigned {
+            color: #1a73e8;
+            font-weight: 500;
+        }
+        .processing-row.assigned .material-icons-outlined {
+            color: #1a73e8;
+        }
         /* Collapsed card */
         .collapsed-card {
             overflow: hidden;
@@ -749,6 +792,72 @@
             padding-left: 16px;
             padding-right: 16px;
             border-left: 3px solid #1a73e8;
+        }
+        .zamer-rizeni-assignee {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #1a73e8;
+            margin-top: 2px;
+        }
+        .zamer-rizeni-assignee .material-icons-outlined {
+            font-size: 12px;
+        }
+        /* Doporučený zpracovatel */
+        .recommended-assignee {
+            margin-top: 16px;
+            padding: 12px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            border-radius: 8px;
+            border: 1px solid #c8e6c9;
+        }
+        .recommended-assignee-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #2e7d32;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 10px;
+        }
+        .recommended-assignee-header .material-icons-outlined {
+            font-size: 16px;
+        }
+        .recommended-assignee-person {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .person-avatar.small {
+            width: 32px;
+            height: 32px;
+            font-size: 11px;
+        }
+        .recommended-assignee-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .recommended-assignee-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+        }
+        .recommended-assignee-reason {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 1px;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-full {
+            width: 100%;
+            justify-content: center;
         }
         /* Související řízení - expandable karta v main content */
         .related-proceedings-card {
@@ -1567,11 +1676,11 @@
                         </div>
                     </div>
                     
-                    <!-- Odesílatel -->
+                    <!-- Stavebník -->
                     <div class="form-card">
                         <div class="form-card-header">
-                            <span class="material-icons-outlined">person</span>
-                            <span class="form-card-title">Odesílatel (žadatel)</span>
+                            <span class="material-icons-outlined">domain</span>
+                            <span class="form-card-title">Stavebník</span>
                             <div class="form-card-actions">
                                 <button class="form-card-action-btn" title="Ověřit v registrech">
                                     <span class="material-icons-outlined">verified_user</span>
@@ -1609,39 +1718,7 @@
                                 </div>
                                 <div style="margin-top: 8px; font-size: 12px; color: #5f6368;">
                                     <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">person</span>
-                                    Jednající: Mikulová (PM-037-2024)
-                                    <span style="margin-left: 12px;">
-                                        <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">location_on</span>
-                                        Pod Bohdalcem I 3254/3, 101 00 Praha 10
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <!-- Rozbalitelné údaje o žadateli -->
-                            <div class="expandable-section">
-                                <button class="expandable-toggle" onclick="toggleSection('personDetails')">
-                                    <span>Další údaje o žadateli</span>
-                                    <span class="material-icons-outlined" id="personDetailsIcon">expand_more</span>
-                                </button>
-                                <div class="expandable-content" id="personDetails">
-                                    <div class="data-grid">
-                                        <div class="data-item">
-                                            <span class="data-item-label">Právní forma</span>
-                                            <span class="data-item-value">Státní organizace (st. org.)</span>
-                                        </div>
-                                        <div class="data-item">
-                                            <span class="data-item-label">Sídlo</span>
-                                            <span class="data-item-value">Dlážděná 1003/7, Praha 1</span>
-                                        </div>
-                                        <div class="data-item">
-                                            <span class="data-item-label">Datová schránka</span>
-                                            <span class="data-item-value">uccchjm</span>
-                                        </div>
-                                        <div class="data-item">
-                                            <span class="data-item-label">Ověření v OR/ŽR</span>
-                                            <span class="data-item-value">6. 1. 2026 09:17</span>
-                                        </div>
-                                    </div>
+                                    Jednající: Jana Mikulová (PM-037-2024)
                                 </div>
                             </div>
                         </div>
@@ -1658,6 +1735,18 @@
                         </button>
                         <div class="collapsed-card-content" id="docIdentification">
                             <div class="form-card-body">
+                                <!-- Odesílatel -->
+                                <div class="sender-info">
+                                    <div class="sender-label">Odesílatel (osoba přihlášená na Portálu stavebníka)</div>
+                                    <div class="sender-person">
+                                        <div class="person-avatar small">JM</div>
+                                        <div class="sender-details">
+                                            <div class="sender-name">Jana Mikulová</div>
+                                            <div class="sender-role">Jednající za Signal Projekt s.r.o. na základě PM-037-2024</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <div class="data-grid">
                                     <div class="data-item">
                                         <span class="data-item-label">Jednoznačný identifikátor</span>
@@ -1684,12 +1773,12 @@
                                         <span class="data-item-value">Portál stavebníka</span>
                                     </div>
                                     <div class="data-item">
-                                        <span class="data-item-label">Datum doručení</span>
-                                        <span class="data-item-value">6. 1. 2026</span>
+                                        <span class="data-item-label">Datum odeslání</span>
+                                        <span class="data-item-value">6. 1. 2026 09:17</span>
                                     </div>
                                     <div class="data-item">
-                                        <span class="data-item-label">Způsob doručení</span>
-                                        <span class="data-item-value">Portál stavebníka</span>
+                                        <span class="data-item-label">Datum doručení</span>
+                                        <span class="data-item-value">6. 1. 2026 09:22</span>
                                     </div>
                                 </div>
                             </div>
@@ -1760,7 +1849,7 @@
                                         <span class="material-icons-outlined">account_balance</span>
                                         <span>Dopravní a energetický stavební úřad</span>
                                     </div>
-                                    <div class="processing-row">
+                                    <div class="processing-row" id="assigneeRow">
                                         <span class="material-icons-outlined">person</span>
                                         <span id="sidebarAssignee">Nepřidělen</span>
                                     </div>
@@ -1769,6 +1858,25 @@
                                         <span>Evidováno: 6. 1. 2026 9:22</span>
                                     </div>
                                 </div>
+                            </div>
+                            
+                            <!-- Doporučený zpracovatel -->
+                            <div class="recommended-assignee" id="recommendedAssigneeBox">
+                                <div class="recommended-assignee-header">
+                                    <span class="material-icons-outlined">lightbulb</span>
+                                    <span>Doporučený zpracovatel</span>
+                                </div>
+                                <div class="recommended-assignee-person">
+                                    <div class="person-avatar small">JN</div>
+                                    <div class="recommended-assignee-info">
+                                        <div class="recommended-assignee-name">Jan Novák</div>
+                                        <div class="recommended-assignee-reason">Zpracoval Předběžnou informaci v tomto záměru</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-sm btn-full" onclick="assignRecommended()">
+                                    <span class="material-icons-outlined">person_add</span>
+                                    Přidělit Janu Novákovi
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1788,6 +1896,10 @@
                                     <div class="zamer-rizeni-content">
                                         <div class="zamer-rizeni-name">Předběžná informace</div>
                                         <div class="zamer-rizeni-meta">SZ DESU/000412/25 • Ukončeno</div>
+                                        <div class="zamer-rizeni-assignee">
+                                            <span class="material-icons-outlined">person</span>
+                                            Jan Novák
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="zamer-rizeni-item completed">
@@ -1795,8 +1907,8 @@
                                         <span class="material-icons-outlined">check</span>
                                     </div>
                                     <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">ZS – Ředitelství silnic a dálnic</div>
-                                        <div class="zamer-rizeni-meta">Č.j. ŘSD/2025/1847 • Vydáno</div>
+                                        <div class="zamer-rizeni-name">KZS – MěÚ Rychnov n. K.</div>
+                                        <div class="zamer-rizeni-meta">MURK-OVŽP-4840/2025 • Vydáno</div>
                                     </div>
                                 </div>
                                 <div class="zamer-rizeni-item completed">
@@ -1804,8 +1916,8 @@
                                         <span class="material-icons-outlined">check</span>
                                     </div>
                                     <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">ZS – Správa železnic</div>
-                                        <div class="zamer-rizeni-meta">Č.j. SŽ/2025/9823 • Vydáno</div>
+                                        <div class="zamer-rizeni-name">Rozhodnutí – Drážní úřad</div>
+                                        <div class="zamer-rizeni-meta">DUCR-44974/24/Bd • Vydáno</div>
                                     </div>
                                 </div>
                                 <div class="zamer-rizeni-item current">
@@ -2087,6 +2199,8 @@
             const btnText = document.getElementById('assigneeBtnText');
             const menu = document.getElementById('assigneeMenu');
             const sidebarAssignee = document.getElementById('sidebarAssignee');
+            const assigneeRow = document.getElementById('assigneeRow');
+            const recommendedBox = document.getElementById('recommendedAssigneeBox');
             
             if (name === 'Přidělit sobě') {
                 btnText.textContent = 'Změnit zpracovatele';
@@ -2099,8 +2213,38 @@
             btn.classList.add('assigned');
             btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
             
+            // Zvýraznit řádek se zpracovatelem
+            assigneeRow.classList.add('assigned');
+            
             menu.classList.remove('open');
             isAssigned = true;
+            
+            // Skrýt box s doporučením po přidělení
+            if (recommendedBox) {
+                recommendedBox.style.display = 'none';
+            }
+        }
+
+        // Přidělit doporučenému zpracovateli
+        function assignRecommended() {
+            const btn = document.getElementById('assigneeBtn');
+            const btnText = document.getElementById('assigneeBtnText');
+            const sidebarAssignee = document.getElementById('sidebarAssignee');
+            const assigneeRow = document.getElementById('assigneeRow');
+            const recommendedBox = document.getElementById('recommendedAssigneeBox');
+            
+            // Nastavit zpracovatele
+            btnText.textContent = 'Změnit zpracovatele';
+            sidebarAssignee.textContent = 'Jan Novák';
+            btn.classList.add('assigned');
+            btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
+            isAssigned = true;
+            
+            // Zvýraznit řádek se zpracovatelem
+            assigneeRow.classList.add('assigned');
+            
+            // Skrýt box s doporučením
+            recommendedBox.style.display = 'none';
         }
 
         // Zavřít dropdown při kliknutí mimo
