@@ -1188,11 +1188,279 @@
         .modal-dialog.modal-lg {
             max-width: 640px;
         }
+        .modal-dialog.modal-insert {
+            max-width: 560px;
+        }
         .modal-dialog.modal-pdf {
             max-width: 900px;
             height: 80vh;
             display: flex;
             flex-direction: column;
+        }
+        /* Insert modal - výběr řízení */
+        .modal-body-select {
+            padding: 20px 24px;
+        }
+        .insert-zamer-section {
+            margin-bottom: 20px;
+        }
+        .insert-zamer-label,
+        .insert-rizeni-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .insert-zamer-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .insert-zamer-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .insert-zamer-id {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a73e8;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .insert-zamer-name {
+            display: block;
+            font-size: 13px;
+            color: #202124;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .insert-zamer-change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: #1a73e8;
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .insert-zamer-change:hover {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+        .insert-zamer-change .material-icons-outlined {
+            font-size: 16px;
+        }
+        /* Vyhledávání záměru */
+        .insert-zamer-search {
+            margin-top: 8px;
+        }
+        .insert-search-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #fff;
+            border: 2px solid #1a73e8;
+            border-radius: 8px;
+        }
+        .insert-search-input .material-icons-outlined {
+            font-size: 20px;
+            color: #5f6368;
+        }
+        .insert-search-input input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            color: #202124;
+            outline: none;
+        }
+        .insert-search-input input::placeholder {
+            color: #9aa0a6;
+        }
+        .insert-search-cancel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: #f1f3f4;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #5f6368;
+        }
+        .insert-search-cancel:hover {
+            background: #e0e0e0;
+        }
+        .insert-search-results {
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .insert-search-hint {
+            padding: 16px;
+            text-align: center;
+            color: #9aa0a6;
+            font-size: 13px;
+        }
+        .insert-search-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .insert-search-item:last-child {
+            border-bottom: none;
+        }
+        .insert-search-item:hover {
+            background: #f8f9fa;
+        }
+        .insert-search-item-id {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a73e8;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .insert-search-item-name {
+            font-size: 13px;
+            color: #202124;
+            margin-top: 2px;
+        }
+        .insert-search-empty {
+            padding: 16px;
+            text-align: center;
+            color: #5f6368;
+            font-size: 13px;
+        }
+        .insert-search-label {
+            padding: 8px 14px 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        /* Seznam řízení */
+        .insert-rizeni-section {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 16px;
+        }
+        .insert-rizeni-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .insert-rizeni-count {
+            background: #e8f0fe;
+            color: #1a73e8;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .insert-rizeni-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .insert-rizeni-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .insert-rizeni-item:hover {
+            border-color: #1a73e8;
+            background: #f8fbff;
+        }
+        .insert-rizeni-item:has(input:checked) {
+            border-color: #1a73e8;
+            background: #e8f0fe;
+        }
+        .insert-rizeni-item input {
+            display: none;
+        }
+        .insert-rizeni-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #5f6368;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 2px;
+            position: relative;
+            transition: all 0.15s;
+        }
+        .insert-rizeni-item:has(input:checked) .insert-rizeni-radio {
+            border-color: #1a73e8;
+        }
+        .insert-rizeni-item:has(input:checked) .insert-rizeni-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #1a73e8;
+            border-radius: 50%;
+        }
+        .insert-rizeni-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .insert-rizeni-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .insert-rizeni-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .insert-rizeni-status {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .insert-rizeni-status.completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .insert-rizeni-status.active {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        .insert-rizeni-meta {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 4px;
         }
         .modal-header-left {
             display: flex;
@@ -2084,67 +2352,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Řízení v záměru -->
-                    <div class="form-card">
-                        <div class="form-card-header">
-                            <span class="material-icons-outlined">account_tree</span>
-                            <span class="form-card-title">Řízení v záměru</span>
-                        </div>
-                        <div class="form-card-body">
-                            <div class="zamer-rizeni-list">
-                                <div class="zamer-rizeni-item completed">
-                                    <div class="zamer-rizeni-icon completed">
-                                        <span class="material-icons-outlined">check</span>
-                                    </div>
-                                    <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">Předběžná informace</div>
-                                        <div class="zamer-rizeni-meta">SZ DESU/000412/25 • Ukončeno</div>
-                                        <div class="zamer-rizeni-assignee">
-                                            <span class="material-icons-outlined">person</span>
-                                            Jan Novák
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="zamer-rizeni-item completed">
-                                    <div class="zamer-rizeni-icon completed">
-                                        <span class="material-icons-outlined">check</span>
-                                    </div>
-                                    <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">KZS – MěÚ Rychnov n. K.</div>
-                                        <div class="zamer-rizeni-meta">MURK-OVŽP-4840/2025 • Vydáno</div>
-                                    </div>
-                                </div>
-                                <div class="zamer-rizeni-item completed">
-                                    <div class="zamer-rizeni-icon completed">
-                                        <span class="material-icons-outlined">check</span>
-                                    </div>
-                                    <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">Rozhodnutí – Drážní úřad</div>
-                                        <div class="zamer-rizeni-meta">DUCR-44974/24/Bd • Vydáno</div>
-                                    </div>
-                                </div>
-                                <div class="zamer-rizeni-item current">
-                                    <div class="zamer-rizeni-icon current">
-                                        <span class="material-icons-outlined">arrow_forward</span>
-                                    </div>
-                                    <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">Povolení stavby</div>
-                                        <div class="zamer-rizeni-meta">Zahajuje se</div>
-                                    </div>
-                                </div>
-                                <div class="zamer-rizeni-item pending">
-                                    <div class="zamer-rizeni-icon pending">
-                                        <span class="material-icons-outlined">radio_button_unchecked</span>
-                                    </div>
-                                    <div class="zamer-rizeni-content">
-                                        <div class="zamer-rizeni-name">Kolaudace</div>
-                                        <div class="zamer-rizeni-meta">Dosud nezahájeno</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2169,22 +2376,102 @@
             </div>
         </div>
 
-        <!-- Modální okno: Vložit do existujícího řízení -->
+        <!-- Modální okno: Vložit do existujícího řízení (dvou-krokové) -->
         <div class="modal-overlay" id="insertModal" onclick="closeInsertModal(event)">
-            <div class="modal-dialog" onclick="event.stopPropagation()">
-                <div class="modal-header">
-                    <div class="modal-header-left">
-                        <span class="material-icons-outlined modal-icon warning">info</span>
-                        <h3 class="modal-title">Vložit do existujícího řízení</h3>
+            <div class="modal-dialog modal-insert" onclick="event.stopPropagation()">
+                
+                <!-- Krok 1: Varování -->
+                <div class="modal-step" id="insertStep1">
+                    <div class="modal-header">
+                        <div class="modal-header-left">
+                            <span class="material-icons-outlined modal-icon warning">info</span>
+                            <h3 class="modal-title">Vložit do existujícího řízení</h3>
+                        </div>
+                        <button class="modal-close" onclick="closeInsertModal()">
+                            <span class="material-icons-outlined">close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Skutečně chcete vložit dokument do existujícího řízení?</p>
+                        <p>Jde o dokument typu <strong>Žádost o povolení stavby</strong>, kde logickým krokem by bylo zahájení nového řízení.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="closeInsertModal()">Zrušit</button>
+                        <button class="btn btn-primary" onclick="showInsertStep2()">Pokračovat</button>
                     </div>
                 </div>
-                <div class="modal-body">
-                    <p>Skutečně chcete vložit dokument do existujícího řízení?</p>
-                    <p>Jde o dokument typu <strong>Žádost o povolení stavby</strong>, kde logickým krokem by bylo zahájení nového řízení.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" onclick="closeInsertModal()">Zrušit</button>
-                    <a href="dokument-vlozit.html" class="btn btn-primary">Pokračovat</a>
+                
+                <!-- Krok 2: Výběr řízení -->
+                <div class="modal-step" id="insertStep2" style="display: none;">
+                    <div class="modal-header">
+                        <div class="modal-header-left">
+                            <span class="material-icons-outlined modal-icon">post_add</span>
+                            <h3 class="modal-title">Vyberte řízení</h3>
+                        </div>
+                        <button class="modal-close" onclick="closeInsertModal()">
+                            <span class="material-icons-outlined">close</span>
+                        </button>
+                    </div>
+                    <div class="modal-body modal-body-select">
+                        <!-- Vybraný záměr -->
+                        <div class="insert-zamer-section">
+                            <div class="insert-zamer-label">Záměr</div>
+                            <div class="insert-zamer-box" id="selectedZamerBox">
+                                <div class="insert-zamer-info">
+                                    <span class="insert-zamer-id">Z/2026/1596</span>
+                                    <span class="insert-zamer-name">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</span>
+                                </div>
+                                <button class="insert-zamer-change" onclick="showZamerSearch()">
+                                    <span class="material-icons-outlined">edit</span>
+                                    Změnit
+                                </button>
+                            </div>
+                            
+                            <!-- Vyhledávání záměru (skryté) -->
+                            <div class="insert-zamer-search" id="zamerSearchBox" style="display: none;">
+                                <div class="insert-search-input">
+                                    <span class="material-icons-outlined">search</span>
+                                    <input type="text" id="zamerSearchInput" placeholder="Hledat záměr podle ID nebo názvu..." oninput="searchZamery()">
+                                    <button class="insert-search-cancel" onclick="cancelZamerSearch()">
+                                        <span class="material-icons-outlined">close</span>
+                                    </button>
+                                </div>
+                                <div class="insert-search-results" id="zamerSearchResults">
+                                    <!-- Naplní se dynamicky při otevření -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Seznam řízení v záměru -->
+                        <div id="rizeniSectionWrapper">
+                            <div class="insert-rizeni-section">
+                                <div class="insert-rizeni-label">Řízení v záměru <span class="insert-rizeni-count">1</span></div>
+                                <div class="insert-rizeni-list" id="rizeniList">
+                                    <label class="insert-rizeni-item">
+                                        <input type="radio" name="selectedRizeni" value="pi" onchange="updateInsertButton()">
+                                        <div class="insert-rizeni-radio"></div>
+                                        <div class="insert-rizeni-content">
+                                            <div class="insert-rizeni-header">
+                                                <span class="insert-rizeni-name">Předběžná informace</span>
+                                                <span class="insert-rizeni-status completed">Ukončeno</span>
+                                            </div>
+                                            <div class="insert-rizeni-meta">SZ DESU/000412/25 • Zpracoval: Jan Novák</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="showInsertStep1()">
+                            <span class="material-icons-outlined">arrow_back</span>
+                            Zpět
+                        </button>
+                        <button class="btn btn-primary" id="insertConfirmBtn" disabled onclick="confirmInsert()">
+                            <span class="material-icons-outlined">check</span>
+                            Vložit do řízení
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2579,15 +2866,187 @@
             body.classList.toggle('expanded');
         }
 
-        // Modální okno: Vložit do existujícího řízení
+        // Modální okno: Vložit do existujícího řízení (dvou-krokové)
         function openInsertModal() {
             document.getElementById('insertModal').classList.add('open');
+            // Vždy začít krokem 1
+            showInsertStep1();
         }
 
         function closeInsertModal(event) {
             // Pokud je event a kliknutí bylo na dialog (ne overlay), nezavírej
             if (event && event.target !== document.getElementById('insertModal')) return;
             document.getElementById('insertModal').classList.remove('open');
+            // Reset stavu
+            resetInsertModal();
+        }
+
+        function showInsertStep1() {
+            document.getElementById('insertStep1').style.display = 'block';
+            document.getElementById('insertStep2').style.display = 'none';
+        }
+
+        function showInsertStep2() {
+            document.getElementById('insertStep1').style.display = 'none';
+            document.getElementById('insertStep2').style.display = 'block';
+        }
+
+        function resetInsertModal() {
+            // Reset výběru řízení
+            const radios = document.querySelectorAll('input[name="selectedRizeni"]');
+            radios.forEach(r => r.checked = false);
+            document.getElementById('insertConfirmBtn').disabled = true;
+            
+            // Reset vyhledávání záměru
+            cancelZamerSearch();
+            
+            // Vrátit na krok 1
+            showInsertStep1();
+        }
+
+        function updateInsertButton() {
+            const selected = document.querySelector('input[name="selectedRizeni"]:checked');
+            document.getElementById('insertConfirmBtn').disabled = !selected;
+        }
+
+        // Demo záměry pro vyhledávání
+        const demoZamery = [
+            { id: 'Z/2026/1596', name: 'Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí' },
+            { id: 'Z/2025/0842', name: 'Rekonstrukce výpravní budovy žst. Týniště nad Orlicí' },
+            { id: 'Z/2025/1103', name: 'Modernizace trakčního vedení úsek Častolovice - Solnice' },
+            { id: 'Z/2024/2156', name: 'Oprava mostního objektu v km 18,450 trati Hradec Kr. - Letohrad' },
+            { id: 'Z/2026/0215', name: 'Výstavba podchodu v žst. Kostelec nad Orlicí' }
+        ];
+
+        // Demo řízení pro jednotlivé záměry
+        const demoRizeniByZamer = {
+            'Z/2026/1596': [
+                { id: 'pi', name: 'Předběžná informace', sz: 'SZ DESU/000412/25', status: 'completed', statusText: 'Ukončeno', zpracovatel: 'Jan Novák', zpracovatelLabel: 'Zpracoval' }
+            ],
+            'Z/2025/0842': [
+                { id: 'povoleni2', name: 'Povolení stavby', sz: 'SZ DESU/000089/25', status: 'active', statusText: 'Probíhá', zpracovatel: 'Marie Svobodová', zpracovatelLabel: 'Zpracovává' }
+            ],
+            'Z/2025/1103': [
+                { id: 'pi3', name: 'Předběžná informace', sz: 'SZ DESU/000156/25', status: 'completed', statusText: 'Ukončeno', zpracovatel: 'Petr Dvořák', zpracovatelLabel: 'Zpracoval' },
+                { id: 'povoleni3', name: 'Povolení stavby', sz: 'SZ DESU/000201/25', status: 'completed', statusText: 'Ukončeno', zpracovatel: 'Petr Dvořák', zpracovatelLabel: 'Zpracoval' },
+                { id: 'kolaudace3', name: 'Kolaudace', sz: 'SZ DESU/000015/26', status: 'active', statusText: 'Probíhá', zpracovatel: 'Petr Dvořák', zpracovatelLabel: 'Zpracovává' }
+            ],
+            'Z/2024/2156': [
+                { id: 'povoleni4', name: 'Povolení stavby', sz: 'SZ DESU/000312/24', status: 'completed', statusText: 'Ukončeno', zpracovatel: 'Jan Novák', zpracovatelLabel: 'Zpracoval' }
+            ],
+            'Z/2026/0215': [
+                { id: 'pi5', name: 'Předběžná informace', sz: 'SZ DESU/000028/26', status: 'active', statusText: 'Probíhá', zpracovatel: 'Marie Svobodová', zpracovatelLabel: 'Zpracovává' }
+            ]
+        };
+
+        let selectedZamerId = 'Z/2026/1596';
+
+        function showZamerSearch() {
+            document.getElementById('selectedZamerBox').style.display = 'none';
+            document.getElementById('zamerSearchBox').style.display = 'block';
+            document.getElementById('zamerSearchInput').focus();
+            // Skrýt sekci s řízením během vyhledávání záměru
+            document.getElementById('rizeniSectionWrapper').style.display = 'none';
+            // Zobrazit všechny záměry jako výchozí
+            showAllZamery();
+        }
+
+        function cancelZamerSearch() {
+            document.getElementById('selectedZamerBox').style.display = 'flex';
+            document.getElementById('zamerSearchBox').style.display = 'none';
+            document.getElementById('zamerSearchInput').value = '';
+            // Zobrazit sekci s řízením zpět
+            document.getElementById('rizeniSectionWrapper').style.display = 'block';
+        }
+
+        function showAllZamery() {
+            const resultsContainer = document.getElementById('zamerSearchResults');
+            resultsContainer.innerHTML = '<div class="insert-search-label">Dostupné záměry</div>' + demoZamery.map(z => `
+                <div class="insert-search-item" onclick="selectZamer('${z.id}')">
+                    <span class="insert-search-item-id">${z.id}</span>
+                    <span class="insert-search-item-name">${z.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function searchZamery() {
+            const query = document.getElementById('zamerSearchInput').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('zamerSearchResults');
+            
+            if (query.length === 0) {
+                showAllZamery();
+                return;
+            }
+            
+            const matches = demoZamery.filter(z => 
+                z.id.toLowerCase().includes(query) || z.name.toLowerCase().includes(query)
+            );
+            
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = '<div class="insert-search-empty"><span class="material-icons-outlined" style="font-size: 24px; display: block; margin-bottom: 8px; color: #9aa0a6;">search_off</span>Žádný záměr nenalezen</div>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = matches.map(z => `
+                <div class="insert-search-item" onclick="selectZamer('${z.id}')">
+                    <span class="insert-search-item-id">${z.id}</span>
+                    <span class="insert-search-item-name">${z.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function selectZamer(zamerId) {
+            selectedZamerId = zamerId;
+            const zamer = demoZamery.find(z => z.id === zamerId);
+            
+            // Aktualizovat zobrazený záměr
+            document.querySelector('.insert-zamer-id').textContent = zamer.id;
+            document.querySelector('.insert-zamer-name').textContent = zamer.name;
+            
+            // Skrýt vyhledávání
+            cancelZamerSearch();
+            
+            // Aktualizovat seznam řízení
+            updateRizeniList(zamerId);
+        }
+
+        function updateRizeniList(zamerId) {
+            const rizeni = demoRizeniByZamer[zamerId] || [];
+            const listContainer = document.getElementById('rizeniList');
+            const countBadge = document.querySelector('.insert-rizeni-count');
+            
+            countBadge.textContent = rizeni.length;
+            
+            if (rizeni.length === 0) {
+                listContainer.innerHTML = '<div class="insert-search-empty">V tomto záměru nejsou žádná řízení</div>';
+                return;
+            }
+            
+            listContainer.innerHTML = rizeni.map(r => `
+                <label class="insert-rizeni-item">
+                    <input type="radio" name="selectedRizeni" value="${r.id}" onchange="updateInsertButton()">
+                    <div class="insert-rizeni-radio"></div>
+                    <div class="insert-rizeni-content">
+                        <div class="insert-rizeni-header">
+                            <span class="insert-rizeni-name">${r.name}</span>
+                            <span class="insert-rizeni-status ${r.status}">${r.statusText}</span>
+                        </div>
+                        <div class="insert-rizeni-meta">${r.sz} • ${r.zpracovatelLabel}: ${r.zpracovatel}</div>
+                    </div>
+                </label>
+            `).join('');
+            
+            // Reset tlačítka
+            document.getElementById('insertConfirmBtn').disabled = true;
+        }
+
+        function confirmInsert() {
+            const selected = document.querySelector('input[name="selectedRizeni"]:checked');
+            if (!selected) return;
+            
+            // Simulace úspěšného vložení - redirect na dokumenty.html
+            // V reálné aplikaci by zde byl AJAX request
+            window.location.href = 'dokumenty.html?inserted=1&rizeni=' + selected.value;
         }
 
         // Side drawer: Detail řízení
