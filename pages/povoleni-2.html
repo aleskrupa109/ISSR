@@ -814,6 +814,35 @@
             color: #1a73e8;
         }
 
+        .case-meta-linked-separator {
+            color: #9aa0a6;
+            font-size: 16px;
+            line-height: 1;
+            margin: 0 -4px;
+        }
+        .case-meta-linked-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px 2px 6px;
+            background: #e6f4ea;
+            border: 1px solid #a8d5b5;
+            border-radius: 12px;
+            color: #137333 !important;
+            font-size: 12px !important;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .case-meta-linked-tag:hover {
+            background: #ceead6;
+        }
+        .case-meta-linked-tag .material-icons-outlined {
+            font-size: 13px !important;
+            color: #137333 !important;
+        }
+
         .case-badge {
             display: inline-flex;
             align-items: center;
@@ -12151,6 +12180,11 @@
                                 <span class="material-icons-outlined">inventory_2</span>
                                 Záměr Z/2026/1596
                             </a>
+                            <span class="case-meta-linked-separator">·</span>
+                            <a href="#" class="case-meta-linked-tag" title="Propojený záměr — otevřít detail">
+                                <span class="material-icons-outlined">link</span>
+                                Z/2025/0847
+                            </a>
                             <span class="case-meta-item">
                                 <span class="material-icons-outlined">gavel</span>
                                 Povolení stavby
@@ -12278,81 +12312,151 @@
             </div>
 
             <!-- Základní údaje řízení -->
-            <div class="rizeni-header-card" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
-                <div style="display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap;">
-                    <!-- Název stavby - editovatelný -->
-                    <div style="flex: 2; min-width: 300px;">
-                        <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
-                            Název stavby
-                            <span style="font-weight: 400; color: #80868b;">(lze upravit)</span>
-                        </label>
-                        <input type="text" id="nazevStavby" value="Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí" 
-                            style="width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff;"
-                            onchange="updateNazevStavby()">
-                    </div>
-                    <!-- Typ řízení - readonly -->
-                    <div style="flex: 1; min-width: 200px;">
-                        <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
-                            Typ řízení
-                            <span style="font-weight: 400; color: #80868b;">(dle žádosti)</span>
-                        </label>
-                        <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
-                            Povolení stavby
+            <div class="rizeni-header-card" id="rizeniHeaderCard" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+                <!-- Rozbalený stav -->
+                <div id="rizeniHeaderExpanded">
+                    <div style="display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap;">
+                        <!-- Název stavby - editovatelný -->
+                        <div style="flex: 2; min-width: 300px;">
+                            <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
+                                Název stavby
+                                <span style="font-weight: 400; color: #80868b;">(lze upravit)</span>
+                            </label>
+                            <input type="text" id="nazevStavby" value="Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí" 
+                                style="width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff;"
+                                onchange="updateNazevStavby()">
                         </div>
-                    </div>
-                    <!-- Datum doručení -->
-                    <div style="flex: 0 0 auto; min-width: 150px;">
-                        <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
-                            Datum doručení žádosti
-                        </label>
-                        <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
-                            6. 1. 2026
+                        <!-- Druh řízení - styled dropdown -->
+                        <div style="flex: 1; min-width: 200px;">
+                            <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
+                                Druh řízení
+                            </label>
+                            <div style="position: relative;">
+                                <select id="druhRizeni" style="width: 100%; padding: 10px 36px 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff; cursor: pointer; appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s;" onfocus="this.style.borderColor='#004289'" onblur="this.style.borderColor='#dadce0'">
+                                    <optgroup label="Povolení záměru">
+                                        <option value="povoleni-stavby" selected>Povolení stavby nebo zařízení</option>
+                                        <option value="ramcove-povoleni">Rámcové povolení</option>
+                                        <option value="zmena-povoleni">Změna povolení</option>
+                                        <option value="zmena-zameru">Změna záměru před dokončením</option>
+                                        <option value="zmena-vyuziti">Změna využití území</option>
+                                        <option value="deleni-pozemku">Dělení a scelení pozemků</option>
+                                        <option value="ochranne-pasmo">Stanovení ochranného pásma</option>
+                                        <option value="odvolani">Odvolání</option>
+                                        <option value="kontrolni-prohlidka">Kontrolní prohlídka</option>
+                                    </optgroup>
+                                    <optgroup label="Užívání">
+                                        <option value="kolaudace">Kolaudace</option>
+                                        <option value="predcasne-uzivani">Předčasné užívání</option>
+                                        <option value="zkusebni-provoz">Zkušební provoz</option>
+                                        <option value="zmena-uzivani">Změna užívání stavby</option>
+                                    </optgroup>
+                                    <optgroup label="Odstraňování staveb">
+                                        <option value="dodatecne-povoleni">Dodatečné povolení</option>
+                                        <option value="povoleni-odstraneni">Povolení odstranění</option>
+                                        <option value="narizeni-odstraneni">Nařízení odstranění</option>
+                                    </optgroup>
+                                    <optgroup label="Před zahájením">
+                                        <option value="predbezna-info-su">Předběžná informace SÚ</option>
+                                    </optgroup>
+                                    <optgroup label="Mimořádné postupy">
+                                        <option value="mimoradne-opatreni">Mimořádné opatření (§263 NSZ)</option>
+                                        <option value="obnova">Obnova §264</option>
+                                    </optgroup>
+                                    <optgroup label="Kontrola">
+                                        <option value="kontrola-292">Kontrola (§292–294 NSZ)</option>
+                                        <option value="kontrola-298">Kontrola (§298 NSZ)</option>
+                                        <option value="napravn-opatreni-295">Opatření k nápravě (§295 NSZ)</option>
+                                        <option value="napravna-opatreni-299">Nápravná opatření (§299 NSZ)</option>
+                                    </optgroup>
+                                    <optgroup label="Ostatní">
+                                        <option value="overeni-pasportu">Ověření pasportu</option>
+                                        <option value="ostatni">Ostatní (§155 a §156 správní řád)</option>
+                                    </optgroup>
+                                </select>
+                                <span class="material-icons-outlined" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #5f6368; pointer-events: none;">expand_more</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Popis stavby - rozbalovací sekce -->
-                <div class="popis-stavby-section" id="popisStavbySection" style="margin-top: 16px; border-top: 1px solid #e8eaed; padding-top: 12px;">
-                    <!-- Sbalený stav - pouze titulek a ikona -->
-                    <div class="popis-stavby-collapsed" id="popisStavbyCollapsed" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="expandPopisStavby()">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368;">description</span>
-                            <span style="font-size: 13px; font-weight: 500; color: #3c4043;">Popis stavby</span>
-                            <span id="popisStatusBadge" class="popis-status-badge" style="display: none; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #e8f5e9; color: #137333;">Vyplněno</span>
-                        </div>
-                        <button class="popis-expand-btn" style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: transparent; border: 1px solid #dadce0; border-radius: 4px; font-size: 12px; color: #1a73e8; cursor: pointer;" title="Rozbalit popis">
-                            <span class="material-icons-outlined" style="font-size: 16px;">expand_more</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Rozbalený editor -->
-                    <div id="popisStavbyEditor" class="popis-editor" style="display: none; margin-top: 12px;">
-                        <div class="popis-editor-hint" style="font-size: 11px; color: #5f6368; margin-bottom: 8px; line-height: 1.4;">
-                            <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">info</span>
-                            Popis bude použit v úředních dokumentech (vyrozumění o zahájení řízení, oznámení účastníkům). 
-                            Měl by obsahovat základní informace o stavbě srozumitelné i pro laiky.
-                        </div>
-                        <textarea id="popisStavbyTextarea" class="popis-textarea" rows="8" 
-                            placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem řízení je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010 Pardubice – Lichkov st. hr. Záměr zahrnuje výměnu reléového zabezpečovacího zařízení za elektronické stavědlo, úpravy kabelových tras, přejezdových zabezpečovacích zařízení a sdělovacího zařízení. Stavba je členěna na provozní soubory (PS) a stavební objekty (SO) v k.ú. Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl.</textarea>
-                        
-                        <div class="popis-editor-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 12px;">
-                            <button class="popis-ai-btn" onclick="loadPopisFromAI()" id="popisAiBtn">
-                                <span class="material-icons-outlined">auto_awesome</span>
-                                <span class="popis-ai-text">Načíst z dokumentace (AI)</span>
-                                <span class="popis-ai-loading" style="display: none;">
-                                    <span class="material-icons-outlined spinning">sync</span>
-                                    Načítám z B. Souhrnná technická zpráva...
-                                </span>
-                            </button>
-                            <div style="display: flex; gap: 8px;">
-                                <button class="btn btn-secondary" onclick="cancelPopisStavby()">Zrušit</button>
-                                <button class="btn btn-primary" onclick="savePopisStavby()">
-                                    <span class="material-icons-outlined">check</span>
-                                    Uložit popis
-                                </button>
+                        <!-- Datum doručení -->
+                        <div style="flex: 0 0 auto; min-width: 150px;">
+                            <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
+                                Datum doručení žádosti
+                            </label>
+                            <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
+                                6. 1. 2026
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Popis stavby - rozbalovací sekce -->
+                    <div class="popis-stavby-section" id="popisStavbySection" style="margin-top: 16px; border-top: 1px solid #e8eaed; padding-top: 12px;">
+                        <!-- Sbalený stav - pouze titulek a ikona -->
+                        <div class="popis-stavby-collapsed" id="popisStavbyCollapsed" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="expandPopisStavby()">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368;">description</span>
+                                <span style="font-size: 13px; font-weight: 500; color: #3c4043;">Popis stavby</span>
+                                <span id="popisStatusBadge" class="popis-status-badge" style="display: none; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #e8f5e9; color: #137333;">Vyplněno</span>
+                            </div>
+                            <button class="popis-expand-btn" style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: transparent; border: 1px solid #dadce0; border-radius: 4px; font-size: 12px; color: #1a73e8; cursor: pointer;" title="Rozbalit popis">
+                                <span class="material-icons-outlined" style="font-size: 16px;">expand_more</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Rozbalený editor -->
+                        <div id="popisStavbyEditor" class="popis-editor" style="display: none; margin-top: 12px;">
+                            <div class="popis-editor-hint" style="font-size: 11px; color: #5f6368; margin-bottom: 8px; line-height: 1.4;">
+                                <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">info</span>
+                                Popis bude použit v úředních dokumentech (vyrozumění o zahájení řízení, oznámení účastníkům). 
+                                Měl by obsahovat základní informace o stavbě srozumitelné i pro laiky.
+                            </div>
+                            <textarea id="popisStavbyTextarea" class="popis-textarea" rows="8" 
+                                placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem řízení je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010 Pardubice – Lichkov st. hr. Záměr zahrnuje výměnu reléového zabezpečovacího zařízení za elektronické stavědlo, úpravy kabelových tras, přejezdových zabezpečovacích zařízení a sdělovacího zařízení. Stavba je členěna na provozní soubory (PS) a stavební objekty (SO) v k.ú. Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl.</textarea>
+                            
+                            <div class="popis-editor-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 12px;">
+                                <button class="popis-ai-btn" onclick="loadPopisFromAI()" id="popisAiBtn">
+                                    <span class="material-icons-outlined">auto_awesome</span>
+                                    <span class="popis-ai-text">Načíst z dokumentace (AI)</span>
+                                    <span class="popis-ai-loading" style="display: none;">
+                                        <span class="material-icons-outlined spinning">sync</span>
+                                        Načítám z B. Souhrnná technická zpráva...
+                                    </span>
+                                </button>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="btn btn-secondary" onclick="cancelPopisStavby()">Zrušit</button>
+                                    <button class="btn btn-primary" onclick="savePopisStavby()">
+                                        <span class="material-icons-outlined">check</span>
+                                        Uložit popis
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tlačítko Založit řízení -->
+                    <div style="display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #e8eaed;">
+                        <button class="btn btn-primary" onclick="zalozitRizeni()" style="gap: 8px;">
+                            <span class="material-icons-outlined">add_circle</span>
+                            Založit řízení
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sbalený stav po založení -->
+                <div id="rizeniHeaderCollapsed" style="display: none; align-items: center; gap: 16px; flex-wrap: wrap;">
+                    <span class="material-icons-outlined" style="font-size: 20px; color: #137333;">check_circle</span>
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="font-size: 13px; font-weight: 500; color: #202124;" id="collapsedNazev">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
+                        <div style="font-size: 12px; color: #5f6368; margin-top: 2px;">
+                            <span id="collapsedDruh">Povolení stavby</span>
+                            <span style="margin: 0 6px; color: #dadce0;">·</span>
+                            Doručeno 6. 1. 2026
+                            <span style="margin: 0 6px; color: #dadce0;">·</span>
+                            <span style="color: #137333; font-weight: 500;">Řízení zahájeno</span>
+                        </div>
+                    </div>
+                    <button onclick="rozbalitRizeniHeader()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 12px; color: #1a73e8; padding: 4px 8px; border-radius: 4px; transition: background 0.15s;" onmouseenter="this.style.background='#e8f0fe'" onmouseleave="this.style.background='none'">
+                        <span class="material-icons-outlined" style="font-size: 16px;">edit</span>
+                        Upravit
+                    </button>
                 </div>
             </div>
 
@@ -16695,6 +16799,40 @@
                 header.textContent = input.value || 'Bez názvu';
             }
         }
+
+        function zalozitRizeni() {
+            // Přečíst aktuální hodnoty
+            const nazev = document.getElementById('nazevStavby').value || 'Bez názvu';
+            const druhSelect = document.getElementById('druhRizeni');
+            const druh = druhSelect.options[druhSelect.selectedIndex].text;
+
+            // Naplnit sbalený stav
+            document.getElementById('collapsedNazev').textContent = nazev;
+            document.getElementById('collapsedDruh').textContent = druh;
+
+            // Přepnout zobrazení
+            document.getElementById('rizeniHeaderExpanded').style.display = 'none';
+            const collapsed = document.getElementById('rizeniHeaderCollapsed');
+            collapsed.style.display = 'flex';
+
+            // Schovat info panel
+            const infoPanel = document.getElementById('infoPanel');
+            if (infoPanel) {
+                infoPanel.style.display = 'none';
+            }
+
+            // Upravit border karty na zelený
+            document.getElementById('rizeniHeaderCard').style.borderColor = '#a8d5b5';
+            document.getElementById('rizeniHeaderCard').style.background = '#f6fef8';
+        }
+
+        function rozbalitRizeniHeader() {
+            document.getElementById('rizeniHeaderExpanded').style.display = 'block';
+            document.getElementById('rizeniHeaderCollapsed').style.display = 'none';
+            document.getElementById('rizeniHeaderCard').style.borderColor = '#e0e0e0';
+            document.getElementById('rizeniHeaderCard').style.background = '#fff';
+        }
+
 
         // Popis stavby - funkce pro rozbalení/sbalení editoru
         let originalPopisText = '';
