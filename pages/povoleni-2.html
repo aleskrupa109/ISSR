@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISSŘ - Příprava řízení</title>
+    <title>ISSŘ - Příprava řízení [Varianta B — pipeline]</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
@@ -942,6 +942,9 @@
         .page-content {
             flex: 1;
             padding: 24px 32px;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* Section header */
@@ -1024,6 +1027,244 @@
             gap: 16px;
             margin-bottom: 24px;
         }
+
+        /* ===== PIPELINE LAYOUT (varianta B) ===== */
+        .pipeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 24px;
+        }
+        .pipeline-phase {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+        /* Svislá spojovací čára mezi fázemi */
+        .pipeline-phase:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 23px;
+            bottom: -20px;
+            width: 2px;
+            height: 20px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        .pipeline-phase-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 0 8px 0;
+            margin-bottom: 0;
+        }
+        .pipeline-phase-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            color: #9aa0a6;
+            position: relative;
+            z-index: 2;
+        }
+        .pipeline-phase.phase-active .pipeline-phase-number {
+            border-color: #004289;
+            background: #004289;
+            color: #fff;
+        }
+        .pipeline-phase.phase-done .pipeline-phase-number {
+            border-color: #34a853;
+            background: #34a853;
+            color: #fff;
+        }
+        .pipeline-phase-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #9aa0a6;
+        }
+        .pipeline-phase.phase-active .pipeline-phase-title {
+            color: #004289;
+        }
+        .pipeline-phase.phase-done .pipeline-phase-title {
+            color: #34a853;
+        }
+        .pipeline-phase-hint {
+            font-size: 11px;
+            color: #b0b8c1;
+            margin-left: auto;
+        }
+        .pipeline-phase.phase-active .pipeline-phase-hint {
+            color: #5f6368;
+        }
+        .pipeline-phase-body {
+            padding: 0 0 24px 0;
+        }
+        /* Full-width karta pro fáze 1, 2, 4 */
+        .pipeline-card-single {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.15s;
+            max-width: 680px;
+        }
+        .pipeline-card-single.phase-active {
+            border-color: #004289;
+            box-shadow: 0 2px 8px rgba(0,66,137,0.08);
+        }
+        .pipeline-card-single.phase-done {
+            border-color: #a8d5b5;
+            background: #f6fef8;
+        }
+        .pipeline-card-single.phase-locked {
+            background: #fafafa;
+            opacity: 0.7;
+        }
+        .pipeline-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .pipeline-card-icon .material-icons-outlined {
+            font-size: 22px;
+        }
+        .phase-active .pipeline-card-icon {
+            background: #e8f0fe;
+            color: #004289;
+        }
+        .phase-done .pipeline-card-icon {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .phase-locked .pipeline-card-icon {
+            background: #f1f3f4;
+            color: #9aa0a6;
+        }
+        .pipeline-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .pipeline-card-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 3px;
+        }
+        .phase-locked .pipeline-card-title {
+            color: #9aa0a6;
+        }
+        .pipeline-card-desc {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        .phase-locked .pipeline-card-desc {
+            color: #b0b8c1;
+        }
+        .pipeline-card-action {
+            flex-shrink: 0;
+        }
+        /* Skupina paralelních karet (fáze 3) */
+        .pipeline-group {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .pipeline-group-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.15s;
+        }
+        .pipeline-group-card.phase-active {
+            border-color: #004289;
+        }
+        .pipeline-group-card.phase-locked {
+            background: #fafafa;
+            opacity: 0.65;
+        }
+        .pipeline-group-card .pipeline-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .pipeline-group-card .pipeline-card-icon .material-icons-outlined {
+            font-size: 18px;
+        }
+        .pipeline-group-card .pipeline-card-title {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .pipeline-group-card .pipeline-card-desc {
+            font-size: 11px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        .pipeline-group-card .control-card-action {
+            width: 100%;
+            justify-content: center;
+        }
+        /* Podmíněná fáze — Zrychlené řízení */
+        .pipeline-phase-conditional {
+            margin-top: 8px;
+            padding: 12px 16px;
+            background: #fffbea;
+            border: 1px dashed #f6b900;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .pipeline-conditional-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #fef3c7;
+            color: #b06000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .pipeline-conditional-icon .material-icons-outlined { font-size: 18px; }
+        .pipeline-conditional-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #b06000;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 1px;
+        }
+        .pipeline-conditional-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .pipeline-conditional-desc {
+            font-size: 11px;
+            color: #5f6368;
+        }
+        /* ===== KONEC PIPELINE ===== */
+
 
         .control-card {
             background: #fff;
@@ -12470,159 +12711,173 @@
                     </button>
                 </div>
                 <div class="section-progress">
-                    <span id="progressText">0 z 9 kontrol</span>
+                    <span id="progressText">0 z 8 kontrol</span>
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Control cards -->
-            <div class="control-grid">
-                <!-- 1. Příslušnost -->
-                <div class="control-card status-ready" id="card-prislusnost">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">account_balance</span>
-                        </div>
-                        <span class="control-card-status">K provedení</span>
+            <!-- Pipeline layout -->
+            <div class="pipeline">
+
+                <!-- Fáze 1: Příslušnost -->
+                <div class="pipeline-phase phase-active" id="phase1">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">1</div>
+                        <span class="pipeline-phase-title">Příslušnost</span>
+                        <span class="pipeline-phase-hint">Výchozí krok — odemkne kontrolu žádosti</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Příslušnost</div>
-                        <div class="control-card-desc">Ověření věcné a místní příslušnosti stavebního úřadu</div>
-                        <button class="control-card-action" onclick="openControl('controlPrislusnost')">
-                            <span class="material-icons-outlined">play_arrow</span>
-                            Provést kontrolu
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div class="pipeline-card-single phase-active" id="card-prislusnost">
+                            <div class="pipeline-card-icon">
+                                <span class="material-icons-outlined">account_balance</span>
+                            </div>
+                            <div class="pipeline-card-info">
+                                <div class="pipeline-card-title">Kontrola příslušnosti</div>
+                                <div class="pipeline-card-desc">Ověření věcné a místní příslušnosti stavebního úřadu</div>
+                            </div>
+                            <div class="pipeline-card-action">
+                                <button class="control-card-action" style="width:auto;" onclick="openControl('controlPrislusnost')">
+                                    <span class="material-icons-outlined">play_arrow</span>
+                                    Provést kontrolu
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 2. Kontrola žádosti -->
-                <div class="control-card status-waiting disabled" id="card-zadost">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">fact_check</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
+                <!-- Fáze 2: Kontrola žádosti -->
+                <div class="pipeline-phase" id="phase2">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">2</div>
+                        <span class="pipeline-phase-title">Formální náležitosti</span>
+                        <span class="pipeline-phase-hint">Po dokončení příslušnosti</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Kontrola žádosti</div>
-                        <div class="control-card-desc">Náležitosti žádosti podle § 184 a § 185 SZ</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve příslušnost
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div class="pipeline-card-single phase-locked" id="card-zadost">
+                            <div class="pipeline-card-icon">
+                                <span class="material-icons-outlined">fact_check</span>
+                            </div>
+                            <div class="pipeline-card-info">
+                                <div class="pipeline-card-title">Kontrola žádosti</div>
+                                <div class="pipeline-card-desc">Náležitosti žádosti podle § 184 a § 185 SZ</div>
+                            </div>
+                            <div class="pipeline-card-action">
+                                <button class="control-card-action status-waiting" style="width:auto;" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve příslušnost
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 3. Dokumentace -->
-                <div class="control-card status-waiting disabled" id="card-dokumentace">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">architecture</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
+                <!-- Fáze 3: Paralelní kontroly -->
+                <div class="pipeline-phase" id="phase3">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">3</div>
+                        <span class="pipeline-phase-title">Věcné kontroly</span>
+                        <span class="pipeline-phase-hint">Libovolné pořadí — po dokončení kontroly žádosti</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Dokumentace</div>
-                        <div class="control-card-desc">Kontrola úplnosti, podpisů a formátu projektové dokumentace</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve kontrola žádosti
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div class="pipeline-group">
+                            <!-- Dokumentace -->
+                            <div class="pipeline-group-card phase-locked" id="card-dokumentace">
+                                <div class="pipeline-card-icon">
+                                    <span class="material-icons-outlined">architecture</span>
+                                </div>
+                                <div class="pipeline-card-title">Dokumentace</div>
+                                <div class="pipeline-card-desc">Úplnost, podpisy a formát projektové dokumentace</div>
+                                <button class="control-card-action status-waiting" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve žádost
+                                </button>
+                            </div>
+                            <!-- Pozemky -->
+                            <div class="pipeline-group-card phase-locked" id="card-pozemky">
+                                <div class="pipeline-card-icon">
+                                    <span class="material-icons-outlined">terrain</span>
+                                </div>
+                                <div class="pipeline-card-title">Pozemky</div>
+                                <div class="pipeline-card-desc">Ověření pozemků záměru a sousedních parcel</div>
+                                <button class="control-card-action status-waiting" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve žádost
+                                </button>
+                            </div>
+                            <!-- Soulad s ÚPD -->
+                            <div class="pipeline-group-card phase-locked" id="card-up">
+                                <div class="pipeline-card-icon">
+                                    <span class="material-icons-outlined">map</span>
+                                </div>
+                                <div class="pipeline-card-title">Soulad s ÚPD</div>
+                                <div class="pipeline-card-desc">Soulad záměru s územně plánovací dokumentací</div>
+                                <button class="control-card-action status-waiting" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve žádost
+                                </button>
+                            </div>
+                            <!-- Dokladová část -->
+                            <div class="pipeline-group-card phase-locked" id="card-identifikace">
+                                <div class="pipeline-card-icon">
+                                    <span class="material-icons-outlined">rule_folder</span>
+                                </div>
+                                <div class="pipeline-card-title">Dokladová část</div>
+                                <div class="pipeline-card-desc">Stanoviska DO a vyjádření vlastníků sítí</div>
+                                <button class="control-card-action status-waiting" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve žádost
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 4. Pozemky -->
-                <div class="control-card status-waiting disabled" id="card-pozemky">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">terrain</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
+                <!-- Fáze 4: Osoby -->
+                <div class="pipeline-phase" id="phase4">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">4</div>
+                        <span class="pipeline-phase-title">Osoby v řízení</span>
+                        <span class="pipeline-phase-hint">Po dokončení pozemků a dokladové části</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Pozemky</div>
-                        <div class="control-card-desc">Ověření pozemků záměru a identifikace sousedních parcel</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve dokumentace
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div class="pipeline-card-single phase-locked" id="card-ucastnici">
+                            <div class="pipeline-card-icon">
+                                <span class="material-icons-outlined">groups</span>
+                            </div>
+                            <div class="pipeline-card-info">
+                                <div class="pipeline-card-title">Osoby</div>
+                                <div class="pipeline-card-desc">Ověření vlastníků pozemků a definice osob v řízení — přebírá data z pozemků a dokladové části</div>
+                            </div>
+                            <div class="pipeline-card-action">
+                                <button class="control-card-action status-waiting" style="width:auto;" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve pozemky a doklady
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 5. Soulad s ÚPD -->
-                <div class="control-card status-waiting disabled" id="card-up">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">map</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Soulad s ÚPD</div>
-                        <div class="control-card-desc">Kontrola souladu záměru s územně plánovací dokumentací</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve pozemky
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 6. Dokladová část (sloučeno z Identifikace DO a Dokladová část) -->
-                <div class="control-card status-waiting disabled" id="card-identifikace">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">fact_check</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Dokladová část</div>
-                        <div class="control-card-desc">Stanoviska DO a vyjádření vlastníků sítí</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve pozemky
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 7. Osoby -->
-                <div class="control-card status-waiting disabled" id="card-ucastnici">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">groups</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Osoby</div>
-                        <div class="control-card-desc">Ověření vlastníků pozemků a definice osob v řízení</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve pozemky
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 9. Zrychlené řízení -->
-                <div class="control-card status-waiting disabled" id="card-zrychlene">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">bolt</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Zrychlené řízení</div>
-                        <div class="control-card-desc">Ověření podmínek pro zrychlené řízení</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve ostatní kontroly
-                        </button>
-                    </div>
-                </div>
             </div>
+
+            <!-- Podmíněná kontrola: Zrychlené řízení -->
+            <div class="pipeline-phase-conditional" id="card-zrychlene">
+                <div class="pipeline-conditional-icon">
+                    <span class="material-icons-outlined">bolt</span>
+                </div>
+                <div style="flex:1; min-width:0;">
+                    <div class="pipeline-conditional-label">Podmíněná kontrola</div>
+                    <div class="pipeline-conditional-title">Zrychlené řízení</div>
+                    <div class="pipeline-conditional-desc">Ověření splnění podmínek — aktivní pouze pokud žadatel o zrychlené řízení požádal</div>
+                </div>
+                <button class="control-card-action status-waiting" style="flex-shrink:0;" disabled>
+                    <span class="material-icons-outlined">lock</span>
+                    Nejprve ostatní kontroly
+                </button>
+            </div>
+
 
             <!-- Summary / Action bar -->
             <div class="summary-card">
@@ -21930,12 +22185,128 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             
             // Aktualizovat stav kontroly Zrychlené řízení
             updateZrychleneRizeniState();
+
+            // Aktualizovat pipeline fáze
+            updatePipelinePhases();
+        }
+
+        function updatePipelinePhases() {
+            const c = controls;
+
+            // Fáze 1 — Příslušnost
+            const phase1 = document.getElementById('phase1');
+            const card1 = document.getElementById('card-prislusnost');
+            if (phase1 && card1) {
+                if (c.prislusnost.done) {
+                    phase1.classList.remove('phase-active');
+                    phase1.classList.add('phase-done');
+                    card1.classList.remove('phase-active', 'phase-locked');
+                    card1.classList.add('phase-done');
+                    // Přepsat akční tlačítko na stav hotovo
+                    const btn = card1.querySelector('.control-card-action');
+                    if (btn) {
+                        btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Příslušný';
+                        btn.onclick = function() { openControl('controlPrislusnost'); };
+                        btn.disabled = false;
+                    }
+                }
+            }
+
+            // Fáze 2 — Žádost
+            const phase2 = document.getElementById('phase2');
+            const card2 = document.getElementById('card-zadost');
+            if (phase2 && card2) {
+                if (c.zadost.done) {
+                    phase2.classList.remove('phase-active');
+                    phase2.classList.add('phase-done');
+                    card2.classList.remove('phase-active', 'phase-locked');
+                    card2.classList.add('phase-done');
+                } else if (c.prislusnost.done && c.prislusnost.result === 'ok') {
+                    phase2.classList.add('phase-active');
+                    card2.classList.remove('phase-locked');
+                    card2.classList.add('phase-active');
+                    const btn = card2.querySelector('.control-card-action');
+                    if (btn) {
+                        btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>Zkontrolovat žádost';
+                        btn.onclick = function() { openControl('controlZadost'); };
+                        btn.disabled = false;
+                    }
+                }
+            }
+
+            // Fáze 3 — Věcné kontroly (odemknutí skupiny)
+            const phase3 = document.getElementById('phase3');
+            const groupCards = {
+                dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu' },
+                pozemky:     { controlId: 'controlPozemky',     readyText: 'Identifikovat pozemky' },
+                up:          { controlId: 'controlUP',          readyText: 'Provést kontrolu' },
+                identifikace:{ controlId: 'controlIdentifikace',readyText: 'Provést kontrolu' }
+            };
+            const phase3Unlocked = c.zadost.done;
+            const phase3AllDone = phase3Unlocked && ['dokumentace','pozemky','up','identifikace'].every(k => c[k] && c[k].done);
+            if (phase3) {
+                if (phase3AllDone) {
+                    phase3.classList.remove('phase-active');
+                    phase3.classList.add('phase-done');
+                } else if (phase3Unlocked) {
+                    phase3.classList.add('phase-active');
+                }
+            }
+            if (phase3Unlocked) {
+                for (const [key, cfg] of Object.entries(groupCards)) {
+                    const gc = document.getElementById('card-' + key);
+                    if (!gc) continue;
+                    const btn = gc.querySelector('.control-card-action');
+                    if (c[key] && c[key].done) {
+                        gc.classList.remove('phase-locked');
+                        gc.classList.add('phase-active');
+                        if (btn) {
+                            btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
+                            btn.onclick = function() { openControl(cfg.controlId); };
+                            btn.disabled = false;
+                        }
+                    } else {
+                        gc.classList.remove('phase-locked');
+                        gc.classList.add('phase-active');
+                        if (btn) {
+                            btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
+                            btn.onclick = function() { openControl(cfg.controlId); };
+                            btn.disabled = false;
+                        }
+                    }
+                }
+            }
+
+            // Fáze 4 — Osoby
+            const phase4 = document.getElementById('phase4');
+            const card4 = document.getElementById('card-ucastnici');
+            const phase4Unlocked = c.pozemky && c.pozemky.done && c.identifikace && c.identifikace.done;
+            if (phase4 && card4) {
+                if (c.ucastnici && c.ucastnici.done) {
+                    phase4.classList.remove('phase-active');
+                    phase4.classList.add('phase-done');
+                    card4.classList.remove('phase-locked');
+                    card4.classList.add('phase-done');
+                } else if (phase4Unlocked) {
+                    phase4.classList.add('phase-active');
+                    card4.classList.remove('phase-locked');
+                    card4.classList.add('phase-active');
+                    const btn = card4.querySelector('.control-card-action');
+                    if (btn) {
+                        btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>Definovat osoby';
+                        btn.onclick = function() { openControl('controlUcastnici'); };
+                        btn.disabled = false;
+                    }
+                }
+            }
         }
 
         function updateCardContent(key, status) {
             const card = document.getElementById('card-' + key);
-            const statusBadge = card.querySelector('.control-card-status');
+            if (!card) return;
+            const statusBadge = card.querySelector('.control-card-status'); // může být null v pipeline kartách
             const actionBtn = card.querySelector('.control-card-action');
+            if (!actionBtn) return;
 
             const config = {
                 prislusnost: { controlId: 'controlPrislusnost', readyText: 'Provést kontrolu', doneText: 'Příslušný', doneTextNeg: 'Nepříslušný' },
@@ -21953,22 +22324,22 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
 
             if (status === 'done') {
                 if (ctrl.result === 'ok') {
-                    statusBadge.textContent = 'Hotovo';
+                    if (statusBadge) statusBadge.textContent = 'Hotovo';
                     actionBtn.innerHTML = '<span class="material-icons-outlined">check_circle</span>' + cfg.doneText;
                 } else if (ctrl.result === 'vady' || ctrl.result === 'warning') {
-                    statusBadge.textContent = 'Vady';
+                    if (statusBadge) statusBadge.textContent = 'Vady';
                     actionBtn.innerHTML = '<span class="material-icons-outlined">warning</span>' + cfg.doneTextNeg;
                 } else {
-                    statusBadge.textContent = 'Blokuje';
+                    if (statusBadge) statusBadge.textContent = 'Blokuje';
                     actionBtn.innerHTML = '<span class="material-icons-outlined">cancel</span>' + cfg.doneTextNeg;
                 }
                 actionBtn.onclick = function() { openControl(cfg.controlId); };
             } else if (status === 'ready') {
-                statusBadge.textContent = 'K provedení';
+                if (statusBadge) statusBadge.textContent = 'K provedení';
                 actionBtn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
                 actionBtn.onclick = function() { openControl(cfg.controlId); };
             } else {
-                statusBadge.textContent = 'Čeká';
+                if (statusBadge) statusBadge.textContent = 'Čeká';
                 const waitingOn = ctrl.depends.find(dep => !controls[dep].done);
                 const waitingText = {
                     prislusnost: 'Nejprve příslušnost',
