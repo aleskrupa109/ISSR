@@ -2746,6 +2746,9 @@
                                 <div class="recommended-assignee-header">
                                     <span class="material-icons-outlined">lightbulb</span>
                                     <span>Doporučený zpracovatel</span>
+                                    <button onclick="dismissRecommendedAssignee()" title="Nezobrazovat doporučeného zpracovatele" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:2px;border-radius:4px;display:flex;align-items:center;color:#5f6368;transition:color 0.15s;" onmouseenter="this.style.color='#c5221f'" onmouseleave="this.style.color='#5f6368'">
+                                        <span class="material-icons-outlined" style="font-size:16px;">visibility_off</span>
+                                    </button>
                                 </div>
                                 <div class="recommended-assignee-person">
                                     <div class="person-avatar small">JN</div>
@@ -3477,6 +3480,11 @@
         });
 
         // ===== KONEC DUPLICITY =====
+
+        function dismissRecommendedAssignee() {
+            document.getElementById('recommendedAssigneeBox').style.display = 'none';
+            showToast('Doporučený zpracovatel nebude nadále zobrazován');
+        }
 
         // Dropdown pro přidělení zpracovatele
         let isAssigned = false;
