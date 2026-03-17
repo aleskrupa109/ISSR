@@ -1858,6 +1858,330 @@
         .rizeni-doc-empty span:last-child {
             font-size: 13px;
         }
+        /* ===== DUPLICITY ===== */
+        .duplicates-section {
+            border-top: 2px dashed #f6b900;
+            margin: 0;
+            padding: 16px 24px;
+            background: #fffdf0;
+        }
+        .duplicates-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .duplicates-section-header .material-icons-outlined {
+            font-size: 18px;
+            color: #b06000;
+        }
+        .duplicates-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #b06000;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .duplicates-section-hint {
+            font-size: 12px;
+            color: #80868b;
+            margin-left: auto;
+        }
+        .duplicate-card {
+            background: #fff;
+            border: 1px solid #f6b900;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        .duplicate-card:last-child {
+            margin-bottom: 0;
+        }
+        .duplicate-card.resolved-connected {
+            border-color: #34a853;
+            background: #f6fef8;
+            opacity: 0.85;
+        }
+        .duplicate-card.resolved-rejected {
+            border-color: #e0e0e0;
+            background: #f8f9fa;
+            opacity: 0.65;
+        }
+        .duplicate-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .duplicate-zamer-id {
+            font-size: 11px;
+            font-weight: 600;
+            color: #5f6368;
+            font-family: 'Roboto Mono', monospace;
+        }
+        .duplicate-zamer-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+            margin-top: 2px;
+        }
+        .duplicate-card.resolved-rejected .duplicate-zamer-name {
+            color: #9aa0a6;
+            text-decoration: line-through;
+        }
+        .duplicate-match-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .match-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .match-tag .material-icons-outlined {
+            font-size: 12px;
+        }
+        .match-tag.match-strong {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .match-tag.match-weak {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+        .match-tag.match-no {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+        .duplicate-meta {
+            font-size: 11px;
+            color: #80868b;
+            margin-bottom: 10px;
+        }
+        .duplicate-actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .duplicate-resolved-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        .duplicate-resolved-badge.connected {
+            background: #e6f4ea;
+            color: #137333;
+        }
+        .duplicate-resolved-badge.rejected {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+        .duplicate-resolved-badge .material-icons-outlined {
+            font-size: 14px;
+        }
+        .duplicate-notification {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #137333;
+            margin-top: 6px;
+            padding: 6px 10px;
+            background: #e6f4ea;
+            border-radius: 6px;
+        }
+        .duplicate-notification .material-icons-outlined {
+            font-size: 14px;
+        }
+        .page-meta-linked-zamer {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+        .page-meta-linked-zamer.visible {
+            display: inline-flex;
+        }
+        .page-meta-linked-separator {
+            color: #9aa0a6;
+            font-size: 16px;
+            line-height: 1;
+            margin: 0 2px;
+        }
+        .page-meta-linked-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px 2px 6px;
+            background: #e6f4ea;
+            border: 1px solid #a8d5b5;
+            border-radius: 12px;
+            color: #137333;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .page-meta-linked-tag:hover {
+            background: #ceead6;
+        }
+        .page-meta-linked-tag .material-icons-outlined {
+            font-size: 13px;
+            color: #137333;
+        }
+        /* Záměr detail modal */
+        .modal-zamer-header-info {
+            flex: 1;
+        }
+        .modal-zamer-id {
+            font-size: 11px;
+            color: #5f6368;
+            font-family: 'Roboto Mono', monospace;
+            margin-bottom: 2px;
+        }
+        .modal-zamer-match-section {
+            background: #fffbea;
+            border: 1px solid #f6b900;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+        }
+        .modal-zamer-match-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #b06000;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+        }
+        .modal-zamer-match-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .modal-match-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+        .modal-match-row .material-icons-outlined {
+            font-size: 14px;
+            width: 16px;
+            flex-shrink: 0;
+        }
+        .modal-match-row.match-yes { color: #137333; }
+        .modal-match-row.match-no  { color: #c5221f; }
+        .modal-match-row.match-partial { color: #b06000; }
+        .modal-rizeni-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .modal-rizeni-mini-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .modal-rizeni-mini-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .modal-rizeni-mini-dot.completed { background: #34a853; }
+        .modal-rizeni-mini-dot.active    { background: #1a73e8; }
+        .modal-rizeni-mini-name {
+            font-weight: 500;
+            color: #202124;
+            flex: 1;
+        }
+        .modal-rizeni-mini-status {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+        .modal-rizeni-mini-status.completed { background: #e6f4ea; color: #137333; }
+        .modal-rizeni-mini-status.active    { background: #e8f0fe; color: #1a73e8; }
+        .btn-danger {
+            background: #fff !important;
+            color: #c5221f !important;
+            border-color: #c5221f !important;
+        }
+        .btn-danger:hover {
+            background: #fce8e6 !important;
+        }
+        /* Disabled action buttons */
+        .btn.btn-locked {
+            opacity: 0.45 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+        }
+        .btn.btn-locked:hover {
+            background: inherit !important;
+            border-color: inherit !important;
+            color: inherit !important;
+        }
+        /* Podatelna row ve zpracování */
+        .processing-row.podatelna .material-icons-outlined {
+            color: #5f6368 !important;
+        }
+        .processing-row.podatelna span:last-child {
+            color: #5f6368;
+            font-style: italic;
+        }
+        /* Tooltip pro locked tlačítka */
+        .btn-wrapper {
+            position: relative;
+            display: inline-flex;
+        }
+        .btn-wrapper .btn-tooltip {
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #323232;
+            color: #fff;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            z-index: 500;
+            pointer-events: none;
+        }
+        .btn-wrapper .btn-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #323232;
+        }
+        .btn-wrapper:hover .btn-tooltip {
+            display: block;
+        }
+        .btn-wrapper.unlocked .btn-tooltip {
+            display: none !important;
+        }
         /* Toast notifikace */
         .toast-notification {
             position: fixed;
@@ -1985,6 +2309,13 @@
                             <span class="page-meta-item">
                                 <span class="material-icons-outlined">description</span>
                                 Žádost o povolení stavby
+                            </span>
+                            <span class="page-meta-linked-zamer" id="linkedZamerTag">
+                                <span class="page-meta-linked-separator">·</span>
+                                <a class="page-meta-linked-tag" onclick="openZamerDetail(1); return false;" title="Otevřít detail propojeného záměru">
+                                    <span class="material-icons-outlined">link</span>
+                                    <span id="linkedZamerLabel">Z/2025/0847</span>
+                                </a>
                             </span>
                         </div>
                     </div>
@@ -2147,6 +2478,69 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Potenciální duplicity -->
+                            <div class="duplicates-section">
+                                <div class="duplicates-section-header">
+                                    <span class="material-icons-outlined">content_copy</span>
+                                    <span class="duplicates-section-title">Možné duplicitní záměry</span>
+                                    <span class="duplicates-section-hint">Identifikováno systémem</span>
+                                </div>
+
+                                <!-- Duplicita 1: skutečná — k propojení -->
+                                <div class="duplicate-card" id="dupCard1">
+                                    <div class="duplicate-card-top">
+                                        <div>
+                                            <div class="duplicate-zamer-id">Z/2025/0847</div>
+                                            <div class="duplicate-zamer-name">Rekonstrukce SZZ v železniční stanici Doudleby nad Orlicí</div>
+                                        </div>
+                                    </div>
+                                    <div class="duplicate-match-tags">
+                                        <span class="match-tag match-strong"><span class="material-icons-outlined">location_on</span>Shodný pozemek</span>
+                                        <span class="match-tag match-strong"><span class="material-icons-outlined">domain</span>Shodný stavebník</span>
+                                        <span class="match-tag match-strong"><span class="material-icons-outlined">title</span>Shodný název</span>
+                                    </div>
+                                    <div class="duplicate-meta">Zpracovatel: Marie Svobodová · DESÚ, Územní pracoviště Pardubice</div>
+                                    <div class="duplicate-actions" id="dupActions1">
+                                        <button class="btn btn-secondary btn-sm" onclick="openZamerDetail(1)">
+                                            <span class="material-icons-outlined">open_in_new</span>Zobrazit detail
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="connectZamer(1)">
+                                            <span class="material-icons-outlined">link</span>Propojit záměry
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" onclick="rejectDuplicate(1)" style="margin-left:auto;color:#5f6368;">
+                                            <span class="material-icons-outlined">close</span>Není duplicita
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Duplicita 2: falešná — k zamítnutí -->
+                                <div class="duplicate-card" id="dupCard2">
+                                    <div class="duplicate-card-top">
+                                        <div>
+                                            <div class="duplicate-zamer-id">Z/2024/2103</div>
+                                            <div class="duplicate-zamer-name">Modernizace přejezdového ZZ P4037 – Doudleby nad Orlicí</div>
+                                        </div>
+                                    </div>
+                                    <div class="duplicate-match-tags">
+                                        <span class="match-tag match-strong"><span class="material-icons-outlined">location_on</span>Shodný pozemek</span>
+                                        <span class="match-tag match-no"><span class="material-icons-outlined">domain</span>Jiný stavebník</span>
+                                        <span class="match-tag match-weak"><span class="material-icons-outlined">title</span>Částečně shodný název</span>
+                                    </div>
+                                    <div class="duplicate-meta">Zpracovatel: Lucie Horáková · Drážní úřad Praha</div>
+                                    <div class="duplicate-actions" id="dupActions2">
+                                        <button class="btn btn-secondary btn-sm" onclick="openZamerDetail(2)">
+                                            <span class="material-icons-outlined">open_in_new</span>Zobrazit detail
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="connectZamer(2)">
+                                            <span class="material-icons-outlined">link</span>Propojit záměry
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm" onclick="rejectDuplicate(2)" style="margin-left:auto;color:#5f6368;">
+                                            <span class="material-icons-outlined">close</span>Není duplicita
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -2190,9 +2584,22 @@
                                         <div class="person-type">IČO: 25525441 • PM-036-2024</div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px; font-size: 12px; color: #5f6368;">
-                                    <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle;">person</span>
-                                    Jednající: Jana Mikulová (PM-037-2024)
+                                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #dde3ea; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                                        <div class="person-avatar" style="width: 24px; height: 24px; font-size: 10px; flex-shrink: 0;">JM</div>
+                                        <span style="font-size: 12px; font-weight: 500; color: #202124;">Jana Mikulová</span>
+                                        <span style="font-size: 11px; color: #9aa0a6;">PM-037-2024</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                        <a href="tel:+420605123456" class="contact-link" style="font-size: 12px;">
+                                            <span class="material-icons-outlined" style="font-size: 14px;">phone</span>
+                                            +420 605 123 456
+                                        </a>
+                                        <a href="mailto:mikulova@signalprojekt.cz" class="contact-link" style="font-size: 12px;">
+                                            <span class="material-icons-outlined" style="font-size: 14px;">mail</span>
+                                            mikulova@signalprojekt.cz
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2323,9 +2730,9 @@
                                         <span class="material-icons-outlined">account_balance</span>
                                         <span>Dopravní a energetický stavební úřad</span>
                                     </div>
-                                    <div class="processing-row" id="assigneeRow">
-                                        <span class="material-icons-outlined">person</span>
-                                        <span id="sidebarAssignee">Nepřidělen</span>
+                                    <div class="processing-row podatelna" id="assigneeRow">
+                                        <span class="material-icons-outlined" id="assigneeRowIcon">local_post_office</span>
+                                        <span id="sidebarAssignee">Petra Nováčková (podatelna)</span>
                                     </div>
                                     <div class="processing-row">
                                         <span class="material-icons-outlined">schedule</span>
@@ -2361,20 +2768,29 @@
         <!-- Actions bar - sticky footer (stejné jako v povoleni-1) -->
         <div class="actions-bar">
             <div class="actions-left">
-                <a href="vzit-na-vedomi.html" class="btn btn-secondary">
-                    <span class="material-icons-outlined">inventory</span>
-                    Vzít na vědomí
-                </a>
-                <button class="btn btn-secondary" onclick="openInsertModal()">
-                    <span class="material-icons-outlined">post_add</span>
-                    Vložit do existujícího řízení
-                </button>
+                <div class="btn-wrapper" id="wrapperVzitNaVedomi">
+                    <a href="vzit-na-vedomi.html" class="btn btn-secondary btn-locked" id="btnVzitNaVedomi">
+                        <span class="material-icons-outlined">inventory</span>
+                        Vzít na vědomí
+                    </a>
+                    <span class="btn-tooltip">Nejprve přiřaďte dokument zpracovateli</span>
+                </div>
+                <div class="btn-wrapper" id="wrapperVlozit">
+                    <button class="btn btn-secondary btn-locked" id="btnVlozit" onclick="openInsertModal()">
+                        <span class="material-icons-outlined">post_add</span>
+                        Vložit do existujícího řízení
+                    </button>
+                    <span class="btn-tooltip">Nejprve přiřaďte dokument zpracovateli</span>
+                </div>
             </div>
             <div class="actions-right">
-                <a href="povoleni-2.html" class="btn btn-primary">
-                    <span class="material-icons-outlined">add_circle</span>
-                    Zahájit nové řízení
-                </a>
+                <div class="btn-wrapper" id="wrapperNoveRizeni">
+                    <a href="povoleni-2.html" class="btn btn-primary btn-locked" id="btnNoveRizeni">
+                        <span class="material-icons-outlined">add_circle</span>
+                        Zahájit nové řízení
+                    </a>
+                    <span class="btn-tooltip">Nejprve přiřaďte dokument zpracovateli</span>
+                </div>
             </div>
         </div>
 
@@ -2766,10 +3182,302 @@
                 </div>
             </div>
         </div>
+        <!-- Modál: Detail záměru Z/2025/0847 (skutečná duplicita) -->
+        <div class="modal-overlay" id="zamerModal1" onclick="closeZamerModal(1, event)">
+            <div class="modal-dialog" style="max-width:620px;" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon" style="color:#f6b900;">content_copy</span>
+                        <div class="modal-zamer-header-info">
+                            <div class="modal-zamer-id">Z/2025/0847</div>
+                            <h3 class="modal-title">Rekonstrukce SZZ v žst. Doudleby nad Orlicí</h3>
+                        </div>
+                    </div>
+                    <button class="modal-close" onclick="closeZamerModal(1)">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height:70vh;overflow-y:auto;">
+                    <!-- Proč byl označen -->
+                    <div class="modal-zamer-match-section">
+                        <div class="modal-zamer-match-title">Důvody identifikace jako možná duplicita</div>
+                        <div class="modal-zamer-match-rows">
+                            <div class="modal-match-row match-yes">
+                                <span class="material-icons-outlined">check_circle</span>
+                                <strong>Shodný pozemek:</strong>&nbsp;p.č. 1204/1, k.ú. Doudleby nad Orlicí
+                            </div>
+                            <div class="modal-match-row match-yes">
+                                <span class="material-icons-outlined">check_circle</span>
+                                <strong>Shodný stavebník:</strong>&nbsp;Správa železnic, s.o. (IČO: 70994234)
+                            </div>
+                            <div class="modal-match-row match-yes">
+                                <span class="material-icons-outlined">check_circle</span>
+                                <strong>Shodný název:</strong>&nbsp;„SZZ" + „Doudleby" + „stanice" → vysoká shoda
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data záměru -->
+                    <div class="data-grid" style="margin-bottom:16px;">
+                        <div class="data-item">
+                            <span class="data-item-label">Záměr</span>
+                            <span class="data-item-value mono">Z/2025/0847</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Stav záměru</span>
+                            <span class="data-item-value"><span style="color:#1a73e8;font-weight:500;">● Probíhá řízení</span></span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Stavebník</span>
+                            <span class="data-item-value">Správa železnic, s.o.</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">IČO</span>
+                            <span class="data-item-value mono">70994234</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Pozemek záměru</span>
+                            <span class="data-item-value">p.č. 1204/1, k.ú. Doudleby n. O.</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Zpracovatel</span>
+                            <span class="data-item-value">Marie Svobodová</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Pracoviště</span>
+                            <span class="data-item-value">DESÚ, ÚP Pardubice</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Vytvořen</span>
+                            <span class="data-item-value">14. 3. 2025</span>
+                        </div>
+                    </div>
+                    <!-- Řízení v záměru -->
+                    <div style="font-size:12px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Řízení v záměru</div>
+                    <div class="modal-rizeni-mini">
+                        <div class="modal-rizeni-mini-item">
+                            <div class="modal-rizeni-mini-dot completed"></div>
+                            <span class="modal-rizeni-mini-name">Předběžná informace</span>
+                            <span class="modal-rizeni-mini-status completed">Ukončeno</span>
+                        </div>
+                        <div class="modal-rizeni-mini-item">
+                            <div class="modal-rizeni-mini-dot active"></div>
+                            <span class="modal-rizeni-mini-name">Povolení stavby</span>
+                            <span class="modal-rizeni-mini-status active">Probíhá</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="zamerModalFooter1">
+            </div>
+        </div>
+
+        <!-- Modál: Detail záměru Z/2024/2103 (falešná duplicita) -->
+        <div class="modal-overlay" id="zamerModal2" onclick="closeZamerModal(2, event)">
+            <div class="modal-dialog" style="max-width:620px;" onclick="event.stopPropagation()">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <span class="material-icons-outlined modal-icon" style="color:#f6b900;">content_copy</span>
+                        <div class="modal-zamer-header-info">
+                            <div class="modal-zamer-id">Z/2024/2103</div>
+                            <h3 class="modal-title">Modernizace přejezdového ZZ P4037 – Doudleby n. O.</h3>
+                        </div>
+                    </div>
+                    <button class="modal-close" onclick="closeZamerModal(2)">
+                        <span class="material-icons-outlined">close</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="max-height:70vh;overflow-y:auto;">
+                    <!-- Proč byl označen -->
+                    <div class="modal-zamer-match-section">
+                        <div class="modal-zamer-match-title">Důvody identifikace jako možná duplicita</div>
+                        <div class="modal-zamer-match-rows">
+                            <div class="modal-match-row match-yes">
+                                <span class="material-icons-outlined">check_circle</span>
+                                <strong>Shodný pozemek:</strong>&nbsp;p.č. 1204/1, k.ú. Doudleby nad Orlicí
+                            </div>
+                            <div class="modal-match-row match-no">
+                                <span class="material-icons-outlined">cancel</span>
+                                <strong>Jiný stavebník:</strong>&nbsp;České dráhy, a.s. (IČO: 70994226) — neshoduje se
+                            </div>
+                            <div class="modal-match-row match-partial">
+                                <span class="material-icons-outlined">remove_circle</span>
+                                <strong>Částečně shodný název:</strong>&nbsp;pouze „Doudleby" — slabý signál
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data záměru -->
+                    <div class="data-grid" style="margin-bottom:16px;">
+                        <div class="data-item">
+                            <span class="data-item-label">Záměr</span>
+                            <span class="data-item-value mono">Z/2024/2103</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Stav záměru</span>
+                            <span class="data-item-value"><span style="color:#1a73e8;font-weight:500;">● Probíhá řízení</span></span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Stavebník</span>
+                            <span class="data-item-value" style="color:#c5221f;">České dráhy, a.s.</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">IČO</span>
+                            <span class="data-item-value mono" style="color:#c5221f;">70994226</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Pozemek záměru</span>
+                            <span class="data-item-value">p.č. 1204/1, k.ú. Doudleby n. O.</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Zpracovatel</span>
+                            <span class="data-item-value">Lucie Horáková</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Pracoviště</span>
+                            <span class="data-item-value">Drážní úřad Praha</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-item-label">Vytvořen</span>
+                            <span class="data-item-value">7. 11. 2024</span>
+                        </div>
+                    </div>
+                    <!-- Řízení v záměru -->
+                    <div style="font-size:12px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Řízení v záměru</div>
+                    <div class="modal-rizeni-mini">
+                        <div class="modal-rizeni-mini-item">
+                            <div class="modal-rizeni-mini-dot active"></div>
+                            <span class="modal-rizeni-mini-name">Povolení stavby – modernizace přejezdu P4037</span>
+                            <span class="modal-rizeni-mini-status active">Probíhá</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px;padding:10px 12px;background:#fce8e6;border-radius:6px;font-size:12px;color:#c5221f;display:flex;gap:8px;align-items:flex-start;">
+                        <span class="material-icons-outlined" style="font-size:16px;flex-shrink:0;margin-top:1px;">info</span>
+                        Záměr patří jinému stavebníkovi (České dráhy, a.s.) a týká se modernizace přejezdu P4037, nikoli opravy SZZ v žst. Shoda pozemku je způsobena blízkostí lokalit.
+                    </div>
+                </div>
+                <div class="modal-footer" id="zamerModalFooter2">
+            </div>
+        </div>
+
     </main>
 
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // ===== DUPLICITY =====
+
+        const connectedZamers = {};
+
+        const footerDefault = {
+            1: `<button class="btn btn-secondary" onclick="closeZamerModal(1)">Zavřít</button>
+                <button class="btn btn-secondary" onclick="rejectDuplicate(1); closeZamerModal(1);">
+                    <span class="material-icons-outlined">close</span>Není duplicita
+                </button>
+                <button class="btn btn-primary" onclick="connectZamer(1); closeZamerModal(1);">
+                    <span class="material-icons-outlined">link</span>Propojit záměry
+                </button>`,
+            2: `<button class="btn btn-secondary" onclick="closeZamerModal(2)">Zavřít</button>
+                <button class="btn btn-secondary" onclick="connectZamer(2); closeZamerModal(2);">
+                    <span class="material-icons-outlined">link</span>Přesto propojit
+                </button>
+                <button class="btn btn-primary" onclick="rejectDuplicate(2); closeZamerModal(2);">
+                    <span class="material-icons-outlined">close</span>Není duplicita
+                </button>`
+        };
+
+        const footerConnected = (id) =>
+            `<button class="btn btn-secondary" onclick="closeZamerModal(${id})">Zavřít</button>
+             <button class="btn btn-danger" onclick="disconnectZamer(${id}); closeZamerModal(${id});">
+                 <span class="material-icons-outlined">link_off</span>Zrušit propojení
+             </button>`;
+
+        function openZamerDetail(id) {
+            const footer = document.getElementById('zamerModalFooter' + id);
+            footer.innerHTML = connectedZamers[id] ? footerConnected(id) : footerDefault[id];
+            document.getElementById('zamerModal' + id).classList.add('open');
+        }
+
+        function disconnectZamer(id) {
+            // Reset stavu propojení
+            connectedZamers[id] = false;
+
+            // Skrýt tag v hlavičce
+            const tag = document.getElementById('linkedZamerTag');
+            if (tag) tag.classList.remove('visible');
+
+            // Obnovit duplicate kartu do původního stavu
+            const card = document.getElementById('dupCard' + id);
+            const actions = document.getElementById('dupActions' + id);
+            card.classList.remove('resolved-connected');
+            actions.style.flexDirection = '';
+            actions.style.alignItems = '';
+            actions.innerHTML = `
+                <button class="btn btn-secondary btn-sm" onclick="openZamerDetail(${id})">
+                    <span class="material-icons-outlined">open_in_new</span>Zobrazit detail
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="connectZamer(${id})">
+                    <span class="material-icons-outlined">link</span>Propojit záměry
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="rejectDuplicate(${id})" style="margin-left:auto;color:#5f6368;">
+                    <span class="material-icons-outlined">close</span>Není duplicita
+                </button>`;
+        }
+
+        function closeZamerModal(id, event) {
+            if (event && event.target !== document.getElementById('zamerModal' + id)) return;
+            document.getElementById('zamerModal' + id).classList.remove('open');
+        }
+
+        function connectZamer(id) {
+            connectedZamers[id] = true;
+            const card = document.getElementById('dupCard' + id);
+            const actions = document.getElementById('dupActions' + id);
+            const zamerIds = { 1: 'Z/2025/0847', 2: 'Z/2024/2103' };
+            const zpracovatel = { 1: 'Marie Svobodová', 2: 'Lucie Horáková' };
+            card.classList.add('resolved-connected');
+            actions.innerHTML = `
+                <span class="duplicate-resolved-badge connected">
+                    <span class="material-icons-outlined">link</span>
+                    Záměry propojeny
+                </span>
+                <div class="duplicate-notification" style="margin-left:0;width:100%;">
+                    <span class="material-icons-outlined">notifications</span>
+                    Notifikace odeslána zpracovateli ${zpracovatel[id]}
+                </div>
+            `;
+            actions.style.flexDirection = 'column';
+            actions.style.alignItems = 'flex-start';
+
+            // Zobrazit propojený záměr v hlavičce
+            const tag = document.getElementById('linkedZamerTag');
+            if (tag) {
+                document.getElementById('linkedZamerLabel').textContent = zamerIds[id];
+                tag.classList.add('visible');
+            }
+        }
+
+        function rejectDuplicate(id) {
+            const card = document.getElementById('dupCard' + id);
+            const actions = document.getElementById('dupActions' + id);
+            card.classList.add('resolved-rejected');
+            actions.innerHTML = `
+                <span class="duplicate-resolved-badge rejected">
+                    <span class="material-icons-outlined">block</span>
+                    Označeno jako nerelevantní
+                </span>
+            `;
+        }
+
+        // Zavření záměr modálů klávesou Escape — přidáme do existujícího listeneru
+
+        // Záměr detail modály v Escape handleru
+        const _origKeydown = document.onkeydown;
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('zamerModal1')?.classList.remove('open');
+                document.getElementById('zamerModal2')?.classList.remove('open');
+            }
+        });
+
+        // ===== KONEC DUPLICITY =====
+
         // Dropdown pro přidělení zpracovatele
         let isAssigned = false;
 
@@ -2784,6 +3492,7 @@
             const menu = document.getElementById('assigneeMenu');
             const sidebarAssignee = document.getElementById('sidebarAssignee');
             const assigneeRow = document.getElementById('assigneeRow');
+            const assigneeRowIcon = document.getElementById('assigneeRowIcon');
             const recommendedBox = document.getElementById('recommendedAssigneeBox');
             
             if (name === 'Přidělit sobě') {
@@ -2797,11 +3506,16 @@
             btn.classList.add('assigned');
             btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
             
-            // Zvýraznit řádek se zpracovatelem
+            // Ikona a styl řádku zpracovatele — přepnout z podatelny na osobu
+            assigneeRowIcon.textContent = 'person';
+            assigneeRow.classList.remove('podatelna');
             assigneeRow.classList.add('assigned');
             
             menu.classList.remove('open');
             isAssigned = true;
+            
+            // Aktivovat akční tlačítka
+            unlockActionButtons();
             
             // Skrýt box s doporučením po přidělení
             if (recommendedBox) {
@@ -2815,6 +3529,7 @@
             const btnText = document.getElementById('assigneeBtnText');
             const sidebarAssignee = document.getElementById('sidebarAssignee');
             const assigneeRow = document.getElementById('assigneeRow');
+            const assigneeRowIcon = document.getElementById('assigneeRowIcon');
             const recommendedBox = document.getElementById('recommendedAssigneeBox');
             
             // Nastavit zpracovatele
@@ -2824,11 +3539,26 @@
             btn.querySelector('.material-icons-outlined').textContent = 'swap_horiz';
             isAssigned = true;
             
-            // Zvýraznit řádek se zpracovatelem
+            // Ikona a styl řádku zpracovatele
+            assigneeRowIcon.textContent = 'person';
+            assigneeRow.classList.remove('podatelna');
             assigneeRow.classList.add('assigned');
+            
+            // Aktivovat akční tlačítka
+            unlockActionButtons();
             
             // Skrýt box s doporučením
             recommendedBox.style.display = 'none';
+        }
+
+        // Aktivace akčních tlačítek po přidělení zpracovatele
+        function unlockActionButtons() {
+            document.getElementById('btnVzitNaVedomi').classList.remove('btn-locked');
+            document.getElementById('btnVlozit').classList.remove('btn-locked');
+            document.getElementById('btnNoveRizeni').classList.remove('btn-locked');
+            document.getElementById('wrapperVzitNaVedomi').classList.add('unlocked');
+            document.getElementById('wrapperVlozit').classList.add('unlocked');
+            document.getElementById('wrapperNoveRizeni').classList.add('unlocked');
         }
 
         // Zavřít dropdown při kliknutí mimo
