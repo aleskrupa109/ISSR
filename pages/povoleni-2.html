@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISSŘ - Příprava řízení [Varianta B — pipeline]</title>
+    <title>ISSŘ - Příprava řízení</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
@@ -1196,9 +1196,47 @@
         .pipeline-group-card.phase-active {
             border-color: #004289;
         }
+        .pipeline-group-card.phase-done {
+            border-color: #a8d5b5;
+            background: #f6fef8;
+        }
         .pipeline-group-card.phase-locked {
             background: #fafafa;
             opacity: 0.65;
+        }
+        /* Drag & drop — pouze přes handle */
+        .pipeline-group-card {
+            cursor: default;
+        }
+        .drag-handle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            cursor: grab;
+            color: #b0b8c1;
+            flex-shrink: 0;
+            border-radius: 3px;
+            transition: color 0.15s;
+        }
+        .drag-handle:hover {
+            color: #5f6368;
+        }
+        .drag-handle .material-icons-outlined {
+            font-size: 16px;
+        }
+        .pipeline-group-card.phase-active .drag-handle,
+        .pipeline-group-card.phase-done .drag-handle {
+            display: flex;
+        }
+        .pipeline-group-card.drag-over {
+            outline: 2px dashed #004289;
+            outline-offset: 2px;
+            background: #f0f6ff;
+        }
+        .pipeline-group-card.dragging {
+            opacity: 0.4;
         }
         .pipeline-group-card .pipeline-card-icon {
             width: 36px;
@@ -1492,9 +1530,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
@@ -6817,33 +6855,35 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 6px 12px;
-            border: 1px solid #dadce0;
+            padding: 4px 10px;
+            border: 1px solid #e0e0e0;
             border-radius: 4px;
-            background: #fff;
-            font-size: 12px;
+            background: #f8f9fa;
+            font-size: 11px;
             font-weight: 500;
-            color: #5f6368;
+            color: #80868b;
             cursor: pointer;
             transition: all 0.15s;
         }
         
         .zadost-section-btn:hover {
-            background: #f8f9fa;
+            background: #f1f3f4;
             border-color: #c0c0c0;
         }
         
         .zadost-section-btn .material-icons-outlined {
-            font-size: 16px;
+            font-size: 14px;
         }
         
         .zadost-section-btn.btn-ok {
             color: #137333;
-            border-color: #137333;
+            border-color: #ceead6;
+            background: #f0faf3;
         }
         
         .zadost-section-btn.btn-ok:hover {
             background: #e6f4ea;
+            border-color: #137333;
         }
         
         .zadost-section-btn.btn-ok.active {
@@ -6854,11 +6894,13 @@
         
         .zadost-section-btn.btn-vada {
             color: #c5221f;
-            border-color: #c5221f;
+            border-color: #f5c6c2;
+            background: #fff8f8;
         }
         
         .zadost-section-btn.btn-vada:hover {
             background: #fce8e6;
+            border-color: #c5221f;
         }
         
         .zadost-section-btn.btn-vada.active {
@@ -9951,11 +9993,15 @@
         .control-option.selected {
             background: #e8f1fa;
             border-color: #004289;
+            border-width: 2px;
+            box-shadow: 0 0 0 1px rgba(0,66,137,0.08);
         }
 
         .control-option.selected.negative {
             background: #fce8e6;
-            border-color: #f5c6c3;
+            border-color: #c5221f;
+            border-width: 2px;
+            box-shadow: 0 0 0 1px rgba(197,34,31,0.08);
         }
 
         .control-option input[type="radio"] {
@@ -12564,7 +12610,7 @@
                                 <span style="font-weight: 400; color: #80868b;">(lze upravit)</span>
                             </label>
                             <input type="text" id="nazevStavby" value="Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí" 
-                                style="width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff;"
+                                style="width: 100%; padding: 8px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; color: #202124; background: #fff;"
                                 onchange="updateNazevStavby()">
                         </div>
                         <!-- Druh řízení - styled dropdown -->
@@ -12573,7 +12619,7 @@
                                 Druh řízení
                             </label>
                             <div style="position: relative;">
-                                <select id="druhRizeni" style="width: 100%; padding: 10px 36px 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; font-family: inherit; color: #202124; background: #fff; cursor: pointer; appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s;" onfocus="this.style.borderColor='#004289'" onblur="this.style.borderColor='#dadce0'">
+                                <select id="druhRizeni" style="width: 100%; padding: 8px 36px 8px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; color: #202124; background: #fff; cursor: pointer; appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s;" onfocus="this.style.borderColor='#004289'" onblur="this.style.borderColor='#dadce0'">
                                     <optgroup label="Povolení záměru">
                                         <option value="povoleni-stavby" selected>Povolení stavby nebo zařízení</option>
                                         <option value="ramcove-povoleni">Rámcové povolení</option>
@@ -12622,7 +12668,7 @@
                             <label style="display: block; font-size: 12px; font-weight: 500; color: #5f6368; margin-bottom: 6px;">
                                 Datum doručení žádosti
                             </label>
-                            <div style="padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px; color: #202124; background: #f8f9fa;">
+                            <div style="padding: 8px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px; color: #202124; background: #f8f9fa;">
                                 6. 1. 2026
                             </div>
                         </div>
@@ -12722,14 +12768,14 @@
             <div class="pipeline">
 
                 <!-- Fáze 1: Příslušnost -->
-                <div class="pipeline-phase phase-active" id="phase1">
+                <div class="pipeline-phase" id="phase1">
                     <div class="pipeline-phase-label">
                         <div class="pipeline-phase-number">1</div>
                         <span class="pipeline-phase-title">Příslušnost</span>
-                        <span class="pipeline-phase-hint">Výchozí krok — odemkne kontrolu žádosti</span>
+                        <span class="pipeline-phase-hint">Dostupné po založení řízení</span>
                     </div>
                     <div class="pipeline-phase-body">
-                        <div class="pipeline-card-single phase-active" id="card-prislusnost">
+                        <div class="pipeline-card-single phase-locked" id="card-prislusnost">
                             <div class="pipeline-card-icon">
                                 <span class="material-icons-outlined">account_balance</span>
                             </div>
@@ -12738,9 +12784,9 @@
                                 <div class="pipeline-card-desc">Ověření věcné a místní příslušnosti stavebního úřadu</div>
                             </div>
                             <div class="pipeline-card-action">
-                                <button class="control-card-action" style="width:auto;" onclick="openControl('controlPrislusnost')">
-                                    <span class="material-icons-outlined">play_arrow</span>
-                                    Provést kontrolu
+                                <button class="control-card-action status-waiting" style="width:auto;" disabled>
+                                    <span class="material-icons-outlined">lock</span>
+                                    Nejprve založte řízení
                                 </button>
                             </div>
                         </div>
@@ -12784,8 +12830,13 @@
                         <div class="pipeline-group">
                             <!-- Dokumentace -->
                             <div class="pipeline-group-card phase-locked" id="card-dokumentace">
-                                <div class="pipeline-card-icon">
-                                    <span class="material-icons-outlined">architecture</span>
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                                    <div class="pipeline-card-icon">
+                                        <span class="material-icons-outlined">architecture</span>
+                                    </div>
+                                    <span class="drag-handle" draggable="true" title="Přesunout">
+                                        <span class="material-icons-outlined">drag_indicator</span>
+                                    </span>
                                 </div>
                                 <div class="pipeline-card-title">Dokumentace</div>
                                 <div class="pipeline-card-desc">Úplnost, podpisy a formát projektové dokumentace</div>
@@ -12796,8 +12847,13 @@
                             </div>
                             <!-- Pozemky -->
                             <div class="pipeline-group-card phase-locked" id="card-pozemky">
-                                <div class="pipeline-card-icon">
-                                    <span class="material-icons-outlined">terrain</span>
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                                    <div class="pipeline-card-icon">
+                                        <span class="material-icons-outlined">terrain</span>
+                                    </div>
+                                    <span class="drag-handle" draggable="true" title="Přesunout">
+                                        <span class="material-icons-outlined">drag_indicator</span>
+                                    </span>
                                 </div>
                                 <div class="pipeline-card-title">Pozemky</div>
                                 <div class="pipeline-card-desc">Ověření pozemků záměru a sousedních parcel</div>
@@ -12808,8 +12864,13 @@
                             </div>
                             <!-- Soulad s ÚPD -->
                             <div class="pipeline-group-card phase-locked" id="card-up">
-                                <div class="pipeline-card-icon">
-                                    <span class="material-icons-outlined">map</span>
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                                    <div class="pipeline-card-icon">
+                                        <span class="material-icons-outlined">map</span>
+                                    </div>
+                                    <span class="drag-handle" draggable="true" title="Přesunout">
+                                        <span class="material-icons-outlined">drag_indicator</span>
+                                    </span>
                                 </div>
                                 <div class="pipeline-card-title">Soulad s ÚPD</div>
                                 <div class="pipeline-card-desc">Soulad záměru s územně plánovací dokumentací</div>
@@ -12820,8 +12881,13 @@
                             </div>
                             <!-- Dokladová část -->
                             <div class="pipeline-group-card phase-locked" id="card-identifikace">
-                                <div class="pipeline-card-icon">
-                                    <span class="material-icons-outlined">rule_folder</span>
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                                    <div class="pipeline-card-icon">
+                                        <span class="material-icons-outlined">rule_folder</span>
+                                    </div>
+                                    <span class="drag-handle" draggable="true" title="Přesunout">
+                                        <span class="material-icons-outlined">drag_indicator</span>
+                                    </span>
                                 </div>
                                 <div class="pipeline-card-title">Dokladová část</div>
                                 <div class="pipeline-card-desc">Stanoviska DO a vyjádření vlastníků sítí</div>
@@ -12868,11 +12934,9 @@
                     <span class="material-icons-outlined">bolt</span>
                 </div>
                 <div style="flex:1; min-width:0;">
-                    <div class="pipeline-conditional-label">Podmíněná kontrola</div>
                     <div class="pipeline-conditional-title">Zrychlené řízení</div>
-                    <div class="pipeline-conditional-desc">Ověření splnění podmínek — aktivní pouze pokud žadatel o zrychlené řízení požádal</div>
                 </div>
-                <button class="control-card-action status-waiting" style="flex-shrink:0;" disabled>
+                <button class="control-card-action status-waiting" style="flex-shrink:0;" disabled id="btnZrychlene">
                     <span class="material-icons-outlined">lock</span>
                     Nejprve ostatní kontroly
                 </button>
@@ -13203,31 +13267,31 @@
                             style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
                     </div>
 
-                    <div class="result-preview positive" id="resultPrislusnost">
+                </div>
+                <div class="control-form-footer" style="flex-direction:column;gap:10px;align-items:stretch;">
+                    <div id="resultPrislusnost" class="result-preview positive">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
                             Příslušnost potvrzena
                         </div>
                         <div class="result-preview-text">Stavební úřad je věcně i místně příslušný k projednání této žádosti.</div>
                     </div>
-                </div>
-                <div class="control-form-footer">
-                    <div class="control-form-footer-left">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div class="auto-save-indicator saved" id="autoSavePrislusnost">
                             <span class="material-icons-outlined">cloud_done</span>
                             <span>Automaticky uloženo</span>
                         </div>
-                    </div>
-                    <div class="control-form-footer-right">
-                        <button class="btn btn-secondary" onclick="closeControl('controlPrislusnost')">Zrušit</button>
-                        <button class="btn-save-draft" onclick="saveDraft('prislusnost')" title="Uložit rozpracovanou kontrolu">
-                            <span class="material-icons-outlined">save</span>
-                            Uložit
-                        </button>
-                        <button class="btn btn-primary" onclick="completePrislusnost()">
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-secondary" onclick="closeControl('controlPrislusnost')">Zrušit</button>
+                            <button class="btn-save-draft" onclick="saveDraft('prislusnost')" title="Uložit rozpracovanou kontrolu">
+                                <span class="material-icons-outlined">save</span>
+                                Uložit
+                            </button>
+                            <button class="btn btn-primary" onclick="completePrislusnost()">
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kontrolu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -13260,9 +13324,14 @@
                             <span class="material-icons-outlined">picture_as_pdf</span>
                             Formulář žádosti
                         </button>
-                        <button class="viewer-tab" id="tabPrilohy" onclick="switchZadostDataTab(this, 'prilohy')" style="display: none;">
+                        <button class="viewer-tab" id="tabPrilohy" onclick="switchZadostDataTab(this, 'prilohy')">
                             <span class="material-icons-outlined">attach_file</span>
                             Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" id="tabEed" onclick="switchZadostDataTab(this, 'eed')">
+                            <span class="material-icons-outlined">folder</span>
+                            El. dokumentace
                         </button>
                         <button class="viewer-tab" id="tabDoklady" onclick="switchZadostDataTab(this, 'doklady')">
                             <span class="material-icons-outlined">fact_check</span>
@@ -13900,6 +13969,9 @@
                     <!-- TAB: Přílohy (aktivní pouze v režimu Formulář) -->
                     <div class="zadost-data-tab" id="zadostDataPrilohy"></div>
                     
+                    <!-- TAB: El. dokumentace -->
+                    <div class="zadost-data-tab" id="zadostDataEed"></div>
+                    
                     <!-- TAB: Dokladová část -->
                     <div class="zadost-data-tab" id="zadostDataDoklady"></div>
                     
@@ -13932,11 +14004,22 @@
                     </div>
                     
                     <div class="deficiency-panel-content" id="deficiencyPanelContent">
-                        <!-- Výchozí stav - žádné nedostatky -->
-                        <div class="deficiency-empty" id="deficiencyEmpty">
-                            <span class="material-icons-outlined">task_alt</span>
-                            <div class="deficiency-empty-title">Zatím bez nedostatků</div>
-                            <div class="deficiency-empty-text">Projděte jednotlivé sekce žádosti a označte je jako „V pořádku" nebo „Vada".</div>
+                        <!-- Průběh kontroly — vždy viditelný -->
+                        <div id="deficiencyEmpty">
+                            <div style="padding: 16px 0 12px;">
+                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                                    <span style="font-size:12px; font-weight:500; color:#202124;">Průběh kontroly</span>
+                                    <span style="font-size:12px; color:#5f6368;"><span id="progressOkCount">0</span> z 9 sekcí</span>
+                                </div>
+                                <div style="height:6px; background:#e0e0e0; border-radius:4px; overflow:hidden;">
+                                    <div id="deficiencyProgressBar" style="height:100%; background:#137333; border-radius:4px; width:0%; transition:width 0.3s;"></div>
+                                </div>
+                            </div>
+                            <div id="deficiencyOkList" style="display:flex; flex-direction:column; gap:4px;"></div>
+                            <div id="deficiencyNoVady" style="display:none; margin-top:12px; padding:10px 12px; background:#e6f4ea; border-radius:8px; font-size:12px; color:#137333; display:flex; align-items:center; gap:6px;">
+                                <span class="material-icons-outlined" style="font-size:16px;">check_circle</span>
+                                Žádné nedostatky
+                            </div>
                         </div>
                         
                         <!-- Seznam nedostatků (dynamicky generovaný) -->
@@ -16773,14 +16856,14 @@
 
         // State management
         const controls = {
-            prislusnost: { done: false, depends: [], result: 'ok' },
-            zadost: { done: false, depends: ['prislusnost'], result: 'ok' },
-            dokumentace: { done: false, depends: ['prislusnost', 'zadost'], result: 'ok' },
-            pozemky: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace'], result: 'ok' },
-            up: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky'], result: 'ok' },
-            identifikace: { done: false, depends: ['pozemky'], result: 'ok' },
-            ucastnici: { done: false, depends: ['zadost'], result: 'ok' },
-            zrychlene: { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky', 'up', 'identifikace', 'ucastnici'], result: 'ok' }
+            prislusnost:  { done: false, depends: [], result: 'ok' },
+            zadost:       { done: false, depends: ['prislusnost'], result: 'ok' },
+            dokumentace:  { done: false, depends: ['zadost'], result: 'ok' },
+            pozemky:      { done: false, depends: ['zadost'], result: 'ok' },
+            up:           { done: false, depends: ['zadost'], result: 'ok' },
+            identifikace: { done: false, depends: ['zadost'], result: 'ok' },
+            ucastnici:    { done: false, depends: ['pozemky', 'identifikace'], result: 'ok' },
+            zrychlene:    { done: false, depends: ['prislusnost', 'zadost', 'dokumentace', 'pozemky', 'up', 'identifikace', 'ucastnici'], result: 'ok' }
         };
 
         // Akce hlavního tlačítka: 'zahajit' | 'vyzva' | 'postoupit' | 'disabled'
@@ -17072,13 +17155,29 @@
 
             // Schovat info panel
             const infoPanel = document.getElementById('infoPanel');
-            if (infoPanel) {
-                infoPanel.style.display = 'none';
-            }
+            if (infoPanel) infoPanel.style.display = 'none';
 
             // Upravit border karty na zelený
             document.getElementById('rizeniHeaderCard').style.borderColor = '#a8d5b5';
             document.getElementById('rizeniHeaderCard').style.background = '#f6fef8';
+
+            // Aktivovat fázi 1 — Příslušnost
+            const phase1 = document.getElementById('phase1');
+            const card1 = document.getElementById('card-prislusnost');
+            if (phase1) phase1.classList.add('phase-active');
+            if (card1) {
+                card1.classList.remove('phase-locked');
+                card1.classList.add('phase-active');
+                const btn = card1.querySelector('.control-card-action');
+                if (btn) {
+                    btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>Provést kontrolu';
+                    btn.onclick = function() { openControl('controlPrislusnost'); };
+                    btn.disabled = false;
+                }
+            }
+            // Aktualizovat hint fáze 1
+            const hint1 = phase1 && phase1.querySelector('.pipeline-phase-hint');
+            if (hint1) hint1.textContent = 'Výchozí krok — odemkne kontrolu žádosti';
         }
 
         function rozbalitRizeniHeader() {
@@ -19687,38 +19786,41 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const cardZrychlene = document.getElementById('card-zrychlene');
             if (!cardZrychlene) return;
             
-            // Kontrola, zda některá kontrola má nedostatky vedoucí k postoupení, přerušení nebo ukončení
             const hasBlockingIssue = checkForBlockingIssues();
-            
+            const actionBtn = cardZrychlene.querySelector('.control-card-action');
+
             if (hasBlockingIssue) {
-                // Deaktivovat kontrolu - nelze provést zrychlené řízení
                 cardZrychlene.classList.remove('status-waiting', 'status-ready', 'status-done', 'status-warning');
                 cardZrychlene.classList.add('disabled', 'status-blocked');
-                
-                // Aktualizovat popisek a badge
-                const descEl = cardZrychlene.querySelector('.control-card-desc');
-                if (descEl) {
-                    descEl.textContent = 'Nelze provést — zjištěny blokující nedostatky';
-                }
-                
-                const statusBadge = cardZrychlene.querySelector('.control-card-status');
-                if (statusBadge) {
-                    statusBadge.textContent = 'Blokováno';
-                }
-                
-                const actionBtn = cardZrychlene.querySelector('.control-card-action');
                 if (actionBtn) {
                     actionBtn.innerHTML = '<span class="material-icons-outlined">block</span>Nelze provést';
                     actionBtn.onclick = null;
+                    actionBtn.disabled = true;
                 }
             } else {
-                // Odebrat status blocked
                 cardZrychlene.classList.remove('status-blocked');
-                
-                // Obnovit původní popisek
-                const descEl = cardZrychlene.querySelector('.control-card-desc');
-                if (descEl && !controls.zrychlene.done) {
-                    descEl.textContent = 'Splnění podmínek pro zrychlené řízení';
+
+                // Zkontrolovat, zda jsou splněny závislosti
+                const allDepsDone = controls.zrychlene.depends.every(dep => controls[dep] && controls[dep].done);
+
+                if (controls.zrychlene.done) {
+                    if (actionBtn) {
+                        actionBtn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Splněno';
+                        actionBtn.onclick = function() { openControl('controlZrychlene'); };
+                        actionBtn.disabled = false;
+                    }
+                } else if (allDepsDone) {
+                    if (actionBtn) {
+                        actionBtn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>Ověřit podmínky';
+                        actionBtn.onclick = function() { openControl('controlZrychlene'); };
+                        actionBtn.disabled = false;
+                    }
+                } else {
+                    if (actionBtn) {
+                        actionBtn.innerHTML = '<span class="material-icons-outlined">lock</span>Nejprve ostatní kontroly';
+                        actionBtn.onclick = null;
+                        actionBtn.disabled = true;
+                    }
                 }
             }
         }
@@ -19795,6 +19897,14 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 document.getElementById('zadostDataFormular').classList.add('active');
                 document.getElementById('panelModeFormular').classList.add('active');
             }
+            
+            // Inicializovat UI stav všech sekcí (výchozí ok)
+            Object.keys(zadostSectionState).forEach(id => {
+                if (zadostSectionState[id]) {
+                    setSectionStatus(id, zadostSectionState[id]);
+                }
+            });
+            updateDeficiencyPanel();
         }
 
         // ==========================================
@@ -19816,6 +19926,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             if (tabName === 'zadost') tabId = 'zadostDataZadost';
             else if (tabName === 'formular') tabId = 'zadostDataFormular';
             else if (tabName === 'prilohy') tabId = 'zadostDataPrilohy';
+            else if (tabName === 'eed') tabId = 'zadostDataEed';
             else if (tabName === 'doklady') tabId = 'zadostDataDoklady';
             else tabId = 'zadostDataZadost'; // fallback
             
@@ -19823,6 +19934,9 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             var tabEl = document.getElementById(tabId);
             if (tabName === 'prilohy' && !tabEl.innerHTML.trim()) {
                 renderEmbeddedViewer('zadostDataPrilohy', 'prilohy', 'zadPril');
+            }
+            if (tabName === 'eed' && !tabEl.innerHTML.trim()) {
+                renderEmbeddedViewer('zadostDataEed', 'eed', 'zadEed');
             }
             if (tabName === 'doklady' && !tabEl.innerHTML.trim()) {
                 renderEmbeddedViewer('zadostDataDoklady', 'doklady', 'zadDokl');
@@ -19904,15 +20018,15 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         
         // Stav kontroly sekcí žádosti
         const zadostSectionState = {
-            podani: null,
-            zadatel: null,
-            zastupce: null,
-            zamer: null,
-            charakteristika: null,
-            podrobnosti: null,
-            pozemky: null,
-            prilohy: null,
-            vyjimky: null
+            podani: 'ok',
+            zadatel: 'ok',
+            zastupce: 'ok',
+            zamer: 'ok',
+            charakteristika: 'ok',
+            podrobnosti: 'ok',
+            pozemky: 'ok',
+            prilohy: 'ok',
+            vyjimky: 'ok'
         };
         
         const sectionNames = {
@@ -20080,9 +20194,8 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         
         // Zobrazit editor nedostatku
         function showDeficiencyEditor(sectionId) {
-            // Přepnout na deficiency list
-            document.getElementById('deficiencyEmpty').style.display = 'none';
-            document.getElementById('deficiencyList').style.display = 'block';
+            // Přepnout na deficiency list — empty state zůstává viditelný (progress)
+            document.getElementById('deficiencyList').style.display = 'flex';
         }
         
         // Aktualizovat panel nedostatků
@@ -20090,38 +20203,51 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             let okCount = 0;
             let vadaCount = 0;
             let pendingCount = 0;
-            
+            const totalSections = Object.keys(zadostSectionState).length;
             const deficiencies = [];
+            const okSections = [];
             
             for (const [key, value] of Object.entries(zadostSectionState)) {
-                // Přeskočit sekce které nejsou viditelné
                 const section = document.querySelector(`[data-section-id="${key}"]`);
                 if (!section || section.style.display === 'none') continue;
                 
-                if (value === 'ok') okCount++;
-                else if (value === 'vada') {
-                    vadaCount++;
-                    deficiencies.push(key);
-                }
+                if (value === 'ok') { okCount++; okSections.push(key); }
+                else if (value === 'vada') { vadaCount++; deficiencies.push(key); }
                 else pendingCount++;
             }
             
-            // Aktualizovat statistiky
+            // Aktualizovat statistiky v hlavičce
             document.getElementById('statOkCount').textContent = okCount;
             document.getElementById('statVadaCount').textContent = vadaCount;
             document.getElementById('statPendingCount').textContent = pendingCount;
             
-            // Aktualizovat seznam nedostatků
-            const listEl = document.getElementById('deficiencyList');
-            const emptyEl = document.getElementById('deficiencyEmpty');
+            // Progress bar
+            const progressBar = document.getElementById('deficiencyProgressBar');
+            const progressCount = document.getElementById('progressOkCount');
+            if (progressBar) progressBar.style.width = (okCount / totalSections * 100) + '%';
+            if (progressCount) progressCount.textContent = okCount;
             
+            // Ok list — zobrazit hotové sekce
+            const okListEl = document.getElementById('deficiencyOkList');
+            if (okListEl) {
+                okListEl.innerHTML = okSections.map(id => `
+                    <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:#f6fef8;border-radius:6px;font-size:12px;color:#137333;">
+                        <span class="material-icons-outlined" style="font-size:14px;">check</span>
+                        ${sectionNames[id]}
+                    </div>
+                `).join('');
+            }
+            
+            // Žádné vady hint
+            const noVadyEl = document.getElementById('deficiencyNoVady');
+            if (noVadyEl) noVadyEl.style.display = (vadaCount === 0 && pendingCount === 0) ? 'flex' : 'none';
+            
+            // Seznam nedostatků
+            const listEl = document.getElementById('deficiencyList');
             if (deficiencies.length === 0) {
                 listEl.style.display = 'none';
-                emptyEl.style.display = 'block';
             } else {
-                listEl.style.display = 'block';
-                emptyEl.style.display = 'none';
-                
+                listEl.style.display = 'flex';
                 let html = '';
                 deficiencies.forEach(sectionId => {
                     html += `
@@ -22258,19 +22384,19 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     if (!gc) continue;
                     const btn = gc.querySelector('.control-card-action');
                     if (c[key] && c[key].done) {
-                        gc.classList.remove('phase-locked');
-                        gc.classList.add('phase-active');
+                        gc.classList.remove('phase-locked', 'phase-active');
+                        gc.classList.add('phase-done');
                         if (btn) {
                             btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
-                            btn.onclick = function() { openControl(cfg.controlId); };
+                            btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
                             btn.disabled = false;
                         }
                     } else {
-                        gc.classList.remove('phase-locked');
+                        gc.classList.remove('phase-locked', 'phase-done');
                         gc.classList.add('phase-active');
                         if (btn) {
                             btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
-                            btn.onclick = function() { openControl(cfg.controlId); };
+                            btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
                             btn.disabled = false;
                         }
                     }
@@ -27841,6 +27967,66 @@ ${reportContent}
             }, 2000);
         }
         
+        // ===== DRAG & DROP — Fáze 3 karty (pouze přes handle) =====
+        (function() {
+            let dragSrc = null;
+
+            function initGroupDragDrop() {
+                const group = document.querySelector('.pipeline-group');
+                if (!group) return;
+
+                // Drag startuje pouze z handle
+                group.addEventListener('dragstart', function(e) {
+                    const handle = e.target.closest('.drag-handle');
+                    if (!handle) { e.preventDefault(); return; }
+                    dragSrc = handle.closest('.pipeline-group-card');
+                    if (!dragSrc) return;
+                    dragSrc.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+
+                group.addEventListener('dragend', function(e) {
+                    if (dragSrc) dragSrc.classList.remove('dragging');
+                    group.querySelectorAll('.pipeline-group-card').forEach(c => c.classList.remove('drag-over'));
+                    dragSrc = null;
+                });
+
+                group.addEventListener('dragover', function(e) {
+                    if (!dragSrc) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    const target = e.target.closest('.pipeline-group-card');
+                    if (!target || target === dragSrc) return;
+                    group.querySelectorAll('.pipeline-group-card').forEach(c => c.classList.remove('drag-over'));
+                    target.classList.add('drag-over');
+                });
+
+                group.addEventListener('dragleave', function(e) {
+                    const target = e.target.closest('.pipeline-group-card');
+                    if (target) target.classList.remove('drag-over');
+                });
+
+                group.addEventListener('drop', function(e) {
+                    if (!dragSrc) return;
+                    e.preventDefault();
+                    const target = e.target.closest('.pipeline-group-card');
+                    if (!target || target === dragSrc) return;
+                    target.classList.remove('drag-over');
+                    const cards = [...group.querySelectorAll('.pipeline-group-card')];
+                    const srcIdx = cards.indexOf(dragSrc);
+                    const tgtIdx = cards.indexOf(target);
+                    if (srcIdx < tgtIdx) {
+                        group.insertBefore(dragSrc, target.nextSibling);
+                    } else {
+                        group.insertBefore(dragSrc, target);
+                    }
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', initGroupDragDrop);
+        })();
+        // ===== KONEC DRAG & DROP =====
+
         // Inicializace při načtení stránky
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
