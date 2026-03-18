@@ -2663,6 +2663,7 @@
             background: #f8f9fa;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
+            transition: background 0.3s, border-color 0.3s;
         }
 
         .auto-check-header {
@@ -5535,7 +5536,7 @@
             overflow-y: auto;
         }
 
-        /* Patička — tlačítka pod sebou */
+        /* Patička — tlačítka kompaktní, zarovnaná vpravo */
         #controlUP .control-form-footer {
             flex-direction: column !important;
             gap: 8px;
@@ -5545,11 +5546,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
-        }
-        #controlUP .control-form-footer .btn,
-        #controlUP .control-form-footer .btn-save-draft {
-            width: 100%;
-            justify-content: center;
+            align-items: flex-end;
         }
 
         /* Textarea pro popis nesouladu (zobrazuje se přes modal) */
@@ -14642,6 +14639,14 @@
                                     <span class="material-icons-outlined">folder_special</span>
                                     <strong>SR00X01HLDRP</strong>
                                     <span style="color: #5f6368; font-size: 12px; margin-left: 8px;">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</span>
+                                    <div style="margin-left: auto; display:flex; gap:2px;">
+                                        <button onclick="expandAllEdFolders()" title="Rozbalit vše" style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid #dadce0;background:#fff;border-radius:4px;cursor:pointer;color:#5f6368;" onmouseenter="this.style.background='#f1f3f4'" onmouseleave="this.style.background='#fff'">
+                                            <span class="material-icons-outlined" style="font-size:16px;">add</span>
+                                        </button>
+                                        <button onclick="collapseAllEdFolders()" title="Sbalit vše" style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border:1px solid #dadce0;background:#fff;border-radius:4px;cursor:pointer;color:#5f6368;" onmouseenter="this.style.background='#f1f3f4'" onmouseleave="this.style.background='#fff'">
+                                            <span class="material-icons-outlined" style="font-size:16px;">remove</span>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="ed-version-selector">
                                     <label style="font-size: 11px; color: #5f6368; margin-right: 6px;">Verze:</label>
@@ -14937,7 +14942,7 @@
                 </div>
                 <div class="control-form-body">
                     <!-- Kategorie stavby -->
-                    <div class="control-section stavba-kategorie-section">
+                    <div class="control-section stavba-kategorie-section" id="kategorieStavbySection">
                         <div class="control-section-title">
                             <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">category</span>
                             Kategorie stavby
@@ -15076,8 +15081,26 @@
                                 <span>Kategorie souboru staveb: <strong>Ostatní</strong> (podle hlavní stavby)</span>
                             </div>
                         </div>
+                        <!-- Potvrdit kategorii -->
+                        <div style="display:flex; justify-content:flex-end; margin-top:14px; padding-top:12px; border-top:1px solid #e8eaed;">
+                            <button class="btn btn-primary" onclick="potvrditKategoriiStavby()" id="btnPotvrditKategorii">
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kategorii
+                            </button>
+                        </div>
                     </div>
-                    
+                    <!-- Sbalený stav kategorie -->
+                    <div id="kategorieStavbyCollapsed" style="display:none; align-items:center; gap:10px; padding:10px 14px; background:#e6f4ea; border:1px solid #a8d5b5; border-radius:8px; margin-bottom:16px;">
+                        <span class="material-icons-outlined" style="color:#137333; font-size:20px; flex-shrink:0;">check_circle</span>
+                        <div style="flex:1;">
+                            <div style="font-size:13px; font-weight:500; color:#137333;" id="kategorieSummaryText">Vyhrazená stavba — nejde o soubor staveb</div>
+                        </div>
+                        <button onclick="rozbalitKategoriiStavby()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#1a73e8;padding:4px 8px;border-radius:4px;" onmouseenter="this.style.background='#e8f0fe'" onmouseleave="this.style.background='none'">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">edit</span>
+                            Upravit
+                        </button>
+                    </div>
+
                     <!-- Automatická kontrola -->
                     <div class="auto-check-section">
                         <div class="auto-check-header">
@@ -15085,16 +15108,23 @@
                                 <span class="material-icons-outlined">auto_awesome</span>
                                 Automatická kontrola (validátor)
                             </div>
-                            <button class="btn-run-check" id="btnRunAutoCheck" onclick="runDocAutoCheck()">
-                                <span class="material-icons-outlined">play_arrow</span>
-                                Spustit kontrolu
-                            </button>
                         </div>
-                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 0; font-style: normal;" id="autoCheckDesc">
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 10px; font-style: normal;">
                             Automaticky zkontroluje elektronické podpisy, časová razítka, autorizační razítka a formát souborů PD.
                         </p>
+                        <div style="display:flex; gap:6px; margin-bottom:8px;">
+                            <label style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #e0e0e0; border-radius:6px; cursor:pointer; font-size:13px; background:#fff; transition:all 0.15s;" id="validatorToggleOk">
+                                <input type="radio" name="validatorSimulation" value="ok" onchange="runValidatorSimulation('ok')" style="accent-color:#137333;">
+                                <span class="material-icons-outlined" style="font-size:16px; color:#137333;">check_circle</span>
+                                Vše v pořádku
+                            </label>
+                            <label style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #e0e0e0; border-radius:6px; cursor:pointer; font-size:13px; background:#fff; transition:all 0.15s;" id="validatorToggleVady">
+                                <input type="radio" name="validatorSimulation" value="vady" onchange="runValidatorSimulation('vady')" style="accent-color:#c5221f;">
+                                <span class="material-icons-outlined" style="font-size:16px; color:#c5221f;">warning</span>
+                                Zjistit nedostatky
+                            </label>
+                        </div>
                         <div class="auto-check-results" id="autoCheckResults">
-                            <!-- Dynamicky naplněno z runDocAutoCheck() -->
                         </div>
                     </div>
 
@@ -15361,26 +15391,25 @@
                         </div>
                     </div>
 
-                    <!-- Souhrnná sekce nedostatků (auto + průřezové + celkový přehled) -->
-                    <div style="margin: 8px 0;">
-                        <button id="btnToggleCross" onclick="toggleCrossSection()" style="
-                            display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
-                            background: #f3e5f5; border: 1px solid #ce93d8; border-radius: 6px;
-                            font-size: 12px; color: #7b1fa2; cursor: pointer; width: 100%; justify-content: center;
-                        ">
-                            <span class="material-icons-outlined" style="font-size: 16px;">link</span>
-                            Přidat průřezový nedostatek (přes více částí PD)
-                        </button>
-                    </div>
-                    <div class="issues-section" id="issuesSection">
+                    <div class="issues-section" id="issuesSection" style="display:none;">
                         <div class="issues-header">
                             <div class="issues-title">
                                 <span class="material-icons-outlined">report_problem</span>
                                 Zjištěné nedostatky dokumentace
                             </div>
-                            <span class="issues-count" id="issuesCount">0</span>
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <span class="issues-count" id="issuesCount">0</span>
+                                <button onclick="downloadIssuesReport('pdf')" title="Stáhnout report jako PDF" style="display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid #dadce0;border-radius:4px;background:#fff;font-size:11px;color:#c5221f;cursor:pointer;font-weight:500;" onmouseenter="this.style.background='#fce8e6'" onmouseleave="this.style.background='#fff'">
+                                    <span class="material-icons-outlined" style="font-size:14px;">picture_as_pdf</span>
+                                    PDF
+                                </button>
+                                <button onclick="downloadIssuesReport('xls')" title="Stáhnout report jako XLS" style="display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid #dadce0;border-radius:4px;background:#fff;font-size:11px;color:#137333;cursor:pointer;font-weight:500;" onmouseenter="this.style.background='#e6f4ea'" onmouseleave="this.style.background='#fff'">
+                                    <span class="material-icons-outlined" style="font-size:14px;">table_chart</span>
+                                    XLS
+                                </button>
+                            </div>
                         </div>
-                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 16px;">
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
                             Seznam nedostatků se stane součástí dokumentu <strong>Výzva k doplnění a usnesení o přerušení řízení</strong>.
                         </p>
 
@@ -15422,6 +15451,17 @@
                             </div>
                         </div>
 
+                        <div style="margin-top: 8px;">
+                            <button id="btnToggleCross" onclick="toggleCrossSection()" style="
+                                display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+                                background: #f3e5f5; border: 1px solid #ce93d8; border-radius: 6px;
+                                font-size: 12px; color: #7b1fa2; cursor: pointer; width: 100%; justify-content: center;
+                            ">
+                                <span class="material-icons-outlined" style="font-size: 16px;">link</span>
+                                Přidat průřezový nedostatek (přes více částí PD)
+                            </button>
+                        </div>
+
                         <!-- Prázdný stav -->
                         <div class="issues-empty" id="issuesEmpty">
                             <span class="material-icons-outlined" style="font-size: 32px; color: #9aa0a6; margin-bottom: 8px;">check_circle</span>
@@ -15449,7 +15489,7 @@
                                 <span class="material-icons-outlined">save</span>
                                 Uložit
                             </button>
-                            <button class="btn btn-primary" id="btnConfirmDokumentace" onclick="completeDokumentace()">
+                            <button class="btn btn-primary" id="btnConfirmDokumentace" onclick="completeDokumentace()" disabled>
                                 <span class="material-icons-outlined">check</span>
                                 Potvrdit kontrolu
                             </button>
@@ -20994,19 +21034,64 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const indicator = document.getElementById('autoSave' + controlName.charAt(0).toUpperCase() + controlName.slice(1));
             if (!indicator) return;
             
-            // Simulace ukládání
             indicator.className = 'auto-save-indicator saving';
             indicator.innerHTML = '<span class="material-icons-outlined">sync</span><span>Ukládám...</span>';
             
             setTimeout(function() {
                 indicator.className = 'auto-save-indicator saved';
                 indicator.innerHTML = '<span class="material-icons-outlined">cloud_done</span><span>Uloženo</span>';
+
+                // Pro dokumentaci: nastavit mezistav karty
+                if (controlName === 'dokumentace') {
+                    saveDokumentaceDraft();
+                }
                 
-                // Zobrazit potvrzení
                 setTimeout(function() {
                     indicator.innerHTML = '<span class="material-icons-outlined">cloud_done</span><span>Automaticky uloženo</span>';
                 }, 2000);
             }, 800);
+        }
+
+        function saveDokumentaceDraft() {
+            const card = document.getElementById('card-dokumentace');
+            if (!card) return;
+            const btn = card.querySelector('.control-card-action');
+            if (!btn) return;
+
+            // Uložit stav do controls
+            if (!controls.dokumentace) controls.dokumentace = {};
+            controls.dokumentace.draft = {
+                kategorieConfirmed: docCheckState.kategorieConfirmed,
+                autoCheckDone: docCheckState.autoCheckDone,
+                partStatus: { ...docCheckState.partStatus },
+                issueCount: docCheckState.issues.length
+            };
+
+            // Nastavit vizuální mezistav karty (není done, ale rozpracováno)
+            card.classList.remove('phase-locked', 'phase-done');
+            card.classList.add('phase-active');
+            
+            const steps = [];
+            if (docCheckState.kategorieConfirmed) steps.push('Kategorie ✓');
+            if (docCheckState.autoCheckDone) steps.push('Validátor ✓');
+            const checkedParts = Object.values(docCheckState.partStatus).filter(s => s !== 'unchecked').length;
+            if (checkedParts > 0) steps.push(checkedParts + '/4 částí');
+
+            btn.innerHTML = '<span class="material-icons-outlined">edit_note</span>Rozpracováno';
+            btn.style.background = '#fff8e1';
+            btn.style.borderColor = '#f6b900';
+            btn.style.color = '#b06000';
+            btn.disabled = false;
+            btn.onclick = function() { openControl('controlDokumentace'); };
+        }
+
+        function downloadIssuesReport(format) {
+            const count = docCheckState.issues.length;
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;bottom:80px;right:24px;background:#202124;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:9999;display:flex;align-items:center;gap:8px;';
+            toast.innerHTML = '<span class="material-icons-outlined" style="font-size:16px;">download</span>Stahování reportu (' + count + ' nedostatků) jako ' + format.toUpperCase() + '…';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
         
         // Trigger automatického ukládání při změně (simulace)
@@ -21026,6 +21111,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         // Stav kontrol dokumentace
         let docCheckState = {
             autoCheckDone: false,
+            kategorieConfirmed: false,
             partStatus: { A: 'unchecked', B: 'unchecked', C: 'unchecked', D: 'unchecked' },
             issues: [],
             validatorResults: [],
@@ -21036,6 +21122,14 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const folder = headerEl.closest('.ed-folder');
             if (folder.classList.contains('empty')) return;
             folder.classList.toggle('open');
+        }
+
+        function expandAllEdFolders() {
+            document.querySelectorAll('#edTree .ed-folder:not(.empty)').forEach(f => f.classList.add('open'));
+        }
+
+        function collapseAllEdFolders() {
+            document.querySelectorAll('#edTree .ed-folder').forEach(f => f.classList.remove('open'));
         }
         
         // Funkce pro návrat do struktury ED z náhledu
@@ -21407,6 +21501,11 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             
             countEl.textContent = totalIssues;
             
+            // Zobrazit sekci jakmile je alespoň jeden nedostatek
+            if (totalIssues > 0 || hasPartSections) {
+                section.style.display = 'block';
+            }
+            
             // Zobrazení automatických nedostatků
             if (autoIssues.length > 0) {
                 autoSection.style.display = 'block';
@@ -21427,6 +21526,95 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             } else {
                 emptyState.style.display = 'none';
             }
+        }
+
+        // ── Kategorie stavby: potvrdit / rozbalit ──────────────────────────
+        function potvrditKategoriiStavby() {
+            const section = document.getElementById('kategorieStavbySection');
+            const collapsed = document.getElementById('kategorieStavbyCollapsed');
+            const summaryText = document.getElementById('kategorieSummaryText');
+
+            const souborRadio = document.querySelector('input[name="souborStaveb"]:checked');
+            const jeSoubor = souborRadio && souborRadio.value === 'ano';
+            let kategorie = 'Vyhrazená';
+            const katRadio = document.querySelector('input[name="kategorieStavby"]:checked');
+            if (katRadio) {
+                const map = { vyhrazena: 'Vyhrazená', ostatni: 'Ostatní', jednoducha: 'Jednoduchá', drobna: 'Drobná' };
+                kategorie = map[katRadio.value] || kategorie;
+            }
+            summaryText.textContent = kategorie + ' stavba — ' + (jeSoubor ? 'soubor staveb' : 'nejde o soubor staveb');
+
+            section.style.display = 'none';
+            collapsed.style.display = 'flex';
+            docCheckState.kategorieConfirmed = true;
+            updateDokumentaceResult();
+        }
+
+        function rozbalitKategoriiStavby() {
+            document.getElementById('kategorieStavbySection').style.display = 'block';
+            document.getElementById('kategorieStavbyCollapsed').style.display = 'none';
+        }
+
+        // ── Validátor: simulace výsledku ───────────────────────────────────
+        function runValidatorSimulation(mode) {
+            const results = document.getElementById('autoCheckResults');
+            results.innerHTML = '<div style="font-size:12px;color:#5f6368;padding:8px 0;display:flex;align-items:center;gap:6px;"><span class="material-icons-outlined" style="font-size:16px;animation:spin 1s linear infinite;">sync</span>Probíhá kontrola…</div>';
+            results.classList.add('visible');
+
+            // Zvýraznit vybraný toggle
+            document.getElementById('validatorToggleOk').style.background = mode === 'ok' ? '#e6f4ea' : '#fff';
+            document.getElementById('validatorToggleOk').style.borderColor = mode === 'ok' ? '#137333' : '#e0e0e0';
+            document.getElementById('validatorToggleVady').style.background = mode === 'vady' ? '#fce8e6' : '#fff';
+            document.getElementById('validatorToggleVady').style.borderColor = mode === 'vady' ? '#c5221f' : '#e0e0e0';
+
+            setTimeout(function() {
+                if (mode === 'ok') {
+                    // Vymazat automaticky přidané nedostatky z předchozí simulace
+                    docCheckState.issues = docCheckState.issues.filter(i => i.source !== 'auto');
+                    updateIssuesVisibility();
+
+                    const okResults = [
+                        { icon: 'check', cls: 'success', label: 'Celkový počet souborů', detail: '247 souborů v PD balíčku (verze SR00X01HLDRP)' },
+                        { icon: 'check', cls: 'success', label: 'Formát PDF/A', detail: '247/247 souborů ve správném formátu' },
+                        { icon: 'check', cls: 'success', label: 'Elektronické podpisy', detail: 'Všechny soubory mají platný podpis nebo EAR' },
+                        { icon: 'check', cls: 'success', label: 'Časová razítka', detail: 'Všechny soubory mají kvalifikované časové razítko' },
+                        { icon: 'check', cls: 'success', label: 'Autorizační razítka (EAR)', detail: 'Projektant má platnou autorizaci ČKAIT č. 0123456' },
+                    ];
+                    results.innerHTML = okResults.map(r => `
+                        <div class="check-result-item">
+                            <div class="check-result-icon ${r.cls}"><span class="material-icons-outlined">${r.icon}</span></div>
+                            <div class="check-result-content"><div class="check-result-label">${r.label}</div><div class="check-result-detail">${r.detail}</div></div>
+                        </div>`).join('');
+                    docCheckState.autoCheckDone = true;
+                    docCheckState.validatorResults = okResults;
+                } else {
+                    const vadyResults = [
+                        { icon: 'check', cls: 'success', label: 'Celkový počet souborů', detail: '247 souborů v PD balíčku (verze SR00X01HLDRP)' },
+                        { icon: 'check', cls: 'success', label: 'Formát PDF/A', detail: '247/247 souborů ve správném formátu' },
+                        { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Neplatný',
+                          detail: '3 soubory: A.1_PZ.pdf, B.1_STZ.pdf, B.2_STZ_priloha.pdf — chybí EAR',
+                          issueText: 'Soubory A.1_PZ.pdf, B.1_STZ.pdf a B.2_STZ_priloha.pdf neobsahují elektronické autorizační razítko (EAR) oprávněného projektanta', kategorie: 'autorizace' },
+                        { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Technicky nevyhovující',
+                          detail: '~30 souborů: PDF locked — nelze ověřit platnost v řadě PS120211–PS140251',
+                          issueText: 'V provozních souborech PS 12-02-11 až PS 14-02-51 jsou elektronické podpisy technicky nevyhovující (PDF locked — nelze ověřit platnost)', kategorie: 'autorizace' },
+                        { icon: 'warning', cls: 'warning', label: 'Časová razítka',
+                          detail: '1 soubor bez časového razítka: C.1-001.pdf (výkres širších vztahů)',
+                          issueText: 'Soubor C.1-001.pdf nemá připojené kvalifikované elektronické časové razítko', kategorie: 'autorizace' },
+                        { icon: 'check', cls: 'success', label: 'Autorizační razítka (EAR)', detail: 'Projektant má platnou autorizaci ČKAIT č. 0123456, obor dopravní stavby' },
+                    ];
+                    docCheckState.autoCheckDone = true;
+                    docCheckState.validatorResults = vadyResults;
+                    vadyResults.forEach((r, idx) => { if (r.issueText) addValidatorIssue(idx); });
+                    results.innerHTML = vadyResults.map((r, idx) => {
+                        const badge = r.issueText ? `<span style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;background:#e6f4ea;color:#137333;font-size:11px;white-space:nowrap;flex-shrink:0;"><span class="material-icons-outlined" style="font-size:13px;">check_circle</span>Přidáno do výzvy</span>` : '';
+                        return `<div class="check-result-item">
+                            <div class="check-result-icon ${r.cls}"><span class="material-icons-outlined">${r.icon}</span></div>
+                            <div class="check-result-content" style="flex:1;"><div class="check-result-label">${r.label}</div><div class="check-result-detail">${r.detail}</div></div>
+                            ${badge}</div>`;
+                    }).join('');
+                }
+                updateDokumentaceResult();
+            }, 1200);
         }
         
         // Přepínání sekce průřezových nedostatků
@@ -21504,16 +21692,16 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     { icon: 'check', cls: 'success', label: 'Celkový počet souborů', detail: '247 souborů v PD balíčku (verze SR00X01HLDRP)' },
                     { icon: 'check', cls: 'success', label: 'Formát PDF/A', detail: '247/247 souborů ve správném formátu' },
                     { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Neplatný', 
-                      detail: '~12 souborů: chybí podpis nebo EAR na soupisech příloh (přílohy částí A–D)',
-                      issueText: 'Soupisy příloh jednotlivých částí PD neobsahují platný elektronický podpis ani elektronické autorizační razítko (EAR)',
+                      detail: '3 soubory: A.1_PZ.pdf, B.1_STZ.pdf, B.2_STZ_priloha.pdf — chybí EAR',
+                      issueText: 'Soubory A.1_PZ.pdf, B.1_STZ.pdf a B.2_STZ_priloha.pdf neobsahují elektronické autorizační razítko (EAR) oprávněného projektanta',
                       kategorie: 'autorizace' },
                     { icon: 'warning', cls: 'warning', label: 'Elektronické podpisy — Technicky nevyhovující',
                       detail: '~30 souborů: uzamčené podpisy v sérii PS120211–PS140251 (PDF locked — nelze ověřit platnost)',
                       issueText: 'V provozních souborech PS 12-02-11 až PS 14-02-51 jsou elektronické podpisy technicky nevyhovující (PDF locked, nelze ověřit platnost)',
                       kategorie: 'autorizace' },
                     { icon: 'warning', cls: 'warning', label: 'Časová razítka',
-                      detail: '1 soubor bez časového razítka (A.1_Průvodní zpráva_soupis.pdf)',
-                      issueText: 'Soubor A.1_Průvodní zpráva_soupis.pdf nemá připojené kvalifikované elektronické časové razítko',
+                      detail: '1 soubor bez časového razítka: C.1-001.pdf (výkres širších vztahů)',
+                      issueText: 'Soubor C.1-001.pdf nemá připojené kvalifikované elektronické časové razítko',
                       kategorie: 'autorizace' },
                     { icon: 'check', cls: 'success', label: 'Autorizační razítka (EAR)', detail: 'Projektant má platnou autorizaci ČKAIT č. 0123456, obor dopravní stavby' }
                 ];
@@ -21617,8 +21805,25 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const btnConfirm = document.getElementById('btnConfirmDokumentace');
             const issueCount = docCheckState.issues.length;
             const hasProblems = Object.values(docCheckState.partStatus).some(s => s === 'warning' || s === 'error');
-            const allChecked = Object.values(docCheckState.partStatus).every(s => s !== 'unchecked');
+            const allPartsChecked = Object.values(docCheckState.partStatus).every(s => s !== 'unchecked');
             
+            // Krok 1: kategorie potvrzena
+            // Krok 2: validátor spuštěn
+            // Krok 3: všechny části zkontrolovány
+            const allStepsDone = docCheckState.kategorieConfirmed && docCheckState.autoCheckDone && allPartsChecked;
+
+            // Zbarvení karty auto-check po kladné kontrole
+            const autoCheckSection = document.querySelector('.auto-check-section');
+            if (autoCheckSection && docCheckState.autoCheckDone) {
+                if (issueCount === 0 || !docCheckState.issues.some(i => i.source === 'auto')) {
+                    autoCheckSection.style.background = '#f0faf3';
+                    autoCheckSection.style.borderColor = '#a8d5b5';
+                } else {
+                    autoCheckSection.style.background = '#fff8f0';
+                    autoCheckSection.style.borderColor = '#f5c6a0';
+                }
+            }
+
             if (issueCount > 0 || hasProblems) {
                 resultBox.className = 'result-preview warning';
                 resultBox.innerHTML = `
@@ -21630,15 +21835,21 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                         Zjištěno ${issueCount} nedostatků. Bude vydána výzva k doplnění a řízení přerušeno.
                     </div>
                 `;
-            } else if (!allChecked) {
+                btnConfirm.disabled = false;
+            } else if (!allStepsDone) {
                 resultBox.className = 'result-preview neutral';
+                const missing = [];
+                if (!docCheckState.kategorieConfirmed) missing.push('potvrďte kategorii stavby');
+                if (!docCheckState.autoCheckDone) missing.push('spusťte validátor');
+                if (!allPartsChecked) missing.push('zkontrolujte všechny části PD');
                 resultBox.innerHTML = `
                     <div class="result-preview-title">
                         <span class="material-icons-outlined">info</span>
                         Kontrola nebyla dokončena
                     </div>
-                    <div class="result-preview-text">Zkontrolujte všechny části dokumentace kliknutím na zaškrtávátko.</div>
+                    <div class="result-preview-text">Zbývá: ${missing.join(', ')}.</div>
                 `;
+                btnConfirm.disabled = true;
             } else {
                 resultBox.className = 'result-preview positive';
                 resultBox.innerHTML = `
@@ -21648,9 +21859,9 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     </div>
                     <div class="result-preview-text">Všechny části dokumentace jsou přítomny a úplné.</div>
                 `;
+                btnConfirm.disabled = false;
             }
-            
-            // Tlačítko je vždy "Potvrdit kontrolu"
+
             btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
         }
 
@@ -22741,6 +22952,18 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
 
         function completeDokumentace() {
             controls.dokumentace.done = true;
+            controls.dokumentace.draft = null;
+
+            // Vymazat inline styly z případného mezistavu
+            const card = document.getElementById('card-dokumentace');
+            if (card) {
+                const btn = card.querySelector('.control-card-action');
+                if (btn) {
+                    btn.style.background = '';
+                    btn.style.borderColor = '';
+                    btn.style.color = '';
+                }
+            }
             
             const hasProblems = Object.values(docCheckState.partStatus).some(s => s === 'error');
             
