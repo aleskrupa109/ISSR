@@ -18198,25 +18198,129 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const viewer = document.getElementById('viewer-pozemky');
             
             if (view === 'mapa') {
-                // Zobrazit interaktivní katastrální mapu
                 viewer.innerHTML = '';
                 viewer.classList.remove('viewer-placeholder');
                 viewer.appendChild(createKatastrMap());
+            } else if (view === 'situace') {
+                viewer.classList.remove('viewer-placeholder');
+                viewer.innerHTML = '';
+                viewer.appendChild(createSituaceViewer());
+            } else if (view === 'zadost') {
+                viewer.classList.remove('viewer-placeholder');
+                viewer.innerHTML = '';
+                const wrapper = document.createElement('div');
+                wrapper.className = 'reusable-zadost-data active';
+                wrapper.style.cssText = 'height:100%;overflow-y:auto;';
+                wrapper.innerHTML = generateZadostDataPozemky();
+                viewer.appendChild(wrapper);
+            } else if (view === 'kn') {
+                viewer.classList.add('viewer-placeholder');
+                viewer.innerHTML = `
+                    <span class="material-icons-outlined">terrain</span>
+                    <div class="viewer-placeholder-title">Katastr nemovitostí</div>
+                    <div class="viewer-placeholder-text">Nahlížení do katastru nemovitostí</div>
+                `;
             } else {
                 viewer.classList.add('viewer-placeholder');
-                const viewConfig = {
-                    'zadost': { icon: 'description', title: 'Žádost o povolení stavby', text: 'Pozemky uvedené stavebníkem v žádosti' },
-                    'situace': { icon: 'architecture', title: 'Situační výkresy', text: 'C.1 - C.4 ze složky dokumentace' },
-                    'kn': { icon: 'terrain', title: 'Katastr nemovitostí', text: 'Nahlížení do katastru nemovitostí' }
-                };
-                
-                const config = viewConfig[view];
-                viewer.innerHTML = `
-                    <span class="material-icons-outlined">${config.icon}</span>
-                    <div class="viewer-placeholder-title">${config.title}</div>
-                    <div class="viewer-placeholder-text">${config.text}</div>
-                `;
+                viewer.innerHTML = `<span class="material-icons-outlined">info</span>`;
             }
+
+        function createSituaceViewer() {
+            const baseUrl = 'https://raw.githubusercontent.com/aleskrupa109/ISSR/main/images/';
+            const parts = [
+                { id: 'c1', label: 'C.1', name: 'Výkres širších vztahů', file: 'C-01.png' },
+                { id: 'c2', label: 'C.2', name: 'Katastrální situační výkres', file: 'C-02.png' },
+                { id: 'c3', label: 'C.3', name: 'Koordinační situační výkres', file: 'C-03.png' },
+                { id: 'c4', label: 'C.4', name: 'Speciální situační výkres', file: null },
+            ];
+
+            const wrap = document.createElement('div');
+            wrap.style.cssText = 'display:flex;flex-direction:column;height:100%;';
+
+            // Záložky C.1–C.4
+            const tabBar = document.createElement('div');
+            tabBar.style.cssText = 'display:flex;gap:2px;padding:6px 8px;background:#f5f5f5;border-bottom:1px solid #e0e0e0;flex-shrink:0;';
+            parts.forEach((p, i) => {
+                const btn = document.createElement('button');
+                btn.textContent = p.label;
+                btn.style.cssText = 'padding:3px 10px;border:1px solid #dadce0;border-radius:3px;font-size:11px;font-weight:500;cursor:pointer;background:#fff;color:#5f6368;';
+                if (i === 0) { btn.style.background = '#1a73e8'; btn.style.borderColor = '#1a73e8'; btn.style.color = '#fff'; }
+                btn.onclick = () => {
+                    tabBar.querySelectorAll('button').forEach(b => { b.style.background='#fff'; b.style.borderColor='#dadce0'; b.style.color='#5f6368'; });
+                    btn.style.background = '#1a73e8'; btn.style.borderColor = '#1a73e8'; btn.style.color = '#fff';
+                    showSituacePanel(p, contentArea);
+                };
+                tabBar.appendChild(btn);
+            });
+
+            const contentArea = document.createElement('div');
+            contentArea.style.cssText = 'flex:1;overflow:hidden;position:relative;';
+
+            showSituacePanel(parts[0], contentArea);
+
+            wrap.appendChild(tabBar);
+            wrap.appendChild(contentArea);
+            return wrap;
+        }
+
+        function showSituacePanel(part, container) {
+            const baseUrl = 'https://raw.githubusercontent.com/aleskrupa109/ISSR/main/images/';
+            container.innerHTML = '';
+
+            if (!part.file) {
+                container.style.cssText = 'flex:1;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;background:#f8f9fa;';
+                container.innerHTML = `<div style="text-align:center;color:#9aa0a6;">
+                    <span class="material-icons-outlined" style="font-size:40px;display:block;margin-bottom:8px;">image_not_supported</span>
+                    <div style="font-size:13px;">${part.label} — ${part.name}</div>
+                    <div style="font-size:11px;margin-top:4px;">Výkres není součástí této projektové dokumentace</div>
+                </div>`;
+                return;
+            }
+
+            container.style.cssText = 'flex:1;overflow:hidden;position:relative;background:#f0f0f0;';
+
+            // Zoom controls
+            const toolbar = document.createElement('div');
+            toolbar.style.cssText = 'position:absolute;top:8px;right:8px;z-index:10;display:flex;gap:4px;background:rgba(255,255,255,0.9);border:1px solid #e0e0e0;border-radius:6px;padding:4px;';
+            let zoom = 1;
+            let imgEl;
+            const zoomIn  = document.createElement('button');
+            const zoomOut = document.createElement('button');
+            const zoomReset = document.createElement('button');
+            [zoomOut, zoomReset, zoomIn].forEach((b, i) => {
+                b.style.cssText = 'width:24px;height:24px;border:none;background:none;cursor:pointer;border-radius:3px;display:flex;align-items:center;justify-content:center;';
+                b.innerHTML = `<span class="material-icons-outlined" style="font-size:16px;color:#5f6368;">${['remove','fit_screen','add'][i]}</span>`;
+                b.onmouseenter = () => b.style.background = '#f1f3f4';
+                b.onmouseleave = () => b.style.background = 'none';
+            });
+            zoomIn.onclick = () => { zoom = Math.min(zoom + 0.25, 4); if(imgEl) imgEl.style.transform = `scale(${zoom})`; };
+            zoomOut.onclick = () => { zoom = Math.max(zoom - 0.25, 0.25); if(imgEl) imgEl.style.transform = `scale(${zoom})`; };
+            zoomReset.onclick = () => { zoom = 1; if(imgEl) imgEl.style.transform = 'scale(1)'; };
+            toolbar.append(zoomOut, zoomReset, zoomIn);
+
+            // Label
+            const label = document.createElement('div');
+            label.style.cssText = 'position:absolute;top:8px;left:8px;z-index:10;background:rgba(255,255,255,0.9);border:1px solid #e0e0e0;border-radius:4px;padding:3px 10px;font-size:11px;font-weight:500;color:#202124;';
+            label.textContent = `${part.label} — ${part.name}`;
+
+            // Image container
+            const imgWrap = document.createElement('div');
+            imgWrap.style.cssText = 'width:100%;height:100%;overflow:auto;display:flex;align-items:center;justify-content:center;';
+            imgEl = document.createElement('img');
+            imgEl.src = baseUrl + part.file;
+            imgEl.alt = part.name;
+            imgEl.style.cssText = 'max-width:100%;max-height:100%;object-fit:contain;transform-origin:center center;transition:transform 0.15s;';
+            imgEl.onerror = () => {
+                imgWrap.innerHTML = `<div style="text-align:center;color:#9aa0a6;padding:24px;">
+                    <span class="material-icons-outlined" style="font-size:40px;display:block;margin-bottom:8px;">broken_image</span>
+                    <div style="font-size:12px;">${part.file} — soubor nelze načíst</div>
+                </div>`;
+            };
+            imgWrap.appendChild(imgEl);
+
+            container.appendChild(label);
+            container.appendChild(toolbar);
+            container.appendChild(imgWrap);
         }
         
         // ==========================================
@@ -18264,6 +18368,84 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         let polygonPoints = [];
         let selectedByPolygon = [];
         
+        function generateZadostDataPozemky() {
+            const parcely = pozemkyState.pozemkyZameru;
+            const druhMap = { zastavena: 'Zastavěná plocha a nádvoří', pozemkova: 'Ostatní plocha — dráha', zahrada: 'Zahrada', travni: 'Trvalý travní porost', ornapuda: 'Orná půda', les: 'Lesní pozemek' };
+            const rows = parcely.map(p => `
+                <tr>
+                    <td><strong>${p.cislo}</strong></td>
+                    <td>${p.katastr} [${p.kod}]</td>
+                    <td>${p.plocha}</td>
+                    <td>${druhMap[p.typ] || p.typ}</td>
+                </tr>`).join('');
+
+            return `<div class="zadost-readonly-content">
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header">
+                        <span class="material-icons-outlined">assignment_ind</span>
+                        Údaje o podání
+                    </div>
+                    <div class="zadost-readonly-grid">
+                        <div class="zadost-readonly-item">
+                            <div class="zadost-readonly-label">Podatel</div>
+                            <div class="zadost-readonly-value">Správa železnic, s.o.</div>
+                        </div>
+                        <div class="zadost-readonly-item">
+                            <div class="zadost-readonly-label">Věc podání</div>
+                            <div class="zadost-readonly-value">Žádost o povolení stavby</div>
+                        </div>
+                        <div class="zadost-readonly-item">
+                            <div class="zadost-readonly-label">Datum doručení</div>
+                            <div class="zadost-readonly-value">3. 2. 2026</div>
+                        </div>
+                        <div class="zadost-readonly-item">
+                            <div class="zadost-readonly-label">Správní orgán</div>
+                            <div class="zadost-readonly-value">DESÚ — Dopravní a energetický stavební úřad</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header">
+                        <span class="material-icons-outlined">domain</span>
+                        Identifikace záměru
+                    </div>
+                    <div class="zadost-readonly-grid">
+                        <div class="zadost-readonly-item full-width">
+                            <div class="zadost-readonly-label">Název záměru</div>
+                            <div class="zadost-readonly-value">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
+                        </div>
+                        <div class="zadost-readonly-item">
+                            <div class="zadost-readonly-label">Druh stavby</div>
+                            <div class="zadost-readonly-value">Stavba dráhy</div>
+                        </div>
+                        <div class="zadost-readonly-item">
+                            <div class="zadost-readonly-label">Místo stavby</div>
+                            <div class="zadost-readonly-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header">
+                        <span class="material-icons-outlined">grid_on</span>
+                        Pozemky záměru
+                    </div>
+                    <div class="zadost-readonly-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parcela</th>
+                                    <th>Katastrální území</th>
+                                    <th>Výměra</th>
+                                    <th>Druh pozemku</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>`;
+        }
+
         function createKatastrMap() {
             const container = document.createElement('div');
             container.className = 'katastr-map-container';
