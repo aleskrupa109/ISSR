@@ -5426,44 +5426,136 @@
         #controlUP .control-body {
             display: flex;
             flex-direction: row;
+            overflow: hidden;
         }
-        
-        #controlUP.layout-horizontal .control-body {
-            flex-direction: column;
-        }
-        
-        /* Vertical layout (default) - panels stacked, control on right */
-        .upd-viewers-stack {
+
+        /* Levý sloupec: viewery (nad sebou nebo vedle sebe) */
+        .upd-left-col {
             flex: 1;
             display: flex;
-            flex-direction: column;
-            gap: 1px;
-            background: #ccc;
+            flex-direction: column; /* vertikální: nad sebou */
             min-width: 0;
+            min-height: 0;
         }
-        
-        /* Horizontal layout - panels side by side, control on bottom right */
-        #controlUP.layout-horizontal .upd-viewers-stack {
+
+        /* Horizontální layout: viewery vedle sebe */
+        #controlUP.layout-horizontal .upd-left-col {
             flex-direction: row;
         }
-        
-        .upd-viewers-stack {
+
+        /* Pravý sloupec: kontrolní panel — zasouvací */
+        .upd-right-col {
+            width: 300px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+            border-left: 1px solid #e0e0e0;
+            min-height: 0;
+            transition: width 0.25s ease;
+            position: relative;
+        }
+
+        /* Sbalený stav */
+        .upd-right-col.collapsed {
+            width: 32px;
+        }
+
+        /* Toggle tlačítko na levém okraji panelu */
+        .upd-panel-toggle {
+            width: 32px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            transition: background 0.15s;
+            user-select: none;
+        }
+        .upd-panel-toggle:hover {
+            background: #e8f0fe;
+        }
+        .upd-panel-toggle .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+            transition: transform 0.25s;
+        }
+        .upd-right-col.collapsed .upd-panel-toggle .material-icons-outlined {
+            transform: rotate(180deg);
+        }
+
+        /* Obsah panelu — schovat když sbalený */
+        .upd-control-panel {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 1px;
-            background: #ccc;
+            background: #fff;
+            overflow: hidden;
+            min-height: 0;
             min-width: 0;
         }
-        
+        .upd-right-col.collapsed .upd-control-panel {
+            display: none;
+        }
+
+        /* Oddělovač viewerů v horizontálním layoutu */
+        #controlUP.layout-horizontal .upd-left-col {
+            flex-direction: row;
+            gap: 0;
+        }
+        #controlUP.layout-horizontal .upd-viewer-panel + .upd-viewer-panel {
+            border-left: 2px solid #dadce0;
+        }
+
         .upd-viewer-panel {
             flex: 1;
             display: flex;
             flex-direction: column;
             background: #fff;
             min-height: 0;
+            min-width: 0;
         }
-        
+
+        .upd-control-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .upd-checks-scroll {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-y: auto;
+        }
+
+        /* Patička — tlačítka pod sebou */
+        #controlUP .control-form-footer {
+            flex-direction: column !important;
+            gap: 8px;
+            padding: 12px 16px;
+        }
+        #controlUP .control-form-footer > div:last-child {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        #controlUP .control-form-footer .btn,
+        #controlUP .control-form-footer .btn-save-draft {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Textarea pro popis nesouladu (zobrazuje se přes modal) */
+        .upd-note-input { display: none; }
+
+
         .upd-viewer-toolbar {
             display: flex;
             align-items: center;
@@ -5617,15 +5709,14 @@
         
         /* Pravý panel - vertikální layout */
         .upd-control-panel {
-            width: 150px;
+            width: 280px;
             flex-shrink: 0;
-            background: #f8f9fa;
+            background: #fff;
             border-left: 1px solid #e0e0e0;
-            padding: 8px;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            overflow-y: auto;
+            overflow: hidden;
         }
         
         .upd-check-item {
@@ -5709,68 +5800,6 @@
             font-size: 10px;
             color: #e65100;
             text-align: center;
-        }
-        
-        /* Horizontální layout - kontroly dole */
-        #controlUP.layout-horizontal .upd-control-panel {
-            width: 100%;
-            height: 56px;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-end;
-            border-left: none;
-            border-top: 1px solid #e0e0e0;
-            padding: 8px 16px;
-            gap: 20px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            flex-shrink: 0;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            min-width: auto;
-            max-width: none;
-            padding: 6px 12px;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-row {
-            margin-bottom: 0;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-buttons {
-            gap: 4px;
-        }
-        
-        #controlUP.layout-horizontal .upd-btn-yes,
-        #controlUP.layout-horizontal .upd-btn-no {
-            padding: 4px 8px;
-            min-width: 32px;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-mini-label {
-            margin: 0;
-            white-space: nowrap;
-        }
-        
-        /* ÚP kontrola v horizontálním layoutu */
-        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection {
-            display: none;
-            flex-direction: row;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item#checkUp > #upSouladSection[style*="block"] {
-            display: flex !important;
-        }
-        
-        #controlUP.layout-horizontal .upd-check-item#checkUp > .upd-no-up-info {
-            margin-top: 0;
-            white-space: nowrap;
         }
         
         /* Skrýt textarea v horizontálním layoutu - používáme modal */
@@ -9958,6 +9987,33 @@
 
         .control-section:last-child {
             margin-bottom: 0;
+        }
+
+        /* Sjednocená hlavička pravého panelu */
+        .control-panel-header {
+            padding: 16px 24px 14px;
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 0;
+            background: #fafafa;
+            flex-shrink: 0;
+        }
+        .control-panel-header-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .control-panel-header-title .material-icons-outlined {
+            font-size: 16px;
+            color: #004289;
+        }
+        .control-panel-header-desc {
+            font-size: 12px;
+            color: #5f6368;
+            line-height: 1.5;
         }
 
         .control-section-title {
@@ -14341,6 +14397,13 @@
                 </div>
             </div>
             <div class="control-form">
+                <div class="control-panel-header">
+                    <div class="control-panel-header-title">
+                        <span class="material-icons-outlined">terrain</span>
+                        Identifikace pozemků záměru
+                    </div>
+                    <div class="control-panel-header-desc">Ověřte pozemky uvedené stavebníkem a doplňte sousední parcely. Vlastníci budou automaticky přeneseni do části Osoby.</div>
+                </div>
                 <div class="control-form-body">
                     <!-- Pozemky záměru - ze žádosti, editovatelné -->
                     <div class="pozemky-section">
@@ -14510,31 +14573,31 @@
                         </div>
                     </div>
 
-                    <div class="result-preview positive" id="resultPozemky">
+                </div>
+                <div class="control-form-footer" style="flex-direction:column;gap:10px;align-items:stretch;">
+                    <div id="resultPozemky" class="result-preview positive">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
                             Pozemky identifikovány
                         </div>
                         <div class="result-preview-text">Pozemky záměru a sousední pozemky byly identifikovány. Vlastníci budou určeni v části Osoby.</div>
                     </div>
-                </div>
-                <div class="control-form-footer">
-                    <div class="control-form-footer-left">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div class="auto-save-indicator saved" id="autoSavePozemky">
                             <span class="material-icons-outlined">cloud_done</span>
                             <span>Automaticky uloženo</span>
                         </div>
-                    </div>
-                    <div class="control-form-footer-right">
-                        <button class="btn btn-secondary" onclick="closeControl('controlPozemky')">Zrušit</button>
-                        <button class="btn-save-draft" onclick="saveDraft('pozemky')" title="Uložit rozpracovanou kontrolu">
-                            <span class="material-icons-outlined">save</span>
-                            Uložit
-                        </button>
-                        <button class="btn btn-primary" id="btnConfirmPozemky" onclick="completePozemky()">
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-secondary" onclick="closeControl('controlPozemky')">Zrušit</button>
+                            <button class="btn-save-draft" onclick="saveDraft('pozemky')" title="Uložit rozpracovanou kontrolu">
+                                <span class="material-icons-outlined">save</span>
+                                Uložit
+                            </button>
+                            <button class="btn btn-primary" id="btnConfirmPozemky" onclick="completePozemky()">
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kontrolu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -14865,6 +14928,13 @@
             
             <!-- Pravý panel - kontrolní formulář -->
             <div class="control-form">
+                <div class="control-panel-header">
+                    <div class="control-panel-header-title">
+                        <span class="material-icons-outlined">architecture</span>
+                        Kontrola projektové dokumentace
+                    </div>
+                    <div class="control-panel-header-desc">Ověřte kategorii stavby, spusťte automatický validátor a zkontrolujte přítomnost a správnost jednotlivých částí PD.</div>
+                </div>
                 <div class="control-form-body">
                     <!-- Kategorie stavby -->
                     <div class="control-section stavba-kategorie-section">
@@ -15359,31 +15429,31 @@
                         </div>
                     </div>
 
-                    <div class="result-preview neutral" id="resultDokumentace">
+                </div>
+                <div class="control-form-footer" style="flex-direction:column;gap:10px;align-items:stretch;">
+                    <div id="resultDokumentace" class="result-preview neutral">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">info</span>
                             Kontrola nebyla dokončena
                         </div>
                         <div class="result-preview-text">Zkontrolujte všechny části dokumentace kliknutím na zaškrtávátko.</div>
                     </div>
-                </div>
-                <div class="control-form-footer">
-                    <div class="control-form-footer-left">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div class="auto-save-indicator saved" id="autoSaveDokumentace">
                             <span class="material-icons-outlined">cloud_done</span>
                             <span>Automaticky uloženo</span>
                         </div>
-                    </div>
-                    <div class="control-form-footer-right">
-                        <button class="btn btn-secondary" onclick="closeControl('controlDokumentace')">Zrušit</button>
-                        <button class="btn-save-draft" onclick="saveDraft('dokumentace')" title="Uložit rozpracovanou kontrolu">
-                            <span class="material-icons-outlined">save</span>
-                            Uložit
-                        </button>
-                        <button class="btn btn-primary" id="btnConfirmDokumentace" onclick="completeDokumentace()">
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-secondary" onclick="closeControl('controlDokumentace')">Zrušit</button>
+                            <button class="btn-save-draft" onclick="saveDraft('dokumentace')" title="Uložit rozpracovanou kontrolu">
+                                <span class="material-icons-outlined">save</span>
+                                Uložit
+                            </button>
+                            <button class="btn btn-primary" id="btnConfirmDokumentace" onclick="completeDokumentace()">
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kontrolu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -15436,6 +15506,13 @@
                 </div>
             </div>
             <div class="control-form">
+                <div class="control-panel-header">
+                    <div class="control-panel-header-title">
+                        <span class="material-icons-outlined">hub</span>
+                        Stanoviska a vyjádření
+                    </div>
+                    <div class="control-panel-header-desc">Zkontrolujte přiložené doklady dotčených orgánů a vlastníků infrastruktury. Použijte AI analýzu pro automatické rozpoznání přiložených dokumentů.</div>
+                </div>
                 <div class="control-form-body">
                     <!-- AI Analýza -->
                     <div class="identifikace-ai-section">
@@ -15580,32 +15657,31 @@
                         </div>
                     </div>
 
-                    <!-- Result preview -->
-                    <div class="result-preview positive" id="resultIdentifikace">
-                        <div class="result-preview-title">
-                            <span class="material-icons-outlined">check_circle</span>
-                            Čeká na dokončení kontroly
-                        </div>
-                        <div class="result-preview-text">Zkontrolujte seznam subjektů a označte vyžadované.</div>
-                    </div>
                 </div>
-                <div class="control-form-footer">
-                    <div class="control-form-footer-left">
+                <div class="control-form-footer" style="flex-direction:column;gap:10px;align-items:stretch;">
+                    <div id="resultIdentifikace" class="result-preview neutral">
+                        <div class="result-preview-title">
+                            <span class="material-icons-outlined">hourglass_empty</span>
+                            Čeká na AI analýzu
+                        </div>
+                        <div class="result-preview-text">Spusťte AI analýzu dokladové části pro automatické rozpoznání přiložených dokumentů.</div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div class="auto-save-indicator saved" id="autoSaveIdentifikace">
                             <span class="material-icons-outlined">cloud_done</span>
                             <span>Automaticky uloženo</span>
                         </div>
-                    </div>
-                    <div class="control-form-footer-right">
-                        <button class="btn btn-secondary" onclick="closeControl('controlIdentifikace')">Zrušit</button>
-                        <button class="btn-save-draft" onclick="saveDraft('identifikace')" title="Uložit rozpracovanou kontrolu">
-                            <span class="material-icons-outlined">save</span>
-                            Uložit
-                        </button>
-                        <button class="btn btn-primary" id="btnConfirmIdentifikace" onclick="completeIdentifikace()">
-                            <span class="material-icons-outlined">check</span>
-                            Potvrdit kontrolu
-                        </button>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-secondary" onclick="closeControl('controlIdentifikace')">Zrušit</button>
+                            <button class="btn-save-draft" onclick="saveDraft('identifikace')" title="Uložit rozpracovanou kontrolu">
+                                <span class="material-icons-outlined">save</span>
+                                Uložit
+                            </button>
+                            <button class="btn btn-primary" id="btnConfirmIdentifikace" onclick="completeIdentifikace()">
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kontrolu
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -15633,11 +15709,6 @@
                         <span class="material-icons-outlined">view_column</span>
                     </button>
                 </div>
-            </div>
-            <div class="control-header-right" style="margin-left: auto; margin-right: 16px;">
-                <button class="btn btn-primary" id="btnConfirmUPD" onclick="completeUPD()" disabled>
-                    <span class="material-icons-outlined">check</span> Potvrdit kontrolu
-                </button>
             </div>
         </div>
         
@@ -15668,9 +15739,9 @@
         </div>
         
         <div class="control-body">
-            <!-- Viewery - maximální prostor -->
-            <div class="upd-viewers-stack">
-                <div class="upd-viewer-panel">
+            <!-- Levý sloupec: situace + UPD viewer (výchozí vertikální layout) -->
+            <div class="upd-left-col" id="updLeftCol">
+                <div class="upd-viewer-panel" id="situaceViewerPanel">
                     <div class="upd-viewer-toolbar">
                         <div class="upd-viewer-tabs">
                             <button class="upd-vtab active" onclick="switchSituaceTab(this, 'c1')">C.1</button>
@@ -15678,9 +15749,9 @@
                             <button class="upd-vtab" onclick="switchSituaceTab(this, 'c3')">C.3</button>
                         </div>
                         <div class="upd-zoom-controls">
-                            <button class="upd-zoom-btn" onclick="zoomViewer('situace', -0.2)" title="Oddálit">−</button>
-                            <button class="upd-zoom-btn" onclick="resetViewer('situace')" title="Reset">⟲</button>
-                            <button class="upd-zoom-btn" onclick="zoomViewer('situace', 0.2)" title="Přiblížit">+</button>
+                            <button class="upd-zoom-btn" onclick="zoomViewer('situace', -0.2)">−</button>
+                            <button class="upd-zoom-btn" onclick="resetViewer('situace')">⟲</button>
+                            <button class="upd-zoom-btn" onclick="zoomViewer('situace', 0.2)">+</button>
                         </div>
                         <button class="upd-viewer-btn" onclick="openImageFullscreen('situace')" title="Nové okno">
                             <span class="material-icons-outlined">open_in_new</span>
@@ -15688,13 +15759,13 @@
                     </div>
                     <div class="upd-viewer-content" id="updSituaceViewer">
                         <div class="upd-image-container" id="situaceContainer">
-                            <img src="../images/C-01.png" alt="Situační výkres" id="situaceImage" 
+                            <img src="../images/C-01.png" alt="Situační výkres" id="situaceImage"
                                  draggable="false" onload="initViewer('situace')">
                         </div>
                     </div>
                 </div>
-                
-                <div class="upd-viewer-panel">
+                <!-- UPD viewer je zde ve výchozím vertikálním layoutu -->
+                <div class="upd-viewer-panel" id="updMapViewerPanel">
                     <div class="upd-viewer-toolbar">
                         <div class="upd-viewer-tabs">
                             <button class="upd-vtab active" onclick="switchUPDMap('urp', this)">ÚRP</button>
@@ -15702,9 +15773,9 @@
                             <button class="upd-vtab" onclick="switchUPDMap('up', this)">ÚP</button>
                         </div>
                         <div class="upd-zoom-controls">
-                            <button class="upd-zoom-btn" onclick="zoomViewer('upd', -0.2)" title="Oddálit">−</button>
-                            <button class="upd-zoom-btn" onclick="resetViewer('upd')" title="Reset">⟲</button>
-                            <button class="upd-zoom-btn" onclick="zoomViewer('upd', 0.2)" title="Přiblížit">+</button>
+                            <button class="upd-zoom-btn" onclick="zoomViewer('upd', -0.2)">−</button>
+                            <button class="upd-zoom-btn" onclick="resetViewer('upd')">⟲</button>
+                            <button class="upd-zoom-btn" onclick="zoomViewer('upd', 0.2)">+</button>
                         </div>
                         <button class="upd-viewer-btn" onclick="openImageFullscreen('upd')" title="Nové okno">
                             <span class="material-icons-outlined">open_in_new</span>
@@ -15712,64 +15783,109 @@
                     </div>
                     <div class="upd-viewer-content" id="updMapViewer">
                         <div class="upd-image-container" id="updContainer">
-                            <img src="../images/URP.png" alt="ÚRP" id="updImage" 
+                            <img src="../images/URP.png" alt="ÚRP" id="updImage"
                                  draggable="false" onload="initViewer('upd')">
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Kontrolní panel - minimální šířka -->
-            <div class="upd-control-panel">
-                <div class="upd-check-item" id="checkUrp">
-                    <div class="upd-check-row">
-                        <span class="upd-check-label">ÚRP</span>
-                        <span class="upd-check-status" id="statusUrp"></span>
-                    </div>
-                    <div class="upd-check-buttons">
-                        <button class="upd-btn-yes" onclick="setUPDSoulad('urp', true, this)" title="V souladu">✓</button>
-                        <button class="upd-btn-no" onclick="setUPDSoulad('urp', false, this)" title="Rozpor">✗</button>
-                        <span class="upd-nesoulad-indicator" id="indicatorUrp" onclick="openNesouladModal('urp')" title="Upravit popis nesouladu">✎</span>
-                    </div>
-                    <textarea class="upd-note-input" id="noteUrp" style="display:none;" 
-                        placeholder="Popište rozpor s Územním rozvojovým plánem..." oninput="updateUPDState()"></textarea>
+
+            <!-- Pravý sloupec: kontrolní panel -->
+            <div class="upd-right-col" id="updRightCol">
+                <div class="upd-panel-toggle" onclick="toggleUPDPanel()" id="updPanelToggle" title="Skrýt/zobrazit kontrolní panel">
+                    <span class="material-icons-outlined">chevron_right</span>
                 </div>
-                
-                <div class="upd-check-item" id="checkZur">
-                    <div class="upd-check-row">
-                        <span class="upd-check-label">ZÚR</span>
-                        <span class="upd-check-status" id="statusZur"></span>
-                    </div>
-                    <div class="upd-check-buttons">
-                        <button class="upd-btn-yes" onclick="setUPDSoulad('zur', true, this)" title="V souladu">✓</button>
-                        <button class="upd-btn-no" onclick="setUPDSoulad('zur', false, this)" title="Rozpor">✗</button>
-                        <span class="upd-nesoulad-indicator" id="indicatorZur" onclick="openNesouladModal('zur')" title="Upravit popis nesouladu">✎</span>
-                    </div>
-                    <textarea class="upd-note-input" id="noteZur" style="display:none;" 
-                        placeholder="Popište rozpor se Zásadami územního rozvoje..." oninput="updateUPDState()"></textarea>
-                </div>
-                
-                <div class="upd-check-item" id="checkUp">
-                    <div class="upd-check-row">
-                        <span class="upd-check-label">ÚP</span>
-                        <span class="upd-check-status" id="statusUp"></span>
-                    </div>
-                    <div class="upd-check-mini-label">Existuje?</div>
-                    <div class="upd-check-buttons" id="upExistButtons">
-                        <button class="upd-btn-yes" onclick="setUPExistence(true, this)">✓</button>
-                        <button class="upd-btn-no" onclick="setUPExistence(false, this)">✗</button>
-                    </div>
-                    <div id="upSouladSection" style="display:none;">
-                        <div class="upd-check-mini-label">Soulad?</div>
-                        <div class="upd-check-buttons">
-                            <button class="upd-btn-yes" onclick="setUPDSoulad('up', true, this)">✓</button>
-                            <button class="upd-btn-no" onclick="setUPDSoulad('up', false, this)">✗</button>
-                            <span class="upd-nesoulad-indicator" id="indicatorUp" onclick="openNesouladModal('up')" title="Upravit popis nesouladu">✎</span>
+                <div class="upd-control-panel" id="updControlPanel">
+                    <div class="control-panel-header" style="padding:14px 16px 12px; flex-shrink:0;">
+                        <div class="control-panel-header-title">
+                            <span class="material-icons-outlined">map</span>
+                            Posouzení souladu s ÚPD
                         </div>
-                        <textarea class="upd-note-input" id="noteUp" style="display:none;" 
-                            placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
+                        <div class="control-panel-header-desc">Pro každou úroveň označte soulad nebo rozpor se záměrem.</div>
                     </div>
-                    <div class="upd-no-up-info" id="noUpInfo" style="display:none;">Posouzení dle § 193</div>
+
+                    <div class="upd-checks-scroll">
+                        <!-- ÚRP -->
+                        <div class="upd-check-item" id="checkUrp">
+                            <div class="upd-check-row">
+                                <span class="upd-check-label">Územní rozvojový plán (ÚRP)</span>
+                                <span class="upd-check-status" id="statusUrp"></span>
+                            </div>
+                            <div class="upd-check-buttons">
+                                <button class="upd-btn-yes" onclick="setUPDSoulad('urp', true, this)">✓ V souladu</button>
+                                <button class="upd-btn-no" onclick="setUPDSoulad('urp', false, this)">✗ Rozpor</button>
+                                <span class="upd-nesoulad-indicator" id="indicatorUrp" onclick="openNesouladModal('urp')" title="Upravit popis nesouladu">✎</span>
+                            </div>
+                            <textarea class="upd-note-input" id="noteUrp" style="display:none;"
+                                placeholder="Popište rozpor s Územním rozvojovým plánem..." oninput="updateUPDState()"></textarea>
+                        </div>
+
+                        <!-- ZÚR -->
+                        <div class="upd-check-item" id="checkZur">
+                            <div class="upd-check-row">
+                                <span class="upd-check-label">Zásady územního rozvoje (ZÚR)</span>
+                                <span class="upd-check-status" id="statusZur"></span>
+                            </div>
+                            <div class="upd-check-buttons">
+                                <button class="upd-btn-yes" onclick="setUPDSoulad('zur', true, this)">✓ V souladu</button>
+                                <button class="upd-btn-no" onclick="setUPDSoulad('zur', false, this)">✗ Rozpor</button>
+                                <span class="upd-nesoulad-indicator" id="indicatorZur" onclick="openNesouladModal('zur')" title="Upravit popis nesouladu">✎</span>
+                            </div>
+                            <textarea class="upd-note-input" id="noteZur" style="display:none;"
+                                placeholder="Popište rozpor se Zásadami územního rozvoje..." oninput="updateUPDState()"></textarea>
+                        </div>
+
+                        <!-- ÚP -->
+                        <div class="upd-check-item" id="checkUp">
+                            <div class="upd-check-row">
+                                <span class="upd-check-label">Územní plán (ÚP)</span>
+                                <span class="upd-check-status" id="statusUp"></span>
+                            </div>
+                            <div class="upd-check-mini-label">Existuje územní plán?</div>
+                            <div class="upd-check-buttons" id="upExistButtons">
+                                <button class="upd-btn-yes" onclick="setUPExistence(true, this)">✓ Ano</button>
+                                <button class="upd-btn-no" onclick="setUPExistence(false, this)">✗ Ne</button>
+                            </div>
+                            <div id="upSouladSection" style="display:none;">
+                                <div class="upd-check-mini-label">Soulad?</div>
+                                <div class="upd-check-buttons">
+                                    <button class="upd-btn-yes" onclick="setUPDSoulad('up', true, this)">✓ V souladu</button>
+                                    <button class="upd-btn-no" onclick="setUPDSoulad('up', false, this)">✗ Rozpor</button>
+                                    <span class="upd-nesoulad-indicator" id="indicatorUp" onclick="openNesouladModal('up')" title="Upravit popis nesouladu">✎</span>
+                                </div>
+                                <textarea class="upd-note-input" id="noteUp" style="display:none;"
+                                    placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
+                            </div>
+                            <div class="upd-no-up-info" id="noUpInfo" style="display:none;">Posouzení dle § 193</div>
+                        </div>
+                    </div>
+
+                    <!-- Patička -->
+                    <div class="control-form-footer" style="flex-direction:column;gap:10px;align-items:stretch;flex-shrink:0;">
+                        <div id="resultUPD" class="result-preview neutral">
+                            <div class="result-preview-title">
+                                <span class="material-icons-outlined">info</span>
+                                Kontrola nebyla dokončena
+                            </div>
+                            <div class="result-preview-text">Označte soulad nebo rozpor pro všechny úrovně ÚPD.</div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div class="auto-save-indicator saved" id="autoSaveUPD">
+                                <span class="material-icons-outlined">cloud_done</span>
+                                <span>Automaticky uloženo</span>
+                            </div>
+                            <div style="display:flex;gap:8px;">
+                                <button class="btn-save-draft" onclick="saveDraft('upd')" title="Uložit">
+                                    <span class="material-icons-outlined">save</span>
+                                    Uložit
+                                </button>
+                                <button class="btn btn-primary" id="btnConfirmUPD" onclick="completeUPD()" disabled>
+                                    <span class="material-icons-outlined">check</span>
+                                    Potvrdit kontrolu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -21595,22 +21711,22 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             up: { checked: false, soulad: null, text: '', exists: null }
         };
         
+        // Zasouvání/vysouvání kontrolního panelu
+        function toggleUPDPanel() {
+            const col = document.getElementById('updRightCol');
+            col.classList.toggle('collapsed');
+        }
+
         // Layout přepínání
         function setUPDLayout(layout, btn) {
             const overlay = document.getElementById('controlUP');
-            
-            // Aktualizovat tlačítka
             btn.parentElement.querySelectorAll('.upd-layout-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            // Přepnout layout
-            if (layout === 'horizontal') {
-                overlay.classList.add('layout-horizontal');
-            } else {
+            if (layout === 'vertical') {
                 overlay.classList.remove('layout-horizontal');
+            } else {
+                overlay.classList.add('layout-horizontal');
             }
-            
-            // Reinicializovat viewery po změně layoutu
             setTimeout(() => {
                 const situaceImg = document.getElementById('situaceImage');
                 const updImg = document.getElementById('updImage');
@@ -22007,10 +22123,26 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const canConfirm = allChecked && (!hasNesoulad || nesouladTextsOk);
             btn.disabled = !canConfirm;
             
-            if (hasNesoulad && allChecked) {
-                btn.innerHTML = '<span class="material-icons-outlined">gavel</span> Zamítnout';
-            } else {
-                btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
+            const btnLabel = (hasNesoulad && allChecked)
+                ? '<span class="material-icons-outlined">gavel</span> Zamítnout'
+                : '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
+            btn.innerHTML = btnLabel;
+
+            // Synchronizovat i horizontální tlačítko (odstraněno — nyní jedno tlačítko pro oba layouty)
+
+            // Aktualizovat result preview v patičce
+            const resultBox = document.getElementById('resultUPD');
+            if (resultBox) {
+                if (!allChecked) {
+                    resultBox.className = 'result-preview neutral';
+                    resultBox.innerHTML = '<div class="result-preview-title"><span class="material-icons-outlined">info</span>Kontrola nebyla dokončena</div><div class="result-preview-text">Označte soulad nebo rozpor pro všechny úrovně ÚPD.</div>';
+                } else if (hasNesoulad) {
+                    resultBox.className = 'result-preview negative';
+                    resultBox.innerHTML = '<div class="result-preview-title"><span class="material-icons-outlined">cancel</span>Záměr není v souladu s ÚPD</div><div class="result-preview-text">Záměr bude zamítnut pro nesoulad s územně plánovací dokumentací.</div>';
+                } else {
+                    resultBox.className = 'result-preview positive';
+                    resultBox.innerHTML = '<div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Záměr je v souladu s ÚPD</div><div class="result-preview-text">Záměr je v souladu se všemi kontrolovanými úrovněmi územně plánovací dokumentace.</div>';
+                }
             }
         }
         
