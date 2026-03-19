@@ -23615,13 +23615,33 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             c.style.padding = '0';
 
             if (dokladyCurrentViewerTab === 'dtm') {
-                c.style.background = '#f0f0f0';
+                c.style.background = '#e8f0f8';
                 c.style.overflow = 'hidden';
                 c.style.position = 'relative';
-                c.innerHTML = `<iframe 
-                    src="https://khk.krajdtm.cz/-/public?#z=18.209366583482606&x=-611833.0658426995&y=-1057084.097488787&p=&l=dtm-wmts-ti-ver*tmapy-kn"
-                    style="position:absolute;inset:0;width:100%;height:100%;border:none;"
-                    id="dtmIframe"></iframe>`;
+                const dtmUrl = 'https://khk.krajdtm.cz/-/public?#z=18.209366583482606&x=-611833.0658426995&y=-1057084.097488787&p=&l=dtm-wmts-ti-ver*tmapy-kn';
+                c.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;padding:24px;text-align:center;">
+                        <div style="width:64px;height:64px;background:#004289;border-radius:16px;display:flex;align-items:center;justify-content:center;">
+                            <span class="material-icons-outlined" style="font-size:36px;color:#fff;">layers</span>
+                        </div>
+                        <div>
+                            <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px;">Digitální technická mapa KHK</div>
+                            <div style="font-size:12px;color:#5f6368;max-width:280px;line-height:1.5;">
+                                Mapa zobrazuje sítě technické infrastruktury v okolí záměru.<br>
+                                Souřadnice: žst. Doudleby nad Orlicí
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+                            <a href="${dtmUrl}" target="_blank"
+                               style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#004289;color:#fff;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;">
+                                <span class="material-icons-outlined" style="font-size:18px;">open_in_new</span>
+                                Otevřít DTM mapu
+                            </a>
+                        </div>
+                        <div style="font-size:11px;color:#9aa0a6;">
+                            Vrstva: Technická infrastruktura + Katastr nemovitostí
+                        </div>
+                    </div>`;
                 return;
             }
             if (dokladyCurrentViewerTab === 'zadost') {
@@ -23642,21 +23662,48 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
 
             // Pokud máme otevřený PDF náhled, zobrazíme ho (ne strom)
             if (dokladyState.previewFile && !isPicking) {
-                const url = dokladBaseUrl + dokladyState.previewFile.soubor;
+                const f = dokladyState.previewFile;
+                const rawUrl = dokladBaseUrl + f.soubor;
+                const ghUrl = 'https://github.com/aleskrupa109/ISSR/blob/main/docs/dokladova-cast/' + f.soubor;
+                const badgeCls = f.typ === 'zs' ? 'zs' : f.typ === 'stan' ? 'stan' : f.typ === 'exist' ? 'exist' : 'vyj';
+                const badgeColor = { zs:'#c5221f', stan:'#137333', exist:'#5f6368', vyj:'#1558d6' }[f.typ] || '#5f6368';
+                const badgeBg = { zs:'#fce8e6', stan:'#e6f4ea', exist:'#f1f3f4', vyj:'#e8f0fe' }[f.typ] || '#f1f3f4';
                 c.innerHTML = `
                     <div style="display:flex;flex-direction:column;height:100%;">
                         <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f8f9fa;border-bottom:1px solid #e8eaed;flex-shrink:0;">
                             <button onclick="closeDokladyPreview()" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border:1px solid #dadce0;border-radius:5px;background:#fff;font-size:11px;cursor:pointer;color:#3c4043;">
                                 <span class="material-icons-outlined" style="font-size:14px;">arrow_back</span>Zpět
                             </button>
-                            <span style="font-size:11px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${dokladyState.previewFile.nazev}</span>
-                            <a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#1a73e8;text-decoration:none;">
-                                <span class="material-icons-outlined" style="font-size:14px;">open_in_new</span>
-                            </a>
+                            <span style="font-size:11px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#202124;">${f.nazev}</span>
                         </div>
-                        <iframe src="${url}" style="flex:1;border:none;width:100%;" 
-                            onerror="this.parentElement.innerHTML+='<div style=\\'padding:20px;text-align:center;color:#9aa0a6;font-size:12px;\\'>Soubor nelze zobrazit — <a href=\\'${url}\\' target=\\'_blank\\' style=\\'color:#1a73e8;\\'>otevřít v novém okně</a></div>'">
-                        </iframe>
+                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;background:#fafafa;">
+                            <div style="width:56px;height:56px;background:#c62828;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                                <span class="material-icons-outlined" style="font-size:32px;color:#fff;">picture_as_pdf</span>
+                            </div>
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:#202124;margin-bottom:6px;">${f.nazev}</div>
+                                <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;">
+                                    <span style="font-size:10px;padding:2px 7px;border-radius:4px;background:${badgeBg};color:${badgeColor};font-weight:500;">${f.typLabel}</span>
+                                    ${f.cj && f.cj!=='—' ? `<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:#f1f3f4;color:#5f6368;">č.j. ${f.cj}</span>` : ''}
+                                    ${f.datum ? `<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:#f1f3f4;color:#5f6368;">${f.datum}</span>` : ''}
+                                </div>
+                                <div style="font-size:11px;color:#9aa0a6;">
+                                    Soubor: ${f.soubor}
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
+                                <a href="${ghUrl}" target="_blank"
+                                   style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#004289;color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">
+                                    <span class="material-icons-outlined" style="font-size:16px;">open_in_new</span>
+                                    Otevřít v GitHub
+                                </a>
+                                <a href="${rawUrl}" download
+                                   style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">
+                                    <span class="material-icons-outlined" style="font-size:16px;">download</span>
+                                    Stáhnout PDF
+                                </a>
+                            </div>
+                        </div>
                     </div>`;
                 return;
             }
