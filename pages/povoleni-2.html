@@ -23433,114 +23433,128 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         // DOKLADOVÁ ČÁST — nová implementace (State 1-4)
         // ============================================================
 
-        // ---- Data: dokumenty ze seznamu dokladové části (Doudleby) ----
-        const dokladyDocs = [
-            // Sekce 1 — DO
-            { id:'d1_1', sekce:'1', subsekce:'1.1', typ:'zs', typLabel:'Koord. záv. stan.',
-              nazev:'MÚ Kostelec n.O.', plnyNazev:'Městský úřad Kostelec n.O., Palackého nám. 38',
-              cj:'R/2025/18662/4', datum:'4.3.2025', popis:'Koordinované závazné stanovisko' },
-            { id:'d1_2', sekce:'1', subsekce:'1.2', typ:'zs', typLabel:'Záv. stanovisko',
-              nazev:'MÚ Rychnov n.Kn.', plnyNazev:'MÚ Rychnov n.Kn., Odbor výstavby a ŽP',
-              cj:'R/2025/14716', datum:'20.2.2025', popis:'Závazné stanovisko' },
-            { id:'d1_3', sekce:'1', subsekce:'1.3', typ:'vyj', typLabel:'Vyjádření',
-              nazev:'Městys Doudleby n.O.', plnyNazev:'Městys Doudleby nad Orlicí, Dukelská 68',
-              cj:'DNO/572/2024', datum:'8.8.2024', popis:'Vyjádření obce' },
-            { id:'d1_4', sekce:'1', subsekce:'1.4', typ:'vyj', typLabel:'Vyjádření',
-              nazev:'Obec Záměl', plnyNazev:'Obec Záměl, Záměl 158',
-              cj:'—', datum:'27.8.2024', popis:'Vyjádření obce' },
-            { id:'d1_5', sekce:'1', subsekce:'1.5', typ:'vyj', typLabel:'Souhlas',
-              nazev:'OÚ Potštejn', plnyNazev:'Obecní úřad Potštejn, Lázeňská 93',
-              cj:'OÚPošt/268/2024', datum:'29.7.2024', popis:'Souhlas území' },
-            { id:'d1_6', sekce:'1', subsekce:'1.6', typ:'vyj', typLabel:'Souhlas',
-              nazev:'MÚ Vamberk', plnyNazev:'Městský úřad Vamberk, Husovo nám. 1',
-              cj:'—', datum:'31.7.2024', popis:'Souhlas se stavbou' },
-            { id:'d1_7', sekce:'1', subsekce:'1.7', typ:'vyj', typLabel:'Vyjádření',
-              nazev:'Policie ČR KŘ KHK', plnyNazev:'Policie ČR KŘ Královehradeckého kraje, Rychnov n.Kn.',
-              cj:'KRPH-69305/ČJ-2024-050706', datum:'16.7.2024', popis:'Vyjádření k PD' },
-            { id:'d1_8', sekce:'1', subsekce:'1.8', typ:'zs', typLabel:'Rozhodnutí',
-              nazev:'Drážní úřad Praha', plnyNazev:'Drážní úřad Praha, Wilsonova 200/8',
-              cj:'DUCR-44974/24/Bd', datum:'27.9.2024', popis:'Rozhodnutí — změna zabezpečení' },
-            // Sekce 3 — EIA/NATURA
-            { id:'d3_1', sekce:'3', subsekce:'3.1', typ:'stan', typLabel:'Stanovisko',
-              nazev:'KÚ KHK — NATURA 100', plnyNazev:'KÚ Královehradeckého kraje, Odbor ŽP a zemědělství',
-              cj:'KUKHK-23806/ZP/2024', datum:'5.8.2024', popis:'Stanovisko NATURA 100' },
-            { id:'d3_2', sekce:'3', subsekce:'3.2', typ:'stan', typLabel:'Stanovisko',
-              nazev:'KÚ KHK — NATURA 114', plnyNazev:'KÚ Královehradeckého kraje, Odbor ŽP a zemědělství',
-              cj:'KUKHK-23921/ZP/2024', datum:'1.8.2024', popis:'Stanovisko NATURA 114' },
-            // Sekce 4.2 — VTI/VDI (výběr)
-            { id:'d4_1', sekce:'4', subsekce:'4.2.2', typ:'vyj', typLabel:'Vyj. k SZ',
-              nazev:'CETIN a.s.', plnyNazev:'Česká telekomunikační infrastruktura a.s., Olšanská 2681/6',
-              cj:'—', datum:'2024', popis:'Vyjádření k SZ' },
-            { id:'d4_1e', sekce:'4', subsekce:'4.2.1', typ:'exist', typLabel:'Existence',
-              nazev:'CETIN a.s. — existence', plnyNazev:'CETIN a.s. — sdělení o existenci sítě',
-              cj:'—', datum:'2024', popis:'Sdělení o existenci sítě' },
-            { id:'d4_2', sekce:'4', subsekce:'4.2.4', typ:'vyj', typLabel:'Vyj. k PD',
-              nazev:'ČEZ Distribuce a.s.', plnyNazev:'ČEZ Distribuce a.s., Teplická 874/8, Děčín',
-              cj:'—', datum:'2024', popis:'Vyjádření k PD' },
-            { id:'d4_2e', sekce:'4', subsekce:'4.2.3', typ:'exist', typLabel:'Existence',
-              nazev:'ČEZ Distribuce — existence', plnyNazev:'ČEZ Distribuce a.s. — sdělení o existenci',
-              cj:'—', datum:'2024', popis:'Sdělení o existenci sítě' },
-            { id:'d4_3', sekce:'4', subsekce:'4.2.9', typ:'vyj', typLabel:'Vyj. k PD',
-              nazev:'GasNet s.r.o.', plnyNazev:'GasNet s.r.o., Plynárenská 499/1, Brno',
-              cj:'—', datum:'2024', popis:'Vyjádření k PD' },
-            { id:'d4_3e', sekce:'4', subsekce:'4.2.8', typ:'exist', typLabel:'Existence',
-              nazev:'GasNet — existence', plnyNazev:'GasNet s.r.o. — sdělení o existenci sítě',
-              cj:'—', datum:'2024', popis:'Sdělení o existenci sítě' },
-            { id:'d4_4e', sekce:'4', subsekce:'4.2.10', typ:'exist', typLabel:'Existence',
-              nazev:'T-Mobile a.s.', plnyNazev:'T-Mobile Czech Republic a.s., Tomíčkova 2144/1, Praha',
-              cj:'—', datum:'2024', popis:'Sdělení o existenci sítě (chybí vyjádření k PD)' },
-            { id:'d4_5e', sekce:'4', subsekce:'4.2.11', typ:'exist', typLabel:'Existence',
-              nazev:'Vodafone Czech Republic', plnyNazev:'Vodafone Czech Republic a.s., nám. Junkových 2, Praha',
-              cj:'—', datum:'2024', popis:'Sdělení o existenci sítě (chybí vyjádření k PD)' },
-            { id:'d4_6', sekce:'4', subsekce:'4.2.15', typ:'vyj', typLabel:'Vyj. VTI',
-              nazev:'ČEPS a.s.', plnyNazev:'ČEPS a.s., Elektrárenská 774/2, Praha',
-              cj:'—', datum:'2024', popis:'Vyjádření vlastníka TI + souhlas OP' },
-            { id:'d4_7', sekce:'4', subsekce:'4.2.19', typ:'vyj', typLabel:'Vyj. k PD',
-              nazev:'AQUA Servis a.s.', plnyNazev:'AQUA Servis a.s., Štemberkova 1094, Rychnov n.Kn.',
-              cj:'—', datum:'2024', popis:'Vyjádření k PD' },
-            { id:'d4_8', sekce:'4', subsekce:'4.2.30', typ:'stan', typLabel:'Souhlas',
-              nazev:'ČD Telematika a.s.', plnyNazev:'ČD Telematika a.s., Pod Táborem 369/8a, Praha',
-              cj:'—', datum:'2024', popis:'Souhlas se stavbou' },
-            { id:'d4_9', sekce:'4', subsekce:'4.2.32', typ:'vyj', typLabel:'Vyj. k PD',
-              nazev:'ČD RSM Hradec Králové', plnyNazev:'České dráhy RSM Hradec Králové, Riegrovo nám. 914',
-              cj:'561/2025', datum:'12.5.2025', popis:'Souhrnné stanovisko k PD' },
-            { id:'d4_10', sekce:'4', subsekce:'4.2.33', typ:'stan', typLabel:'Souhrnné stan.',
-              nazev:'SŽ OŘ Hradec Králové', plnyNazev:'Správa železnic s.o., OŘ Hradec Králové, U Fotochemy 259',
-              cj:'—', datum:'2025', popis:'Souhrnné stanovisko k PD' },
-            { id:'d4_11', sekce:'4', subsekce:'4.2.35', typ:'zs', typLabel:'Záv. stanovisko',
-              nazev:'Ministerstvo obrany', plnyNazev:'Ministerstvo obrany, sekce majetková',
-              cj:'—', datum:'2024', popis:'Závazné stanovisko' },
-            // Sekce 6 — Ostatní
-            { id:'d6_1', sekce:'6', subsekce:'6.4', typ:'stan', typLabel:'Souhlas',
-              nazev:'Doudleby n.O. — souhlas', plnyNazev:'Městys Doudleby nad Orlicí — souhlas 30.1.2025',
-              cj:'—', datum:'30.1.2025', popis:'Souhlas obce' },
-            { id:'d6_2', sekce:'6', subsekce:'6.6', typ:'stan', typLabel:'Souhlas',
-              nazev:'Město Vamberk — souhlas', plnyNazev:'Město Vamberk — souhlas 24.1.2025',
-              cj:'—', datum:'24.1.2025', popis:'Souhlas obce' },
-            { id:'d6_3', sekce:'6', subsekce:'6.9', typ:'stan', typLabel:'Stanovisko',
-              nazev:'Povodí Labe s.p.', plnyNazev:'Povodí Labe s.p., Víta Nejedlého 951/8, Hradec Králové',
-              cj:'—', datum:'30.1.2025', popis:'Stanovisko — křížení vodního toku' },
-            // Sekce 9 — ES ověření
-            { id:'d9_1', sekce:'9', subsekce:'9.1', typ:'stan', typLabel:'ES certifikát',
-              nazev:'VÚŽ a.s. — ES ověření', plnyNazev:'Výzkumný ústav železniční a.s., Novodvorská 1698/138b',
-              cj:'1714/8.6/SG/2025/CCT/CS/6262/V01', datum:'14.4.2025', popis:'ES ověření provozní propojenosti' },
+        // ---- Nová stromová struktura dokladové části (Portál stavebníka) ----
+        const dokladBaseUrl = 'https://raw.githubusercontent.com/aleskrupa109/ISSR/main/docs/dokladova-cast/';
+
+        const dokladyTree = [
+            {
+                id: 'prehled', label: 'Přehled stanovisek a vyjádření', icon: 'list_alt',
+                files: [
+                    { id:'p1', nazev:'Přehled stanovisek a vyjádření', soubor:'prehled-stanovisek.pdf',
+                      typ:'vyj', typLabel:'Přehled', datum:'2025' }
+                ]
+            },
+            {
+                id: 'zs_do', label: 'Závazná stanoviska DO', icon: 'account_balance',
+                files: [
+                    { id:'zs1', nazev:'MÚ Kostelec n.O. — koordinované záv. stan.', soubor:'1_1-MU-Kostelec-koordinovane-ZS.pdf',
+                      typ:'zs', typLabel:'Koord. záv. stan.', cj:'R/2025/18662/4', datum:'4.3.2025',
+                      subjekt:'MÚ Kostelec n.O.' },
+                    { id:'zs2', nazev:'MÚ Rychnov n.Kn. — závazné stanovisko', soubor:'1_2-MU-Rychnov-ZS.pdf',
+                      typ:'zs', typLabel:'Záv. stanovisko', cj:'R/2025/14716', datum:'20.2.2025',
+                      subjekt:'MÚ Rychnov n.Kn.' },
+                    { id:'zs3', nazev:'Drážní úřad Praha — rozhodnutí (změna zabezpečení)', soubor:'1_8-Drazni-urad-rozhodnuti.pdf',
+                      typ:'zs', typLabel:'Rozhodnutí DÚ', cj:'DUCR-44974/24/Bd', datum:'27.9.2024',
+                      subjekt:'Drážní úřad Praha' },
+                    { id:'zs4', nazev:'Policie ČR KŘ KHK — vyjádření k PD', soubor:'1_7-Policie-vyjadreni.pdf',
+                      typ:'zs', typLabel:'Vyjádření', cj:'KRPH-69305/ČJ-2024-050706', datum:'16.7.2024',
+                      subjekt:'Policie ČR KŘ KHK' },
+                    { id:'zs5', nazev:'Ministerstvo obrany — závazné stanovisko', soubor:'4_35-MO-ZS.pdf',
+                      typ:'zs', typLabel:'Záv. stanovisko', cj:'—', datum:'2024',
+                      subjekt:'Ministerstvo obrany' },
+                ]
+            },
+            {
+                id: 'vyj_vti', label: 'Vyjádření vlastníků infrastruktury', icon: 'electrical_services',
+                files: [
+                    { id:'v1', nazev:'CETIN a.s. — sdělení o existenci sítě', soubor:'4_2_1-CETIN-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'CETIN a.s.' },
+                    { id:'v2', nazev:'CETIN a.s. — vyjádření k SZ', soubor:'4_2_2-CETIN-vyjadreni.pdf',
+                      typ:'vyj', typLabel:'Vyj. k SZ', cj:'—', datum:'2024', subjekt:'CETIN a.s.' },
+                    { id:'v3', nazev:'ČEZ Distribuce a.s. — sdělení o existenci', soubor:'4_2_3-CEZ-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČEZ Distribuce a.s.' },
+                    { id:'v4', nazev:'ČEZ Distribuce a.s. — vyjádření k PD', soubor:'4_2_4-CEZ-vyjadreni.pdf',
+                      typ:'vyj', typLabel:'Vyj. k PD', cj:'—', datum:'2024', subjekt:'ČEZ Distribuce a.s.' },
+                    { id:'v5', nazev:'GasNet s.r.o. — sdělení o existenci', soubor:'4_2_8-GasNet-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'GasNet s.r.o.' },
+                    { id:'v6', nazev:'GasNet s.r.o. — vyjádření k PD', soubor:'4_2_9-GasNet-vyjadreni.pdf',
+                      typ:'vyj', typLabel:'Vyj. k PD', cj:'—', datum:'2024', subjekt:'GasNet s.r.o.' },
+                    { id:'v7', nazev:'T-Mobile a.s. — sdělení o existenci', soubor:'4_2_10-TMobile-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'T-Mobile a.s.' },
+                    { id:'v8', nazev:'Vodafone Czech Republic — sdělení o existenci', soubor:'4_2_11-Vodafone-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'Vodafone Czech Republic a.s.' },
+                    { id:'v9', nazev:'ČEPS a.s. — sdělení o existenci', soubor:'4_2_14-CEPS-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČEPS a.s.' },
+                    { id:'v10', nazev:'ČEPS a.s. — vyjádření vl. TI + souhlas OP', soubor:'4_2_15-CEPS-vyjadreni.pdf',
+                      typ:'vyj', typLabel:'Vyj. VTI', cj:'—', datum:'2024', subjekt:'ČEPS a.s.' },
+                    { id:'v11', nazev:'AQUA Servis a.s. — sdělení o existenci', soubor:'4_2_18-AQUAServis-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'AQUA Servis a.s.' },
+                    { id:'v12', nazev:'AQUA Servis a.s. — vyjádření k PD', soubor:'4_2_19-AQUAServis-vyjadreni.pdf',
+                      typ:'vyj', typLabel:'Vyj. k PD', cj:'—', datum:'2024', subjekt:'AQUA Servis a.s.' },
+                    { id:'v13', nazev:'ČD Telematika a.s. — sdělení o existenci', soubor:'4_2_29-CDTelematika-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČD Telematika a.s.' },
+                    { id:'v14', nazev:'ČD Telematika a.s. — souhlas se stavbou', soubor:'4_2_30-CDTelematika-souhlas.pdf',
+                      typ:'stan', typLabel:'Souhlas', cj:'—', datum:'2024', subjekt:'ČD Telematika a.s.' },
+                    { id:'v15', nazev:'ČD RSM Hradec Králové — sdělení o existenci', soubor:'4_2_31-CDRSMHK-existence.pdf',
+                      typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČD RSM Hradec Králové' },
+                    { id:'v16', nazev:'ČD RSM Hradec Králové — souhrnné stan. k PD', soubor:'4_2_32-CDRSMHK-souhrnne.pdf',
+                      typ:'vyj', typLabel:'Souhrnné stan.', cj:'561/2025', datum:'12.5.2025', subjekt:'ČD RSM Hradec Králové' },
+                    { id:'v17', nazev:'SŽ OŘ Hradec Králové — souhrnné stan. k PD', soubor:'4_2_33-SZ-souhrnne.pdf',
+                      typ:'stan', typLabel:'Souhrnné stan.', cj:'—', datum:'2025', subjekt:'SŽ OŘ Hradec Králové' },
+                ]
+            },
+            {
+                id: 'souhlasy', label: 'Souhlasy vlastníků', icon: 'handshake',
+                files: [
+                    { id:'s1', nazev:'Městys Doudleby n.O. — souhlas', soubor:'6_4-Doudleby-souhlas.pdf',
+                      typ:'stan', typLabel:'Souhlas', cj:'—', datum:'30.1.2025', subjekt:'Městys Doudleby n.O.' },
+                    { id:'s2', nazev:'Město Vamberk — souhlas', soubor:'6_6-Vamberk-souhlas.pdf',
+                      typ:'stan', typLabel:'Souhlas', cj:'—', datum:'24.1.2025', subjekt:'Město Vamberk' },
+                    { id:'s3', nazev:'Povodí Labe s.p. — stanovisko a smlouva o věcném břemeni', soubor:'6_9-PovodiLabe-stanovisko.pdf',
+                      typ:'stan', typLabel:'Stanovisko', cj:'—', datum:'30.1.2025', subjekt:'Povodí Labe s.p.' },
+                ]
+            },
+            {
+                id: 'eia', label: 'EIA / zjišťovací řízení', icon: 'eco',
+                files: [
+                    { id:'e1', nazev:'KÚ KHK — stanovisko NATURA 100', soubor:'3_1-KUKHK-NATURA100.pdf',
+                      typ:'stan', typLabel:'NATURA 100', cj:'KUKHK-23806/ZP/2024', datum:'5.8.2024', subjekt:'KÚ KHK' },
+                    { id:'e2', nazev:'KÚ KHK — stanovisko NATURA 114', soubor:'3_2-KUKHK-NATURA114.pdf',
+                      typ:'stan', typLabel:'NATURA 114', cj:'KUKHK-23921/ZP/2024', datum:'1.8.2024', subjekt:'KÚ KHK' },
+                ]
+            },
+            {
+                id: 'ostatni', label: 'Ostatní podklady', icon: 'folder_open',
+                files: [
+                    { id:'o1', nazev:'VÚŽ a.s. — stanovisko ES ověření propojenosti', soubor:'9_1-VUZ-ES-overeni.pdf',
+                      typ:'stan', typLabel:'ES certifikát', cj:'1714/8.6/SG/2025/CCT/CS/6262/V01', datum:'14.4.2025', subjekt:'VÚŽ a.s.' },
+                    { id:'o2', nazev:'Správa železnic OŘ HK — záznam z metodické schůzky', soubor:'6_18-SZ-zaznam-MS.pdf',
+                      typ:'vyj', typLabel:'Zápis', cj:'—', datum:'18.6.2024', subjekt:'SŽ OŘ Hradec Králové' },
+                ]
+            },
         ];
 
-        // ---- Sekce stromu dokumentace ----
-        const dokladySekce = [
-            { id:'1', label:'1. Závazná stanoviska a rozhodnutí dotčených orgánů', icon:'account_balance' },
-            { id:'3', label:'3. Dokumentace vlivů na životní prostředí', icon:'eco' },
-            { id:'4', label:'4. Vyjádření vlastníků dopravní a technické infrastruktury', icon:'electrical_services' },
-            { id:'6', label:'6. Ostatní stanoviska, vyjádření, zápisy', icon:'folder_open' },
-            { id:'9', label:'9. Doklady o ES ověření', icon:'verified' },
-        ];
+        // Zpětně kompatibilní dokladyDocs pro inline picker (flatten z dokladyTree)
+        const dokladyDocs = dokladyTree.flatMap(sekce =>
+            sekce.files.map(f => ({
+                id: f.id, sekce: sekce.id, subsekce: f.id,
+                typ: f.typ, typLabel: f.typLabel,
+                nazev: f.subjekt || f.nazev,
+                plnyNazev: f.nazev,
+                cj: f.cj || '—', datum: f.datum || '',
+                popis: f.nazev, soubor: f.soubor
+            }))
+        );
+
+        const dokladySekce = dokladyTree.map(s => ({ id: s.id, label: s.label, icon: s.icon }));
 
         // ---- Stav kontroly ----
         let dokladyState = {
             activeStateTab: 1,
-            subjekty: [], // will be populated
-            assignedDocs: {}, // subjektId -> docId
-            activeDocPicker: null,  // subjektId currently picking
+            subjekty: [],
+            assignedDocs: {},
+            activeDocPicker: null,
+            previewFile: null,
         };
 
         // ---- Přednastavené subjekty pro State 1 (aktuální stav) ----
@@ -23585,82 +23599,128 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             document.querySelectorAll('#controlIdentifikace .viewer-tab').forEach(t => t.classList.remove('active'));
             btn.classList.add('active');
             dokladyCurrentViewerTab = tab;
+            dokladyState.previewFile = null;
+            // Reset styles set by DTM tab
+            const c = document.getElementById('dokladyViewerContent');
+            if (c && tab !== 'dtm') {
+                c.style.overflow = '';
+                c.style.position = '';
+            }
             renderDokladyViewer();
         }
 
         function renderDokladyViewer() {
             const c = document.getElementById('dokladyViewerContent');
             if (!c) return;
+            c.style.padding = '0';
+
             if (dokladyCurrentViewerTab === 'dtm') {
-                c.innerHTML = '';
-                c.style.padding = '0';
                 c.style.background = '#f0f0f0';
+                c.style.overflow = 'hidden';
+                c.style.position = 'relative';
                 c.innerHTML = `<iframe 
                     src="https://khk.krajdtm.cz/-/public?#z=18.209366583482606&x=-611833.0658426995&y=-1057084.097488787&p=&l=dtm-wmts-ti-ver*tmapy-kn"
-                    style="width:100%;height:100%;border:none;"
-                    id="dtmIframe"></iframe>
-                <div id="dtmFallback" style="display:none;position:absolute;inset:0;background:#f8f9fa;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
-                    <span class="material-icons-outlined" style="font-size:40px;color:#9aa0a6;">layers</span>
-                    <div style="font-size:13px;color:#5f6368;">DTM nelze zobrazit v rámci stránky</div>
-                    <a href="https://khk.krajdtm.cz/-/public?#z=18.209366583482606&x=-611833.0658426995&y=-1057084.097488787&p=&l=dtm-wmts-ti-ver*tmapy-kn" 
-                       target="_blank" 
-                       style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#004289;color:#fff;border-radius:6px;font-size:13px;text-decoration:none;">
-                        <span class="material-icons-outlined" style="font-size:16px;">open_in_new</span>
-                        Otevřít DTM v novém okně
-                    </a>
-                </div>`;
-                const iframe = c.querySelector('#dtmIframe');
-                iframe.onerror = () => { document.getElementById('dtmFallback').style.display = 'flex'; iframe.style.display = 'none'; };
+                    style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+                    id="dtmIframe"></iframe>`;
                 return;
             }
             if (dokladyCurrentViewerTab === 'zadost') {
+                c.style.background = '';
                 c.innerHTML = '<div class="viewer-placeholder"><span class="material-icons-outlined">description</span><div class="viewer-placeholder-title">Žádost o povolení stavby</div><div class="viewer-placeholder-text">Pozemky a charakteristika záměru</div></div>';
                 return;
             }
             if (dokladyCurrentViewerTab === 'dokumentace') {
-                c.innerHTML = '';
                 c.style.background = '#fff';
-                c.style.padding = '0';
                 renderEmbeddedViewer('dokladyViewerContent', 'dokumentace', 'doklady_dok');
                 return;
             }
-            // Dokladová část — strom
-            const assignedDocIds = Object.values(dokladyState.subjekty
-                .reduce((acc,s) => { if(s.docId) acc[s.docId]=true; return acc; }, {}));
-            let html = '<div class="doklady-tree">';
-            dokladySekce.forEach(sekce => {
-                const docs = dokladyDocs.filter(d => d.sekce === sekce.id);
-                if (!docs.length) return;
+
+            // Dokladová část — nový strom dle struktury Portálu stavebníka
+            c.style.background = '#fff';
+            const assignedDocIds = new Set(dokladyState.subjekty.filter(s=>s.docId).map(s=>s.docId));
+            const isPicking = !!dokladyState.activeDocPicker;
+
+            // Pokud máme otevřený PDF náhled, zobrazíme ho (ne strom)
+            if (dokladyState.previewFile && !isPicking) {
+                const url = dokladBaseUrl + dokladyState.previewFile.soubor;
+                c.innerHTML = `
+                    <div style="display:flex;flex-direction:column;height:100%;">
+                        <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f8f9fa;border-bottom:1px solid #e8eaed;flex-shrink:0;">
+                            <button onclick="closeDokladyPreview()" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border:1px solid #dadce0;border-radius:5px;background:#fff;font-size:11px;cursor:pointer;color:#3c4043;">
+                                <span class="material-icons-outlined" style="font-size:14px;">arrow_back</span>Zpět
+                            </button>
+                            <span style="font-size:11px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${dokladyState.previewFile.nazev}</span>
+                            <a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:#1a73e8;text-decoration:none;">
+                                <span class="material-icons-outlined" style="font-size:14px;">open_in_new</span>
+                            </a>
+                        </div>
+                        <iframe src="${url}" style="flex:1;border:none;width:100%;" 
+                            onerror="this.parentElement.innerHTML+='<div style=\\'padding:20px;text-align:center;color:#9aa0a6;font-size:12px;\\'>Soubor nelze zobrazit — <a href=\\'${url}\\' target=\\'_blank\\' style=\\'color:#1a73e8;\\'>otevřít v novém okně</a></div>'">
+                        </iframe>
+                    </div>`;
+                return;
+            }
+
+            // Stromový seznam
+            let html = `<div style="padding:8px 0;">
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 12px 8px;font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.3px;">
+                    <span class="material-icons-outlined" style="font-size:14px;">folder</span>
+                    Struktura dokladů
+                    ${isPicking ? '<span style="margin-left:auto;font-size:10px;color:#1a73e8;font-weight:500;text-transform:none;letter-spacing:0;">Klikněte na dokument pro přiřazení</span>' : ''}
+                </div>`;
+
+            dokladyTree.forEach(sekce => {
+                const count = sekce.files.length;
+                const assignedCount = sekce.files.filter(f => assignedDocIds.has(f.id)).length;
                 html += `<div class="doklady-sekce" id="dsekce_${sekce.id}">
                     <div class="doklady-sekce-header" onclick="toggleDokladySekce('${sekce.id}')">
                         <span class="material-icons-outlined doklady-sekce-toggle">chevron_right</span>
-                        <span class="material-icons-outlined">${sekce.icon}</span>
-                        <span>${sekce.label}</span>
-                        <span class="sekce-count">${docs.length}</span>
+                        <span class="material-icons-outlined" style="color:#f6b900;">${sekce.icon}</span>
+                        <span style="flex:1;">${sekce.label}</span>
+                        <span class="sekce-count">${assignedCount>0?assignedCount+'/':''}${count}</span>
                     </div>
                     <div class="doklady-sekce-items">`;
-                docs.forEach(doc => {
-                    const isAssigned = assignedDocIds.includes(doc.id);
-                    const hl = dokladyState.activeDocPicker ? 'highlighted' : '';
-                    const badgeCls = doc.typ === 'zs' ? 'zs' : doc.typ === 'stan' ? 'stan' : doc.typ === 'exist' ? 'exist' : 'vyj';
-                    html += `<div class="doklady-doc-item ${isAssigned?'assigned':''} ${dokladyState.activeDocPicker?hl:''}"
-                                  id="ddoc_${doc.id}"
-                                  onclick="pickDocForSubjekt('${doc.id}')">
-                        <span class="material-icons-outlined doc-icon">${isAssigned?'check_circle':'description'}</span>
+
+                sekce.files.forEach(f => {
+                    const isAssigned = assignedDocIds.has(f.id);
+                    const badgeCls = f.typ === 'zs' ? 'zs' : f.typ === 'stan' ? 'stan' : f.typ === 'exist' ? 'exist' : 'vyj';
+                    // V režimu pickeru: klik = přiřadit; jinak: klik = otevřít náhled
+                    const clickFn = isPicking
+                        ? `pickDocForSubjekt('${f.id}')`
+                        : `previewDokladyFile('${f.id}')`;
+                    html += `<div class="doklady-doc-item ${isAssigned?'assigned':''} ${isPicking?'highlighted':''}"
+                                  id="ddoc_${f.id}" onclick="${clickFn}">
+                        <span class="material-icons-outlined doc-icon" style="color:#c62828;">${isAssigned?'check_circle':'picture_as_pdf'}</span>
                         <div class="doklady-doc-item-main">
-                            <div class="doklady-doc-item-title">${doc.subsekce} ${doc.nazev}</div>
-                            <div class="doklady-doc-item-meta">${doc.cj !== '—' ? doc.cj+' · ' : ''}${doc.datum}</div>
+                            <div class="doklady-doc-item-title">${f.nazev}</div>
+                            <div class="doklady-doc-item-meta">${f.cj && f.cj!=='—' ? f.cj+' · ' : ''}${f.datum||''}</div>
                         </div>
-                        <span class="doklady-doc-item-badge ${badgeCls}">${doc.typLabel}</span>
+                        <span class="doklady-doc-item-badge ${badgeCls}">${f.typLabel}</span>
                     </div>`;
                 });
                 html += `</div></div>`;
             });
             html += '</div>';
             c.innerHTML = html;
-            // Auto-open sekce 1
-            const s1 = document.getElementById('dsekce_1');
-            if (s1) { s1.classList.add('open'); }
+            // Auto-open první dvě sekce
+            ['dsekce_zs_do','dsekce_vyj_vti'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('open');
+            });
+        }
+
+        function previewDokladyFile(fileId) {
+            // Najdi soubor ve stromu
+            for (const sekce of dokladyTree) {
+                const f = sekce.files.find(f => f.id === fileId);
+                if (f) { dokladyState.previewFile = f; break; }
+            }
+            renderDokladyViewer();
+        }
+
+        function closeDokladyPreview() {
+            dokladyState.previewFile = null;
+            renderDokladyViewer();
         }
 
         function toggleDokladySekce(id) {
