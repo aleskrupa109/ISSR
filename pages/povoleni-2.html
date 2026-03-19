@@ -14441,6 +14441,10 @@
                                 <span class="material-icons-outlined">map</span>
                                 <span>Z mapy</span>
                             </button>
+                            <button class="neighbor-method-btn" onclick="selectPozemekMethod('csv')" data-method="csv">
+                                <span class="material-icons-outlined">upload_file</span>
+                                <span>Načíst CSV</span>
+                            </button>
                         </div>
                         
                         <!-- Ruční zadání -->
@@ -14475,6 +14479,18 @@
                                 </p>
                             </div>
                         </div>
+
+                        <!-- Načíst CSV -->
+                        <div class="pozemky-add-section" id="pozemekMethodCsv" style="display: none;">
+                            <div style="background: #f8f9fa; border: 1px dashed #dadce0; border-radius: 8px; padding: 16px;">
+                                <p style="font-size: 12px; color: #5f6368; margin: 0 0 10px 0;">
+                                    Nahrajte CSV soubor se sloupci: <strong>parcela, katastr, kod, plocha</strong>
+                                </p>
+                                <div style="display:flex; gap:8px; align-items:center;">
+                                    <input type="file" accept=".csv" id="pozemekCsvInput" style="font-size:12px; flex:1;" onchange="importPozemkyCsv(this, 'zameru')">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Sousední pozemky -->
@@ -14498,17 +14514,14 @@
                             </div>
                         </div>
 
-                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
-                            Vyberte metodu identifikace sousedních pozemků:
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 10px;">
+                            Vyberte metodu identifikace sousedních pozemků. Identifikaci lze také dokončit
+                            <strong>kdykoliv později</strong> přes tlačítko <strong>Údaje řízení</strong>.
                         </p>
 
                         <!-- Metoda výběru -->
                         <div class="neighbor-method-selector" id="sousedniMethodSelector">
-                            <button class="neighbor-method-btn active" onclick="selectNeighborMethod('auto')" data-method="auto">
-                                <span class="material-icons-outlined">auto_awesome</span>
-                                <span>Automaticky</span>
-                            </button>
-                            <button class="neighbor-method-btn" onclick="selectNeighborMethod('rucne')" data-method="rucne">
+                            <button class="neighbor-method-btn active" onclick="selectNeighborMethod('rucne')" data-method="rucne">
                                 <span class="material-icons-outlined">edit</span>
                                 <span>Ručně</span>
                             </button>
@@ -14516,18 +14529,49 @@
                                 <span class="material-icons-outlined">map</span>
                                 <span>Z mapy</span>
                             </button>
-                        </div>
-
-                        <!-- Automatická metoda -->
-                        <div class="neighbor-method-content" id="methodAuto">
-                            <button class="btn-autodetect" onclick="autoDetectSousedni()" id="btnAutoDetect">
+                            <button class="neighbor-method-btn" onclick="selectNeighborMethod('auto')" data-method="auto">
                                 <span class="material-icons-outlined">auto_awesome</span>
-                                Automaticky identifikovat sousedy
+                                <span>Automaticky</span>
                             </button>
                         </div>
 
+                        <!-- Automatická metoda -->
+                        <div class="neighbor-method-content" id="methodAuto" style="display: none;">
+                            <div style="display:flex; gap:8px; margin-bottom:10px;">
+                                <button class="neighbor-method-btn active" id="btnAutoSousedni" onclick="selectAutoSubmethod('sousedni', this)" style="flex:1; flex-direction:column; height:auto; padding:10px 8px; gap:4px; align-items:center; text-align:center;">
+                                    <span class="material-icons-outlined" style="font-size:20px;">terrain</span>
+                                    <span style="font-size:12px; font-weight:600;">Přímé sousedství</span>
+                                    <span style="font-size:10px; color:#5f6368; font-weight:400;">Parcely sdílející hranici</span>
+                                </button>
+                                <button class="neighbor-method-btn" id="btnAutoOchranneP" onclick="selectAutoSubmethod('ochranneP', this)" style="flex:1; flex-direction:column; height:auto; padding:10px 8px; gap:4px; align-items:center; text-align:center;">
+                                    <span class="material-icons-outlined" style="font-size:20px;">settings_ethernet</span>
+                                    <span style="font-size:12px; font-weight:600;">Ochranné pásmo</span>
+                                    <span style="font-size:10px; color:#5f6368; font-weight:400;">Vzdálenost od osy záměru</span>
+                                </button>
+                            </div>
+                            <!-- Přímé sousedství -->
+                            <div id="autoSubmethodSousedni">
+                                <button class="btn-autodetect" onclick="autoDetectSousedni()" id="btnAutoDetect">
+                                    <span class="material-icons-outlined">auto_awesome</span>
+                                    Automaticky identifikovat sousedy
+                                </button>
+                            </div>
+                            <!-- Ochranné pásmo -->
+                            <div id="autoSubmethodOchranneP" style="display:none;">
+                                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                    <input type="number" id="ochrannePasmoVzdalenost" value="10" min="1" max="1000"
+                                        style="width:80px; padding:6px 10px; border:1px solid #dadce0; border-radius:6px; font-size:13px;">
+                                    <span style="font-size:12px; color:#5f6368;">m od osy pozemků záměru</span>
+                                    <button class="btn-autodetect" onclick="autoDetectSousedniPasmo()" style="margin-top:0; flex:0 0 auto;">
+                                        <span class="material-icons-outlined">auto_awesome</span>
+                                        Identifikovat v pásmu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Ruční metoda -->
-                        <div class="neighbor-method-content" id="methodRucne" style="display: none;">
+                        <div class="neighbor-method-content" id="methodRucne">
                             <div class="pozemky-add-row" style="flex-wrap: wrap; gap: 8px;">
                                 <select class="pozemky-add-input" id="sousedObec" style="flex: 1; min-width: 150px;" onchange="loadSousedKatastralniUzemi()">
                                     <option value="">Vyberte obec...</option>
@@ -14574,9 +14618,9 @@
                     <div id="resultPozemky" class="result-preview positive">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
-                            Pozemky identifikovány
+                            Pozemky záměru identifikovány
                         </div>
-                        <div class="result-preview-text">Pozemky záměru a sousední pozemky byly identifikovány. Vlastníci budou určeni v části Osoby.</div>
+                        <div class="result-preview-text">Sousední pozemky lze identifikovat nyní nebo kdykoli později přes <strong>Údaje řízení</strong>.</div>
                     </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div class="auto-save-indicator saved" id="autoSavePozemky">
@@ -18110,6 +18154,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             // Zobrazení správného obsahu
             document.getElementById('pozemekMethodRucne').style.display = method === 'rucne' ? 'block' : 'none';
             document.getElementById('pozemekMethodMapa').style.display = method === 'mapa' ? 'block' : 'none';
+            document.getElementById('pozemekMethodCsv').style.display = method === 'csv' ? 'block' : 'none';
             
             // Při volbě Z mapy přepnout viewer na záložku Mapa
             if (method === 'mapa') {
@@ -19238,17 +19283,84 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             document.getElementById('methodAuto').style.display = method === 'auto' ? 'block' : 'none';
             document.getElementById('methodRucne').style.display = method === 'rucne' ? 'block' : 'none';
             document.getElementById('methodMapa').style.display = method === 'mapa' ? 'block' : 'none';
-            
-            // Při volbě Z mapy přepnout viewer na záložku Mapa
+
+            // Při volbě Z mapy přepnout viewer
             if (method === 'mapa') {
                 mapClickContext = 'sousedni';
                 const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
-                if (mapTab) {
-                    switchPozemkyTab(mapTab, 'mapa');
-                }
+                if (mapTab) switchPozemkyTab(mapTab, 'mapa');
             }
         }
-        
+
+        function importPozemkyCsv(input, type) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split('\n').filter(l => l.trim());
+                const header = lines[0].toLowerCase().split(',').map(h => h.trim());
+                const idxCislo   = header.indexOf('parcela');
+                const idxKatastr = header.indexOf('katastr');
+                const idxKod     = header.indexOf('kod');
+                const idxPlocha  = header.indexOf('plocha');
+                const parcely = lines.slice(1).map(line => {
+                    const cols = line.split(',').map(c => c.trim());
+                    return {
+                        cislo:   idxCislo   >= 0 ? cols[idxCislo]   : cols[0] || '',
+                        katastr: idxKatastr >= 0 ? cols[idxKatastr] : cols[1] || '',
+                        kod:     idxKod     >= 0 ? cols[idxKod]     : cols[2] || '',
+                        plocha:  idxPlocha  >= 0 ? cols[idxPlocha]  : '—',
+                        typ: 'pozemkova'
+                    };
+                }).filter(p => p.cislo);
+                if (type === 'zameru') {
+                    pozemkyState.pozemkyZameru.push(...parcely);
+                    renderPozemkyZameru();
+                } else {
+                    pozemkyState.sousedniParcely.push(...parcely);
+                    renderSousedniParcely();
+                }
+                updatePozemkyState();
+                // Toast
+                const t = document.createElement('div');
+                t.style.cssText = 'position:fixed;bottom:80px;right:24px;background:#202124;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:9999;display:flex;align-items:center;gap:8px;';
+                t.innerHTML = `<span class="material-icons-outlined" style="font-size:16px;">check_circle</span>Načteno ${parcely.length} parcel z CSV`;
+                document.body.appendChild(t);
+                setTimeout(() => t.remove(), 3000);
+                input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function selectAutoSubmethod(type, btn) {
+            document.querySelectorAll('#methodAuto .neighbor-method-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('autoSubmethodSousedni').style.display = type === 'sousedni' ? 'block' : 'none';
+            document.getElementById('autoSubmethodOchranneP').style.display = type === 'ochranneP' ? 'block' : 'none';
+        }
+
+        function autoDetectSousedniPasmo() {
+            const vzdalenost = document.getElementById('ochrannePasmoVzdalenost').value || '10';
+            const btn = document.querySelector('#autoSubmethodOchranneP .btn-autodetect');
+            btn.disabled = true;
+            btn.innerHTML = `<span class="material-icons-outlined">hourglass_empty</span>Identifikuji v pásmu ${vzdalenost} m...`;
+            setTimeout(function() {
+                pozemkyState.sousedniParcely = [
+                    { cislo: '139/3', katastr: 'Doudleby n.O.', kod: '631761', plocha: '1 250 m²' },
+                    { cislo: '520/12', katastr: 'Doudleby n.O.', kod: '631761', plocha: '680 m²' },
+                    { cislo: '1548', katastr: 'Doudleby n.O.', kod: '631761', plocha: '3 420 m²' },
+                    { cislo: '3333', katastr: 'Doudleby n.O.', kod: '631761', plocha: '1 870 m²' },
+                    { cislo: '1803/2', katastr: 'Vamberk', kod: '776131', plocha: '2 150 m²' },
+                    { cislo: '1549/2', katastr: 'Doudleby n.O.', kod: '631761', plocha: '920 m²' },
+                    { cislo: '1804/3', katastr: 'Vamberk', kod: '776131', plocha: '440 m²' }
+                ];
+                renderSousedniParcely();
+                btn.disabled = false;
+                btn.innerHTML = `<span class="material-icons-outlined">auto_awesome</span>Identifikovat v pásmu`;
+                updatePozemkyState();
+            }, 1800);
+        }
+
         function autoDetectSousedni() {
             const btn = document.getElementById('btnAutoDetect');
             btn.disabled = true;
@@ -19262,7 +19374,6 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                     { cislo: '3333', katastr: 'Doudleby n.O.', kod: '631761', plocha: '1 870 m²' },
                     { cislo: '1803/2', katastr: 'Vamberk', kod: '776131', plocha: '2 150 m²' }
                 ];
-                
                 renderSousedniParcely();
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons-outlined">auto_awesome</span>Automaticky identifikovat sousedy';
@@ -19461,39 +19572,37 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const hasPozemkyZameru = pozemkyState.pozemkyZameru.length > 0;
             const hasSousedni = pozemkyState.sousedniParcely.length > 0;
             
-            // Tlačítko Potvrdit je aktivní, když jsou definovány pozemky záměru a sousední pozemky
-            if (hasPozemkyZameru && hasSousedni) {
+            if (!hasPozemkyZameru) {
+                btnConfirm.disabled = true;
+                resultBox.className = 'result-preview warning';
+                resultBox.innerHTML = `
+                    <div class="result-preview-title"><span class="material-icons-outlined">info</span>Chybí pozemky záměru</div>
+                    <div class="result-preview-text">Zadejte alespoň jeden pozemek záměru.</div>
+                `;
+            } else if (!hasSousedni) {
+                btnConfirm.disabled = false;
+                resultBox.className = 'result-preview neutral';
+                resultBox.innerHTML = `
+                    <div class="result-preview-title"><span class="material-icons-outlined">warning</span>Sousední pozemky nejsou identifikovány</div>
+                    <div class="result-preview-text">Kontrolu lze potvrdit, sousední pozemky lze doplnit kdykoliv přes <strong>Údaje řízení</strong>.</div>
+                `;
+            } else {
                 btnConfirm.disabled = false;
                 resultBox.className = 'result-preview positive';
                 resultBox.innerHTML = `
-                    <div class="result-preview-title">
-                        <span class="material-icons-outlined">check_circle</span>
-                        Pozemky identifikovány
-                    </div>
-                    <div class="result-preview-text">Pozemky záměru (${pozemkyState.pozemkyZameru.length}) a sousední pozemky (${pozemkyState.sousedniParcely.length}) byly identifikovány. Vlastníci budou určeni v části Osoby.</div>
-                `;
-            } else {
-                btnConfirm.disabled = true;
-                let missingText = [];
-                if (!hasPozemkyZameru) missingText.push('pozemky záměru');
-                if (!hasSousedni) missingText.push('sousední pozemky');
-                
-                resultBox.className = 'result-preview warning';
-                resultBox.innerHTML = `
-                    <div class="result-preview-title">
-                        <span class="material-icons-outlined">info</span>
-                        Čeká na dokončení
-                    </div>
-                    <div class="result-preview-text">Chybí: ${missingText.join(', ')}.</div>
+                    <div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Pozemky identifikovány</div>
+                    <div class="result-preview-text">Pozemky záměru (${pozemkyState.pozemkyZameru.length}) a sousední (${pozemkyState.sousedniParcely.length}) jsou zadány. Vlastníci budou určeni v části Osoby.</div>
                 `;
             }
         }
 
         function completePozemky() {
+            const hasSousedni = pozemkyState.sousedniParcely.length > 0;
             controls.pozemky.done = true;
-            controls.pozemky.result = 'ok';
+            controls.pozemky.result = hasSousedni ? 'ok' : 'warning';
             controls.pozemky.pozemkyZameru = pozemkyState.pozemkyZameru;
             controls.pozemky.sousedniParcely = pozemkyState.sousedniParcely;
+            controls.pozemky.sousedniChybi = !hasSousedni;
             closeControl('controlPozemky');
             updateUI();
         }
@@ -22898,7 +23007,15 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                         gc.classList.remove('phase-locked', 'phase-active');
                         gc.classList.add('phase-done');
                         if (btn) {
-                            btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
+                            // Pozemky: zelená dlaždice, ale žluté tlačítko pokud chybí sousední
+                            if (key === 'pozemky' && c[key].sousedniChybi) {
+                                btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Sousední chybí</span>';
+                            } else {
+                                btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
+                            }
+                            btn.style.background = '';
+                            btn.style.borderColor = '';
+                            btn.style.color = '';
                             btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
                             btn.disabled = false;
                         }
@@ -22907,6 +23024,9 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                         gc.classList.add('phase-active');
                         if (btn) {
                             btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
+                            btn.style.background = '';
+                            btn.style.borderColor = '';
+                            btn.style.color = '';
                             btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
                             btn.disabled = false;
                         }
