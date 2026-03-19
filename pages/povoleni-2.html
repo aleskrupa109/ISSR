@@ -1200,6 +1200,11 @@
             border-color: #a8d5b5;
             background: #f6fef8;
         }
+        .pipeline-group-card.phase-done .control-card-action {
+            background: #e6f4ea;
+            color: #137333;
+            border: 1px solid #ceead6;
+        }
         .pipeline-group-card.phase-locked {
             background: #fafafa;
             opacity: 0.65;
@@ -17066,6 +17071,18 @@
             // Pro kontrolu příslušnosti - nastavit viewer podle typu podání
             if (controlId === 'controlPrislusnost') {
                 initControlViewer('controlPrislusnost');
+            }
+
+            // Pro kontrolu Pozemky - načíst viewer žádosti při prvním otevření
+            if (controlId === 'controlPozemky') {
+                const viewer = document.getElementById('viewer-pozemky');
+                if (viewer && viewer.classList.contains('viewer-placeholder')) {
+                    const zadostTab = document.querySelector('#controlPozemky .viewer-tab');
+                    if (zadostTab) switchPozemkyTab(zadostTab, 'zadost');
+                }
+                renderPozemkyZameru();
+                renderSousedniParcely();
+                updatePozemkyState();
             }
             
             // Pro kontrolu ÚPD - inicializovat image viewery a reset stavu
