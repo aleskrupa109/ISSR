@@ -3278,51 +3278,37 @@
         }
 
         .doc-part-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #dadce0;
-            background: #fff;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: #f8f9fa;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.15s;
-            color: #9aa0a6;
+            white-space: nowrap;
         }
 
-        .doc-part-btn:hover {
-            border-color: #5f6368;
+        .doc-part-btn.ok {
+            color: #137333;
+            border-color: #ceead6;
+            background: #f0faf3;
         }
+        .doc-part-btn.ok:hover { background: #e6f4ea; border-color: #137333; }
+        .doc-part-btn.ok.active { background: #137333; border-color: #137333; color: #fff; }
+        .doc-part-btn.ok.unchecked { color: #80868b; border-color: #e0e0e0; background: #f8f9fa; }
 
-        .doc-part-btn .material-icons-outlined {
-            font-size: 18px;
+        .doc-part-btn.error {
+            color: #c5221f;
+            border-color: #f5c6c2;
+            background: #fff8f8;
         }
-
-        /* Nekontrolováno - šedé zaškrtnutí */
-        .doc-part-btn.ok.unchecked {
-            background: #f1f3f4;
-            border-color: #dadce0;
-            color: #9aa0a6;
-        }
-
-        .doc-part-btn.ok.active {
-            background: #137333;
-            border-color: #137333;
-            color: #fff;
-        }
-
-        .doc-part-btn.warning.active {
-            background: #f57c00;
-            border-color: #f57c00;
-            color: #fff;
-        }
-
-        .doc-part-btn.error.active {
-            background: #c5221f;
-            border-color: #c5221f;
-            color: #fff;
-        }
+        .doc-part-btn.error:hover { background: #fce8e6; border-color: #c5221f; }
+        .doc-part-btn.error.active { background: #c5221f; border-color: #c5221f; color: #fff; }
 
         /* Sekce nedostatků podle částí dokumentace */
         .doc-part-item {
@@ -5548,6 +5534,11 @@
             gap: 6px;
             align-items: flex-end;
         }
+        #controlUP .control-form-footer .btn,
+        #controlUP .control-form-footer .btn-save-draft {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
 
         /* Textarea pro popis nesouladu (zobrazuje se přes modal) */
         .upd-note-input { display: none; }
@@ -5760,19 +5751,27 @@
         
         .upd-btn-yes, .upd-btn-no {
             flex: 1;
-            padding: 6px;
-            border: 1px solid #dadce0;
-            background: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border: 1px solid #e0e0e0;
             border-radius: 4px;
+            background: #f8f9fa;
+            font-size: 11px;
+            font-weight: 500;
+            color: #80868b;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
+            transition: all 0.15s;
         }
         
-        .upd-btn-yes:hover { background: #e6f4ea; border-color: #34a853; }
-        .upd-btn-no:hover { background: #fce8e6; border-color: #ea4335; }
-        .upd-btn-yes.selected { background: #34a853; border-color: #34a853; color: #fff; }
-        .upd-btn-no.selected { background: #ea4335; border-color: #ea4335; color: #fff; }
+        .upd-btn-yes { color: #137333; border-color: #ceead6; background: #f0faf3; }
+        .upd-btn-no  { color: #c5221f; border-color: #f5c6c2; background: #fff8f8; }
+        .upd-btn-yes:hover { background: #e6f4ea; border-color: #137333; }
+        .upd-btn-no:hover  { background: #fce8e6; border-color: #c5221f; }
+        .upd-btn-yes.selected { background: #137333; border-color: #137333; color: #fff; }
+        .upd-btn-no.selected  { background: #c5221f; border-color: #c5221f; color: #fff; }
         
         .upd-note-input {
             width: 100%;
@@ -15148,12 +15147,8 @@
                                     <span class="doc-part-name">Průvodní zpráva</span>
                                 </div>
                                 <div class="doc-part-status">
-                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('A', 'ok')" title="V pořádku">
-                                        <span class="material-icons-outlined">check</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('A', 'error')" title="Nedostatky">
-                                        <span class="material-icons-outlined">close</span>
-                                    </button>
+                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('A', 'ok')">V pořádku</button>
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('A', 'error')">Nedostatky</button>
                                 </div>
                             </div>
                             <!-- Inline editor pro část A -->
@@ -15210,12 +15205,8 @@
                                     <span class="doc-part-name">Souhrnná technická zpráva</span>
                                 </div>
                                 <div class="doc-part-status">
-                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('B', 'ok')" title="V pořádku">
-                                        <span class="material-icons-outlined">check</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')" title="Nedostatky">
-                                        <span class="material-icons-outlined">close</span>
-                                    </button>
+                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('B', 'ok')">V pořádku</button>
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('B', 'error')">Nedostatky</button>
                                 </div>
                             </div>
                             <!-- Inline editor pro část B -->
@@ -15272,12 +15263,8 @@
                                     <span class="doc-part-name">Situační výkresy</span>
                                 </div>
                                 <div class="doc-part-status">
-                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('C', 'ok')" title="V pořádku">
-                                        <span class="material-icons-outlined">check</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('C', 'error')" title="Nedostatky">
-                                        <span class="material-icons-outlined">close</span>
-                                    </button>
+                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('C', 'ok')">V pořádku</button>
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('C', 'error')">Nedostatky</button>
                                 </div>
                             </div>
                             <!-- Inline editor pro část C -->
@@ -15334,12 +15321,8 @@
                                     <span class="doc-part-name">Dokumentace objektů</span>
                                 </div>
                                 <div class="doc-part-status">
-                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('D', 'ok')" title="V pořádku">
-                                        <span class="material-icons-outlined">check</span>
-                                    </button>
-                                    <button class="doc-part-btn error" onclick="setDocPartStatus('D', 'error')" title="Nedostatky">
-                                        <span class="material-icons-outlined">close</span>
-                                    </button>
+                                    <button class="doc-part-btn ok unchecked" onclick="setDocPartStatus('D', 'ok')">V pořádku</button>
+                                    <button class="doc-part-btn error" onclick="setDocPartStatus('D', 'error')">Nedostatky</button>
                                 </div>
                             </div>
                             <!-- Inline editor pro část D -->
@@ -22197,7 +22180,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         
         // ZÚR a ÚP jako iframe (reálné mapové portály KHK)
         const updIframeUrls = {
-            zur: 'https://www.khk.cz/oblasti/uzemni-planovani/zasady-uzemniho-rozvoje-kraje-zur/aktualizace/uplne-zneni-zasad-uzemniho-rozvoje-kralovehradeckeho-kraje-po-vydani-aktualizaci-c-1-2-3-4-5',
+            zur: 'https://up.khk.cz/upd/_mapy/bezesve_akt/?MAP=zd_hlv&lon=15.8403568&lat=50.436676&scale=200000',
             up: 'https://up.khk.cz/upd/_mapy/bezesve_akt/?MAP=zd_hlv&lon=15.8403568&lat=50.436676&scale=200000'
         };
         
