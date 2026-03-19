@@ -18130,13 +18130,14 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             
             // Při volbě Z mapy přepnout viewer na záložku Mapa
             if (method === 'mapa') {
+                mapClickContext = 'zameru';
                 const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
                 if (mapTab) {
                     switchPozemkyTab(mapTab, 'mapa');
                 }
             }
         }
-        
+
         function loadKatastralniUzemi() {
             const obecSelect = document.getElementById('pozemekObec');
             const kuSelect = document.getElementById('pozemekKU');
@@ -18224,6 +18225,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 viewer.classList.add('viewer-placeholder');
                 viewer.innerHTML = `<span class="material-icons-outlined">info</span>`;
             }
+        }
 
         function createSituaceViewer() {
             const baseUrl = 'https://raw.githubusercontent.com/aleskrupa109/ISSR/main/images/';
@@ -18367,6 +18369,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         let mapPolygonMode = false;
         let polygonPoints = [];
         let selectedByPolygon = [];
+        let mapClickContext = 'zameru'; // 'zameru' | 'sousedni'
         
         function generateZadostDataPozemky() {
             const parcely = pozemkyState.pozemkyZameru;
@@ -18767,37 +18770,40 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             document.getElementById('infoDruh').textContent = data.druh;
             document.getElementById('infoPlocha').textContent = data.plocha;
             
-            // Upravit tlačítka podle stavu
             const btnZamer = document.getElementById('btnAddZamer');
             const btnSoused = document.getElementById('btnAddSoused');
             
             const isZamer = data.isZamer === 'true' || data.isZamer === true;
             const isSoused = data.isSoused === 'true' || data.isSoused === true;
             
-            if (isZamer) {
-                btnZamer.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span> Odebrat ze záměru';
-                btnZamer.disabled = false;
-                btnZamer.classList.remove('primary');
-                btnZamer.classList.add('danger');
-                btnZamer.onclick = function() { removeParcelaFromZamer(); };
+            if (mapClickContext === 'zameru') {
+                // Zobrazit jen tlačítko pro záměr, skrýt sousední
+                btnSoused.style.display = 'none';
+                btnZamer.style.display = '';
+                if (isZamer) {
+                    btnZamer.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span> Odebrat ze záměru';
+                    btnZamer.classList.remove('primary');
+                    btnZamer.classList.add('danger');
+                    btnZamer.onclick = () => removeParcelaFromZamer();
+                } else {
+                    btnZamer.innerHTML = '<span class="material-icons-outlined">add_location</span> Přidat do záměru';
+                    btnZamer.classList.add('primary');
+                    btnZamer.classList.remove('danger');
+                    btnZamer.onclick = () => addParcelaAsZamer();
+                }
             } else {
-                btnZamer.innerHTML = '<span class="material-icons-outlined">add_location</span> Přidat do záměru';
-                btnZamer.disabled = false;
-                btnZamer.classList.add('primary');
-                btnZamer.classList.remove('danger');
-                btnZamer.onclick = function() { addParcelaAsZamer(); };
-            }
-            
-            if (isSoused) {
-                btnSoused.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span> Odebrat ze sousedních';
-                btnSoused.disabled = false;
-                btnSoused.classList.add('danger');
-                btnSoused.onclick = function() { removeParcelaFromSoused(); };
-            } else {
-                btnSoused.innerHTML = '<span class="material-icons-outlined">add</span> Přidat jako sousední';
-                btnSoused.disabled = false;
-                btnSoused.classList.remove('danger');
-                btnSoused.onclick = function() { addParcelaAsSoused(); };
+                // Zobrazit jen tlačítko pro sousední, skrýt záměr
+                btnZamer.style.display = 'none';
+                btnSoused.style.display = '';
+                if (isSoused) {
+                    btnSoused.innerHTML = '<span class="material-icons-outlined">remove_circle_outline</span> Odebrat ze sousedních';
+                    btnSoused.classList.add('danger');
+                    btnSoused.onclick = () => removeParcelaFromSoused();
+                } else {
+                    btnSoused.innerHTML = '<span class="material-icons-outlined">add</span> Přidat jako sousední';
+                    btnSoused.classList.remove('danger');
+                    btnSoused.onclick = () => addParcelaAsSoused();
+                }
             }
             
             panel.classList.add('visible');
@@ -19252,6 +19258,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             
             // Při volbě Z mapy přepnout viewer na záložku Mapa
             if (method === 'mapa') {
+                mapClickContext = 'sousedni';
                 const mapTab = document.querySelector('#controlPozemky .viewer-tab:nth-child(4)');
                 if (mapTab) {
                     switchPozemkyTab(mapTab, 'mapa');
