@@ -15850,13 +15850,8 @@
                     <div id="dokladyTreeContainer" style="height:100%;overflow-y:auto;">
                         <!-- Dynamicky renderován -->
                     </div>
-                    <!-- Náhled souboru -->
-                    <div id="dokladyPreviewContainer" style="display:none;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;background:#f5f5f5;text-align:center;">
-                        <span class="material-icons-outlined" style="font-size:64px;color:#c62828;margin-bottom:16px;">picture_as_pdf</span>
-                        <div id="dokladyPreviewName" style="font-size:15px;font-weight:500;color:#202124;margin-bottom:8px;"></div>
-                        <div id="dokladyPreviewMeta" style="font-size:12px;color:#5f6368;margin-bottom:20px;"></div>
-                        <div style="font-size:12px;color:#9aa0a6;">V ostré verzi by se zde zobrazil náhled dokumentu</div>
-                    </div>
+                    <!-- Náhled souboru — ev viewer (stejný jako zadostDataDoklady) -->
+                    <div id="dokladyPreviewContainer" style="display:none;height:100%;"></div>
                 </div>
             </div>
 
@@ -23723,19 +23718,33 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
 
             // Přepnout na náhled
             treeContainer.style.display = 'none';
-            previewContainer.style.display = 'flex';
-            backBtn.style.display = 'flex';
-            breadcrumb.style.display = 'none';
-            previewBreadcrumb.style.display = 'flex';
+            previewContainer.style.display = 'block';
+            if (backBtn) backBtn.style.display = 'flex';
+            if (breadcrumb) breadcrumb.style.display = 'none';
+            if (previewBreadcrumb) {
+                previewBreadcrumb.style.display = 'flex';
+                const titleEl = document.getElementById('dokladyPreviewTitle');
+                if (titleEl) titleEl.textContent = found.nazev;
+            }
 
-            document.getElementById('dokladyPreviewTitle').textContent = found.nazev;
-            document.getElementById('dokladyPreviewName').textContent = found.nazev;
+            // Lazy init renderEmbeddedViewer (stejně jako zadostDataDoklady)
+            if (!previewContainer.innerHTML.trim()) {
+                renderEmbeddedViewer('dokladyPreviewContainer', 'doklady', 'dokladyPrev');
+            }
 
-            const metaParts = [];
-            if (found.typLabel) metaParts.push(found.typLabel);
-            if (found.cj && found.cj !== '—') metaParts.push('č.j. ' + found.cj);
-            if (found.datum) metaParts.push(found.datum);
-            document.getElementById('dokladyPreviewMeta').textContent = metaParts.join(' · ');
+            // Vybrat konkrétní soubor podle data-file atributu
+            const soubor = found.soubor;
+            setTimeout(function() {
+                const items = previewContainer.querySelectorAll('[data-file]');
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].getAttribute('data-file') === soubor) {
+                        items[i].click();
+                        return;
+                    }
+                }
+                // Pokud soubor nenalezen v ev-vieweru, zkusíme kliknout na první
+                if (items.length > 0) items[0].click();
+            }, 80);
         }
 
         function closeDokladyPreview() {
@@ -23745,11 +23754,11 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const breadcrumb = document.getElementById('dokladyViewerBreadcrumb');
             const previewBreadcrumb = document.getElementById('dokladyPreviewBreadcrumb');
 
-            treeContainer.style.display = 'block';
-            previewContainer.style.display = 'none';
-            backBtn.style.display = 'none';
-            breadcrumb.style.display = 'flex';
-            previewBreadcrumb.style.display = 'none';
+            if (treeContainer) treeContainer.style.display = 'block';
+            if (previewContainer) previewContainer.style.display = 'none';
+            if (backBtn) backBtn.style.display = 'none';
+            if (breadcrumb) breadcrumb.style.display = 'flex';
+            if (previewBreadcrumb) previewBreadcrumb.style.display = 'none';
         }
 
         function toggleDokladySekce(id) {
