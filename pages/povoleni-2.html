@@ -6903,6 +6903,7 @@
         
         .zadost-section-btn .material-icons-outlined {
             font-size: 14px;
+            color: inherit;
         }
         
         .zadost-section-btn.btn-ok {
@@ -10557,11 +10558,11 @@
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
         .doklady-subjekt-status .material-icons-outlined { font-size: 16px; }
-        .status-ok .material-icons-outlined { color: #137333; }
-        .status-podminky .material-icons-outlined { color: #f6b900; }
-        .status-zaporne .material-icons-outlined { color: #ea4335; }
-        .status-missing .material-icons-outlined { color: #ea4335; }
-        .status-pending .material-icons-outlined { color: #9aa0a6; }
+        .doklady-subjekt-status.status-ok .material-icons-outlined { color: #137333; }
+        .doklady-subjekt-status.status-podminky .material-icons-outlined { color: #f6b900; }
+        .doklady-subjekt-status.status-zaporne .material-icons-outlined { color: #ea4335; }
+        .doklady-subjekt-status.status-missing .material-icons-outlined { color: #ea4335; }
+        .doklady-subjekt-status.status-pending .material-icons-outlined { color: #9aa0a6; }
 
         .doklady-subjekt-body {
             padding: 0 10px 10px;
@@ -15816,26 +15817,46 @@
             <div class="control-viewer">
                 <div class="viewer-tabs">
                     <div class="viewer-tabs-left">
-                        <button class="viewer-tab active" id="dokladyViewerTabDoklady" onclick="switchDokladyViewerTab(this,'doklady')">
-                            <span class="material-icons-outlined">folder</span>
-                            Dokladová část
+                        <button class="viewer-tab ed-back-btn" id="dokladyBackBtn" onclick="closeDokladyPreview()" style="display:none;">
+                            <span class="material-icons-outlined">arrow_back</span>
+                            Zpět
                         </button>
-                        <button class="viewer-tab" id="dokladyViewerTabDok" onclick="switchDokladyViewerTab(this,'dokumentace')">
-                            <span class="material-icons-outlined">architecture</span>
-                            Dokumentace
-                        </button>
-                        <button class="viewer-tab" id="dokladyViewerTabDtm" onclick="switchDokladyViewerTab(this,'dtm')">
-                            <span class="material-icons-outlined">layers</span>
-                            DTM
-                        </button>
-                        <button class="viewer-tab" id="dokladyViewerTabZadost" onclick="switchDokladyViewerTab(this,'zadost')">
-                            <span class="material-icons-outlined">description</span>
-                            Žádost
-                        </button>
+                        <div id="dokladyViewerBreadcrumb" style="display:flex;align-items:center;gap:6px;padding:0 4px;">
+                            <button class="viewer-tab active" id="dokladyViewerTabDoklady" onclick="switchDokladyViewerTab(this,'doklady')">
+                                <span class="material-icons-outlined">folder</span>
+                                Dokladová část
+                            </button>
+                            <button class="viewer-tab" id="dokladyViewerTabDok" onclick="switchDokladyViewerTab(this,'dokumentace')">
+                                <span class="material-icons-outlined">architecture</span>
+                                Dokumentace
+                            </button>
+                            <button class="viewer-tab" id="dokladyViewerTabDtm" onclick="switchDokladyViewerTab(this,'dtm')">
+                                <span class="material-icons-outlined">layers</span>
+                                DTM
+                            </button>
+                            <button class="viewer-tab" id="dokladyViewerTabZadost" onclick="switchDokladyViewerTab(this,'zadost')">
+                                <span class="material-icons-outlined">description</span>
+                                Žádost
+                            </button>
+                        </div>
+                        <div id="dokladyPreviewBreadcrumb" style="display:none;align-items:center;gap:6px;padding:0 4px;flex:1;min-width:0;">
+                            <span class="material-icons-outlined" style="font-size:16px;color:#c62828;flex-shrink:0;">picture_as_pdf</span>
+                            <span id="dokladyPreviewTitle" style="font-size:12px;font-weight:500;color:#202124;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+                        </div>
                     </div>
                 </div>
-                <div class="viewer-content" style="background:#fff; overflow-y:auto;" id="dokladyViewerContent">
-                    <!-- Dynamicky renderován stromový seznam -->
+                <div class="viewer-content" style="background:#fff;" id="dokladyViewerContent">
+                    <!-- Strom dokladové části -->
+                    <div id="dokladyTreeContainer" style="height:100%;overflow-y:auto;">
+                        <!-- Dynamicky renderován -->
+                    </div>
+                    <!-- Náhled souboru -->
+                    <div id="dokladyPreviewContainer" style="display:none;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;background:#f5f5f5;text-align:center;">
+                        <span class="material-icons-outlined" style="font-size:64px;color:#c62828;margin-bottom:16px;">picture_as_pdf</span>
+                        <div id="dokladyPreviewName" style="font-size:15px;font-weight:500;color:#202124;margin-bottom:8px;"></div>
+                        <div id="dokladyPreviewMeta" style="font-size:12px;color:#5f6368;margin-bottom:20px;"></div>
+                        <div style="font-size:12px;color:#9aa0a6;">V ostré verzi by se zde zobrazil náhled dokumentu</div>
+                    </div>
                 </div>
             </div>
 
@@ -23596,124 +23617,55 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
 
         // ---- Viewer (levý panel) ----
         function switchDokladyViewerTab(btn, tab) {
-            document.querySelectorAll('#controlIdentifikace .viewer-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#controlIdentifikace .viewer-tab:not(.ed-back-btn)').forEach(t => t.classList.remove('active'));
             btn.classList.add('active');
             dokladyCurrentViewerTab = tab;
-            dokladyState.previewFile = null;
-            // Reset styles set by DTM tab
-            const c = document.getElementById('dokladyViewerContent');
-            if (c && tab !== 'dtm') {
-                c.style.overflow = '';
-                c.style.position = '';
-            }
+            closeDokladyPreview();
             renderDokladyViewer();
         }
 
         function renderDokladyViewer() {
             const c = document.getElementById('dokladyViewerContent');
-            if (!c) return;
-            c.style.padding = '0';
+            const treeContainer = document.getElementById('dokladyTreeContainer');
+            if (!c || !treeContainer) return;
 
             if (dokladyCurrentViewerTab === 'dtm') {
-                c.style.background = '#e8f0f8';
-                c.style.overflow = 'hidden';
-                c.style.position = 'relative';
-                const dtmUrl = 'https://khk.krajdtm.cz/-/public?#z=18.209366583482606&x=-611833.0658426995&y=-1057084.097488787&p=&l=dtm-wmts-ti-ver*tmapy-kn';
-                c.innerHTML = `
+                treeContainer.innerHTML = `
                     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;padding:24px;text-align:center;">
                         <div style="width:64px;height:64px;background:#004289;border-radius:16px;display:flex;align-items:center;justify-content:center;">
                             <span class="material-icons-outlined" style="font-size:36px;color:#fff;">layers</span>
                         </div>
                         <div>
                             <div style="font-size:14px;font-weight:600;color:#202124;margin-bottom:4px;">Digitální technická mapa KHK</div>
-                            <div style="font-size:12px;color:#5f6368;max-width:280px;line-height:1.5;">
-                                Mapa zobrazuje sítě technické infrastruktury v okolí záměru.<br>
-                                Souřadnice: žst. Doudleby nad Orlicí
-                            </div>
+                            <div style="font-size:12px;color:#5f6368;max-width:280px;line-height:1.5;">Mapa zobrazuje sítě technické infrastruktury v okolí záměru.<br>Souřadnice: žst. Doudleby nad Orlicí</div>
                         </div>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-                            <a href="${dtmUrl}" target="_blank"
-                               style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#004289;color:#fff;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;">
-                                <span class="material-icons-outlined" style="font-size:18px;">open_in_new</span>
-                                Otevřít DTM mapu
-                            </a>
-                        </div>
-                        <div style="font-size:11px;color:#9aa0a6;">
-                            Vrstva: Technická infrastruktura + Katastr nemovitostí
-                        </div>
+                        <a href="https://khk.krajdtm.cz/-/public?#z=18.209366583482606&x=-611833.0658426995&y=-1057084.097488787&p=&l=dtm-wmts-ti-ver*tmapy-kn" target="_blank"
+                           style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:#004289;color:#fff;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none;">
+                            <span class="material-icons-outlined" style="font-size:18px;">open_in_new</span>Otevřít DTM mapu
+                        </a>
+                        <div style="font-size:11px;color:#9aa0a6;">Vrstva: Technická infrastruktura + Katastr nemovitostí</div>
                     </div>`;
                 return;
             }
             if (dokladyCurrentViewerTab === 'zadost') {
-                c.style.background = '';
-                c.innerHTML = '<div class="viewer-placeholder"><span class="material-icons-outlined">description</span><div class="viewer-placeholder-title">Žádost o povolení stavby</div><div class="viewer-placeholder-text">Pozemky a charakteristika záměru</div></div>';
+                treeContainer.innerHTML = '<div class="viewer-placeholder"><span class="material-icons-outlined">description</span><div class="viewer-placeholder-title">Žádost o povolení stavby</div><div class="viewer-placeholder-text">Pozemky a charakteristika záměru</div></div>';
                 return;
             }
             if (dokladyCurrentViewerTab === 'dokumentace') {
-                c.style.background = '#fff';
-                renderEmbeddedViewer('dokladyViewerContent', 'dokumentace', 'doklady_dok');
+                treeContainer.innerHTML = '';
+                renderEmbeddedViewer('dokladyTreeContainer', 'dokumentace', 'doklady_dok');
                 return;
             }
 
-            // Dokladová část — nový strom dle struktury Portálu stavebníka
-            c.style.background = '#fff';
+            // Dokladová část — strom
             const assignedDocIds = new Set(dokladyState.subjekty.filter(s=>s.docId).map(s=>s.docId));
             const isPicking = !!dokladyState.activeDocPicker;
 
-            // Pokud máme otevřený PDF náhled, zobrazíme ho (ne strom)
-            if (dokladyState.previewFile && !isPicking) {
-                const f = dokladyState.previewFile;
-                const rawUrl = dokladBaseUrl + f.soubor;
-                const ghUrl = 'https://github.com/aleskrupa109/ISSR/blob/main/docs/dokladova-cast/' + f.soubor;
-                const badgeCls = f.typ === 'zs' ? 'zs' : f.typ === 'stan' ? 'stan' : f.typ === 'exist' ? 'exist' : 'vyj';
-                const badgeColor = { zs:'#c5221f', stan:'#137333', exist:'#5f6368', vyj:'#1558d6' }[f.typ] || '#5f6368';
-                const badgeBg = { zs:'#fce8e6', stan:'#e6f4ea', exist:'#f1f3f4', vyj:'#e8f0fe' }[f.typ] || '#f1f3f4';
-                c.innerHTML = `
-                    <div style="display:flex;flex-direction:column;height:100%;">
-                        <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:#f8f9fa;border-bottom:1px solid #e8eaed;flex-shrink:0;">
-                            <button onclick="closeDokladyPreview()" style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border:1px solid #dadce0;border-radius:5px;background:#fff;font-size:11px;cursor:pointer;color:#3c4043;">
-                                <span class="material-icons-outlined" style="font-size:14px;">arrow_back</span>Zpět
-                            </button>
-                            <span style="font-size:11px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#202124;">${f.nazev}</span>
-                        </div>
-                        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;background:#fafafa;">
-                            <div style="width:56px;height:56px;background:#c62828;border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                                <span class="material-icons-outlined" style="font-size:32px;color:#fff;">picture_as_pdf</span>
-                            </div>
-                            <div>
-                                <div style="font-size:13px;font-weight:600;color:#202124;margin-bottom:6px;">${f.nazev}</div>
-                                <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:8px;">
-                                    <span style="font-size:10px;padding:2px 7px;border-radius:4px;background:${badgeBg};color:${badgeColor};font-weight:500;">${f.typLabel}</span>
-                                    ${f.cj && f.cj!=='—' ? `<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:#f1f3f4;color:#5f6368;">č.j. ${f.cj}</span>` : ''}
-                                    ${f.datum ? `<span style="font-size:10px;padding:2px 7px;border-radius:4px;background:#f1f3f4;color:#5f6368;">${f.datum}</span>` : ''}
-                                </div>
-                                <div style="font-size:11px;color:#9aa0a6;">
-                                    Soubor: ${f.soubor}
-                                </div>
-                            </div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-                                <a href="${ghUrl}" target="_blank"
-                                   style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#004289;color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">
-                                    <span class="material-icons-outlined" style="font-size:16px;">open_in_new</span>
-                                    Otevřít v GitHub
-                                </a>
-                                <a href="${rawUrl}" download
-                                   style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#fff;color:#3c4043;border:1px solid #dadce0;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">
-                                    <span class="material-icons-outlined" style="font-size:16px;">download</span>
-                                    Stáhnout PDF
-                                </a>
-                            </div>
-                        </div>
-                    </div>`;
-                return;
-            }
-
-            // Stromový seznam
             let html = `<div style="padding:8px 0;">
-                <div style="display:flex;align-items:center;gap:6px;padding:4px 12px 8px;font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.3px;">
+                <div style="display:flex;align-items:center;gap:6px;padding:4px 12px 6px;font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.3px;">
                     <span class="material-icons-outlined" style="font-size:14px;">folder</span>
                     Struktura dokladů
-                    ${isPicking ? '<span style="margin-left:auto;font-size:10px;color:#1a73e8;font-weight:500;text-transform:none;letter-spacing:0;">Klikněte na dokument pro přiřazení</span>' : ''}
+                    ${isPicking ? '<span style="margin-left:auto;font-size:10px;color:#1a73e8;font-weight:500;text-transform:none;letter-spacing:0;">Vyberte dokument pro přiřazení</span>' : ''}
                 </div>`;
 
             dokladyTree.forEach(sekce => {
@@ -23731,13 +23683,12 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 sekce.files.forEach(f => {
                     const isAssigned = assignedDocIds.has(f.id);
                     const badgeCls = f.typ === 'zs' ? 'zs' : f.typ === 'stan' ? 'stan' : f.typ === 'exist' ? 'exist' : 'vyj';
-                    // V režimu pickeru: klik = přiřadit; jinak: klik = otevřít náhled
                     const clickFn = isPicking
                         ? `pickDocForSubjekt('${f.id}')`
                         : `previewDokladyFile('${f.id}')`;
                     html += `<div class="doklady-doc-item ${isAssigned?'assigned':''} ${isPicking?'highlighted':''}"
                                   id="ddoc_${f.id}" onclick="${clickFn}">
-                        <span class="material-icons-outlined doc-icon" style="color:#c62828;">${isAssigned?'check_circle':'picture_as_pdf'}</span>
+                        <span class="material-icons-outlined doc-icon" style="color:${isAssigned?'#137333':'#c62828'};">${isAssigned?'check_circle':'picture_as_pdf'}</span>
                         <div class="doklady-doc-item-main">
                             <div class="doklady-doc-item-title">${f.nazev}</div>
                             <div class="doklady-doc-item-meta">${f.cj && f.cj!=='—' ? f.cj+' · ' : ''}${f.datum||''}</div>
@@ -23748,7 +23699,7 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 html += `</div></div>`;
             });
             html += '</div>';
-            c.innerHTML = html;
+            treeContainer.innerHTML = html;
             // Auto-open první dvě sekce
             ['dsekce_zs_do','dsekce_vyj_vti'].forEach(id => {
                 const el = document.getElementById(id);
@@ -23757,17 +23708,48 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         }
 
         function previewDokladyFile(fileId) {
-            // Najdi soubor ve stromu
+            let found = null;
             for (const sekce of dokladyTree) {
-                const f = sekce.files.find(f => f.id === fileId);
-                if (f) { dokladyState.previewFile = f; break; }
+                found = sekce.files.find(f => f.id === fileId);
+                if (found) break;
             }
-            renderDokladyViewer();
+            if (!found) return;
+
+            const treeContainer = document.getElementById('dokladyTreeContainer');
+            const previewContainer = document.getElementById('dokladyPreviewContainer');
+            const backBtn = document.getElementById('dokladyBackBtn');
+            const breadcrumb = document.getElementById('dokladyViewerBreadcrumb');
+            const previewBreadcrumb = document.getElementById('dokladyPreviewBreadcrumb');
+
+            // Přepnout na náhled
+            treeContainer.style.display = 'none';
+            previewContainer.style.display = 'flex';
+            backBtn.style.display = 'flex';
+            breadcrumb.style.display = 'none';
+            previewBreadcrumb.style.display = 'flex';
+
+            document.getElementById('dokladyPreviewTitle').textContent = found.nazev;
+            document.getElementById('dokladyPreviewName').textContent = found.nazev;
+
+            const metaParts = [];
+            if (found.typLabel) metaParts.push(found.typLabel);
+            if (found.cj && found.cj !== '—') metaParts.push('č.j. ' + found.cj);
+            if (found.datum) metaParts.push(found.datum);
+            document.getElementById('dokladyPreviewMeta').textContent = metaParts.join(' · ');
         }
 
         function closeDokladyPreview() {
-            dokladyState.previewFile = null;
-            renderDokladyViewer();
+            const treeContainer = document.getElementById('dokladyTreeContainer');
+            const previewContainer = document.getElementById('dokladyPreviewContainer');
+            const backBtn = document.getElementById('dokladyBackBtn');
+            const breadcrumb = document.getElementById('dokladyViewerBreadcrumb');
+            const previewBreadcrumb = document.getElementById('dokladyPreviewBreadcrumb');
+
+            treeContainer.style.display = 'block';
+            previewContainer.style.display = 'none';
+            backBtn.style.display = 'none';
+            breadcrumb.style.display = 'flex';
+            previewBreadcrumb.style.display = 'none';
         }
 
         function toggleDokladySekce(id) {
