@@ -12358,6 +12358,24 @@
         }
 
         /* Modal styles - pro pomocné modály */
+        /* Záměr detail modal */
+        .data-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px 24px; }
+        .data-item { display:flex; flex-direction:column; gap:2px; }
+        .data-item-label { font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:#9aa0a6; }
+        .data-item-value { font-size:13px; color:#202124; }
+        .data-item-value.mono { font-family:'Roboto Mono',monospace; font-size:12px; color:#5f6368; }
+        .modal-zamer-header-info { flex:1; }
+        .modal-zamer-id { font-size:11px; color:#5f6368; font-family:'Roboto Mono',monospace; margin-bottom:2px; }
+        .modal-rizeni-mini { display:flex; flex-direction:column; gap:6px; }
+        .modal-rizeni-mini-item { display:flex; align-items:center; gap:8px; padding:8px 10px; background:#f8f9fa; border-radius:6px; font-size:12px; }
+        .modal-rizeni-mini-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+        .modal-rizeni-mini-dot.completed { background:#34a853; }
+        .modal-rizeni-mini-dot.active { background:#1a73e8; }
+        .modal-rizeni-mini-name { font-weight:500; color:#202124; flex:1; }
+        .modal-rizeni-mini-status { font-size:11px; padding:2px 6px; border-radius:8px; }
+        .modal-rizeni-mini-status.completed { background:#e6f4ea; color:#137333; }
+        .modal-rizeni-mini-status.active { background:#e8f0fe; color:#1a73e8; }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -12770,7 +12788,7 @@
                                 Záměr Z/2026/1596
                             </a>
                             <span class="case-meta-linked-separator">·</span>
-                            <a href="#" class="case-meta-linked-tag" title="Propojený záměr — otevřít detail">
+                            <a href="#" class="case-meta-linked-tag" title="Propojený záměr — otevřít detail" onclick="event.preventDefault();openPropojenyzamerModal()">
                                 <span class="material-icons-outlined">link</span>
                                 Z/2025/0847
                             </a>
@@ -22996,7 +23014,11 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
             const isPrislusny = !controls.prislusnost.done || controls.prislusnost.result === 'ok';
             
             // Kontrola, zda jsou zjištěny vady (pro tlačítko Výzva k doplnění)
-            const hasVady = Object.values(controls).some(c => c.done && (c.result === 'vady' || c.result === 'warning'));
+            // Vady = problémy v žádosti samotné, NE nesplnění podmínek zrychleného řízení
+            const hasVady = Object.entries(controls).some(([k, c]) => k !== 'zrychlene' && c.done && (c.result === 'vady' || c.result === 'warning'));
+            const zrychleneNesplneno = controls.zrychlene.done && controls.zrychlene.result !== 'ok';
+            const ostatniAllDone = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.done);
+            const ostatniAllOk = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.result === 'ok');
 
             for (const [key, control] of Object.entries(controls)) {
                 const card = document.getElementById('card-' + key);
@@ -23056,6 +23078,13 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 document.getElementById('btnZahajit').disabled = false;
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
                 _btnAction = 'zahajit';
+            } else if (ostatniAllDone && ostatniAllOk && zrychleneNesplneno) {
+                // Všechny kontroly žádosti v pořádku, ale zrychlené řízení nesplněno → standardní řízení
+                document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení nejsou splněny';
+                document.getElementById('summaryDesc').textContent = 'Záměr bude projednán ve standardním řízení s ústním jednáním.';
+                document.getElementById('btnZahajit').disabled = false;
+                document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">gavel</span>Přejít na projednání řízení';
+                _btnAction = 'standardni';
             } else if (allDone && hasVady && !hasBlocking) {
                 // Všechny kontroly hotové, ale jsou vady - nabídnout Výzvu k doplnění
                 document.getElementById('summaryTitle').textContent = 'Zjištěny nedostatky v žádosti';
@@ -25415,8 +25444,8 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
                 alert(msg);
             } else if (_btnAction === 'vyzva') {
                 openVyzvaEditor();
-            } else {
-                // Přechod na krok 3: Projednání
+            } else if (_btnAction === 'standardni' || _btnAction === 'zahajit') {
+                // Přechod na krok 3: Projednání (zrychlené i standardní)
                 window.location.href = 'povoleni-3.html';
             }
         }
@@ -28568,5 +28597,72 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
     </script>
     <script src="doc-modals.js"></script>
     <script>initDocModals({ basePath: '../docs/' });</script>
+    <script>
+        function openPropojenyzamerModal() {
+            document.getElementById('propojenyzamerModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePropojenyzamerModal(e) {
+            if (e && e.target !== document.getElementById('propojenyzamerModal')) return;
+            document.getElementById('propojenyzamerModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const m = document.getElementById('propojenyzamerModal');
+                if (m && m.classList.contains('open')) closePropojenyzamerModal();
+            }
+        });
+    </script>
+
+    <!-- Modál: Detail propojeného záměru Z/2025/0847 -->
+    <div class="modal-overlay" id="propojenyzamerModal" onclick="closePropojenyzamerModal(event)">
+        <div class="modal-dialog" style="max-width:620px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <span class="material-icons-outlined modal-icon" style="color:#137333;">link</span>
+                    <div class="modal-zamer-header-info">
+                        <div class="modal-zamer-id">Z/2025/0847</div>
+                        <h3 class="modal-title">Rekonstrukce SZZ v žst. Doudleby nad Orlicí</h3>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closePropojenyzamerModal()">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body" style="max-height:70vh;overflow-y:auto;">
+                <div class="data-grid" style="margin-bottom:20px;">
+                    <div class="data-item"><span class="data-item-label">Záměr</span><span class="data-item-value mono">Z/2025/0847</span></div>
+                    <div class="data-item"><span class="data-item-label">Stav záměru</span><span class="data-item-value"><span style="color:#1a73e8;font-weight:500;">● Probíhá řízení</span></span></div>
+                    <div class="data-item"><span class="data-item-label">Stavebník</span><span class="data-item-value">Správa železnic, s.o.</span></div>
+                    <div class="data-item"><span class="data-item-label">IČO</span><span class="data-item-value mono">70994234</span></div>
+                    <div class="data-item"><span class="data-item-label">Pozemek záměru</span><span class="data-item-value">p.č. st. 321, k.ú. Doudleby n.O.</span></div>
+                    <div class="data-item"><span class="data-item-label">Zpracovatel</span><span class="data-item-value">Marie Svobodová</span></div>
+                    <div class="data-item"><span class="data-item-label">Pracoviště</span><span class="data-item-value">DESÚ, ÚP Pardubice</span></div>
+                    <div class="data-item"><span class="data-item-label">Vytvořen</span><span class="data-item-value">14. 3. 2025</span></div>
+                </div>
+                <div style="font-size:12px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Řízení v záměru</div>
+                <div class="modal-rizeni-mini">
+                    <div class="modal-rizeni-mini-item">
+                        <div class="modal-rizeni-mini-dot completed"></div>
+                        <span class="modal-rizeni-mini-name">Předběžná informace</span>
+                        <span class="modal-rizeni-mini-status completed">Ukončeno</span>
+                    </div>
+                    <div class="modal-rizeni-mini-item">
+                        <div class="modal-rizeni-mini-dot active"></div>
+                        <span class="modal-rizeni-mini-name">Povolení stavby</span>
+                        <span class="modal-rizeni-mini-status active">Probíhá</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content:flex-end;">
+                <button class="btn btn-secondary" onclick="closePropojenyzamerModal()">Zavřít</button>
+                <a href="../pages/detail-zameru.html" class="btn btn-primary" style="text-decoration:none;">
+                    <span class="material-icons-outlined">open_in_new</span>Otevřít detail záměru
+                </a>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
