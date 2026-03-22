@@ -23756,20 +23756,32 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     if (!gc) continue;
                     const btn = gc.querySelector('.control-card-action');
                     if (c[key] && c[key].done) {
-                        gc.classList.remove('phase-locked', 'phase-active');
-                        gc.classList.add('phase-done');
-                        if (btn) {
-                            // Pozemky: zelená dlaždice, ale žluté tlačítko pokud chybí sousední
-                            if (key === 'pozemky' && c[key].sousedniChybi) {
-                                btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Sousední chybí</span>';
-                            } else {
-                                btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
+                        gc.classList.remove('phase-locked', 'phase-active', 'phase-done');
+                        // Identifikace s chybějícími doklady → oranžová dlaždice
+                        if (key === 'identifikace' && c[key].result === 'warning') {
+                            gc.classList.add('phase-active'); // oranžová — warning styl
+                            if (btn) {
+                                btn.innerHTML = '<span class="material-icons-outlined">warning</span>Hotovo — chybí doklady';
+                                btn.style.background = '#fff8e1';
+                                btn.style.borderColor = '#f6b900';
+                                btn.style.color = '#b06000';
+                                btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
+                                btn.disabled = false;
                             }
-                            btn.style.background = '';
-                            btn.style.borderColor = '';
-                            btn.style.color = '';
-                            btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
-                            btn.disabled = false;
+                        } else {
+                            gc.classList.add('phase-done');
+                            if (btn) {
+                                if (key === 'pozemky' && c[key].sousedniChybi) {
+                                    btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Sousední chybí</span>';
+                                } else {
+                                    btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
+                                }
+                                btn.style.background = '';
+                                btn.style.borderColor = '';
+                                btn.style.color = '';
+                                btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
+                                btn.disabled = false;
+                            }
                         }
                     } else {
                         gc.classList.remove('phase-locked', 'phase-done');
@@ -23823,7 +23835,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Vykazuje vady' },
                 pozemky: { controlId: 'controlPozemky', readyText: 'Identifikovat pozemky', doneText: 'Identifikováno', doneTextNeg: 'Identifikováno' },
                 up: { controlId: 'controlUP', readyText: 'Provést kontrolu', doneText: 'V souladu', doneTextNeg: 'Nesoulad' },
-                identifikace: { controlId: 'controlIdentifikace', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Chybí doklady' },
+                identifikace: { controlId: 'controlIdentifikace', readyText: 'Provést kontrolu', doneText: 'Hotovo', doneTextNeg: 'Chybí doklady', doneTextWarning: 'Hotovo — chybí doklady' },
                 ucastnici: { controlId: 'controlUcastnici', readyText: 'Definovat osoby', doneText: 'Kompletní', doneTextNeg: 'Kompletní' },
                 zrychlene: { controlId: 'controlZrychlene', readyText: 'Ověřit podmínky', doneText: 'Splněno', doneTextNeg: 'Nesplněno' }
             };
@@ -23836,8 +23848,8 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     if (statusBadge) statusBadge.textContent = 'Hotovo';
                     actionBtn.innerHTML = '<span class="material-icons-outlined">check_circle</span>' + cfg.doneText;
                 } else if (ctrl.result === 'vady' || ctrl.result === 'warning') {
-                    if (statusBadge) statusBadge.textContent = 'Vady';
-                    actionBtn.innerHTML = '<span class="material-icons-outlined">warning</span>' + cfg.doneTextNeg;
+                    if (statusBadge) statusBadge.textContent = 'Hotovo';
+                    actionBtn.innerHTML = '<span class="material-icons-outlined">warning</span>' + (cfg.doneTextWarning || cfg.doneTextNeg);
                 } else {
                     if (statusBadge) statusBadge.textContent = 'Blokuje';
                     actionBtn.innerHTML = '<span class="material-icons-outlined">cancel</span>' + cfg.doneTextNeg;
@@ -24176,7 +24188,12 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         let dokladyCurrentViewerTab = 'doklady';
 
         function initIdentifikaceMatrix() {
-            dokladyState.subjekty = JSON.parse(JSON.stringify(dokladySubjektyState1));
+            // Obnovit uložený seznam subjektů pokud kontrola byla potvrzena
+            if (controls.identifikace.done && controls.identifikace.subjekty && controls.identifikace.subjekty.length > 0) {
+                dokladyState.subjekty = JSON.parse(JSON.stringify(controls.identifikace.subjekty));
+            } else {
+                dokladyState.subjekty = JSON.parse(JSON.stringify(dokladySubjektyState1));
+            }
             dokladyState.activeStateTab = 1;
             renderDokladyViewer();
             renderDokladyForm();
@@ -24934,26 +24951,42 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const btn = document.getElementById('btnConfirmIdentifikace');
             if (!resultBox || !btn) return;
 
-            const missing = dokladyState.subjekty.filter(s => s.missing);
-            const zaporne = dokladyState.subjekty.filter(s => s.vysledek === 'zaporne');
+            const chybiDO  = dokladyState.subjekty.filter(s => s.vysledek === 'chybi' && s.typ === 'do');
+            const chybiVTI = dokladyState.subjekty.filter(s => s.vysledek === 'chybi' && (s.typ === 'vti' || s.typ === 'vdi'));
+            const missing  = dokladyState.subjekty.filter(s => s.missing); // stará logika
+            const zaporne  = dokladyState.subjekty.filter(s => s.vysledek === 'zaporne');
             const unresolved = dokladyState.subjekty.filter(s => !s.missing && !s.vysledek);
+            const hasChybi = chybiDO.length > 0 || chybiVTI.length > 0;
 
             if (zaporne.length > 0) {
                 resultBox.className = 'result-preview negative';
                 resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">cancel</span>Záporné stanovisko</div><div class="result-preview-text">Záporné stanovisko: ${zaporne.map(s=>s.nazev).join(', ')}. Řízení bude zastaveno.</div>`;
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons-outlined">gavel</span> Zastavit řízení';
-            } else if (missing.length > 0 || unresolved.length > 0) {
+            } else if (unresolved.length > 0 || missing.length > 0) {
                 resultBox.className = 'result-preview neutral';
                 const parts = [];
                 if (unresolved.length) parts.push(`${unresolved.length} subjektů bez výsledku`);
                 if (missing.length) parts.push(`${missing.length} chybějících dokladů`);
                 resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">hourglass_empty</span>Probíhá posouzení</div><div class="result-preview-text">${parts.join(' · ')}</div>`;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
+            } else if (hasChybi) {
+                // Chybějící stanoviska/vyjádření — jasný banner s postupem
+                let text = '';
+                if (chybiDO.length > 0) {
+                    text += `<div style="margin-bottom:4px;"><strong>Chybí závazné stanovisko DO (${chybiDO.length}):</strong> ${chybiDO.map(s=>s.nazev).join(', ')}<br><span style="font-size:11px;opacity:0.85;">→ SÚ si ho vyžádá sám (§ 4 odst. 8)</span></div>`;
+                }
+                if (chybiVTI.length > 0) {
+                    text += `<div><strong>Chybí vyjádření VTI/VDI (${chybiVTI.length}):</strong> ${chybiVTI.map(s=>s.nazev).join(', ')}<br><span style="font-size:11px;opacity:0.85;">→ Usnesení o přerušení řízení + výzva k doplnění</span></div>`;
+                }
+                resultBox.className = 'result-preview warning';
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">warning_amber</span>Chybějící doklady — definován postup</div><div class="result-preview-text">${text}</div>`;
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
             } else {
                 const podminky = dokladyState.subjekty.filter(s => s.vysledek === 'podminky');
-                const totalPodminky = dokladyState.subjekty.reduce((n,s)=>n+s.podminky.length, 0);
+                const totalPodminky = dokladyState.subjekty.reduce((n,s)=>n+(s.podminkyText?s.podminkyText.trim().split('\n').filter(l=>l.trim()).length:0)+s.podminky.length, 0);
                 resultBox.className = 'result-preview positive';
                 resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Dokladová část v pořádku</div><div class="result-preview-text">Všechna stanoviska a vyjádření zkontrolována. ${totalPodminky > 0 ? totalPodminky + ' podmínek pro rozhodnutí.' : 'Bez podmínek.'}</div>`;
                 btn.disabled = false;
@@ -24965,26 +24998,41 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
 
         // ---- completeIdentifikace ----
         function completeIdentifikace() {
-            const missing = dokladyState.subjekty.filter(s => s.missing && s.typ !== 'do');
-            // VTI/VDI chybějící → do výzvy
-            missing.forEach(s => {
+            const chybiVTI = dokladyState.subjekty.filter(s => s.vysledek === 'chybi' && (s.typ === 'vti' || s.typ === 'vdi'));
+            const chybiDO  = dokladyState.subjekty.filter(s => s.vysledek === 'chybi' && s.typ === 'do');
+            const zaporne  = dokladyState.subjekty.filter(s => s.vysledek === 'zaporne');
+            const hasChybi = chybiVTI.length > 0 || chybiDO.length > 0;
+
+            // VTI/VDI chybějící → výzva k doplnění
+            chybiVTI.forEach(s => {
                 if (!globalIssues.vyzva.some(i => i.text && i.text.includes(s.nazev))) {
                     addGlobalIssue('vyzva', {
-                        text: `Stavebník doplní vyjádření: ${s.nazev} (${s.missingNote})`,
-                        hlavniText: `Doplnil vyjádření: ${s.nazev}`,
+                        text: `Stavebník doplní vyjádření: ${s.nazev}`,
+                        hlavniText: `Doplnit vyjádření: ${s.nazev}`,
                         source: 'auto', controlName: 'Dokladová část',
                         kategorie: 'dokladova_cast', typAkce: 'doplnit'
                     });
                 }
             });
+
             updateGlobalIssuesBadge();
-            const zaporne = dokladyState.subjekty.filter(s => s.vysledek === 'zaporne');
+
+            // Výsledek kontroly: 'vady' pokud chybí doklady, 'error' pro záporné, 'ok' jinak
             controls.identifikace.done = true;
-            controls.identifikace.result = zaporne.length > 0 ? 'error' : missing.length > 0 ? 'vady' : 'ok';
+            controls.identifikace.result = zaporne.length > 0 ? 'error' : hasChybi ? 'warning' : 'ok';
+
+            // Uložit seznam subjektů — bude použit v sekci Osoby
             controls.identifikace.subjekty = JSON.parse(JSON.stringify(dokladyState.subjekty));
             controls.identifikace.dataProRozhodnuti = {
-                podmínky: dokladyState.subjekty.flatMap(s => s.podminky.map(p => ({ subjekt: s.nazev, text: p })))
+                podmínky: dokladyState.subjekty.flatMap(s => {
+                    const arr = s.podminky.map(p => ({ subjekt: s.nazev, text: p }));
+                    if (s.podminkyText) {
+                        s.podminkyText.trim().split('\n').filter(l=>l.trim()).forEach(l => arr.push({ subjekt: s.nazev, text: l }));
+                    }
+                    return arr;
+                })
             };
+
             closeControl('controlIdentifikace');
             updateUI();
         }
