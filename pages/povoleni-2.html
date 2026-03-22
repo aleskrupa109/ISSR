@@ -1634,12 +1634,12 @@
 
         .btn-ai-prehled {
             display: inline-flex; align-items: center; gap: 7px;
-            padding: 9px 18px; background: linear-gradient(135deg, #1558d6, #1a73e8);
+            padding: 9px 18px; background: linear-gradient(135deg, #7c3aed, #6d28d9);
             color: #fff; border: none; border-radius: 8px;
             font-size: 13px; font-weight: 500; cursor: pointer;
-            transition: opacity 0.15s; box-shadow: 0 1px 4px rgba(26,115,232,0.3);
+            transition: opacity 0.15s; box-shadow: 0 1px 4px rgba(109,40,217,0.3);
         }
-        .btn-ai-prehled:hover { opacity: 0.9; }
+        .btn-ai-prehled:hover { background: linear-gradient(135deg, #6d28d9, #4c1d95); }
         .btn-ai-prehled .material-icons-outlined { font-size: 18px; }
 
         .tech-prehled-sections { display: flex; flex-direction: column; gap: 14px; }
@@ -16224,6 +16224,7 @@
                             <button class="upd-vtab active" onclick="switchUPDMap('urp', this)">ÚRP</button>
                             <button class="upd-vtab" onclick="switchUPDMap('zur', this)">ZÚR</button>
                             <button class="upd-vtab" onclick="switchUPDMap('up', this)">ÚP</button>
+                            <button class="upd-vtab" onclick="switchUPDMap('ngup', this)">NGÚP</button>
                         </div>
                         <div class="upd-zoom-controls">
                             <button class="upd-zoom-btn" onclick="zoomViewer('upd', -0.2)">−</button>
@@ -16310,6 +16311,30 @@
                                     placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
                             </div>
                             <div class="upd-no-up-info" id="noUpInfo" style="display:none;">Posouzení dle § 193</div>
+                        </div>
+
+                        <!-- RP -->
+                        <div class="upd-check-item" id="checkRp">
+                            <div class="upd-check-row">
+                                <span class="upd-check-label">Regulační plán (RP)</span>
+                                <span class="upd-check-status" id="statusRp"></span>
+                            </div>
+                            <div class="upd-check-mini-label">Existuje regulační plán?</div>
+                            <div class="upd-check-buttons" id="rpExistButtons">
+                                <button class="upd-btn-yes" onclick="setRPExistence(true, this)">✓ Ano</button>
+                                <button class="upd-btn-no" onclick="setRPExistence(false, this)">✗ Ne</button>
+                            </div>
+                            <div id="rpSouladSection" style="display:none;">
+                                <div class="upd-check-mini-label">Soulad?</div>
+                                <div class="upd-check-buttons">
+                                    <button class="upd-btn-yes" onclick="setUPDSoulad('rp', true, this)">✓ V souladu</button>
+                                    <button class="upd-btn-no" onclick="setUPDSoulad('rp', false, this)">✗ Rozpor</button>
+                                    <span class="upd-nesoulad-indicator" id="indicatorRp" onclick="openNesouladModal('rp')" title="Upravit popis nesouladu">✎</span>
+                                </div>
+                                <textarea class="upd-note-input" id="noteRp" style="display:none;"
+                                    placeholder="Popište rozpor s Regulačním plánem..." oninput="updateUPDState()"></textarea>
+                            </div>
+                            <div class="upd-no-up-info" id="noRpInfo" style="display:none;">RP neexistuje — posouzení ukončeno</div>
                         </div>
                     </div>
 
@@ -17496,8 +17521,13 @@
             updState.up.text = '';
             updState.up.exists = null;
             
+            updState.rp.checked = false;
+            updState.rp.soulad = null;
+            updState.rp.text = '';
+            updState.rp.exists = null;
+
             // Reset UI
-            ['Urp', 'Zur', 'Up'].forEach(step => {
+            ['Urp', 'Zur', 'Up', 'Rp'].forEach(step => {
                 const checkItem = document.getElementById('check' + step);
                 if (checkItem) {
                     checkItem.classList.remove('done-ok', 'done-error');
@@ -17526,12 +17556,15 @@
                 btn.classList.remove('selected');
             });
             
-            // Skrýt sekce pro ÚP
+            // Skrýt sekce pro ÚP a RP
             const souladSection = document.getElementById('upSouladSection');
             if (souladSection) souladSection.style.display = 'none';
-            
             const noUpInfo = document.getElementById('noUpInfo');
             if (noUpInfo) noUpInfo.style.display = 'none';
+            const rpSouladSection = document.getElementById('rpSouladSection');
+            if (rpSouladSection) rpSouladSection.style.display = 'none';
+            const noRpInfo = document.getElementById('noRpInfo');
+            if (noRpInfo) noRpInfo.style.display = 'none';
             
             // Aktualizovat tlačítko
             updateUPDState();
@@ -22819,7 +22852,8 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         const updState = {
             urp: { checked: false, soulad: null, text: '' },
             zur: { checked: false, soulad: null, text: '' },
-            up: { checked: false, soulad: null, text: '', exists: null }
+            up:  { checked: false, soulad: null, text: '', exists: null },
+            rp:  { checked: false, soulad: null, text: '', exists: null }
         };
         
         // Zasouvání/vysouvání kontrolního panelu
@@ -22852,7 +22886,8 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         const nesouladLabels = {
             urp: { title: 'Nesoulad s ÚRP', label: 'Popište rozpor s Územním rozvojovým plánem ČR:' },
             zur: { title: 'Nesoulad se ZÚR', label: 'Popište rozpor se Zásadami územního rozvoje:' },
-            up: { title: 'Nesoulad s ÚP', label: 'Popište rozpor s Územním plánem obce:' }
+            up:  { title: 'Nesoulad s ÚP',  label: 'Popište rozpor s Územním plánem obce:' },
+            rp:  { title: 'Nesoulad s RP',  label: 'Popište rozpor s Regulačním plánem:' }
         };
         
         function openNesouladModal(step) {
@@ -22909,7 +22944,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         // ZÚR a ÚP jako iframe (reálné mapové portály KHK)
         const updIframeUrls = {
             zur: 'https://up.khk.cz/upd/_mapy/bezesve_akt/?MAP=zd_hlv&lon=15.8403568&lat=50.436676&scale=200000',
-            up: 'https://up.khk.cz/upd/_mapy/bezesve_akt/?MAP=zd_hlv&lon=15.8403568&lat=50.436676&scale=200000'
+            up: 'https://up.khk.cz/upd/_mapy/bezesve_akt/?MAP=zd_hlv&lon=15.8403568&lat=50.436676&scale=200000',
         };
         
         const situaceImages = {
@@ -23079,6 +23114,26 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             }
         }
         
+        function checkNgupLoad(iframe, compositionUrl) {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (doc && doc.body && doc.body.innerHTML === '') throw new Error('empty');
+            } catch(e) {
+                const fallback = document.getElementById('ngupFallback');
+                if (fallback) fallback.style.display = 'flex';
+                if (iframe) iframe.style.display = 'none';
+            }
+        }
+
+        function downloadNgupComposition() {
+            const json = window._ngupJson || '';
+            const blob = new Blob([json], {type: 'application/json'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'NGUP_kompozice.json';
+            a.click();
+        }
+
         function switchUPDMap(type, btn) {
             btn.parentElement.querySelectorAll('.upd-vtab').forEach(t => t.classList.remove('active'));
             btn.classList.add('active');
@@ -23087,10 +23142,40 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const panel = viewer.closest('.upd-viewer-panel');
             const zoomControls = panel.querySelector('.upd-zoom-controls');
             
-            if (type === 'zur' || type === 'up') {
+            if (type === 'ngup') {
+                // NGÚP — portál mapy.gov.cz, kompozice ke stažení
+                const ngupJson = `{"map":{"storeVersion":{"model":2},"mapSettings":{"layersCnf":{"basemaps":[{"id":"cuzk_prehledova","isSelected":true,"customOptions":{"thumbnailUrl":"assets/images/bm/prehledova.png"},"cnf":{"title":"Přehledová mapa"},"baseLayers":[{"id":"cuzk_prehledova_base","type":"tile","cnf":{"title":"Přehledová mapa","url":"https://ags.cuzk.cz/arcgis1/rest/services/PrehledovaMapa/MapServer"}}]},{"id":"cuzk_orto","customOptions":{"thumbnailUrl":"assets/images/bm/orto.png"},"cnf":{"title":"Ortofoto"},"baseLayers":[{"id":"cuzk_orto_base","type":"tile","cnf":{"title":"Ortofoto","url":"https://ags.cuzk.cz/arcgis1/rest/services/ORTOFOTO/MapServer"}}]}],"layers":[{"id":"uap","type":"group","cnf":{"title":"Územně analytické podklady"},"layers":[{"id":"uap_ostatni","type":"map-image","cnf":{"title":"Ostatní","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_Ostatni/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_suc","type":"map-image","cnf":{"title":"Správní územní celky","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_SpravniUzemniCelky/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_obo","type":"map-image","cnf":{"title":"Obrana bezpečnost ochrana","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_Obranabezpecnostochrana/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_di","type":"map-image","cnf":{"title":"Dopravní infrastruktura","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_DopravniInfrastruktura/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_vakaoh","type":"map-image","cnf":{"title":"VaK a odpadové hospodářství","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_VaKaodpadovehospodarstvi/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_eas","type":"map-image","cnf":{"title":"Energetika a spoje","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_Energetikaaspoje/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_hygpro","type":"map-image","cnf":{"title":"Hygiena prostředí","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_HygienaProstredi/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_hp","type":"map-image","cnf":{"title":"Horninové prostředí","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_HorninoveProstredi/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_vh","type":"map-image","cnf":{"title":"Vodní hospodářství","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_VodniHospodarstvi/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_zpal","type":"map-image","cnf":{"title":"Zemědělská půda a lesy","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_ZemedelskaPudaaLesy/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_p","type":"map-image","cnf":{"title":"Příroda","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_Priroda/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_kh","type":"map-image","cnf":{"title":"Kulturní hodnoty","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_KulturniHodnoty/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}},{"id":"uap_uak","type":"map-image","cnf":{"title":"Urbanismus a krajina","url":"https://mapy.gov.cz/map/proxy/https/mapy.gov.cz/server/rest/services/UAP/UAP_UrbanismusaKrajina/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true}}],"customOptions":{"isDefault":true}},{"id":"ruian","type":"map-image","cnf":{"title":"Prohlížecí služba nad daty RUIAN ČR","url":"https://ags.cuzk.cz/arcgis/rest/services/RUIAN/Prohlizeci_sluzba_nad_daty_RUIAN/MapServer","visible":false},"customOptions":{"isDefault":true},"extraCnf":{"isPopupEnabled":true,"popupSublayers":[1,4,5,7,12,15]}}]}}},"measurement":{"activeType":"polygon","crs":"crs5514","storeVersion":{"model":1}},"drawing":{"storeVersion":{"model":1},"graphics":[]},"position":{"storeVersion":{"model":2},"position":{"zoom":8,"center":{"x":-612153.75,"y":-1057347.8549999986},"wkid":102067}},"swipe":{"storeVersion":{"model":1},"direction":"horizontal","position":50}}`;
+                const compositionUrlWithDataURI = 'https://mapy.gov.cz/map?compositionUrl=data%3Aapplication%2Fjson%3Bbase64%2CeyJtYXAiOnsic3RvcmVWZXJzaW9uIjp7Im1vZGVsIjoyfSwibWFwU2V0dGluZ3MiOnsibGF5ZXJzQ25mIjp7ImJhc2VtYXBzIjpbeyJpZCI6ImN1emtfcHJlaGxlZG92YSIsImlzU2VsZWN0ZWQiOnRydWUsImN1c3RvbU9wdGlvbnMiOnsidGh1bWJuYWlsVXJsIjoiYXNzZXRzL2ltYWdlcy9ibS9wcmVobGVkb3ZhLnBuZyJ9LCJjbmYiOnsidGl0bGUiOiJQxZllaGxlZG92w6EgbWFwYSJ9LCJiYXNlTGF5ZXJzIjpbeyJpZCI6ImN1emtfcHJlaGxlZG92YV9iYXNlIiwidHlwZSI6InRpbGUiLCJjbmYiOnsidGl0bGUiOiJQxZllaGxlZG92w6EgbWFwYSIsInVybCI6Imh0dHBzOi8vYWdzLmN1emsuY3ovYXJjZ2lzMS9yZXN0L3NlcnZpY2VzL1ByZWhsZWRvdmFNYXBhL01hcFNlcnZlciJ9fV19LHsiaWQiOiJjdXprX29ydG8iLCJjdXN0b21PcHRpb25zIjp7InRodW1ibmFpbFVybCI6ImFzc2V0cy9pbWFnZXMvYm0vb3J0by5wbmcifSwiY25mIjp7InRpdGxlIjoiT3J0b2ZvdG8ifSwiYmFzZUxheWVycyI6W3siaWQiOiJjdXprX29ydG9fYmFzZSIsInR5cGUiOiJ0aWxlIiwiY25mIjp7InRpdGxlIjoiT3J0b2ZvdG8iLCJ1cmwiOiJodHRwczovL2Fncy5jdXprLmN6L2FyY2dpczEvcmVzdC9zZXJ2aWNlcy9PUlRPRk9UTy9NYXBTZXJ2ZXIifX1dfV0sImxheWVycyI6W3siaWQiOiJ1YXAiLCJ0eXBlIjoiZ3JvdXAiLCJjbmYiOnsidGl0bGUiOiLDmnplbW7EmyBhbmFseXRpY2vDqSBwb2RrbGFkeSJ9LCJsYXllcnMiOlt7ImlkIjoidWFwX29zdGF0bmkiLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiT3N0YXRuw60iLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX09zdGF0bmkvTWFwU2VydmVyIiwidmlzaWJsZSI6ZmFsc2V9LCJjdXN0b21PcHRpb25zIjp7ImlzRGVmYXVsdCI6dHJ1ZX0sImV4dHJhQ25mIjp7ImlzUG9wdXBFbmFibGVkIjp0cnVlfX0seyJpZCI6InVhcF9zdWMiLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiU3Byw6F2bsOtIMO6emVtbsOtIGNlbGt5IiwidXJsIjoiaHR0cHM6Ly9tYXB5Lmdvdi5jei9tYXAvcHJveHkvaHR0cHMvbWFweS5nb3YuY3ovc2VydmVyL3Jlc3Qvc2VydmljZXMvVUFQL1VBUF9TcHJhdm5pVXplbW5pQ2Vsa3kvTWFwU2VydmVyIiwidmlzaWJsZSI6ZmFsc2V9LCJjdXN0b21PcHRpb25zIjp7ImlzRGVmYXVsdCI6dHJ1ZX0sImV4dHJhQ25mIjp7ImlzUG9wdXBFbmFibGVkIjp0cnVlfX0seyJpZCI6InVhcF9vYm8iLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiT2JyYW5hIGJlenBlxI1ub3N0IG9jaHJhbmEiLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX09icmFuYWJlenBlY25vc3RvY2hyYW5hL01hcFNlcnZlciIsInZpc2libGUiOmZhbHNlfSwiY3VzdG9tT3B0aW9ucyI6eyJpc0RlZmF1bHQiOnRydWV9LCJleHRyYUNuZiI6eyJpc1BvcHVwRW5hYmxlZCI6dHJ1ZX19LHsiaWQiOiJ1YXBfZGkiLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiRG9wcmF2bsOtIGluZnJhc3RydWt0dXJhIiwidXJsIjoiaHR0cHM6Ly9tYXB5Lmdvdi5jei9tYXAvcHJveHkvaHR0cHMvbWFweS5nb3YuY3ovc2VydmVyL3Jlc3Qvc2VydmljZXMvVUFQL1VBUF9Eb3ByYXZuaUluZnJhc3RydWt0dXJhL01hcFNlcnZlciIsInZpc2libGUiOmZhbHNlfSwiY3VzdG9tT3B0aW9ucyI6eyJpc0RlZmF1bHQiOnRydWV9LCJleHRyYUNuZiI6eyJpc1BvcHVwRW5hYmxlZCI6dHJ1ZX19LHsiaWQiOiJ1YXBfdmFrYW9oIiwidHlwZSI6Im1hcC1pbWFnZSIsImNuZiI6eyJ0aXRsZSI6IlZhSyBhIG9kcGFkb3bDqSBob3Nwb2TDocWZc3R2w60iLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX1ZhS2FvZHBhZG92ZWhvc3BvZGFyc3R2aS9NYXBTZXJ2ZXIiLCJ2aXNpYmxlIjpmYWxzZX0sImN1c3RvbU9wdGlvbnMiOnsiaXNEZWZhdWx0Ijp0cnVlfSwiZXh0cmFDbmYiOnsiaXNQb3B1cEVuYWJsZWQiOnRydWV9fSx7ImlkIjoidWFwX2VhcyIsInR5cGUiOiJtYXAtaW1hZ2UiLCJjbmYiOnsidGl0bGUiOiJFbmVyZ2V0aWthIGEgc3BvamUiLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX0VuZXJnZXRpa2Fhc3BvamUvTWFwU2VydmVyIiwidmlzaWJsZSI6ZmFsc2V9LCJjdXN0b21PcHRpb25zIjp7ImlzRGVmYXVsdCI6dHJ1ZX0sImV4dHJhQ25mIjp7ImlzUG9wdXBFbmFibGVkIjp0cnVlfX0seyJpZCI6InVhcF9oeWdwcm8iLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiSHlnaWVuYSBwcm9zdMWZZWTDrSIsInVybCI6Imh0dHBzOi8vbWFweS5nb3YuY3ovbWFwL3Byb3h5L2h0dHBzL21hcHkuZ292LmN6L3NlcnZlci9yZXN0L3NlcnZpY2VzL1VBUC9VQVBfSHlnaWVuYVByb3N0cmVkaS9NYXBTZXJ2ZXIiLCJ2aXNpYmxlIjpmYWxzZX0sImN1c3RvbU9wdGlvbnMiOnsiaXNEZWZhdWx0Ijp0cnVlfSwiZXh0cmFDbmYiOnsiaXNQb3B1cEVuYWJsZWQiOnRydWV9fSx7ImlkIjoidWFwX2hwIiwidHlwZSI6Im1hcC1pbWFnZSIsImNuZiI6eyJ0aXRsZSI6Ikhvcm5pbm92w6kgcHJvc3TFmWVkw60iLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX0hvcm5pbm92ZVByb3N0cmVkaS9NYXBTZXJ2ZXIiLCJ2aXNpYmxlIjpmYWxzZX0sImN1c3RvbU9wdGlvbnMiOnsiaXNEZWZhdWx0Ijp0cnVlfSwiZXh0cmFDbmYiOnsiaXNQb3B1cEVuYWJsZWQiOnRydWV9fSx7ImlkIjoidWFwX3ZoIiwidHlwZSI6Im1hcC1pbWFnZSIsImNuZiI6eyJ0aXRsZSI6IlZvZG7DrSBob3Nwb2TDocWZc3R2w60iLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX1ZvZG5pSG9zcG9kYXJzdHZpL01hcFNlcnZlciIsInZpc2libGUiOmZhbHNlfSwiY3VzdG9tT3B0aW9ucyI6eyJpc0RlZmF1bHQiOnRydWV9LCJleHRyYUNuZiI6eyJpc1BvcHVwRW5hYmxlZCI6dHJ1ZX19LHsiaWQiOiJ1YXBfenBhbCIsInR5cGUiOiJtYXAtaW1hZ2UiLCJjbmYiOnsidGl0bGUiOiJaZW3Em2TEm2xza8OhIHDFr2RhIGEgbGVzeSIsInVybCI6Imh0dHBzOi8vbWFweS5nb3YuY3ovbWFwL3Byb3h5L2h0dHBzL21hcHkuZ292LmN6L3NlcnZlci9yZXN0L3NlcnZpY2VzL1VBUC9VQVBfWmVtZWRlbHNrYVB1ZGFhTGVzeS9NYXBTZXJ2ZXIiLCJ2aXNpYmxlIjpmYWxzZX0sImN1c3RvbU9wdGlvbnMiOnsiaXNEZWZhdWx0Ijp0cnVlfSwiZXh0cmFDbmYiOnsiaXNQb3B1cEVuYWJsZWQiOnRydWV9fSx7ImlkIjoidWFwX3AiLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiUMWZw61yb2RhIiwidXJsIjoiaHR0cHM6Ly9tYXB5Lmdvdi5jei9tYXAvcHJveHkvaHR0cHMvbWFweS5nb3YuY3ovc2VydmVyL3Jlc3Qvc2VydmljZXMvVUFQL1VBUF9Qcmlyb2RhL01hcFNlcnZlciIsInZpc2libGUiOmZhbHNlfSwiY3VzdG9tT3B0aW9ucyI6eyJpc0RlZmF1bHQiOnRydWV9LCJleHRyYUNuZiI6eyJpc1BvcHVwRW5hYmxlZCI6dHJ1ZX19LHsiaWQiOiJ1YXBfa2giLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiS3VsdHVybsOtIGhvZG5vdHkiLCJ1cmwiOiJodHRwczovL21hcHkuZ292LmN6L21hcC9wcm94eS9odHRwcy9tYXB5Lmdvdi5jei9zZXJ2ZXIvcmVzdC9zZXJ2aWNlcy9VQVAvVUFQX0t1bHR1cm5pSG9kbm90eS9NYXBTZXJ2ZXIiLCJ2aXNpYmxlIjpmYWxzZX0sImN1c3RvbU9wdGlvbnMiOnsiaXNEZWZhdWx0Ijp0cnVlfSwiZXh0cmFDbmYiOnsiaXNQb3B1cEVuYWJsZWQiOnRydWV9fSx7ImlkIjoidWFwX3VhayIsInR5cGUiOiJtYXAtaW1hZ2UiLCJjbmYiOnsidGl0bGUiOiJVcmJhbmlzbXVzIGEga3JhamluYSIsInVybCI6Imh0dHBzOi8vbWFweS5nb3YuY3ovbWFwL3Byb3h5L2h0dHBzL21hcHkuZ292LmN6L3NlcnZlci9yZXN0L3NlcnZpY2VzL1VBUC9VQVBfVXJiYW5pc211c2FLcmFqaW5hL01hcFNlcnZlciIsInZpc2libGUiOmZhbHNlfSwiY3VzdG9tT3B0aW9ucyI6eyJpc0RlZmF1bHQiOnRydWV9LCJleHRyYUNuZiI6eyJpc1BvcHVwRW5hYmxlZCI6dHJ1ZX19XSwiY3VzdG9tT3B0aW9ucyI6eyJpc0RlZmF1bHQiOnRydWV9fSx7ImlkIjoicnVpYW4iLCJ0eXBlIjoibWFwLWltYWdlIiwiY25mIjp7InRpdGxlIjoiUHJvaGzDrcW%2BZWPDrSBzbHXFvmJhIG5hZCBkYXR5IFJVSUFOIMSMUiIsInVybCI6Imh0dHBzOi8vYWdzLmN1emsuY3ovYXJjZ2lzL3Jlc3Qvc2VydmljZXMvUlVJQU4vUHJvaGxpemVjaV9zbHV6YmFfbmFkX2RhdHlfUlVJQU4vTWFwU2VydmVyIiwidmlzaWJsZSI6ZmFsc2V9LCJjdXN0b21PcHRpb25zIjp7ImlzRGVmYXVsdCI6dHJ1ZX0sImV4dHJhQ25mIjp7ImlzUG9wdXBFbmFibGVkIjp0cnVlLCJwb3B1cFN1YmxheWVycyI6WzEsNCw1LDcsMTIsMTVdfX1dfX19LCJtZWFzdXJlbWVudCI6eyJhY3RpdmVUeXBlIjoicG9seWdvbiIsImNycyI6ImNyczU1MTQiLCJzdG9yZVZlcnNpb24iOnsibW9kZWwiOjF9fSwiZHJhd2luZyI6eyJzdG9yZVZlcnNpb24iOnsibW9kZWwiOjF9LCJncmFwaGljcyI6W119LCJwb3NpdGlvbiI6eyJzdG9yZVZlcnNpb24iOnsibW9kZWwiOjJ9LCJwb3NpdGlvbiI6eyJ6b29tIjo4LCJjZW50ZXIiOnsieCI6LTYxMjE1My43NSwieSI6LTEwNTczNDcuODU0OTk5OTk4Nn0sIndraWQiOjEwMjA2N319LCJzd2lwZSI6eyJzdG9yZVZlcnNpb24iOnsibW9kZWwiOjF9LCJkaXJlY3Rpb24iOiJob3Jpem9udGFsIiwicG9zaXRpb24iOjUwfX0%3D';
+                viewer.innerHTML = `
+                    <iframe src="https://mapy.gov.cz/map"
+                            style="width:100%;height:100%;border:none;"
+                            id="ngupIframe"
+                            onload="checkNgupLoad(this, compositionUrlWithDataURI)"></iframe>
+                    <div id="ngupFallback" class="upd-iframe-fallback" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:24px;">
+                        <span class="material-icons-outlined" style="font-size:40px;color:#c2d8f5;">map</span>
+                        <span style="font-weight:600;font-size:13px;color:#202124;">Národní geoportál územního plánování</span>
+                        <span style="font-size:12px;color:#5f6368;text-align:center;max-width:320px;">Portál neumožňuje vložení do rámce. Stáhněte kompozici a nahrajte ji ručně v portálu, nebo portál otevřete přímo.</span>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px;">
+                            <button onclick="downloadNgupComposition()" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#e8f0fe;color:#1558d6;border:1px solid #b3c8f5;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;">
+                                <span class="material-icons-outlined" style="font-size:15px;">download</span>
+                                Stáhnout kompozici (.json)
+                            </button>
+                            <a href="https://mapy.gov.cz/map" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#fff;color:#202124;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-weight:500;text-decoration:none;">
+                                <span class="material-icons-outlined" style="font-size:15px;">open_in_new</span>
+                                Otevřít NGÚP
+                            </a>
+                        </div>
+                    </div>
+                `;
+                window._ngupJson = ngupJson;
+                zoomControls.style.display = 'none';
+
+            } else if (type === 'zur' || type === 'up') {
                 // ZÚR a ÚP jako iframe (reálné webové portály KHK)
                 const iframeUrl = updIframeUrls[type];
-                const label = type === 'zur' ? 'Zásady územního rozvoje KHK' : 'Územní plán — bezešvá mapa KHK';
+                const label = type === 'zur' ? 'Zásady územního rozvoje KHK'
+                    : type === 'ngup' ? 'Národní geoportál územního plánování'
+                    : 'Územní plán — bezešvá mapa KHK';
                 viewer.innerHTML = `
                     <iframe src="${iframeUrl}" 
                             style="width: 100%; height: 100%; border: none;"
@@ -23169,6 +23254,30 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             updateUPDState();
         }
         
+        function setRPExistence(exists, btn) {
+            updState.rp.exists = exists;
+            const parent = btn.closest('.upd-check-buttons');
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const souladSection = document.getElementById('rpSouladSection');
+            const noRpInfo = document.getElementById('noRpInfo');
+            if (exists) {
+                souladSection.style.display = 'block';
+                noRpInfo.style.display = 'none';
+            } else {
+                souladSection.style.display = 'none';
+                noRpInfo.style.display = 'block';
+                updState.rp.checked = true;
+                updState.rp.soulad = true;
+                const checkItem = document.getElementById('checkRp');
+                checkItem.classList.add('done-ok');
+                const statusEl = document.getElementById('statusRp');
+                statusEl.textContent = 'N/A';
+                statusEl.classList.add('ok');
+            }
+            updateUPDState();
+        }
+
         function setUPExistence(exists, btn) {
             updState.up.exists = exists;
             
@@ -23207,18 +23316,21 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const btn = document.getElementById('btnConfirmUPD');
             if (!btn) return;
             
-            const allChecked = updState.urp.checked && updState.zur.checked && updState.up.checked;
+            const allChecked = updState.urp.checked && updState.zur.checked && updState.up.checked && updState.rp.checked;
             const hasNesoulad = (updState.urp.checked && !updState.urp.soulad) || 
                                (updState.zur.checked && !updState.zur.soulad) || 
-                               (updState.up.checked && !updState.up.soulad);
+                               (updState.up.checked && !updState.up.soulad) ||
+                               (updState.rp.checked && !updState.rp.soulad);
             
             // Kontrola vyplnění zdůvodnění nesouladů + aktualizace indikátorů
             let nesouladTextsOk = true;
-            ['urp', 'zur', 'up'].forEach(step => {
+            ['urp', 'zur', 'up', 'rp'].forEach(step => {
                 const noteValue = document.getElementById('note' + step.charAt(0).toUpperCase() + step.slice(1))?.value?.trim() || '';
                 const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
                 
-                const needsText = !updState[step].soulad && updState[step].checked && (step !== 'up' || updState.up.exists !== false);
+                const needsText = !updState[step].soulad && updState[step].checked &&
+                    !((step === 'up' && updState.up.exists === false) ||
+                      (step === 'rp' && updState.rp.exists === false));
                 
                 if (needsText) {
                     if (!noteValue) nesouladTextsOk = false;
