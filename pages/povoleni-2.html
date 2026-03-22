@@ -1580,6 +1580,110 @@
         }
 
         /* Popis stavby sekce */
+        /* ==========================================
+           TECHNICKÝ PŘEHLED ZÁMĚRU
+        ========================================== */
+        .tech-prehled-card {
+            background: #fff;
+            border: 1px solid #e8eaed;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: border-color 0.15s;
+        }
+        .tech-prehled-card.has-content { border-color: #c2d8f5; }
+
+        .tech-prehled-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            user-select: none;
+            background: #f8f9fa;
+            border-bottom: 1px solid transparent;
+            transition: background 0.15s;
+        }
+        .tech-prehled-card.open .tech-prehled-header {
+            background: #f0f6ff;
+            border-bottom-color: #c2d8f5;
+        }
+        .tech-prehled-header:hover { background: #eef3fb; }
+        .tech-prehled-icon {
+            width: 30px; height: 30px; border-radius: 7px;
+            background: #e8f0fe; color: #1558d6;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .tech-prehled-icon .material-icons-outlined { font-size: 17px; }
+        .tech-prehled-title { font-size: 13px; font-weight: 600; color: #202124; flex: 1; }
+        .tech-prehled-subtitle { font-size: 11px; color: #80868b; }
+        .tech-prehled-toggle { font-size: 18px; color: #9aa0a6; transition: transform 0.2s; }
+        .tech-prehled-card.open .tech-prehled-toggle { transform: rotate(180deg); }
+
+        .tech-prehled-body { display: none; padding: 16px; }
+        .tech-prehled-card.open .tech-prehled-body { display: block; }
+
+        .tech-prehled-empty {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 10px; padding: 24px; text-align: center; color: #9aa0a6;
+        }
+        .tech-prehled-empty .material-icons-outlined { font-size: 36px; color: #dadce0; }
+        .tech-prehled-empty-title { font-size: 13px; font-weight: 500; color: #5f6368; }
+        .tech-prehled-empty-hint { font-size: 12px; }
+
+        .btn-ai-prehled {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 9px 18px; background: linear-gradient(135deg, #1558d6, #1a73e8);
+            color: #fff; border: none; border-radius: 8px;
+            font-size: 13px; font-weight: 500; cursor: pointer;
+            transition: opacity 0.15s; box-shadow: 0 1px 4px rgba(26,115,232,0.3);
+        }
+        .btn-ai-prehled:hover { opacity: 0.9; }
+        .btn-ai-prehled .material-icons-outlined { font-size: 18px; }
+
+        .tech-prehled-sections { display: flex; flex-direction: column; gap: 14px; }
+        .tech-prehled-section-title {
+            font-size: 11px; font-weight: 700; color: #5f6368;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+        }
+        .tech-prehled-section-title .material-icons-outlined { font-size: 14px; color: #9aa0a6; }
+        .tech-prehled-text {
+            font-size: 13px; color: #3c4043; line-height: 1.6;
+        }
+        .tech-prehled-chips {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+        }
+        .tech-prehled-chip {
+            font-size: 11px; padding: 3px 9px; border-radius: 12px;
+            background: #e8f0fe; color: #1558d6; font-weight: 500;
+        }
+        .tech-prehled-chip.orange { background: #fef3e2; color: #b06000; }
+        .tech-prehled-chip.green  { background: #e6f4ea; color: #137333; }
+        .tech-prehled-chip.gray   { background: #f1f3f4; color: #5f6368; }
+        .tech-prehled-table {
+            width: 100%; border-collapse: collapse; font-size: 12px;
+        }
+        .tech-prehled-table th {
+            text-align: left; padding: 5px 8px; background: #f8f9fa;
+            font-weight: 600; color: #5f6368; border-bottom: 1px solid #e8eaed;
+            font-size: 11px;
+        }
+        .tech-prehled-table td {
+            padding: 5px 8px; border-bottom: 1px solid #f1f3f4; color: #3c4043;
+        }
+        .tech-prehled-table tr:last-child td { border-bottom: none; }
+        .tech-prehled-actions {
+            display: flex; align-items: center; gap: 8px; margin-top: 14px;
+            padding-top: 12px; border-top: 1px solid #f1f3f4;
+        }
+        .tech-prehled-ai-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 10px; color: #1558d6; background: #e8f0fe;
+            padding: 2px 7px; border-radius: 8px;
+        }
+        .tech-prehled-ai-badge .material-icons-outlined { font-size: 12px; }
         .popis-preview {
             display: flex;
             align-items: flex-start;
@@ -1653,7 +1757,84 @@
             border-color: #1a73e8;
             box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
         }
-        
+
+        /* Kombinovaný editor — původní + AI návrh */
+        .popis-split-editor {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        @media (max-width: 700px) { .popis-split-editor { flex-direction: column; } }
+        .popis-split-block {
+            flex: 1;
+            border: 1px solid #e8eaed;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .popis-split-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            flex-shrink: 0;
+        }
+        .popis-split-label .material-icons-outlined { font-size: 13px; }
+        .popis-split-block.original .popis-split-label {
+            background: #f5f0ff; color: #6200ea; border-bottom: 1px solid #e8e0f7;
+        }
+        .popis-split-block.ai .popis-split-label {
+            background: #f0f6ff; color: #1558d6; border-bottom: 1px solid #d2e3fc;
+        }
+        .popis-split-textarea {
+            flex: 1;
+            resize: none;
+            border: none;
+            outline: none;
+            padding: 10px 12px;
+            font-size: 12px;
+            line-height: 1.6;
+            font-family: inherit;
+            min-height: 140px;
+        }
+        .popis-split-block.original .popis-split-textarea { background: #faf8ff; color: #3d0070; }
+        .popis-split-block.ai .popis-split-textarea { background: #f8fbff; color: #202124; }
+        .popis-split-actions {
+            display: flex;
+            gap: 5px;
+            padding: 6px 10px;
+            border-top: 1px solid #e8eaed;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .popis-split-use-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .popis-split-use-btn.use-this {
+            background: #137333; color: #fff; border-color: #137333;
+        }
+        .popis-split-use-btn.use-this:hover { background: #0d652a; }
+        .popis-split-copy-btn {
+            background: #f1f3f4; color: #5f6368; border-color: #dadce0;
+        }
+        .popis-split-copy-btn:hover { background: #e8eaed; }
+        .popis-split-use-btn .material-icons-outlined { font-size: 13px; }
+
         .popis-ai-btn {
             display: inline-flex;
             align-items: center;
@@ -12921,7 +13102,7 @@
             <!-- Základní údaje řízení -->
             <div class="rizeni-header-card" id="rizeniHeaderCard" style="background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
                 <!-- Rozbalený stav -->
-                <div id="rizeniHeaderExpanded">
+                <div id="rizeniHeaderExpanded" style="display: none;">
                     <div style="display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap;">
                         <!-- Název stavby - editovatelný -->
                         <div style="flex: 2; min-width: 300px;">
@@ -12994,13 +13175,13 @@
                         </div>
                     </div>
                     
-                    <!-- Popis stavby - rozbalovací sekce -->
+                    <!-- Popis záměru pro účastníky řízení - rozbalovací sekce -->
                     <div class="popis-stavby-section" id="popisStavbySection" style="margin-top: 16px; border-top: 1px solid #e8eaed; padding-top: 12px;">
                         <!-- Sbalený stav - pouze titulek a ikona -->
                         <div class="popis-stavby-collapsed" id="popisStavbyCollapsed" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="expandPopisStavby()">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368;">description</span>
-                                <span style="font-size: 13px; font-weight: 500; color: #3c4043;">Popis stavby</span>
+                                <span style="font-size: 13px; font-weight: 500; color: #3c4043;">Popis záměru pro účastníky řízení</span>
                                 <span id="popisStatusBadge" class="popis-status-badge" style="display: none; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #e8f5e9; color: #137333;">Vyplněno</span>
                             </div>
                             <button class="popis-expand-btn" style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: transparent; border: 1px solid #dadce0; border-radius: 4px; font-size: 12px; color: #1a73e8; cursor: pointer;" title="Rozbalit popis">
@@ -13016,7 +13197,7 @@
                                 Měl by obsahovat základní informace o stavbě srozumitelné i pro laiky.
                             </div>
                             <textarea id="popisStavbyTextarea" class="popis-textarea" rows="8" 
-                                placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem řízení je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010 Pardubice – Lichkov st. hr. Záměr zahrnuje výměnu reléového zabezpečovacího zařízení za elektronické stavědlo, úpravy kabelových tras, přejezdových zabezpečovacích zařízení a sdělovacího zařízení. Stavba je členěna na provozní soubory (PS) a stavební objekty (SO) v k.ú. Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl.</textarea>
+                                placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem záměru je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí. Stavba zahrnuje výměnu stávajících prvků zabezpečovacího zařízení za nové a opravu sdělovacího zařízení. Realizací nedojde ke změně parametrů trati.</textarea>
                             
                             <div class="popis-editor-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 12px;">
                                 <button class="popis-ai-btn" onclick="loadPopisFromAI()" id="popisAiBtn">
@@ -13038,17 +13219,18 @@
                         </div>
                     </div>
 
-                    <!-- Tlačítko Založit řízení -->
-                    <div style="display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid #e8eaed;">
-                        <button class="btn btn-primary" onclick="zalozitRizeni()" style="gap: 8px;">
-                            <span class="material-icons-outlined">add_circle</span>
-                            Založit řízení
+                    <!-- Tlačítka editace -->
+                    <div id="rizeniHeaderBtns" style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #e8eaed;">
+                        <button class="btn btn-secondary" onclick="rozbalitRizeniHeader()">Zrušit</button>
+                        <button class="btn btn-primary" onclick="ulozitRizeniHeader()" style="gap: 8px;">
+                            <span class="material-icons-outlined">check</span>
+                            Uložit opravy
                         </button>
                     </div>
                 </div>
 
                 <!-- Sbalený stav po založení -->
-                <div id="rizeniHeaderCollapsed" style="display: none; align-items: center; gap: 16px; flex-wrap: wrap;">
+                <div id="rizeniHeaderCollapsed" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
                     <span class="material-icons-outlined" style="font-size: 20px; color: #137333;">check_circle</span>
                     <div style="flex: 1; min-width: 0;">
                         <div style="font-size: 13px; font-weight: 500; color: #202124;" id="collapsedNazev">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div>
@@ -13064,6 +13246,33 @@
                         <span class="material-icons-outlined" style="font-size: 16px;">edit</span>
                         Upravit
                     </button>
+                </div>
+            </div>
+
+
+            <!-- Technický přehled záměru (interní, pro referenta) -->
+            <div class="tech-prehled-card" id="techPrehledCard">
+                <div class="tech-prehled-header" onclick="toggleTechPrehled()">
+                    <div class="tech-prehled-icon">
+                        <span class="material-icons-outlined">engineering</span>
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div class="tech-prehled-title">Technický přehled záměru</div>
+                        <div class="tech-prehled-subtitle" id="techPrehledSubtitle">Interní přehled pro referenta — načíst z dokumentace (AI)</div>
+                    </div>
+                    <span class="material-icons-outlined tech-prehled-toggle">expand_more</span>
+                </div>
+                <div class="tech-prehled-body" id="techPrehledBody">
+                    <div class="tech-prehled-empty" id="techPrehledEmpty">
+                        <span class="material-icons-outlined">analytics</span>
+                        <div class="tech-prehled-empty-title">Přehled zatím nebyl vygenerován</div>
+                        <div class="tech-prehled-empty-hint">AI vytěží Souhrnnou technickou zprávu (část B) a připraví strukturovaný přehled stavby pro referenta.</div>
+                        <button class="btn-ai-prehled" onclick="generateTechPrehled()">
+                            <span class="material-icons-outlined">auto_awesome</span>
+                            Načíst z dokumentace (AI)
+                        </button>
+                    </div>
+                    <div class="tech-prehled-sections" id="techPrehledContent" style="display:none;"></div>
                 </div>
             </div>
 
@@ -17534,6 +17743,144 @@
             if (hint1) hint1.textContent = 'Výchozí krok — odemkne kontrolu žádosti';
         }
 
+        // ==========================================
+        // TECHNICKÝ PŘEHLED ZÁMĚRU
+        // ==========================================
+        function toggleTechPrehled() {
+            const card = document.getElementById('techPrehledCard');
+            card.classList.toggle('open');
+        }
+
+        function generateTechPrehled() {
+            const empty = document.getElementById('techPrehledEmpty');
+            const content = document.getElementById('techPrehledContent');
+            const subtitle = document.getElementById('techPrehledSubtitle');
+            const card = document.getElementById('techPrehledCard');
+
+            empty.innerHTML = `
+                <span class="material-icons-outlined" style="font-size:36px;color:#1a73e8;animation:spin 1s linear infinite;">sync</span>
+                <div class="tech-prehled-empty-title" style="color:#1558d6;">Vytěžuji Souhrnnou technickou zprávu...</div>
+                <div class="tech-prehled-empty-hint">B.1 — Popis území stavby · B.2 — Celkový popis stavby</div>`;
+
+            setTimeout(() => {
+                empty.style.display = 'none';
+                content.style.display = 'flex';
+                card.classList.add('has-content');
+                subtitle.textContent = 'Vygenerováno AI z části B — Souhrnná technická zpráva (Signal Projekt s.r.o., červen 2025)';
+
+                content.innerHTML = `
+                    <div>
+                        <div class="tech-prehled-section-title">
+                            <span class="material-icons-outlined">info</span>Charakter a účel stavby
+                        </div>
+                        <div class="tech-prehled-text">
+                            Oprava a modernizace zabezpečovacích a sdělovacích zařízení v obvodu <strong>Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk</strong> na tratích Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orlických horách (km 0,000–2,580). Stavba je dráhou 3. kategorie — regionální. Realizací se nemění parametry trati ani rozsah kolejiště. Stávající staniční ZZ 2. kategorie bude nahrazeno novým ZZ 3. kategorie s přípravou pro dálkové ovládání (DOZ). Stupeň dokumentace: DSP + PDPS. Stavba trvalého charakteru.
+                        </div>
+                        <div class="tech-prehled-chips" style="margin-top:8px;">
+                            <span class="tech-prehled-chip green">Orientační náklady: 142,4 mil. Kč</span>
+                            <span class="tech-prehled-chip">Příkon: 135 kW (nová přípojka VN 35 kV)</span>
+                            <span class="tech-prehled-chip orange">Zahájení: 05/2026 · Dokončení: 11/2027</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="tech-prehled-section-title">
+                            <span class="material-icons-outlined">settings</span>Provozní soubory (PS)
+                        </div>
+                        <table class="tech-prehled-table">
+                            <thead><tr><th>Označení</th><th>Popis</th><th>Stav → Navrhovaný stav</th></tr></thead>
+                            <tbody>
+                                <tr><td>PS 12-01-11</td><td>Doudleby n.O. — staniční ZZ (SZZ)</td><td>2. kat. → 3. kat., přejezd P4037 → PZS 3ZBI, příprava DOZ</td></tr>
+                                <tr><td>PS 11-01-21</td><td>Potštejn – Doudleby n.O. — traťové ZZ (TZZ)</td><td>tel. dorozumívání → TZZ 3. kat.</td></tr>
+                                <tr><td>PS 13-01-21</td><td>Doudleby n.O. – Kostelec n.O. — TZZ</td><td>tel. dorozumívání → TZZ 3. kat.</td></tr>
+                                <tr><td>PS 14-01-21</td><td>Doudleby n.O. – Vamberk — TZZ</td><td>tel. dorozumívání → TZZ 3. kat. bez oddílových návěstidel</td></tr>
+                                <tr><td>PS 12-02-11</td><td>Doudleby n.O. — místní kabelizace (MK)</td><td>Nová optická kabelizace, HDPE trubky, příprava REOV a DOZ</td></tr>
+                                <tr><td>PS 12-02-21</td><td>Doudleby n.O. — rozhlasové zařízení</td><td>IP rozhlas s automatickým hlášením</td></tr>
+                                <tr><td>PS 12-02-31</td><td>Doudleby n.O. — integrovaná tel. zařízení</td><td>IP zapojovač s dotykovým terminálem</td></tr>
+                                <tr><td>PS 12-02-41</td><td>Doudleby n.O. — PZTS</td><td>Nový systém pro DK, SÚ, sdělovací místnost, čekárnu</td></tr>
+                                <tr><td>PS 14-02-51</td><td>Doudleby n.O. – Vamberk — traťový kabel</td><td>3× HDPE trubky + kabel 10 XN zaslepeny v ŽST Vamberk</td></tr>
+                                <tr><td>PS 12-02-71</td><td>Doudleby n.O. — sdělovací zařízení</td><td>Strukturovaná kabeláž SÚ–DK, optika 12 vláken, DCF hodiny</td></tr>
+                                <tr><td>PS 12-02-81</td><td>Doudleby n.O. — přenosový systém</td><td>Nové racky 47U, switch TDS, vazba SZZ do SRD (VNPN STOP)</td></tr>
+                                <tr><td>PS 12-02-01</td><td>Doudleby n.O. — DDTS ŽDC</td><td>Integrace TLS systémů, InK Kostelec n.O., přenos na InS ED Pardubice a InS CDP Praha</td></tr>
+                                <tr><td>PS 12-03-11</td><td>Doudleby n.O. — dispečerská řídicí technika (DŘT)</td><td>Nová — bezpečná komunikace elektrodispečink, rozvaděč RDRT</td></tr>
+                                <tr><td>PS 12-03-51</td><td>Doudleby n.O. — trafostanice 35/0,4 kV</td><td>Nová — přechod z NN na VN 35 kV (navýšení energetické bilance)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <div class="tech-prehled-section-title">
+                            <span class="material-icons-outlined">view_module</span>Stavební objekty (SO)
+                        </div>
+                        <table class="tech-prehled-table">
+                            <thead><tr><th>Označení</th><th>Popis</th><th>Rozsah</th></tr></thead>
+                            <tbody>
+                                <tr><td>SO 12-12-01</td><td>Doudleby n.O. — nástupiště</td><td>Prodloužení 20 m (SUDOP KTD 145 Z), demontáž přístupového chodníku 42 m², vyjmutí přechodu v koleji č. 2</td></tr>
+                                <tr><td>SO 12-71-01</td><td>Doudleby n.O. — výpravní budova, adaptace</td><td>Oprava podlahy místnosti ČD Telematiky (antistat. PVC), vybourání podlah DK místností 113 a 114</td></tr>
+                                <tr><td>SO 12-71-02</td><td>Doudleby n.O. — výpravní budova, elektroinstalace</td><td>Nová elektroinstalace a technologické rozvody ze sdělovací ústředny</td></tr>
+                                <tr><td>SO 12-72-01</td><td>Doudleby n.O. — technologický objekt SÚ</td><td>Nový objekt na p.č. 1550/1 — ocelový rám 3×6 m (2 ks), plochá střecha</td></tr>
+                                <tr><td>SO 12-72-02</td><td>Doudleby n.O. — technologický objekt SÚ, hromosvod</td><td>Ochrana před úderem blesku pro nový objekt SÚ</td></tr>
+                                <tr><td>SO 12-72-03</td><td>Doudleby n.O. — technologický objekt TS</td><td>Nový obj. na p.č. 1550/1 — monolitický beton, 4 části (trafostanice), plochá střecha</td></tr>
+                                <tr><td>SO 12-72-04</td><td>Doudleby n.O. — technologický objekt TS, elektroinstalace</td><td>Elektroinstalace nového obj. trafostanice</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <div class="tech-prehled-section-title">
+                            <span class="material-icons-outlined">place</span>Dotčená katastrální území a vlastníci pozemků
+                        </div>
+                        <div class="tech-prehled-chips">
+                            <span class="tech-prehled-chip">Doudleby nad Orlicí</span>
+                            <span class="tech-prehled-chip">Kostelec nad Orlicí</span>
+                            <span class="tech-prehled-chip">Vamberk</span>
+                            <span class="tech-prehled-chip">Záměl</span>
+                        </div>
+                        <div class="tech-prehled-text" style="margin-top:8px;font-size:12px;color:#5f6368;">
+                            Hlavní vlastníci/správci pozemků: Správa železnic s.o. · České dráhy a.s. · Město Vamberk · Správa silnic KHK · Povodí Labe s.p. · Městys Doudleby n.O.
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="tech-prehled-section-title">
+                            <span class="material-icons-outlined">warning_amber</span>Specifika, omezení a koordinace
+                        </div>
+                        <div class="tech-prehled-chips">
+                            <span class="tech-prehled-chip orange">Provozovaná dráha — nutné výluky</span>
+                            <span class="tech-prehled-chip orange">Záplavové území Divoká Orlice (Q5–Q500)</span>
+                            <span class="tech-prehled-chip orange">CHOPAV — chráněná oblast přirozené akumulace vod</span>
+                            <span class="tech-prehled-chip gray">Kácení dřevin do 40 m² (vyžaduje povolení)</span>
+                            <span class="tech-prehled-chip gray">Biologický průzkum 9/2024 — bez chráněných druhů</span>
+                            <span class="tech-prehled-chip gray">Koordinace: Rekonstrukce PZM km 64,614 (P4038)</span>
+                            <span class="tech-prehled-chip gray">Nízký radonový index, malá seismicita (0,04–0,06 g)</span>
+                        </div>
+                    </div>
+
+                    <div class="tech-prehled-actions">
+                        <span class="tech-prehled-ai-badge">
+                            <span class="material-icons-outlined">auto_awesome</span>
+                            Vygenerováno AI · B.1–B.2 STZ · Signal Projekt s.r.o. červen 2025
+                        </span>
+                        <button style="margin-left:auto;display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border:1px solid #dadce0;background:#fff;border-radius:6px;font-size:11px;color:#5f6368;cursor:pointer;" onclick="generateTechPrehled()">
+                            <span class="material-icons-outlined" style="font-size:14px;">refresh</span>Obnovit
+                        </button>
+                    </div>`;
+            }, 2200);
+        }
+
+        function ulozitRizeniHeader() {
+            const nazev = document.getElementById('nazevStavby').value || 'Bez názvu';
+            const druhSelect = document.getElementById('druhRizeni');
+            const druh = druhSelect ? druhSelect.options[druhSelect.selectedIndex].text : 'Povolení stavby nebo zařízení';
+            document.getElementById('collapsedNazev').textContent = nazev;
+            document.getElementById('collapsedDruh').textContent = druh;
+            document.getElementById('caseTitleHeader').textContent = nazev;
+            document.getElementById('rizeniHeaderExpanded').style.display = 'none';
+            document.getElementById('rizeniHeaderCollapsed').style.display = 'flex';
+            document.getElementById('rizeniHeaderCard').style.borderColor = '#a8d5b5';
+            document.getElementById('rizeniHeaderCard').style.background = '#f6fef8';
+        }
+
         function rozbalitRizeniHeader() {
             document.getElementById('rizeniHeaderExpanded').style.display = 'block';
             document.getElementById('rizeniHeaderCollapsed').style.display = 'none';
@@ -17549,19 +17896,24 @@
             const collapsed = document.getElementById('popisStavbyCollapsed');
             const editor = document.getElementById('popisStavbyEditor');
             const textarea = document.getElementById('popisStavbyTextarea');
-            const expandBtn = collapsed ? collapsed.querySelector('.popis-expand-btn .material-icons-outlined') : null;
-            
-            // Uložit původní text pro případ zrušení
             originalPopisText = textarea.value;
-            
-            // Skrýt sbalený stav, zobrazit editor
             if (collapsed) collapsed.style.display = 'none';
             if (editor) editor.style.display = 'block';
-            
-            // Fokus na textarea
-            if (textarea) {
-                textarea.focus();
-                textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+            // Skrýt tlačítka záhlaví během editace popisu
+            const headerBtns = document.getElementById('rizeniHeaderBtns');
+            if (headerBtns) headerBtns.style.display = 'none';
+            if (textarea) { textarea.focus(); textarea.setSelectionRange(textarea.value.length, textarea.value.length); }
+        }
+
+        function savePopisStavby() {
+            collapsePopisStavby();
+            const headerBtns = document.getElementById('rizeniHeaderBtns');
+            if (headerBtns) headerBtns.style.display = 'flex';
+            const collapsed = document.getElementById('popisStavbyCollapsed');
+            if (collapsed) {
+                collapsed.style.transition = 'background 0.3s';
+                collapsed.style.background = '#e6f4ea';
+                setTimeout(() => { collapsed.style.background = ''; }, 1000);
             }
         }
         
@@ -17585,26 +17937,18 @@
             if (editor) editor.style.display = 'none';
             if (collapsed) collapsed.style.display = 'flex';
         }
-        
-        function savePopisStavby() {
-            collapsePopisStavby();
-            
-            // Vizuální potvrzení uložení
-            const collapsed = document.getElementById('popisStavbyCollapsed');
-            if (collapsed) {
-                collapsed.style.transition = 'background 0.3s';
-                collapsed.style.background = '#e6f4ea';
-                setTimeout(() => {
-                    collapsed.style.background = '';
-                }, 1000);
-            }
-        }
-        
+
         function cancelPopisStavby() {
             const textarea = document.getElementById('popisStavbyTextarea');
-            if (textarea) {
-                textarea.value = originalPopisText;
-            }
+            const splitEl = document.getElementById('poisSplitEditor');
+            if (splitEl) splitEl.remove();
+            if (textarea) { textarea.style.display = ''; textarea.value = originalPopisText; }
+            const btn = document.getElementById('popisAiBtn');
+            const textSpan = btn ? btn.querySelector('.popis-ai-text') : null;
+            if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
+            if (textSpan) textSpan.textContent = 'Načíst z dokumentace (AI)';
+            const headerBtns = document.getElementById('rizeniHeaderBtns');
+            if (headerBtns) headerBtns.style.display = 'flex';
             collapsePopisStavby();
         }
         
@@ -17613,51 +17957,103 @@
             const textarea = document.getElementById('popisStavbyTextarea');
             const textSpan = btn.querySelector('.popis-ai-text');
             const loadingSpan = btn.querySelector('.popis-ai-loading');
-            
-            // Zobrazit loading stav
+
             btn.disabled = true;
             if (textSpan) textSpan.style.display = 'none';
             if (loadingSpan) loadingSpan.style.display = 'inline-flex';
-            
-            // Simulace AI načítání (2.5 sekundy)
+
+            const originalText = textarea ? textarea.value.trim() : '';
+
             setTimeout(() => {
-                // AI vygenerovaný popis ze souhrnné technické zprávy
-                const aiPopis = `Předmětem stavebního záměru je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí na trati č. 010 Pardubice – Lichkov st. hr. Záměr zahrnuje výměnu stávajícího reléového zabezpečovacího zařízení za elektronické stavědlo typu ESA 44, úpravy přejezdových zabezpečovacích zařízení, sdělovacích zařízení a souvisejících kabelových tras.
+                const aiPopis = `Předmětem stavebního záměru je oprava a modernizace zabezpečovacích a sdělovacích zařízení na železniční trati Týniště nad Orlicí – Letohrad a na trati Doudleby nad Orlicí – Rokytnice v Orlických horách, v obvodu stanic Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Stavba zahrnuje výměnu stávajícího staničního zabezpečovacího zařízení 2. kategorie za nové zařízení 3. kategorie s přípravou pro dálkové ovládání, zřízení traťových zabezpečovacích zařízení v mezistaničních úsecích, výstavbu nových technologických objektů (stavědlová ústředna, trafostanice 35/0,4 kV), úpravy nástupišť a výpravní budovy, zřízení nové elektrické přípojky z hladiny VN 35 kV a modernizaci sdělovacích, telekomunikačních a dispečerských systémů. Realizací se nemění parametry ani rozsah stávajícího kolejiště. Stavba je umístěna na drážních pozemcích v katastrálních územích Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl.`;
 
-Stavba je členěna na provozní soubory (PS) a stavební objekty (SO):
-
-PS 11-01-21 – Staniční zabezpečovací zařízení žst. Doudleby n.O.
-PS 12-02-11 – Přejezdové ZZ v km 2,345
-PS 12-02-71 – Přejezdové ZZ v km 4,567
-PS 12-02-81 – Přejezdové ZZ v km 6,789
-PS 12-02-01 – Přejezdové ZZ (další)
-PS 13-02-51 – Sdělovací zařízení
-PS 14-02-51 – Kabelové rozvody
-PS 14-03-51 – Napájení zabezpečovacího zařízení
-
-SO 12-12-01 – Kabelovod a kabelové trasy
-SO 12-76-01 – Úpravy trakčního vedení
-SO 12-86-02 – Úpravy osvětlení
-SO 12-88-01 – Demolice
-
-Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orlicí (1 pozemek), Vamberk (10 pozemků) a Záměl (1 pozemek). Celkem 38 dotčených pozemků ve 4 katastrálních územích.`;
-                
-                if (textarea) {
-                    textarea.value = aiPopis;
-                }
-                
-                // Vrátit button do původního stavu
                 btn.disabled = false;
-                if (textSpan) textSpan.style.display = 'inline';
+                if (textSpan) { textSpan.style.display = 'inline'; textSpan.textContent = 'Obnovit z dokumentace'; }
                 if (loadingSpan) loadingSpan.style.display = 'none';
-                
-                // Změnit text buttonu
-                if (textSpan) textSpan.textContent = 'Načteno z dokumentace';
-                btn.style.background = '#e6f4ea';
-                btn.style.borderColor = '#34a853';
-                btn.style.color = '#137333';
-                
+                btn.style.background = '#e8f0fe';
+                btn.style.borderColor = '#1a73e8';
+                btn.style.color = '#1558d6';
+
+                if (textarea) textarea.style.display = 'none';
+
+                // Skrýt tlačítka záhlaví (Zrušit/Uložit opravy) dokud pracujeme s popisem
+                const headerBtns = document.getElementById('rizeniHeaderBtns');
+                if (headerBtns) headerBtns.style.display = 'none';
+
+                const prev = document.getElementById('poisSplitEditor');
+                if (prev) prev.remove();
+
+                const editorActions = document.querySelector('.popis-editor-actions');
+                const splitEl = document.createElement('div');
+                splitEl.id = 'poisSplitEditor';
+                splitEl.className = 'popis-split-editor';
+                splitEl.innerHTML = `
+                    <div class="popis-split-block original">
+                        <div class="popis-split-label">
+                            <span class="material-icons-outlined">description</span>
+                            Ze žádosti — upravitelný
+                        </div>
+                        <textarea class="popis-split-textarea" id="splitOriginalTA" spellcheck="true">${originalText}</textarea>
+                        <div class="popis-split-actions">
+                            <button class="popis-split-use-btn use-this" onclick="useSplitPopis('original')">
+                                <span class="material-icons-outlined">check</span>
+                                Použít tento text
+                            </button>
+                        </div>
+                    </div>
+                    <div class="popis-split-block ai">
+                        <div class="popis-split-label">
+                            <span class="material-icons-outlined">auto_awesome</span>
+                            Návrh AI z dokumentace — upravitelný
+                        </div>
+                        <textarea class="popis-split-textarea" id="splitAiTA" spellcheck="true">${aiPopis}</textarea>
+                        <div class="popis-split-actions">
+                            <button class="popis-split-use-btn use-this" onclick="useSplitPopis('ai')">
+                                <span class="material-icons-outlined">check</span>
+                                Použít tento text
+                            </button>
+                        </div>
+                    </div>`;
+
+                if (editorActions) {
+                    editorActions.parentNode.insertBefore(splitEl, editorActions);
+                }
             }, 2500);
+        }
+
+        function copyToOther(from) {
+            const srcId = from === 'original' ? 'splitOriginalTA' : 'splitAiTA';
+            const dstId = from === 'original' ? 'splitAiTA' : 'splitOriginalTA';
+            const src = document.getElementById(srcId);
+            const dst = document.getElementById(dstId);
+            if (src && dst) {
+                dst.value = src.value;
+                dst.focus();
+            }
+        }
+
+        function useSplitPopis(which) {
+            const textarea = document.getElementById('popisStavbyTextarea');
+            const splitEl = document.getElementById('poisSplitEditor');
+            if (!textarea || !splitEl) return;
+
+            const srcId = which === 'original' ? 'splitOriginalTA' : 'splitAiTA';
+            const src = document.getElementById(srcId);
+            textarea.value = src ? src.value : '';
+
+            // Vrátit se do normálního editoru — split pryč, textarea viditelná
+            textarea.style.display = '';
+            splitEl.remove();
+
+            // Tlačítka záhlaví zůstávají schovaná — jsme stále v editoru
+            // (zobrazí se až po Uložit popis nebo Zrušit)
+
+            const btn = document.getElementById('popisAiBtn');
+            const textSpan = btn ? btn.querySelector('.popis-ai-text') : null;
+            if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
+            if (textSpan) textSpan.textContent = 'Načíst z dokumentace (AI)';
+
+            textarea.focus();
         }
 
         // Escape key closes overlays
@@ -28593,6 +28989,8 @@ Stavba se nachází v k.ú. Doudleby nad Orlicí (26 pozemků), Kostelec nad Orl
         // Inicializace při načtení stránky
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
+            // Řízení se zakládá automaticky — přeskočit mezikrok
+            zalozitRizeni();
         });
     </script>
     <script src="doc-modals.js"></script>
