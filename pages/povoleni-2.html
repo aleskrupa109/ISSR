@@ -1835,6 +1835,20 @@
         .popis-split-copy-btn:hover { background: #e8eaed; }
         .popis-split-use-btn .material-icons-outlined { font-size: 13px; }
 
+        /* Toolbar pro split editor */
+        .split-toolbar {
+            display: flex; align-items: center; gap: 2px;
+            padding: 4px 8px; background: #f8f9fa; border-bottom: 1px solid #e8eaed;
+        }
+        .split-tb-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 26px; height: 24px; border: 1px solid #dadce0;
+            background: #fff; border-radius: 4px; font-size: 12px;
+            cursor: pointer; color: #3c4043; transition: background 0.1s;
+        }
+        .split-tb-btn:hover { background: #e8f0fe; border-color: #1a73e8; color: #1558d6; }
+        .split-tb-sep { width: 1px; height: 16px; background: #dadce0; margin: 0 3px; }
+
         .popis-ai-btn {
             display: inline-flex;
             align-items: center;
@@ -17965,8 +17979,6 @@
             const originalText = textarea ? textarea.value.trim() : '';
 
             setTimeout(() => {
-                const aiPopis = `Předmětem stavebního záměru je oprava a modernizace zabezpečovacích a sdělovacích zařízení na železniční trati Týniště nad Orlicí – Letohrad a na trati Doudleby nad Orlicí – Rokytnice v Orlických horách, v obvodu stanic Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Stavba zahrnuje výměnu stávajícího staničního zabezpečovacího zařízení 2. kategorie za nové zařízení 3. kategorie s přípravou pro dálkové ovládání, zřízení traťových zabezpečovacích zařízení v mezistaničních úsecích, výstavbu nových technologických objektů (stavědlová ústředna, trafostanice 35/0,4 kV), úpravy nástupišť a výpravní budovy, zřízení nové elektrické přípojky z hladiny VN 35 kV a modernizaci sdělovacích, telekomunikačních a dispečerských systémů. Realizací se nemění parametry ani rozsah stávajícího kolejiště. Stavba je umístěna na drážních pozemcích v katastrálních územích Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl.`;
-
                 btn.disabled = false;
                 if (textSpan) { textSpan.style.display = 'inline'; textSpan.textContent = 'Obnovit z dokumentace'; }
                 if (loadingSpan) loadingSpan.style.display = 'none';
@@ -17983,7 +17995,27 @@
                 const prev = document.getElementById('poisSplitEditor');
                 if (prev) prev.remove();
 
+                // Skrýt popis-editor-actions (AI btn + Uložit) při split pohledu
                 const editorActions = document.querySelector('.popis-editor-actions');
+                if (editorActions) editorActions.style.display = 'none';
+
+                const aiPopis = `Předmětem stavebního záměru je oprava a modernizace zabezpečovacích a sdělovacích zařízení na železniční trati Týniště nad Orlicí – Letohrad a na trati Doudleby nad Orlicí – Rokytnice v Orlických horách, v obvodu stanic Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk.
+
+Stavba zahrnuje výměnu stávajícího staničního zabezpečovacího zařízení 2. kategorie za nové zařízení 3. kategorie s přípravou pro dálkové ovládání, zřízení traťových zabezpečovacích zařízení v mezistaničních úsecích a výstavbu nových technologických objektů (stavědlová ústředna, trafostanice 35/0,4 kV). Dále jsou součástí stavby úpravy nástupišť a výpravní budovy a zřízení nové elektrické přípojky z hladiny VN 35 kV.
+
+Součástí záměru je rovněž modernizace sdělovacích, telekomunikačních a dispečerských systémů včetně dálkové diagnostiky, rozhlasového zařízení a poplachového zabezpečovacího systému. Realizací stavby se nemění parametry ani rozsah stávajícího kolejiště.
+
+Stavba je umístěna na drážních pozemcích v katastrálních územích Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl. Jedná se o stavbu trvalého charakteru, stupeň dokumentace DSP + PDPS.`;
+
+                const toolbar = (taId) => `
+                    <div class="split-toolbar">
+                        <button class="split-tb-btn" title="Tučně" onclick="splitFormat('bold','${taId}')"><b>B</b></button>
+                        <button class="split-tb-btn" title="Kurzíva" onclick="splitFormat('italic','${taId}')"><i>I</i></button>
+                        <span class="split-tb-sep"></span>
+                        <button class="split-tb-btn" title="Nový odstavec" onclick="splitFormat('paragraph','${taId}')">¶</button>
+                        <button class="split-tb-btn" title="Odrážka" onclick="splitFormat('bullet','${taId}')">• —</button>
+                    </div>`;
+
                 const splitEl = document.createElement('div');
                 splitEl.id = 'poisSplitEditor';
                 splitEl.className = 'popis-split-editor';
@@ -17993,6 +18025,7 @@
                             <span class="material-icons-outlined">description</span>
                             Ze žádosti — upravitelný
                         </div>
+                        ${toolbar('splitOriginalTA')}
                         <textarea class="popis-split-textarea" id="splitOriginalTA" spellcheck="true">${originalText}</textarea>
                         <div class="popis-split-actions">
                             <button class="popis-split-use-btn use-this" onclick="useSplitPopis('original')">
@@ -18006,6 +18039,7 @@
                             <span class="material-icons-outlined">auto_awesome</span>
                             Návrh AI z dokumentace — upravitelný
                         </div>
+                        ${toolbar('splitAiTA')}
                         <textarea class="popis-split-textarea" id="splitAiTA" spellcheck="true">${aiPopis}</textarea>
                         <div class="popis-split-actions">
                             <button class="popis-split-use-btn use-this" onclick="useSplitPopis('ai')">
@@ -18019,6 +18053,20 @@
                     editorActions.parentNode.insertBefore(splitEl, editorActions);
                 }
             }, 2500);
+        }
+
+        function splitFormat(cmd, taId) {
+            const ta = document.getElementById(taId);
+            if (!ta) return;
+            const start = ta.selectionStart, end = ta.selectionEnd;
+            const sel = ta.value.substring(start, end);
+            let insert = '';
+            if (cmd === 'bold')      insert = `**${sel || 'tučný text'}**`;
+            else if (cmd === 'italic')    insert = `_${sel || 'kurzíva'}_`;
+            else if (cmd === 'paragraph') insert = (start === 0 || ta.value[start-1] === '\n' ? '' : '\n') + '\n';
+            else if (cmd === 'bullet')    insert = (start === 0 || ta.value[start-1] === '\n' ? '' : '\n') + `• ${sel || ''}`;
+            ta.setRangeText(insert, start, end, 'end');
+            ta.focus();
         }
 
         function copyToOther(from) {
@@ -18041,12 +18089,12 @@
             const src = document.getElementById(srcId);
             textarea.value = src ? src.value : '';
 
-            // Vrátit se do normálního editoru — split pryč, textarea viditelná
             textarea.style.display = '';
             splitEl.remove();
 
-            // Tlačítka záhlaví zůstávají schovaná — jsme stále v editoru
-            // (zobrazí se až po Uložit popis nebo Zrušit)
+            // Znovu zobrazit AI btn + Uložit popis (tlačítka záhlaví zůstanou schovaná)
+            const editorActions = document.querySelector('.popis-editor-actions');
+            if (editorActions) editorActions.style.display = 'flex';
 
             const btn = document.getElementById('popisAiBtn');
             const textSpan = btn ? btn.querySelector('.popis-ai-text') : null;
