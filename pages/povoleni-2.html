@@ -10735,6 +10735,16 @@
         .doklady-subjekt-row.zaporne { border-color: #ea4335; }
         .doklady-subjekt-row.missing-vti { border-color: #ea4335; background: #fff8f8; }
         .doklady-subjekt-row.missing-do { border-color: #fbbc04; background: #fffbea; }
+        .doklady-result-btn.chybi { color: #b06000; border-color: #fde68a; background: #fffbea; }
+        .doklady-result-btn.chybi.active { background: #e65100; color: #fff; border-color: #e65100; }
+        /* Podmínky editor — větší textarea v modálu */
+        .podminky-richarea { width:100%; min-height:140px; padding:10px 12px; border:1px solid #dadce0; border-radius:6px; font-size:13px; font-family:inherit; line-height:1.6; resize:vertical; box-sizing:border-box; }
+        .podminky-richarea:focus { outline:none; border-color:#004289; box-shadow:0 0 0 2px rgba(0,66,137,0.12); }
+        .podminky-toolbar { display:flex; align-items:center; gap:3px; padding:5px 8px; background:#f8f9fa; border:1px solid #dadce0; border-bottom:none; border-radius:6px 6px 0 0; }
+        .podminky-toolbar + .podminky-richarea { border-radius:0 0 6px 6px; }
+        .ptb-btn { display:inline-flex; align-items:center; justify-content:center; width:27px; height:25px; border:1px solid #dadce0; background:#fff; border-radius:4px; font-size:12px; cursor:pointer; color:#3c4043; transition:background .1s; }
+        .ptb-btn:hover { background:#e8f0fe; border-color:#1a73e8; color:#1558d6; }
+        .ptb-sep { width:1px; height:16px; background:#dadce0; margin:0 3px; }
 
         .doklady-subjekt-top {
             display: flex; align-items: center; gap: 8px;
@@ -17198,22 +17208,22 @@
                     </div>
                 </div>
 
-                <!-- Seznam podmínek -->
+                <!-- Podmínky pro rozhodnutí — editor -->
                 <div class="podminky-section" id="podminkySectionList" style="display: none;">
                     <div class="podminky-section-title">Podmínky pro rozhodnutí</div>
-                    <p style="font-size: 12px; color: #5f6368; margin-bottom: 12px;">
-                        Zadejte podmínky, které budou součástí rozhodnutí o povolení stavby.
+                    <p style="font-size: 12px; color: #5f6368; margin-bottom: 10px;">
+                        Zadejte podmínky, které budou součástí rozhodnutí o povolení stavby. Každou podmínku uveďte na samostatném řádku.
                     </p>
-                    <div class="podminky-list" id="podminkyList">
-                        <!-- Dynamicky renderováno -->
+                    <div class="podminky-toolbar">
+                        <button class="ptb-btn" title="Tučně" onclick="podmFmt('bold')"><b>B</b></button>
+                        <button class="ptb-btn" title="Kurzíva" onclick="podmFmt('italic')"><i>I</i></button>
+                        <span class="ptb-sep"></span>
+                        <button class="ptb-btn" title="Nová podmínka (číslovaná)" onclick="podmFmt('numbered')" style="width:auto;padding:0 7px;font-size:11px;">1.</button>
+                        <button class="ptb-btn" title="Odrážka" onclick="podmFmt('bullet')">•</button>
+                        <button class="ptb-btn" title="Nový odstavec" onclick="podmFmt('paragraph')">¶</button>
                     </div>
-                    <div class="add-podminka-row">
-                        <input type="text" class="add-podminka-input" id="addPodminkaText" placeholder="Přidat novou podmínku..." onkeypress="if(event.key==='Enter') addPodminka()">
-                        <button class="btn-add-podminka" onclick="addPodminka()">
-                            <span class="material-icons-outlined">add</span>
-                            Přidat
-                        </button>
-                    </div>
+                    <textarea class="podminky-richarea" id="podminkyEditorText"
+                        placeholder="Zadejte podmínky pro rozhodnutí&#10;&#10;Každou podmínku uveďte na samostatném řádku nebo odstavci.&#10;Příklad:&#10;1. Stavba bude provedena v souladu s projektovou dokumentací...&#10;2. Před zahájením stavby bude..."></textarea>
                 </div>
 
                 <!-- Poznámka úředníka -->
@@ -24399,10 +24409,6 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     <span class="doklady-sekce-panel-count">${ok}/${subjekty.length} ✓</span>
                 </div>`;
             subjekty.forEach(s => { html += renderSubjektRow(s, typ); });
-            html += `<div style="margin-top:4px;">
-                <button style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:1px dashed #dadce0;background:none;border-radius:6px;font-size:11px;color:#5f6368;cursor:pointer;" onmouseenter="this.style.borderColor='#004289';this.style.color='#004289'" onmouseleave="this.style.borderColor='#dadce0';this.style.color='#5f6368'" onclick="addDokladySubjekt('${typ}')">
-                    <span class="material-icons-outlined" style="font-size:14px;">add</span> Přidat ${typ.toUpperCase()}
-                </button></div>`;
             html += `</div>`;
             return html;
         }
@@ -24467,27 +24473,36 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     <button class="doklady-result-btn zaporne ${s.vysledek==='zaporne'?'active':''}" onclick="setSubjektVysledek('${s.id}','zaporne')">
                         <span class="material-icons-outlined">cancel</span> Záporné
                     </button>
+                    <button class="doklady-result-btn chybi ${s.vysledek==='chybi'?'active':''}" onclick="setSubjektVysledek('${s.id}','chybi')">
+                        <span class="material-icons-outlined">help_outline</span> Chybí
+                    </button>
                 </div>`;
 
-                // Conditions
-                if (s.vysledek === 'podminky' || s.podminky.length > 0) {
+                // Conditions — button to open modal editor
+                if (s.vysledek === 'podminky') {
+                    const pocet = s.podminkyText ? s.podminkyText.trim().split('\n').filter(l=>l.trim()).length : 0;
                     html += `<div class="doklady-podminky-area">
-                        <div style="font-size:10px;font-weight:600;color:#5f6368;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.3px;">Podmínky pro rozhodnutí</div>`;
-                    s.podminky.forEach((p, i) => {
-                        html += `<div class="doklady-podminka-row">
-                            <span class="doklady-podminka-num">${i+1}</span>
-                            <span class="doklady-podminka-text">${p}</span>
-                            <button class="doklady-podminka-del" onclick="removeDokladyPodminka('${s.id}',${i})">
-                                <span class="material-icons-outlined">close</span>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                            <div style="font-size:10px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.3px;">Podmínky pro rozhodnutí</div>
+                            <button style="display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border:1px solid #dadce0;background:#fff;border-radius:5px;font-size:11px;color:#1a73e8;cursor:pointer;" onclick="openDokladyPodminkyEditor('${s.id}')">
+                                <span class="material-icons-outlined" style="font-size:13px;">edit_note</span>
+                                ${pocet > 0 ? `Upravit (${pocet})` : 'Přidat podmínky'}
                             </button>
-                        </div>`;
-                    });
-                    html += `<div class="doklady-add-podminka">
-                        <input type="text" placeholder="Přidat podmínku..." id="pInput_${s.id}" onkeydown="if(event.key==='Enter')addDokladyPodminka('${s.id}')">
-                        <button class="doklady-btn-add-p" onclick="addDokladyPodminka('${s.id}')">Přidat</button>
-                    </div></div>`;
+                        </div>
+                        ${s.podminkyText ? `<div style="font-size:12px;color:#3c4043;line-height:1.5;white-space:pre-wrap;padding:8px 10px;background:#fffbea;border:1px solid #fde68a;border-radius:5px;max-height:80px;overflow-y:auto;">${s.podminkyText}</div>` : ''}
+                    </div>`;
                 }
-            }
+
+                // Missing warning
+                if (s.vysledek === 'chybi') {
+                    const isVti = typ === 'vti' || typ === 'vdi';
+                    html += `<div style="margin-top:6px;padding:6px 10px;border-radius:5px;font-size:11px;display:flex;align-items:flex-start;gap:6px;${isVti ? 'background:#fff8f8;border:1px solid #f5c6c2;color:#c5221f;' : 'background:#fffbea;border:1px solid #fde68a;color:#b06000;'}">
+                        <span class="material-icons-outlined" style="font-size:14px;flex-shrink:0;margin-top:1px;">${isVti ? 'report_problem' : 'notifications_active'}</span>
+                        <span>${isVti ? 'Chybějící vyjádření VTI/VDI → usnesení o přerušení + výzva k doplnění' : 'Chybějící závazné stanovisko DO → SÚ si ho vyžádá sám (§ 4 odst. 8)'}</span>
+                    </div>`;
+                }
+
+            } // end if (!s.missing)
 
             html += `<div style="display:flex;justify-content:flex-end;margin-top:4px;">
                 <button style="border:none;background:none;font-size:11px;color:#9aa0a6;cursor:pointer;padding:2px 6px;border-radius:3px;" onmouseenter="this.style.color='#c5221f'" onmouseleave="this.style.color='#9aa0a6'" onclick="removeDokladySubjekt('${s.id}')">Odebrat</button>
@@ -24589,7 +24604,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const db = dokladySubjektyDB.find(s => s.id === dbId);
             if (!db) return;
             const id = 'snew_' + Date.now();
-            dokladyState.subjekty.push({ id, typ: db.typ, nazev: db.nazev, ico: db.ico, adresa: db.adresa, docId: null, vysledek: null, podminky: [] });
+            dokladyState.subjekty.push({ id, typ: db.typ, nazev: db.nazev, ico: db.ico, adresa: db.adresa, docId: null, vysledek: null, podminky: [], podminkyText: '' });
             // Clear search
             const inp = document.getElementById('dokladySearch');
             if (inp) inp.value = '';
@@ -24741,7 +24756,6 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             s.vysledek = vysledek;
             renderDokladyForm();
             updateIdentifikaceResult();
-            // Re-open the body
             requestAnimationFrame(() => {
                 const body = document.getElementById('sbody_' + id);
                 if (body) body.style.display = 'block';
@@ -24749,6 +24763,108 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 const chevron = row ? row.querySelector('.doklady-subjekt-top .material-icons-outlined:last-child') : null;
                 if (chevron) chevron.textContent = 'expand_less';
             });
+        }
+
+        // Podmínky — rich editor modal
+        let _podminkySubjektId = null;
+
+        function openDokladyPodminkyEditor(subjektId) {
+            const s = dokladyState.subjekty.find(x => x.id === subjektId);
+            if (!s) return;
+            _podminkySubjektId = subjektId;
+            document.getElementById('podminkyModalTitle').textContent = 'Podmínky — ' + s.nazev;
+
+            // Sync doc info
+            const doc = s.docId ? dokladyDocs.find(d => d.id === s.docId) : null;
+            document.getElementById('podminkyDokTyp').textContent = doc ? (doc.typLabel || doc.typ) : '—';
+            document.getElementById('podminkyDokSoubor').textContent = doc ? doc.soubor : '—';
+            if (doc && doc.datum) document.getElementById('podminkyDokDatum').value = doc.datum;
+            if (doc && doc.cj) document.getElementById('podminkyDokCj').value = doc.cj;
+
+            // Výsledek radio — map to modal radio values
+            const radioMap = { souhlasne:'kladne', podminky:'kladne_s_podminkami', zaporne:'zaporne' };
+            const radioVal = radioMap[s.vysledek] || '';
+            document.querySelectorAll('input[name="vysledekRadio"]').forEach(r => { r.checked = r.value === radioVal; });
+
+            // Podmínky text
+            const ta = document.getElementById('podminkyEditorText');
+            ta.value = s.podminkyText || '';
+
+            // Zobrazit/skrýt editor podmínek
+            const sec = document.getElementById('podminkySectionList');
+            sec.style.display = (s.vysledek === 'podminky') ? 'block' : 'none';
+
+            // Listen to radio changes
+            document.querySelectorAll('input[name="vysledekRadio"]').forEach(r => {
+                r.onchange = () => {
+                    const sec = document.getElementById('podminkySectionList');
+                    sec.style.display = r.value === 'kladne_s_podminkami' ? 'block' : 'none';
+                };
+            });
+
+            document.getElementById('podminkyModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePodminkyModal() {
+            document.getElementById('podminkyModal').classList.remove('open');
+            document.body.style.overflow = '';
+            _podminkySubjektId = null;
+        }
+
+        function savePodminkyModal() {
+            const s = dokladyState.subjekty.find(x => x.id === _podminkySubjektId);
+            if (!s) { closePodminkyModal(); return; }
+
+            // Uložit výsledek z radia
+            const radio = document.querySelector('input[name="vysledekRadio"]:checked');
+            if (radio) {
+                const revMap = { kladne:'souhlasne', kladne_s_podminkami:'podminky', zaporne:'zaporne' };
+                s.vysledek = revMap[radio.value] || s.vysledek;
+            }
+
+            // Uložit podmínky text
+            const ta = document.getElementById('podminkyEditorText');
+            s.podminkyText = ta ? ta.value.trim() : '';
+
+            // CJ + datum
+            const cj = document.getElementById('podminkyDokCj');
+            const datum = document.getElementById('podminkyDokDatum');
+            if (s.docId && cj) {
+                const doc = dokladyDocs.find(d => d.id === s.docId);
+                if (doc) { doc.cj = cj.value; doc.datum = datum ? datum.value : doc.datum; }
+            }
+
+            closePodminkyModal();
+            renderDokladyForm();
+            updateIdentifikaceResult();
+            requestAnimationFrame(() => {
+                const body = document.getElementById('sbody_' + _podminkySubjektId);
+                if (body) body.style.display = 'block';
+            });
+        }
+
+        function podmFmt(cmd) {
+            const ta = document.getElementById('podminkyEditorText');
+            if (!ta) return;
+            const start = ta.selectionStart, end = ta.selectionEnd;
+            const sel = ta.value.substring(start, end);
+            const before = ta.value.substring(0, start);
+            const after = ta.value.substring(end);
+            const atLineStart = start === 0 || ta.value[start-1] === '\n';
+            let insert = '';
+            if (cmd === 'bold')      insert = `**${sel || 'tučný text'}**`;
+            else if (cmd === 'italic')    insert = `_${sel || 'kurzíva'}_`;
+            else if (cmd === 'bullet')    insert = (atLineStart ? '' : '\n') + `• ${sel || ''}`;
+            else if (cmd === 'paragraph') insert = (atLineStart ? '' : '\n') + '\n';
+            else if (cmd === 'numbered') {
+                // Count existing numbered lines to continue numbering
+                const lines = ta.value.split('\n').filter(l => /^\d+\./.test(l.trim()));
+                const n = lines.length + 1;
+                insert = (atLineStart ? '' : '\n') + `${n}. ${sel || ''}`;
+            }
+            ta.setRangeText(insert, start, end, 'end');
+            ta.focus();
         }
 
         function addDokladyPodminka(subjektId) {
@@ -24777,7 +24893,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 nazev = n;
             }
             const id = 'snew_' + Date.now();
-            dokladyState.subjekty.push({ id, typ, nazev, docId: null, vysledek: null, podminky: [] });
+            dokladyState.subjekty.push({ id, typ, nazev, docId: null, vysledek: null, podminky: [], podminkyText: '' });
             renderDokladyForm();
             updateIdentifikaceResult();
         }
