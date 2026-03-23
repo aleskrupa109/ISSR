@@ -9615,7 +9615,7 @@
         .os-pozemky-cell {
             font-size: 11px;
             color: #5f6368;
-            max-width: 130px;
+            max-width: 180px;
         }
         
         /* Info o zastoupení */
@@ -16696,7 +16696,7 @@
                                     <tr>
                                         <th style="width: 28px;"></th>
                                         <th>Účastník</th>
-                                        <th style="width: 130px;">Pozemky</th>
+                                        <th style="width: 180px;">Pozemky</th>
                                         <th>Adresa / Poznámka</th>
                                         <th style="width: 50px;">Zdroj</th>
                                         <th style="width: 60px;">Doruč.</th>
@@ -25403,10 +25403,11 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                                 <strong>${item.nazev}</strong><br>
                                 <small class="text-muted">IČO: ${item.ico}</small>
                             </td>
-                            <td>
+                            <td class="os-pozemky-cell">—</td>
+                            <td class="os-adresa-neovereno">
                                 <span class="os-ds-info"><span class="material-icons-outlined">forward_to_inbox</span> ${item.ds}</span>
                             </td>
-                            <td><span class="os-zdroj ${item.typ.toLowerCase()}">${item.typ}</span></td>
+                            <td><span class="os-zdroj zdroj-kn">KN</span></td>
                             <td><span class="doruc-ceka" title="Čeká na ověření">—</span></td>
                             <td class="os-actions">
                                 <button class="btn-overit-osobu" onclick="overitOsobu(this)" title="Ověřit z rejstříku"><span class="material-icons-outlined">verified_user</span></button>
