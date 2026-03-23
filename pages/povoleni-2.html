@@ -9136,39 +9136,69 @@
             gap: 8px;
             padding: 8px 12px;
             height: 44px;
-            background: #004289;
-            color: #fff;
+            background: #fff;
+            color: #202124;
             font-size: 13px;
             font-weight: 600;
             box-sizing: border-box;
             flex-shrink: 0;
+            border-bottom: 1px solid #e8eaed;
         }
         
         .osoby-col-header .material-icons-outlined {
             font-size: 18px;
+            color: #004289;
         }
         
         .btn-overit-vse-sm {
             margin-left: auto;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 4px;
-            padding: 4px 10px;
-            background: #fff;
+            padding: 5px 10px;
+            background: #004289;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 11px;
             font-weight: 600;
-            color: #004289;
+            color: #fff;
             cursor: pointer;
+            transition: background 0.15s;
+            white-space: nowrap;
         }
         
         .btn-overit-vse-sm:hover {
-            background: #e8f1fa;
+            background: #003070;
         }
         
         .btn-overit-vse-sm .material-icons-outlined {
             font-size: 14px;
+        }
+        
+        /* Tlačítko ikony KN pro načtení jednotlivého pozemku */
+        .btn-nacist-kn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            background: #f1f3f4;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            color: #5f6368;
+            cursor: pointer;
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+        .btn-nacist-kn:hover {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1a73e8;
+        }
+        .btn-nacist-kn .material-icons-outlined {
+            font-size: 15px;
         }
         
         /* Bloky pozemků */
@@ -9185,8 +9215,6 @@
             padding: 8px 12px;
             font-size: 11px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             flex-shrink: 0;
         }
         
@@ -9196,8 +9224,8 @@
         }
         
         .pozemky-blok-header.soused {
-            background: #f3e5f5;
-            color: #7b1fa2;
+            background: #e3f2fd;
+            color: #1565c0;
         }
         
         .pozemky-blok-count {
@@ -9211,74 +9239,98 @@
             overflow-y: auto;
         }
         
+        /* Osoby — pozemky: tabulkový styl shodný s kontrolou Pozemky */
+        .osoby-pozemky-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e8eaed;
+            font-size: 11px;
+            font-weight: 500;
+            color: #9aa0a6;
+        }
+        .osoby-pozemky-header .col-icon  { width: 20px; flex-shrink: 0; }
+        .osoby-pozemky-header .col-par   { min-width: 60px; flex-shrink: 0; }
+        .osoby-pozemky-header .col-ku    { flex: 1; }
+        .osoby-pozemky-header .col-act   { width: 50px; flex-shrink: 0; text-align: right; }
+
         .pozemek-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
+            gap: 8px;
+            padding: 6px 10px;
+            background: #f8fbff;
             font-size: 12px;
             border-bottom: 1px solid #f1f3f4;
         }
-        
         .pozemek-item:hover {
-            background: #fff;
+            background: #eef5fc;
         }
-        
+        .pozemek-item:last-child { border-bottom: none; }
+
+        .pozemek-item .pi-icon {
+            font-size: 16px;
+            color: #1a73e8;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
         .pozemek-item .pozemek-parcela {
             font-weight: 600;
-            min-width: 50px;
+            min-width: 60px;
             color: #202124;
+            flex-shrink: 0;
         }
-        
+
         .pozemek-item .pozemek-ku {
-            color: #9aa0a6;
-            font-size: 10px;
-            min-width: 55px;
-        }
-        
-        .pozemek-item .pozemek-vlastnik {
-            flex: 1;
             color: #5f6368;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 11px;
+            flex: 1;
+            font-size: 12px;
         }
-        
+
+        .pozemek-item .pozemek-vlastnik {
+            display: none;
+        }
+
         .pozemek-item .pozemek-vlastnik.verified {
-            color: #137333;
+            display: none;
         }
-        
+
         .pozemek-item .pozemek-status {
-            width: 18px;
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
         }
-        
+
         .pozemek-item .pozemek-status .material-icons-outlined {
-            font-size: 16px;
+            font-size: 14px;
         }
-        
-        .pozemek-item .pozemek-status.pending {
-            color: #f9ab00;
+
+        .pozemek-item .pozemek-status.pending .material-icons-outlined { color: #dadce0; }
+        .pozemek-item .pozemek-status.ok .material-icons-outlined { color: #137333; }
+
+        .pozemek-item .pozemek-info-row {
+            display: none; /* skryto — datum ověření nepotřebujeme opakovat */
         }
-        
-        .pozemek-item .pozemek-status.ok {
-            color: #137333;
-        }
-        
         .btn-overit-sm {
-            padding: 2px 8px;
-            background: #fff;
-            border: 1px solid #dadce0;
-            border-radius: 3px;
+            padding: 3px 8px;
+            background: #e8f0fe;
+            border: 1px solid #b3c8f5;
+            border-radius: 4px;
             font-size: 10px;
             font-weight: 500;
-            color: #5f6368;
+            color: #1558d6;
             cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
         }
         
         .btn-overit-sm:hover {
-            border-color: #004289;
-            color: #004289;
+            background: #d2e3fc;
+            border-color: #1a73e8;
         }
         
         .btn-overit-sm.done {
@@ -16403,7 +16455,7 @@
                             Pozemky
                             <button class="btn-overit-vse-sm" onclick="overitVsechnyPozemkyKN()">
                                 <span class="material-icons-outlined">verified</span>
-                                Načíst osoby z KN
+                                Načíst vše z KN
                             </button>
                         </div>
                         
@@ -16412,25 +16464,94 @@
                             <div class="pozemky-blok">
                                 <div class="pozemky-blok-header zamer">
                                     <span class="pozemky-blok-title">Pozemky záměru</span>
-                                    <span class="pozemky-blok-count" id="countZamer">38</span>
+                                    <span class="pozemky-blok-count" id="countZamer">10</span>
                                 </div>
                                 <div class="pozemky-blok-list" id="listPozemkyZameru">
+                                    <div class="osoby-pozemky-header">
+                                    <span class="col-icon"></span>
+                                    <span class="col-par">Parcela</span>
+                                    <span class="col-ku">Katastrální území</span>
+                                    <span class="col-act"></span>
+                                </div>
                                     <div class="pozemek-item" data-parcela="st. 321">
+                                        <span class="material-icons-outlined pi-icon">crop_square</span>
                                         <span class="pozemek-parcela">st. 321</span>
                                         <span class="pozemek-ku">Doudleby n.O.</span>
                                         <span class="pozemek-vlastnik" id="vl2-st321">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 321', 'Doudleby n.O.')">Ověřit</button>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('st. 321', 'Doudleby n.O.')" title="Načíst z KN: st. 321"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="st. 916">
+                                        <span class="material-icons-outlined pi-icon">crop_square</span>
+                                        <span class="pozemek-parcela">st. 916</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-st916">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('st. 916', 'Doudleby n.O.')" title="Načíst z KN: st. 916"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
                                     <div class="pozemek-item" data-parcela="1549">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
                                         <span class="pozemek-parcela">1549</span>
                                         <span class="pozemek-ku">Doudleby n.O.</span>
                                         <span class="pozemek-vlastnik" id="vl2-1549">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('1549', 'Doudleby n.O.')">Ověřit</button>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('1549', 'Doudleby n.O.')" title="Načíst z KN: 1549"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
-                                    <div class="pozemek-item" style="text-align: center; color: #5f6368; font-style: italic; padding: 8px; justify-content: center;">
-                                        … a dalších 36 pozemků
+                                    <div class="pozemek-item" data-parcela="1550/1">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">1550/1</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-15501">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('1550/1', 'Doudleby n.O.')" title="Načíst z KN: 1550/1"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="1550/2">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">1550/2</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-15502">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('1550/2', 'Doudleby n.O.')" title="Načíst z KN: 1550/2"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="3334">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">3334</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-3334">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('3334', 'Doudleby n.O.')" title="Načíst z KN: 3334"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="981/31">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">981/31</span>
+                                        <span class="pozemek-ku">Kostelec n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl2-98131">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('981/31', 'Kostelec n.O.')" title="Načíst z KN: 981/31"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="st. 541">
+                                        <span class="material-icons-outlined pi-icon">crop_square</span>
+                                        <span class="pozemek-parcela">st. 541</span>
+                                        <span class="pozemek-ku">Vamberk</span>
+                                        <span class="pozemek-vlastnik" id="vl2-st541">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('st. 541', 'Vamberk')" title="Načíst z KN: st. 541"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="1804/1">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">1804/1</span>
+                                        <span class="pozemek-ku">Vamberk</span>
+                                        <span class="pozemek-vlastnik" id="vl2-18041">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('1804/1', 'Vamberk')" title="Načíst z KN: 1804/1"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="195/3">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">195/3</span>
+                                        <span class="pozemek-ku">Záměl</span>
+                                        <span class="pozemek-vlastnik" id="vl2-1953">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('195/3', 'Záměl')" title="Načíst z KN: 195/3"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -16439,36 +16560,54 @@
                             <div class="pozemky-blok">
                                 <div class="pozemky-blok-header soused">
                                     <span class="pozemky-blok-title">Sousední pozemky</span>
-                                    <span class="pozemky-blok-count" id="countSoused">4</span>
+                                    <span class="pozemky-blok-count" id="countSoused">5</span>
                                 </div>
                                 <div class="pozemky-blok-list" id="listSousedniPozemky">
-                                    <div class="pozemek-item" data-parcela="st. 122">
-                                        <span class="pozemek-parcela">st. 122</span>
-                                        <span class="pozemek-ku">Jaroměř</span>
-                                        <span class="pozemek-vlastnik" id="vl-st122">—</span>
+                                    <div class="osoby-pozemky-header">
+                                    <span class="col-icon"></span>
+                                    <span class="col-par">Parcela</span>
+                                    <span class="col-ku">Katastrální území</span>
+                                    <span class="col-act"></span>
+                                </div>
+                                    <div class="pozemek-item" data-parcela="139/3">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">139/3</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl-1393">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 122', 'Jaroměř')">Ověřit</button>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('139/3', 'Doudleby n.O.')" title="Načíst z KN: 139/3"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
-                                    <div class="pozemek-item" data-parcela="st. 124">
-                                        <span class="pozemek-parcela">st. 124</span>
-                                        <span class="pozemek-ku">Jaroměř</span>
-                                        <span class="pozemek-vlastnik" id="vl-st124">—</span>
+                                    <div class="pozemek-item" data-parcela="520/12">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">520/12</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl-52012">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('st. 124', 'Jaroměř')">Ověřit</button>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('520/12', 'Doudleby n.O.')" title="Načíst z KN: 520/12"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
-                                    <div class="pozemek-item" data-parcela="456/2">
-                                        <span class="pozemek-parcela">456/2</span>
-                                        <span class="pozemek-ku">Jaroměř</span>
-                                        <span class="pozemek-vlastnik" id="vl-4562">—</span>
+                                    <div class="pozemek-item" data-parcela="1548">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">1548</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl-1548">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('456/2', 'Jaroměř')">Ověřit</button>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('1548', 'Doudleby n.O.')" title="Načíst z KN: 1548"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
-                                    <div class="pozemek-item" data-parcela="457">
-                                        <span class="pozemek-parcela">457</span>
-                                        <span class="pozemek-ku">Jaroměř</span>
-                                        <span class="pozemek-vlastnik" id="vl-457">—</span>
+                                    <div class="pozemek-item" data-parcela="3333">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">3333</span>
+                                        <span class="pozemek-ku">Doudleby n.O.</span>
+                                        <span class="pozemek-vlastnik" id="vl-3333">—</span>
                                         <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
-                                        <button class="btn-overit-sm" onclick="overitPozemekKN('457', 'Jaroměř')">Ověřit</button>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('3333', 'Doudleby n.O.')" title="Načíst z KN: 3333"><span class="material-icons-outlined">manage_search</span></button>
+                                    </div>
+                                    <div class="pozemek-item" data-parcela="1803/2">
+                                        <span class="material-icons-outlined pi-icon">grass</span>
+                                        <span class="pozemek-parcela">1803/2</span>
+                                        <span class="pozemek-ku">Vamberk</span>
+                                        <span class="pozemek-vlastnik" id="vl-18032">—</span>
+                                        <span class="pozemek-status pending"><span class="material-icons-outlined">schedule</span></span>
+                                        <button class="btn-nacist-kn" onclick="overitPozemekKN('1803/2', 'Vamberk')" title="Načíst z KN: 1803/2"><span class="material-icons-outlined">manage_search</span></button>
                                     </div>
                                 </div>
                             </div>
@@ -25135,12 +25274,30 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         
         // Simulovaná data vlastníků pro demo
         const simulatedKNData = {
-            'st. 123': { vlastnik: 'Správa železnic, s.o.', typ: 'FO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
-            '456/1': { vlastnik: 'Správa železnic, s.o.', typ: 'FO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: 'VB: ČEZ' },
+            // Původní data
+            'st. 123': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            '456/1': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: 'VB: ČEZ' },
             'st. 122': { vlastnik: 'Marie Veselá', typ: 'FO', adresa: 'Růžová 45, 551 01 Jaroměř', vecnaPrava: null },
             'st. 124': { vlastnik: 'Petr Svoboda', typ: 'FO', adresa: 'Lipová 78, 551 01 Jaroměř', vecnaPrava: null },
             '456/2': { vlastnik: 'ČEZ Distribuce, a. s.', typ: 'PO', adresa: 'Teplická 874/8, 405 02 Děčín', vecnaPrava: null },
-            '457': { vlastnik: 'Městys Doudleby n.O.', typ: 'PO', adresa: 'nám. ČSA 16, 551 01 Jaroměř', vecnaPrava: null }
+            '457': { vlastnik: 'Městys Doudleby n.O.', typ: 'PO', adresa: 'Dukelská 68, 517 42 Doudleby n.O.', vecnaPrava: null },
+            // Pozemky záměru — 10 parcel
+            'st. 321': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            'st. 916': { vlastnik: 'České dráhy, a.s.', typ: 'PO', adresa: 'nábřeží Ludvíka Svobody 1222/12, 110 00 Praha 1', vecnaPrava: null },
+            '1549': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            '1550/1': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: 'VB: CETIN a.s.' },
+            '1550/2': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            '3334': { vlastnik: 'Městys Doudleby n.O.', typ: 'PO', adresa: 'Dukelská 68, 517 42 Doudleby n.O.', vecnaPrava: null },
+            '981/31': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            'st. 541': { vlastnik: 'České dráhy, a.s.', typ: 'PO', adresa: 'nábřeží Ludvíka Svobody 1222/12, 110 00 Praha 1', vecnaPrava: null },
+            '1804/1': { vlastnik: 'Město Vamberk', typ: 'PO', adresa: 'Husovo nám. 1, 517 54 Vamberk', vecnaPrava: null },
+            '195/3': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            // Sousední pozemky — 5 parcel
+            '139/3': { vlastnik: 'Správa silnic KHK', typ: 'PO', adresa: 'Na Okrouhlíku 1371/30, 500 02 Hradec Králové', vecnaPrava: null },
+            '520/12': { vlastnik: 'Povodí Labe, s.p.', typ: 'PO', adresa: 'Víta Nejedlého 951/8, 500 03 Hradec Králové', vecnaPrava: 'VB: GasNet s.r.o.' },
+            '1548': { vlastnik: 'Správa železnic, s.o.', typ: 'PO', adresa: 'Dlážděná 1003/7, 110 00 Praha 1', vecnaPrava: null },
+            '3333': { vlastnik: 'Městys Doudleby n.O.', typ: 'PO', adresa: 'Dukelská 68, 517 42 Doudleby n.O.', vecnaPrava: null },
+            '1803/2': { vlastnik: 'Město Vamberk', typ: 'PO', adresa: 'Husovo nám. 1, 517 54 Vamberk', vecnaPrava: null }
         };
         
         // Přepínání tabů v sekci účastníků
@@ -25285,7 +25442,15 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const row = document.querySelector(`.pozemek-item[data-parcela="${parcela}"]`);
             if (row) {
                 overitPozemekKNItem(row, parcela);
-                setTimeout(() => pridatVlastnikyDoTabulky(), 200);
+                // Přidat vlastníky do tabulky jen pokud jsou ověřeny VŠECHNY pozemky
+                const allItems = document.querySelectorAll('.pozemek-item');
+                const allVerified = Array.from(allItems).every(r => r.classList.contains('verified'));
+                if (allVerified) {
+                    setTimeout(() => {
+                        pridatVlastnikyDoTabulky();
+                        showToast('Všechny pozemky byly ověřeny z KN');
+                    }, 100);
+                }
             }
         }
         
@@ -25293,12 +25458,11 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         function overitPozemekKNItem(row, parcela) {
             const vlastnikEl = row.querySelector('.pozemek-vlastnik');
             const statusEl = row.querySelector('.pozemek-status');
-            const btnEl = row.querySelector('.btn-overit-sm');
+            const btnEl = row.querySelector('.btn-nacist-kn, .btn-overit-sm');
             
             const data = simulatedKNData[parcela];
             
             if (data) {
-                // Přidat třídu verified na řádek
                 row.classList.add('verified');
                 
                 vlastnikEl.textContent = data.vlastnik;
@@ -25307,11 +25471,14 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 statusEl.className = 'pozemek-status ok';
                 statusEl.innerHTML = '<span class="material-icons-outlined">check_circle</span>';
                 
-                // Nahradit tlačítko Ověřit tlačítkem LV
+                // Nahradit ikonu tlačítkem LV s dropdown
                 const lvId = 'lv-' + parcela.replace(/[^a-zA-Z0-9]/g, '');
-                btnEl.outerHTML = `
+                const vecnaBrevena = data.vecnaPrava
+                    ? `<div class="lv-dropdown-item" style="border-top:1px solid #f1f3f4;color:#b06000;font-size:10px;padding:4px 12px;">${data.vecnaPrava}</div>`
+                    : '';
+                if (btnEl) btnEl.outerHTML = `
                     <div class="btn-lv-wrapper">
-                        <button class="btn-lv" onclick="toggleLVDropdown('${lvId}')">
+                        <button class="btn-lv" onclick="toggleLVDropdown('${lvId}')" title="List vlastnictví">
                             <span class="material-icons-outlined">description</span>
                             LV
                             <span class="material-icons-outlined">expand_more</span>
@@ -25319,23 +25486,29 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                         <div class="lv-dropdown" id="${lvId}">
                             <button class="lv-dropdown-item" onclick="openLV('${parcela}', 'castecny')">
                                 <div class="lv-item-title">Částečný výpis</div>
-                                <div class="lv-item-desc">Pouze tento pozemek</div>
+                                <div class="lv-item-desc" style="font-size:10px;color:#9aa0a6;">Pouze tento pozemek</div>
                             </button>
                             <button class="lv-dropdown-item" onclick="openLV('${parcela}', 'uplny')">
                                 <div class="lv-item-title">Úplný výpis</div>
-                                <div class="lv-item-desc">Celý list vlastnictví</div>
+                                <div class="lv-item-desc" style="font-size:10px;color:#9aa0a6;">Celý list vlastnictví</div>
                             </button>
+                            ${vecnaBrevena}
                         </div>
                     </div>
                 `;
                 
-                // Přidat info řádek s datem ověření
+                // Datum ověření — přepsat existující nebo přidat
                 const today = new Date();
                 const dateStr = today.toLocaleDateString('cs-CZ');
-                const infoRow = document.createElement('div');
-                infoRow.className = 'pozemek-info-row';
-                infoRow.innerHTML = `<span class="pozemek-overeno-datum">Ověřeno: ${dateStr}</span>`;
-                row.appendChild(infoRow);
+                const existingInfo = row.querySelector('.pozemek-info-row');
+                if (existingInfo) {
+                    existingInfo.innerHTML = `<span class="pozemek-overeno-datum">Ověřeno: ${dateStr}</span>`;
+                } else {
+                    const infoRow = document.createElement('div');
+                    infoRow.className = 'pozemek-info-row';
+                    infoRow.innerHTML = `<span class="pozemek-overeno-datum">Ověřeno: ${dateStr}</span>`;
+                    row.appendChild(infoRow);
+                }
             }
         }
         
