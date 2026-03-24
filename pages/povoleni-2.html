@@ -2991,6 +2991,7 @@
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 20px;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
         
         .stavba-kategorie-section .control-section-title {
@@ -3419,6 +3420,24 @@
             border: 1px solid #e0e0e0;
             border-radius: 6px;
             transition: all 0.15s;
+        }
+
+        .doc-part-item.next-step {
+            background: #fff;
+            border: 2px solid #004289;
+            box-shadow: 0 1px 6px rgba(0,66,137,0.12);
+        }
+
+        .doc-part-item.next-step .doc-part-letter {
+            background: #004289;
+            color: #fff;
+        }
+
+        /* Sekce-level zvýraznění (Kategorie, Autocheck) */
+        .doc-section-next {
+            border: 2px solid #004289 !important;
+            box-shadow: 0 1px 8px rgba(0,66,137,0.14) !important;
+            background: #fff !important;
         }
 
         .doc-part-item.status-ok {
@@ -5912,10 +5931,16 @@
             border-radius: 4px;
             padding: 8px;
             border: 1px solid #e0e0e0;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
         }
         
         .upd-check-item.done-ok { background: #e6f4ea; border-color: #34a853; }
         .upd-check-item.done-error { background: #fce8e6; border-color: #ea4335; }
+        .upd-check-item.next-step {
+            background: #fff;
+            border: 2px solid #004289;
+            box-shadow: 0 1px 6px rgba(0,66,137,0.12);
+        }
         
         .upd-check-row {
             display: flex;
@@ -10790,19 +10815,108 @@
         /* Subjekt rows */
         .doklady-sekce-panel {
             margin-bottom: 20px;
+            border: 1px solid #e8eaed;
+            border-radius: 8px;
+            overflow: visible;
+            position: relative;
         }
+        .doklady-sekce-panel .doklady-sekce-panel-header:first-child {
+            border-radius: 7px 7px 0 0;
+        }
+        .doklady-sekce-panel .doklady-sekce-footer:last-child {
+            border-radius: 0 0 7px 7px;
+        }
+        .doklady-sekce-panel.sekce-confirmed {
+            border-color: #a8d5b5;
+        }
+        .doklady-sekce-panel.sekce-confirmed-warning {
+            border-color: #fbbc04;
+        }
+        .doklady-sekce-panel.sekce-confirmed-error {
+            border-color: #ea4335;
+        }
+        .doklady-sekce-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: #fafbfc;
+            border-top: 1px solid #e8eaed;
+            gap: 8px;
+        }
+        .doklady-sekce-footer .sekce-stav-info {
+            font-size: 11px;
+            color: #5f6368;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .doklady-sekce-footer .sekce-stav-info .material-icons-outlined { font-size: 14px; }
+        .btn-confirm-sekce {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 12px;
+            background: #004289;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.15s;
+            white-space: nowrap;
+        }
+        .btn-confirm-sekce:hover { background: #003070; }
+        .btn-confirm-sekce.confirmed {
+            background: #e6f4ea;
+            color: #137333;
+            border: 1px solid #a8d5b5;
+        }
+        .btn-confirm-sekce .material-icons-outlined { font-size: 14px; }
         .doklady-sekce-panel-header {
             display: flex; align-items: center; gap: 8px;
-            padding: 10px 0 8px;
+            padding: 10px 12px 10px;
             font-size: 12px; font-weight: 600; color: #202124;
+            background: #fafbfc;
             border-bottom: 1px solid #e8eaed;
-            margin-bottom: 8px;
         }
+        .doklady-sekce-panel.sekce-confirmed .doklady-sekce-panel-header { background: #f0faf3; }
+        .doklady-sekce-panel.sekce-confirmed-warning .doklady-sekce-panel-header { background: #fffbea; }
+        .doklady-sekce-panel.sekce-confirmed-error .doklady-sekce-panel-header { background: #fff8f8; }
         .doklady-sekce-panel-header .material-icons-outlined { font-size: 16px; color: #004289; }
         .doklady-sekce-panel-count {
             margin-left: auto; font-size: 11px; color: #5f6368;
             background: #f1f3f4; padding: 1px 7px; border-radius: 8px;
         }
+        .doklady-sekce-body { padding: 8px 12px 12px; }
+        .doklady-sekce-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 12px;
+            border-top: 1px solid #e8eaed;
+            background: #fafbfc;
+        }
+        .doklady-sekce-confirmed-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 11px; font-weight: 500;
+        }
+        .btn-confirm-sekce {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 5px 14px;
+            background: #004289; color: #fff; border: none;
+            border-radius: 6px; font-size: 11px; font-weight: 600;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .btn-confirm-sekce:hover { background: #003070; }
+        .btn-confirm-sekce .material-icons-outlined { font-size: 14px; }
+        .btn-reopen-sekce {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 4px 10px;
+            background: none; color: #5f6368;
+            border: 1px solid #dadce0; border-radius: 6px;
+            font-size: 11px; cursor: pointer; transition: all 0.15s;
+        }
+        .btn-reopen-sekce:hover { color: #004289; border-color: #004289; }
         .doklady-subjekt-row {
             border: 1px solid #e8eaed; border-radius: 8px;
             margin-bottom: 8px; overflow: hidden;
@@ -15724,7 +15838,7 @@
                     </div>
 
                     <!-- Automatická kontrola -->
-                    <div class="auto-check-section">
+                    <div class="auto-check-section" id="autoCheckSection">
                         <div class="auto-check-header">
                             <div class="auto-check-title">
                                 <span class="material-icons-outlined">auto_awesome</span>
@@ -17686,6 +17800,14 @@
             // Inicializace specifických kontrol
             if (controlId === 'controlIdentifikace') {
                 setTimeout(initIdentifikaceMatrix, 100);
+            }
+
+            if (controlId === 'controlDokumentace') {
+                setTimeout(updateDocNextStep, 50);
+            }
+
+            if (controlId === 'controlUP') {
+                setTimeout(updateUPDNextStep, 50);
             }
             
             // Pro kontrolu žádosti - nastavit správný režim podle typu podání
@@ -22413,6 +22535,42 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             });
         });
         
+        const DOC_PARTS_ORDER = ['A', 'B', 'C', 'D'];
+
+        function updateDocNextStep() {
+            // Krok 1: Kategorie stavby
+            const katSection    = document.getElementById('kategorieStavbySection');
+            const katCollapsed  = document.getElementById('kategorieStavbyCollapsed');
+            const autoSection   = document.getElementById('autoCheckSection');
+            const docPartsItems = document.querySelectorAll('.doc-part-item[data-part]');
+
+            // Smazat předchozí zvýraznění
+            if (katSection)   katSection.classList.remove('doc-section-next');
+            if (autoSection)  autoSection.classList.remove('doc-section-next');
+            docPartsItems.forEach(el => el.classList.remove('next-step'));
+
+            if (!docCheckState.kategorieConfirmed) {
+                // Krok 1 — zvýraznit Kategorii stavby
+                if (katSection && katSection.style.display !== 'none') {
+                    katSection.classList.add('doc-section-next');
+                }
+                return;
+            }
+
+            if (!docCheckState.autoCheckDone) {
+                // Krok 2 — zvýraznit Automatickou kontrolu
+                if (autoSection) autoSection.classList.add('doc-section-next');
+                return;
+            }
+
+            // Krok 3 — zvýraznit všechny nedokončené části A–D najednou
+            docPartsItems.forEach(el => {
+                const part = el.getAttribute('data-part');
+                const s = docCheckState.partStatus[part];
+                if (!s || s === 'unchecked') el.classList.add('next-step');
+            });
+        }
+
         function setDocPartStatus(part, status) {
             docCheckState.partStatus[part] = status;
             
@@ -22466,6 +22624,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             
             updateIssuesVisibility();
             updateDokumentaceResult();
+            updateDocNextStep();
         }
         
         // Přidání nedostatku k části dokumentace (rich-text inline editor)
@@ -22700,6 +22859,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             collapsed.style.display = 'flex';
             docCheckState.kategorieConfirmed = true;
             updateDokumentaceResult();
+            updateDocNextStep();
         }
 
         function rozbalitKategoriiStavby() {
@@ -22739,6 +22899,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                         </div>`).join('');
                     docCheckState.autoCheckDone = true;
                     docCheckState.validatorResults = okResults;
+                    updateDocNextStep();
                 } else {
                     const vadyResults = [
                         { icon: 'check', cls: 'success', label: 'Celkový počet souborů', detail: '247 souborů v PD balíčku (verze SR00X01HLDRP)' },
@@ -22766,6 +22927,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     }).join('');
                 }
                 updateDokumentaceResult();
+                updateDocNextStep();
             }, 1200);
         }
         
@@ -23471,6 +23633,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             }
             
             updateUPDState();
+            updateUPDNextStep();
         }
         
         function setRPExistence(exists, btn) {
@@ -23495,6 +23658,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 statusEl.classList.add('ok');
             }
             updateUPDState();
+            updateUPDNextStep();
         }
 
         function setUPExistence(exists, btn) {
@@ -23528,8 +23692,24 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             }
             
             updateUPDState();
+            updateUPDNextStep();
         }
         
+        const UPD_STEPS_ORDER = ['Urp', 'Zur', 'Up', 'Rp'];
+
+        function updateUPDNextStep() {
+            UPD_STEPS_ORDER.forEach(s => {
+                const el = document.getElementById('check' + s);
+                if (el) el.classList.remove('next-step');
+            });
+            // Najdi první nedokončený krok
+            const next = UPD_STEPS_ORDER.find(s => !updState[s.toLowerCase()].checked);
+            if (next) {
+                const el = document.getElementById('check' + next);
+                if (el) el.classList.add('next-step');
+            }
+        }
+
         function updateUPDState() {
             // Aktualizovat tlačítko potvrzení
             const btn = document.getElementById('btnConfirmUPD');
@@ -23895,6 +24075,40 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
 
             // Aktualizovat pipeline fáze
             updatePipelinePhases();
+
+            // Automaticky přescrollovat na další ke kontrole (ne při prvním načtení)
+            if (!_initialLoad) setTimeout(scrollToNextControl, 120);
+        }
+
+        function scrollToNextControl() {
+            // Zjistit výšku sticky hlavičky (app-header 56px + case-header)
+            const appHeader = document.querySelector('.app-header');
+            const caseHeader = document.querySelector('.case-header');
+            const headerH = (appHeader ? appHeader.offsetHeight : 56) + (caseHeader ? caseHeader.offsetHeight : 0);
+
+            // Najít poslední dokončenou kartu (phase-done) a první aktivní (phase-active / status-ready)
+            const allCards = Array.from(document.querySelectorAll('.pipeline-card-single, .control-card'));
+            
+            // Najdi první aktivní nedokončenou kartu
+            const nextCard = allCards.find(c =>
+                (c.classList.contains('phase-active') || c.classList.contains('status-ready')) &&
+                !c.classList.contains('phase-done') &&
+                !c.classList.contains('phase-locked')
+            );
+
+            if (!nextCard) return;
+
+            // Najdi poslední dokončenou kartu před touto
+            const nextIdx = allCards.indexOf(nextCard);
+            const lastDone = nextIdx > 0
+                ? allCards.slice(0, nextIdx).reverse().find(c => c.classList.contains('phase-done'))
+                : null;
+
+            // Cíl: lastDone viditelný těsně pod hlavičkou, nextCard hned pod ním
+            const target = lastDone || nextCard;
+            const targetTop = target.getBoundingClientRect().top + window.scrollY - headerH - 16;
+
+            window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
         }
 
         function updatePipelinePhases() {
@@ -23966,14 +24180,14 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     const btn = gc.querySelector('.control-card-action');
                     if (c[key] && c[key].done) {
                         gc.classList.remove('phase-locked', 'phase-active', 'phase-done');
-                        // Identifikace s chybějícími doklady → oranžová dlaždice
+                        // Identifikace s chybějícími doklady → zelená dlaždice + žlutý štítek
                         if (key === 'identifikace' && c[key].result === 'warning') {
-                            gc.classList.add('phase-active'); // oranžová — warning styl
+                            gc.classList.add('phase-done');
                             if (btn) {
-                                btn.innerHTML = '<span class="material-icons-outlined">warning</span>Hotovo — chybí doklady';
-                                btn.style.background = '#fff8e1';
-                                btn.style.borderColor = '#f6b900';
-                                btn.style.color = '#b06000';
+                                btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Chybí doklady</span>';
+                                btn.style.background = '';
+                                btn.style.borderColor = '';
+                                btn.style.color = '';
                                 btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
                                 btn.disabled = false;
                             }
@@ -24387,6 +24601,9 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             assignedDocs: {},
             activeDocPicker: null,
             previewFile: null,
+            doConfirmed: false,
+            vtiConfirmed: false,
+            oblibene: { do: ['db_du','db_mk','db_pol','db_ku','db_doud','db_vamb','db_zamel'], vti: ['db_cetin','db_cez','db_gas','db_sz','db_ceztelco','db_aqua','db_tmob'] },
         };
 
         // ---- Přednastavené subjekty pro State 1 (aktuální stav) ----
@@ -24400,8 +24617,13 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             // Obnovit uložený seznam subjektů pokud kontrola byla potvrzena
             if (controls.identifikace.done && controls.identifikace.subjekty && controls.identifikace.subjekty.length > 0) {
                 dokladyState.subjekty = JSON.parse(JSON.stringify(controls.identifikace.subjekty));
+                // Obnovit stav potvrzení sekcí pokud kontrola byla dokončena
+                dokladyState.doConfirmed  = !!controls.identifikace.doConfirmed;
+                dokladyState.vtiConfirmed = !!controls.identifikace.vtiConfirmed;
             } else {
                 dokladyState.subjekty = JSON.parse(JSON.stringify(dokladySubjektyState1));
+                dokladyState.doConfirmed  = false;
+                dokladyState.vtiConfirmed = false;
             }
             dokladyState.activeStateTab = 1;
             renderDokladyViewer();
@@ -24600,43 +24822,195 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 return;
             }
 
-            const doS = dokladyState.subjekty.filter(s => s.typ === 'do');
-            const vtiS = dokladyState.subjekty.filter(s => s.typ === 'vti');
-            const vdiS = dokladyState.subjekty.filter(s => s.typ === 'vdi');
-            const isEmpty = dokladyState.subjekty.length === 0;
+            const doS  = dokladyState.subjekty.filter(s => s.typ === 'do');
+            const vtiS = dokladyState.subjekty.filter(s => s.typ === 'vti' || s.typ === 'vdi');
+            const hasAny = dokladyState.subjekty.length > 0;
 
             let html = '';
-
-            if (isEmpty) {
-                html += `<div style="padding:20px 0 12px; text-align:center; color:#5f6368;">
-                    <span class="material-icons-outlined" style="font-size:36px;display:block;margin-bottom:8px;color:#c0c8d0;">rule_folder</span>
-                    <div style="font-size:13px;font-weight:500;color:#3c4043;margin-bottom:4px;">Zatím nejsou přidány žádné subjekty</div>
-                    <div style="font-size:12px;line-height:1.5;">Prohlédněte dokladovou část vlevo a přidejte dotčené orgány (DO) a vlastníky infrastruktury (VTI/VDI), jejichž stanoviska a vyjádření jsou v žádosti přiložena.</div>
-                </div>`;
-            } else {
-                if (doS.length)  html += renderDokladySekcePanel('do',  'Dotčené orgány — závazná stanoviska', 'account_balance', doS);
-                if (vtiS.length) html += renderDokladySekcePanel('vti', 'VTI — vyjádření vlastníků tech. infrastruktury', 'electric_bolt', vtiS);
-                if (vdiS.length) html += renderDokladySekcePanel('vdi', 'VDI — vyjádření vlastníků dopr. infrastruktury', 'directions_car', vdiS);
-            }
-
-            html += renderDokladyAddPanel();
-            if (!isEmpty) html += renderDokladyPodminkyPanel();
+            html += renderDokladySekcePanelWithAdd('do',  'Dotčené orgány', 'account_balance', doS);
+            html += renderDokladySekcePanelWithAdd('vti', 'VTI / VDI', 'electric_bolt', vtiS);
+            if (hasAny) html += renderDokladyPodminkyPanel();
 
             body.innerHTML = html;
         }
 
         function renderDokladySekcePanel(typ, label, icon, subjekty) {
-            const ok = subjekty.filter(s => s.vysledek === 'souhlasne').length;
-            const missing = subjekty.filter(s => s.missing).length;
-            let html = `<div class="doklady-sekce-panel">
+            const ok       = subjekty.filter(s => s.vysledek === 'souhlasne' || s.vysledek === 'podminky').length;
+            const zaporne  = subjekty.filter(s => s.vysledek === 'zaporne').length;
+            const chybi    = subjekty.filter(s => s.vysledek === 'chybi').length;
+            const total    = subjekty.length;
+
+            const isDoSekce  = (typ === 'do');
+            const confirmed  = isDoSekce ? dokladyState.doConfirmed : dokladyState.vtiConfirmed;
+            const confirmKey = isDoSekce ? 'doConfirmed' : 'vtiConfirmed';
+
+            // Determine section visual state
+            let secceCls = '';
+            let badgeHtml = '';
+            if (confirmed) {
+                if (zaporne > 0) {
+                    secceCls = 'sekce-confirmed-error';
+                    badgeHtml = `<span class="doklady-sekce-confirmed-badge" style="color:#c5221f;"><span class="material-icons-outlined" style="font-size:14px;">cancel</span>Záporné stanovisko</span>`;
+                } else if (chybi > 0) {
+                    secceCls = 'sekce-confirmed-warning';
+                    badgeHtml = `<span class="doklady-sekce-confirmed-badge" style="color:#b06000;"><span class="material-icons-outlined" style="font-size:14px;">warning_amber</span>Chybí doklady — postup definován</span>`;
+                } else {
+                    secceCls = 'sekce-confirmed';
+                    badgeHtml = `<span class="doklady-sekce-confirmed-badge" style="color:#137333;"><span class="material-icons-outlined" style="font-size:14px;">check_circle</span>Potvrzeno</span>`;
+                }
+            }
+
+            let html = `<div class="doklady-sekce-panel ${secceCls}" id="sekcepanel_${typ}">
                 <div class="doklady-sekce-panel-header">
                     <span class="material-icons-outlined">${icon}</span>
                     ${label}
-                    <span class="doklady-sekce-panel-count">${ok}/${subjekty.length} ✓</span>
-                </div>`;
+                    <span class="doklady-sekce-panel-count">${ok}/${total} ✓</span>
+                </div>
+                <div class="doklady-sekce-body">`;
             subjekty.forEach(s => { html += renderSubjektRow(s, typ); });
-            html += `</div>`;
+            html += `</div>
+                <div class="doklady-sekce-footer">
+                    <div>${badgeHtml}</div>
+                    <div style="display:flex;gap:6px;align-items:center;">`;
+            if (confirmed) {
+                html += `<button class="btn-reopen-sekce" onclick="reopenDokladySekce('${confirmKey}')">
+                    <span class="material-icons-outlined" style="font-size:13px;">edit</span>Upravit
+                </button>`;
+            } else {
+                html += `<button class="btn-confirm-sekce" onclick="confirmDokladySekce('${confirmKey}')">
+                    <span class="material-icons-outlined">check</span>Potvrdit sekci
+                </button>`;
+            }
+            html += `</div></div></div>`;
             return html;
+        }
+
+        function renderDokladySekcePanelWithAdd(typ, label, icon, subjekty) {
+            const isDoSekce  = typ === 'do';
+            const confirmed  = isDoSekce ? dokladyState.doConfirmed : dokladyState.vtiConfirmed;
+            const confirmKey = isDoSekce ? 'doConfirmed' : 'vtiConfirmed';
+            const searchId   = 'dokladySearch_' + typ;
+            const dropId     = 'dokladySearchDropdown_' + typ;
+            const oblId      = 'dokladyOblibene_' + typ;
+
+            const ok      = subjekty.filter(s => s.vysledek === 'souhlasne' || s.vysledek === 'podminky').length;
+            const zaporne = subjekty.filter(s => s.vysledek === 'zaporne').length;
+            const chybi   = subjekty.filter(s => s.vysledek === 'chybi').length;
+            const total   = subjekty.length;
+
+            let secceCls = '';
+            let badgeHtml = '';
+            if (confirmed) {
+                if (zaporne > 0) { secceCls = 'sekce-confirmed-error'; badgeHtml = `<span class="doklady-sekce-confirmed-badge" style="color:#c5221f;"><span class="material-icons-outlined" style="font-size:14px;">cancel</span>Záporné stanovisko</span>`; }
+                else if (chybi > 0) { secceCls = 'sekce-confirmed-warning'; badgeHtml = `<span class="doklady-sekce-confirmed-badge" style="color:#b06000;"><span class="material-icons-outlined" style="font-size:14px;">warning_amber</span>Chybí doklady — postup definován</span>`; }
+                else { secceCls = 'sekce-confirmed'; badgeHtml = `<span class="doklady-sekce-confirmed-badge" style="color:#137333;"><span class="material-icons-outlined" style="font-size:14px;">check_circle</span>Potvrzeno</span>`; }
+            }
+
+            // Sekce-level next-step zvýraznění (tmavě modrý rámeček pokud nepotvrzeno)
+            const nextCls = !confirmed ? 'doc-section-next' : '';
+
+            // Popis sekce
+            const desc = isDoSekce
+                ? 'Závazná stanoviska a vyjádření dotčených orgánů státní správy (§ 4 zák. č. 283/2021 Sb.)'
+                : 'Vyjádření vlastníků technické a dopravní infrastruktury (§ 184a zák. č. 183/2006 Sb.)';
+
+            let html = `<div class="doklady-sekce-panel ${secceCls} ${nextCls}" id="sekcepanel_${typ}" style="margin-bottom:16px;">
+                <div class="doklady-sekce-panel-header" style="padding:10px 14px;background:#f5f7fa;border-bottom:2px solid ${isDoSekce ? '#004289' : '#0d7377'};">
+                    <span class="material-icons-outlined" style="color:${isDoSekce ? '#004289' : '#0d7377'}">${icon}</span>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;font-weight:600;color:#202124;">${label}</div>
+                        <div style="font-size:10px;color:#5f6368;margin-top:1px;">${desc}</div>
+                    </div>
+                    <span class="doklady-sekce-panel-count" style="background:${isDoSekce ? '#e8f0fe' : '#e0f7f7'};color:${isDoSekce ? '#004289' : '#006567'};">${total > 0 ? `${ok}/${total} ✓` : '0'}</span>
+                </div>
+                <div class="doklady-sekce-body">`;
+
+            if (total === 0) {
+                html += `<div style="padding:14px 14px 10px;font-size:12px;color:#9aa0a6;display:flex;align-items:center;gap:8px;">
+                    <span class="material-icons-outlined" style="font-size:18px;color:#dadce0;">inbox</span>
+                    Zatím žádné subjekty — přidejte vyhledáváním níže
+                </div>`;
+            } else {
+                subjekty.forEach(s => {
+                    const displayTyp = s.typ === 'vdi' ? 'vdi' : typ;
+                    html += renderSubjektRow(s, displayTyp);
+                });
+            }
+
+            html += `</div>`;
+
+            // Add panel (vyhledávání + oblíbení) — skryto po potvrzení
+            if (!confirmed) {
+                const oblKey = (typ === 'do') ? 'do' : 'vti';
+                const oblibeneItems = dokladySubjektyDB.filter(s => (dokladyState.oblibene[oblKey] || []).includes(s.id));
+                const oblibeneHTML = oblibeneItems.length === 0
+                    ? `<div style="padding:8px 12px;font-size:11px;color:#9aa0a6;">Zatím žádní oblíbení — označte hvězdičkou v dropdownu</div>`
+                    : oblibeneItems.map(s => `
+                        <div style="padding:7px 12px;cursor:pointer;border-bottom:1px solid #f8f9fa;display:flex;align-items:center;gap:8px;"
+                             onclick="selectDokladySubjekt('${s.id}','${typ}')"
+                             onmouseenter="this.style.background='#f1f3f4'" onmouseleave="this.style.background=''">
+                            <span class="material-icons-outlined" style="font-size:14px;color:#f6b900;">star</span>
+                            <div style="flex:1;min-width:0;">
+                                <div style="font-size:12px;font-weight:500;">${s.nazev}</div>
+                                <div style="font-size:10px;color:#80868b;">IČO ${s.ico}</div>
+                            </div>
+                        </div>`).join('');
+
+                html += `<div style="padding:8px 12px 10px;border-top:1px solid #e8eaed;background:#fafbfc;overflow:visible;">
+                    <div style="font-size:11px;font-weight:500;color:#5f6368;margin-bottom:6px;">Přidat subjekt do sekce ${label}</div>
+                    <div style="display:flex;gap:6px;align-items:flex-start;">
+                        <div style="flex:1;position:relative;">
+                            <input type="text" id="${searchId}"
+                                placeholder="Název nebo IČO…"
+                                style="width:100%;padding:6px 10px 6px 28px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;box-sizing:border-box;"
+                                autocomplete="off"
+                                oninput="filterDokladySearch(this.value,'${typ}')"
+                                onfocus="filterDokladySearch(this.value,'${typ}')"
+                                onkeydown="navigateDokladySearch(event,'${typ}')">
+                            <span class="material-icons-outlined" style="position:absolute;left:7px;top:6px;font-size:15px;color:#9aa0a6;">search</span>
+                            <div id="${dropId}" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #dadce0;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:200;max-height:220px;overflow-y:auto;margin-top:2px;"></div>
+                        </div>
+                        <div style="position:relative;flex-shrink:0;">
+                            <button onclick="toggleDokladyOblibene('${oblId}')"
+                                style="display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid #dadce0;background:#fff;border-radius:6px;font-size:11px;font-weight:500;color:#5f6368;cursor:pointer;white-space:nowrap;">
+                                <span class="material-icons-outlined" style="font-size:14px;color:#f6b900;">star</span>
+                                Z oblíbených
+                            </button>
+                            <div id="${oblId}" style="display:none;position:absolute;top:100%;right:0;min-width:280px;max-height:260px;overflow-y:auto;background:#fff;border:1px solid #dadce0;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,0.18);z-index:9000;margin-top:2px;">
+                                ${oblibeneHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            // Patička s potvrzením
+            html += `<div class="doklady-sekce-footer">
+                <div>${badgeHtml}</div>
+                <div style="display:flex;gap:6px;align-items:center;">`;
+            if (confirmed) {
+                html += `<button class="btn-reopen-sekce" onclick="reopenDokladySekce('${confirmKey}')">
+                    <span class="material-icons-outlined" style="font-size:13px;">edit</span>Upravit
+                </button>`;
+            } else {
+                html += `<button class="btn-confirm-sekce" onclick="confirmDokladySekce('${confirmKey}')">
+                    <span class="material-icons-outlined">check</span>Potvrdit sekci
+                </button>`;
+            }
+            html += `</div></div></div>`;
+            return html;
+        }
+
+        function confirmDokladySekce(key) {
+            dokladyState[key] = true;
+            renderDokladyForm();
+            updateIdentifikaceResult();
+        }
+
+        function reopenDokladySekce(key) {
+            dokladyState[key] = false;
+            renderDokladyForm();
+            updateIdentifikaceResult();
         }
 
         function renderSubjektRow(s, typ) {
@@ -24791,8 +25165,9 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             </div>`;
         }
 
-        function filterDokladySearch(q) {
-            const dd = document.getElementById('dokladySearchDropdown');
+        function filterDokladySearch(q, targetTyp) {
+            const dropId = targetTyp ? 'dokladySearchDropdown_' + targetTyp : 'dokladySearchDropdown';
+            const dd = document.getElementById(dropId);
             if (!dd) return;
             q = q.trim().toLowerCase();
             if (!q) { dd.style.display = 'none'; return; }
@@ -24803,52 +25178,81 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 dd.innerHTML = `<div style="padding:8px 12px;font-size:11px;color:#9aa0a6;">Nic nenalezeno</div>`;
             } else {
                 const typLabel = { do:'DO', vti:'VTI', vdi:'VDI' };
-                const typColor = { do:'#fce8e6;color:#c5221f', vti:'#e3f2fd;color:#0d47a1', vdi:'#f3e5f5;color:#7b1fa2' };
-                dd.innerHTML = matches.map((s, i) => `
-                    <div class="doklady-search-item" data-idx="${i}" data-id="${s.id}"
-                         style="padding:7px 12px;cursor:pointer;border-bottom:1px solid #f8f9fa;display:flex;align-items:center;gap:8px;"
-                         onclick="selectDokladySubjekt('${s.id}')"
-                         onmouseenter="this.style.background='#f1f3f4'"
-                         onmouseleave="this.style.background=''">
-                        <span style="font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;background:${typColor[s.typ]};flex-shrink:0;">${typLabel[s.typ]}</span>
+                dd.innerHTML = matches.map(s => {
+                    const oblKey2 = targetTyp === 'do' ? 'do' : 'vti';
+                    const isOblibeny = (dokladyState.oblibene[oblKey2] || []).includes(s.id);
+                    const starIcon = isOblibeny ? 'star' : 'star_border';
+                    const starColor = isOblibeny ? '#f6b900' : '#9aa0a6';
+                    return `
+                    <div style="padding:7px 12px;cursor:pointer;border-bottom:1px solid #f8f9fa;display:flex;align-items:center;gap:8px;"
+                         onclick="selectDokladySubjekt('${s.id}','${targetTyp || s.typ}')"
+                         onmouseenter="this.style.background='#f1f3f4'" onmouseleave="this.style.background=''">
                         <div style="flex:1;min-width:0;">
                             <div style="font-size:12px;font-weight:500;">${s.nazev}</div>
                             <div style="font-size:10px;color:#80868b;">IČO ${s.ico} · ${s.adresa}</div>
                         </div>
-                    </div>`).join('');
+                        <button onclick="event.stopPropagation();toggleOblibenySubjekt('${s.id}','${targetTyp || ''}')" title="${isOblibeny ? 'Odebrat z oblíbených' : 'Přidat do oblíbených'}"
+                            style="background:none;border:none;cursor:pointer;padding:2px;display:inline-flex;">
+                            <span class="material-icons-outlined" style="font-size:16px;color:${starColor};">${starIcon}</span>
+                        </button>
+                    </div>`;
+                }).join('');
             }
             dd.style.display = 'block';
         }
 
-        function navigateDokladySearch(e) {
+        function navigateDokladySearch(e, targetTyp) {
             if (e.key === 'Escape') {
-                document.getElementById('dokladySearchDropdown').style.display = 'none';
+                const dropId = targetTyp ? 'dokladySearchDropdown_' + targetTyp : 'dokladySearchDropdown';
+                const dd = document.getElementById(dropId);
+                if (dd) dd.style.display = 'none';
             }
         }
 
-        function selectDokladySubjekt(dbId) {
+        function toggleOblibenySubjekt(dbId, targetTyp) {
+            const oblKey = targetTyp === 'do' ? 'do' : 'vti';
+            if (!dokladyState.oblibene[oblKey]) dokladyState.oblibene[oblKey] = [];
+            const idx = dokladyState.oblibene[oblKey].indexOf(dbId);
+            if (idx >= 0) dokladyState.oblibene[oblKey].splice(idx, 1);
+            else dokladyState.oblibene[oblKey].push(dbId);
+            // Refresh just the search dropdown
+            const searchId = targetTyp ? 'dokladySearch_' + targetTyp : 'dokladySearch';
+            const inp = document.getElementById(searchId);
+            if (inp && inp.value) filterDokladySearch(inp.value, targetTyp);
+        }
+
+        function toggleDokladyOblibene(oblId) {
+            document.querySelectorAll('[id^="dokladyOblibene_"]').forEach(el => {
+                if (el.id !== oblId) el.style.display = 'none';
+            });
+            const el = document.getElementById(oblId);
+            if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function selectDokladySubjekt(dbId, targetTyp) {
             const db = dokladySubjektyDB.find(s => s.id === dbId);
             if (!db) return;
             const id = 'snew_' + Date.now();
-            dokladyState.subjekty.push({ id, typ: db.typ, nazev: db.nazev, ico: db.ico, adresa: db.adresa, docId: null, vysledek: null, podminky: [], podminkyText: '' });
-            // Clear search
-            const inp = document.getElementById('dokladySearch');
+            const finalTyp = targetTyp || db.typ;
+            dokladyState.subjekty.push({ id, typ: finalTyp, nazev: db.nazev, ico: db.ico, adresa: db.adresa, docId: null, vysledek: null, podminky: [], podminkyText: '' });
+            // Close dropdowns
+            const searchId = 'dokladySearch_' + (targetTyp === 'do' ? 'do' : 'vti');
+            const dropId   = 'dokladySearchDropdown_' + (targetTyp === 'do' ? 'do' : 'vti');
+            const oblId    = 'dokladyOblibene_' + (targetTyp === 'do' ? 'do' : 'vti');
+            const inp = document.getElementById(searchId);
             if (inp) inp.value = '';
-            const dd = document.getElementById('dokladySearchDropdown');
+            const dd = document.getElementById(dropId);
             if (dd) dd.style.display = 'none';
+            const obl = document.getElementById(oblId);
+            if (obl) obl.style.display = 'none';
             renderDokladyForm();
             updateIdentifikaceResult();
-            // Auto-expand the new row
             requestAnimationFrame(() => {
                 const body = document.getElementById('sbody_' + id);
-                if (body) {
-                    body.style.display = 'block';
-                    body.scrollIntoView({ behavior:'smooth', block:'nearest' });
-                }
+                if (body) { body.style.display = 'block'; body.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
                 const row = document.getElementById('srow_' + id);
                 const chevron = row ? row.querySelector('.doklady-subjekt-top .material-icons-outlined:last-child') : null;
                 if (chevron) chevron.textContent = 'expand_less';
-                // Auto-open doc picker inline
                 openInlineDocPicker(id);
             });
         }
@@ -25113,18 +25517,25 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
 
         function addDokladySubjekt(typ, nazev) {
             if (!nazev) {
-                // called from quick add buttons in panel
                 const n = prompt('Název subjektu:');
                 if (!n) return;
                 nazev = n;
             }
             const id = 'snew_' + Date.now();
             dokladyState.subjekty.push({ id, typ, nazev, docId: null, vysledek: null, podminky: [], podminkyText: '' });
+            // Resetovat potvrzení dotčené sekce
+            if (typ === 'do') dokladyState.doConfirmed = false;
+            else dokladyState.vtiConfirmed = false;
             renderDokladyForm();
             updateIdentifikaceResult();
         }
 
         function removeDokladySubjekt(id) {
+            const s = dokladyState.subjekty.find(s => s.id === id);
+            if (s) {
+                if (s.typ === 'do') dokladyState.doConfirmed = false;
+                else dokladyState.vtiConfirmed = false;
+            }
             dokladyState.subjekty = dokladyState.subjekty.filter(s => s.id !== id);
             renderDokladyViewer();
             renderDokladyForm();
@@ -25160,11 +25571,37 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const btn = document.getElementById('btnConfirmIdentifikace');
             if (!resultBox || !btn) return;
 
-            const chybiDO  = dokladyState.subjekty.filter(s => s.vysledek === 'chybi' && s.typ === 'do');
-            const chybiVTI = dokladyState.subjekty.filter(s => s.vysledek === 'chybi' && (s.typ === 'vti' || s.typ === 'vdi'));
-            const missing  = dokladyState.subjekty.filter(s => s.missing); // stará logika
-            const zaporne  = dokladyState.subjekty.filter(s => s.vysledek === 'zaporne');
-            const unresolved = dokladyState.subjekty.filter(s => !s.missing && !s.vysledek);
+            const isEmpty = dokladyState.subjekty.length === 0;
+            const doS   = dokladyState.subjekty.filter(s => s.typ === 'do');
+            const vtiS  = dokladyState.subjekty.filter(s => s.typ === 'vti' || s.typ === 'vdi');
+            const hasDO  = doS.length > 0;
+            const hasVTI = vtiS.length > 0;
+
+            // Banner neutrální pokud nic nepotvrzeno nebo prázdné
+            const bothConfirmed = dokladyState.doConfirmed && dokladyState.vtiConfirmed;
+            const anyConfirmed  = dokladyState.doConfirmed || dokladyState.vtiConfirmed;
+
+            if (!bothConfirmed) {
+                // Zjisti které sekce ještě čekají na potvrzení
+                const pending = [];
+                if (!dokladyState.doConfirmed)  pending.push('Dotčené orgány');
+                if (!dokladyState.vtiConfirmed) pending.push('VTI / VDI');
+                const msg = pending.length > 0
+                    ? `Potvrďte sekci${pending.length > 1 ? 'e' : 'i'}: ${pending.join(' a ')}.`
+                    : 'Přidejte subjekty, přiřaďte doklady a označte výsledky. Pak potvrďte každou sekci.';
+                resultBox.className = 'result-preview neutral';
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">info</span>Probíhá posouzení</div><div class="result-preview-text">${msg}</div>`;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
+                return;
+            }
+
+            // Vyhodnotit výsledek potvrzených sekcí
+            const confirmedSubjekty = dokladyState.subjekty; // bothConfirmed = true here
+            const zaporne  = confirmedSubjekty.filter(s => s.vysledek === 'zaporne');
+            const chybiDO  = doS.filter(s => s.vysledek === 'chybi');
+            const chybiVTI = vtiS.filter(s => s.vysledek === 'chybi');
+            const unresolved = confirmedSubjekty.filter(s => !s.vysledek && !s.missing);
             const hasChybi = chybiDO.length > 0 || chybiVTI.length > 0;
 
             if (zaporne.length > 0) {
@@ -25172,32 +25609,23 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">cancel</span>Záporné stanovisko</div><div class="result-preview-text">Záporné stanovisko: ${zaporne.map(s=>s.nazev).join(', ')}. Řízení bude zastaveno.</div>`;
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons-outlined">gavel</span> Zastavit řízení';
-            } else if (unresolved.length > 0 || missing.length > 0) {
+            } else if (unresolved.length > 0) {
                 resultBox.className = 'result-preview neutral';
-                const parts = [];
-                if (unresolved.length) parts.push(`${unresolved.length} subjektů bez výsledku`);
-                if (missing.length) parts.push(`${missing.length} chybějících dokladů`);
-                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">hourglass_empty</span>Probíhá posouzení</div><div class="result-preview-text">${parts.join(' · ')}</div>`;
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">hourglass_empty</span>Probíhá posouzení</div><div class="result-preview-text">${unresolved.length} subjektů bez výsledku.</div>`;
                 btn.disabled = true;
                 btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
             } else if (hasChybi) {
-                // Chybějící stanoviska/vyjádření — jasný banner s postupem
                 let text = '';
-                if (chybiDO.length > 0) {
-                    text += `<div style="margin-bottom:4px;"><strong>Chybí závazné stanovisko DO (${chybiDO.length}):</strong> ${chybiDO.map(s=>s.nazev).join(', ')}<br><span style="font-size:11px;opacity:0.85;">→ SÚ si ho vyžádá sám (§ 4 odst. 8)</span></div>`;
-                }
-                if (chybiVTI.length > 0) {
-                    text += `<div><strong>Chybí vyjádření VTI/VDI (${chybiVTI.length}):</strong> ${chybiVTI.map(s=>s.nazev).join(', ')}<br><span style="font-size:11px;opacity:0.85;">→ Usnesení o přerušení řízení + výzva k doplnění</span></div>`;
-                }
+                if (chybiDO.length > 0)  text += `<div style="margin-bottom:4px;"><strong>Chybí závazné stanovisko DO (${chybiDO.length}):</strong> ${chybiDO.map(s=>s.nazev).join(', ')}<br><span style="font-size:11px;opacity:0.85;">→ SÚ si ho vyžádá sám (§ 4 odst. 8)</span></div>`;
+                if (chybiVTI.length > 0) text += `<div><strong>Chybí vyjádření VTI/VDI (${chybiVTI.length}):</strong> ${chybiVTI.map(s=>s.nazev).join(', ')}<br><span style="font-size:11px;opacity:0.85;">→ Usnesení o přerušení řízení + výzva k doplnění</span></div>`;
                 resultBox.className = 'result-preview warning';
                 resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">warning_amber</span>Chybějící doklady — definován postup</div><div class="result-preview-text">${text}</div>`;
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
             } else {
-                const podminky = dokladyState.subjekty.filter(s => s.vysledek === 'podminky');
-                const totalPodminky = dokladyState.subjekty.reduce((n,s)=>n+(s.podminkyText?s.podminkyText.trim().split('\n').filter(l=>l.trim()).length:0)+s.podminky.length, 0);
+                const totalPodminky = confirmedSubjekty.reduce((n,s)=>n+(s.podminkyText?s.podminkyText.trim().split('\n').filter(l=>l.trim()).length:0)+s.podminky.length, 0);
                 resultBox.className = 'result-preview positive';
-                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Dokladová část v pořádku</div><div class="result-preview-text">Všechna stanoviska a vyjádření zkontrolována. ${totalPodminky > 0 ? totalPodminky + ' podmínek pro rozhodnutí.' : 'Bez podmínek.'}</div>`;
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Dokladová část v pořádku</div><div class="result-preview-text">Všechna stanoviska a vyjádření potvrzena. ${totalPodminky > 0 ? totalPodminky + ' podmínek pro rozhodnutí.' : 'Bez podmínek.'}</div>`;
                 btn.disabled = false;
                 btn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit kontrolu';
             }
@@ -25229,6 +25657,8 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             // Výsledek kontroly: 'vady' pokud chybí doklady, 'error' pro záporné, 'ok' jinak
             controls.identifikace.done = true;
             controls.identifikace.result = zaporne.length > 0 ? 'error' : hasChybi ? 'warning' : 'ok';
+            controls.identifikace.doConfirmed  = dokladyState.doConfirmed;
+            controls.identifikace.vtiConfirmed = dokladyState.vtiConfirmed;
 
             // Uložit seznam subjektů — bude použit v sekci Osoby
             controls.identifikace.subjekty = JSON.parse(JSON.stringify(dokladyState.subjekty));
@@ -25615,6 +26045,14 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.btn-lv-wrapper')) {
                 document.querySelectorAll('.lv-dropdown.show').forEach(d => d.classList.remove('show'));
+            }
+            // Close doklady search dropdowns when clicking outside
+            if (!e.target.closest('[id^="dokladySearch_"]') && !e.target.closest('[id^="dokladySearchDropdown_"]')) {
+                document.querySelectorAll('[id^="dokladySearchDropdown_"]').forEach(d => d.style.display = 'none');
+            }
+            // Close oblibene dropdowns when clicking outside
+            if (!e.target.closest('[id^="dokladyOblibene_"]') && !e.target.closest('button[onclick*="toggleDokladyOblibene"]')) {
+                document.querySelectorAll('[id^="dokladyOblibene_"]').forEach(d => d.style.display = 'none');
             }
         });
         
@@ -29615,10 +30053,16 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         // ===== KONEC DRAG & DROP =====
 
         // Inicializace při načtení stránky
+        let _initialLoad = true;
+
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
             // Řízení se zakládá automaticky — přeskočit mezikrok
             zalozitRizeni();
+            // Vždy začít od vrchu stránky (zelený banner)
+            window.scrollTo(0, 0);
+            // Po prvním renderu označit jako initialized
+            setTimeout(() => { _initialLoad = false; }, 300);
         });
     </script>
     <script src="doc-modals.js"></script>
