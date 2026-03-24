@@ -24081,33 +24081,33 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         }
 
         function scrollToNextControl() {
-            // Zjistit výšku sticky hlavičky (app-header 56px + case-header)
+            // Výška sticky hlaviček
             const appHeader = document.querySelector('.app-header');
             const caseHeader = document.querySelector('.case-header');
             const headerH = (appHeader ? appHeader.offsetHeight : 56) + (caseHeader ? caseHeader.offsetHeight : 0);
 
-            // Najít poslední dokončenou kartu (phase-done) a první aktivní (phase-active / status-ready)
-            const allCards = Array.from(document.querySelectorAll('.pipeline-card-single, .control-card'));
-            
             // Najdi první aktivní nedokončenou kartu
+            const allCards = Array.from(document.querySelectorAll('.pipeline-card-single, .control-card'));
             const nextCard = allCards.find(c =>
                 (c.classList.contains('phase-active') || c.classList.contains('status-ready')) &&
                 !c.classList.contains('phase-done') &&
                 !c.classList.contains('phase-locked')
             );
-
             if (!nextCard) return;
 
-            // Najdi poslední dokončenou kartu před touto
+            // Najdi pipeline-phase nadřazenou poslední dokončené kartě — aby byl viditelný i nadpis fáze
             const nextIdx = allCards.indexOf(nextCard);
             const lastDone = nextIdx > 0
                 ? allCards.slice(0, nextIdx).reverse().find(c => c.classList.contains('phase-done'))
                 : null;
 
-            // Cíl: lastDone viditelný těsně pod hlavičkou, nextCard hned pod ním
-            const target = lastDone || nextCard;
-            const targetTop = target.getBoundingClientRect().top + window.scrollY - headerH - 16;
+            // Cíl scrollu: pipeline-phase label (nadpis "1 PŘÍSLUŠNOST" atd.) bloku s lastDone/nextCard
+            const anchorCard = lastDone || nextCard;
+            const phase = anchorCard.closest('.pipeline-phase');
+            const phaseLabel = phase ? phase.querySelector('.pipeline-phase-label') : null;
+            const scrollTarget = phaseLabel || anchorCard;
 
+            const targetTop = scrollTarget.getBoundingClientRect().top + window.scrollY - headerH - 12;
             window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
         }
 
