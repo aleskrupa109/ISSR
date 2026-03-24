@@ -10261,12 +10261,12 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 24px;
+            padding: 8px 16px;
             background: #fff;
             color: #5f6368;
             border: 1px solid #dadce0;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
@@ -10280,6 +10280,15 @@
 
         .btn-save-draft .material-icons-outlined {
             font-size: 18px;
+        }
+
+        /* Sjednocení výšky footerových tlačítek — všechny kontroly */
+        .control-form-footer .btn,
+        .control-form-footer .btn-save-draft {
+            padding: 8px 16px;
+            font-size: 13px;
+            height: auto;
+            line-height: 1.4;
         }
 
         .control-section {
@@ -22646,15 +22655,12 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             if (nextEl) {
                 setTimeout(() => {
                     const formBody = document.getElementById('dokladyFormBody');
-                    if (!formBody) return;
-                    // offsetTop relativně k formBody
-                    let elTop = 0;
-                    let node = nextEl;
-                    while (node && node !== formBody) {
-                        elTop += node.offsetTop || 0;
-                        node = node.offsetParent;
-                    }
-                    formBody.scrollTo({ top: Math.max(0, elTop - 20), behavior: 'smooth' });
+                    if (!formBody || !nextEl) return;
+                    // Relativní pozice nextEl uvnitř formBody
+                    const bodyRect = formBody.getBoundingClientRect();
+                    const elRect = nextEl.getBoundingClientRect();
+                    const relTop = elRect.top - bodyRect.top + formBody.scrollTop - 16;
+                    formBody.scrollTo({ top: Math.max(0, relTop), behavior: 'smooth' });
                 }, 80);
             }
         }
