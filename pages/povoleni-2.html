@@ -10406,6 +10406,30 @@
             margin-top: 2px;
         }
 
+        /* Ano/Ne tlačítka — shodný styl s upd-btn-yes / upd-btn-no */
+        .zr-ano-ne-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background: #f8f9fa;
+            font-size: 11px;
+            font-weight: 500;
+            color: #80868b;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .zr-ano-ne-btn:not(.zr-ne) { color: #137333; border-color: #ceead6; background: #f0faf3; }
+        .zr-ano-ne-btn.zr-ne       { color: #c5221f; border-color: #f5c6c2; background: #fff8f8; }
+        .zr-ano-ne-btn:not(.zr-ne):hover { background: #e6f4ea; border-color: #137333; }
+        .zr-ano-ne-btn.zr-ne:hover       { background: #fce8e6; border-color: #c5221f; }
+        .zr-ano-ne-btn.active-ano { background: #137333; border-color: #137333; color: #fff; }
+        .zr-ano-ne-btn.active-ne  { background: #c5221f; border-color: #c5221f; color: #fff; }
+
         .control-option.selected.negative {
             background: #fce8e6;
             border-color: #c5221f;
@@ -16393,6 +16417,69 @@
                 </div>
             </div>
         </div>
+
+        <!-- Výsuvný drawer pro podmínky — překryje pravý panel -->
+        <div id="podminkyDrawer" style="
+            display:none;position:absolute;top:0;right:0;bottom:0;
+            width:420px;background:#fff;border-left:1px solid #e0e0e0;
+            box-shadow:-4px 0 20px rgba(0,0,0,0.12);z-index:20;
+            display:none;flex-direction:column;">
+            <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #e0e0e0;background:#fafafa;flex-shrink:0;">
+                <span class="material-icons-outlined" style="color:#004289;">edit_note</span>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-size:13px;font-weight:600;color:#202124;" id="podminkyDrawerTitle">Podmínky</div>
+                    <div style="font-size:11px;color:#5f6368;" id="podminkyDrawerSubtitle"></div>
+                </div>
+                <button onclick="closePodminkyDrawer()" style="background:none;border:none;cursor:pointer;padding:4px;border-radius:4px;display:flex;align-items:center;color:#5f6368;" title="Zavřít">
+                    <span class="material-icons-outlined">close</span>
+                </button>
+            </div>
+            <div style="flex:1;overflow-y:auto;padding:16px;">
+                <!-- Informace o dokumentu -->
+                <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Informace o dokladu</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+                    <div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-bottom:2px;">Typ dokladu</div>
+                        <div style="font-size:12px;color:#202124;" id="pdDokTyp">—</div>
+                    </div>
+                    <div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-bottom:2px;">Soubor</div>
+                        <div style="font-size:12px;color:#202124;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" id="pdDokSoubor">—</div>
+                    </div>
+                    <div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-bottom:2px;">Číslo jednací</div>
+                        <input type="text" id="pdDokCj" placeholder="Např. MMHK/349238/2025" style="width:100%;padding:5px 8px;border:1px solid #dadce0;border-radius:5px;font-size:12px;font-family:inherit;box-sizing:border-box;">
+                    </div>
+                    <div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-bottom:2px;">Datum vydání</div>
+                        <input type="date" id="pdDokDatum" style="width:100%;padding:5px 8px;border:1px solid #dadce0;border-radius:5px;font-size:12px;font-family:inherit;box-sizing:border-box;">
+                    </div>
+                </div>
+                <!-- Podmínky editor -->
+                <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;">Podmínky pro rozhodnutí</div>
+                <p style="font-size:11px;color:#9aa0a6;margin-bottom:8px;">Podmínky ze stanoviska, které budou součástí rozhodnutí. Každou na samostatném řádku.</p>
+                <div class="podminky-toolbar" style="border-radius:6px 6px 0 0;">
+                    <button class="ptb-btn" title="Tučně" onclick="pdFmt('bold')"><b>B</b></button>
+                    <button class="ptb-btn" title="Kurzíva" onclick="pdFmt('italic')"><i>I</i></button>
+                    <span class="ptb-sep"></span>
+                    <button class="ptb-btn" title="Číslovaná podmínka" onclick="pdFmt('numbered')" style="width:auto;padding:0 7px;font-size:11px;">1.</button>
+                    <button class="ptb-btn" title="Odrážka" onclick="pdFmt('bullet')">•</button>
+                    <button class="ptb-btn" title="Nový odstavec" onclick="pdFmt('paragraph')">¶</button>
+                </div>
+                <textarea class="podminky-richarea" id="pdEditorText" style="border-radius:0 0 6px 6px;min-height:180px;"
+                    placeholder="Zadejte podmínky pro rozhodnutí&#10;Každou podmínku uveďte na samostatném řádku."></textarea>
+                <!-- Poznámka -->
+                <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin:14px 0 6px;">Interní poznámka</div>
+                <textarea id="pdPoznamka" placeholder="Interní poznámka k tomuto subjektu..." style="width:100%;padding:8px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;resize:vertical;min-height:60px;box-sizing:border-box;"></textarea>
+            </div>
+            <div style="padding:12px 16px;border-top:1px solid #e0e0e0;background:#fafafa;display:flex;justify-content:flex-end;gap:8px;flex-shrink:0;">
+                <button class="btn btn-secondary" onclick="closePodminkyDrawer()">Zrušit</button>
+                <button class="btn btn-primary" onclick="savePodminkyDrawer()">
+                    <span class="material-icons-outlined">check</span>
+                    Uložit podmínky
+                </button>
+            </div>
+        </div>
     </div>
 
 
@@ -16527,6 +16614,15 @@
                             </div>
                             <textarea class="upd-note-input" id="noteUrp" style="display:none;"
                                 placeholder="Popište rozpor s Územním rozvojovým plánem..." oninput="updateUPDState()"></textarea>
+                            <div class="upd-soulad-comment-row" id="commentRowUrp" style="display:none;">
+                                <button class="upd-comment-toggle" id="commentToggleUrp" onclick="toggleUPDComment('urp')" style="background:none;border:none;cursor:pointer;font-size:11px;color:#1a73e8;padding:2px 0;display:flex;align-items:center;gap:3px;">
+                                    <span class="material-icons-outlined" style="font-size:13px;">comment</span>
+                                    Přidat komentář ke shodě
+                                </button>
+                                <textarea class="upd-note-input" id="commentSouladUrp" style="display:none;"
+                                    placeholder="Volitelný komentář ke shodě s Územním rozvojovým plánem (použije se v rozhodnutí)..."
+                                    oninput="updateUPDState()"></textarea>
+                            </div>
                         </div>
 
                         <!-- ZÚR -->
@@ -16542,6 +16638,15 @@
                             </div>
                             <textarea class="upd-note-input" id="noteZur" style="display:none;"
                                 placeholder="Popište rozpor se Zásadami územního rozvoje..." oninput="updateUPDState()"></textarea>
+                            <div class="upd-soulad-comment-row" id="commentRowZur" style="display:none;">
+                                <button class="upd-comment-toggle" id="commentToggleZur" onclick="toggleUPDComment('zur')" style="background:none;border:none;cursor:pointer;font-size:11px;color:#1a73e8;padding:2px 0;display:flex;align-items:center;gap:3px;">
+                                    <span class="material-icons-outlined" style="font-size:13px;">comment</span>
+                                    Přidat komentář ke shodě
+                                </button>
+                                <textarea class="upd-note-input" id="commentSouladZur" style="display:none;"
+                                    placeholder="Volitelný komentář ke shodě se Zásadami územního rozvoje (použije se v rozhodnutí)..."
+                                    oninput="updateUPDState()"></textarea>
+                            </div>
                         </div>
 
                         <!-- ÚP -->
@@ -16564,6 +16669,15 @@
                                 </div>
                                 <textarea class="upd-note-input" id="noteUp" style="display:none;"
                                     placeholder="Popište rozpor s Územním plánem..." oninput="updateUPDState()"></textarea>
+                                <div class="upd-soulad-comment-row" id="commentRowUp" style="display:none;">
+                                    <button class="upd-comment-toggle" id="commentToggleUp" onclick="toggleUPDComment('up')" style="background:none;border:none;cursor:pointer;font-size:11px;color:#1a73e8;padding:2px 0;display:flex;align-items:center;gap:3px;">
+                                        <span class="material-icons-outlined" style="font-size:13px;">comment</span>
+                                        Přidat komentář ke shodě
+                                    </button>
+                                    <textarea class="upd-note-input" id="commentSouladUp" style="display:none;"
+                                        placeholder="Volitelný komentář ke shodě s Územním plánem (použije se v rozhodnutí)..."
+                                        oninput="updateUPDState()"></textarea>
+                                </div>
                             </div>
                             <div class="upd-no-up-info" id="noUpInfo" style="display:none;">Posouzení dle § 193</div>
                         </div>
@@ -16588,6 +16702,15 @@
                                 </div>
                                 <textarea class="upd-note-input" id="noteRp" style="display:none;"
                                     placeholder="Popište rozpor s Regulačním plánem..." oninput="updateUPDState()"></textarea>
+                                <div class="upd-soulad-comment-row" id="commentRowRp" style="display:none;">
+                                    <button class="upd-comment-toggle" id="commentToggleRp" onclick="toggleUPDComment('rp')" style="background:none;border:none;cursor:pointer;font-size:11px;color:#1a73e8;padding:2px 0;display:flex;align-items:center;gap:3px;">
+                                        <span class="material-icons-outlined" style="font-size:13px;">comment</span>
+                                        Přidat komentář ke shodě
+                                    </button>
+                                    <textarea class="upd-note-input" id="commentSouladRp" style="display:none;"
+                                        placeholder="Volitelný komentář ke shodě s Regulačním plánem (použije se v rozhodnutí)..."
+                                        oninput="updateUPDState()"></textarea>
+                                </div>
                             </div>
                             <div class="upd-no-up-info" id="noRpInfo" style="display:none;">RP neexistuje — posouzení ukončeno</div>
                         </div>
@@ -17367,21 +17490,61 @@
                             </div>
                         </label>
 
-                        <!-- K ověření v tomto kroku (defaultně nezaškrtnuto) -->
-                        <label class="control-option zr-editable">
-                            <input type="checkbox" name="zr_eia" onclick="updateZrychleneResult(); this.closest('.control-option').classList.toggle('selected', this.checked);" style="width:18px;height:18px;accent-color:#004289;flex-shrink:0;margin-top:2px;">
-                            <div class="control-option-content">
-                                <div class="control-option-label">Záměr nevyžaduje posouzení vlivů na ŽP</div>
-                                <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">edit</span> Zkontrolovat v tomto kroku</div>
+                        <!-- K ověření v tomto kroku — § 212 písm. b), c), e) -->
+
+                        <!-- b) EIA — přeformulováno: otázka jestli podléhá, Ne = podmínka splněna -->
+                        <div class="control-option zr-editable" id="zrCondEia" style="flex-direction:column;align-items:stretch;gap:8px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                                <div class="control-option-content" style="flex:1;">
+                                    <div class="control-option-label">Záměr podléhá posouzení vlivů na ŽP (EIA)?</div>
+                                    <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">info</span> § 212 odst. 1 písm. b) — podmínka splněna pokud záměr EIA nevyžaduje</div>
+                                </div>
+                                <div style="display:flex;gap:6px;flex-shrink:0;">
+                                    <button class="zr-ano-ne-btn" id="zrEiaNe" onclick="setZrCondition('eia',true)" title="Záměr EIA nevyžaduje — podmínka SPLNĚNA">
+                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ne, nepodléhá
+                                    </button>
+                                    <button class="zr-ano-ne-btn zr-ne" id="zrEiaAno" onclick="setZrCondition('eia',false)" title="Záměr EIA vyžaduje — podmínka NESPLNĚNA">
+                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ano, podléhá
+                                    </button>
+                                </div>
                             </div>
-                        </label>
-                        <label class="control-option zr-editable">
-                            <input type="checkbox" name="zr_souhlasy" onclick="updateZrychleneResult(); this.closest('.control-option').classList.toggle('selected', this.checked); if(this.checked){window._zrPickingSouhlasy=true;renderZrychleneDokladyViewer();}else{window._zrPickingSouhlasy=false;renderZrychleneDokladyViewer();}" style="width:18px;height:18px;accent-color:#004289;flex-shrink:0;margin-top:2px;">
-                            <div class="control-option-content">
-                                <div class="control-option-label">Souhlasy účastníků jsou přiloženy</div>
-                                <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">edit</span> Zkontrolovat v tomto kroku</div>
+                        </div>
+
+                        <!-- c) Výjimka ZOPK — nová podmínka -->
+                        <div class="control-option zr-editable" id="zrCondZopk" style="flex-direction:column;align-items:stretch;gap:8px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                                <div class="control-option-content" style="flex:1;">
+                                    <div class="control-option-label">Záměr vyžaduje povolení výjimky nebo odchylného postupu dle zákona o ochraně přírody?</div>
+                                    <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">info</span> § 212 odst. 1 písm. c) — podmínka splněna pokud výjimka není potřeba</div>
+                                </div>
+                                <div style="display:flex;gap:6px;flex-shrink:0;">
+                                    <button class="zr-ano-ne-btn" id="zrZopkNe" onclick="setZrCondition('zopk',true)" title="Výjimka není potřeba — podmínka SPLNĚNA">
+                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ne, nevyžaduje
+                                    </button>
+                                    <button class="zr-ano-ne-btn zr-ne" id="zrZopkAno" onclick="setZrCondition('zopk',false)" title="Výjimka je potřeba — podmínka NESPLNĚNA">
+                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ano, vyžaduje
+                                    </button>
+                                </div>
                             </div>
-                        </label>
+                        </div>
+
+                        <!-- e) Souhlasy účastníků na situačním výkrese -->
+                        <div class="control-option zr-editable" id="zrCondSouhlasy" style="flex-direction:column;align-items:stretch;gap:8px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                                <div class="control-option-content" style="flex:1;">
+                                    <div class="control-option-label">Souhlasy všech účastníků řízení jsou doloženy, vyznačeny na situačním výkrese?</div>
+                                    <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">edit</span> § 212 odst. 1 písm. e) — vyberte dokumenty vlevo</div>
+                                </div>
+                                <div style="display:flex;gap:6px;flex-shrink:0;">
+                                    <button class="zr-ano-ne-btn" id="zrSouhlasyAno" onclick="setZrCondition('souhlasy',true)" title="Souhlasy jsou doloženy — podmínka SPLNĚNA">
+                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ano, jsou
+                                    </button>
+                                    <button class="zr-ano-ne-btn zr-ne" id="zrSouhlasyNe" onclick="setZrCondition('souhlasy',false)" title="Souhlasy chybí — podmínka NESPLNĚNA">
+                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ne, chybí
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Výběr dokumentů se souhlasy — zobrazí se po zaškrtnutí -->
                         <div id="souhlasyDocPicker" style="display:none;margin:0 0 8px 0;padding:10px 12px;background:#f8fbff;border:1px solid #d2e3fc;border-radius:6px;">
                             <div style="font-size:11px;font-weight:600;color:#1558d6;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
@@ -17415,7 +17578,7 @@
                             <span class="material-icons-outlined">save</span>
                             Uložit
                         </button>
-                        <button class="btn btn-primary" onclick="completeZrychlene()">
+                        <button class="btn btn-primary" id="btnZrychleneConfirm" onclick="completeZrychlene()">
                             <span class="material-icons-outlined">check</span>
                             Potvrdit kontrolu
                         </button>
@@ -17570,10 +17733,10 @@
                     </div>
                 </div>
 
-                <!-- Výsledek posouzení -->
-                <div class="podminky-section">
+                <!-- Výsledek posouzení — skryto, modál se otvírá vždy pro podmínky -->
+                <div class="podminky-section" id="vysledekOptions" style="display:none;">
                     <div class="podminky-section-title">Výsledek posouzení</div>
-                    <div class="vysledek-options" id="vysledekOptions">
+                    <div class="vysledek-options">
                         <label class="vysledek-option kladne">
                             <input type="radio" name="vysledekRadio" value="kladne">
                             <div class="vysledek-option-icon">
@@ -17582,7 +17745,7 @@
                             <span class="vysledek-option-label">Kladné</span>
                         </label>
                         <label class="vysledek-option s-podminkami">
-                            <input type="radio" name="vysledekRadio" value="kladne_s_podminkami">
+                            <input type="radio" name="vysledekRadio" value="kladne_s_podminkami" checked>
                             <div class="vysledek-option-icon">
                                 <span class="material-icons-outlined">task_alt</span>
                             </div>
@@ -21309,8 +21472,13 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 const allDepsDone = controls.zrychlene.depends.every(dep => controls[dep] && controls[dep].done);
 
                 if (controls.zrychlene.done) {
+                    const splneno = controls.zrychlene.result === 'ok';
+                    cardZrychlene.classList.remove('status-waiting', 'status-ready', 'status-done', 'status-warning');
+                    cardZrychlene.classList.add(splneno ? 'status-done' : 'status-warning');
                     if (actionBtn) {
-                        actionBtn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Splněno';
+                        actionBtn.innerHTML = splneno
+                            ? '<span class="material-icons-outlined">check_circle</span>Splněno'
+                            : '<span class="material-icons-outlined">gavel</span>Nesplněno — standardní řízení';
                         actionBtn.onclick = function() { openControl('controlZrychlene'); };
                         actionBtn.disabled = false;
                     }
@@ -22653,15 +22821,24 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
 
             // Scrollovat pravý panel (dokladyFormBody) na next-step element
             if (nextEl) {
-                setTimeout(() => {
+                const scrollToNext = () => {
                     const formBody = document.getElementById('dokladyFormBody');
                     if (!formBody || !nextEl) return;
-                    // Relativní pozice nextEl uvnitř formBody
-                    const bodyRect = formBody.getBoundingClientRect();
-                    const elRect = nextEl.getBoundingClientRect();
-                    const relTop = elRect.top - bodyRect.top + formBody.scrollTop - 16;
-                    formBody.scrollTo({ top: Math.max(0, relTop), behavior: 'smooth' });
-                }, 80);
+                    if (!formBody.scrollHeight) return;
+                    const bodyTop = formBody.getBoundingClientRect().top;
+                    const elTop = nextEl.getBoundingClientRect().top;
+                    // Fallback: pokud getBoundingClientRect ještě vrací 0, zkusit přes offsetTop
+                    let relTop;
+                    if (bodyTop === 0 && elTop === 0) {
+                        relTop = nextEl.offsetTop - 20;
+                    } else {
+                        relTop = elTop - bodyTop + formBody.scrollTop - 20;
+                    }
+                    if (relTop > 0) formBody.scrollTo({ top: Math.max(0, relTop), behavior: 'smooth' });
+                };
+                // Dvojí pokus s různými delays pro jistotu
+                requestAnimationFrame(() => setTimeout(scrollToNext, 100));
+                setTimeout(scrollToNext, 400);
             }
         }
 
@@ -23022,6 +23199,8 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 }
                 updateDokumentaceResult();
                 updateDocNextStep();
+                // Extra scroll delay — DOM potřebuje čas po renderu výsledků validátoru
+                setTimeout(() => updateDocNextStep(), 350);
             }, 1200);
         }
         
@@ -23684,6 +23863,19 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             }
         }
         
+        function toggleUPDComment(step) {
+            const S = step.charAt(0).toUpperCase() + step.slice(1);
+            const ta = document.getElementById('commentSoulad' + S);
+            const btn = document.getElementById('commentToggle' + S);
+            if (!ta) return;
+            const visible = ta.style.display !== 'none';
+            ta.style.display = visible ? 'none' : 'block';
+            if (btn) btn.innerHTML = visible
+                ? '<span class="material-icons-outlined" style="font-size:13px;">comment</span> Přidat komentář ke shodě'
+                : '<span class="material-icons-outlined" style="font-size:13px;">comment</span> Skrýt komentář';
+            if (!visible) setTimeout(() => ta.focus(), 50);
+        }
+
         function setUPDSoulad(step, soulad, btn) {
             updState[step].checked = true;
             updState[step].soulad = soulad;
@@ -23698,6 +23890,11 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             if (noteInput) {
                 noteInput.style.display = soulad ? 'none' : 'block';
             }
+
+            // Zobrazit/skrýt komentář ke shodě
+            const commentRow = document.getElementById('commentRow' + step.charAt(0).toUpperCase() + step.slice(1));
+            if (commentRow) commentRow.style.display = soulad ? 'flex' : 'none';
+            if (commentRow) commentRow.style.flexDirection = 'column';
             
             // Aktualizovat/skrýt indikátor nesouladu
             const indicator = document.getElementById('indicator' + step.charAt(0).toUpperCase() + step.slice(1));
@@ -23908,27 +24105,69 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         // ==========================================
         // ZRYCHLENÉ ŘÍZENÍ - update result
         // ==========================================
-        function updateZrychleneResult() {
-            // Pouze editovatelné položky rozhodují o výsledku — auto-verified jsou vždy splněny
-            const checkboxes = document.querySelectorAll('#controlZrychlene .zr-editable input[type="checkbox"]');
-            let allChecked = true;
-            checkboxes.forEach(cb => {
-                if (!cb.checked) allChecked = false;
-            });
+        // Stav podmínek: null = nezkontrolováno, true = ano, false = ne
+        const zrCondState = { eia: null, zopk: null, souhlasy: null };
 
-            const resultBox = document.getElementById('resultZrychlene');
-            if (allChecked) {
-                resultBox.className = 'result-preview positive';
-                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Podmínky splněny</div><div class="result-preview-text">Všechny podmínky pro zrychlené řízení jsou splněny.</div>`;
-            } else {
-                resultBox.className = 'result-preview warning';
-                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">warning</span>Podmínky nesplněny</div><div class="result-preview-text">Řízení bude vedeno standardním způsobem.</div>`;
+        function setZrCondition(key, value) {
+            zrCondState[key] = value;
+
+            const greenId = key === 'eia' ? 'zrEiaNe' : key === 'zopk' ? 'zrZopkNe' : 'zrSouhlasyAno';
+            const redId   = key === 'eia' ? 'zrEiaAno' : key === 'zopk' ? 'zrZopkAno' : 'zrSouhlasyNe';
+            const greenBtn = document.getElementById(greenId);
+            const redBtn   = document.getElementById(redId);
+
+            if (greenBtn) { greenBtn.classList.remove('active-ano', 'active-ne'); }
+            if (redBtn)   { redBtn.classList.remove('active-ano', 'active-ne'); }
+            if (value === true  && greenBtn) greenBtn.classList.add('active-ano');
+            if (value === false && redBtn)   redBtn.classList.add('active-ne');
+
+            // Zelené podbarvení podmínky při splnění
+            const cond = document.getElementById('zrCond' + key.charAt(0).toUpperCase() + key.slice(1));
+            if (cond) {
+                cond.classList.toggle('verified-auto', value === true);
+                cond.classList.toggle('zr-editable', value !== true);
+                cond.style.borderColor = '';
             }
 
-            // Zobrazit/skrýt výběr souhlasů
-            const souhlasyCb = document.querySelector('#controlZrychlene input[name="zr_souhlasy"]');
-            const souhlasyPicker = document.getElementById('souhlasyDocPicker');
-            if (souhlasyPicker) souhlasyPicker.style.display = (souhlasyCb && souhlasyCb.checked) ? 'block' : 'none';
+            if (key === 'souhlasy') {
+                window._zrPickingSouhlasy = (value === true);
+                renderZrychleneDokladyViewer();
+                const picker = document.getElementById('souhlasyDocPicker');
+                if (picker) picker.style.display = (value === true) ? 'block' : 'none';
+            }
+            updateZrychleneResult();
+            updateZrychleneFooterBtn();
+        }
+
+        function updateZrychleneFooterBtn() {
+            const allSplneno = zrCondState.eia === true && zrCondState.zopk === true && zrCondState.souhlasy === true;
+            const confirmBtn = document.getElementById('btnZrychleneConfirm');
+            if (!confirmBtn) return;
+            if (allSplneno) {
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">bolt</span>Pokračovat ve zrychleném řízení';
+                confirmBtn.className = 'btn btn-primary';
+                confirmBtn.onclick = function() { completeZrychlene(); window.location.href = 'povoleni-short.html'; };
+            } else {
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                confirmBtn.className = 'btn btn-primary';
+                confirmBtn.onclick = completeZrychlene;
+            }
+        }
+
+        function updateZrychleneResult() {
+            const allSplneno = zrCondState.eia === true && zrCondState.zopk === true && zrCondState.souhlasy === true;
+            const anyNe = zrCondState.eia === false || zrCondState.zopk === false || zrCondState.souhlasy === false;
+            const resultBox = document.getElementById('resultZrychlene');
+            if (allSplneno) {
+                resultBox.className = 'result-preview positive';
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">check_circle</span>Podmínky splněny</div><div class="result-preview-text">Všechny podmínky pro zrychlené řízení jsou splněny.</div>`;
+            } else if (anyNe) {
+                resultBox.className = 'result-preview negative';
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">cancel</span>Podmínky nesplněny</div><div class="result-preview-text">Záměr bude projednán ve standardním řízení s ústním jednáním (§ 212 odst. 3).</div>`;
+            } else {
+                resultBox.className = 'result-preview warning';
+                resultBox.innerHTML = `<div class="result-preview-title"><span class="material-icons-outlined">hourglass_empty</span>Čeká na zkontrolování</div><div class="result-preview-text">Označte zbývající podmínky.</div>`;
+            }
         }
 
         // Render dokladového stromu v levém vieweru Zrychleného řízení
@@ -24140,7 +24379,9 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             
             // Kontrola, zda jsou zjištěny vady (pro tlačítko Výzva k doplnění)
             // Vady = problémy v žádosti samotné, NE nesplnění podmínek zrychleného řízení
-            const hasVady = Object.entries(controls).some(([k, c]) => k !== 'zrychlene' && c.done && (c.result === 'vady' || c.result === 'warning'));
+            // Vady žádosti = skutečné vady (zadost, dokumentace), nikoli legitimní stavy jako chybějící doklady DO nebo VTI
+            const hasVady = Object.entries(controls).some(([k, c]) =>
+                k !== 'zrychlene' && k !== 'identifikace' && c.done && (c.result === 'vady' || c.result === 'error'));
             const zrychleneNesplneno = controls.zrychlene.done && controls.zrychlene.result !== 'ok';
             const ostatniAllDone = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.done);
             const ostatniAllOk = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.result === 'ok');
@@ -24188,7 +24429,9 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
 
             // Update summary
             const allDone = Object.values(controls).every(c => c.done);
-            const allOk = Object.values(controls).every(c => c.result === 'ok');
+            // allOk: identifikace může mít warning (chybí doklady = legitimní postup), zrychlene ok
+            const allOk = Object.entries(controls).every(([k, c]) =>
+                c.result === 'ok' || (k === 'identifikace' && (c.result === 'ok' || c.result === 'warning')));
             const hasBlocking = Object.values(controls).some(c => c.done && c.result === 'error');
             
             if (!isPrislusny) {
@@ -24198,11 +24441,27 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                 document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">send</span>Postoupit řízení';
                 _btnAction = 'postoupit';
             } else if (allDone && allOk) {
-                document.getElementById('summaryTitle').textContent = 'Všechny kontroly dokončeny';
-                document.getElementById('summaryDesc').textContent = 'Řízení je připraveno k zahájení. Lhůta začne běžet od 6. 1. 2026.';
-                document.getElementById('btnZahajit').disabled = false;
-                document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
-                _btnAction = 'zahajit';
+                const zrychleneOk = controls.zrychlene && controls.zrychlene.done && controls.zrychlene.result === 'ok';
+                const zrychleneNesplnenoFinal = controls.zrychlene && controls.zrychlene.done && controls.zrychlene.result !== 'ok';
+                if (zrychleneNesplnenoFinal) {
+                    document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení nejsou splněny';
+                    document.getElementById('summaryDesc').textContent = 'Záměr nesplňuje podmínky § 212. Bude projednán ve standardním řízení s ústním jednáním.';
+                    document.getElementById('btnZahajit').disabled = false;
+                    document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">gavel</span>Přejít na standardní řízení';
+                    _btnAction = 'standardni';
+                } else if (zrychleneOk) {
+                    document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení splněny';
+                    document.getElementById('summaryDesc').textContent = 'Záměr splňuje podmínky § 212. Pokračujte výzvou k uhrazení poplatku a vydáním rozhodnutí.';
+                    document.getElementById('btnZahajit').disabled = false;
+                    document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">bolt</span>Pokračovat ve zrychleném řízení';
+                    _btnAction = 'zrychlene_pokracovat';
+                } else {
+                    document.getElementById('summaryTitle').textContent = 'Všechny kontroly dokončeny';
+                    document.getElementById('summaryDesc').textContent = 'Řízení je připraveno k zahájení. Lhůta začne běžet od 6. 1. 2026.';
+                    document.getElementById('btnZahajit').disabled = false;
+                    document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
+                    _btnAction = 'zahajit';
+                }
             } else if (ostatniAllDone && ostatniAllOk && zrychleneNesplneno) {
                 // Všechny kontroly žádosti v pořádku, ale zrychlené řízení nesplněno → standardní řízení
                 document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení nejsou splněny';
@@ -25232,13 +25491,13 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             }
 
             if (!s.missing) {
-                // Result buttons
+                // Result buttons — S podmínkami rovnou otevírá editor
                 html += `<div class="doklady-result-btns">
                     <button class="doklady-result-btn souhlasne ${s.vysledek==='souhlasne'?'active':''}" onclick="setSubjektVysledek('${s.id}','souhlasne')">
                         <span class="material-icons-outlined">check_circle</span> Souhlasné
                     </button>
-                    <button class="doklady-result-btn podminky ${s.vysledek==='podminky'?'active':''}" onclick="setSubjektVysledek('${s.id}','podminky')">
-                        <span class="material-icons-outlined">warning</span> S podmínkami
+                    <button class="doklady-result-btn podminky ${s.vysledek==='podminky'?'active':''}" onclick="setSubjektVysledekSPodminkami('${s.id}')">
+                        <span class="material-icons-outlined">rule</span> Souhlasné s podmínkami
                     </button>
                     <button class="doklady-result-btn zaporne ${s.vysledek==='zaporne'?'active':''}" onclick="setSubjektVysledek('${s.id}','zaporne')">
                         <span class="material-icons-outlined">cancel</span> Záporné
@@ -25568,43 +25827,71 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         // Podmínky — rich editor modal
         let _podminkySubjektId = null;
 
-        function openDokladyPodminkyEditor(subjektId) {
+        function setSubjektVysledekSPodminkami(id) {
+            setSubjektVysledek(id, 'podminky');
+            setTimeout(() => openPodminkyDrawer(id), 80);
+        }
+
+        function openPodminkyDrawer(subjektId) {
             const s = dokladyState.subjekty.find(x => x.id === subjektId);
             if (!s) return;
             _podminkySubjektId = subjektId;
-            document.getElementById('podminkyModalTitle').textContent = 'Podmínky — ' + s.nazev;
-
-            // Sync doc info
+            document.getElementById('podminkyDrawerTitle').textContent = 'Podmínky — ' + s.nazev;
+            document.getElementById('podminkyDrawerSubtitle').textContent = s.nazev;
             const doc = s.docId ? dokladyDocs.find(d => d.id === s.docId) : null;
-            document.getElementById('podminkyDokTyp').textContent = doc ? (doc.typLabel || doc.typ) : '—';
-            document.getElementById('podminkyDokSoubor').textContent = doc ? doc.soubor : '—';
-            if (doc && doc.datum) document.getElementById('podminkyDokDatum').value = doc.datum;
-            if (doc && doc.cj) document.getElementById('podminkyDokCj').value = doc.cj;
-
-            // Výsledek radio — map to modal radio values
-            const radioMap = { souhlasne:'kladne', podminky:'kladne_s_podminkami', zaporne:'zaporne' };
-            const radioVal = radioMap[s.vysledek] || '';
-            document.querySelectorAll('input[name="vysledekRadio"]').forEach(r => { r.checked = r.value === radioVal; });
-
-            // Podmínky text
-            const ta = document.getElementById('podminkyEditorText');
-            ta.value = s.podminkyText || '';
-
-            // Zobrazit/skrýt editor podmínek
-            const sec = document.getElementById('podminkySectionList');
-            sec.style.display = (s.vysledek === 'podminky') ? 'block' : 'none';
-
-            // Listen to radio changes
-            document.querySelectorAll('input[name="vysledekRadio"]').forEach(r => {
-                r.onchange = () => {
-                    const sec = document.getElementById('podminkySectionList');
-                    sec.style.display = r.value === 'kladne_s_podminkami' ? 'block' : 'none';
-                };
-            });
-
-            document.getElementById('podminkyModal').classList.add('open');
-            document.body.style.overflow = 'hidden';
+            document.getElementById('pdDokTyp').textContent = doc ? (doc.typLabel || doc.typ) : '—';
+            document.getElementById('pdDokSoubor').textContent = doc ? (doc.soubor || doc.nazev || '—') : '—';
+            const cjEl = document.getElementById('pdDokCj');
+            const datEl = document.getElementById('pdDokDatum');
+            if (cjEl) cjEl.value = doc && doc.cj ? doc.cj : '';
+            if (datEl) datEl.value = doc && doc.datum ? doc.datum : '';
+            document.getElementById('pdEditorText').value = s.podminkyText || '';
+            document.getElementById('pdPoznamka').value = s.poznamka || '';
+            const drawer = document.getElementById('podminkyDrawer');
+            if (drawer) drawer.style.display = 'flex';
+            setTimeout(() => { const ta = document.getElementById('pdEditorText'); if (ta) ta.focus(); }, 150);
         }
+
+        function closePodminkyDrawer() {
+            const drawer = document.getElementById('podminkyDrawer');
+            if (drawer) drawer.style.display = 'none';
+            _podminkySubjektId = null;
+        }
+
+        function savePodminkyDrawer() {
+            const s = dokladyState.subjekty.find(x => x.id === _podminkySubjektId);
+            if (!s) { closePodminkyDrawer(); return; }
+            s.podminkyText = (document.getElementById('pdEditorText')?.value || '').trim();
+            s.poznamka = document.getElementById('pdPoznamka')?.value || '';
+            const cjEl = document.getElementById('pdDokCj');
+            const datEl = document.getElementById('pdDokDatum');
+            if (cjEl && s.docId) {
+                const doc = dokladyDocs.find(d => d.id === s.docId);
+                if (doc) { doc.cj = cjEl.value; if (datEl) doc.datum = datEl.value; }
+            }
+            closePodminkyDrawer();
+            renderDokladyForm();
+            updateIdentifikaceResult();
+        }
+
+        function pdFmt(type) {
+            const ta = document.getElementById('pdEditorText');
+            if (!ta) return;
+            const start = ta.selectionStart, end = ta.selectionEnd, val = ta.value;
+            let insert = '';
+            if (type === 'bold') insert = '**' + val.substring(start, end) + '**';
+            else if (type === 'italic') insert = '_' + val.substring(start, end) + '_';
+            else if (type === 'numbered') { const n = (val.match(/^\d+\./gm) || []).length + 1; insert = '\n' + n + '. '; }
+            else if (type === 'bullet') insert = '\n• ';
+            else if (type === 'paragraph') insert = '\n\n';
+            ta.value = val.substring(0, start) + insert + val.substring(end);
+            ta.focus();
+        }
+
+        function openDokladyPodminkyEditor(subjektId) {
+            openPodminkyDrawer(subjektId);
+        }
+
 
         function closePodminkyModal() {
             document.getElementById('podminkyModal').classList.remove('open');
@@ -27039,18 +27326,19 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
         }
 
         function completeZrychlene() {
-            const checkboxes = document.querySelectorAll('#controlZrychlene input[type="checkbox"]');
-            let allChecked = true;
-            checkboxes.forEach(cb => { if (!cb.checked) allChecked = false; });
-            
+            const allSplneno = zrCondState.eia === true && zrCondState.zopk === true && zrCondState.souhlasy === true;
             controls.zrychlene.done = true;
-            controls.zrychlene.result = allChecked ? 'ok' : 'warning';
-            
+            controls.zrychlene.result = allSplneno ? 'ok' : 'warning';
             closeControl('controlZrychlene');
             updateUI();
         }
 
         function zahajitRizeni() {
+            if (_btnAction === 'zrychlene_pokracovat') {
+                // Přechod na zrychlené řízení — stránka povoleni-short.html
+                window.location.href = 'povoleni-short.html';
+                return;
+            }
             if (_btnAction === 'postoupit') {
                 const postoupit = controls.prislusnost.postoupit;
                 let msg = 'Řízení bude postoupeno příslušnému stavebnímu úřadu.\n\n';
