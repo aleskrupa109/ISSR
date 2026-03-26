@@ -1276,6 +1276,19 @@
             display: flex;
             align-items: center;
             gap: 14px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .pipeline-phase-conditional.status-done {
+            background: #e6f4ea;
+            border: 1px solid #a8d5b5;
+        }
+        .pipeline-phase-conditional.status-done .pipeline-conditional-icon {
+            background: #ceead6;
+            color: #137333;
+        }
+        .pipeline-phase-conditional.status-warning {
+            background: #fff8e1;
+            border: 1px solid #f6b900;
         }
         .pipeline-conditional-icon {
             width: 36px;
@@ -24173,9 +24186,9 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const confirmBtn = document.getElementById('btnZrychleneConfirm');
             if (!confirmBtn) return;
             if (allSplneno) {
-                confirmBtn.innerHTML = '<span class="material-icons-outlined">bolt</span>Pokračovat ve zrychleném řízení';
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit a dokončit';
                 confirmBtn.className = 'btn btn-primary';
-                confirmBtn.onclick = function() { completeZrychlene(); window.location.href = 'povoleni-short.html'; };
+                confirmBtn.onclick = completeZrychlene;
             } else {
                 confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
                 confirmBtn.className = 'btn btn-primary';
@@ -24482,7 +24495,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
                     document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení splněny';
                     document.getElementById('summaryDesc').textContent = 'Záměr splňuje podmínky § 212. Pokračujte výzvou k uhrazení poplatku a vydáním rozhodnutí.';
                     document.getElementById('btnZahajit').disabled = false;
-                    document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">bolt</span>Pokračovat ve zrychleném řízení';
+                    document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">bolt</span>Zahájit zrychlené řízení';
                     _btnAction = 'zrychlene_pokracovat';
                 } else {
                     document.getElementById('summaryTitle').textContent = 'Všechny kontroly dokončeny';
