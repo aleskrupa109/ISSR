@@ -1567,37 +1567,7 @@
         </style>
 </head>
 <body>
-    <!-- ISSŘ Hlavička -->
-    <header class="issr-header">
-        <a href="../index.html" class="issr-header__logo">
-            <img src="../images/logo-issr.png" alt="ISSŘ Logo" class="issr-header__logo-img">
-            <span class="issr-header__title">INFORMAČNÍ SYSTÉM STAVEBNÍHO ŘÍZENÍ</span>
-        </a>
-        
-        <div class="issr-header__search">
-            <input type="text" class="issr-header__search-input" placeholder="Hledat">
-        </div>
-        
-        <div class="issr-header__actions">
-            <div class="issr-header__notification">
-                <svg class="issr-header__notification-icon" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path>
-                </svg>
-                <span class="issr-header__notification-badge">2</span>
-            </div>
-            
-            <div class="issr-header__user">
-                <span>Aleš Krupa</span>
-                <svg class="issr-header__user-icon" viewBox="0 0 16 16" fill="currentColor">
-                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"></path>
-                </svg>
-            </div>
-        </div>
-    </header>
-
-    <main class="main-content">
-        <!-- Case header -->
-        <!-- Hlavička řízení — sdílená komponenta -->
+    <!-- Hlavička řízení — sdílená komponenta -->
         <div id="issr-header-root"></div>
         <script src="../js/issr-case-header.js"></script>
         <script>
@@ -1614,15 +1584,32 @@
                 badgeType: 'in-progress',
                 backHref: 'povoleni-2.html',
                 backTitle: 'Zpět na kontrolu žádosti',
+                showNedostatky: true,
+                nedostatkyCount: 0,
                 docButtons: [
-                    { icon: 'description', label: 'Žádost', onclick: "openModal('zadostModal')" },
-                    { icon: 'attach_file', label: 'Přílohy', badge: '12', onclick: "openModal('prilohyModal')" },
-                    { icon: 'folder', label: 'El. dokumentace', onclick: "openModal('eedModal')" },
-                    { icon: 'fact_check', label: 'Dokladová část', onclick: "openModal('dokladyModal')" },
+                    { icon: 'description', label: 'Žádost', onclick: "openDocViewer('zadost')" },
+                    { icon: 'attach_file', label: 'Přílohy', badge: '12', onclick: "openDocViewer('prilohy')" },
+                    { icon: 'folder', label: 'El. dokumentace', onclick: "openDocViewer('eed')" },
+                    { icon: 'fact_check', label: 'Dokladová část', onclick: "openDocViewer('doklady')" },
+                    { icon: 'view_in_ar', label: 'BIM model', onclick: "openDocViewer('bim')" },
                 ],
             });
+            // Hookup: Údaje řízení → modal s daty ze stavebního spisu
+            issrCaseHeader.onUdaje = function() {
+                issrCaseHeader._openSlideout('assignment', 'Údaje řízení', getUdajeRizeniHtml());
+            };
+            // Hookup: Nedostatky → slideout s nedostatky
+            issrCaseHeader.onNedostatky = function() {
+                issrCaseHeader._openSlideout('warning_amber', 'Přehled nedostatků', '<p style="color:#5f6368;font-size:13px;">Žádné aktivní nedostatky.</p>');
+            };
+            // Hookup: Akce řízení
+            issrCaseHeader.onAction = function(action) {
+                issrCaseHeader._toggleDropdown(false);
+                if (typeof handleAkceRizeni === 'function') handleAkceRizeni(action);
+            };
         </script>
 
+    <main class="main-content">
         <!-- Page content -->
         <div class="page-content">
             <!-- Info panel -->
@@ -3226,6 +3213,51 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             if (event && event.target !== event.currentTarget) return;
             document.getElementById(modalId).classList.remove('open');
             document.body.style.overflow = '';
+        }
+
+        // Otevřít prohlížeč dokumentů přes slideout hlavičky
+        function openDocViewer(type) {
+            const labels = { zadost: 'Žádost o povolení stavby', prilohy: 'Přílohy', eed: 'Elektronická dokumentace', doklady: 'Dokladová část', bim: 'BIM model' };
+            const icons  = { zadost: 'description', prilohy: 'attach_file', eed: 'folder', doklady: 'fact_check', bim: 'view_in_ar' };
+            const body = `<div style="display:flex;align-items:center;justify-content:center;height:300px;flex-direction:column;gap:12px;color:#5f6368;">
+                <span class="material-icons-outlined" style="font-size:48px;">${icons[type] || 'description'}</span>
+                <div style="font-size:14px;font-weight:500;">${labels[type] || type}</div>
+                <div style="font-size:12px;">Prohlížeč dokumentů (připravuje se)</div>
+            </div>`;
+            issrCaseHeader._openSlideout(icons[type] || 'description', labels[type] || type, body);
+        }
+
+        function getUdajeRizeniHtml() {
+            return `<div style="font-size:13px;line-height:1.8;">
+                <div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e8eaed;">
+                    <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Identifikace řízení</div>
+                    <div><b>Číslo spisu:</b> SZ DESU/000612/26</div>
+                    <div><b>Záměr:</b> Z/2026/1596</div>
+                    <div><b>Druh řízení:</b> Povolení stavby</div>
+                    <div><b>Kategorie stavby:</b> Stavba dráhy</div>
+                </div>
+                <div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e8eaed;">
+                    <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Lhůty</div>
+                    <div><b>Zahájení:</b> 7. 1. 2026</div>
+                    <div><b>Lhůta pro vydání rozhodnutí:</b> 7. 7. 2026 (180 dní)</div>
+                    <div><b>Lhůta pro ústní jednání:</b> nejpozději 7. 4. 2026</div>
+                </div>
+                <div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e8eaed;">
+                    <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Stavebník</div>
+                    <div><b>Název:</b> Správa železnic, s.o.</div>
+                    <div><b>IČO:</b> 70994234</div>
+                    <div><b>Datová schránka:</b> uccchjm</div>
+                </div>
+                <div>
+                    <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Přidělení</div>
+                    <div><b>Referent:</b> Aleš Krupa</div>
+                    <div><b>Pracoviště:</b> DESÚ Praha</div>
+                </div>
+            </div>`;
+        }
+
+        function handleAkceRizeni(action) {
+            alert('Akce: ' + action + ' (připravuje se)');
         }
 
         // Escape key closes overlays
