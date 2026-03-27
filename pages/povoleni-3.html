@@ -1545,7 +1545,26 @@
                 width: 100%;
             }
         }
-    </style>
+    
+        /* === Přidáno z povoleni-2: akční tlačítka hlavičky === */
+        .case-header-actions { display: flex; align-items: center; gap: 8px; }
+        .header-action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: #fff; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-weight: 500; color: #202124; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+        .header-action-btn:hover { background: #f1f3f4; border-color: #5f6368; }
+        .header-action-btn .material-icons-outlined { font-size: 18px; color: #5f6368; }
+        .action-dropdown { position: relative; }
+        .action-dropdown-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; min-width: 220px; background: #fff; border: 1px solid #dadce0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; display: none; }
+        .action-dropdown-menu.open { display: block; }
+        .action-dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 13px; color: #202124; cursor: pointer; transition: background 0.1s; }
+        .action-dropdown-item:hover { background: #f1f3f4; }
+        .action-dropdown-item .material-icons-outlined { font-size: 18px; color: #5f6368; }
+        .action-dropdown-item.danger { color: #c5221f; }
+        .action-dropdown-item.danger .material-icons-outlined { color: #c5221f; }
+        .action-dropdown-divider { height: 1px; background: #e8eaed; margin: 4px 0; }
+        .case-meta-link { text-decoration: none; color: inherit; }
+        .case-meta-link:hover { text-decoration: underline; }
+        .case-meta-linked-separator { margin: 0 6px; color: #dadce0; }
+
+        </style>
 </head>
 <body>
     <!-- ISSŘ Hlavička -->
@@ -1578,79 +1597,31 @@
 
     <main class="main-content">
         <!-- Case header -->
-        <header class="case-header">
-            <div class="case-header-main">
-                <div class="case-header-left">
-                    <a href="povoleni-2.html" class="btn-back" title="Zpět">
-                        <span class="material-icons-outlined">arrow_back</span>
-                    </a>
-                    <div class="case-info">
-                        <div class="case-number">R/2026/000147</div>
-                        <h1 class="case-title">Novostavba RD včetně přípojek</h1>
-                        <div class="case-meta">
-                            <span class="case-meta-item">
-                                <span class="material-icons-outlined">gavel</span>
-                                Povolení stavby
-                            </span>
-                            <span class="case-meta-item">
-                                <span class="material-icons-outlined">home</span>
-                                Jednoduchá stavba
-                            </span>
-                            <span class="case-badge in-progress">
-                                <span class="material-icons-outlined" style="font-size: 14px;">hourglass_top</span>
-                                Probíhá projednání
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Workflow stepper + document access -->
-            <div class="workflow-bar">
-                <!-- Document access buttons - vlevo -->
-                <div class="document-access-buttons">
-                    <a href="#" class="doc-access-btn" onclick="openModal('zadostModal'); return false;">
-                        <span class="material-icons-outlined">description</span>
-                        Žádost
-                    </a>
-                    <a href="#" class="doc-access-btn" onclick="openModal('prilohyModal'); return false;">
-                        <span class="material-icons-outlined">attach_file</span>
-                        Přílohy
-                        <span class="badge">12</span>
-                    </a>
-                    <a href="#" class="doc-access-btn" onclick="openModal('eedModal'); return false;">
-                        <span class="material-icons-outlined">folder</span>
-                        El. dokumentace
-                    </a>
-                    <a href="#" class="doc-access-btn" onclick="openModal('dokladyModal'); return false;">
-                        <span class="material-icons-outlined">fact_check</span>
-                        Dokladová část
-                    </a>
-                </div>
-                <!-- Workflow stepper - vpravo -->
-                <div class="workflow-stepper">
-                    <div class="workflow-step completed">
-                        <span class="step-number">✓</span>
-                        <span>Založení řízení</span>
-                    </div>
-                    <div class="workflow-step-connector"></div>
-                    <div class="workflow-step completed">
-                        <span class="step-number">✓</span>
-                        <span>Kontrola a zahájení</span>
-                    </div>
-                    <div class="workflow-step-connector"></div>
-                    <div class="workflow-step active">
-                        <span class="step-number">3</span>
-                        <span>Projednání</span>
-                    </div>
-                    <div class="workflow-step-connector"></div>
-                    <div class="workflow-step">
-                        <span class="step-number">4</span>
-                        <span>Rozhodnutí</span>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <!-- Hlavička řízení — sdílená komponenta -->
+        <div id="issr-header-root"></div>
+        <script src="../js/issr-case-header.js"></script>
+        <script>
+            renderCaseHeader({
+                activeStep: 3,
+                caseNumber: 'SZ DESU/000612/26',
+                caseTitle: 'Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí',
+                caseType: 'Povolení stavby',
+                caseCategory: 'Stavba dráhy',
+                caseIcon: 'train',
+                zamerNumber: 'Z/2026/1596',
+                zamerHref: '../pages/detail-zameru.html',
+                badgeText: 'Probíhá projednání',
+                badgeType: 'in-progress',
+                backHref: 'povoleni-2.html',
+                backTitle: 'Zpět na kontrolu žádosti',
+                docButtons: [
+                    { icon: 'description', label: 'Žádost', onclick: "openModal('zadostModal')" },
+                    { icon: 'attach_file', label: 'Přílohy', badge: '12', onclick: "openModal('prilohyModal')" },
+                    { icon: 'folder', label: 'El. dokumentace', onclick: "openModal('eedModal')" },
+                    { icon: 'fact_check', label: 'Dokladová část', onclick: "openModal('dokladyModal')" },
+                ],
+            });
+        </script>
 
         <!-- Page content -->
         <div class="page-content">
@@ -4023,6 +3994,20 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 setTimeout(() => { closeVyzvaEditor(); }, 400);
             }
         }
+
+        function toggleActionDropdown() {
+            const menu = document.getElementById('akceRizeniDropdown');
+            if (menu) menu.classList.toggle('open');
+        }
+        function showActionModal(type) {
+            document.getElementById('akceRizeniDropdown')?.classList.remove('open');
+        }
+        function openSlideout(id) { /* stub */ }
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.action-dropdown')) {
+                document.querySelectorAll('.action-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+            }
+        });
     </script>
 </body>
 </html>
