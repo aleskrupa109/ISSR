@@ -856,19 +856,36 @@
         }
         .control-title .material-icons-outlined { font-size:24px; color:#004289; }
 
-        /* Viewer záložky */
+        /* Viewer záložky — přesná kopie z povoleni-2 */
         .viewer-tabs { display:flex; gap:4px; padding:12px 16px; background:#fff; border-bottom:1px solid #e0e0e0; flex-shrink:0; align-items:center; }
         .viewer-tabs-left { display:flex; gap:4px; flex:1; flex-wrap:wrap; }
-        .viewer-tab { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid transparent; border-radius:6px; font-size:12px; font-weight:500; color:#5f6368; background:transparent; cursor:pointer; transition:all .15s; white-space:nowrap; }
-        .viewer-tab:hover { background:#f1f3f4; }
-        .viewer-tab.active { background:#e8f0fe; color:#004289; border-color:#c5d8f6; }
+        .viewer-tab { display:inline-flex; align-items:center; gap:6px; padding:8px 14px; background:#f5f5f5; border:1px solid #e0e0e0; border-radius:6px; font-size:12px !important; color:#5f6368 !important; cursor:pointer; transition:all .15s; font-style:normal !important; }
+        .viewer-tab:hover { background:#e8f1fa; border-color:#004289; color:#004289 !important; }
+        .viewer-tab.active { background:#004289; border-color:#004289; color:#fff !important; }
         .viewer-tab .material-icons-outlined { font-size:16px; }
-        .viewer-tab .badge { background:#004289; color:#fff; padding:1px 6px; border-radius:8px; font-size:10px; font-weight:600; }
+        .viewer-tab .badge { background:rgba(255,255,255,.2); padding:2px 6px; border-radius:10px; font-size:10px; }
+        .viewer-tab:not(.active) .badge { background:#e8f1fa; color:#004289; }
         .viewer-open-external { width:32px; height:32px; border:none; background:transparent; cursor:pointer; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#5f6368; margin-left:8px; flex-shrink:0; }
         .viewer-open-external:hover { background:#f1f3f4; }
         .viewer-open-external .material-icons-outlined { font-size:18px; }
         .viewer-content { flex:1; overflow-y:auto; background:#fff; }
         .viewer-content.ev-active { padding:0; overflow:hidden; }
+        /* Zadost readonly */
+        .zadost-readonly-content { padding:16px; overflow-y:auto; max-height:100%; }
+        .zadost-readonly-section { background:#fff; border:1px solid #e0e0e0; border-radius:8px; margin-bottom:12px; overflow:hidden; }
+        .zadost-readonly-header { display:flex; align-items:center; gap:8px; padding:10px 14px; background:#f8f9fa; border-bottom:1px solid #e0e0e0; font-size:13px; font-weight:600; color:#202124; }
+        .zadost-readonly-header .material-icons-outlined { font-size:18px; color:#5f6368; }
+        .zadost-readonly-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:#e0e0e0; }
+        .zadost-readonly-item { background:#fff; padding:10px 14px; }
+        .zadost-readonly-item.full-width { grid-column:1/-1; }
+        .zadost-readonly-label { font-size:11px; color:#5f6368; margin-bottom:3px; }
+        .zadost-readonly-value { font-size:13px; color:#202124; font-weight:500; }
+        .zadost-readonly-table { padding:12px 14px; }
+        .zadost-readonly-table table { width:100%; border-collapse:collapse; font-size:12px; }
+        .zadost-readonly-table th { text-align:left; padding:8px 10px; background:#f8f9fa; border:1px solid #e0e0e0; font-weight:600; color:#5f6368; }
+        .zadost-readonly-table td { padding:8px 10px; border:1px solid #e0e0e0; color:#202124; }
+        .reusable-zadost-data { height:100%; overflow-y:auto; display:none; }
+        .reusable-zadost-data.active { display:block; }
 
         /* Auto-save */
         .auto-save-indicator { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#9aa0a6; }
@@ -1087,43 +1104,8 @@
         }
 
         /* Viewer tabs */
-        .viewer-tabs {
-            display: flex;
-            gap: 4px;
-            padding: 12px 16px;
-            border-bottom: 1px solid #e0e0e0;
-            background: #fff;
-        }
-
-        .viewer-tab {
-            padding: 8px 16px;
-            border: none;
-            background: transparent;
-            color: #5f6368;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.15s;
-        }
-
-        .viewer-tab:hover {
-            background: #f1f3f4;
-        }
-
-        .viewer-tab.active {
-            background: #e8f4fd;
-            color: #004289;
-        }
-
         .viewer-tab-content {
             padding: 16px;
-        }
-
-        .viewer-content {
-            flex: 1;
-            padding: 0;
-            overflow-y: auto;
         }
 
         .viewer-placeholder {
@@ -3728,7 +3710,51 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             document.getElementById(tabId).style.display = 'block';
         }
 
-        // ── Viewer: Nastavení projednání — záložky + embedded viewers ──
+        // ── Strukturovaná data žádosti (read-only) — přesná kopie z povoleni-2 ──
+        function generateZadostDataReadOnly() {
+            return `<div class="zadost-readonly-content">
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header"><span class="material-icons-outlined">assignment_ind</span>Údaje o podání</div>
+                    <div class="zadost-readonly-grid">
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Podatel</div><div class="zadost-readonly-value">Správa železnic, s.o.</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Vztah k žadateli</div><div class="zadost-readonly-value"><span class="material-icons-outlined" style="font-size:16px;color:#34a853;vertical-align:middle;">check_circle</span> Podatel je sám žadatel</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Věc podání</div><div class="zadost-readonly-value">Žádost o povolení stavby</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Správní orgán</div><div class="zadost-readonly-value">Dopravní a energetický stavební úřad</div></div>
+                    </div>
+                </div>
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header"><span class="material-icons-outlined">business</span>Žadatel — Právnická osoba</div>
+                    <div class="zadost-readonly-grid">
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Název</div><div class="zadost-readonly-value">Správa železnic, státní organizace</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">IČO</div><div class="zadost-readonly-value">70994234</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Sídlo</div><div class="zadost-readonly-value">Dlážděná 1003/7, 110 00 Praha 1</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Datová schránka</div><div class="zadost-readonly-value">uccchjm</div></div>
+                    </div>
+                </div>
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header"><span class="material-icons-outlined">domain</span>Identifikace záměru</div>
+                    <div class="zadost-readonly-grid">
+                        <div class="zadost-readonly-item full-width"><div class="zadost-readonly-label">Název záměru</div><div class="zadost-readonly-value">Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Druh stavby</div><div class="zadost-readonly-value">Stavba dráhy</div></div>
+                        <div class="zadost-readonly-item"><div class="zadost-readonly-label">Účel stavby</div><div class="zadost-readonly-value">Zabezpečovací zařízení dráhy</div></div>
+                        <div class="zadost-readonly-item full-width"><div class="zadost-readonly-label">Místo stavby</div><div class="zadost-readonly-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div></div>
+                    </div>
+                </div>
+                <div class="zadost-readonly-section">
+                    <div class="zadost-readonly-header"><span class="material-icons-outlined">grid_on</span>Pozemky záměru</div>
+                    <div class="zadost-readonly-table"><table>
+                        <thead><tr><th>Parcela</th><th>Katastrální území</th><th>Druh pozemku</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>st. 321</strong></td><td>Doudleby n.O. [631761]</td><td>Zastavěná plocha</td></tr>
+                            <tr><td><strong>1549</strong></td><td>Doudleby n.O. [631761]</td><td>Ostatní plocha — dráha</td></tr>
+                            <tr><td colspan="3" style="text-align:center;color:#5f6368;font-style:italic;">… a dalších 36 pozemků ve 4 k.ú.</td></tr>
+                        </tbody>
+                    </table></div>
+                </div>
+            </div>`;
+        }
+
+
         var _nastaveniViewerCache = {};
         function switchNastaveniViewerTab(btn, tabName) {
             document.querySelectorAll('#nastaveniViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
@@ -3755,77 +3781,61 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             }
         }
 
-        // Inicializace vieweru při otevření kontroly
-        var _nastaveniInitialized = false;
-        var _origOpenControl = typeof openControl === 'function' ? openControl : null;
+        // Inicializace vieweru — při každém otevření kontroly
         document.addEventListener('click', function(e) {
-            var btn = e.target.closest('[onclick*="controlNastaveni"]');
-            if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("openControl('controlNastaveni')")) {
+            var btn = e.target.closest('button, a');
+            if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("controlNastaveni")) {
                 setTimeout(function() {
-                    if (!_nastaveniInitialized) {
-                        _nastaveniInitialized = true;
-                        var firstTab = document.querySelector('#nastaveniViewerTabs .viewer-tab');
-                        if (firstTab) switchNastaveniViewerTab(firstTab, 'zadost');
-                    }
-                }, 50);
+                    var firstTab = document.querySelector('#nastaveniViewerTabs .viewer-tab');
+                    if (firstTab) switchNastaveniViewerTab(firstTab, 'zadost');
+                }, 80);
             }
         });
 
-        // ── Drag & Drop — fáze 1 (přes DataTransfer ID) ──
-        (function() {
-            var dragId = null;
-            function ph1setup() {
-                var grid = document.getElementById('phase1-grid');
-                if (!grid) return;
-                grid.addEventListener('dragstart', function(e) {
-                    var handle = e.target.closest('.drag-handle');
-                    if (!handle) { e.preventDefault(); return; }
-                    var card = handle.closest('.pipeline-group-card');
-                    if (!card) return;
-                    dragId = card.id;
-                    card.classList.add('dragging');
-                    e.dataTransfer.effectAllowed = 'move';
-                    e.dataTransfer.setData('text/plain', card.id);
-                });
-                grid.addEventListener('dragend', function() {
-                    grid.querySelectorAll('.pipeline-group-card').forEach(function(c) {
-                        c.classList.remove('dragging', 'drag-over');
-                    });
-                    dragId = null;
-                });
-                grid.addEventListener('dragover', function(e) {
-                    if (!dragId) return;
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'move';
-                    var target = e.target.closest('.pipeline-group-card');
-                    grid.querySelectorAll('.pipeline-group-card').forEach(function(c) { c.classList.remove('drag-over'); });
-                    if (target && target.id !== dragId) target.classList.add('drag-over');
-                });
-                grid.addEventListener('dragleave', function(e) {
-                    var target = e.target.closest('.pipeline-group-card');
-                    if (target) target.classList.remove('drag-over');
-                });
-                grid.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    var target = e.target.closest('.pipeline-group-card');
-                    if (!target || !dragId || target.id === dragId) return;
-                    target.classList.remove('drag-over');
-                    var src = document.getElementById(dragId);
-                    if (!src) return;
-                    // Prohodíme obsah karet (ne pozice v gridu — grid je 1fr 1fr, pořadí není viditelné)
-                    var tmp = src.innerHTML;
-                    src.innerHTML = target.innerHTML;
-                    target.innerHTML = tmp;
-                    // Prohodíme id
-                    var tmpId = src.id;
-                    src.id = target.id;
-                    target.id = tmpId;
-                    // Prohodíme onclick na tlačítkách
-                    updateUI();
-                });
-            }
-            document.addEventListener('DOMContentLoaded', ph1setup);
-        })();
+        // ── Drag & Drop — fáze 1 ──
+        document.addEventListener('DOMContentLoaded', function() {
+            var grid = document.getElementById('phase1-grid');
+            if (!grid) return;
+            var dragSrc = null;
+            grid.addEventListener('dragstart', function(e) {
+                var handle = e.target.closest('.drag-handle');
+                if (!handle) { e.preventDefault(); return; }
+                dragSrc = handle.closest('.pipeline-group-card');
+                if (!dragSrc) return;
+                dragSrc.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+            grid.addEventListener('dragend', function() {
+                if (dragSrc) dragSrc.classList.remove('dragging');
+                grid.querySelectorAll('.pipeline-group-card').forEach(function(c) { c.classList.remove('drag-over'); });
+                dragSrc = null;
+            });
+            grid.addEventListener('dragover', function(e) {
+                if (!dragSrc) return;
+                e.preventDefault();
+                var target = e.target.closest('.pipeline-group-card');
+                if (!target || target === dragSrc) return;
+                grid.querySelectorAll('.pipeline-group-card').forEach(function(c) { c.classList.remove('drag-over'); });
+                target.classList.add('drag-over');
+            });
+            grid.addEventListener('dragleave', function(e) {
+                var rel = e.relatedTarget;
+                var target = e.target.closest('.pipeline-group-card');
+                if (target && (!rel || !target.contains(rel))) target.classList.remove('drag-over');
+            });
+            grid.addEventListener('drop', function(e) {
+                if (!dragSrc) return;
+                e.preventDefault();
+                var target = e.target.closest('.pipeline-group-card');
+                if (!target || target === dragSrc) return;
+                target.classList.remove('drag-over');
+                // insertBefore funguje i na grid — DOM pořadí určuje pozici v gridu
+                var cards = [].slice.call(grid.children);
+                var si = cards.indexOf(dragSrc), ti = cards.indexOf(target);
+                if (si < ti) grid.insertBefore(dragSrc, target.nextSibling);
+                else grid.insertBefore(dragSrc, target);
+            });
+        });
 
         // Initialize
         updateUI();
