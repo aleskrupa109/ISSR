@@ -1582,7 +1582,14 @@
         .pipeline-group-card.phase-done { border-color:#a8d5b5; background:#f6fef8; }
         .pipeline-group-card.phase-locked { background:#fafafa; opacity:.65; }
         .pipeline-group-card.phase-done .control-card-action { background:#e6f4ea; color:#137333; border:1px solid #ceead6; }
-        .pipeline-phase-conditional { margin-top:4px; padding:12px 16px; background:#fffbea; border:1px dashed #f6b900; border-radius:10px; display:flex; align-items:center; gap:14px; }
+        .pipeline-group-card.drag-over { outline:2px dashed #004289; outline-offset:2px; background:#f0f6ff; }
+        .pipeline-group-card.dragging { opacity:.4; }
+        /* Drag handle — zobrazí se jen u aktivních a hotových karet */
+        .drag-handle { display:none; align-items:center; justify-content:center; width:20px; height:20px; cursor:grab; color:#b0b8c1; flex-shrink:0; border-radius:3px; transition:color .15s; }
+        .drag-handle:hover { color:#5f6368; }
+        .drag-handle .material-icons-outlined { font-size:16px; }
+        .pipeline-group-card.phase-active .drag-handle,
+        .pipeline-group-card.phase-done .drag-handle { display:flex; }
         .pipeline-phase-conditional.status-done { background:#e6f4ea; border:1px solid #a8d5b5; }
         .pipeline-conditional-icon { width:36px; height:36px; border-radius:8px; background:#fef3c7; color:#b06000; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
         .pipeline-phase-conditional.status-done .pipeline-conditional-icon { background:#ceead6; color:#137333; }
@@ -1646,7 +1653,7 @@
         <!-- Page content -->
         <div class="page-content">
             <!-- Info panel -->
-            <div style="background:#e6f4ea;border:1px solid #a8d5b5;border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:14px;margin-bottom:8px;max-width:680px;">
+            <div style="background:#e6f4ea;border:1px solid #a8d5b5;border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:14px;margin-bottom:16px;">
                 <span class="material-icons-outlined" style="color:#137333;font-size:22px;flex-shrink:0;">check_circle</span>
                 <div style="flex:1;">
                     <div style="font-size:13px;font-weight:500;color:#137333;margin-bottom:2px;">Řízení zahájeno – standardní postup &nbsp;·&nbsp; <span style="font-weight:400;">zrychlené řízení nebylo možné (chybí souhlasy účastníků na situačním výkrese)</span></div>
@@ -1669,11 +1676,16 @@
                         <span class="pipeline-phase-hint">Výchozí krok</span>
                     </div>
                     <div class="pipeline-phase-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;">
+                        <div id="phase1-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;">
                         <!-- 1a: Nastavení -->
-                        <div class="pipeline-group-card phase-active" id="card-nastaveni">
-                            <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;background:#e8f0fe;color:#004289;">
-                                <span class="material-icons-outlined" style="font-size:18px;">tune</span>
+                        <div class="pipeline-group-card phase-active" id="card-nastaveni" draggable="true">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+                                <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;background:#e8f0fe;color:#004289;">
+                                    <span class="material-icons-outlined" style="font-size:18px;">tune</span>
+                                </div>
+                                <span class="drag-handle" title="Přesunout">
+                                    <span class="material-icons-outlined">drag_indicator</span>
+                                </span>
                             </div>
                             <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Nastavení projednání</div>
                             <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Místní šetření · typ doručování · lhůta pro námitky</div>
@@ -1682,12 +1694,17 @@
                             </button>
                         </div>
                         <!-- 1b: Předpis poplatku -->
-                        <div class="pipeline-group-card phase-active" id="card-poplatek">
-                            <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;background:#e8f0fe;color:#004289;">
-                                <span class="material-icons-outlined" style="font-size:18px;">payments</span>
+                        <div class="pipeline-group-card phase-active" id="card-poplatek" draggable="true">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+                                <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;background:#e8f0fe;color:#004289;">
+                                    <span class="material-icons-outlined" style="font-size:18px;">payments</span>
+                                </div>
+                                <span class="drag-handle" title="Přesunout">
+                                    <span class="material-icons-outlined">drag_indicator</span>
+                                </span>
                             </div>
                             <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Předpis poplatku</div>
-                            <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Výzva k zaplacení správního poplatku · automatický dokument</div>
+                            <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Výzva k zaplacení správního poplatku</div>
                             <button class="control-card-action" id="btn-poplatek" onclick="openControl('controlPoplatek')" style="width:100%;justify-content:center;">
                                 <span class="material-icons-outlined">picture_as_pdf</span>Generovat
                             </button>
@@ -3697,6 +3714,54 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             // Show selected tab content
             document.getElementById(tabId).style.display = 'block';
         }
+
+        // ── Drag & Drop — fáze 1 ──
+        (function() {
+            var dragSrc = null;
+            function initPhase1DragDrop() {
+                const group = document.getElementById('phase1-grid');
+                if (!group) return;
+                group.addEventListener('dragstart', function(e) {
+                    const handle = e.target.closest('.drag-handle');
+                    if (!handle) { e.preventDefault(); return; }
+                    dragSrc = handle.closest('.pipeline-group-card');
+                    if (!dragSrc) return;
+                    dragSrc.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                group.addEventListener('dragend', function() {
+                    if (dragSrc) dragSrc.classList.remove('dragging');
+                    group.querySelectorAll('.pipeline-group-card').forEach(c => c.classList.remove('drag-over'));
+                    dragSrc = null;
+                });
+                group.addEventListener('dragover', function(e) {
+                    if (!dragSrc) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    const target = e.target.closest('.pipeline-group-card');
+                    if (!target || target === dragSrc) return;
+                    group.querySelectorAll('.pipeline-group-card').forEach(c => c.classList.remove('drag-over'));
+                    target.classList.add('drag-over');
+                });
+                group.addEventListener('dragleave', function(e) {
+                    const target = e.target.closest('.pipeline-group-card');
+                    if (target) target.classList.remove('drag-over');
+                });
+                group.addEventListener('drop', function(e) {
+                    if (!dragSrc) return;
+                    e.preventDefault();
+                    const target = e.target.closest('.pipeline-group-card');
+                    if (!target || target === dragSrc) return;
+                    target.classList.remove('drag-over');
+                    const cards = [...group.querySelectorAll('.pipeline-group-card')];
+                    const srcIdx = cards.indexOf(dragSrc);
+                    const tgtIdx = cards.indexOf(target);
+                    if (srcIdx < tgtIdx) group.insertBefore(dragSrc, target.nextSibling);
+                    else group.insertBefore(dragSrc, target);
+                });
+            }
+            document.addEventListener('DOMContentLoaded', initPhase1DragDrop);
+        })();
 
         // Initialize
         updateUI();
