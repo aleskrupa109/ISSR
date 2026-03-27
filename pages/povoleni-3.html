@@ -374,6 +374,9 @@
         .page-content {
             flex: 1;
             padding: 24px 32px;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         /* Info panel */
@@ -1546,6 +1549,63 @@
             }
         }
 
+        /* ── Pipeline ── */
+        .pipeline-phase { display:flex; flex-direction:column; gap:0; position:relative; }
+        .pipeline-phase:not(:last-child)::after { content:''; position:absolute; left:23px; bottom:-20px; width:2px; height:20px; background:#e0e0e0; z-index:1; }
+        .pipeline-phase.phase-done:not(:last-child)::after { background:#a8d5b5; }
+        .pipeline-phase-label { display:flex; align-items:center; gap:10px; padding:0 0 10px 0; }
+        .pipeline-phase-number { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; flex-shrink:0; border:2px solid #e0e0e0; background:#fff; color:#9aa0a6; position:relative; z-index:2; }
+        .pipeline-phase.phase-active .pipeline-phase-number { border-color:#004289; background:#004289; color:#fff; }
+        .pipeline-phase.phase-done .pipeline-phase-number { border-color:#34a853; background:#34a853; color:#fff; }
+        .pipeline-phase-title { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:#9aa0a6; }
+        .pipeline-phase.phase-active .pipeline-phase-title { color:#004289; }
+        .pipeline-phase.phase-done .pipeline-phase-title { color:#34a853; }
+        .pipeline-phase-hint { font-size:11px; color:#b0b8c1; margin-left:auto; }
+        .pipeline-phase.phase-active .pipeline-phase-hint, .pipeline-phase.phase-done .pipeline-phase-hint { color:#5f6368; }
+        .pipeline-phase-body { padding:0 0 24px 0; }
+        .pipeline-card-single { background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:18px 20px; display:flex; align-items:center; gap:16px; transition:all .15s; max-width:680px; }
+        .pipeline-card-single.phase-active { border-color:#004289; box-shadow:0 2px 8px rgba(0,66,137,.08); }
+        .pipeline-card-single.phase-done { border-color:#a8d5b5; background:#f6fef8; }
+        .pipeline-card-single.phase-locked { background:#fafafa; opacity:.7; }
+        .pipeline-card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .pipeline-card-icon .material-icons-outlined { font-size:20px; }
+        .phase-active .pipeline-card-icon { background:#e8f0fe; color:#004289; }
+        .phase-done .pipeline-card-icon { background:#e6f4ea; color:#137333; }
+        .phase-locked .pipeline-card-icon { background:#f1f3f4; color:#9aa0a6; }
+        .pipeline-card-info { flex:1; min-width:0; }
+        .pipeline-card-title { font-size:14px; font-weight:500; color:#202124; margin-bottom:2px; }
+        .phase-locked .pipeline-card-title { color:#9aa0a6; }
+        .pipeline-card-desc { font-size:12px; color:#5f6368; }
+        .phase-locked .pipeline-card-desc { color:#b0b8c1; }
+        .pipeline-group-card { background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:16px; transition:all .15s; }
+        .pipeline-group-card.phase-active { border-color:#004289; }
+        .pipeline-group-card.phase-done { border-color:#a8d5b5; background:#f6fef8; }
+        .pipeline-group-card.phase-locked { background:#fafafa; opacity:.65; }
+        .pipeline-group-card.phase-done .control-card-action { background:#e6f4ea; color:#137333; border:1px solid #ceead6; }
+        .pipeline-phase-conditional { margin-top:4px; padding:12px 16px; background:#fffbea; border:1px dashed #f6b900; border-radius:10px; display:flex; align-items:center; gap:14px; }
+        .pipeline-phase-conditional.status-done { background:#e6f4ea; border:1px solid #a8d5b5; }
+        .pipeline-conditional-icon { width:36px; height:36px; border-radius:8px; background:#fef3c7; color:#b06000; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .pipeline-phase-conditional.status-done .pipeline-conditional-icon { background:#ceead6; color:#137333; }
+
+        /* Tlačítka v pipeline — aktivní = modrá, hotovo = zelená, zamčeno = šedá */
+        .pipeline-group-card.phase-active .control-card-action,
+        .pipeline-card-single.phase-active .control-card-action {
+            background:#004289; color:#fff; border:none; cursor:pointer;
+        }
+        .pipeline-group-card.phase-active .control-card-action:hover,
+        .pipeline-card-single.phase-active .control-card-action:hover {
+            background:#1b4d7a;
+        }
+        .pipeline-group-card.phase-done .control-card-action,
+        .pipeline-card-single.phase-done .control-card-action {
+            background:#e6f4ea; color:#137333; border:1px solid #ceead6; cursor:pointer;
+        }
+        .pipeline-group-card.phase-locked .control-card-action,
+        .pipeline-card-single.phase-locked .control-card-action,
+        .control-card-action.status-waiting {
+            background:#f5f5f5; color:#9aa0a6; border:none; cursor:not-allowed;
+        }
+
         </style>
 </head>
 <body>
@@ -1586,171 +1646,154 @@
         <!-- Page content -->
         <div class="page-content">
             <!-- Info panel -->
-            <div class="info-panel" id="infoPanel">
-                <span class="material-icons-outlined">info</span>
-                <div class="info-panel-content">
-                    <div class="info-panel-title">Řízení zahájeno – standardní postup</div>
-                    <div class="info-panel-text">
-                        Zrychlené řízení nebylo možné (chybí souhlasy všech účastníků). Postupuje se dle § 188-192 SZ.
-                    </div>
-                    <div class="info-panel-meta">
-                        <div class="info-panel-meta-item">
-                            <span class="material-icons-outlined">event</span>
-                            Datum zahájení: 7. 1. 2026
-                        </div>
-                        <div class="info-panel-meta-item">
-                            <span class="material-icons-outlined">schedule</span>
-                            Lhůta pro rozhodnutí: 30 dnů (do 6. 2. 2026)
-                        </div>
-                        <div class="info-panel-meta-item">
-                            <span class="material-icons-outlined">groups</span>
-                            Účastníků: 8 (standardní počet)
-                        </div>
+            <div style="background:#e6f4ea;border:1px solid #a8d5b5;border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:14px;margin-bottom:8px;max-width:680px;">
+                <span class="material-icons-outlined" style="color:#137333;font-size:22px;flex-shrink:0;">check_circle</span>
+                <div style="flex:1;">
+                    <div style="font-size:13px;font-weight:500;color:#137333;margin-bottom:2px;">Řízení zahájeno – standardní postup &nbsp;·&nbsp; <span style="font-weight:400;">zrychlené řízení nebylo možné (chybí souhlasy účastníků na situačním výkrese)</span></div>
+                    <div style="display:flex;gap:20px;font-size:12px;color:#5f6368;flex-wrap:wrap;">
+                        <span><span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">event</span> Zahájení: 7. 1. 2026</span>
+                        <span><span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">schedule</span> Lhůta: 180 dnů (do 6. 7. 2026)</span>
+                        <span><span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">groups</span> Účastníků: 8</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Section header -->
-            <div class="section-header">
-                <div class="section-title">
-                    <span class="material-icons-outlined">forum</span>
-                    Projednání řízení
-                </div>
-                <div class="section-progress">
-                    <span id="progressText">0 ze 7 kroků</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
+            <!-- Pipeline projednání -->
+            <div id="pipeline-container" style="display:flex;flex-direction:column;gap:20px;">
 
-            <!-- Control cards -->
-            <div class="control-grid">
-                <!-- 1. Nastavení projednání -->
-                <div class="control-card status-ready" id="card-nastaveni">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">settings</span>
+                <!-- Fáze 1: Nastavení projednání -->
+                <div class="pipeline-phase phase-active" id="phase1">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">1</div>
+                        <span class="pipeline-phase-title">Nastavení projednání</span>
+                        <span class="pipeline-phase-hint">Výchozí krok</span>
+                    </div>
+                    <div class="pipeline-phase-body">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;">
+                        <!-- 1a: Nastavení -->
+                        <div class="pipeline-group-card phase-active" id="card-nastaveni">
+                            <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;background:#e8f0fe;color:#004289;">
+                                <span class="material-icons-outlined" style="font-size:18px;">tune</span>
+                            </div>
+                            <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Nastavení projednání</div>
+                            <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Místní šetření · typ doručování · lhůta pro námitky</div>
+                            <button class="control-card-action" id="btn-nastaveni" onclick="openControl('controlNastaveni')" style="width:100%;justify-content:center;">
+                                <span class="material-icons-outlined">play_arrow</span>Nastavit
+                            </button>
                         </div>
-                        <span class="control-card-status">K provedení</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Nastavení projednání</div>
-                        <div class="control-card-desc">Typ doručování, rozhodnutí o ústním jednání</div>
-                        <button class="control-card-action" onclick="openControl('controlNastaveni')">
-                            <span class="material-icons-outlined">play_arrow</span>
-                            Nastavit
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 2. Předpis poplatku -->
-                <div class="control-card status-waiting disabled" id="card-poplatek">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">payments</span>
+                        <!-- 1b: Předpis poplatku -->
+                        <div class="pipeline-group-card phase-active" id="card-poplatek">
+                            <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;background:#e8f0fe;color:#004289;">
+                                <span class="material-icons-outlined" style="font-size:18px;">payments</span>
+                            </div>
+                            <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Předpis poplatku</div>
+                            <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Výzva k zaplacení správního poplatku · automatický dokument</div>
+                            <button class="control-card-action" id="btn-poplatek" onclick="openControl('controlPoplatek')" style="width:100%;justify-content:center;">
+                                <span class="material-icons-outlined">picture_as_pdf</span>Generovat
+                            </button>
                         </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Předpis poplatku</div>
-                        <div class="control-card-desc">Výzva k zaplacení · plně automatický dokument</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve nastavení
-                        </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 3. Vyrozumění o zahájení -->
-                <div class="control-card status-waiting disabled" id="card-vyrozumeni">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">send</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
+                <!-- Fáze 2: Vyrozumění -->
+                <div class="pipeline-phase" id="phase2">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">2</div>
+                        <span class="pipeline-phase-title">Vyrozumění o zahájení</span>
+                        <span class="pipeline-phase-hint">Po předpisu poplatku</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Vyrozumění o zahájení</div>
-                        <div class="control-card-desc">Generování a odeslání vyrozumění účastníkům</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve poplatek
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div class="pipeline-card-single phase-locked" id="card-vyrozumeni">
+                            <div class="pipeline-card-icon">
+                                <span class="material-icons-outlined">forward_to_inbox</span>
+                            </div>
+                            <div class="pipeline-card-info">
+                                <div class="pipeline-card-title">Vyrozumění účastníků</div>
+                                <div class="pipeline-card-desc">Oznámení o zahájení řízení a pozvánka k ústnímu jednání / místnímu šetření</div>
+                            </div>
+                            <div class="pipeline-card-action">
+                                <button class="control-card-action status-waiting" id="btn-vyrozumeni" disabled>
+                                    <span class="material-icons-outlined">lock</span>Nejprve poplatek
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 4. Lhůta pro námitky -->
-                <div class="control-card status-waiting disabled" id="card-lhuta">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">timer</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
+                <!-- Fáze 3: Námitky -->
+                <div class="pipeline-phase" id="phase3">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">3</div>
+                        <span class="pipeline-phase-title">Námitky a připomínky</span>
+                        <span class="pipeline-phase-hint">Po odeslání vyrozumění</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Lhůta pro námitky</div>
-                        <div class="control-card-desc">Sledování lhůty, vzdání se práva na námitky</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve vyrozumění
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;margin-bottom:10px;">
+                            <!-- 3a: Lhůta -->
+                            <div class="pipeline-group-card phase-locked" id="card-lhuta">
+                                <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;">
+                                    <span class="material-icons-outlined" style="font-size:18px;">hourglass_top</span>
+                                </div>
+                                <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Lhůta pro námitky</div>
+                                <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Sledování lhůty · vzdání se práva na námitky</div>
+                                <button class="control-card-action status-waiting" id="btn-lhuta" disabled style="width:100%;justify-content:center;">
+                                    <span class="material-icons-outlined">lock</span>Nejprve vyrozumění
+                                </button>
+                            </div>
+                            <!-- 3b: Námitky -->
+                            <div class="pipeline-group-card phase-locked" id="card-namitky">
+                                <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;">
+                                    <span class="material-icons-outlined" style="font-size:18px;">feedback</span>
+                                </div>
+                                <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Námitky a připomínky</div>
+                                <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Evidence a vypořádání námitek účastníků řízení</div>
+                                <button class="control-card-action status-waiting" id="btn-namitky" disabled style="width:100%;justify-content:center;">
+                                    <span class="material-icons-outlined">lock</span>Nejprve lhůta
+                                </button>
+                            </div>
+                        </div>
+                        <!-- 3c: Opakované seznámení — podmíněně -->
+                        <div class="pipeline-phase-conditional" id="card-seznameni" style="display:none;">
+                            <div class="pipeline-conditional-icon">
+                                <span class="material-icons-outlined" style="font-size:18px;">visibility</span>
+                            </div>
+                            <div style="flex:1;min-width:0;">
+                                <div style="font-size:13px;font-weight:500;color:#202124;margin-bottom:2px;">Opakované seznámení s podklady</div>
+                                <div style="font-size:12px;color:#5f6368;">Vyžadováno pokud nové podklady vznikly po podání námitek (§ 191 SZ)</div>
+                            </div>
+                            <button class="control-card-action" id="btn-seznameni" onclick="openControl('controlSeznami')" style="flex-shrink:0;">
+                                <span class="material-icons-outlined">play_arrow</span>Provést
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 5. Námitky a připomínky -->
-                <div class="control-card status-waiting disabled" id="card-namitky">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">feedback</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
+                <!-- Fáze 4: Vydání rozhodnutí -->
+                <div class="pipeline-phase" id="phase4">
+                    <div class="pipeline-phase-label">
+                        <div class="pipeline-phase-number">4</div>
+                        <span class="pipeline-phase-title">Vydání rozhodnutí</span>
+                        <span class="pipeline-phase-hint">Po vypořádání námitek</span>
                     </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Námitky a připomínky</div>
-                        <div class="control-card-desc">Evidence a vypořádání námitek účastníků</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve lhůta
-                        </button>
+                    <div class="pipeline-phase-body">
+                        <div class="pipeline-card-single phase-locked" id="card-shrnuti">
+                            <div class="pipeline-card-icon">
+                                <span class="material-icons-outlined">gavel</span>
+                            </div>
+                            <div class="pipeline-card-info">
+                                <div class="pipeline-card-title">Vydání rozhodnutí</div>
+                                <div class="pipeline-card-desc">Rekapitulace projednání · generování rozhodnutí o povolení stavby</div>
+                            </div>
+                            <div class="pipeline-card-action">
+                                <button class="control-card-action status-waiting" id="btn-shrnuti" disabled>
+                                    <span class="material-icons-outlined">lock</span>Nejprve námitky
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 6. Seznámení s podklady -->
-                <div class="control-card status-waiting disabled" id="card-seznameni">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">visibility</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Seznámení s podklady</div>
-                        <div class="control-card-desc">Opakované seznámení po vypořádání námitek</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Podmíněně
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 7. Shrnutí projednání -->
-                <div class="control-card status-waiting disabled" id="card-shrnuti">
-                    <div class="control-card-header">
-                        <div class="control-card-icon">
-                            <span class="material-icons-outlined">summarize</span>
-                        </div>
-                        <span class="control-card-status">Čeká</span>
-                    </div>
-                    <div class="control-card-body">
-                        <div class="control-card-title">Shrnutí projednání</div>
-                        <div class="control-card-desc">Rekapitulace před přechodem na rozhodnutí</div>
-                        <button class="control-card-action">
-                            <span class="material-icons-outlined">lock</span>
-                            Nejprve námitky
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -3512,99 +3555,128 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
 
         // Update UI based on state
         function updateUI() {
-            // Count completed steps
-            let completed = 0;
-            const steps = ['nastaveni', 'poplatek', 'vyrozumeni', 'lhuta', 'namitky', 'shrnuti'];
-            
-            steps.forEach(step => {
-                if (state[step].done) completed++;
-            });
+            const s = state;
 
-            // Update progress
-            document.getElementById('progressText').textContent = `${completed} ze 7 kroků`;
-            document.getElementById('progressFill').style.width = `${(completed / 7) * 100}%`;
+            // ── Fáze 1a: Nastavení ──
+            setPipelineGroupCard('card-nastaveni',
+                s.nastaveni.done ? 'done' : 'active',
+                s.nastaveni.done ? 'Hotovo — zobrazit' : 'Nastavit',
+                s.nastaveni.done ? 'visibility' : 'play_arrow',
+                false, 'controlNastaveni');
 
-            // Update cards
-            updateCard('card-nastaveni', state.nastaveni.done ? 'done' : 'ready', 
-                state.nastaveni.done ? 'Hotovo' : 'K provedení',
-                state.nastaveni.done ? 'Zobrazit' : 'Nastavit');
+            // ── Fáze 1b: Předpis poplatku — nezávislý na nastavení ──
+            setPipelineGroupCard('card-poplatek',
+                s.poplatek.done ? 'done' : 'active',
+                s.poplatek.done ? 'Odesláno — zobrazit' : 'Generovat',
+                s.poplatek.done ? 'visibility' : 'picture_as_pdf',
+                false, 'controlPoplatek');
 
-            updateCard('card-poplatek', 
-                state.poplatek.done ? 'done' : (state.nastaveni.done ? 'ready' : 'waiting'),
-                state.poplatek.done ? 'Odesláno' : (state.nastaveni.done ? 'K provedení' : 'Čeká'),
-                state.poplatek.done ? 'Zobrazit' : (state.nastaveni.done ? 'Generovat' : 'Nejprve nastavení'),
-                !state.nastaveni.done);
+            // Fáze 1 stav — hotova až obě karty jsou done
+            setPhaseState('phase1', (s.nastaveni.done && s.poplatek.done) ? 'done' : 'active');
 
-            updateCard('card-vyrozumeni',
-                state.vyrozumeni.done ? 'done' : (state.poplatek.done ? 'ready' : 'waiting'),
-                state.vyrozumeni.done ? 'Odesláno' : (state.poplatek.done ? 'K provedení' : 'Čeká'),
-                state.vyrozumeni.done ? 'Zobrazit' : (state.poplatek.done ? 'Generovat' : 'Nejprve poplatek'),
-                !state.poplatek.done);
+            // ── Fáze 2: Vyrozumění — odemkne se až po dokončení obou karet fáze 1 ──
+            const phase1Done = s.nastaveni.done && s.poplatek.done;
+            setPipelineCard('card-vyrozumeni',
+                s.vyrozumeni.done ? 'done' : (phase1Done ? 'active' : 'locked'),
+                s.vyrozumeni.done ? 'Odesláno — zobrazit' : (phase1Done ? 'Generovat a odeslat' : 'Nejprve fáze 1'),
+                s.vyrozumeni.done ? 'visibility' : (phase1Done ? 'forward_to_inbox' : 'lock'),
+                !phase1Done, 'controlVyrozumeni');
 
-            updateCard('card-lhuta',
-                state.lhuta.done ? 'done' : (state.vyrozumeni.done ? 'in-progress' : 'waiting'),
-                state.lhuta.done ? 'Ukončena' : (state.vyrozumeni.done ? 'Probíhá' : 'Čeká'),
-                state.lhuta.done ? 'Zobrazit' : (state.vyrozumeni.done ? 'Sledovat' : 'Nejprve vyrozumění'),
-                !state.vyrozumeni.done);
+            setPhaseState('phase2', s.vyrozumeni.done ? 'done' : (phase1Done ? 'active' : ''));
 
-            updateCard('card-namitky',
-                state.namitky.done ? 'done' : (state.lhuta.done ? 'ready' : 'waiting'),
-                state.namitky.done ? 'Vypořádáno' : (state.lhuta.done ? 'K provedení' : 'Čeká'),
-                state.namitky.done ? 'Zobrazit' : (state.lhuta.done ? 'Spravovat' : 'Nejprve lhůta'),
-                !state.lhuta.done);
+            // ── Fáze 3a: Lhůta ──
+            setPipelineGroupCard('card-lhuta',
+                s.lhuta.done ? 'done' : (s.vyrozumeni.done ? 'active' : 'locked'),
+                s.lhuta.done ? 'Ukončena' : (s.vyrozumeni.done ? 'Sledovat' : 'Nejprve vyrozumění'),
+                s.lhuta.done ? 'visibility' : (s.vyrozumeni.done ? 'hourglass_top' : 'lock'),
+                !s.vyrozumeni.done, 'controlLhuta');
 
-            // Seznámení s podklady - podmíněně
-            const seznameniRequired = state.seznameni.required && state.namitky.done;
-            updateCard('card-seznameni',
-                state.seznameni.done ? 'done' : (seznameniRequired ? 'ready' : 'waiting'),
-                state.seznameni.done ? 'Hotovo' : (seznameniRequired ? 'K provedení' : 'Podmíněně'),
-                state.seznameni.done ? 'Zobrazit' : (seznameniRequired ? 'Provést' : 'Podmíněně'),
-                !seznameniRequired);
+            // ── Fáze 3b: Námitky ──
+            setPipelineGroupCard('card-namitky',
+                s.namitky.done ? 'done' : (s.lhuta.done ? 'active' : 'locked'),
+                s.namitky.done ? 'Vypořádáno' : (s.lhuta.done ? 'Spravovat' : 'Nejprve lhůta'),
+                s.namitky.done ? 'visibility' : (s.lhuta.done ? 'feedback' : 'lock'),
+                !s.lhuta.done, 'controlNamitky');
 
-            // Shrnutí
-            const canShrnuti = state.namitky.done && (!state.seznameni.required || state.seznameni.done);
-            updateCard('card-shrnuti',
-                state.shrnuti.done ? 'done' : (canShrnuti ? 'ready' : 'waiting'),
-                state.shrnuti.done ? 'Hotovo' : (canShrnuti ? 'K provedení' : 'Čeká'),
-                state.shrnuti.done ? 'Zobrazit' : (canShrnuti ? 'Zobrazit' : 'Nejprve námitky'),
-                !canShrnuti);
+            // ── Fáze 3c: Opakované seznámení (podmíněně) ──
+            const seznEl = document.getElementById('card-seznameni');
+            if (s.namitky.done) {
+                seznEl.style.display = 'flex';
+                if (s.seznameni.done) {
+                    seznEl.className = 'pipeline-phase-conditional status-done';
+                    const btn = document.getElementById('btn-seznameni');
+                    btn.innerHTML = '<span class="material-icons-outlined">visibility</span>Hotovo';
+                }
+            } else {
+                seznEl.style.display = 'none';
+            }
 
-            // Update main button
-            document.getElementById('btnPokracovat').disabled = !state.shrnuti.done;
+            const canRozhodnuti = s.namitky.done && (!s.seznameni.required || s.seznameni.done);
+            setPhaseState('phase3', canRozhodnuti ? 'done' : (s.vyrozumeni.done ? 'active' : ''));
 
-            // Update shrnutí stats
-            document.getElementById('shrnutiNamitky').textContent = state.namitky.list.length;
-            document.getElementById('shrnutiDuvodne').textContent = state.namitky.list.filter(n => n.hodnoceni === 'duvodna').length;
-            document.getElementById('shrnutiNeduvodne').textContent = state.namitky.list.filter(n => n.hodnoceni === 'neduvodna').length;
+            // ── Fáze 4: Vydání rozhodnutí ──
+            setPipelineCard('card-shrnuti',
+                s.shrnuti.done ? 'done' : (canRozhodnuti ? 'active' : 'locked'),
+                s.shrnuti.done ? 'Vydáno — zobrazit' : (canRozhodnuti ? 'Připravit rozhodnutí' : 'Nejprve námitky'),
+                s.shrnuti.done ? 'visibility' : (canRozhodnuti ? 'gavel' : 'lock'),
+                !canRozhodnuti, 'controlShrnuti');
+
+            setPhaseState('phase4', s.shrnuti.done ? 'done' : (canRozhodnuti ? 'active' : ''));
+
+            // Tlačítko Přejít na rozhodnutí
+            document.getElementById('btnPokracovat').disabled = !s.shrnuti.done;
+
+            // Statistiky námitek v shrnutí
+            if (document.getElementById('shrnutiNamitky')) {
+                document.getElementById('shrnutiNamitky').textContent = s.namitky.list.length;
+                document.getElementById('shrnutiDuvodne').textContent = s.namitky.list.filter(n => n.hodnoceni === 'duvodna').length;
+                document.getElementById('shrnutiNeduvodne').textContent = s.namitky.list.filter(n => n.hodnoceni === 'neduvodna').length;
+            }
+        }
+
+        function setPhaseState(phaseId, stateStr) {
+            const el = document.getElementById(phaseId);
+            if (!el) return;
+            el.classList.remove('phase-active', 'phase-done');
+            if (stateStr === 'active') el.classList.add('phase-active');
+            if (stateStr === 'done') el.classList.add('phase-done');
+        }
+
+        function setPipelineCard(cardId, cardState, btnLabel, btnIcon, disabled, controlId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            card.className = 'pipeline-card-single phase-' + cardState;
+            const btn = document.getElementById('btn-' + cardId.replace('card-', ''));
+            if (!btn) return;
+            btn.innerHTML = `<span class="material-icons-outlined">${btnIcon}</span>${btnLabel}`;
+            btn.disabled = disabled;
+            btn.className = 'control-card-action' + (disabled ? ' status-waiting' : '');
+            btn.onclick = disabled ? null : () => openControl(controlId);
+        }
+
+        function setPipelineGroupCard(cardId, cardState, btnLabel, btnIcon, disabled, controlId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            card.className = 'pipeline-group-card phase-' + cardState;
+            // icon box state
+            const iconBox = card.querySelector('.pipeline-card-icon');
+            if (iconBox) {
+                iconBox.className = 'pipeline-card-icon';
+                if (cardState === 'active') { iconBox.style.background='#e8f0fe'; iconBox.style.color='#004289'; }
+                else if (cardState === 'done') { iconBox.style.background='#e6f4ea'; iconBox.style.color='#137333'; }
+                else { iconBox.style.background='#f1f3f4'; iconBox.style.color='#9aa0a6'; }
+            }
+            const btn = document.getElementById('btn-' + cardId.replace('card-', ''));
+            if (!btn) return;
+            btn.innerHTML = `<span class="material-icons-outlined">${btnIcon}</span>${btnLabel}`;
+            btn.disabled = disabled;
+            btn.className = 'control-card-action' + (disabled ? ' status-waiting' : '');
+            btn.onclick = disabled ? null : () => openControl(controlId);
         }
 
         function updateCard(cardId, status, statusText, actionText, disabled = false) {
-            const card = document.getElementById(cardId);
-            card.className = `control-card status-${status}`;
-            if (disabled) card.classList.add('disabled');
-            
-            card.querySelector('.control-card-status').textContent = statusText;
-            
-            const actionBtn = card.querySelector('.control-card-action');
-            const iconName = disabled ? 'lock' : (status === 'done' ? 'visibility' : 'play_arrow');
-            actionBtn.innerHTML = `<span class="material-icons-outlined">${iconName}</span>${actionText}`;
-            
-            // Set onclick
-            const controlMap = {
-                'card-nastaveni': 'controlNastaveni',
-                'card-poplatek': 'controlPoplatek',
-                'card-vyrozumeni': 'controlVyrozumeni',
-                'card-lhuta': 'controlLhuta',
-                'card-namitky': 'controlNamitky',
-                'card-seznameni': 'controlSeznami',
-                'card-shrnuti': 'controlShrnuti'
-            };
-            
-            if (!disabled) {
-                actionBtn.onclick = () => openControl(controlMap[cardId]);
-            } else {
-                actionBtn.onclick = null;
-            }
+            // Legacy shim — used by some complete* functions, maps to new pipeline updaters
+            updateUI();
         }
 
         // Switch viewer tab
