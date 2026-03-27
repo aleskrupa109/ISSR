@@ -166,6 +166,33 @@
     .slideout-close:hover { background:#e8eaed; }
     .slideout-body { flex:1; overflow-y:auto; padding:20px; }
     .slideout-footer { padding:16px 20px; border-top:1px solid #e8eaed; display:flex; justify-content:flex-end; gap:10px; }
+
+    /* Údaje řízení — data rows */
+    .data-section { margin-bottom:24px; }
+    .data-section-title { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:#5f6368; margin-bottom:12px; text-transform:uppercase; letter-spacing:.5px; }
+    .data-section-title .material-icons-outlined { font-size:18px; }
+    .data-row { display:flex; align-items:flex-start; padding:10px 0; border-bottom:1px solid #f1f3f4; }
+    .data-row:last-child { border-bottom:none; }
+    .data-label { width:140px; flex-shrink:0; font-size:12px; color:#5f6368; padding-top:2px; }
+    .data-value { flex:1; font-size:13px; color:#202124; }
+    .data-value.editable { display:flex; align-items:center; gap:8px; }
+    .data-edit-btn { width:24px; height:24px; border:none; background:transparent; border-radius:4px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#5f6368; opacity:0; transition:all .15s; }
+    .data-row:hover .data-edit-btn { opacity:1; }
+    .data-edit-btn:hover { background:#e8eaed; color:#202124; }
+    .data-edit-btn .material-icons-outlined { font-size:16px; }
+    .data-list { display:flex; flex-direction:column; gap:6px; }
+    .data-list-item { display:flex; align-items:center; gap:8px; padding:6px 10px; background:#f8f9fa; border-radius:4px; font-size:12px; }
+    .data-list-item .material-icons-outlined { font-size:16px; color:#5f6368; }
+
+    /* Nedostatky */
+    .issues-group { margin-bottom:24px; }
+    .issues-group-header { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#f1f3f4; border-radius:6px; margin-bottom:12px; }
+    .issues-group-title { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:500; color:#202124; }
+    .issues-group-title .material-icons-outlined { font-size:18px; }
+    .issues-group-badge { padding:2px 8px; border-radius:10px; font-size:11px; font-weight:500; }
+    .issues-group-badge.warning { background:#fef7e0; color:#b06000; }
+    .issues-group-badge.error { background:#fce8e6; color:#c5221f; }
+    .issues-group-badge.info { background:#e8f4fd; color:#004289; }
   `;
 
   // ─── Stepper helper ───────────────────────────────────────────────────────
@@ -370,18 +397,125 @@
       </header>
 
       <!-- Slideout overlay -->
-      <div class="slideout-overlay" id="issr-slideout-overlay" onclick="issrCaseHeader._closeSlideout()"></div>
-      <div class="slideout-panel" id="issr-slideout-panel">
+      <div class="slideout-overlay" id="slideoutOverlay" onclick="closeAllSlideouts()"></div>
+
+      <!-- Slideout: Přehled nedostatků -->
+      <div class="slideout-panel" id="prehledNedostatku">
         <div class="slideout-header">
           <div class="slideout-title">
-            <span class="material-icons-outlined" id="issr-slideout-icon">assignment</span>
-            <span id="issr-slideout-title">Panel</span>
+            <span class="material-icons-outlined">warning_amber</span>
+            Přehled nedostatků řízení
           </div>
-          <button class="slideout-close" onclick="issrCaseHeader._closeSlideout()">
+          <button class="slideout-close" onclick="closeSlideout('prehledNedostatku')">
             <span class="material-icons-outlined">close</span>
           </button>
         </div>
-        <div class="slideout-body" id="issr-slideout-body"></div>
+        <div class="slideout-body" id="nedostatkyBody">
+          <div class="issues-group">
+            <div class="issues-group-header">
+              <div class="issues-group-title"><span class="material-icons-outlined" style="color:#f9ab00;">edit_document</span>Výzva k doplnění + Přerušení řízení</div>
+              <span class="issues-group-badge warning" id="badgeVyzva">0</span>
+            </div>
+            <p style="font-size:12px;color:#5f6368;margin-bottom:12px;">Nedostatky vedoucí k výzvě k doplnění a přerušení řízení dle § 185 odst. 1-2.</p>
+            <div class="issues-group-list" id="listVyzva"><div style="text-align:center;padding:20px;color:#9aa0a6;font-size:13px;"><span class="material-icons-outlined" style="font-size:32px;margin-bottom:8px;display:block;">check_circle</span>Žádné nedostatky</div></div>
+          </div>
+          <div class="issues-group">
+            <div class="issues-group-header">
+              <div class="issues-group-title"><span class="material-icons-outlined" style="color:#c5221f;">block</span>Odložení žádosti</div>
+              <span class="issues-group-badge error" id="badgeOdlozeni">0</span>
+            </div>
+            <p style="font-size:12px;color:#5f6368;margin-bottom:12px;">Závažné vady dle § 185 odst. 3 — chybí dokumentace nebo není vložena do EED.</p>
+            <div class="issues-group-list" id="listOdlozeni"><div style="text-align:center;padding:20px;color:#9aa0a6;font-size:13px;"><span class="material-icons-outlined" style="font-size:32px;margin-bottom:8px;display:block;">check_circle</span>Žádné závažné vady</div></div>
+          </div>
+          <div class="issues-group">
+            <div class="issues-group-header">
+              <div class="issues-group-title"><span class="material-icons-outlined" style="color:#1a73e8;">send</span>Postoupení řízení</div>
+              <span class="issues-group-badge info" id="badgePostoupeni">0</span>
+            </div>
+            <p style="font-size:12px;color:#5f6368;margin-bottom:12px;">Stavební úřad není příslušný — řízení bude postoupeno příslušnému SÚ.</p>
+            <div class="issues-group-list" id="listPostoupeni"><div style="text-align:center;padding:20px;color:#9aa0a6;font-size:13px;"><span class="material-icons-outlined" style="font-size:32px;margin-bottom:8px;display:block;">check_circle</span>SÚ je příslušný</div></div>
+          </div>
+          <div class="issues-group">
+            <div class="issues-group-header">
+              <div class="issues-group-title"><span class="material-icons-outlined" style="color:#5f6368;">schedule</span>Stavění lhůty (vyžádání stanovisek)</div>
+              <span class="issues-group-badge info" id="badgeStaveni">0</span>
+            </div>
+            <p style="font-size:12px;color:#5f6368;margin-bottom:12px;">Chybějící stanoviska DO, která si SÚ vyžádá dle § 184 odst. 3.</p>
+            <div class="issues-group-list" id="listStaveni"><div style="text-align:center;padding:20px;color:#9aa0a6;font-size:13px;"><span class="material-icons-outlined" style="font-size:32px;margin-bottom:8px;display:block;">check_circle</span>Všechna stanoviska jsou k dispozici</div></div>
+          </div>
+          <div class="issues-group">
+            <div class="issues-group-header">
+              <div class="issues-group-title"><span class="material-icons-outlined" style="color:#c5221f;">gavel</span>Zamítnutí žádosti</div>
+              <span class="issues-group-badge error" id="badgeZamitnuti">0</span>
+            </div>
+            <p style="font-size:12px;color:#5f6368;margin-bottom:12px;">Důvody pro zamítnutí — např. nesoulad s územně plánovací dokumentací.</p>
+            <div class="issues-group-list" id="listZamitnuti"><div style="text-align:center;padding:20px;color:#9aa0a6;font-size:13px;"><span class="material-icons-outlined" style="font-size:32px;margin-bottom:8px;display:block;">check_circle</span>Žádné důvody pro zamítnutí</div></div>
+          </div>
+        </div>
+        <div class="slideout-footer">
+          <button class="btn btn-secondary" onclick="if(typeof exportNedostatky==='function')exportNedostatky()"><span class="material-icons-outlined">download</span>Exportovat</button>
+          <button class="btn btn-primary" onclick="closeSlideout('prehledNedostatku')">Zavřít</button>
+        </div>
+      </div>
+
+      <!-- Slideout: Údaje řízení -->
+      <div class="slideout-panel" id="udajeRizeni">
+        <div class="slideout-header">
+          <div class="slideout-title">
+            <span class="material-icons-outlined">assignment</span>Údaje řízení
+          </div>
+          <button class="slideout-close" onclick="closeSlideout('udajeRizeni')">
+            <span class="material-icons-outlined">close</span>
+          </button>
+        </div>
+        <div class="slideout-body">
+          <div class="data-section">
+            <div class="data-section-title"><span class="material-icons-outlined">info</span>Základní údaje</div>
+            <div class="data-row"><div class="data-label">Spis. značka</div><div class="data-value">${cfg.caseNumber || ''}</div></div>
+            <div class="data-row">
+              <div class="data-label">Název stavby</div>
+              <div class="data-value editable">
+                <span id="udajeNazevStavby">${cfg.caseTitle || ''}</span>
+                <button class="data-edit-btn" onclick="if(typeof editUdaj==='function')editUdaj('nazevStavby')" title="Upravit"><span class="material-icons-outlined">edit</span></button>
+              </div>
+            </div>
+            <div class="data-row"><div class="data-label">Typ řízení</div><div class="data-value">${cfg.caseType || 'Povolení stavby'}</div></div>
+            <div class="data-row"><div class="data-label">Druh stavby</div><div class="data-value">${cfg.caseCategory || ''}</div></div>
+            <div class="data-row"><div class="data-label">Datum doručení</div><div class="data-value">${cfg.datumDoruceni || '6. 1. 2026'}</div></div>
+            <div class="data-row"><div class="data-label">Stav řízení</div><div class="data-value"><span class="case-badge ${cfg.badgeType||'draft'}">${cfg.badgeText||'Kontrola'}</span></div></div>
+          </div>
+          <div class="data-section">
+            <div class="data-section-title"><span class="material-icons-outlined">schedule</span>Lhůty</div>
+            <div class="data-row"><div class="data-label">Lhůta pro rozhodnutí</div><div class="data-value">${cfg.lhutaRozhodnuti || '60 dnů (do 6. 3. 2026)'}</div></div>
+            <div class="data-row"><div class="data-label">Stavění lhůty</div><div class="data-value" style="color:#137333;">Ne</div></div>
+          </div>
+          <div class="data-section">
+            <div class="data-section-title"><span class="material-icons-outlined">landscape</span>Pozemky záměru</div>
+            <div class="data-list" id="udajePozemky">
+              <div class="data-list-item"><span class="material-icons-outlined">place</span>k.ú. Doudleby nad Orlicí (10 parcel)</div>
+              <div class="data-list-item"><span class="material-icons-outlined">place</span>k.ú. Kostelec nad Orlicí (1 parcela)</div>
+              <div class="data-list-item"><span class="material-icons-outlined">place</span>k.ú. Vamberk (2 parcely)</div>
+              <div class="data-list-item"><span class="material-icons-outlined">place</span>k.ú. Záměl (1 parcela)</div>
+            </div>
+            ${cfg.pozemkyEditLink ? `<button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="${cfg.pozemkyEditLink}"><span class="material-icons-outlined">edit</span>Upravit pozemky</button>` : ''}
+          </div>
+          <div class="data-section">
+            <div class="data-section-title"><span class="material-icons-outlined">groups</span>Osoby</div>
+            <div class="data-list" id="udajeUcastnici">
+              <div class="data-list-item"><span class="material-icons-outlined">business</span>Správa železnic, s.o. (stavebník)</div>
+              <div class="data-list-item"><span class="material-icons-outlined">person</span>Signal Projekt s.r.o. (zástupce)</div>
+            </div>
+            ${cfg.osobyEditLink ? `<button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="${cfg.osobyEditLink}"><span class="material-icons-outlined">edit</span>Upravit osoby</button>` : ''}
+          </div>
+          <div class="data-section">
+            <div class="data-section-title"><span class="material-icons-outlined">badge</span>Zpracování</div>
+            <div class="data-row"><div class="data-label">Referent</div><div class="data-value">${cfg.userName || 'Aleš Krupa'}</div></div>
+            <div class="data-row"><div class="data-label">Přiřazeno od</div><div class="data-value">6. 1. 2026</div></div>
+          </div>
+        </div>
+        <div class="slideout-footer">
+          <button class="btn btn-primary" onclick="closeSlideout('udajeRizeni')">Zavřít</button>
+        </div>
       </div>
     `;
 
@@ -401,46 +535,62 @@
 
   window.issrCaseHeader = {
     render: renderCaseHeader,
-
-    // Aktualizovat počet nedostatků za běhu
     setNedostatkyCount: function(n) {
-      const el = document.getElementById('issr-nedostatky-badge');
+      const el = document.getElementById('badgeVyzva');
       if (el) el.textContent = n;
     },
-
-    // Callback hookupy — přepište na stránce
-    onUdaje: function() { this._openSlideout('assignment', 'Údaje řízení', '<p>Zde budou údaje řízení.</p>'); },
-    onNedostatky: function() { this._openSlideout('warning_amber', 'Nedostatky', '<p>Žádné nedostatky.</p>'); },
+    // Hookup callbacky — přepisovatelné na každé stránce
+    onUdaje: function() { openSlideout('udajeRizeni'); },
+    onNedostatky: function() { openSlideout('prehledNedostatku'); },
     onAction: function(action) {
-      this._toggleDropdown(false);
-      console.log('Akce řízení:', action);
+      const d = document.getElementById('issr-akce-menu');
+      if (d) d.classList.remove('open');
+      if (typeof showActionModal === 'function') showActionModal(action);
     },
-
     _toggleDropdown: function(force) {
       const menu = document.getElementById('issr-akce-menu');
       if (!menu) return;
       if (force === false) menu.classList.remove('open');
       else menu.classList.toggle('open');
     },
-
-    _openSlideout: function(icon, title, bodyHtml) {
-      document.getElementById('issr-slideout-icon').textContent = icon;
-      document.getElementById('issr-slideout-title').textContent = title;
-      document.getElementById('issr-slideout-body').innerHTML = bodyHtml;
-      document.getElementById('issr-slideout-panel').classList.add('open');
-      document.getElementById('issr-slideout-overlay').classList.add('open');
-    },
-
-    _closeSlideout: function() {
-      document.getElementById('issr-slideout-panel')?.classList.remove('open');
-      document.getElementById('issr-slideout-overlay')?.classList.remove('open');
-    },
   };
 
-  // Zkratka pro jednoduché volání
   window.renderCaseHeader = renderCaseHeader;
 
-  // Zavřít dropdown při kliknutí mimo
+  // ─── Slideout funkce (globální, shodné s povoleni-2) ─────────────────────
+
+  window.openSlideout = function(panelId) {
+    const overlay = document.getElementById('slideoutOverlay');
+    const panel = document.getElementById(panelId);
+    if (overlay) overlay.classList.add('open');
+    if (panel) panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeSlideout = function(panelId) {
+    const overlay = document.getElementById('slideoutOverlay');
+    const panel = document.getElementById(panelId);
+    if (overlay) overlay.classList.remove('open');
+    if (panel) panel.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.closeAllSlideouts = function() {
+    document.querySelectorAll('.slideout-panel').forEach(p => p.classList.remove('open'));
+    const overlay = document.getElementById('slideoutOverlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.editUdaj = function(udaj) {
+    alert('Úprava údaje "' + udaj + '" — bude implementováno');
+  };
+
+  window.exportNedostatky = function() {
+    alert('Export nedostatků — bude implementováno');
+  };
+
+  // Zavřít akce dropdown při kliknutí mimo
   document.addEventListener('click', function(e) {
     if (!e.target.closest('.action-dropdown')) {
       window.issrCaseHeader._toggleDropdown(false);
