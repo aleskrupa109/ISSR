@@ -299,10 +299,9 @@
 
     // Nedostatky button
     const nedostatkyBtn = showNedostatky ? `
-      <button class="header-action-btn has-issues" onclick="issrCaseHeader.onNedostatky()" id="issr-btn-nedostatky" title="Přehled nedostatků">
+      <button class="header-action-btn" onclick="issrCaseHeader.onNedostatky()" id="issr-btn-nedostatky" title="Přehled nedostatků">
         <span class="material-icons-outlined">warning_amber</span>
         Nedostatky
-        <span class="header-action-badge warning" id="issr-nedostatky-badge">${cfg.nedostatkyCount || 0}</span>
       </button>` : '';
 
     // Action menu
