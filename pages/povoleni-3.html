@@ -846,11 +846,34 @@
         }
 
         .control-title {
-            font-size: 18px !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px !important;
             font-weight: 500 !important;
             color: #202124 !important;
             font-style: normal !important;
         }
+        .control-title .material-icons-outlined { font-size:24px; color:#004289; }
+
+        /* Viewer záložky */
+        .viewer-tabs { display:flex; gap:4px; padding:12px 16px; background:#fff; border-bottom:1px solid #e0e0e0; flex-shrink:0; align-items:center; }
+        .viewer-tabs-left { display:flex; gap:4px; flex:1; flex-wrap:wrap; }
+        .viewer-tab { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border:1px solid transparent; border-radius:6px; font-size:12px; font-weight:500; color:#5f6368; background:transparent; cursor:pointer; transition:all .15s; white-space:nowrap; }
+        .viewer-tab:hover { background:#f1f3f4; }
+        .viewer-tab.active { background:#e8f0fe; color:#004289; border-color:#c5d8f6; }
+        .viewer-tab .material-icons-outlined { font-size:16px; }
+        .viewer-tab .badge { background:#004289; color:#fff; padding:1px 6px; border-radius:8px; font-size:10px; font-weight:600; }
+        .viewer-open-external { width:32px; height:32px; border:none; background:transparent; cursor:pointer; border-radius:6px; display:flex; align-items:center; justify-content:center; color:#5f6368; margin-left:8px; flex-shrink:0; }
+        .viewer-open-external:hover { background:#f1f3f4; }
+        .viewer-open-external .material-icons-outlined { font-size:18px; }
+        .viewer-content { flex:1; overflow-y:auto; background:#fff; }
+        .viewer-content.ev-active { padding:0; overflow:hidden; }
+
+        /* Auto-save */
+        .auto-save-indicator { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#9aa0a6; }
+        .auto-save-indicator.saved { color:#137333; }
+        .auto-save-indicator .material-icons-outlined { font-size:16px; }
 
         .control-content {
             flex: 1;
@@ -859,17 +882,18 @@
         }
 
         .control-form-panel {
-            width: 50%;
+            flex: 0 0 40%;
             padding: 24px;
             overflow-y: auto;
-            border-right: 1px solid #e0e0e0;
+            border-left: 1px solid #e0e0e0;
         }
 
         .control-viewer-panel {
-            width: 50%;
+            flex: 0 0 60%;
             display: flex;
             flex-direction: column;
-            background: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+            background: #f5f5f5;
         }
 
         .control-form-footer {
@@ -1843,87 +1867,53 @@
                 <button class="control-close" onclick="closeControl('controlNastaveni')">
                     <span class="material-icons-outlined">close</span>
                 </button>
-                <h2 class="control-title">Nastavení projednání</h2>
+                <div class="control-title">
+                    <span class="material-icons-outlined">tune</span>
+                    Nastavení projednání
+                </div>
             </div>
         </div>
         <div class="control-content">
-            <!-- Levý panel: Podklady -->
+            <!-- LEVÝ PANEL: Viewer dokumentů — stejná struktura jako controlPrislusnost -->
             <div class="control-viewer-panel">
-                <div class="viewer-content">
-                    <div class="viewer-tabs">
-                        <button class="viewer-tab active" onclick="switchViewerTab(this, 'nastaveni-zadost')">Žádost</button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'nastaveni-dokumentace')">Dokumentace</button>
-                        <button class="viewer-tab" onclick="switchViewerTab(this, 'nastaveni-stanoviska')">Stanoviska DO</button>
+                <div class="viewer-tabs">
+                    <div class="viewer-tabs-left" id="nastaveniViewerTabs">
+                        <button class="viewer-tab active" onclick="switchNastaveniViewerTab(this, 'zadost')">
+                            <span class="material-icons-outlined">list_alt</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchNastaveniViewerTab(this, 'prilohy')">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" onclick="switchNastaveniViewerTab(this, 'dokumentace')">
+                            <span class="material-icons-outlined">folder</span>
+                            El. dokumentace
+                        </button>
+                        <button class="viewer-tab" onclick="switchNastaveniViewerTab(this, 'doklady')">
+                            <span class="material-icons-outlined">fact_check</span>
+                            Dokladová část
+                        </button>
                     </div>
-                    <div class="viewer-tab-content" id="nastaveni-zadost">
-                        <div class="document-preview">
-                            <h3>ŽÁDOST O POVOLENÍ STAVBY</h3>
-                            <p><strong>Číslo jednací:</strong> P/2025/456789</p>
-                            <p><strong>Datum podání:</strong> 3. 1. 2026</p>
-                            <hr style="margin: 16px 0;">
-                            <p><strong>Žadatel:</strong> Jan Novák, Příčná 123, Praha 5</p>
-                            <p><strong>Stavba:</strong> Novostavba rodinného domu včetně přípojek</p>
-                            <p><strong>Místo stavby:</strong> parc. č. 1234/5, k.ú. Smíchov</p>
-                            <p style="margin-top: 16px;"><strong>Účel stavby:</strong> Výstavba trvalého bydlení pro rodinu 4 osob</p>
-                            <p style="margin-top: 16px;"><strong>Podklady:</strong></p>
-                            <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
-                                <li>Projektová dokumentace (arch. Svoboda)</li>
-                                <li>Stanovisko MČ Praha 5</li>
-                                <li>Stanovisko OŽP</li>
-                                <li>Stanovisko HZS</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="viewer-tab-content" id="nastaveni-dokumentace" style="display: none;">
-                        <div class="document-preview">
-                            <h3>PROJEKTOVÁ DOKUMENTACE</h3>
-                            <p><strong>Zpracovatel:</strong> Ing. arch. Petr Svoboda</p>
-                            <p><strong>Autorizace:</strong> ČKA 02345</p>
-                            <hr style="margin: 16px 0;">
-                            <p><strong>Obsah:</strong></p>
-                            <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
-                                <li>A. Průvodní zpráva</li>
-                                <li>B. Souhrnná technická zpráva</li>
-                                <li>C. Situační výkresy</li>
-                                <li>D. Architektonické řešení</li>
-                                <li>E. Stavební řešení</li>
-                                <li>F. Požárně bezpečnostní řešení</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="viewer-tab-content" id="nastaveni-stanoviska" style="display: none;">
-                        <div class="document-preview">
-                            <h3>PŘEHLED STANOVISEK</h3>
-                            <p style="margin-top: 16px;"><strong>✓ Kladná stanoviska:</strong></p>
-                            <ul style="margin-left: 20px; font-size: 13px; line-height: 1.8;">
-                                <li>MČ Praha 5 - bez připomínek</li>
-                                <li>OŽP - podmínka ochrana stromů</li>
-                                <li>HZS - bez připomínek</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <button class="viewer-open-external" onclick="openDocModal('zadostModal')" title="Otevřít v modálním okně">
+                        <span class="material-icons-outlined">open_in_new</span>
+                    </button>
+                </div>
+                <div class="viewer-content" id="nastaveniViewerContent">
+                    <div id="nastaveniViewerInner"></div>
                 </div>
             </div>
-            
-            <!-- Pravý panel: Formulář s nastavením -->
+
+            <!-- PRAVÝ PANEL: Formulář nastavení -->
             <div class="control-form-panel">
-                <!-- Upozornění na velký počet účastníků - zobrazí se pouze při překročení hranice -->
-                <!-- <div class="alert-banner alert-warning" style="margin-bottom: 20px;">
-                    <span class="material-icons-outlined">groups</span>
-                    <div>
-                        <div style="font-weight: 500;">Velký počet účastníků řízení (45)</div>
-                        <div style="font-size: 13px; margin-top: 4px;">Doručování bude probíhat veřejnou vyhláškou dle § 189 odst. 3 stavebního zákona</div>
-                    </div>
-                </div> -->
-                
-                <!-- Pro standardní počet účastníků - pouze diskrétní informace -->
-                <p class="form-hint" style="margin-bottom: 20px;">
-                    <span class="material-icons-outlined" style="font-size: 16px; vertical-align: text-bottom; color: #5f6368;">info</span>
-                    Počet účastníků řízení: <strong>8</strong> (doručování jednotlivě)
+                <p class="form-hint" style="margin-bottom:20px;">
+                    <span class="material-icons-outlined" style="font-size:16px;vertical-align:text-bottom;color:#5f6368;">groups</span>
+                    Počet účastníků řízení: <strong>8</strong> — doručování jednotlivě
                 </p>
 
                 <div class="control-section">
-                    <div class="control-section-title">Ústní jednání</div>
+                    <div class="control-section-title">Ústní jednání / místní šetření</div>
                     <label class="control-option selected" onclick="selectOption(this); toggleUstniJednani(false)">
                         <input type="radio" name="ustni_jednani" value="ne" checked>
                         <div class="control-option-content">
@@ -1935,12 +1925,12 @@
                         <input type="radio" name="ustni_jednani" value="ano">
                         <div class="control-option-content">
                             <div class="control-option-title">Nařídit ústní jednání</div>
-                            <div class="control-option-desc">Účastníci se vyjádří na ústním jednání</div>
+                            <div class="control-option-desc">Účastníci se vyjádří na ústním jednání; lze spojit s místním šetřením</div>
                         </div>
                     </label>
                 </div>
 
-                <div class="control-section" id="ustniJednaniDetail" style="display: none;">
+                <div class="control-section" id="ustniJednaniDetail" style="display:none;">
                     <div class="control-section-title">Parametry ústního jednání</div>
                     <div class="form-group">
                         <label class="form-label">Typ jednání</label>
@@ -1952,18 +1942,36 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Datum a čas</label>
-                        <input type="datetime-local" class="form-input" id="datumJednani" value="2026-01-28T09:00">
+                        <input type="datetime-local" class="form-input" id="datumJednani" value="2026-02-18T09:00">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Místo jednání</label>
-                        <input type="text" class="form-input" id="mistoJednani" value="Zasedací místnost SÚ, Husova 15, Praha 1">
+                        <input type="text" class="form-input" id="mistoJednani" value="DESÚ, pracoviště Olomouc, Horní nám. 1">
                     </div>
                     <div class="form-group">
                         <label class="checkbox-label">
                             <input type="checkbox" id="ohledani">
-                            Spojit s ohledáním na místě
+                            Spojit s místním šetřením (ohledáním na místě)
                         </label>
                     </div>
+                </div>
+
+                <div class="control-section">
+                    <div class="control-section-title">Doručování</div>
+                    <label class="control-option selected" onclick="selectOption(this)">
+                        <input type="radio" name="dorucovani" value="jednotlive" checked>
+                        <div class="control-option-content">
+                            <div class="control-option-title">Doručování jednotlivě</div>
+                            <div class="control-option-desc">Každému účastníku zvlášť — standardní pro &lt; 30 účastníků</div>
+                        </div>
+                    </label>
+                    <label class="control-option" onclick="selectOption(this)">
+                        <input type="radio" name="dorucovani" value="vyhlaskou">
+                        <div class="control-option-content">
+                            <div class="control-option-title">Veřejná vyhláška</div>
+                            <div class="control-option-desc">Dle § 189 odst. 3 SZ — pro řízení s velkým počtem účastníků</div>
+                        </div>
+                    </label>
                 </div>
 
                 <div class="control-section">
@@ -1977,7 +1985,12 @@
             </div>
         </div>
         <div class="control-form-footer">
-            <div class="control-form-footer-left"></div>
+            <div class="control-form-footer-left">
+                <div class="auto-save-indicator saved">
+                    <span class="material-icons-outlined">cloud_done</span>
+                    <span>Automaticky uloženo</span>
+                </div>
+            </div>
             <div class="control-form-footer-right">
                 <button class="btn btn-secondary" onclick="closeControl('controlNastaveni')">Zrušit</button>
                 <button class="btn btn-primary" onclick="completeNastaveni()">
@@ -3715,52 +3728,103 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             document.getElementById(tabId).style.display = 'block';
         }
 
-        // ── Drag & Drop — fáze 1 ──
+        // ── Viewer: Nastavení projednání — záložky + embedded viewers ──
+        var _nastaveniViewerCache = {};
+        function switchNastaveniViewerTab(btn, tabName) {
+            document.querySelectorAll('#nastaveniViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            var vc = document.getElementById('nastaveniViewerContent');
+            var inner = document.getElementById('nastaveniViewerInner');
+            if (tabName === 'prilohy' || tabName === 'dokumentace' || tabName === 'doklady') {
+                vc.classList.add('ev-active');
+                inner.style.height = '100%';
+                inner.innerHTML = '';
+                renderEmbeddedViewer('nastaveniViewerInner', tabName, 'nas_' + tabName);
+                return;
+            }
+            vc.classList.remove('ev-active');
+            inner.style.height = '';
+            if (tabName === 'zadost') {
+                if (!_nastaveniViewerCache.zadost) {
+                    _nastaveniViewerCache.zadost = typeof generateZadostDataReadOnly === 'function'
+                        ? generateZadostDataReadOnly()
+                        : '<div style="padding:24px;font-size:13px;color:#5f6368;">Načítám data žádosti…</div>';
+                }
+                inner.className = 'reusable-zadost-data active';
+                inner.innerHTML = _nastaveniViewerCache.zadost;
+            }
+        }
+
+        // Inicializace vieweru při otevření kontroly
+        var _nastaveniInitialized = false;
+        var _origOpenControl = typeof openControl === 'function' ? openControl : null;
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('[onclick*="controlNastaveni"]');
+            if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("openControl('controlNastaveni')")) {
+                setTimeout(function() {
+                    if (!_nastaveniInitialized) {
+                        _nastaveniInitialized = true;
+                        var firstTab = document.querySelector('#nastaveniViewerTabs .viewer-tab');
+                        if (firstTab) switchNastaveniViewerTab(firstTab, 'zadost');
+                    }
+                }, 50);
+            }
+        });
+
+        // ── Drag & Drop — fáze 1 (přes DataTransfer ID) ──
         (function() {
-            var dragSrc = null;
-            function initPhase1DragDrop() {
-                const group = document.getElementById('phase1-grid');
-                if (!group) return;
-                group.addEventListener('dragstart', function(e) {
-                    const handle = e.target.closest('.drag-handle');
+            var dragId = null;
+            function ph1setup() {
+                var grid = document.getElementById('phase1-grid');
+                if (!grid) return;
+                grid.addEventListener('dragstart', function(e) {
+                    var handle = e.target.closest('.drag-handle');
                     if (!handle) { e.preventDefault(); return; }
-                    dragSrc = handle.closest('.pipeline-group-card');
-                    if (!dragSrc) return;
-                    dragSrc.classList.add('dragging');
+                    var card = handle.closest('.pipeline-group-card');
+                    if (!card) return;
+                    dragId = card.id;
+                    card.classList.add('dragging');
                     e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', card.id);
                 });
-                group.addEventListener('dragend', function() {
-                    if (dragSrc) dragSrc.classList.remove('dragging');
-                    group.querySelectorAll('.pipeline-group-card').forEach(c => c.classList.remove('drag-over'));
-                    dragSrc = null;
+                grid.addEventListener('dragend', function() {
+                    grid.querySelectorAll('.pipeline-group-card').forEach(function(c) {
+                        c.classList.remove('dragging', 'drag-over');
+                    });
+                    dragId = null;
                 });
-                group.addEventListener('dragover', function(e) {
-                    if (!dragSrc) return;
+                grid.addEventListener('dragover', function(e) {
+                    if (!dragId) return;
                     e.preventDefault();
                     e.dataTransfer.dropEffect = 'move';
-                    const target = e.target.closest('.pipeline-group-card');
-                    if (!target || target === dragSrc) return;
-                    group.querySelectorAll('.pipeline-group-card').forEach(c => c.classList.remove('drag-over'));
-                    target.classList.add('drag-over');
+                    var target = e.target.closest('.pipeline-group-card');
+                    grid.querySelectorAll('.pipeline-group-card').forEach(function(c) { c.classList.remove('drag-over'); });
+                    if (target && target.id !== dragId) target.classList.add('drag-over');
                 });
-                group.addEventListener('dragleave', function(e) {
-                    const target = e.target.closest('.pipeline-group-card');
+                grid.addEventListener('dragleave', function(e) {
+                    var target = e.target.closest('.pipeline-group-card');
                     if (target) target.classList.remove('drag-over');
                 });
-                group.addEventListener('drop', function(e) {
-                    if (!dragSrc) return;
+                grid.addEventListener('drop', function(e) {
                     e.preventDefault();
-                    const target = e.target.closest('.pipeline-group-card');
-                    if (!target || target === dragSrc) return;
+                    var target = e.target.closest('.pipeline-group-card');
+                    if (!target || !dragId || target.id === dragId) return;
                     target.classList.remove('drag-over');
-                    const cards = [...group.querySelectorAll('.pipeline-group-card')];
-                    const srcIdx = cards.indexOf(dragSrc);
-                    const tgtIdx = cards.indexOf(target);
-                    if (srcIdx < tgtIdx) group.insertBefore(dragSrc, target.nextSibling);
-                    else group.insertBefore(dragSrc, target);
+                    var src = document.getElementById(dragId);
+                    if (!src) return;
+                    // Prohodíme obsah karet (ne pozice v gridu — grid je 1fr 1fr, pořadí není viditelné)
+                    var tmp = src.innerHTML;
+                    src.innerHTML = target.innerHTML;
+                    target.innerHTML = tmp;
+                    // Prohodíme id
+                    var tmpId = src.id;
+                    src.id = target.id;
+                    target.id = tmpId;
+                    // Prohodíme onclick na tlačítkách
+                    updateUI();
                 });
             }
-            document.addEventListener('DOMContentLoaded', initPhase1DragDrop);
+            document.addEventListener('DOMContentLoaded', ph1setup);
         })();
 
         // Initialize
