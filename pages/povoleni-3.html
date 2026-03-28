@@ -887,6 +887,12 @@
         .reusable-zadost-data { height:100%; overflow-y:auto; display:none; }
         .reusable-zadost-data.active { display:block; }
 
+        /* Oblíbená místa dropdown */
+        .misto-item { display:flex; align-items:center; gap:10px; padding:10px 14px; cursor:pointer; transition:background .1s; border-bottom:1px solid #f0f0f0; }
+        .misto-item:last-child { border-bottom:none; }
+        .misto-item:hover { background:#f8f9fa; }
+        .misto-item .material-icons-outlined { font-size:18px; color:#5f6368; flex-shrink:0; }
+
         /* Auto-save */
         .auto-save-indicator { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#9aa0a6; }
         .auto-save-indicator.saved { color:#137333; }
@@ -1877,6 +1883,10 @@
                             <span class="material-icons-outlined">fact_check</span>
                             Dokladová část
                         </button>
+                        <button class="viewer-tab tab-kalendar" onclick="switchNastaveniViewerTab(this, 'kalendar')" style="display:none;">
+                            <span class="material-icons-outlined">calendar_month</span>
+                            Kalendář
+                        </button>
                     </div>
                     <button class="viewer-open-external" onclick="openDocModal('zadostModal')" title="Otevřít v modálním okně">
                         <span class="material-icons-outlined">open_in_new</span>
@@ -1924,11 +1934,50 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Datum a čas</label>
-                        <input type="datetime-local" class="form-input" id="datumJednani" value="2026-02-18T09:00">
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="datetime-local" class="form-input" id="datumJednani" value="2026-02-18T09:00" style="flex:1;" onchange="syncCalendarDate(this.value)">
+                            <button type="button" class="btn btn-secondary" onclick="switchNastaveniViewerTab(document.querySelector('#nastaveniViewerTabs .tab-kalendar'), 'kalendar')" style="white-space:nowrap;padding:8px 12px;display:flex;align-items:center;gap:6px;font-size:12px;">
+                                <span class="material-icons-outlined" style="font-size:16px;">calendar_month</span>
+                                Kalendář
+                            </button>
+                        </div>
+                        <p class="form-hint">Lhůta pro vyrozumění min. 15 dní před jednáním</p>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Místo jednání</label>
-                        <input type="text" class="form-input" id="mistoJednani" value="DESÚ, pracoviště Olomouc, Horní nám. 1">
+                        <div style="display:flex;gap:8px;align-items:flex-start;">
+                            <input type="text" class="form-input" id="mistoJednani" value="DESÚ, pracoviště Olomouc, Horní nám. 1" style="flex:1;">
+                            <div style="position:relative;">
+                                <button type="button" class="btn btn-secondary" onclick="toggleMistaDropdown()" style="white-space:nowrap;padding:8px 12px;display:flex;align-items:center;gap:6px;font-size:12px;">
+                                    <span class="material-icons-outlined" style="font-size:16px;">favorite</span>
+                                    Oblíbená
+                                    <span class="material-icons-outlined" style="font-size:14px;">expand_more</span>
+                                </button>
+                                <div id="mistaDropdown" style="display:none;position:absolute;right:0;top:calc(100% + 4px);min-width:300px;background:#fff;border:1px solid #dadce0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:100;overflow:hidden;">
+                                    <div style="padding:8px 12px;font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #f0f0f0;">Oblíbená místa jednání</div>
+                                    <div class="misto-item" onclick="vyberMisto('DESÚ, pracoviště Olomouc, Horní nám. 1, Olomouc')">
+                                        <span class="material-icons-outlined">location_on</span>
+                                        <div><div style="font-size:13px;font-weight:500;">DESÚ Olomouc</div><div style="font-size:11px;color:#5f6368;">Horní nám. 1, Olomouc</div></div>
+                                    </div>
+                                    <div class="misto-item" onclick="vyberMisto('DESÚ, pracoviště Praha, Sokolovská 278, Praha 9')">
+                                        <span class="material-icons-outlined">location_on</span>
+                                        <div><div style="font-size:13px;font-weight:500;">DESÚ Praha</div><div style="font-size:11px;color:#5f6368;">Sokolovská 278, Praha 9</div></div>
+                                    </div>
+                                    <div class="misto-item" onclick="vyberMisto('Správa železnic, Dlážděná 1003/7, Praha 1')">
+                                        <span class="material-icons-outlined">train</span>
+                                        <div><div style="font-size:13px;font-weight:500;">Správa železnic — sídlo</div><div style="font-size:11px;color:#5f6368;">Dlážděná 1003/7, Praha 1</div></div>
+                                    </div>
+                                    <div class="misto-item" onclick="vyberMisto('Žst. Doudleby nad Orlicí, u přechodu, Doudleby n.O.')">
+                                        <span class="material-icons-outlined">place</span>
+                                        <div><div style="font-size:13px;font-weight:500;">Místo stavby — žst. Doudleby</div><div style="font-size:11px;color:#5f6368;">přímo na místě jednání</div></div>
+                                    </div>
+                                    <div class="misto-item" onclick="vyberMisto('Městys Doudleby nad Orlicí, Náměstí 1, Doudleby n.O.')">
+                                        <span class="material-icons-outlined">account_balance</span>
+                                        <div><div style="font-size:13px;font-weight:500;">Úřad Městyse Doudleby n.O.</div><div style="font-size:11px;color:#5f6368;">Náměstí 1, Doudleby n.O.</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="checkbox-label">
@@ -1940,20 +1989,32 @@
 
                 <div class="control-section">
                     <div class="control-section-title">Doručování</div>
-                    <label class="control-option selected" onclick="selectOption(this)">
+                    <label class="control-option selected" onclick="selectOption(this); skryjVarovaniBV()">
                         <input type="radio" name="dorucovani" value="jednotlive" checked>
                         <div class="control-option-content">
                             <div class="control-option-title">Doručování jednotlivě</div>
                             <div class="control-option-desc">Každému účastníku zvlášť — standardní pro &lt; 30 účastníků</div>
                         </div>
                     </label>
-                    <label class="control-option" onclick="selectOption(this)">
+                    <label class="control-option" onclick="selectOption(this); zobrazVarovaniBV()">
                         <input type="radio" name="dorucovani" value="vyhlaskou">
                         <div class="control-option-content">
                             <div class="control-option-title">Veřejná vyhláška</div>
                             <div class="control-option-desc">Dle § 189 odst. 3 SZ — pro řízení s velkým počtem účastníků</div>
                         </div>
                     </label>
+                    <!-- Varování veřejná vyhláška -->
+                    <div id="varovaniBV" style="display:none;margin-top:10px;padding:12px 14px;background:#fef7e0;border:1px solid #f6b900;border-radius:8px;display:none;align-items:flex-start;gap:10px;">
+                        <span class="material-icons-outlined" style="color:#b06000;font-size:20px;flex-shrink:0;margin-top:1px;">warning_amber</span>
+                        <div>
+                            <div style="font-size:13px;font-weight:500;color:#b06000;margin-bottom:4px;">Skutečně nastavit doručování veřejnou vyhláškou?</div>
+                            <div style="font-size:12px;color:#7a4200;">Aktuální počet účastníků je <strong>8</strong>. Veřejná vyhláška se používá zpravidla při počtu nad 30 účastníků (§ 189 odst. 3 SZ). Pro toto řízení je doporučeno doručování jednotlivě.</div>
+                            <div style="display:flex;gap:8px;margin-top:10px;">
+                                <button type="button" class="btn btn-secondary" onclick="zrusitBV()" style="font-size:12px;padding:6px 12px;">Vrátit na jednotlivě</button>
+                                <button type="button" style="font-size:12px;padding:6px 12px;background:#b06000;color:#fff;border:none;border-radius:6px;cursor:pointer;" onclick="potvrditBV()">Ano, nastavit vyhlášku</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="control-section">
@@ -3266,10 +3327,190 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             element.classList.add('selected');
         }
 
-        // Toggle ústní jednání detail
+        // ── Nastavení projednání — pomocné funkce ──
+
         function toggleUstniJednani(show) {
             document.getElementById('ustniJednaniDetail').style.display = show ? 'block' : 'none';
             state.nastaveni.ustniJednani = show;
+            // Zobrazit/skrýt záložku Kalendář
+            var kalTab = document.querySelector('#nastaveniViewerTabs .tab-kalendar');
+            if (kalTab) kalTab.style.display = show ? '' : 'none';
+            // Pokud schováváme, přepni zpět na Žádost
+            if (!show) {
+                var firstTab = document.querySelector('#nastaveniViewerTabs .viewer-tab');
+                if (firstTab) switchNastaveniViewerTab(firstTab, 'zadost');
+            }
+        }
+
+        // Veřejná vyhláška — varování
+        function zobrazVarovaniBV() {
+            var el = document.getElementById('varovaniBV');
+            if (el) { el.style.display = 'flex'; }
+        }
+        function skryjVarovaniBV() {
+            var el = document.getElementById('varovaniBV');
+            if (el) el.style.display = 'none';
+        }
+        function zrusitBV() {
+            // Vrátit výběr na jednotlivě
+            document.querySelectorAll('[name="dorucovani"]').forEach(function(r) { r.checked = r.value === 'jednotlive'; });
+            document.querySelectorAll('[name="dorucovani"]').forEach(function(r) {
+                r.closest('.control-option').classList.toggle('selected', r.value === 'jednotlive');
+            });
+            skryjVarovaniBV();
+        }
+        function potvrditBV() {
+            skryjVarovaniBV();
+        }
+
+        // Oblíbená místa — dropdown
+        function toggleMistaDropdown() {
+            var d = document.getElementById('mistaDropdown');
+            if (!d) return;
+            var open = d.style.display === 'block';
+            d.style.display = open ? 'none' : 'block';
+            if (!open) {
+                setTimeout(function() {
+                    document.addEventListener('click', closeMistaOnClickOutside);
+                }, 0);
+            }
+        }
+        function closeMistaOnClickOutside(e) {
+            var d = document.getElementById('mistaDropdown');
+            if (d && !d.contains(e.target) && !e.target.closest('[onclick*="toggleMistaDropdown"]')) {
+                d.style.display = 'none';
+                document.removeEventListener('click', closeMistaOnClickOutside);
+            }
+        }
+        function vyberMisto(misto) {
+            var inp = document.getElementById('mistoJednani');
+            if (inp) inp.value = misto;
+            var d = document.getElementById('mistaDropdown');
+            if (d) d.style.display = 'none';
+            document.removeEventListener('click', closeMistaOnClickOutside);
+        }
+
+        // Synchronizace data z input do kalendáře
+        function syncCalendarDate(val) {
+            renderKalendar(val ? val.substring(0, 10) : null);
+        }
+
+        // Generování HTML Outlook-like kalendáře
+        function generateKalendarHtml(selectedDateStr) {
+            var selDate = selectedDateStr ? new Date(selectedDateStr + 'T00:00:00') : new Date('2026-02-18T00:00:00');
+            var year = selDate.getFullYear(), month = selDate.getMonth();
+            var monthNames = ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
+            var dayNames = ['Po','Út','St','Čt','Pá','So','Ne'];
+
+            // Události — simulace kalendáře úředníka
+            var events = {
+                '2026-02-04': [{time:'09:00',title:'Porada vedení',color:'#004289'}],
+                '2026-02-05': [{time:'10:00',title:'Kontrolní den — SZ Vamberk',color:'#137333'}],
+                '2026-02-10': [{time:'14:00',title:'Ústní jednání — SZ/00841',color:'#b06000'},{time:'09:00',title:'Konzultace MMR',color:'#004289'}],
+                '2026-02-12': [{time:'09:00',title:'Ústní jednání — SZ/00712',color:'#b06000'}],
+                '2026-02-17': [{time:'11:00',title:'Porada odboru',color:'#004289'}],
+                '2026-02-18': [{time:'09:00',title:'Ústní jednání — toto řízení',color:'#137333',selected:true}],
+                '2026-02-19': [{time:'13:00',title:'Jednání s KÚKHK',color:'#004289'}],
+                '2026-02-24': [{time:'10:00',title:'Kontrolní den — dráha',color:'#137333'}],
+                '2026-02-26': [{time:'09:00',title:'Ústní jednání — SZ/00923',color:'#b06000'}],
+            };
+
+            // Najít první den měsíce (0=Ne → přepočet na Po=0)
+            var firstDay = new Date(year, month, 1).getDay();
+            firstDay = (firstDay + 6) % 7; // Pondělí = 0
+            var daysInMonth = new Date(year, month + 1, 0).getDate();
+            var today = new Date('2026-01-28'); // simulovaný dnešek
+
+            var sel = selDate.getDate();
+            var todayD = today.getMonth() === month ? today.getDate() : -1;
+
+            var grid = '';
+            var day = 1 - firstDay;
+            for (var row = 0; row < 6; row++) {
+                grid += '<div style="display:contents;">';
+                for (var col = 0; col < 7; col++, day++) {
+                    var inMonth = day >= 1 && day <= daysInMonth;
+                    var dateStr = inMonth ? year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0') : '';
+                    var evs = events[dateStr] || [];
+                    var isSelected = inMonth && day === sel;
+                    var isToday = inMonth && day === todayD;
+                    var isWeekend = col >= 5;
+                    var cellBg = isSelected ? '#004289' : (isToday ? '#e8f0fe' : (isWeekend && inMonth ? '#fafafa' : '#fff'));
+                    var numColor = isSelected ? '#fff' : (isToday ? '#004289' : (inMonth ? '#202124' : '#c5c5c5'));
+
+                    grid += '<div style="border:1px solid #e8eaed;min-height:70px;padding:4px;background:' + cellBg + ';cursor:' + (inMonth?'pointer':'default') + ';vertical-align:top;" onclick="' + (inMonth ? 'kalendarVyberDen(' + day + ')' : '') + '">';
+                    if (day >= 1 && day <= daysInMonth || day <= 0 || day > daysInMonth) {
+                        var dispDay = day <= 0 ? (new Date(year, month, day).getDate()) : (day > daysInMonth ? day - daysInMonth : day);
+                        grid += '<div style="font-size:12px;font-weight:' + (isSelected||isToday?'600':'400') + ';color:' + numColor + ';margin-bottom:2px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;' + (isToday&&!isSelected?'border:1.5px solid #004289;':'') + '">' + (inMonth ? day : '') + '</div>';
+                    }
+                    evs.forEach(function(ev) {
+                        grid += '<div style="font-size:10px;padding:1px 4px;border-radius:3px;margin-bottom:1px;color:#fff;background:' + ev.color + ';overflow:hidden;white-space:nowrap;text-overflow:ellipsis;" title="' + ev.time + ' ' + ev.title + '">' + ev.time + ' ' + ev.title + '</div>';
+                    });
+                    grid += '</div>';
+                }
+                grid += '</div>';
+                if (day > daysInMonth) break;
+            }
+
+            return '<div style="height:100%;display:flex;flex-direction:column;background:#fff;">' +
+                // Hlavička kalendáře
+                '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e8eaed;flex-shrink:0;">' +
+                '<div style="font-size:14px;font-weight:600;color:#202124;">' + monthNames[month] + ' ' + year + '</div>' +
+                '<div style="display:flex;gap:4px;">' +
+                '<button onclick="kalendarPrevMonth()" style="border:1px solid #dadce0;background:#fff;border-radius:4px;cursor:pointer;padding:4px 8px;font-size:12px;">‹</button>' +
+                '<button onclick="kalendarNextMonth()" style="border:1px solid #dadce0;background:#fff;border-radius:4px;cursor:pointer;padding:4px 8px;font-size:12px;">›</button>' +
+                '</div></div>' +
+                // Info pruh
+                '<div style="padding:8px 16px;background:#f8f9fa;border-bottom:1px solid #e8eaed;font-size:12px;color:#5f6368;flex-shrink:0;">' +
+                '<span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;color:#004289;">info</span> ' +
+                'Vybraný termín: <strong>' + selDate.getDate() + '. ' + (month+1) + '. ' + year + ' 09:00</strong> — kliknutím na den změníte termín jednání' +
+                '</div>' +
+                // Dny v týdnu
+                '<div style="display:grid;grid-template-columns:repeat(7,1fr);background:#f8f9fa;border-bottom:1px solid #e8eaed;flex-shrink:0;">' +
+                dayNames.map(function(d, i) {
+                    return '<div style="padding:6px 4px;text-align:center;font-size:11px;font-weight:600;color:' + (i>=5?'#c5221f':'#5f6368') + ';">' + d + '</div>';
+                }).join('') + '</div>' +
+                // Mřížka dní
+                '<div style="flex:1;overflow-y:auto;"><div style="display:grid;grid-template-columns:repeat(7,1fr);">' + grid + '</div></div>' +
+                '</div>';
+        }
+
+        var _kalendarMonth = 1, _kalendarYear = 2026, _kalendarSelDate = '2026-02-18';
+
+        function renderKalendar(dateStr) {
+            if (dateStr) {
+                _kalendarSelDate = dateStr;
+                _kalendarMonth = parseInt(dateStr.substring(5,7)) - 1;
+                _kalendarYear = parseInt(dateStr.substring(0,4));
+            }
+            var inner = document.getElementById('nastaveniViewerInner');
+            if (inner && inner.closest('#controlNastaveni')) {
+                var vc = document.getElementById('nastaveniViewerContent');
+                if (vc) vc.classList.remove('ev-active');
+                inner.className = '';
+                inner.style.height = '100%';
+                inner.innerHTML = generateKalendarHtml(_kalendarSelDate);
+            }
+        }
+
+        function kalendarPrevMonth() {
+            _kalendarMonth--;
+            if (_kalendarMonth < 0) { _kalendarMonth = 11; _kalendarYear--; }
+            renderKalendar();
+        }
+        function kalendarNextMonth() {
+            _kalendarMonth++;
+            if (_kalendarMonth > 11) { _kalendarMonth = 0; _kalendarYear++; }
+            renderKalendar();
+        }
+        function kalendarVyberDen(day) {
+            var m = String(_kalendarMonth + 1).padStart(2, '0');
+            var d = String(day).padStart(2, '0');
+            _kalendarSelDate = _kalendarYear + '-' + m + '-' + d;
+            // Aktualizovat input v pravém panelu
+            var inp = document.getElementById('datumJednani');
+            if (inp) inp.value = _kalendarSelDate + 'T09:00';
+            renderKalendar(_kalendarSelDate);
         }
 
         // Complete functions
@@ -3757,10 +3998,12 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
 
         var _nastaveniViewerCache = {};
         function switchNastaveniViewerTab(btn, tabName) {
-            document.querySelectorAll('#nastaveniViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
-            btn.classList.add('active');
+            document.querySelectorAll('#nastaveniViewerTabs .viewer-tab').forEach(function(t) { t.classList.remove('active'); });
+            if (btn) btn.classList.add('active');
             var vc = document.getElementById('nastaveniViewerContent');
             var inner = document.getElementById('nastaveniViewerInner');
+            if (!inner) return;
+
             if (tabName === 'prilohy' || tabName === 'dokumentace' || tabName === 'doklady') {
                 vc.classList.add('ev-active');
                 inner.style.height = '100%';
@@ -3768,6 +4011,17 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 renderEmbeddedViewer('nastaveniViewerInner', tabName, 'nas_' + tabName);
                 return;
             }
+
+            if (tabName === 'kalendar') {
+                vc.classList.remove('ev-active');
+                inner.style.height = '100%';
+                inner.className = '';
+                var inp = document.getElementById('datumJednani');
+                var dateVal = inp ? inp.value.substring(0, 10) : _kalendarSelDate;
+                renderKalendar(dateVal);
+                return;
+            }
+
             vc.classList.remove('ev-active');
             inner.style.height = '';
             if (tabName === 'zadost') {
