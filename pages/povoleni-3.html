@@ -892,6 +892,7 @@
         .misto-item:last-child { border-bottom:none; }
         .misto-item:hover { background:#f8f9fa; }
         .misto-item .material-icons-outlined { font-size:18px; color:#5f6368; flex-shrink:0; }
+        @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 
         /* Auto-save */
         .auto-save-indicator { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:#9aa0a6; }
@@ -2044,91 +2045,125 @@
         </div>
     </div>
 
-    <!-- Control Overlay: Výzva k zaplacení správního poplatku (PLNĚ AUTOMATICKÝ) -->
+    <!-- Control Overlay: Výzva k zaplacení správního poplatku -->
     <div class="control-overlay" id="controlPoplatek">
         <div class="control-header">
             <div class="control-header-left">
                 <button class="control-close" onclick="closeControl('controlPoplatek')">
                     <span class="material-icons-outlined">close</span>
                 </button>
-                <h2 class="control-title">
+                <div class="control-title">
                     <span class="material-icons-outlined">payments</span>
-                    Výzva k zaplacení správního poplatku
-                </h2>
+                    Předpis poplatku
+                </div>
             </div>
-            <div style="display:flex;align-items:center;gap:6px;background:#e6f4ea;padding:5px 12px;border-radius:14px;font-size:11px;color:#137333;font-weight:500">
-                <span class="material-icons-outlined" style="font-size:16px">auto_awesome</span>
+            <div style="display:flex;align-items:center;gap:6px;background:#e6f4ea;padding:5px 12px;border-radius:14px;font-size:11px;color:#137333;font-weight:500;">
+                <span class="material-icons-outlined" style="font-size:16px;">auto_awesome</span>
                 Plně automatický dokument
             </div>
         </div>
-        <div class="control-content" style="flex-direction: column; align-items: center; overflow-y: auto; padding: 24px;">
-            <!-- Info banner -->
-            <div style="max-width:620px;width:100%;margin-bottom:20px">
-                <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#e6f4ea;border-radius:8px;margin-bottom:16px">
-                    <span class="material-icons-outlined" style="color:#137333;font-size:22px">check_circle</span>
+        <div class="control-content" style="flex-direction:column;align-items:center;overflow-y:auto;padding:24px;">
+            <!-- Stav odeslaní -->
+            <div id="poplatekOdeslanBanner" style="display:none;max-width:620px;width:100%;margin-bottom:16px;">
+                <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#e6f4ea;border:1px solid #a8d5b5;border-radius:8px;">
+                    <span class="material-icons-outlined" style="color:#137333;font-size:24px;">check_circle</span>
                     <div>
-                        <div style="font-size:13px;font-weight:600;color:#137333">Dokument je plně připraven</div>
-                        <div style="font-size:12px;color:#5f6368;margin-top:1px">Všechna data dostupná ze systému. Žádný vstup úředníka není potřeba.</div>
+                        <div style="font-size:13px;font-weight:600;color:#137333;">Výzva odeslána do datové schránky</div>
+                        <div style="font-size:12px;color:#5f6368;margin-top:2px;">Odesláno do DS uccchjm (Správa železnic, s.o.) · <span id="poplatekCasOdeslani"></span></div>
                     </div>
-                </div>
-
-                <!-- Calculation -->
-                <div style="background:#f8f9fa;border-radius:8px;padding:14px 18px;margin-bottom:16px">
-                    <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#5f6368;margin-bottom:8px">Výpočet poplatku</div>
-                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Druh řízení</span><span style="font-weight:500">Povolení záměru</span></div>
-                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Kategorie stavby</span><span style="font-weight:500">Jednoduchá stavba</span></div>
-                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Položka sazebníku</span><span style="font-weight:500">Pol. 18 odst. 1 písm. a)</span></div>
-                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#5f6368">Základní sazba</span><span style="font-weight:500">5 000 Kč</span></div>
-                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed"><span style="color:#137333">Sleva — Portál stavebníka (20 %, max 1 000 Kč)</span><span style="font-weight:500;color:#137333">− 1 000 Kč</span></div>
-                    <div style="display:flex;justify-content:space-between;padding:8px 0 4px;font-size:15px;border-top:2px solid #202124;margin-top:4px"><span style="font-weight:600">Poplatek k úhradě</span><span style="font-weight:700;color:#004289">4 000 Kč</span></div>
                 </div>
             </div>
 
-            <!-- Paper preview -->
-            <div style="background:white;box-shadow:0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);border-radius:2px;max-width:620px;width:100%;padding:40px 48px;font-family:'Roboto',serif;font-size:11px;line-height:1.6;color:#333">
-                <div style="text-align:center;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #004289">
-                    <div style="font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1px">Dopravní a energetický stavební úřad</div>
-                    <div style="font-size:10px;color:#555;margin-top:2px">Odbor staveb drah · Oddělení Plzeň</div>
-                </div>
-                <div style="display:flex;justify-content:space-between;font-size:10px;color:#555;margin-bottom:20px">
-                    <div><div>Spis. zn.: <strong>SZ DESU/004539/26</strong></div><div>Č.j.: <strong>DESU/121/004594/26</strong></div></div>
-                    <div style="text-align:right"><div>Vyřizuje: <strong>Ing. Kálal</strong></div><div>Datum: <strong>14. 2. 2026</strong></div></div>
-                </div>
-                <div style="text-align:center;font-size:15px;font-weight:700;margin:16px 0;letter-spacing:2px">VÝZVA</div>
-                <div style="text-align:center;font-size:12px;font-weight:500;margin:-8px 0 16px;letter-spacing:1px">K ZAPLACENÍ SPRÁVNÍHO POPLATKU</div>
-
-                <p style="margin-bottom:8px;text-align:justify"><strong>RotaGroup a.s.</strong>, jednající ve věci zmocnění za Industrial Center CR 2 s.r.o. (dále jen „žadatel") dne 11. 6. 2025 podal žádost o povolení záměru:</p>
-                <p style="text-align:center;font-weight:600;font-style:italic;margin:8px 0">„Novostavba RD včetně přípojek"</p>
-                <p style="margin-bottom:8px;text-align:justify">DESÚ vyzývá žadatele, aby do <strong>15 dnů</strong> ode dne doručení této výzvy zaplatil správní poplatek se slevou podle § 9 odst. 6 zákona o správních poplatcích (podání přes Portál stavebníka — 20 %, max 1 000 Kč):</p>
-
-                <div style="text-align:center;font-size:20px;font-weight:700;color:#004289;margin:14px 0;padding:10px;background:#e8f0fe;border-radius:6px">
-                    4 000 Kč
-                    <div style="font-size:11px;font-weight:400;color:#555;margin-top:3px">(slovy: čtyři tisíce korun českých)</div>
-                    <div style="font-size:9px;color:#888;margin-top:2px">Základní sazba 5 000 Kč − sleva 1 000 Kč</div>
+            <div style="max-width:620px;width:100%;margin-bottom:20px;">
+                <!-- Info banner -->
+                <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:#e6f4ea;border-radius:8px;margin-bottom:16px;">
+                    <span class="material-icons-outlined" style="color:#137333;font-size:22px;">check_circle</span>
+                    <div>
+                        <div style="font-size:13px;font-weight:600;color:#137333;">Dokument je plně připraven</div>
+                        <div style="font-size:12px;color:#5f6368;margin-top:1px;">Všechna data načtena ze systému. Žádný vstup úředníka není potřeba.</div>
+                    </div>
                 </div>
 
-                <p style="margin-bottom:8px">Na účet č. <strong>3711-1426011/0710</strong>, VS: <strong>2026000147</strong></p>
-                <div style="text-align:right;margin-top:24px;font-size:10px">
+                <!-- Výpočet -->
+                <div style="background:#f8f9fa;border-radius:8px;padding:14px 18px;margin-bottom:16px;">
+                    <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:#5f6368;margin-bottom:8px;">Výpočet poplatku</div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed;"><span style="color:#5f6368;">Druh řízení</span><span style="font-weight:500;">Povolení záměru</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed;"><span style="color:#5f6368;">Kategorie stavby</span><span style="font-weight:500;">Stavba dráhy (zvláštní kategorie)</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed;"><span style="color:#5f6368;">Položka sazebníku</span><span style="font-weight:500;">Pol. 18 odst. 1 písm. h)</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed;"><span style="color:#5f6368;">Základní sazba</span><span style="font-weight:500;">10 000 Kč</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:12px;border-bottom:1px solid #e8eaed;"><span style="color:#137333;">Sleva — podání přes Portál stavebníka (20 %, max 2 000 Kč)</span><span style="font-weight:500;color:#137333;">− 2 000 Kč</span></div>
+                    <div style="display:flex;justify-content:space-between;padding:8px 0 4px;font-size:15px;border-top:2px solid #202124;margin-top:4px;"><span style="font-weight:600;">Poplatek k úhradě</span><span style="font-weight:700;color:#004289;">8 000 Kč</span></div>
+                </div>
+            </div>
+
+            <!-- Náhled dokumentu -->
+            <div style="background:white;box-shadow:0 1px 3px rgba(60,64,67,.3),0 4px 8px 3px rgba(60,64,67,.15);border-radius:2px;max-width:620px;width:100%;padding:40px 48px;font-family:'Times New Roman',serif;font-size:11px;line-height:1.7;color:#333;">
+                <div style="text-align:center;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #004289;">
+                    <div style="font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1px;font-family:'Roboto',sans-serif;">Dopravní a energetický stavební úřad</div>
+                    <div style="font-size:10px;color:#555;margin-top:2px;font-family:'Roboto',sans-serif;">Odbor staveb drah · Pracoviště Olomouc</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:#555;margin-bottom:20px;font-family:'Roboto',sans-serif;">
+                    <div>
+                        <div>Spis. zn.: <strong>SZ DESU/000612/26</strong></div>
+                        <div>Č.j.: <strong>DESU/000617/26/OSD</strong></div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div>Vyřizuje: <strong>Ing. et Ing. M. Homolová Dubová, Ph.D.</strong></div>
+                        <div>Datum: <strong>8. 1. 2026</strong></div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:16px;font-family:'Roboto',sans-serif;font-size:10px;">
+                    <div style="font-weight:600;">Správa železnic, státní organizace</div>
+                    <div>IČO: 70994234</div>
+                    <div>Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
+                    <div>DS: uccchjm</div>
+                </div>
+
+                <div style="text-align:center;font-size:14px;font-weight:700;margin:20px 0 4px;letter-spacing:1px;font-family:'Roboto',sans-serif;">VÝZVA</div>
+                <div style="text-align:center;font-size:11px;font-weight:600;margin-bottom:20px;letter-spacing:.5px;font-family:'Roboto',sans-serif;">K ZAPLACENÍ SPRÁVNÍHO POPLATKU</div>
+
+                <p style="margin-bottom:10px;text-align:justify;">Dne 6. 1. 2026 podala <strong>Správa železnic, státní organizace</strong> (dále jen „žadatel") prostřednictvím Portálu stavebníka žádost o povolení záměru:</p>
+                <p style="text-align:center;font-weight:600;font-style:italic;margin:10px 0 14px;font-size:12px;">„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</p>
+                <p style="text-align:justify;margin-bottom:10px;">Dopravní a energetický stavební úřad (dále jen „DESÚ") vyzývá žadatele, aby ve lhůtě <strong>15 dnů</strong> ode dne doručení této výzvy zaplatil správní poplatek za podání žádosti o povolení záměru podle položky 18 odst. 1 písm. h) sazebníku správních poplatků, přílohy zákona č. 634/2004 Sb., ve znění pozdějších předpisů, se slevou podle § 9 odst. 6 téhož zákona (podání prostřednictvím Portálu stavebníka, tj. elektronicky — sleva 20 %, nejvýše 2 000 Kč):</p>
+
+                <div style="text-align:center;font-size:22px;font-weight:700;color:#004289;margin:18px 0;padding:12px 20px;background:#e8f0fe;border-radius:6px;font-family:'Roboto',sans-serif;">
+                    8 000 Kč
+                    <div style="font-size:11px;font-weight:400;color:#555;margin-top:4px;">( slovy: <em>osm tisíc korun českých</em> )</div>
+                    <div style="font-size:9px;color:#888;margin-top:3px;">Základní sazba 10 000 Kč − sleva 2 000 Kč</div>
+                </div>
+
+                <p style="margin-bottom:6px;">Poplatek zašlete na účet DESÚ vedený u České národní banky:</p>
+                <div style="background:#f8f9fa;padding:10px 14px;border-radius:6px;font-family:'Roboto',sans-serif;font-size:11px;margin-bottom:14px;">
+                    <div><strong>Číslo účtu:</strong> 3711-1426011/0710</div>
+                    <div><strong>Variabilní symbol:</strong> 2026000612</div>
+                    <div><strong>Konstantní symbol:</strong> 1148</div>
+                </div>
+                <p style="text-align:justify;margin-bottom:16px;font-size:10px;color:#555;">Nebude-li poplatek zaplacen, bude řízení dle § 9 odst. 1 zákona o správních poplatcích zastaveno. Zaplacení poplatku sdělte elektronicky na adresu podatelna@desu.gov.cz nebo prostřednictvím datové schránky vd8aa55.</p>
+
+                <div style="text-align:right;margin-top:28px;font-family:'Roboto',sans-serif;font-size:11px;">
                     <strong>Ing. Jitka Kotásková</strong><br>
-                    ředitelka odboru staveb drah
+                    ředitelka odboru staveb drah<br>
+                    <span style="font-size:9px;color:#888;">(elektronicky podepsáno)</span>
                 </div>
-                <div style="margin-top:16px;padding-top:10px;border-top:1px solid #ddd;font-size:9px;color:#666">
-                    <strong>Obdrží:</strong><br>RotaGroup a.s., IDDS: 78hx792
+                <div style="margin-top:18px;padding-top:10px;border-top:1px solid #ddd;font-size:9px;color:#666;font-family:'Roboto',sans-serif;">
+                    <strong>Obdrží:</strong><br>
+                    Správa železnic, státní organizace, DS: uccchjm
                 </div>
             </div>
         </div>
         <div class="control-form-footer">
-            <div class="control-form-footer-left" style="font-size:11px;color:#5f6368">
-                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">info</span>
-                Dokument vygenerován automaticky ze systémových dat
+            <div class="control-form-footer-left" style="font-size:11px;color:#5f6368;">
+                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">info</span>
+                Dokument vygenerován automaticky · data ze spisu SZ DESU/000612/26
             </div>
             <div class="control-form-footer-right">
                 <button class="btn btn-secondary" onclick="closeControl('controlPoplatek')">Zavřít</button>
-                <button class="btn btn-secondary">
+                <button class="btn btn-secondary" onclick="showToast('PDF otevřeno v novém okně')">
                     <span class="material-icons-outlined">visibility</span>
                     Náhled PDF
                 </button>
-                <button class="btn btn-primary" onclick="completePoplatek()" style="background:#137333">
+                <button class="btn btn-primary" id="btnGeneratPoplatek" onclick="odeslatPoplatek()" style="background:#137333;">
                     <span class="material-icons-outlined">send</span>
                     Generovat a odeslat
                 </button>
@@ -3523,6 +3558,42 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
 
         function completePoplatek() {
             setTimeout(function() { generatePoplatekPDF(); }, 100);
+        }
+
+        function odeslatPoplatek() {
+            // Animace tlačítka
+            var btn = document.getElementById('btnGeneratPoplatek');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-icons-outlined" style="animation:spin 1s linear infinite;">sync</span> Odesílám…';
+            }
+            setTimeout(function() {
+                // Zobraz banner odeslaní uvnitř modálu
+                var banner = document.getElementById('poplatekOdeslanBanner');
+                var cas = document.getElementById('poplatekCasOdeslani');
+                var now = new Date();
+                if (cas) cas.textContent = now.toLocaleDateString('cs-CZ') + ' ' + now.toLocaleTimeString('cs-CZ', {hour:'2-digit', minute:'2-digit'});
+                if (banner) banner.style.display = 'block';
+                // Aktualizuj tlačítko
+                if (btn) {
+                    btn.innerHTML = '<span class="material-icons-outlined">check</span> Odesláno';
+                    btn.style.background = '#137333';
+                }
+                // Označ poplatek jako hotový
+                state.poplatek.done = true;
+                updateUI();
+                // Toast
+                showToast('Výzva k zaplacení poplatku odeslána do DS uccchjm');
+                // Za 2s zavři overlay a přejdi na fázi 2
+                setTimeout(function() {
+                    closeControl('controlPoplatek');
+                    // Scroll na fázi 2 s mírným zpožděním
+                    setTimeout(function() {
+                        var ph2 = document.getElementById('phase2');
+                        if (ph2) ph2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }, 2000);
+            }, 1200);
         }
 
         function generatePoplatekPDF() {
