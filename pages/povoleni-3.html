@@ -2293,6 +2293,14 @@
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Identifikace záměru</span>
                     </div>
+                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-popis',this)">
+                        <div class="ve-si-icon semi"><span class="material-icons-outlined">tune</span></div>
+                        <span class="ve-si-label">Popis záměru</span>
+                    </div>
+                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-vymezeni',this)">
+                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span class="ve-si-label">Vymezení území</span>
+                    </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-ustni',this)">
                         <div class="ve-si-icon semi"><span class="material-icons-outlined">tune</span></div>
                         <span class="ve-si-label">Ústní jednání</span>
@@ -2379,7 +2387,7 @@
                         </div>
                     </div>
 
-                    <!-- Záměr -->
+                    <!-- Záměr — rozšířeno o parcely -->
                     <div class="ve-block auto" id="vyr-zamer" style="margin-top:12px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · záměr</span>
                         <div class="blk-body">
@@ -2387,9 +2395,42 @@
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:11px;margin-top:8px;">
                                 <div><span style="color:#5f6368;">Č. záměru:</span> <strong>Z/2026/1596</strong></div>
                                 <div><span style="color:#5f6368;">Druh stavby:</span> <strong>Vyhrazená stavba — dráha</strong></div>
-                                <div><span style="color:#5f6368;">Místo stavby:</span> <strong>k.ú. Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</strong></div>
                                 <div><span style="color:#5f6368;">Zahájení řízení:</span> <strong>7. 1. 2026</strong></div>
+                                <div><span style="color:#5f6368;">Právní základ:</span> <strong>§ 189 SZ, § 7 zák. č. 266/1994 Sb.</strong></div>
                             </div>
+                            <div style="margin-top:8px;font-size:11px;">
+                                <span style="color:#5f6368;">Umístění stavby:</span> pozemky v k.ú. Doudleby nad Orlicí, k.ú. Záměl, k.ú. Vamberk, k.ú. Kostelec nad Orlicí — trati Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- POPIS ZÁMĚRU (SEMI) — přenos ze žádosti nebo ze STZ -->
+                    <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;">
+                        <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · ze žádosti / STZ</span>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                            <div style="font-size:11px;font-weight:600;color:#1a73e8;text-transform:uppercase;letter-spacing:.4px;">Popis záměru</div>
+                            <div style="display:flex;gap:6px;">
+                                <button onclick="vyrozNacistPopisZadost()" style="font-size:11px;padding:3px 10px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:12px;cursor:pointer;" title="Stručný popis ze žádosti">
+                                    <span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">list_alt</span> Ze žádosti
+                                </button>
+                                <button onclick="vyrozNacistPopisSTZ()" style="font-size:11px;padding:3px 10px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:12px;cursor:pointer;" title="Podrobnější popis ze STZ">
+                                    <span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">description</span> Ze STZ
+                                </button>
+                                <button onclick="openRichEditor({title:'Popis záměru — upravit',targetId:'vyrPopisContent'})" style="font-size:11px;padding:3px 8px;background:transparent;color:#5f6368;border:1px solid #dadce0;border-radius:12px;cursor:pointer;" title="Upravit ručně">
+                                    <span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">edit</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="vyrPopisContent" class="blk-body" style="font-size:11px;line-height:1.7;">
+                            <p style="color:#9aa0a6;font-style:italic;">Klikněte na „Ze žádosti" pro načtení stručného popisu, nebo „Ze STZ" pro podrobnější popis ze souhrnné technické zprávy.</p>
+                        </div>
+                    </div>
+
+                    <!-- VYMEZENÍ ÚZEMÍ (AUTO) -->
+                    <div class="ve-block auto" id="vyr-vymezeni" style="margin-top:12px;">
+                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
+                        <div class="blk-body">
+                            <p><strong>Vymezení území dotčeného vlivem stavby:</strong> Území dotčené vlivem záměru je vymezeno pozemky, na nichž má být záměr realizován, a dále sousedními pozemky. Účastníky řízení jsou vedle stavebníka a dotčených obcí vlastníci pozemků, na nichž má být záměr uskutečněn, jakož i osoby, jejichž vlastnické nebo jiné věcné právo k sousedním stavbám nebo sousedním pozemkům může být přímo dotčeno (§ 190 zákona č. 283/2021 Sb.).</p>
                         </div>
                     </div>
 
@@ -2476,11 +2517,11 @@
                     <div class="ve-props-title">Složení dokumentu</div>
                     <div style="display:flex;gap:2px;margin-bottom:8px;">
                         <div style="flex:9;height:8px;background:#1e8e3e;border-radius:3px 0 0 3px;" title="Auto bloky"></div>
-                        <div style="flex:2;height:8px;background:#1a73e8;" title="Semi-auto bloky"></div>
+                        <div style="flex:3;height:8px;background:#1a73e8;" title="Semi-auto bloky"></div>
                         <div style="flex:1;height:8px;background:#f9ab00;border-radius:0 3px 3px 0;" title="Volné bloky"></div>
                     </div>
                     <div style="font-size:11px;color:#5f6368;display:flex;justify-content:space-between;">
-                        <span>9 auto</span><span>2 semi</span><span>1 volný</span>
+                        <span>11 auto</span><span>3 semi</span><span>1 volný</span>
                     </div>
                 </div>
                 <div class="ve-props-section">
@@ -3452,7 +3493,39 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             element.classList.add('selected');
         }
 
-        // ── Blokový editor: Vyrozumění o zahájení ──
+        // ── Popis záměru — načtení ze žádosti nebo STZ ──
+
+        function vyrozNacistPopisZadost() {
+            var el = document.getElementById('vyrPopisContent');
+            if (!el) return;
+            el.innerHTML = '<p><strong>Předmětem záměru</strong> je oprava a modernizace zabezpečovacích a sdělovacích zařízení v obvodu Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Záměr je členěn na tyto stavební soubory:</p>' +
+                '<div style="margin-top:6px;">' +
+                '<div style="margin-bottom:3px;"><strong>PS 12-01-11</strong> — Doudleby nad Orlicí, staniční zabezpečovací zařízení (SZZ 3. kat.)</div>' +
+                '<div style="margin-bottom:3px;"><strong>PS 11-01-21</strong> — Potštejn – Doudleby nad Orlicí, traťové ZZ (TZZ 3. kat.)</div>' +
+                '<div style="margin-bottom:3px;"><strong>PS 13-01-21</strong> — Doudleby nad Orlicí – Kostelec nad Orlicí, TZZ 3. kat.</div>' +
+                '<div style="margin-bottom:3px;"><strong>PS 14-01-21</strong> — Doudleby nad Orlicí – Vamberk, TZZ 3. kat.</div>' +
+                '<div style="margin-bottom:3px;"><strong>PS 12-02-xx</strong> — sdělovací, rozhlasové, přenosové a elektro zařízení ŽST Doudleby n.O.</div>' +
+                '<div style="margin-bottom:3px;"><strong>SO 12-12-01</strong> — Doudleby nad Orlicí, úprava nástupiště</div>' +
+                '<div style="margin-bottom:3px;"><strong>SO 12-71-01/02</strong> — Doudleby nad Orlicí, výpravní budova — adaptace a úprava elektroinstalace</div>' +
+                '<div style="margin-bottom:3px;"><strong>SO 12-72-01/03</strong> — Doudleby nad Orlicí, nové technologické objekty stavědlové ústředny a trafostanice</div>' +
+                '</div>' +
+                '<p style="margin-top:6px;font-size:11px;color:#5f6368;font-style:italic;">Zdroj: žádost o povolení záměru ze dne 6. 1. 2026, Portál stavebníka</p>';
+        }
+
+        function vyrozNacistPopisSTZ() {
+            var el = document.getElementById('vyrPopisContent');
+            if (!el) return;
+            el.innerHTML = '<p><strong>Předmětem opravných prací</strong> je náhrada a modernizace stávajících prvků zabezpečovacích zařízení v obvodu Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Realizací stavby se nemění parametry trati. Záměr je členěn na tyto stavební soubory:</p>' +
+                '<div style="margin-top:8px;font-size:11px;line-height:1.8;">' +
+                '<p><strong>PS 12-01-11 — Doudleby nad Orlicí, SZZ:</strong> Stávající SZZ 2. kategorie bude nahrazeno novým SZZ 3. kategorie umožňujícím dálkové ovládání. Přejezd P4037 bude osazen PZS 3ZBI. Výhybky č. 1–6, 8–10, A11, 12 budou vybaveny elektromotorickými přestavníky.</p>' +
+                '<p><strong>PS 11-01-21, PS 13-01-21, PS 14-01-21 — TZZ:</strong> V mezistaničních úsecích Potštejn–Doudleby, Doudleby–Kostelec a Doudleby–Vamberk bude zřízeno nové TZZ 3. kategorie (dosud bez TZZ, jízda vlaku zajišťována telefonickým dorozumíváním).</p>' +
+                '<p><strong>PS 12-02-xx — sdělovací a elektro zařízení:</strong> Nová místní kabelizace, IP rozhlas, integrované telekomunikační zařízení (IP zapojovač), systém PZTS, dispečerská řídící technika (DŘT) a dálková diagnostika (DDTS). Napájení nově z hladiny VN 35 kV přes novou trafostanici (stávající příkon 135 kW).</p>' +
+                '<p><strong>SO 12-12-01 — nástupiště:</strong> Prodloužení stávajícího nástupiště u koleje č. 4 o 20 m, demolice přístupového chodníku mezi kolejemi č. 2 a 4.</p>' +
+                '<p><strong>SO 12-71-01/02 — výpravní budova:</strong> Drobné stavební adaptace (místnosti DK, sdělovací ústředna) a nová elektroinstalace v sdělovací ústředně.</p>' +
+                '<p><strong>SO 12-72-01/03 — technologické objekty:</strong> Nový objekt stavědlové ústředny (2× buňka 3×6 m) a nový objekt trafostanice 35/0,4 kV na parcele č. 1550/1, k.ú. Doudleby nad Orlicí.</p>' +
+                '</div>' +
+                '<p style="margin-top:6px;font-size:11px;color:#5f6368;font-style:italic;">Zdroj: B. Souhrnná technická zpráva, Signal Projekt s.r.o., červen 2025</p>';
+        }
 
         function vyrozScrollTo(blockId, navItem) {
             var overlay = document.getElementById('controlVyrozumeni');
