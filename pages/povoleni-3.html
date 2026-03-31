@@ -2216,7 +2216,7 @@
                     <div><strong>Variabilní symbol:</strong> 2026000612</div>
                     <div><strong>Konstantní symbol:</strong> 1148</div>
                 </div>
-                <p style="text-align:justify;margin-bottom:16px;font-size:10px;color:#555;">Nebude-li poplatek zaplacen, bude řízení dle § 9 odst. 1 zákona o správních poplatcích zastaveno. Zaplacení poplatku sdělte elektronicky na adresu podatelna@desu.gov.cz nebo prostřednictvím datové schránky vd8aa55.</p>
+                <p style="text-align:justify;margin-bottom:16px;font-size:10px;color:#555;">Nebude-li poplatek zaplacen, bude řízení dle § 9 odst. 1 zákona o správních poplatcích zastaveno. Zaplacení poplatku sdělte elektronicky na adresu <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a9d9c6cdc8ddccc5c7c8e9cdccdadc87cec6df87cad3">[email&#160;protected]</a> nebo prostřednictvím datové schránky vd8aa55.</p>
 
                 <div style="text-align:right;margin-top:28px;font-family:'Roboto',sans-serif;font-size:11px;">
                     <strong>Ing. Jitka Kotásková</strong><br>
@@ -2280,10 +2280,6 @@
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-spis',this)">
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Spisové údaje</span>
-                    </div>
-                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-adresat',this)">
-                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
-                        <span class="ve-si-label">Adresát</span>
                     </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-vec',this)">
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
@@ -2356,24 +2352,7 @@
                             <div style="text-align:right;">
                                 <div>Vyřizuje: <strong>Ing. et Ing. M. Homolová Dubová, Ph.D.</strong></div>
                                 <div>Tel.: 585 200 611</div>
-                                <div>Datum: <strong id="vyrDatumText">8. 1. 2026</strong></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Adresát -->
-                    <div class="ve-block auto" id="vyr-adresat" style="margin-top:16px;">
-                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · účastníci</span>
-                        <div class="blk-body" style="font-size:12px;">
-                            <div style="font-weight:600;">Správa železnic, státní organizace</div>
-                            <div>IČO: 70994234</div>
-                            <div>Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
-                            <div style="color:#5f6368;margin-top:2px;">zastoupena: Signal Projekt s.r.o., DS: signal01</div>
-                            <div style="margin-top:6px;display:flex;gap:12px;font-size:11px;color:#5f6368;">
-                                <span>+ Městys Doudleby n.O. (obec)</span>
-                                <span>+ Obec Záměl</span>
-                                <span>+ Město Vamberk</span>
-                                <span>+ 5 vlastníků pozemků</span>
+                                <div style="display:flex;align-items:center;gap:6px;">Datum: <input type="date" id="vyrDatumInput" value="2026-01-08" style="border:1px solid #dadce0;border-radius:4px;padding:1px 6px;font-size:11px;font-family:inherit;color:#202124;" onchange="vyrUpdateDatum(this.value)"><span id="vyrDatumFormatted" style="font-size:11px;color:#5f6368;"></span></div>
                             </div>
                         </div>
                     </div>
@@ -2387,7 +2366,7 @@
                         </div>
                     </div>
 
-                    <!-- Záměr — rozšířeno o parcely -->
+                    <!-- Záměr s výčtem pozemků z dokumentu -->
                     <div class="ve-block auto" id="vyr-zamer" style="margin-top:12px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · záměr</span>
                         <div class="blk-body">
@@ -2398,8 +2377,13 @@
                                 <div><span style="color:#5f6368;">Zahájení řízení:</span> <strong>7. 1. 2026</strong></div>
                                 <div><span style="color:#5f6368;">Právní základ:</span> <strong>§ 189 SZ, § 7 zák. č. 266/1994 Sb.</strong></div>
                             </div>
-                            <div style="margin-top:8px;font-size:11px;">
-                                <span style="color:#5f6368;">Umístění stavby:</span> pozemky v k.ú. Doudleby nad Orlicí, k.ú. Záměl, k.ú. Vamberk, k.ú. Kostelec nad Orlicí — trati Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580).
+                            <div style="margin-top:10px;font-size:11px;line-height:1.7;">
+                                <div style="font-weight:600;color:#5f6368;margin-bottom:4px;">Umístění stavby — pozemky dle KN:</div>
+                                <div style="margin-bottom:3px;"><strong>k.ú. Doudleby nad Orlicí:</strong> parc. č. st. 321, st. 916, 139/4, 520/13, 520/14, 1549, 1550/1, 1550/2, 1550/5, 1550/6, 1551, 1552, 1553/2, 1701, 3307, 3376, 3478, 3479, 3481, 3482, 3493, 3509, 3511, 3513, 3514, 3536</div>
+                                <div style="margin-bottom:3px;"><strong>k.ú. Kostelec nad Orlicí:</strong> parc. č. 981/31</div>
+                                <div style="margin-bottom:3px;"><strong>k.ú. Vamberk:</strong> parc. č. st. 541, 1797/3, 1804/1, 1804/12, 1804/13, 2305/1, 2305/2, 2306/3</div>
+                                <div><strong>k.ú. Záměl:</strong> parc. č. 195/3</div>
+                                <div style="margin-top:4px;color:#5f6368;">Trati: Týniště n.O.–Letohrad (km 62,871–66,060) · Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580)</div>
                             </div>
                         </div>
                     </div>
@@ -2408,32 +2392,61 @@
                     <!-- POPIS ZÁMĚRU — sdílený artefakt ze systému -->
                     <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;padding:0;overflow:hidden;">
 
-                        <!-- STAV A: Prázdný -->
+                        <!-- STAV A: Prázdný — split editor Ze žádosti | Ze STZ -->
                         <div id="vyrPopisEmpty" style="padding:14px 16px;">
                             <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
-                            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:10px 12px;background:#fffbea;border:1px dashed #f6b900;border-radius:6px;">
-                                <span class="material-icons-outlined" style="font-size:18px;color:#b06000;flex-shrink:0;margin-top:1px;">warning_amber</span>
-                                <div>
-                                    <div style="font-size:12px;font-weight:600;color:#b06000;">Popis záměru nebyl dosud uložen do systému</div>
-                                    <div style="font-size:11px;color:#7a4200;margin-top:2px;">Popis se použije ve vyrozumění, rozhodnutí a dalších dokumentech. Vytvořte ho níže nebo v <strong>Kontrole žádosti</strong>, kde jsou přímo dostupné podklady (žádost, STZ).</div>
+                            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:8px 12px;background:#fffbea;border:1px dashed #f6b900;border-radius:6px;">
+                                <span class="material-icons-outlined" style="font-size:16px;color:#b06000;flex-shrink:0;margin-top:2px;">warning_amber</span>
+                                <div style="font-size:11px;">
+                                    <span style="font-weight:600;color:#b06000;">Popis záměru nebyl dosud uložen do systému.</span>
+                                    <span style="color:#7a4200;"> Vyberte jeden z textů níže, upravte ho a uložte. Nebo vytvořte popis v <strong>Kontrole žádosti</strong>.</span>
                                 </div>
                             </div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-                                <button onclick="vyrozPopisNacist('zadost')" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
-                                    <span class="material-icons-outlined" style="font-size:15px;">list_alt</span> Ze žádosti (stručně)
-                                </button>
-                                <button onclick="vyrozPopisNacist('stz')" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
-                                    <span class="material-icons-outlined" style="font-size:15px;">description</span> Ze STZ (podrobněji)
-                                </button>
-                            </div>
-                            <textarea id="vyrPopisTA" rows="5" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;line-height:1.6;resize:vertical;outline:none;" placeholder="Nebo napište popis ručně..."></textarea>
-                            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
-                                <button onclick="vyrozPopisUlozit(false)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Text se použije jen v tomto dokumentu, do systému se neuloží">
-                                    <span class="material-icons-outlined" style="font-size:14px;">article</span> Jen do tohoto dokumentu
-                                </button>
-                                <button onclick="vyrozPopisUlozit(true)" class="ve-btn ve-btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Text se uloží do systému a použije se ve všech budoucích dokumentech">
-                                    <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span> Uložit do systému
-                                </button>
+                            <!-- Split editor — stejný vzor jako povoleni-2 -->
+                            <div style="display:flex;gap:10px;margin-bottom:10px;">
+                                <div style="flex:1;border:1px solid #e8eaed;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
+                                    <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;background:#f5f0ff;color:#6200ea;border-bottom:1px solid #e8e0f7;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;">
+                                        <span class="material-icons-outlined" style="font-size:13px;">list_alt</span>Ze žádosti — stručně
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:2px;padding:3px 6px;background:#f8f9fa;border-bottom:1px solid #e8eaed;">
+                                        <button class="split-tb-btn" title="Tučně" onclick="vyrPopisSplitFmt('bold','vyrSplitOrigTA')"><b>B</b></button>
+                                        <button class="split-tb-btn" title="Kurzíva" onclick="vyrPopisSplitFmt('italic','vyrSplitOrigTA')"><i>I</i></button>
+                                        <div class="split-tb-sep"></div>
+                                        <button class="split-tb-btn" title="Odstavec" onclick="vyrPopisSplitFmt('paragraph','vyrSplitOrigTA')">¶</button>
+                                        <button class="split-tb-btn" title="Odrážka" onclick="vyrPopisSplitFmt('bullet','vyrSplitOrigTA')">• —</button>
+                                    </div>
+                                    <textarea id="vyrSplitOrigTA" style="flex:1;resize:none;border:none;outline:none;padding:8px 10px;font-size:11px;line-height:1.6;font-family:inherit;min-height:120px;background:#faf8ff;color:#3d0070;"></textarea>
+                                    <div style="padding:5px 8px;border-top:1px solid #e8eaed;display:flex;gap:5px;">
+                                        <button onclick="vyrPopisEmpty_use('orig',false)" class="popis-split-use-btn" style="background:#f1f3f4;color:#5f6368;border:1px solid #dadce0;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;padding:4px 8px;display:inline-flex;align-items:center;gap:4px;">
+                                            <span class="material-icons-outlined" style="font-size:13px;">article</span>Jen do dok.
+                                        </button>
+                                        <button onclick="vyrPopisEmpty_use('orig',true)" class="popis-split-use-btn use-this" style="background:#137333;color:#fff;border:1px solid #137333;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;padding:4px 8px;display:inline-flex;align-items:center;gap:4px;">
+                                            <span class="material-icons-outlined" style="font-size:13px;">cloud_done</span>Uložit do systému
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="flex:1;border:1px solid #e8eaed;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;">
+                                    <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;background:#f0f6ff;color:#1558d6;border-bottom:1px solid #d2e3fc;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;">
+                                        <span class="material-icons-outlined" id="vyrSplitAiIcon" style="font-size:13px;animation:spin 1s linear infinite;">sync</span>
+                                        <span id="vyrSplitAiLabel">Ze STZ — načítám…</span>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:2px;padding:3px 6px;background:#f8f9fa;border-bottom:1px solid #e8eaed;">
+                                        <button class="split-tb-btn" title="Tučně" onclick="vyrPopisSplitFmt('bold','vyrSplitAiTA')"><b>B</b></button>
+                                        <button class="split-tb-btn" title="Kurzíva" onclick="vyrPopisSplitFmt('italic','vyrSplitAiTA')"><i>I</i></button>
+                                        <div class="split-tb-sep"></div>
+                                        <button class="split-tb-btn" title="Odstavec" onclick="vyrPopisSplitFmt('paragraph','vyrSplitAiTA')">¶</button>
+                                        <button class="split-tb-btn" title="Odrážka" onclick="vyrPopisSplitFmt('bullet','vyrSplitAiTA')">• —</button>
+                                    </div>
+                                    <textarea id="vyrSplitAiTA" style="flex:1;resize:none;border:none;outline:none;padding:8px 10px;font-size:11px;line-height:1.6;font-family:inherit;min-height:120px;background:#f8fbff;color:#202124;"></textarea>
+                                    <div style="padding:5px 8px;border-top:1px solid #e8eaed;display:flex;gap:5px;">
+                                        <button onclick="vyrPopisEmpty_use('ai',false)" class="popis-split-use-btn" style="background:#f1f3f4;color:#5f6368;border:1px solid #dadce0;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;padding:4px 8px;display:inline-flex;align-items:center;gap:4px;">
+                                            <span class="material-icons-outlined" style="font-size:13px;">article</span>Jen do dok.
+                                        </button>
+                                        <button onclick="vyrPopisEmpty_use('ai',true)" class="popis-split-use-btn use-this" style="background:#137333;color:#fff;border:1px solid #137333;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;padding:4px 8px;display:inline-flex;align-items:center;gap:4px;">
+                                            <span class="material-icons-outlined" style="font-size:13px;">cloud_done</span>Uložit do systému
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -2535,15 +2548,37 @@
                             <span class="material-icons-outlined" style="font-size:16px;">edit_note</span>
                             Doplňující pokyny (nepovinné)
                         </div>
+                        <div style="display:flex;align-items:center;gap:2px;padding:4px 8px;background:#fffbf0;border:1px solid #f9e0b0;border-radius:4px 4px 0 0;margin-bottom:-1px;">
+                            <button class="split-tb-btn" title="Tučně" onclick="vyrPoznamkaFmt('bold')"><b>B</b></button>
+                            <button class="split-tb-btn" title="Kurzíva" onclick="vyrPoznamkaFmt('italic')"><i>I</i></button>
+                            <button class="split-tb-btn" title="Podtržení" onclick="vyrPoznamkaFmt('underline')"><u>U</u></button>
+                            <div class="split-tb-sep"></div>
+                            <button class="split-tb-btn" title="Odrážky" onclick="vyrPoznamkaFmt('insertUnorderedList')"><span class="material-icons-outlined" style="font-size:14px;">format_list_bulleted</span></button>
+                            <button class="split-tb-btn" title="Číslovaný seznam" onclick="vyrPoznamkaFmt('insertOrderedList')"><span class="material-icons-outlined" style="font-size:14px;">format_list_numbered</span></button>
+                            <div class="split-tb-sep"></div>
+                            <button class="split-tb-btn" title="Vymazat formátování" onclick="vyrPoznamkaFmt('removeFormat')"><span class="material-icons-outlined" style="font-size:14px;">format_clear</span></button>
+                        </div>
                         <div contenteditable="true" class="vyzva-free-area" id="vyrPoznamkaText"
+                             style="border-radius:0 0 6px 6px;"
                              placeholder="Doplňte případné specifické pokyny, upozornění nebo podmínky pro toto řízení..."></div>
                     </div>
 
-                    <!-- Poučení -->
+                    <!-- Poučení — sbalitelné -->
                     <div class="ve-block auto" id="vyr-pouceni" style="margin-top:16px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
                         <div class="blk-body">
-                            <p><strong>Poučení:</strong> Toto oznámení není rozhodnutím ve smyslu správního řádu. Řízení je zahájeno dnem doručení žádosti splňující zákonné náležitosti. Účastníci řízení jsou oprávněni navrhovat důkazy a činit jiné návrhy po celou dobu řízení až do vydání rozhodnutí, uplatňovat námitky ve lhůtě stanovené v tomto vyrozumění a vyjádřit se k podkladům rozhodnutí.</p>
+                            <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="vyrTogglePouceni()">
+                                <strong>Poučení účastníků řízení</strong>
+                                <span class="material-icons-outlined" id="vyrPouceniChevron" style="font-size:18px;color:#5f6368;transition:transform .2s;">expand_more</span>
+                            </div>
+                            <div id="vyrPouceniBody" style="display:none;margin-top:8px;font-size:11px;line-height:1.7;color:#333;">
+                                <p style="margin-bottom:6px;">Účastníci řízení mohou uplatňovat námitky směřující k hájení jejich procesních práv. Účastník řízení je povinen v námitce uvést důvody podání námitky. Stavební úřad nepřihlíží k námitkám účastníka řízení, které jsou v rozporu s uzavřenou plánovací smlouvou, jejíž smluvní stranou je tento účastník řízení. K námitkám o věcech, o kterých bylo rozhodnuto při vydání územně plánovací dokumentace, se nepřihlíží.</p>
+                                <p style="margin-bottom:6px;">Obec jako účastník řízení může uplatňovat námitky pouze v rozsahu své samostatné působnosti.</p>
+                                <p style="margin-bottom:6px;">Vlastník pozemku nebo stavby, na kterých má být záměr uskutečněn, nebo ten, kdo má jiné věcné právo k tomuto pozemku nebo stavbě, nebo osoby, jejichž vlastnické nebo jiné věcné právo k sousedním stavbám nebo sousedním pozemkům může být rozhodnutím o povolení záměru přímo dotčeno, může jako účastník řízení uplatňovat námitky pouze v rozsahu možného přímého dotčení svých práv.</p>
+                                <p style="margin-bottom:6px;">Stavební úřad po uplynutí lhůty pro uplatnění námitek ukončí dokazování a účastníci řízení budou mít možnost vyjádřit se k podkladům rozhodnutí ve lhůtě <strong>5 dnů</strong> ode dne uplynutí lhůty k uplatnění námitek. Jde o lhůtu pro seznámení se spisem před vydáním rozhodnutí, nikoliv o další lhůtu pro podání námitek.</p>
+                                <p style="margin-bottom:6px;">Účastníci řízení mohou podle § 14 odst. 2 správního řádu namítat podjatost úřední osoby, jakmile se o ní dozví. O námitce rozhodne bezodkladně usnesením služebně nadřízený úřední osoby.</p>
+                                <p>Účastníci řízení mají dále v souladu s § 38 správního řádu právo nahlížet do správního spisu, činit si výpisy a právo na to, aby stavební úřad pořídil kopie spisu nebo jeho částí. Nechá-li se některý z účastníků zastupovat, předloží jeho zástupce písemnou plnou moc.</p>
+                            </div>
                         </div>
                     </div>
 
@@ -3122,7 +3157,7 @@
     </div>
 
 
-    <script>/* jsPDF 2.5.2 inlined */
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>/* jsPDF 2.5.2 inlined */
 /** @license
  *
  * jsPDF - PDF Document creation from JavaScript
@@ -3237,7 +3272,7 @@ function(t){var e={1569:[65152],1570:[65153,65154],1571:[65155,65156],1572:[6515
 function(t){t.autoPrint=function(t){var e;return(t=t||{}).variant=t.variant||"non-conform","javascript"===t.variant?this.addJS("print({});"):(this.internal.events.subscribe("postPutResources",function(){e=this.internal.newObject(),this.internal.out("<<"),this.internal.out("/S /Named"),this.internal.out("/Type /Action"),this.internal.out("/N /Print"),this.internal.out(">>"),this.internal.out("endobj")}),this.internal.events.subscribe("putCatalog",function(){this.internal.out("/OpenAction "+e+" 0 R")})),this}}(R.API),
 /**
    * @license
-   * Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  steven@twelvetone.tv
+   * Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e596918093808ba5919280899380918a8b80cb9193">[email&#160;protected]</a>
    *
    * Licensed under the MIT License.
    * http://opensource.org/licenses/mit-license
@@ -3263,7 +3298,7 @@ function(t){t.loadFile=function(t,e,n){return function(t,e,n){e=!1!==e,n="functi
 /**
    * @license
    * ====================================================================
-   * Copyright (c) 2013 Youssef Beddad, youssef.beddad@gmail.com
+   * Copyright (c) 2013 Youssef Beddad, <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90e9ffe5e3e3f5f6bef2f5f4f4f1f4d0f7fdf1f9fcbef3fffd">[email&#160;protected]</a>
    *
    * Permission is hereby granted, free of charge, to any person obtaining
    * a copy of this software and associated documentation files (the
@@ -3288,7 +3323,7 @@ function(t){t.loadFile=function(t,e,n){return function(t,e,n){e=!1!==e,n="functi
 function(t){t.addJS=function(t){var e,n,r=t;return this.internal.events.subscribe("postPutResources",function(){e=this.internal.newObject(),this.internal.out("<<"),this.internal.out("/Names [(EmbeddedJS) "+(e+1)+" 0 R]"),this.internal.out(">>"),this.internal.out("endobj"),n=this.internal.newObject(),this.internal.out("<<"),this.internal.out("/S /JavaScript"),this.internal.out("/JS ("+r+")"),this.internal.out(">>"),this.internal.out("endobj")}),this.internal.events.subscribe("putCatalog",function(){void 0!==e&&void 0!==n&&this.internal.out("/Names <</JavaScript "+e+" 0 R>>")}),this}}(R.API),
 /**
    * @license
-   * Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  steven@twelvetone.tv
+   * Copyright (c) 2014 Steven Spungin (TwelveTone LLC)  <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="493a3d2c3f2c27093d3e2c253f2c3d26272c673d3f">[email&#160;protected]</a>
    *
    * Licensed under the MIT License.
    * http://opensource.org/licenses/mit-license
@@ -3375,7 +3410,7 @@ function(t){var e=[192,193,194,195,196,197,198,199];t.processJPEG=function(t,n,r
     The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     https://webpjs.appspot.com
-    WebPRiffParser dominikhlbg@gmail.com
+    WebPRiffParser <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1672797b7f787f7d7e7a747156717b777f7a3875797b">[email&#160;protected]</a>
     */
 function(t,e){for(var n=0;n<4;n++)if(t[e+n]!="RIFF".charCodeAt(n))return!0;return!1}(t,e)){for(f(t,e+=4),e+=8;e<t.length;){var o=l(t,e),h=f(t,e+=4);e+=4;var d=h+(1&h);switch(o){case"VP8 ":case"VP8L":void 0===n.frames[r]&&(n.frames[r]={}),(m=n.frames[r]).src_off=i?s:e-8,m.src_size=a+h+8,r++,i&&(i=!1,a=0,s=0);break;case"VP8X":(m=n.header={}).feature_flags=t[e];var p=e+4;m.canvas_width=1+u(t,p),p+=3,m.canvas_height=1+u(t,p),p+=3;break;case"ALPH":i=!0,a=d+8,s=e-8;break;case"ANIM":(m=n.header).bgcolor=f(t,e),p=e+4,m.loop_count=c(t,p),p+=2;break;case"ANMF":var g,m;(m=n.frames[r]={}).offset_x=2*u(t,e),e+=3,m.offset_y=2*u(t,e),e+=3,m.width=1+u(t,e),e+=3,m.height=1+u(t,e),e+=3,m.duration=u(t,e),e+=3,g=t[e++],m.dispose=1&g,m.blend=g>>1&1}"ANMF"!=o&&(e+=d)}return n}}(b,0);v.response=b,v.rgbaoutput=!0,v.dataurl=!1;var w=v.header?v.header:null,y=v.frames?v.frames:null;if(w){w.loop_counter=w.loop_count,d=[w.canvas_height],p=[w.canvas_width];for(var _=0;_<y.length&&0!=y[_].blend;_++);}var x=y[0],A=m.WebPDecodeRGBA(b,x.src_off,x.src_size,p,d);x.rgba=A,x.imgwidth=p[0],x.imgheight=d[0];for(var L=0;L<p[0]*d[0]*4;L++)g[L]=A[L];return this.width=p,this.height=d,this.data=g,this}
 /** ====================================================================
@@ -3501,7 +3536,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
 //# sourceMappingURL=jspdf.umd.min.js.map
 
     </script>
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Stav aplikace
         const state = {
             nastaveni: { done: false, ustniJednani: false, lhutaDny: 15 },
@@ -3616,7 +3651,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             } else {
                 // STAV A: prázdný
                 elEmpty.style.display = 'block';
-                // Vyčistit textarea
+                // Inicializovat split editor
+                vyrPopisEmpty_initSplit();
+                // Vyčistit textarea stavu B
                 var ta = document.getElementById('vyrPopisTA');
                 if (ta) ta.value = '';
             }
@@ -3691,13 +3728,104 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             }
         }
 
-        // Inicializace při otevření controlVyrozumeni
-        document.addEventListener('click', function(e) {
-            var btn = e.target.closest('button, a');
-            if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("controlVyrozumeni")) {
-                setTimeout(function() { vyrPopisRender(); }, 80);
+        // Inicializace při otevření controlVyrozumeni — intercept openControl
+        var _origOpenControl_vyr = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Patch openControl aby volal vyrPopisRender při otevření Vyrozumění
+            if (typeof openControl === 'function') {
+                _origOpenControl_vyr = openControl;
+                openControl = function(id) {
+                    _origOpenControl_vyr(id);
+                    if (id === 'controlVyrozumeni') {
+                        setTimeout(function() { vyrPopisRender(); }, 120);
+                    }
+                };
             }
         });
+        // Fallback: click listener
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('[onclick]');
+            if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("controlVyrozumeni")) {
+                setTimeout(function() { vyrPopisRender(); }, 150);
+            }
+        });
+
+        // ── Datum dokumentu — editovatelný input ──
+        function vyrUpdateDatum(val) {
+            var el = document.getElementById('vyrDatumFormatted');
+            if (!el || !val) return;
+            var d = new Date(val + 'T00:00:00');
+            el.textContent = '→ ' + d.toLocaleDateString('cs-CZ', {day:'numeric', month:'long', year:'numeric'});
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var inp = document.getElementById('vyrDatumInput');
+            if (inp) vyrUpdateDatum(inp.value);
+        });
+
+        // ── Poučení — sbalitelné toggle ──
+        function vyrTogglePouceni() {
+            var body = document.getElementById('vyrPouceniBody');
+            var chev = document.getElementById('vyrPouceniChevron');
+            if (!body) return;
+            var open = body.style.display !== 'none';
+            body.style.display = open ? 'none' : 'block';
+            if (chev) chev.style.transform = open ? '' : 'rotate(180deg)';
+        }
+
+        // ── Doplňující pokyny — toolbar formátování ──
+        function vyrPoznamkaFmt(cmd) {
+            var el = document.getElementById('vyrPoznamkaText');
+            if (el) { el.focus(); document.execCommand(cmd, false, null); }
+        }
+
+        // ── Popis záměru Stav A — split editor ──
+        function vyrPopisSplitFmt(cmd, taId) {
+            var ta = document.getElementById(taId);
+            if (!ta) return;
+            var s = ta.selectionStart, e = ta.selectionEnd, sel = ta.value.substring(s, e);
+            var ins = '';
+            if (cmd === 'bold')      ins = '**' + (sel || 'tučný text') + '**';
+            else if (cmd === 'italic')    ins = '_' + (sel || 'kurzíva') + '_';
+            else if (cmd === 'paragraph') ins = (s === 0 || ta.value[s-1] === '\n' ? '' : '\n') + '\n';
+            else if (cmd === 'bullet')    ins = (s === 0 || ta.value[s-1] === '\n' ? '' : '\n') + '• ' + (sel || '');
+            ta.setRangeText(ins, s, e, 'end');
+            ta.focus();
+        }
+
+        function vyrPopisEmpty_initSplit() {
+            // Naplnit levý panel
+            var origTA = document.getElementById('vyrSplitOrigTA');
+            if (origTA && !origTA.value) origTA.value = POPIS_ZADOST;
+            // Pravý panel — simulace načtení ze STZ
+            var aiTA = document.getElementById('vyrSplitAiTA');
+            var aiIcon = document.getElementById('vyrSplitAiIcon');
+            var aiLabel = document.getElementById('vyrSplitAiLabel');
+            if (aiTA && !aiTA.value) {
+                if (aiIcon) { aiIcon.textContent = 'sync'; aiIcon.style.animation = 'spin 1s linear infinite'; }
+                if (aiLabel) aiLabel.textContent = 'Ze STZ — načítám…';
+                setTimeout(function() {
+                    aiTA.value = POPIS_STZ;
+                    if (aiIcon) { aiIcon.textContent = 'auto_awesome'; aiIcon.style.animation = ''; }
+                    if (aiLabel) aiLabel.textContent = 'Ze STZ — B. Souhrnná technická zpráva';
+                }, 1200);
+            }
+        }
+
+        function vyrPopisEmpty_use(which, doSystem) {
+            var taId = which === 'orig' ? 'vyrSplitOrigTA' : 'vyrSplitAiTA';
+            var ta = document.getElementById(taId);
+            var text = ta ? ta.value.trim() : '';
+            if (!text) { showToast('Textarea je prázdná'); return; }
+            if (doSystem) {
+                _vyrPopisLocalText = null;
+                vyrPopisLSSave(text, which === 'ai' ? 'stz' : 'zadost');
+                showToast('Popis záměru uložen do systému');
+            } else {
+                _vyrPopisLocalText = text;
+                showToast('Popis použit jen pro toto Vyrozumění');
+            }
+            vyrPopisRender();
+        }
 
         function vyrozScrollTo(blockId, navItem) {
             var overlay = document.getElementById('controlVyrozumeni');
@@ -4945,29 +5073,4 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     </div>
     <div class="obdrzí">
         <div class="obdrzí-nadpis">Obdrží:</div>
-        <div>Správa železnic, státní organizace, Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
-        <div>v zastoupení: Signal Projekt s.r.o., IDDS: signal01</div>
-        <div style="margin-top:4pt;">DESÚ — spis</div>
-    </div>
-</div>
-</body>
-</html>`;
-
-            const printWin = window.open('', '_blank', 'width=960,height=780,scrollbars=yes,resizable=yes');
-            if (!printWin) {
-                alert('Prohlížeč zablokoval otevření okna. Povolte prosím pop-up okna pro tuto stránku.');
-                return;
-            }
-            printWin.document.write(docHtml);
-            printWin.document.close();
-            if (action === 'send') {
-                setTimeout(() => { closeVyzvaEditor(); }, 400);
-            }
-        }
-
-
-    </script>
-    <script src="doc-modals.js"></script>
-    <script>initDocModals({ basePath: '../docs/' });</script>
-</body>
-</html>
+        <div>Správa železnic, státní organizace, Dlážděná 1003/7,
