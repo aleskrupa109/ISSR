@@ -2404,25 +2404,88 @@
                         </div>
                     </div>
 
-                    <!-- POPIS ZÁMĚRU (SEMI) — přenos ze žádosti nebo ze STZ -->
-                    <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;">
-                        <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · ze žádosti / STZ</span>
-                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                            <div style="font-size:11px;font-weight:600;color:#1a73e8;text-transform:uppercase;letter-spacing:.4px;">Popis záměru</div>
-                            <div style="display:flex;gap:6px;">
-                                <button onclick="vyrozNacistPopisZadost()" style="font-size:11px;padding:3px 10px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:12px;cursor:pointer;" title="Stručný popis ze žádosti">
-                                    <span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">list_alt</span> Ze žádosti
+                    <!-- POPIS ZÁMĚRU — sdílený artefakt -->
+                    <!-- POPIS ZÁMĚRU — sdílený artefakt ze systému -->
+                    <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;padding:0;overflow:hidden;">
+
+                        <!-- STAV A: Prázdný -->
+                        <div id="vyrPopisEmpty" style="padding:14px 16px;">
+                            <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
+                            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:10px 12px;background:#fffbea;border:1px dashed #f6b900;border-radius:6px;">
+                                <span class="material-icons-outlined" style="font-size:18px;color:#b06000;flex-shrink:0;margin-top:1px;">warning_amber</span>
+                                <div>
+                                    <div style="font-size:12px;font-weight:600;color:#b06000;">Popis záměru nebyl dosud uložen do systému</div>
+                                    <div style="font-size:11px;color:#7a4200;margin-top:2px;">Popis se použije ve vyrozumění, rozhodnutí a dalších dokumentech. Vytvořte ho níže nebo v <strong>Kontrole žádosti</strong>, kde jsou přímo dostupné podklady (žádost, STZ).</div>
+                                </div>
+                            </div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                                <button onclick="vyrozPopisNacist('zadost')" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
+                                    <span class="material-icons-outlined" style="font-size:15px;">list_alt</span> Ze žádosti (stručně)
                                 </button>
-                                <button onclick="vyrozNacistPopisSTZ()" style="font-size:11px;padding:3px 10px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:12px;cursor:pointer;" title="Podrobnější popis ze STZ">
-                                    <span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">description</span> Ze STZ
+                                <button onclick="vyrozPopisNacist('stz')" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
+                                    <span class="material-icons-outlined" style="font-size:15px;">description</span> Ze STZ (podrobněji)
                                 </button>
-                                <button onclick="openRichEditor({title:'Popis záměru — upravit',targetId:'vyrPopisContent'})" style="font-size:11px;padding:3px 8px;background:transparent;color:#5f6368;border:1px solid #dadce0;border-radius:12px;cursor:pointer;" title="Upravit ručně">
-                                    <span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">edit</span>
+                            </div>
+                            <textarea id="vyrPopisTA" rows="5" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;line-height:1.6;resize:vertical;outline:none;" placeholder="Nebo napište popis ručně..."></textarea>
+                            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+                                <button onclick="vyrozPopisUlozit(false)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Text se použije jen v tomto dokumentu, do systému se neuloží">
+                                    <span class="material-icons-outlined" style="font-size:14px;">article</span> Jen do tohoto dokumentu
+                                </button>
+                                <button onclick="vyrozPopisUlozit(true)" class="ve-btn ve-btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Text se uloží do systému a použije se ve všech budoucích dokumentech">
+                                    <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span> Uložit do systému
                                 </button>
                             </div>
                         </div>
-                        <div id="vyrPopisContent" class="blk-body" style="font-size:11px;line-height:1.7;">
-                            <p style="color:#9aa0a6;font-style:italic;">Klikněte na „Ze žádosti" pro načtení stručného popisu, nebo „Ze STZ" pro podrobnější popis ze souhrnné technické zprávy.</p>
+
+                        <!-- STAV B: Editace uloženého textu -->
+                        <div id="vyrPopisEditor" style="display:none;">
+                            <div style="padding:10px 16px 0;display:flex;align-items:center;justify-content:space-between;">
+                                <div style="font-size:11px;font-weight:600;color:#1a73e8;text-transform:uppercase;letter-spacing:.4px;">Popis záměru — editace</div>
+                                <div style="display:flex;gap:6px;">
+                                    <button onclick="vyrozPopisNacist('zadost')" style="font-size:11px;padding:3px 9px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:4px;">
+                                        <span class="material-icons-outlined" style="font-size:12px;">list_alt</span>Ze žádosti
+                                    </button>
+                                    <button onclick="vyrozPopisNacist('stz')" style="font-size:11px;padding:3px 9px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:4px;">
+                                        <span class="material-icons-outlined" style="font-size:12px;">description</span>Ze STZ
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea id="vyrPopisEditTA" rows="6" style="width:100%;box-sizing:border-box;padding:10px 16px;border:none;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;font-family:inherit;font-size:12px;line-height:1.7;color:#202124;resize:vertical;outline:none;margin-top:8px;background:#f0f6ff;"></textarea>
+                            <div style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:#f8f9fa;gap:8px;flex-wrap:wrap;">
+                                <button onclick="vyrozPopisZrusitEdit()" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;">Zrušit</button>
+                                <div style="display:flex;gap:8px;">
+                                    <button onclick="vyrozPopisUlozit(false)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Jen do tohoto dokumentu, systém se nemění">
+                                        <span class="material-icons-outlined" style="font-size:14px;">article</span> Jen do tohoto dokumentu
+                                    </button>
+                                    <button onclick="vyrozPopisUlozit(true)" class="ve-btn ve-btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Přepíše kanonický text v systému">
+                                        <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span> Uložit do systému
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STAV C: Zobrazení uloženého textu -->
+                        <div id="vyrPopisSaved" style="display:none;padding:14px 16px;">
+                            <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
+                            <div id="vyrPopisSavedMeta" style="font-size:10px;color:#5f6368;margin-bottom:8px;display:flex;align-items:center;gap:5px;"></div>
+                            <div id="vyrPopisSavedText" class="blk-body" style="font-size:12px;line-height:1.7;white-space:pre-wrap;"></div>
+                            <div style="margin-top:10px;position:relative;display:inline-block;">
+                                <button onclick="vyrozPopisToggleMenu(event)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:5px 12px;border-radius:6px;display:flex;align-items:center;gap:5px;">
+                                    <span class="material-icons-outlined" style="font-size:15px;">edit</span>
+                                    Upravit
+                                    <span class="material-icons-outlined" style="font-size:14px;">expand_more</span>
+                                </button>
+                                <div id="vyrPopisMenu" style="display:none;position:absolute;left:0;top:calc(100% + 4px);min-width:280px;background:#fff;border:1px solid #dadce0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:200;overflow:hidden;">
+                                    <div onclick="vyrozPopisSpustitEdit(false)" style="padding:11px 14px;cursor:pointer;font-size:12px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid #f0f0f0;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">
+                                        <span class="material-icons-outlined" style="font-size:17px;color:#5f6368;margin-top:1px;flex-shrink:0;">article</span>
+                                        <div><div style="font-weight:500;color:#202124;">Jen do tohoto dokumentu</div><div style="font-size:11px;color:#5f6368;margin-top:2px;">Kanonický text v systému zůstane nezměněn.</div></div>
+                                    </div>
+                                    <div onclick="vyrozPopisSpustitEdit(true)" style="padding:11px 14px;cursor:pointer;font-size:12px;display:flex;align-items:flex-start;gap:10px;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">
+                                        <span class="material-icons-outlined" style="font-size:17px;color:#1a73e8;margin-top:1px;flex-shrink:0;">cloud_done</span>
+                                        <div><div style="font-weight:500;color:#1a73e8;">Upravit a uložit do systému</div><div style="font-size:11px;color:#5f6368;margin-top:2px;">Přepíše kanonický text — projeví se ve všech budoucích dokumentech.</div></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -3493,39 +3556,148 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             element.classList.add('selected');
         }
 
-        // ── Popis záměru — načtení ze žádosti nebo STZ ──
+        // ── Sdílený popis stavby — localStorage ──
+        var POPIS_KEY = 'issr_popis_000612';
+        var _vyrPopisScopeGlobal = true;  // true = uložit do systému, false = jen lokálně
+        var _vyrPopisLocalText   = null;  // text platný jen pro tento dokument
 
-        function vyrozNacistPopisZadost() {
-            var el = document.getElementById('vyrPopisContent');
-            if (!el) return;
-            el.innerHTML = '<p><strong>Předmětem záměru</strong> je oprava a modernizace zabezpečovacích a sdělovacích zařízení v obvodu Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Záměr je členěn na tyto stavební soubory:</p>' +
-                '<div style="margin-top:6px;">' +
-                '<div style="margin-bottom:3px;"><strong>PS 12-01-11</strong> — Doudleby nad Orlicí, staniční zabezpečovací zařízení (SZZ 3. kat.)</div>' +
-                '<div style="margin-bottom:3px;"><strong>PS 11-01-21</strong> — Potštejn – Doudleby nad Orlicí, traťové ZZ (TZZ 3. kat.)</div>' +
-                '<div style="margin-bottom:3px;"><strong>PS 13-01-21</strong> — Doudleby nad Orlicí – Kostelec nad Orlicí, TZZ 3. kat.</div>' +
-                '<div style="margin-bottom:3px;"><strong>PS 14-01-21</strong> — Doudleby nad Orlicí – Vamberk, TZZ 3. kat.</div>' +
-                '<div style="margin-bottom:3px;"><strong>PS 12-02-xx</strong> — sdělovací, rozhlasové, přenosové a elektro zařízení ŽST Doudleby n.O.</div>' +
-                '<div style="margin-bottom:3px;"><strong>SO 12-12-01</strong> — Doudleby nad Orlicí, úprava nástupiště</div>' +
-                '<div style="margin-bottom:3px;"><strong>SO 12-71-01/02</strong> — Doudleby nad Orlicí, výpravní budova — adaptace a úprava elektroinstalace</div>' +
-                '<div style="margin-bottom:3px;"><strong>SO 12-72-01/03</strong> — Doudleby nad Orlicí, nové technologické objekty stavědlové ústředny a trafostanice</div>' +
-                '</div>' +
-                '<p style="margin-top:6px;font-size:11px;color:#5f6368;font-style:italic;">Zdroj: žádost o povolení záměru ze dne 6. 1. 2026, Portál stavebníka</p>';
+        var POPIS_ZADOST = 'Předmětem záměru je oprava a modernizace zabezpečovacích zařízení v obvodu Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Záměr zahrnuje tyto stavební soubory:\n\nPS 12-01-11 — Doudleby nad Orlicí, staniční zabezpečovací zařízení (SZZ 3. kat.)\nPS 11-01-21 — Potštejn – Doudleby nad Orlicí, traťové ZZ (TZZ 3. kat.)\nPS 13-01-21 — Doudleby nad Orlicí – Kostelec nad Orlicí, TZZ 3. kat.\nPS 14-01-21 — Doudleby nad Orlicí – Vamberk, TZZ 3. kat.\nPS 12-02-xx — sdělovací, rozhlasové, přenosové a elektro zařízení ŽST Doudleby n.O.\nSO 12-12-01 — Doudleby nad Orlicí, úprava nástupiště\nSO 12-71-01/02 — výpravní budova, adaptace a elektroinstalace\nSO 12-72-01/03 — nové technologické objekty SÚ a trafostanice\n\nZdroj: žádost o povolení záměru ze dne 6. 1. 2026';
+
+        var POPIS_STZ = 'Předmětem opravných prací je náhrada a modernizace stávajících prvků zabezpečovacích zařízení na železniční trati Týniště nad Orlicí – Letohrad a na trati Doudleby nad Orlicí – Rokytnice v Orlických horách, v obvodu stanic Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Realizací stavby se nemění parametry trati.\n\nStávající staniční zabezpečovací zařízení 2. kategorie v ŽST Doudleby nad Orlicí bude nahrazeno novým SZZ 3. kategorie s přípravou pro dálkové ovládání. V mezistaničních úsecích Potštejn–Doudleby, Doudleby–Kostelec a Doudleby–Vamberk bude zřízeno nové traťové zabezpečovací zařízení 3. kategorie (dosud bez TZZ).\n\nSoučástí stavby je rovněž modernizace sdělovacích, telekomunikačních a dispečerských systémů, výstavba nových technologických objektů (stavědlová ústředna, trafostanice 35/0,4 kV) a drobné úpravy nástupišť a výpravní budovy. Stavba je umístěna na drážních pozemcích v k.ú. Doudleby nad Orlicí, Záměl, Vamberk a Kostelec nad Orlicí.\n\nZdroj: B. Souhrnná technická zpráva, Signal Projekt s.r.o., červen 2025';
+
+        function vyrPopisLS() {
+            try { return JSON.parse(localStorage.getItem(POPIS_KEY)) || null; } catch(e) { return null; }
+        }
+        function vyrPopisLSSave(text, zdroj) {
+            var ex = vyrPopisLS();
+            var now = new Date().toISOString();
+            try { localStorage.setItem(POPIS_KEY, JSON.stringify({
+                text: text, zdroj: zdroj || 'manual',
+                vytvoreno: ex ? ex.vytvoreno : now,
+                upraveno: now, upraveno_v: 'Vyrozumění o zahájení řízení'
+            })); } catch(e) {}
+        }
+        function vyrPopisFormatDatum(iso) {
+            if (!iso) return '';
+            var d = new Date(iso);
+            return d.toLocaleDateString('cs-CZ') + ' · ' + d.toLocaleTimeString('cs-CZ', {hour:'2-digit', minute:'2-digit'});
         }
 
-        function vyrozNacistPopisSTZ() {
-            var el = document.getElementById('vyrPopisContent');
-            if (!el) return;
-            el.innerHTML = '<p><strong>Předmětem opravných prací</strong> je náhrada a modernizace stávajících prvků zabezpečovacích zařízení v obvodu Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk. Realizací stavby se nemění parametry trati. Záměr je členěn na tyto stavební soubory:</p>' +
-                '<div style="margin-top:8px;font-size:11px;line-height:1.8;">' +
-                '<p><strong>PS 12-01-11 — Doudleby nad Orlicí, SZZ:</strong> Stávající SZZ 2. kategorie bude nahrazeno novým SZZ 3. kategorie umožňujícím dálkové ovládání. Přejezd P4037 bude osazen PZS 3ZBI. Výhybky č. 1–6, 8–10, A11, 12 budou vybaveny elektromotorickými přestavníky.</p>' +
-                '<p><strong>PS 11-01-21, PS 13-01-21, PS 14-01-21 — TZZ:</strong> V mezistaničních úsecích Potštejn–Doudleby, Doudleby–Kostelec a Doudleby–Vamberk bude zřízeno nové TZZ 3. kategorie (dosud bez TZZ, jízda vlaku zajišťována telefonickým dorozumíváním).</p>' +
-                '<p><strong>PS 12-02-xx — sdělovací a elektro zařízení:</strong> Nová místní kabelizace, IP rozhlas, integrované telekomunikační zařízení (IP zapojovač), systém PZTS, dispečerská řídící technika (DŘT) a dálková diagnostika (DDTS). Napájení nově z hladiny VN 35 kV přes novou trafostanici (stávající příkon 135 kW).</p>' +
-                '<p><strong>SO 12-12-01 — nástupiště:</strong> Prodloužení stávajícího nástupiště u koleje č. 4 o 20 m, demolice přístupového chodníku mezi kolejemi č. 2 a 4.</p>' +
-                '<p><strong>SO 12-71-01/02 — výpravní budova:</strong> Drobné stavební adaptace (místnosti DK, sdělovací ústředna) a nová elektroinstalace v sdělovací ústředně.</p>' +
-                '<p><strong>SO 12-72-01/03 — technologické objekty:</strong> Nový objekt stavědlové ústředny (2× buňka 3×6 m) a nový objekt trafostanice 35/0,4 kV na parcele č. 1550/1, k.ú. Doudleby nad Orlicí.</p>' +
-                '</div>' +
-                '<p style="margin-top:6px;font-size:11px;color:#5f6368;font-style:italic;">Zdroj: B. Souhrnná technická zpráva, Signal Projekt s.r.o., červen 2025</p>';
+        // Hlavní funkce pro vykreslení stavu bloku
+        function vyrPopisRender() {
+            var rec  = vyrPopisLS();
+            var text = _vyrPopisLocalText !== null ? _vyrPopisLocalText : (rec ? rec.text : null);
+
+            var elEmpty  = document.getElementById('vyrPopisEmpty');
+            var elEditor = document.getElementById('vyrPopisEditor');
+            var elSaved  = document.getElementById('vyrPopisSaved');
+            if (!elEmpty) return;
+
+            // Skrýt vše, pak zobrazit správný stav
+            elEmpty.style.display = 'none';
+            elEditor.style.display = 'none';
+            elSaved.style.display = 'none';
+
+            if (text && text.trim()) {
+                // STAV C: zobrazení
+                elSaved.style.display = 'block';
+                var metaEl = document.getElementById('vyrPopisSavedMeta');
+                var textEl = document.getElementById('vyrPopisSavedText');
+                if (textEl) textEl.textContent = text;
+                if (metaEl) {
+                    if (_vyrPopisLocalText !== null) {
+                        metaEl.innerHTML = '<span style="background:#fef7e0;color:#b06000;border:1px solid #f6b900;padding:2px 8px;border-radius:10px;font-size:10px;">● Upraveno jen pro tento dokument</span>';
+                    } else if (rec && rec.upraveno) {
+                        var zdrojLabel = rec.zdroj === 'stz' ? 'STZ' : (rec.zdroj === 'zadost' ? 'žádost' : 'ručně');
+                        metaEl.innerHTML = '<span class="material-icons-outlined" style="font-size:13px;color:#137333;">cloud_done</span>' +
+                            '<span>Uloženo ' + vyrPopisFormatDatum(rec.upraveno) + ' · zdroj: ' + zdrojLabel + ' · ' + (rec.upraveno_v || '') + '</span>';
+                    }
+                }
+            } else {
+                // STAV A: prázdný
+                elEmpty.style.display = 'block';
+                // Vyčistit textarea
+                var ta = document.getElementById('vyrPopisTA');
+                if (ta) ta.value = '';
+            }
         }
+
+        // Načíst text ze zdroje do aktivního textarea
+        function vyrozPopisNacist(zdroj) {
+            var text = zdroj === 'stz' ? POPIS_STZ : POPIS_ZADOST;
+            // Najít aktivní textarea
+            var editorShown = document.getElementById('vyrPopisEditor') && document.getElementById('vyrPopisEditor').style.display !== 'none';
+            var taId = editorShown ? 'vyrPopisEditTA' : 'vyrPopisTA';
+            var ta = document.getElementById(taId);
+            if (ta) { ta.value = text; ta.focus(); }
+        }
+
+        // Uložit z prázdného stavu (stav A)
+        // Spustit editaci z uloženého stavu (stav C → stav B)
+        function vyrozPopisSpustitEdit(doSystemuDefault) {
+            _vyrPopisScopeGlobal = doSystemuDefault;
+            var rec  = vyrPopisLS();
+            var text = _vyrPopisLocalText !== null ? _vyrPopisLocalText : (rec ? rec.text : '');
+            var elSaved  = document.getElementById('vyrPopisSaved');
+            var elEditor = document.getElementById('vyrPopisEditor');
+            var ta       = document.getElementById('vyrPopisEditTA');
+            var menu     = document.getElementById('vyrPopisMenu');
+            if (menu) menu.style.display = 'none';
+            if (elSaved)  elSaved.style.display  = 'none';
+            if (elEditor) elEditor.style.display = 'block';
+            if (ta) { ta.value = text; ta.focus(); }
+        }
+
+        // Uložit z editačního stavu (stav B)
+        function vyrozPopisUlozit(doSystemu) {
+            // Zjistit odkud voláme — prázdný nebo editor
+            var editorShown = document.getElementById('vyrPopisEditor') && document.getElementById('vyrPopisEditor').style.display !== 'none';
+            var taId = editorShown ? 'vyrPopisEditTA' : 'vyrPopisTA';
+            var ta = document.getElementById(taId);
+            var text = ta ? ta.value.trim() : '';
+            if (!text) { showToast('Zadejte text popisu'); return; }
+            if (doSystemu) {
+                _vyrPopisLocalText = null;
+                vyrPopisLSSave(text, 'manual');
+                showToast('Popis záměru uložen do systému');
+            } else {
+                _vyrPopisLocalText = text;
+                showToast('Popis použit jen pro toto Vyrozumění');
+            }
+            vyrPopisRender();
+        }
+
+        // Zrušit editaci (stav B → stav C nebo A)
+        function vyrozPopisZrusitEdit() {
+            vyrPopisRender();
+        }
+
+        // Toggle dropdown menu
+        function vyrozPopisToggleMenu(e) {
+            if (e) e.stopPropagation();
+            var menu = document.getElementById('vyrPopisMenu');
+            if (!menu) return;
+            var open = menu.style.display === 'block';
+            menu.style.display = open ? 'none' : 'block';
+            if (!open) {
+                setTimeout(function() {
+                    document.addEventListener('click', function closeMenu(ev) {
+                        if (!ev.target.closest('#vyrPopisMenu') && !ev.target.closest('[onclick*="vyrozPopisToggleMenu"]')) {
+                            menu.style.display = 'none';
+                        }
+                        document.removeEventListener('click', closeMenu);
+                    });
+                }, 0);
+            }
+        }
+
+        // Inicializace při otevření controlVyrozumeni
+        document.addEventListener('click', function(e) {
+            var btn = e.target.closest('button, a');
+            if (btn && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("controlVyrozumeni")) {
+                setTimeout(function() { vyrPopisRender(); }, 80);
+            }
+        });
 
         function vyrozScrollTo(blockId, navItem) {
             var overlay = document.getElementById('controlVyrozumeni');
