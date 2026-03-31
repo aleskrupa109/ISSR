@@ -13525,10 +13525,11 @@
                     <div class="popis-stavby-section" id="popisStavbySection" style="margin-top: 16px; border-top: 1px solid #e8eaed; padding-top: 12px;">
                         <!-- Sbalený stav - pouze titulek a ikona -->
                         <div class="popis-stavby-collapsed" id="popisStavbyCollapsed" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" onclick="expandPopisStavby()">
-                            <div style="display: flex; align-items: center; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px; flex-wrap:wrap;">
                                 <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368;">description</span>
                                 <span style="font-size: 13px; font-weight: 500; color: #3c4043;">Popis záměru pro účastníky řízení</span>
                                 <span id="popisStatusBadge" class="popis-status-badge" style="display: none; font-size: 11px; padding: 2px 8px; border-radius: 10px; background: #e8f5e9; color: #137333;">Vyplněno</span>
+                                <span id="popisSavedIndicator" style="display:none;align-items:center;gap:4px;font-size:11px;"></span>
                             </div>
                             <button class="popis-expand-btn" style="display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: transparent; border: 1px solid #dadce0; border-radius: 4px; font-size: 12px; color: #1a73e8; cursor: pointer;" title="Rozbalit popis">
                                 <span class="material-icons-outlined" style="font-size: 16px;">expand_more</span>
@@ -13539,7 +13540,7 @@
                         <div id="popisStavbyEditor" class="popis-editor" style="display: none; margin-top: 12px;">
                             <div class="popis-editor-hint" style="font-size: 11px; color: #5f6368; margin-bottom: 8px; line-height: 1.4;">
                                 <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">info</span>
-                                Popis bude použit v úředních dokumentech (vyrozumění o zahájení řízení, oznámení účastníkům). 
+                                Popis bude použit v úředních dokumentech (vyrozumění o zahájení řízení, rozhodnutí). 
                                 Měl by obsahovat základní informace o stavbě srozumitelné i pro laiky.
                             </div>
                             <textarea id="popisStavbyTextarea" class="popis-textarea" rows="8" 
@@ -13554,11 +13555,11 @@
                                         Načítám z B. Souhrnná technická zpráva...
                                     </span>
                                 </button>
-                                <div style="display: flex; gap: 8px;">
+                                <div style="display: flex; gap: 8px; align-items:center;">
                                     <button class="btn btn-secondary" onclick="cancelPopisStavby()">Zrušit</button>
                                     <button class="btn btn-primary" onclick="savePopisStavby()">
-                                        <span class="material-icons-outlined">check</span>
-                                        Uložit popis
+                                        <span class="material-icons-outlined">cloud_done</span>
+                                        Uložit do systému
                                     </button>
                                 </div>
                             </div>
@@ -18564,6 +18565,29 @@
         }
 
 
+        // ── Sdílený popis stavby — localStorage klíč ──
+        const POPIS_KEY = 'issr_popis_000612';
+
+        function popisLoad() {
+            try { return JSON.parse(localStorage.getItem(POPIS_KEY)) || null; } catch(e) { return null; }
+        }
+        function popisSave(text, zdroj, kde) {
+            const existing = popisLoad();
+            const now = new Date().toISOString();
+            localStorage.setItem(POPIS_KEY, JSON.stringify({
+                text: text,
+                zdroj: zdroj || 'manual',
+                vytvoreno: existing ? existing.vytvoreno : now,
+                upraveno: now,
+                upraveno_v: kde || 'Kontrola žádosti'
+            }));
+        }
+        function popisFormatDatum(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            return d.toLocaleDateString('cs-CZ') + ' ' + d.toLocaleTimeString('cs-CZ', {hour:'2-digit', minute:'2-digit'});
+        }
+
         // Popis stavby - funkce pro rozbalení/sbalení editoru
         let originalPopisText = '';
         
@@ -18574,13 +18598,16 @@
             originalPopisText = textarea.value;
             if (collapsed) collapsed.style.display = 'none';
             if (editor) editor.style.display = 'block';
-            // Skrýt tlačítka záhlaví během editace popisu
             const headerBtns = document.getElementById('rizeniHeaderBtns');
             if (headerBtns) headerBtns.style.display = 'none';
             if (textarea) { textarea.focus(); textarea.setSelectionRange(textarea.value.length, textarea.value.length); }
         }
 
         function savePopisStavby() {
+            const textarea = document.getElementById('popisStavbyTextarea');
+            const text = textarea ? textarea.value.trim() : '';
+            // Uložit do localStorage
+            popisSave(text, 'manual', 'Kontrola žádosti');
             collapsePopisStavby();
             const headerBtns = document.getElementById('rizeniHeaderBtns');
             if (headerBtns) headerBtns.style.display = 'flex';
@@ -18590,6 +18617,8 @@
                 collapsed.style.background = '#e6f4ea';
                 setTimeout(() => { collapsed.style.background = ''; }, 1000);
             }
+            // Aktualizovat indikátor uloženého stavu
+            popisUpdateSavedIndicator();
         }
         
         function collapsePopisStavby() {
@@ -18597,8 +18626,6 @@
             const editor = document.getElementById('popisStavbyEditor');
             const textarea = document.getElementById('popisStavbyTextarea');
             const statusBadge = document.getElementById('popisStatusBadge');
-            
-            // Aktualizovat badge podle obsahu
             if (statusBadge && textarea) {
                 const text = textarea.value.trim();
                 if (text && text.length > 20) {
@@ -18607,8 +18634,6 @@
                     statusBadge.style.display = 'none';
                 }
             }
-            
-            // Skrýt editor, zobrazit sbalený stav
             if (editor) editor.style.display = 'none';
             if (collapsed) collapsed.style.display = 'flex';
         }
@@ -18622,10 +18647,37 @@
             const textSpan = btn ? btn.querySelector('.popis-ai-text') : null;
             if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
             if (textSpan) textSpan.textContent = 'Načíst z dokumentace (AI)';
+            const editorActions = document.querySelector('.popis-editor-actions');
+            if (editorActions) editorActions.style.display = 'flex';
             const headerBtns = document.getElementById('rizeniHeaderBtns');
             if (headerBtns) headerBtns.style.display = 'flex';
             collapsePopisStavby();
         }
+
+        function popisUpdateSavedIndicator() {
+            const data = popisLoad();
+            const ind = document.getElementById('popisSavedIndicator');
+            if (!ind) return;
+            if (data && data.text) {
+                ind.style.display = 'inline-flex';
+                ind.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;color:#137333;">cloud_done</span>' +
+                    '<span style="color:#137333;font-size:11px;">Uloženo do systému · ' + popisFormatDatum(data.upraveno) + '</span>';
+            } else {
+                ind.style.display = 'none';
+            }
+        }
+
+        // Načíst uložený popis při inicializaci
+        document.addEventListener('DOMContentLoaded', function() {
+            const data = popisLoad();
+            if (data && data.text) {
+                const textarea = document.getElementById('popisStavbyTextarea');
+                if (textarea) textarea.value = data.text;
+                const statusBadge = document.getElementById('popisStatusBadge');
+                if (statusBadge) statusBadge.style.display = 'inline';
+            }
+            popisUpdateSavedIndicator();
+        });
         
         function loadPopisFromAI() {
             const btn = document.getElementById('popisAiBtn');
@@ -18753,7 +18805,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             textarea.style.display = '';
             splitEl.remove();
 
-            // Znovu zobrazit AI btn + Uložit popis (tlačítka záhlaví zůstanou schovaná)
+            // Znovu zobrazit AI btn + Uložit popis
             const editorActions = document.querySelector('.popis-editor-actions');
             if (editorActions) editorActions.style.display = 'flex';
 
@@ -18762,7 +18814,20 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
             if (textSpan) textSpan.textContent = 'Načíst z dokumentace (AI)';
 
-            textarea.focus();
+            // Uložit ihned do localStorage se správným zdrojem
+            const zdroj = which === 'ai' ? 'stz' : 'zadost';
+            popisSave(textarea.value.trim(), zdroj, 'Kontrola žádosti');
+            popisUpdateSavedIndicator();
+            // Vizuální potvrzení
+            collapsePopisStavby();
+            const collapsed = document.getElementById('popisStavbyCollapsed');
+            if (collapsed) {
+                collapsed.style.transition = 'background 0.3s';
+                collapsed.style.background = '#e6f4ea';
+                setTimeout(() => { collapsed.style.background = ''; }, 1000);
+            }
+            const headerBtns = document.getElementById('rizeniHeaderBtns');
+            if (headerBtns) headerBtns.style.display = 'flex';
         }
 
         // Escape key closes overlays
