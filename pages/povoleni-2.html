@@ -13536,28 +13536,65 @@
                             </button>
                         </div>
                         
-                        <!-- Rozbalený editor -->
+                        <!-- Rozbalený editor — split hned od začátku -->
                         <div id="popisStavbyEditor" class="popis-editor" style="display: none; margin-top: 12px;">
                             <div class="popis-editor-hint" style="font-size: 11px; color: #5f6368; margin-bottom: 8px; line-height: 1.4;">
                                 <span class="material-icons-outlined" style="font-size: 14px; vertical-align: middle; margin-right: 4px;">info</span>
-                                Popis bude použit v úředních dokumentech (vyrozumění o zahájení řízení, rozhodnutí). 
-                                Měl by obsahovat základní informace o stavbě srozumitelné i pro laiky.
+                                Popis bude použit v úředních dokumentech (vyrozumění, rozhodnutí). Vyberte vhodný text, upravte ho a uložte.
                             </div>
-                            <textarea id="popisStavbyTextarea" class="popis-textarea" rows="8" 
-                                placeholder="Popište stavbu tak, aby účastníci řízení získali základní představu o záměru...">Předmětem záměru je oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí. Stavba zahrnuje výměnu stávajících prvků zabezpečovacího zařízení za nové a opravu sdělovacího zařízení. Realizací nedojde ke změně parametrů trati.</textarea>
-                            
+
+                            <!-- Skrytá textarea — nese finální hodnotu pro savePopisStavby() -->
+                            <textarea id="popisStavbyTextarea" class="popis-textarea" rows="1" style="display:none;"></textarea>
+
+                            <!-- Split editor — Ze žádosti | Ze STZ — vždy viditelný -->
+                            <div class="popis-split-editor" id="popisSplitEditorMain">
+                                <div class="popis-split-block original">
+                                    <div class="popis-split-label">
+                                        <span class="material-icons-outlined">list_alt</span>
+                                        Ze žádosti — stručně
+                                    </div>
+                                    <div class="split-toolbar">
+                                        <button class="split-tb-btn" title="Tučně" onclick="splitFormat('bold','splitMainOrigTA')"><b>B</b></button>
+                                        <button class="split-tb-btn" title="Kurzíva" onclick="splitFormat('italic','splitMainOrigTA')"><i>I</i></button>
+                                        <div class="split-tb-sep"></div>
+                                        <button class="split-tb-btn" title="Nový odstavec" onclick="splitFormat('paragraph','splitMainOrigTA')">¶</button>
+                                        <button class="split-tb-btn" title="Odrážka" onclick="splitFormat('bullet','splitMainOrigTA')">• —</button>
+                                    </div>
+                                    <textarea class="popis-split-textarea" id="splitMainOrigTA" spellcheck="true"></textarea>
+                                    <div class="popis-split-actions">
+                                        <button class="popis-split-use-btn use-this" onclick="popisMainUseSplit('orig')">
+                                            <span class="material-icons-outlined">check</span>
+                                            Použít tento text
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="popis-split-block ai">
+                                    <div class="popis-split-label">
+                                        <span class="material-icons-outlined" id="popisAiLabelIcon">auto_awesome</span>
+                                        <span id="popisAiLabelText">Ze STZ — načítám…</span>
+                                    </div>
+                                    <div class="split-toolbar">
+                                        <button class="split-tb-btn" title="Tučně" onclick="splitFormat('bold','splitMainAiTA')"><b>B</b></button>
+                                        <button class="split-tb-btn" title="Kurzíva" onclick="splitFormat('italic','splitMainAiTA')"><i>I</i></button>
+                                        <div class="split-tb-sep"></div>
+                                        <button class="split-tb-btn" title="Nový odstavec" onclick="splitFormat('paragraph','splitMainAiTA')">¶</button>
+                                        <button class="split-tb-btn" title="Odrážka" onclick="splitFormat('bullet','splitMainAiTA')">• —</button>
+                                    </div>
+                                    <textarea class="popis-split-textarea" id="splitMainAiTA" spellcheck="true" style="background:#f8fbff;color:#202124;"></textarea>
+                                    <div class="popis-split-actions">
+                                        <button class="popis-split-use-btn use-this" onclick="popisMainUseSplit('ai')">
+                                            <span class="material-icons-outlined">check</span>
+                                            Použít tento text
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="popis-editor-actions" style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px; flex-wrap: wrap; gap: 12px;">
-                                <button class="popis-ai-btn" onclick="loadPopisFromAI()" id="popisAiBtn">
-                                    <span class="material-icons-outlined">auto_awesome</span>
-                                    <span class="popis-ai-text">Načíst z dokumentace (AI)</span>
-                                    <span class="popis-ai-loading" style="display: none;">
-                                        <span class="material-icons-outlined spinning">sync</span>
-                                        Načítám z B. Souhrnná technická zpráva...
-                                    </span>
-                                </button>
+                                <div style="font-size:11px;color:#9aa0a6;">Vyberte text tlačítkem „Použít tento text", upravte ho a uložte.</div>
                                 <div style="display: flex; gap: 8px; align-items:center;">
                                     <button class="btn btn-secondary" onclick="cancelPopisStavby()">Zrušit</button>
-                                    <button class="btn btn-primary" onclick="savePopisStavby()">
+                                    <button class="btn btn-primary" onclick="savePopisStavby()" id="btnSavePopis" disabled style="opacity:.5;cursor:not-allowed;">
                                         <span class="material-icons-outlined">cloud_done</span>
                                         Uložit do systému
                                     </button>
@@ -18568,6 +18605,79 @@
         // ── Sdílený popis stavby — localStorage klíč ──
         const POPIS_KEY = 'issr_popis_000612';
 
+        // Text Ze žádosti — stručný
+        const POPIS_TEXT_ZADOST = `Předmětem stavby je oprava zabezpečovacího zařízení, včetně souvisejících sdělovacích zařízení a elektro rozvodů na celostátní jednokolejné neelektrifikované trati č. 021 Týniště nad Orlicí – Letohrad od km 62,871 do km 66,060 a na regionální jednokolejné neelektrifikované trati č. 023 Doudleby nad Orlicí – Rokytnice v Orlických horách od km 0,000 do km 2,580.
+
+Záměr je členěn na tyto stavební soubory:
+PS 12-01-11 – Doudleby nad Orlicí, SZZ
+PS 11-01-21 – Potštejn – Doudleby nad Orlicí, TZZ
+PS 13-01-21 – Doudleby nad Orlicí – Kostelec nad Orlicí, TZZ
+PS 14-01-21 – Doudleby nad Orlicí – Vamberk, TZZ
+PS 12-02-11 – Doudleby nad Orlicí, MK
+PS 12-02-21 – Doudleby nad Orlicí, rozhlasové zařízení
+PS 12-02-31 – Doudleby nad Orlicí, integrovaná telekomunikační zařízení
+PS 12-02-41 – Doudleby nad Orlicí, PZTS
+PS 14-02-51 – Doudleby nad Orlicí – Vamberk, traťový kabel
+PS 12-02-71 – Doudleby nad Orlicí, sdělovací zařízení
+PS 12-02-81 – Doudleby nad Orlicí, přenosový systém
+PS 12-02-01 – Doudleby nad Orlicí, DDTS
+PS 12-03-11 – Doudleby nad Orlicí, dispečerská řídící technika
+PS 12-03-51 – Doudleby nad Orlicí, trafostanice 35/0,4 kV, technologie
+SO 12-12-01 – Doudleby nad Orlicí, nástupiště
+SO 12-71-01 – Doudleby nad Orlicí, výpravní budova – adaptace
+SO 12-71-02 – Doudleby nad Orlicí, výpravní budova – úprava elektroinstalace
+SO 12-72-01 – Doudleby nad Orlicí, technologický objekt SÚ
+SO 12-72-02 – Doudleby nad Orlicí, technologický objekt SÚ – ochrana před bleskem
+SO 12-72-03 – Doudleby nad Orlicí, technologický objekt TS
+SO 12-72-04 – Doudleby nad Orlicí, technologický objekt TS – elektroinstalace
+SO 12-72-05 – Doudleby nad Orlicí, technologický objekt TS – ochrana před bleskem
+SO 12-84-01 – Doudleby nad Orlicí, EOV
+SO 12-86-01 – Doudleby nad Orlicí, přípojka VN-35kV
+SO 12-86-02 – Doudleby nad Orlicí, úprava rozvodů NN a osvětlení
+SO 12-88-01 – Doudleby nad Orlicí, uzemnění technologického objektu`;
+
+        // Text Ze STZ — podrobnější, z reálného dokumentu vyrozumění (č.j. DESU/122/008000/26)
+        const POPIS_TEXT_STZ = `Předmětem stavby je oprava zabezpečovacího zařízení, včetně souvisejících sdělovacích zařízení a elektro rozvodů na celostátní jednokolejné neelektrifikované trati č. 021 Týniště nad Orlicí – Letohrad od km 62,871 do km 66,060 a na regionální jednokolejné neelektrifikované trati č. 023 Doudleby nad Orlicí – Rokytnice v Orlických horách od km 0,000 do km 2,580.
+
+PS 12-01-11 Doudleby nad Orlicí, SZZ
+Bude nahrazeno stávající SZZ 2. kategorie dle TNŽ 34 2620 za SZZ 3. kategorie, které umožní stavění zabezpečených vlakových cest na dopravní koleje č. 1, 1b, 2, 3, 3a, 4. Přečíslované výhybky č. 1, 2, 3, 4, 5, 6, 8, 9, 10, A11, 12 a výkolejky Vk1, Vk4 a AVk1 budou vybaveny elektromotorickými přestavníky. Staniční přejezd P4037 bude zabezpečen novým PZS 3ZBI.
+
+PS 11-01-21 Potštejn – Doudleby nad Orlicí, TZZ
+V mezistaničním úseku není zřízeno TZZ, jízda vlaků je zabezpečena telefonickým dorozumíváním. Prostorový oddíl bude vybaven TZZ 3. kategorie dle TNŽ 34 2620 bez oddílových návěstidel a bez manipulačního místa na trati.
+
+PS 13-01-21 Doudleby nad Orlicí – Kostelec nad Orlicí, TZZ
+V mezistaničním úseku není zřízeno TZZ. Na širé trati se nachází přejezd DK1/P4036 v km 63,126 zabezpečený PZS 3SBI. Prostorový oddíl bude vybaven TZZ 3. kategorie dle TNŽ 34 2620.
+
+PS 14-01-21 Doudleby nad Orlicí – Vamberk, TZZ
+V mezistaničním úseku není zřízeno TZZ. Na širé trati se nachází přejezdy P4119 v km 0,962 a P4120 v km 1,594 zabezpečené pouze výstražnými kříži. Prostorový oddíl bude vybaven TZZ 3. kategorie dle TNŽ 34 2620.
+
+PS 12-02-11 až PS 12-02-81 Sdělovací, telekomunikační a přenosová zařízení
+V rámci stavby bude zřízena nová místní kabelizace, IP rozhlas, nový IP zapojovač s dotykovým terminálem, systém PZTS (poplachový zabezpečovací a tísňový systém) ve sdělovací místnosti, stavědlové ústředně, dopravní kanceláři a čekárně, nový přenosový systém a sdělovací zařízení.
+
+PS 12-02-01 Doudleby nad Orlicí, DDTS
+Budou nově instalovány technologické systémy dálkové diagnostiky (DDTS ŽDC) dle TS 2/2008. Data budou přenášena na integrační servery ED Pardubice a CDP Praha.
+
+PS 12-03-11 Doudleby nad Orlicí, DŘT
+Bude dodán systém dispečerské řídící techniky pro bezpečnou komunikaci mezi elektrodispečinkem a objekty ŽDC.
+
+PS 12-03-51 Doudleby nad Orlicí, trafostanice 35/0,4 kV
+Z důvodu navýšení energetické bilance bude zřízena nová trafostanice a rozvodny VN a NN v novém technologickém objektu.
+
+SO 12-12-01 Doudleby nad Orlicí, nástupiště
+Dojde ke zrušení stávajícího přístupového chodníku mezi kolejemi č. 2 a č. 4, přechodu na koleji č. 2 a k prodloužení stávajícího nástupiště u koleje č. 4 o 20,0 m.
+
+SO 12-71-01/02 Doudleby nad Orlicí, výpravní budova
+Drobné stavební adaptace místností 111, 113, 114 (oprava podlah, omítek, výmalba) a nová elektroinstalace sdělovací ústředny.
+
+SO 12-72-01 až SO 12-72-05 Technologické objekty SÚ a TS
+Nový objekt stavědlové ústředny (2× buňka 3×6 m na ocelovém rámu) a nový objekt trafostanice (6×6 m, monolitický beton, 4 části) na parcele č. 1550/1, k.ú. Doudleby nad Orlicí.
+
+SO 12-84-01 Doudleby nad Orlicí, EOV
+Vybrané výhybky budou osazeny elektrickým ohřevem výměn EOV s napájením ze dvou rozvaděčů REOV na obou zhlavích.
+
+SO 12-86-01/02, SO 12-88-01 Přípojka VN, úprava NN, uzemnění
+Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení vedených z nového objektu trafostanice, nové uzemnění technologických objektů.`;
+
         function popisLoad() {
             try { return JSON.parse(localStorage.getItem(POPIS_KEY)) || null; } catch(e) { return null; }
         }
@@ -18588,7 +18698,7 @@
             return d.toLocaleDateString('cs-CZ') + ' ' + d.toLocaleTimeString('cs-CZ', {hour:'2-digit', minute:'2-digit'});
         }
 
-        // Popis stavby - funkce pro rozbalení/sbalení editoru
+        // Popis stavby — rozbalení editoru
         let originalPopisText = '';
         
         function expandPopisStavby() {
@@ -18600,14 +18710,65 @@
             if (editor) editor.style.display = 'block';
             const headerBtns = document.getElementById('rizeniHeaderBtns');
             if (headerBtns) headerBtns.style.display = 'none';
-            if (textarea) { textarea.focus(); textarea.setSelectionRange(textarea.value.length, textarea.value.length); }
+
+            // Naplnit split editor:
+            // Levý panel: buď uložený text nebo výchozí ze žádosti
+            const saved = popisLoad();
+            const origTA = document.getElementById('splitMainOrigTA');
+            if (origTA) origTA.value = saved && saved.text ? saved.text : POPIS_TEXT_ZADOST;
+
+            // Pravý panel: simulace načtení ze STZ (spinner 1.5s)
+            const aiTA = document.getElementById('splitMainAiTA');
+            const aiLabelIcon = document.getElementById('popisAiLabelIcon');
+            const aiLabelText = document.getElementById('popisAiLabelText');
+            if (aiTA) aiTA.value = '';
+            if (aiLabelIcon) aiLabelIcon.textContent = 'sync';
+            if (aiLabelIcon) aiLabelIcon.style.animation = 'spin 1s linear infinite';
+            if (aiLabelText) aiLabelText.textContent = 'Ze STZ — načítám…';
+
+            setTimeout(() => {
+                if (aiTA) aiTA.value = POPIS_TEXT_STZ;
+                if (aiLabelIcon) { aiLabelIcon.textContent = 'auto_awesome'; aiLabelIcon.style.animation = ''; }
+                if (aiLabelText) aiLabelText.textContent = 'Ze STZ — B. Souhrnná technická zpráva';
+            }, 1500);
+
+            // Reset tlačítka uložit
+            const btn = document.getElementById('btnSavePopis');
+            if (btn) { btn.disabled = true; btn.style.opacity = '.5'; btn.style.cursor = 'not-allowed'; }
+        }
+
+        // Uživatel vybral text z jednoho panelu — přenese se do hidden textarea a aktivuje Uložit
+        function popisMainUseSplit(which) {
+            const srcId = which === 'orig' ? 'splitMainOrigTA' : 'splitMainAiTA';
+            const src = document.getElementById(srcId);
+            const hidden = document.getElementById('popisStavbyTextarea');
+            if (!src || !hidden) return;
+            hidden.value = src.value.trim();
+
+            // Vizuální potvrzení výběru
+            document.querySelectorAll('#popisSplitEditorMain .popis-split-block').forEach(b => b.style.outline = '');
+            const selectedBlock = src.closest('.popis-split-block');
+            if (selectedBlock) selectedBlock.style.outline = '2px solid #137333';
+
+            // Aktivovat tlačítko Uložit
+            const btn = document.getElementById('btnSavePopis');
+            if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer'; }
+
+            showToast('Text vybrán — upravte ho a uložte do systému');
         }
 
         function savePopisStavby() {
             const textarea = document.getElementById('popisStavbyTextarea');
             const text = textarea ? textarea.value.trim() : '';
-            // Uložit do localStorage
-            popisSave(text, 'manual', 'Kontrola žádosti');
+            if (!text) { showToast('Nejdřív vyberte text tlačítkem „Použít tento text"'); return; }
+            // Zjistit zdroj
+            const origTA = document.getElementById('splitMainOrigTA');
+            const aiTA = document.getElementById('splitMainAiTA');
+            let zdroj = 'manual';
+            if (origTA && text === origTA.value.trim()) zdroj = 'zadost';
+            else if (aiTA && text === aiTA.value.trim()) zdroj = 'stz';
+            // Uložit
+            popisSave(text, zdroj, 'Kontrola žádosti');
             collapsePopisStavby();
             const headerBtns = document.getElementById('rizeniHeaderBtns');
             if (headerBtns) headerBtns.style.display = 'flex';
@@ -18615,10 +18776,10 @@
             if (collapsed) {
                 collapsed.style.transition = 'background 0.3s';
                 collapsed.style.background = '#e6f4ea';
-                setTimeout(() => { collapsed.style.background = ''; }, 1000);
+                setTimeout(() => { collapsed.style.background = ''; }, 1200);
             }
-            // Aktualizovat indikátor uloženého stavu
             popisUpdateSavedIndicator();
+            showToast('Popis záměru uložen do systému');
         }
         
         function collapsePopisStavby() {
@@ -18627,28 +18788,17 @@
             const textarea = document.getElementById('popisStavbyTextarea');
             const statusBadge = document.getElementById('popisStatusBadge');
             if (statusBadge && textarea) {
-                const text = textarea.value.trim();
-                if (text && text.length > 20) {
-                    statusBadge.style.display = 'inline';
-                } else {
-                    statusBadge.style.display = 'none';
-                }
+                statusBadge.style.display = textarea.value.trim().length > 20 ? 'inline' : 'none';
             }
             if (editor) editor.style.display = 'none';
-            if (collapsed) collapsed.style.display = 'flex';
+            if (collapsed) { collapsed.style.display = 'flex'; }
+            // Reset obrysů
+            document.querySelectorAll('#popisSplitEditorMain .popis-split-block').forEach(b => b.style.outline = '');
         }
 
         function cancelPopisStavby() {
             const textarea = document.getElementById('popisStavbyTextarea');
-            const splitEl = document.getElementById('poisSplitEditor');
-            if (splitEl) splitEl.remove();
-            if (textarea) { textarea.style.display = ''; textarea.value = originalPopisText; }
-            const btn = document.getElementById('popisAiBtn');
-            const textSpan = btn ? btn.querySelector('.popis-ai-text') : null;
-            if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
-            if (textSpan) textSpan.textContent = 'Načíst z dokumentace (AI)';
-            const editorActions = document.querySelector('.popis-editor-actions');
-            if (editorActions) editorActions.style.display = 'flex';
+            if (textarea) textarea.value = originalPopisText;
             const headerBtns = document.getElementById('rizeniHeaderBtns');
             if (headerBtns) headerBtns.style.display = 'flex';
             collapsePopisStavby();
@@ -18661,7 +18811,7 @@
             if (data && data.text) {
                 ind.style.display = 'inline-flex';
                 ind.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;color:#137333;">cloud_done</span>' +
-                    '<span style="color:#137333;font-size:11px;">Uloženo do systému · ' + popisFormatDatum(data.upraveno) + '</span>';
+                    '<span style="color:#137333;font-size:11px;">Uloženo · ' + popisFormatDatum(data.upraveno) + '</span>';
             } else {
                 ind.style.display = 'none';
             }
@@ -18679,94 +18829,8 @@
             popisUpdateSavedIndicator();
         });
         
-        function loadPopisFromAI() {
-            const btn = document.getElementById('popisAiBtn');
-            const textarea = document.getElementById('popisStavbyTextarea');
-            const textSpan = btn.querySelector('.popis-ai-text');
-            const loadingSpan = btn.querySelector('.popis-ai-loading');
-
-            btn.disabled = true;
-            if (textSpan) textSpan.style.display = 'none';
-            if (loadingSpan) loadingSpan.style.display = 'inline-flex';
-
-            const originalText = textarea ? textarea.value.trim() : '';
-
-            setTimeout(() => {
-                btn.disabled = false;
-                if (textSpan) { textSpan.style.display = 'inline'; textSpan.textContent = 'Obnovit z dokumentace'; }
-                if (loadingSpan) loadingSpan.style.display = 'none';
-                btn.style.background = '#e8f0fe';
-                btn.style.borderColor = '#1a73e8';
-                btn.style.color = '#1558d6';
-
-                if (textarea) textarea.style.display = 'none';
-
-                // Skrýt tlačítka záhlaví (Zrušit/Uložit opravy) dokud pracujeme s popisem
-                const headerBtns = document.getElementById('rizeniHeaderBtns');
-                if (headerBtns) headerBtns.style.display = 'none';
-
-                const prev = document.getElementById('poisSplitEditor');
-                if (prev) prev.remove();
-
-                // Skrýt popis-editor-actions (AI btn + Uložit) při split pohledu
-                const editorActions = document.querySelector('.popis-editor-actions');
-                if (editorActions) editorActions.style.display = 'none';
-
-                const aiPopis = `Předmětem stavebního záměru je oprava a modernizace zabezpečovacích a sdělovacích zařízení na železniční trati Týniště nad Orlicí – Letohrad a na trati Doudleby nad Orlicí – Rokytnice v Orlických horách, v obvodu stanic Potštejn – Doudleby nad Orlicí – Kostelec nad Orlicí – Vamberk.
-
-Stavba zahrnuje výměnu stávajícího staničního zabezpečovacího zařízení 2. kategorie za nové zařízení 3. kategorie s přípravou pro dálkové ovládání, zřízení traťových zabezpečovacích zařízení v mezistaničních úsecích a výstavbu nových technologických objektů (stavědlová ústředna, trafostanice 35/0,4 kV). Dále jsou součástí stavby úpravy nástupišť a výpravní budovy a zřízení nové elektrické přípojky z hladiny VN 35 kV.
-
-Součástí záměru je rovněž modernizace sdělovacích, telekomunikačních a dispečerských systémů včetně dálkové diagnostiky, rozhlasového zařízení a poplachového zabezpečovacího systému. Realizací stavby se nemění parametry ani rozsah stávajícího kolejiště.
-
-Stavba je umístěna na drážních pozemcích v katastrálních územích Doudleby nad Orlicí, Kostelec nad Orlicí, Vamberk a Záměl. Jedná se o stavbu trvalého charakteru, stupeň dokumentace DSP + PDPS.`;
-
-                const toolbar = (taId) => `
-                    <div class="split-toolbar">
-                        <button class="split-tb-btn" title="Tučně" onclick="splitFormat('bold','${taId}')"><b>B</b></button>
-                        <button class="split-tb-btn" title="Kurzíva" onclick="splitFormat('italic','${taId}')"><i>I</i></button>
-                        <span class="split-tb-sep"></span>
-                        <button class="split-tb-btn" title="Nový odstavec" onclick="splitFormat('paragraph','${taId}')">¶</button>
-                        <button class="split-tb-btn" title="Odrážka" onclick="splitFormat('bullet','${taId}')">• —</button>
-                    </div>`;
-
-                const splitEl = document.createElement('div');
-                splitEl.id = 'poisSplitEditor';
-                splitEl.className = 'popis-split-editor';
-                splitEl.innerHTML = `
-                    <div class="popis-split-block original">
-                        <div class="popis-split-label">
-                            <span class="material-icons-outlined">description</span>
-                            Ze žádosti — upravitelný
-                        </div>
-                        ${toolbar('splitOriginalTA')}
-                        <textarea class="popis-split-textarea" id="splitOriginalTA" spellcheck="true">${originalText}</textarea>
-                        <div class="popis-split-actions">
-                            <button class="popis-split-use-btn use-this" onclick="useSplitPopis('original')">
-                                <span class="material-icons-outlined">check</span>
-                                Použít tento text
-                            </button>
-                        </div>
-                    </div>
-                    <div class="popis-split-block ai">
-                        <div class="popis-split-label">
-                            <span class="material-icons-outlined">auto_awesome</span>
-                            Návrh AI z dokumentace — upravitelný
-                        </div>
-                        ${toolbar('splitAiTA')}
-                        <textarea class="popis-split-textarea" id="splitAiTA" spellcheck="true">${aiPopis}</textarea>
-                        <div class="popis-split-actions">
-                            <button class="popis-split-use-btn use-this" onclick="useSplitPopis('ai')">
-                                <span class="material-icons-outlined">check</span>
-                                Použít tento text
-                            </button>
-                        </div>
-                    </div>`;
-
-                if (editorActions) {
-                    editorActions.parentNode.insertBefore(splitEl, editorActions);
-                }
-            }, 2500);
-        }
+        // loadPopisFromAI — nahrazeno přímým split editorem v expandPopisStavby()
+        function loadPopisFromAI() { /* nahrazeno — viz expandPopisStavby */ }
 
         function splitFormat(cmd, taId) {
             const ta = document.getElementById(taId);
@@ -18774,7 +18838,7 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const start = ta.selectionStart, end = ta.selectionEnd;
             const sel = ta.value.substring(start, end);
             let insert = '';
-            if (cmd === 'bold')      insert = `**${sel || 'tučný text'}**`;
+            if (cmd === 'bold')           insert = `**${sel || 'tučný text'}**`;
             else if (cmd === 'italic')    insert = `_${sel || 'kurzíva'}_`;
             else if (cmd === 'paragraph') insert = (start === 0 || ta.value[start-1] === '\n' ? '' : '\n') + '\n';
             else if (cmd === 'bullet')    insert = (start === 0 || ta.value[start-1] === '\n' ? '' : '\n') + `• ${sel || ''}`;
@@ -18787,47 +18851,12 @@ Stavba je umístěna na drážních pozemcích v katastrálních územích Doudl
             const dstId = from === 'original' ? 'splitAiTA' : 'splitOriginalTA';
             const src = document.getElementById(srcId);
             const dst = document.getElementById(dstId);
-            if (src && dst) {
-                dst.value = src.value;
-                dst.focus();
-            }
+            if (src && dst) { dst.value = src.value; dst.focus(); }
         }
 
         function useSplitPopis(which) {
-            const textarea = document.getElementById('popisStavbyTextarea');
-            const splitEl = document.getElementById('poisSplitEditor');
-            if (!textarea || !splitEl) return;
-
-            const srcId = which === 'original' ? 'splitOriginalTA' : 'splitAiTA';
-            const src = document.getElementById(srcId);
-            textarea.value = src ? src.value : '';
-
-            textarea.style.display = '';
-            splitEl.remove();
-
-            // Znovu zobrazit AI btn + Uložit popis
-            const editorActions = document.querySelector('.popis-editor-actions');
-            if (editorActions) editorActions.style.display = 'flex';
-
-            const btn = document.getElementById('popisAiBtn');
-            const textSpan = btn ? btn.querySelector('.popis-ai-text') : null;
-            if (btn) { btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }
-            if (textSpan) textSpan.textContent = 'Načíst z dokumentace (AI)';
-
-            // Uložit ihned do localStorage se správným zdrojem
-            const zdroj = which === 'ai' ? 'stz' : 'zadost';
-            popisSave(textarea.value.trim(), zdroj, 'Kontrola žádosti');
-            popisUpdateSavedIndicator();
-            // Vizuální potvrzení
-            collapsePopisStavby();
-            const collapsed = document.getElementById('popisStavbyCollapsed');
-            if (collapsed) {
-                collapsed.style.transition = 'background 0.3s';
-                collapsed.style.background = '#e6f4ea';
-                setTimeout(() => { collapsed.style.background = ''; }, 1000);
-            }
-            const headerBtns = document.getElementById('rizeniHeaderBtns');
-            if (headerBtns) headerBtns.style.display = 'flex';
+            // Kompatibilita — přesměrovat na nový handler
+            popisMainUseSplit(which === 'original' ? 'orig' : 'ai');
         }
 
         // Escape key closes overlays
