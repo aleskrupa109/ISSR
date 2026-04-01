@@ -1266,43 +1266,6 @@
             width: 100%;
             justify-content: center;
         }
-
-        /* ── Dev shortcuts: rychlý průchod kontrolou ── */
-        .dev-skip-btns {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            display: none;
-            gap: 3px;
-            z-index: 10;
-        }
-        .pipeline-group-card:hover .dev-skip-btns,
-        .pipeline-card-single:hover .dev-skip-btns,
-        .pipeline-phase-conditional:hover .dev-skip-btns {
-            display: flex;
-        }
-        .dev-skip-btn {
-            width: 16px;
-            height: 16px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            color: #adb5bd;
-            font-size: 12px;
-            line-height: 1;
-            transition: color 0.15s;
-        }
-        .dev-skip-btn:hover { color: #137333; }
-        .dev-skip-nok:hover { color: #c62828; }
-        /* Karty musí mít position:relative aby absolute fungoval */
-        .pipeline-group-card  { position: relative; }
-        .pipeline-card-single { position: relative; }
-        .pipeline-phase-conditional { position: relative; }
-
         /* Podmíněná fáze — Zrychlené řízení */
         .pipeline-phase-conditional {
             margin-top: 8px;
@@ -13201,7 +13164,41 @@
                 flex: 1;
             }
         }
-    </style>
+    
+        /* ── Dev shortcuts: rychlý průchod kontrolou ── */
+        .dev-skip-btns {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: none;
+            gap: 3px;
+            z-index: 10;
+        }
+        .pipeline-group-card:hover .dev-skip-btns,
+        .pipeline-card-single:hover .dev-skip-btns,
+        .pipeline-phase-conditional:hover .dev-skip-btns {
+            display: flex;
+        }
+        .dev-skip-btn {
+            width: 16px;
+            height: 16px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            color: #bdc1c6;
+            line-height: 1;
+            transition: color 0.15s;
+        }
+        .dev-skip-btn:hover { color: #137333; }
+        .dev-skip-nok:hover { color: #c62828; }
+        .pipeline-group-card  { position: relative; }
+        .pipeline-card-single { position: relative; }
+        .pipeline-phase-conditional { position: relative; }
+</style>
     <style>
         /* ══════════════════════════════════════════
            SDÍLENÝ RICH EDITOR (openRichEditor)
@@ -13726,9 +13723,9 @@
                     </div>
                     <div class="pipeline-phase-body">
                         <div class="pipeline-card-single phase-locked" id="card-prislusnost">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('prislusnost','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                            <div class="dev-skip-btns">
+                                <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('prislusnost','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                            </div>
                             <div class="pipeline-card-icon">
                                 <span class="material-icons-outlined">account_balance</span>
                             </div>
@@ -13755,9 +13752,9 @@
                     </div>
                     <div class="pipeline-phase-body">
                         <div class="pipeline-card-single phase-locked" id="card-zadost">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('zadost','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                            <div class="dev-skip-btns">
+                                <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('zadost','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                            </div>
                             <div class="pipeline-card-icon">
                                 <span class="material-icons-outlined">fact_check</span>
                             </div>
@@ -13786,9 +13783,9 @@
                         <div class="pipeline-group">
                             <!-- Dokumentace -->
                             <div class="pipeline-group-card phase-locked" id="card-dokumentace">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('dokumentace','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                                <div class="dev-skip-btns">
+                                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('dokumentace','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                                </div>
                                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
                                     <div class="pipeline-card-icon">
                                         <span class="material-icons-outlined">architecture</span>
@@ -13806,9 +13803,9 @@
                             </div>
                             <!-- Pozemky -->
                             <div class="pipeline-group-card phase-locked" id="card-pozemky">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('pozemky','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                                <div class="dev-skip-btns">
+                                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('pozemky','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                                </div>
                                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
                                     <div class="pipeline-card-icon">
                                         <span class="material-icons-outlined">terrain</span>
@@ -13826,9 +13823,9 @@
                             </div>
                             <!-- Soulad s ÚPD -->
                             <div class="pipeline-group-card phase-locked" id="card-up">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('up','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                                <div class="dev-skip-btns">
+                                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('up','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                                </div>
                                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
                                     <div class="pipeline-card-icon">
                                         <span class="material-icons-outlined">map</span>
@@ -13846,9 +13843,9 @@
                             </div>
                             <!-- Dokladová část -->
                             <div class="pipeline-group-card phase-locked" id="card-identifikace">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('identifikace','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                                <div class="dev-skip-btns">
+                                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('identifikace','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                                </div>
                                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
                                     <div class="pipeline-card-icon">
                                         <span class="material-icons-outlined">rule_folder</span>
@@ -13877,9 +13874,9 @@
                     </div>
                     <div class="pipeline-phase-body">
                         <div class="pipeline-card-single phase-locked" id="card-ucastnici">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('ucastnici','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                </div>
+                            <div class="dev-skip-btns">
+                                <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('ucastnici','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                            </div>
                             <div class="pipeline-card-icon">
                                 <span class="material-icons-outlined">groups</span>
                             </div>
@@ -13901,9 +13898,9 @@
 
             <!-- Podmíněná kontrola: Zrychlené řízení -->
             <div class="pipeline-phase-conditional" id="card-zrychlene">
-                <div class="dev-skip-btns" title="Dev: rychlý průchod">
-                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('zrychlene','ok')" title="Splněno — zrychlené řízení"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
-                    <button class="dev-skip-btn dev-skip-nok" onclick="event.stopPropagation();devSkip('zrychlene','warning')" title="Nesplněno — standardní řízení"><span class="material-icons-outlined" style="font-size:12px;">cancel</span></button>
+                <div class="dev-skip-btns">
+                    <button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip('zrychlene','ok')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>
+                    <button class="dev-skip-btn dev-skip-nok" onclick="event.stopPropagation();devSkip('zrychlene','warning')" title="Nesplněno"><span class="material-icons-outlined" style="font-size:12px;">cancel</span></button>
                 </div>
                 <div class="pipeline-conditional-icon">
                     <span class="material-icons-outlined">bolt</span>
@@ -15583,20 +15580,39 @@
             <div class="control-viewer">
                 <div class="viewer-tabs">
                     <div class="viewer-tabs-left">
+                        <button class="viewer-tab active dokumentace-tab-ed" onclick="switchDokumentaceTab(this, 'ed')">
+                            <span class="material-icons-outlined">folder_special</span>
+                            Struktura dokumentace
+                        </button>
+                        <button class="viewer-tab" onclick="switchDokumentaceTab(this, 'zadost')">
+                            <span class="material-icons-outlined">list_alt</span>
+                            Žádost
+                        </button>
+                        <button class="viewer-tab" onclick="switchDokumentaceTab(this, 'prilohy')">
+                            <span class="material-icons-outlined">attach_file</span>
+                            Přílohy
+                            <span class="badge">12</span>
+                        </button>
+                        <button class="viewer-tab" onclick="switchDokumentaceTab(this, 'doklady')">
+                            <span class="material-icons-outlined">fact_check</span>
+                            Dokladová část
+                        </button>
                         <button class="viewer-tab ed-back-btn" id="edBackBtn" onclick="backToEdStructure()" style="display: none;">
                             <span class="material-icons-outlined">arrow_back</span>
                             Zpět do ED
                         </button>
-                        <div class="ed-breadcrumb" id="edBreadcrumb">
+                        <div class="ed-breadcrumb" id="edBreadcrumb" style="display:none;">
                             <span class="material-icons-outlined" style="font-size: 18px; color: #5f6368;">folder_special</span>
-                            <span style="font-weight: 500; color: #202124;">Struktura dokumentace</span>
+                            <span style="font-weight: 500; color: #202124;" id="edBreadcrumbText">Struktura dokumentace</span>
                         </div>
                     </div>
                     <button class="viewer-open-external" onclick="openViewerExternal('dokumentace')" title="Otevřít v novém okně">
                         <span class="material-icons-outlined">open_in_new</span>
                     </button>
                 </div>
-                <div class="viewer-content" style="background: #fff;">
+                <div class="viewer-content" id="dokumentaceViewerContent" style="background: #fff;">
+                    <!-- Embedded / zadost viewer (přepínaný záložkami) -->
+                    <div id="dokumentaceViewerInner" style="height:100%;"></div>
                     <!-- Struktura ED -->
                     <div class="ed-tree-container" id="edTreeContainer" style="padding: 16px;">
                         <div class="ed-tree" id="edTree">
@@ -18176,6 +18192,25 @@
         let _btnAction = 'disabled';
 
         // Control overlay functions
+        // ── Dev: rychlý průchod kontrolou ────────────────────────────
+        function devSkip(key, result) {
+            if (typeof controls === 'undefined' || !controls[key]) return;
+            controls[key].done = true;
+            controls[key].result = result;
+            if (key === 'zrychlene') {
+                if (typeof zrCondState !== 'undefined') {
+                    zrCondState.eia      = result === 'ok' ? true : false;
+                    zrCondState.zopk     = result === 'ok' ? true : false;
+                    zrCondState.souhlasy = result === 'ok' ? true : false;
+                }
+                if (result !== 'ok' && typeof _btnAction !== 'undefined') {
+                    _btnAction = 'standardni';
+                }
+            }
+            if (typeof updateUI === 'function') updateUI();
+        }
+        // ─────────────────────────────────────────────────────────────
+
         function openControl(controlId) {
             document.getElementById(controlId).classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -18187,6 +18222,22 @@
 
             if (controlId === 'controlDokumentace') {
                 setTimeout(updateDocNextStep, 50);
+                setTimeout(() => {
+                    const inner   = document.getElementById('dokumentaceViewerInner');
+                    const edTree  = document.getElementById('edTreeContainer');
+                    const vc      = document.getElementById('dokumentaceViewerContent');
+                    const backBtn = document.getElementById('edBackBtn');
+                    const bread   = document.getElementById('edBreadcrumb');
+                    if (inner)   inner.style.display = 'none';
+                    if (edTree)  edTree.style.display = '';
+                    if (vc)      vc.classList.remove('ev-active');
+                    if (backBtn) backBtn.style.display = 'none';
+                    if (bread)   bread.style.display = 'none';
+                    document.querySelectorAll('#controlDokumentace .viewer-tabs-left .viewer-tab')
+                        .forEach(t => t.classList.remove('active'));
+                    const edTab = document.querySelector('#controlDokumentace .dokumentace-tab-ed');
+                    if (edTab) edTab.classList.add('active');
+                }, 80);
             }
 
             if (controlId === 'controlUP') {
@@ -19103,6 +19154,57 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             mapa:    { icon: 'map', title: 'Mapa parcel', desc: 'Vizuální zobrazení pozemků záměru a sousedů' }
         };
         
+
+        // ── Dokumentace: přepínání záložek vieweru ───────────────────
+        let _dokumentaceCurrentTab = 'ed';
+
+        function switchDokumentaceTab(btn, tabName) {
+            // Aktivovat záložku
+            btn.closest('.viewer-tabs-left').querySelectorAll('.viewer-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            _dokumentaceCurrentTab = tabName;
+
+            const vc    = document.getElementById('dokumentaceViewerContent');
+            const inner = document.getElementById('dokumentaceViewerInner');
+            const edTree = document.getElementById('edTreeContainer');
+            if (!vc || !inner) return;
+
+            if (tabName === 'ed') {
+                // Zobrazit strom ED přímo — skrýt inner
+                inner.style.display = 'none';
+                if (edTree) { edTree.style.display = ''; edTree.style.visibility = 'visible'; }
+                vc.classList.remove('ev-active');
+                const backBtn = document.getElementById('edBackBtn');
+                const breadcrumb = document.getElementById('edBreadcrumb');
+                if (backBtn) backBtn.style.display = 'none';
+                if (breadcrumb) breadcrumb.style.display = 'none';
+                return;
+            }
+
+            // Ostatní záložky: skrýt strom ED, zobrazit inner
+            if (edTree) edTree.style.display = 'none';
+            inner.style.display = '';
+
+            if (tabName === 'prilohy' || tabName === 'doklady') {
+                vc.classList.add('ev-active');
+                inner.style.height = '100%';
+                inner.innerHTML = '';
+                var evType = tabName; // 'prilohy' nebo 'doklady'
+                renderEmbeddedViewer('dokumentaceViewerInner', evType, 'dok_' + tabName);
+            } else {
+                // Žádost
+                vc.classList.remove('ev-active');
+                inner.style.height = '';
+                inner.className = '';
+                if (!window._dokCache) window._dokCache = {};
+                if (!window._dokCache.zadost) {
+                    window._dokCache.zadost = generateZadostDataReadOnly();
+                }
+                inner.className = 'reusable-zadost-data active';
+                inner.innerHTML = window._dokCache.zadost;
+            }
+        }
+        // ─────────────────────────────────────────────────────────────
         function switchViewerTab(button, controlType, docType) {
             // Update active tab button
             const tabs = button.parentElement.querySelectorAll('.viewer-tab');
@@ -22867,7 +22969,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             document.getElementById('edTreeContainer').style.display = 'block';
             document.getElementById('edPreviewContainer').style.display = 'none';
             document.getElementById('edBackBtn').style.display = 'none';
-            document.getElementById('edBreadcrumb').style.display = 'flex';
+            document.getElementById('edBreadcrumb').style.display = 'none';
         }
         
         function switchDocViewerTab(tabEl, view) {
@@ -22880,7 +22982,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 treeContainer.style.display = 'block';
                 previewContainer.style.display = 'none';
                 document.getElementById('edBackBtn').style.display = 'none';
-                document.getElementById('edBreadcrumb').style.display = 'flex';
+                document.getElementById('edBreadcrumb').style.display = 'none';
             } else {
                 treeContainer.style.display = 'none';
                 previewContainer.style.display = 'block';
@@ -24581,23 +24683,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         // ==========================================
         // UPDATE UI
         // ==========================================
-
-        // ── Dev: rychlý průchod kontrolou ────────────────────────────
-        function devSkip(key, result) {
-            if (!controls[key]) return;
-            controls[key].done = true;
-            controls[key].result = result;
-
-            // Speciální logika pro zrychlené řízení
-            if (key === 'zrychlene') {
-                zrCondState.eia    = result === 'ok' ? true : false;
-                zrCondState.zopk   = result === 'ok' ? true : false;
-                zrCondState.souhlasy = result === 'ok' ? true : false;
-                if (result !== 'ok') _btnAction = 'standardni';
-            }
-            updateUI();
-        }
-        // ─────────────────────────────────────────────────────────────
         function updateUI() {
             let completedCount = 0;
             const totalCount = Object.keys(controls).length;
@@ -24688,6 +24773,13 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                     document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
                     _btnAction = 'zahajit';
                 }
+            } else if (ostatniAllDone && ostatniAllOk && !controls.zrychlene.done) {
+                // Ostatní kontroly hotové, zrychlené čeká
+                document.getElementById('summaryTitle').textContent = 'Zkontrolujte podmínky zrychleného řízení';
+                document.getElementById('summaryDesc').textContent = 'Všechny ostatní kontroly jsou dokončeny.';
+                document.getElementById('btnZahajit').disabled = true;
+                document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">bolt</span>Ověřit zrychlené řízení';
+                _btnAction = 'disabled';
             } else if (ostatniAllDone && ostatniAllOk && zrychleneNesplneno) {
                 // Všechny kontroly žádosti v pořádku, ale zrychlené řízení nesplněno → standardní řízení
                 document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení nejsou splněny';
@@ -27768,8 +27860,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         function zahajitRizeni() {
             if (_btnAction === 'zrychlene_pokracovat') {
-                // Přechod na zrychlené řízení — stránka povoleni-short.html
-                window.location.href = 'povoleni-short.html';
+                window.location.href = 'povoleni-3.html';
                 return;
             }
             if (_btnAction === 'postoupit') {
