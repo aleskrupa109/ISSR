@@ -868,6 +868,11 @@
             color: #004289;
         }
 
+
+        .case-badge.liniovy {
+            background: #fce8e6;
+            color: #c5221f;
+        }
         /* Document access bar */
         .document-access-bar {
             background: #f8f9fa !important;
@@ -13351,6 +13356,10 @@
                                 Stavba dráhy
                             </span>
                             <span class="case-badge draft">Kontrola</span>
+                            <span class="case-badge liniovy" id="badgeLiniovy" style="display:none;">
+                                <span class="material-icons-outlined" style="font-size: 14px;">directions_railway</span>
+                                Liniový zákon
+                            </span>
                             <span class="case-badge fast" id="badgeZrychlene" style="display:none;">
                                 <span class="material-icons-outlined" style="font-size: 14px;">bolt</span>
                                 Zrychlené řízení
@@ -16083,6 +16092,23 @@
                         </button>
                     </div>
 
+                    <!-- Liniový zákon -->
+                    <div class="control-section" id="liniovyZakonSection" style="margin-bottom:12px;">
+                        <div class="control-section-title">Zákon o urychlení výstavby (č. 416/2009 Sb.)</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;">
+                            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #137333;border-radius:6px;cursor:pointer;font-size:13px;" id="liniovyNe">
+                                <input type="radio" name="liniovyZakon" value="ne" checked onchange="setLiniovyZakon(false)">
+                                <span class="material-icons-outlined" style="font-size:16px;color:#137333;">check_circle</span>
+                                Nevztahuje se
+                            </label>
+                            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #dadce0;border-radius:6px;cursor:pointer;font-size:13px;" id="liniovyAno">
+                                <input type="radio" name="liniovyZakon" value="ano" onchange="setLiniovyZakon(true)">
+                                <span class="material-icons-outlined" style="font-size:16px;color:#9aa0a6;">cancel</span>
+                                Vztahuje se
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Automatická kontrola -->
                     <div class="auto-check-section" id="autoCheckSection">
                         <div class="auto-check-header">
@@ -18211,6 +18237,41 @@
         }
         // ─────────────────────────────────────────────────────────────
 
+
+        // ── Liniový zákon (č. 416/2009 Sb.) ─────────────────────────
+        let isLiniovyZakon = false;
+
+        function setLiniovyZakon(value) {
+            isLiniovyZakon = value;
+
+            // Badge v hlavičce
+            const badge = document.getElementById('badgeLiniovy');
+            if (badge) badge.style.display = value ? '' : 'none';
+
+            // Zvýraznit vybranou variantu
+            const labelNe  = document.getElementById('liniovyNe');
+            const labelAno = document.getElementById('liniovyAno');
+            if (labelNe)  labelNe.style.borderColor  = value ? '#dadce0' : '#137333';
+            if (labelAno) labelAno.style.borderColor = value ? '#c5221f' : '#dadce0';
+
+            // Aktualizovat URL param
+            const url = new URL(window.location);
+            if (value) url.searchParams.set('liniovy', 'true');
+            else url.searchParams.delete('liniovy');
+            history.replaceState({}, '', url);
+
+            // Přenést do odkazu povoleni-3 (zahajitRizeni)
+            updatePovoleni3Link();
+
+            // Aktualizovat info o doručování v kontrole Osoby
+            if (typeof updateDorucovaniInfo === 'function') updateDorucovaniInfo();
+        }
+
+        function updatePovoleni3Link() {
+            // Při přechodu na povoleni-3 přidat ?liniovy=true do URL
+            // zahajitRizeni() používá window.location.href — zachytíme to dynamicky
+        }
+        // ─────────────────────────────────────────────────────────────
         function openControl(controlId) {
             document.getElementById(controlId).classList.add('open');
             document.body.style.overflow = 'hidden';
@@ -27860,7 +27921,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         function zahajitRizeni() {
             if (_btnAction === 'zrychlene_pokracovat') {
-                window.location.href = 'povoleni-3.html';
+                const p3url = new URL('povoleni-3.html', window.location.href);
+                if (isLiniovyZakon) p3url.searchParams.set('liniovy', 'true');
+                window.location.href = p3url.toString();
                 return;
             }
             if (_btnAction === 'postoupit') {
@@ -27890,7 +27953,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 openVyzvaEditor();
             } else if (_btnAction === 'standardni' || _btnAction === 'zahajit') {
                 // Přechod na krok 3: Projednání (zrychlené i standardní)
-                window.location.href = 'povoleni-3.html';
+                const p3url = new URL('povoleni-3.html', window.location.href);
+                if (isLiniovyZakon) p3url.searchParams.set('liniovy', 'true');
+                window.location.href = p3url.toString();
             }
         }
 
@@ -30176,6 +30241,14 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 document.querySelector(`input[name="typPodani"][value="${typPodaniFromUrl}"]`).checked = true;
             }
             
+            // Načíst liniový zákon z URL
+            const liniovyFromUrl = urlParams.get('liniovy');
+            if (liniovyFromUrl === 'true') {
+                isLiniovyZakon = true;
+                const radioAno = document.querySelector('input[name="liniovyZakon"][value="ano"]');
+                if (radioAno) { radioAno.checked = true; setLiniovyZakon(true); }
+            }
+
             // Načíst rychlost řízení z URL
             const rychlostFromUrl = urlParams.get('rychlost');
             if (rychlostFromUrl && (rychlostFromUrl === 'zrychlene' || rychlostFromUrl === 'standardni')) {
