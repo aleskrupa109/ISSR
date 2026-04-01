@@ -13164,7 +13164,23 @@
                 flex: 1;
             }
         }
-    </style>
+    
+        /* Zrychlené řízení — tlačítko standardního řízení */
+        .btn-warning {
+            background: #e37400;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-warning:hover { background: #c96300; }
+</style>
     <style>
         /* ══════════════════════════════════════════
            SDÍLENÝ RICH EDITOR (openRichEditor)
@@ -13863,6 +13879,10 @@
                     <div class="summary-desc" id="summaryDesc">Po dokončení všech kontrol bude možné řízení zahájit.</div>
                 </div>
                 <div class="summary-actions">
+                    <button class="btn btn-warning" id="btnZahajitStandardni" style="display:none;" onclick="zahajitRizeni()">
+                        <span class="material-icons-outlined">play_circle</span>
+                        Zahájit standardní řízení
+                    </button>
                     <button class="btn btn-primary" id="btnZahajit" disabled onclick="zahajitRizeni()">
                         <span class="material-icons-outlined">play_circle</span>
                         Zahájit řízení
@@ -17592,10 +17612,10 @@
                                 </div>
                                 <div style="display:flex;gap:6px;flex-shrink:0;">
                                     <button class="zr-ano-ne-btn" id="zrEiaNe" onclick="setZrCondition('eia',true)" title="Záměr EIA nevyžaduje — podmínka SPLNĚNA">
-                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ne, nepodléhá
+                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ano, nepodléhá
                                     </button>
                                     <button class="zr-ano-ne-btn zr-ne" id="zrEiaAno" onclick="setZrCondition('eia',false)" title="Záměr EIA vyžaduje — podmínka NESPLNĚNA">
-                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ano, podléhá
+                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ne, podléhá
                                     </button>
                                 </div>
                             </div>
@@ -17610,10 +17630,10 @@
                                 </div>
                                 <div style="display:flex;gap:6px;flex-shrink:0;">
                                     <button class="zr-ano-ne-btn" id="zrZopkNe" onclick="setZrCondition('zopk',true)" title="Výjimka není potřeba — podmínka SPLNĚNA">
-                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ne, nevyžaduje
+                                        <span class="material-icons-outlined" style="font-size:14px;">check</span> Ano, nevyžaduje
                                     </button>
                                     <button class="zr-ano-ne-btn zr-ne" id="zrZopkAno" onclick="setZrCondition('zopk',false)" title="Výjimka je potřeba — podmínka NESPLNĚNA">
-                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ano, vyžaduje
+                                        <span class="material-icons-outlined" style="font-size:14px;">close</span> Ne, vyžaduje
                                     </button>
                                 </div>
                             </div>
@@ -17624,7 +17644,7 @@
                             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
                                 <div class="control-option-content" style="flex:1;">
                                     <div class="control-option-label">Souhlasy všech účastníků řízení jsou doloženy, vyznačeny na situačním výkrese?</div>
-                                    <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">edit</span> § 212 odst. 1 písm. e) — vyberte dokumenty vlevo</div>
+                                    <div class="zr-edit-badge"><span class="material-icons-outlined" style="font-size:12px;">edit</span> § 212 odst. 1 písm. e) — vyberte přílohu vlevo</div>
                                 </div>
                                 <div style="display:flex;gap:6px;flex-shrink:0;">
                                     <button class="zr-ano-ne-btn" id="zrSouhlasyAno" onclick="setZrCondition('souhlasy',true)" title="Souhlasy jsou doloženy — podmínka SPLNĚNA">
@@ -17640,7 +17660,7 @@
                         <div id="souhlasyDocPicker" style="display:none;margin:0 0 8px 0;padding:10px 12px;background:#f8fbff;border:1px solid #d2e3fc;border-radius:6px;">
                             <div style="font-size:11px;font-weight:600;color:#1558d6;margin-bottom:6px;display:flex;align-items:center;gap:5px;">
                                 <span class="material-icons-outlined" style="font-size:14px;">fact_check</span>
-                                Dokumenty se souhlasy — vyberte z dokladové části vlevo
+                                Dokumenty se souhlasy — vyberte z přílohy vlevo
                             </div>
                             <div id="souhlasySelectedDocs">
                                 <div style="font-size:11px;color:#9aa0a6;padding:4px 0;">Žádné dokumenty nevybrány — klikněte na dokument vlevo</div>
@@ -17669,7 +17689,7 @@
                             <span class="material-icons-outlined">save</span>
                             Uložit
                         </button>
-                        <button class="btn btn-primary" id="btnZrychleneConfirm" onclick="completeZrychlene()">
+                        <button class="btn btn-primary" id="btnZrychleneConfirm" onclick="completeZrychlene()" disabled>
                             <span class="material-icons-outlined">check</span>
                             Potvrdit kontrolu
                         </button>
@@ -24278,9 +24298,19 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
             if (key === 'souhlasy') {
                 window._zrPickingSouhlasy = (value === true);
-                renderZrychleneDokladyViewer();
                 const picker = document.getElementById('souhlasyDocPicker');
-                if (picker) picker.style.display = (value === true) ? 'block' : 'none';
+                if (value === true) {
+                    // Přepnout viewer na záložku Přílohy
+                    const prilohyTab = document.querySelector('#controlZrychlene .viewer-tab:nth-child(3)');
+                    if (prilohyTab) prilohyTab.click();
+                    if (picker) picker.style.display = 'block';
+                } else {
+                    // Vrátit na Dokladovou část
+                    const dokladyTab = document.querySelector('#controlZrychlene .viewer-tab:first-child');
+                    if (dokladyTab) dokladyTab.click();
+                    if (picker) picker.style.display = 'none';
+                    window._zrSouhlasySelected = new Set();
+                }
             }
             updateZrychleneResult();
             updateZrychleneFooterBtn();
@@ -24288,15 +24318,24 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         function updateZrychleneFooterBtn() {
             const allSplneno = zrCondState.eia === true && zrCondState.zopk === true && zrCondState.souhlasy === true;
+            const anyNe = zrCondState.eia === false || zrCondState.zopk === false || zrCondState.souhlasy === false;
             const confirmBtn = document.getElementById('btnZrychleneConfirm');
             if (!confirmBtn) return;
             if (allSplneno) {
-                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit a dokončit';
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">bolt</span>Potvrdit — zrychlené řízení';
                 confirmBtn.className = 'btn btn-primary';
+                confirmBtn.disabled = false;
+                confirmBtn.onclick = completeZrychlene;
+            } else if (anyNe) {
+                // Kdykoli je alespoň jedno červené — lze rovnou potvrdit standardní řízení
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit standardní řízení';
+                confirmBtn.className = 'btn btn-warning';
+                confirmBtn.disabled = false;
                 confirmBtn.onclick = completeZrychlene;
             } else {
                 confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
                 confirmBtn.className = 'btn btn-primary';
+                confirmBtn.disabled = true;
                 confirmBtn.onclick = completeZrychlene;
             }
         }
@@ -24522,6 +24561,11 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         function updateUI() {
             let completedCount = 0;
             const totalCount = Object.keys(controls).length;
+            // Reset viditelnosti summary tlačítek na začátku každého průchodu
+            const _btnStdReset = document.getElementById('btnZahajitStandardni');
+            const _btnZahReset = document.getElementById('btnZahajit');
+            if (_btnStdReset) _btnStdReset.style.display = 'none';
+            if (_btnZahReset) { _btnZahReset.style.display = ''; _btnZahReset.disabled = true; }
             const isPrislusny = !controls.prislusnost.done || controls.prislusnost.result === 'ok';
             
             // Kontrola, zda jsou zjištěny vady (pro tlačítko Výzva k doplnění)
@@ -24531,7 +24575,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 k !== 'zrychlene' && k !== 'identifikace' && c.done && (c.result === 'vady' || c.result === 'error'));
             const zrychleneNesplneno = controls.zrychlene.done && controls.zrychlene.result !== 'ok';
             const ostatniAllDone = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.done);
-            const ostatniAllOk = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.result === 'ok');
+            const ostatniAllOk = Object.entries(controls).filter(([k]) => k !== 'zrychlene').every(([, c]) => c.result === 'ok' || (k === 'identifikace' && c.result === 'warning'));
 
             for (const [key, control] of Object.entries(controls)) {
                 const card = document.getElementById('card-' + key);
@@ -24575,6 +24619,11 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             updateInfoPanel();
 
             // Update summary
+            // Reset summary buttons
+            const _btnZahStd = document.getElementById('btnZahajitStandardni');
+            const _btnZahMain = document.getElementById('btnZahajit');
+            if (_btnZahStd) { _btnZahStd.style.display = 'none'; _btnZahStd.disabled = false; }
+            if (_btnZahMain) { _btnZahMain.style.display = ''; }
             const allDone = Object.values(controls).every(c => c.done);
             // allOk: identifikace může mít warning (chybí doklady = legitimní postup), zrychlene ok
             const allOk = Object.entries(controls).every(([k, c]) =>
@@ -24592,6 +24641,10 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 const zrychleneNesplnenoFinal = controls.zrychlene && controls.zrychlene.done && controls.zrychlene.result !== 'ok';
                 if (zrychleneNesplnenoFinal) {
                     document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení nejsou splněny';
+                    const _btnStdF = document.getElementById('btnZahajitStandardni');
+                    const _btnZahF = document.getElementById('btnZahajit');
+                    if (_btnStdF) { _btnStdF.style.display = ''; _btnStdF.disabled = false; }
+                    if (_btnZahF) { _btnZahF.style.display = 'none'; }
                     document.getElementById('summaryDesc').textContent = 'Záměr nesplňuje podmínky § 212. Bude projednán ve standardním řízení s ústním jednáním.';
                     document.getElementById('btnZahajit').disabled = false;
                     document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">gavel</span>Přejít na standardní řízení';
@@ -24609,12 +24662,14 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                     document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">play_circle</span>Zahájit řízení';
                     _btnAction = 'zahajit';
                 }
-            } else if (ostatniAllDone && ostatniAllOk && zrychleneNesplneno) {
-                // Všechny kontroly žádosti v pořádku, ale zrychlené řízení nesplněno → standardní řízení
-                document.getElementById('summaryTitle').textContent = 'Podmínky zrychleného řízení nejsou splněny';
-                document.getElementById('summaryDesc').textContent = 'Záměr bude projednán ve standardním řízení s ústním jednáním.';
-                document.getElementById('btnZahajit').disabled = false;
-                document.getElementById('btnZahajit').innerHTML = '<span class="material-icons-outlined">gavel</span>Přejít na projednání řízení';
+            } else if (ostatniAllDone && zrychleneNesplneno && !hasVady) {
+                // Všechny kontroly žádosti dokončeny, zrychlené řízení nesplněno → standardní řízení
+                document.getElementById('summaryTitle').textContent = 'Záměr bude projednán ve standardním řízení';
+                document.getElementById('summaryDesc').textContent = 'Podmínky zrychleného řízení nejsou splněny (§ 212 odst. 3 SZ).';
+                const btnStd2 = document.getElementById('btnZahajitStandardni');
+                const btnZah2 = document.getElementById('btnZahajit');
+                if (btnStd2) { btnStd2.style.display = ''; btnStd2.disabled = false; }
+                if (btnZah2) { btnZah2.style.display = 'none'; }
                 _btnAction = 'standardni';
             } else if (allDone && hasVady && !hasBlocking) {
                 // Všechny kontroly hotové, ale jsou vady - nabídnout Výzvu k doplnění
@@ -27681,8 +27736,12 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         function completeZrychlene() {
             const allSplneno = zrCondState.eia === true && zrCondState.zopk === true && zrCondState.souhlasy === true;
+            const anyNe = zrCondState.eia === false || zrCondState.zopk === false || zrCondState.souhlasy === false;
             controls.zrychlene.done = true;
             controls.zrychlene.result = allSplneno ? 'ok' : 'warning';
+            if (anyNe) {
+                _btnAction = 'standardni';
+            }
             closeControl('controlZrychlene');
             updateUI();
         }
