@@ -13203,6 +13203,7 @@
         .pipeline-group-card  { position: relative; }
         .pipeline-card-single { position: relative; }
         .pipeline-phase-conditional { position: relative; }
+        .doklady-subjekt-status.status-chybi .material-icons-outlined { color: #e37400; }
 </style>
     <style>
         /* ══════════════════════════════════════════
@@ -16671,7 +16672,7 @@
                 <button class="btn btn-secondary" onclick="closePodminkyDrawer()">Zrušit</button>
                 <button class="btn btn-primary" onclick="savePodminkyDrawer()">
                     <span class="material-icons-outlined">check</span>
-                    Uložit podmínky
+                    Uložit
                 </button>
             </div>
         </div>
@@ -25823,9 +25824,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         function renderSubjektRow(s, typ) {
             const doc = s.docId ? dokladyDocs.find(d => d.id === s.docId) : null;
-            const statusIcon = s.missing ? 'warning' : s.vysledek === 'souhlasne' ? 'check_circle' : s.vysledek === 'podminky' ? 'warning' : s.vysledek === 'zaporne' ? 'cancel' : 'radio_button_unchecked';
+            const statusIcon = s.missing ? 'warning' : s.vysledek === 'souhlasne' ? 'check_circle' : s.vysledek === 'podminky' ? 'rule' : s.vysledek === 'zaporne' ? 'cancel' : s.vysledek === 'chybi' ? 'help_outline' : 'radio_button_unchecked';
             const rowCls = s.missing ? (typ==='do'?'missing-do':'missing-vti') : s.vysledek === 'souhlasne' ? 'ok' : s.vysledek === 'podminky' ? 'ok-podminky' : s.vysledek === 'zaporne' ? 'zaporne' : '';
-            const statusCls = s.missing ? 'status-missing' : s.vysledek === 'souhlasne' ? 'status-ok' : s.vysledek === 'podminky' ? 'status-podminky' : s.vysledek === 'zaporne' ? 'status-zaporne' : 'status-pending';
+            const statusCls = s.missing ? 'status-missing' : s.vysledek === 'souhlasne' ? 'status-ok' : s.vysledek === 'podminky' ? 'status-podminky' : s.vysledek === 'zaporne' ? 'status-zaporne' : s.vysledek === 'chybi' ? 'status-chybi' : 'status-pending';
             const typCls = typ === 'do' ? 'typ-do' : typ === 'vti' ? 'typ-vti' : 'typ-vdi';
             const typLabel = typ === 'do' ? 'DO' : typ === 'vti' ? 'VTI' : 'VDI';
 
@@ -25879,7 +25880,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                         <span class="material-icons-outlined">rule</span> Souhlasné s podmínkami
                     </button>
                     <button class="doklady-result-btn zaporne ${s.vysledek==='zaporne'?'active':''}" onclick="setSubjektVysledek('${s.id}','zaporne')">
-                        <span class="material-icons-outlined">cancel</span> Záporné
+                        <span class="material-icons-outlined">cancel</span> Nesouhlasné
                     </button>
                     <button class="doklady-result-btn chybi ${s.vysledek==='chybi'?'active':''}" onclick="setSubjektVysledek('${s.id}','chybi')">
                         <span class="material-icons-outlined">help_outline</span> Chybí
@@ -31189,5 +31190,943 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         </div>
     </div>
 
+
+    <script>
+    // Patch: DO se přidávají ve sbalené podobě
+    (function() {
+        var origSelect = window.selectDokladySubjekt;
+        window.selectDokladySubjekt = function(dbId, targetTyp) {
+            if (typeof origSelect === 'function') origSelect(dbId, targetTyp);
+            var subjekty = (typeof dokladyState !== 'undefined') ? dokladyState.subjekty : [];
+            if (!subjekty.length) return;
+            var id = subjekty[subjekty.length - 1].id;
+            requestAnimationFrame(function() {
+                var body = document.getElementById('sbody_' + id);
+                if (body) body.style.display = 'none';
+                var row = document.getElementById('srow_' + id);
+                var chevron = row ? row.querySelector('.doklady-subjekt-top .material-icons-outlined:last-child') : null;
+                if (chevron) chevron.textContent = 'expand_more';
+                if (typeof dokladyState !== 'undefined') dokladyState.activeDocPicker = null;
+                if (typeof renderDokladyForm === 'function') renderDokladyForm();
+            });
+        };
+    })();
+    </script>
+
+    <script>
+    // ── Patch: Výsledková tlačítka DO — drawer pro každý typ ─────────
+    (function() {
+
+        // 1. Přidat nové sekce do existujícího draweru (jednou po načtení DOM)
+        document.addEventListener('DOMContentLoaded', function() {
+            var drawer = document.getElementById('podminkyDrawer');
+            if (!drawer) return;
+
+            // Přidat id ikony do hlavičky
+            var iconEl = drawer.querySelector('.material-icons-outlined');
+            if (iconEl && !iconEl.id) iconEl.id = 'pdDrawerIcon';
+
+            // Zabalit existující podmínky sekci do pdSekce_podminky divu
+            var podmTitle = drawer.querySelector('div[style*="Podmínky pro rozhodnutí"]') ||
+                            Array.from(drawer.querySelectorAll('div')).find(d => d.textContent.trim() === 'Podmínky pro rozhodnutí');
+
+            // Vložit nové sekce před poznámku (Interní poznámka)
+            var scrollDiv = drawer.querySelector('div[style*="overflow-y:auto"]');
+            if (!scrollDiv) return;
+
+            // Sekce: Souhlasné (č.j. + datum jsou už v draweru — přidáme jen info box)
+            var sekSouhlasne = document.createElement('div');
+            sekSouhlasne.id = 'pdSekce_souhlasne';
+            sekSouhlasne.style.cssText = 'display:none;padding:10px 12px;background:#e6f4ea;border-radius:6px;font-size:12px;color:#137333;align-items:center;gap:6px;margin-bottom:12px;';
+            sekSouhlasne.innerHTML = '<span class="material-icons-outlined" style="font-size:16px;flex-shrink:0;">check_circle</span><span>Stanovisko je souhlasné. Vyplňte číslo jednací a datum vydání výše.</span>';
+
+            // Sekce: Podmínky — obal existující obsah
+            var sekPodminky = document.createElement('div');
+            sekPodminky.id = 'pdSekce_podminky';
+            sekPodminky.style.cssText = 'display:none;';
+
+            // Sekce: Nesouhlasné
+            var sekZaporne = document.createElement('div');
+            sekZaporne.id = 'pdSekce_zaporne';
+            sekZaporne.style.cssText = 'display:none;';
+            sekZaporne.innerHTML =
+                '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;">Odůvodnění nesouhlasu</div>' +
+                '<p style="font-size:11px;color:#9aa0a6;margin-bottom:8px;">Důvody, proč dotčený orgán nevydal souhlasné stanovisko.</p>' +
+                '<textarea id="pdOduvodneniText" style="width:100%;padding:8px 10px;border:1px solid #f28b82;border-radius:6px;font-size:12px;font-family:inherit;resize:vertical;min-height:150px;box-sizing:border-box;" placeholder="Odůvodnění nesouhlasného stanoviska..."></textarea>';
+
+            // Sekce: Chybí — výzva
+            var sekChybi = document.createElement('div');
+            sekChybi.id = 'pdSekce_chybi';
+            sekChybi.style.cssText = 'display:none;';
+            sekChybi.innerHTML =
+                '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;">Text výzvy k vydání stanoviska</div>' +
+                '<p style="font-size:11px;color:#9aa0a6;margin-bottom:8px;">Stavební úřad vyzve dotčený orgán k vydání stanoviska.</p>' +
+                '<textarea id="pdVyzvaText" style="width:100%;padding:8px 10px;border:1px solid #fdd663;border-radius:6px;font-size:12px;font-family:inherit;resize:vertical;min-height:150px;box-sizing:border-box;" placeholder="Vyzýváme Vás k vydání závazného stanoviska..."></textarea>';
+
+            // Najdi "Podmínky editor" blok a "Interní poznámka" blok v scrollDiv
+            // Přesunout podmínky-toolbar + textarea do sekPodminky
+            var toolbar = scrollDiv.querySelector('.podminky-toolbar');
+            var editorTA = scrollDiv.querySelector('#pdEditorText');
+            var podmLabel = null;
+            var podmDesc = null;
+            // Najdi label a popis podmínek (sourozenci před toolbar)
+            if (toolbar) {
+                var prev = toolbar.previousElementSibling;
+                while (prev) {
+                    if (prev.tagName === 'P') podmDesc = prev;
+                    else if (prev.tagName === 'DIV' && prev.style && !prev.id) podmLabel = prev;
+                    prev = prev.previousElementSibling;
+                }
+            }
+
+            // Vložit sekce: souhlasne, pak podmínky (s přesunutým obsahem), pak zaporne, pak chybi
+            // PŘED "Informace o dokladu" grid
+            var infoGrid = scrollDiv.querySelector('div[style*="grid-template-columns"]');
+            if (infoGrid) {
+                scrollDiv.insertBefore(sekSouhlasne, infoGrid.nextSibling);
+            }
+
+            // Přesuň podmínky obsah do sekPodminky
+            if (podmLabel) sekPodminky.appendChild(podmLabel);
+            if (podmDesc) sekPodminky.appendChild(podmDesc);
+            if (toolbar) sekPodminky.appendChild(toolbar);
+            if (editorTA) sekPodminky.appendChild(editorTA);
+
+            // Vložit sekPodminky, zaporne, chybi před Interní poznámka
+            var notes = scrollDiv.querySelector('#pdPoznamka');
+            var notesLabel = notes ? notes.previousElementSibling : null;
+            var insertBefore = notesLabel || notes;
+
+            if (insertBefore && insertBefore.parentNode === scrollDiv) {
+                scrollDiv.insertBefore(sekPodminky, insertBefore);
+                scrollDiv.insertBefore(sekZaporne, insertBefore);
+                scrollDiv.insertBefore(sekChybi, insertBefore);
+            } else {
+                scrollDiv.appendChild(sekPodminky);
+                scrollDiv.appendChild(sekZaporne);
+                scrollDiv.appendChild(sekChybi);
+            }
+        });
+
+        // 2. Přepsat openPodminkyDrawer — přidat typ parametr
+        var origOpen = window.openPodminkyDrawer;
+        window.openPodminkyDrawer = function(subjektId, typ) {
+            typ = typ || 'podminky';
+            // Zavolej originál pro základní naplnění (č.j., datum, název)
+            if (typeof origOpen === 'function') origOpen(subjektId);
+
+            // Nastav ikonu a titulek podle typu
+            var cfg = {
+                souhlasne: { title: 'Souhlasné stanovisko',    icon: 'check_circle', color: '#137333' },
+                podminky:  { title: 'Stanovisko s podmínkami', icon: 'rule',         color: '#1a73e8' },
+                zaporne:   { title: 'Nesouhlasné stanovisko',  icon: 'cancel',       color: '#c5221f' },
+                chybi:     { title: 'Chybějící stanovisko',    icon: 'help_outline', color: '#b06000' }
+            }[typ] || { title: typ, icon: 'edit_note', color: '#004289' };
+
+            var titleEl = document.getElementById('podminkyDrawerTitle');
+            var iconEl  = document.getElementById('pdDrawerIcon');
+            if (titleEl) titleEl.textContent = cfg.title;
+            if (iconEl)  { iconEl.textContent = cfg.icon; iconEl.style.color = cfg.color; }
+
+            // Zobraz správnou sekci
+            ['souhlasne','podminky','zaporne','chybi'].forEach(function(t) {
+                var el = document.getElementById('pdSekce_' + t);
+                if (el) el.style.display = (t === typ) ? (t === 'souhlasne' ? 'flex' : 'block') : 'none';
+            });
+
+            // Naplň pole podle typu
+            var s = (typeof dokladyState !== 'undefined') ? dokladyState.subjekty.find(function(x){ return x.id === subjektId; }) : null;
+            if (!s) return;
+            s._drawerTyp = typ;
+
+            if (typ === 'zaporne') {
+                var ta = document.getElementById('pdOduvodneniText');
+                if (ta) { ta.value = s.oduvodneniText || ''; setTimeout(function(){ ta.focus(); }, 150); }
+            } else if (typ === 'chybi') {
+                var ta = document.getElementById('pdVyzvaText');
+                if (ta) {
+                    ta.value = s.vyzvaText || 'Vyzýváme Vás k vydání závazného stanoviska k záměru:\n\u201eOprava zabezpečovacího zař\u00edzen\u00ed v \u017est. Doudleby n. Orlic\u00ed\u201c\n\nŽadatel: Správa železnic, státní organizace\nSpis: SZ DESU/000612/26\n\nStanovisko vydejte ve lhůtě 30 dnů od doručení této výzvy.';
+                    setTimeout(function(){ ta.focus(); }, 150);
+                }
+            }
+        };
+
+        // 3. Přepsat setSubjektVysledek pro souhlasne — otevřít drawer
+        var origSetVysledek = window.setSubjektVysledek;
+        window.setSubjektVysledek = function(id, vysledek) {
+            if (typeof origSetVysledek === 'function') origSetVysledek(id, vysledek);
+            if (vysledek === 'souhlasne' || vysledek === 'zaporne' || vysledek === 'chybi') {
+                setTimeout(function(){
+                    // Pro VTI/VDI chybí → panel s usnesením o přerušení
+                    var s = (typeof dokladyState !== 'undefined')
+                        ? dokladyState.subjekty.find(function(x){ return x.id === id; }) : null;
+                    if (vysledek === 'chybi' && s && (s.typ === 'vti' || s.typ === 'vdi')) {
+                        window.openVtiChybiDrawer(id);
+                    } else {
+                        window.openPodminkyDrawer(id, vysledek);
+                    }
+                }, 80);
+            }
+        };
+
+        // 4. Přepsat setSubjektVysledekSPodminkami — předat typ
+        window.setSubjektVysledekSPodminkami = function(id) {
+            if (typeof origSetVysledek === 'function') origSetVysledek(id, 'podminky');
+            setTimeout(function(){ window.openPodminkyDrawer(id, 'podminky'); }, 80);
+        };
+
+        // 5. Přepsat savePodminkyDrawer — uložit data podle typu
+        var origSave = window.savePodminkyDrawer;
+        window.savePodminkyDrawer = function() {
+            var sid = (typeof _podminkySubjektId !== 'undefined') ? _podminkySubjektId : null;
+            var s = (sid && typeof dokladyState !== 'undefined') ? dokladyState.subjekty.find(function(x){ return x.id === sid; }) : null;
+
+            if (s && s._drawerTyp === 'zaporne') {
+                var ta = document.getElementById('pdOduvodneniText');
+                if (ta) s.oduvodneniText = ta.value.trim();
+                // Uložit č.j. + datum
+                var cj = document.getElementById('pdDokCj');
+                var dat = document.getElementById('pdDokDatum');
+                if (cj) s.cj = cj.value;
+                if (dat) s.datum = dat.value;
+                var pn = document.getElementById('pdPoznamka');
+                if (pn) s.poznamka = pn.value;
+                if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+                if (typeof renderDokladyForm === 'function') renderDokladyForm();
+                if (typeof updateIdentifikaceResult === 'function') updateIdentifikaceResult();
+                return;
+            }
+            if (s && s._drawerTyp === 'chybi') {
+                var ta = document.getElementById('pdVyzvaText');
+                if (ta) s.vyzvaText = ta.value.trim();
+                var cj = document.getElementById('pdDokCj');
+                var dat = document.getElementById('pdDokDatum');
+                if (cj) s.cj = cj.value;
+                if (dat) s.datum = dat.value;
+                var pn = document.getElementById('pdPoznamka');
+                if (pn) s.poznamka = pn.value;
+                if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+                if (typeof renderDokladyForm === 'function') renderDokladyForm();
+                if (typeof updateIdentifikaceResult === 'function') updateIdentifikaceResult();
+                return;
+            }
+            if (s && s._drawerTyp === 'souhlasne') {
+                var cj = document.getElementById('pdDokCj');
+                var dat = document.getElementById('pdDokDatum');
+                if (cj) s.cj = cj.value;
+                if (dat) s.datum = dat.value;
+                var pn = document.getElementById('pdPoznamka');
+                if (pn) s.poznamka = pn.value;
+                if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+                if (typeof renderDokladyForm === 'function') renderDokladyForm();
+                if (typeof updateIdentifikaceResult === 'function') updateIdentifikaceResult();
+                return;
+            }
+            // Podmínky — originál
+            if (typeof origSave === 'function') origSave();
+        };
+
+    })();
+    </script>
+
+    <script>
+    // ── Patch: VTI/VDI chybí — boční panel s výzvou k přerušení ─────
+    (function() {
+
+        // 1. Přidat sekci pdSekce_vti_chybi do draweru po DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            var scrollDiv = (function() {
+                var d = document.getElementById('podminkyDrawer');
+                return d ? d.querySelector('div[style*="overflow-y:auto"]') : null;
+            })();
+            if (!scrollDiv) return;
+
+            var sekVtiChybi = document.createElement('div');
+            sekVtiChybi.id = 'pdSekce_vti_chybi';
+            sekVtiChybi.style.cssText = 'display:none;';
+            sekVtiChybi.innerHTML = [
+                '<div style="padding:8px 12px;background:#fce8e6;border-radius:6px;font-size:12px;color:#c5221f;display:flex;align-items:flex-start;gap:6px;margin-bottom:14px;">',
+                    '<span class="material-icons-outlined" style="font-size:16px;flex-shrink:0;margin-top:1px;">report_problem</span>',
+                    '<span>Chybějící vyjádření VTI/VDI. Stavební úřad přeruší řízení a vyzve žadatele k doplnění (§ 65 správního řádu).</span>',
+                '</div>',
+                '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:6px;">Usnesení o přerušení řízení</div>',
+                '<p style="font-size:11px;color:#9aa0a6;margin-bottom:8px;">Upravte návrh textu výzvy k doplnění žádosti.</p>',
+                '<textarea id="pdVtiVyzvaText" style="width:100%;padding:8px 10px;border:1px solid #f28b82;border-radius:6px;font-size:12px;font-family:inherit;resize:vertical;min-height:200px;box-sizing:border-box;"></textarea>'
+            ].join('');
+
+            // Vložit před pdPoznamka label
+            var notes = scrollDiv.querySelector('#pdPoznamka');
+            var notesLabel = notes ? notes.previousElementSibling : null;
+            var insertBefore = notesLabel || notes;
+            if (insertBefore && insertBefore.parentNode === scrollDiv) {
+                scrollDiv.insertBefore(sekVtiChybi, insertBefore);
+            } else {
+                scrollDiv.appendChild(sekVtiChybi);
+            }
+        });
+
+        // 2. Přidat funkci openVtiChybiDrawer — otevře drawer pro VTI chybí
+        window.openVtiChybiDrawer = function(subjektId) {
+            var s = (typeof dokladyState !== 'undefined')
+                ? dokladyState.subjekty.find(function(x){ return x.id === subjektId; })
+                : null;
+            if (!s) return;
+
+            window._podminkySubjektId = subjektId;
+            s._drawerTyp = 'vti_chybi';
+
+            // Hlavička draweru
+            var titleEl = document.getElementById('podminkyDrawerTitle');
+            var subtitleEl = document.getElementById('podminkyDrawerSubtitle');
+            var iconEl = document.getElementById('pdDrawerIcon');
+            if (titleEl) titleEl.textContent = 'Přerušení řízení — výzva k doplnění';
+            if (subtitleEl) subtitleEl.textContent = s.nazev;
+            if (iconEl) { iconEl.textContent = 'pause_circle'; iconEl.style.color = '#c5221f'; }
+
+            // Zobraz jen sekci vti_chybi, skryj ostatní
+            ['souhlasne','podminky','zaporne','chybi','vti_chybi'].forEach(function(t) {
+                var el = document.getElementById('pdSekce_' + t);
+                if (el) el.style.display = (t === 'vti_chybi') ? 'block' : 'none';
+            });
+
+            // Skryj č.j./datum — pro VTI výzvu nejsou relevantní
+            var infoGrid = (function(){
+                var d = document.getElementById('podminkyDrawer');
+                return d ? d.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+            if (infoGrid) infoGrid.style.display = 'none';
+
+            // Naplň textarea výchozím textem
+            var ta = document.getElementById('pdVtiVyzvaText');
+            if (ta) {
+                ta.value = s.vtiVyzvaText || [
+                    'Č.j.: [doplňte číslo jednací]',
+                    '',
+                    'USNESENÍ',
+                    '',
+                    'Dopravní a energetický stavební úřad (dále jen „stavební úřad") jako příslušný správní orgán',
+                    'podle § 13 zákona č. 283/2021 Sb., stavební zákon, v řízení o povolení záměru',
+                    '',
+                    '„Oprava zabezpečovacího zařízení v žst. Doudleby n. Orlicí"',
+                    '(žadatel: Správa železnic, státní organizace, spis: SZ DESU/000612/26)',
+                    '',
+                    'vydává toto usnesení:',
+                    '',
+                    'Řízení se přerušuje.',
+                    '',
+                    'Žadatel je vyzván, aby ve lhůtě 30 dnů od doručení tohoto usnesení doplnil žádost o:',
+                    '– vyjádření vlastníka/správce sítě: ' + s.nazev + ' (IČO: ' + (s.ico || '—') + ')',
+                    '',
+                    'Odůvodnění:',
+                    'Stavební úřad zjistil, že žádost neobsahuje vyjádření výše uvedeného vlastníka/správce sítě,',
+                    'které je nezbytnou náležitostí dle § 184a zákona č. 183/2006 Sb. (starý stavební zákon)',
+                    'v návaznosti na § 185 zákona č. 283/2021 Sb.',
+                    '',
+                    'Poučení:',
+                    'Nebude-li žádost ve stanovené lhůtě doplněna, stavební úřad řízení zastaví (§ 66 odst. 1',
+                    'písm. c) správního řádu). Proti tomuto usnesení lze podat odvolání do 15 dnů ode dne jeho',
+                    'doručení k Ministerstvu dopravy prostřednictvím stavebního úřadu.'
+                ].join('\n');
+                setTimeout(function(){ ta.focus(); }, 150);
+            }
+
+            // Otevři drawer
+            var drawer = document.getElementById('podminkyDrawer');
+            if (drawer) drawer.style.display = 'flex';
+        };
+
+        // 3. Při zavření draweru obnovit zobrazení č.j./datum pro ostatní typy
+        var origClose = window.closePodminkyDrawer;
+        window.closePodminkyDrawer = function() {
+            var infoGrid = (function(){
+                var d = document.getElementById('podminkyDrawer');
+                return d ? d.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+            if (infoGrid) infoGrid.style.display = '';
+            if (typeof origClose === 'function') origClose();
+        };
+
+        // 4. Uložení pro vti_chybi typ
+        var origSave2 = window.savePodminkyDrawer;
+        window.savePodminkyDrawer = function() {
+            var sid = (typeof _podminkySubjektId !== 'undefined') ? _podminkySubjektId : null;
+            var s = (sid && typeof dokladyState !== 'undefined')
+                ? dokladyState.subjekty.find(function(x){ return x.id === sid; }) : null;
+
+            if (s && s._drawerTyp === 'vti_chybi') {
+                var ta = document.getElementById('pdVtiVyzvaText');
+                if (ta) s.vtiVyzvaText = ta.value;
+                var pn = document.getElementById('pdPoznamka');
+                if (pn) s.poznamka = pn.value;
+                if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+                if (typeof renderDokladyForm === 'function') renderDokladyForm();
+                if (typeof updateIdentifikaceResult === 'function') updateIdentifikaceResult();
+                return;
+            }
+            if (typeof origSave2 === 'function') origSave2();
+        };
+
+        // 5. Přepsat triggerVyzvaVTI — otevřít drawer místo přidání do výzvy
+        window.triggerVyzvaVTI = function(subjektId) {
+            window.openVtiChybiDrawer(subjektId);
+        };
+
+    })();
+    </script>
+
+
+    <script>
+    // ── Patch: Sekce "Ostatní podklady" ──────────────────────────────
+    (function() {
+
+    // ── 1. Databáze oblíbených dokladů ───────────────────────────────
+    var ostatniOblibeneDB = [
+        { id:'op_ob1', nazev:'Projekt zpracovaný báňským projektantem' },
+        { id:'op_ob2', nazev:'Ostatní stanoviska, vyjádření, posudky, studie a výsledky jednání vedených v průběhu zpracování dokumentace' },
+        { id:'op_ob3', nazev:'Průzkumy' },
+        { id:'op_ob4', nazev:'Projekt výsledků zeměměřických činností pro stavbu (autorizovaný zeměměřický inženýr)' },
+        { id:'op_ob5', nazev:'Soubor výsledků zeměměřických činností (autorizovaný zeměměřický inženýr)' },
+        { id:'op_ob6', nazev:'Posudek o potřebě technickobezpečnostního dohledu na vodním díle (MZe)' },
+        { id:'op_ob7', nazev:'Vyjádření osoby s odbornou způsobilostí — změna stavby studny nebo vodního díla' },
+    ];
+
+    // ── 2. Inicializace state ─────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof dokladyState !== 'undefined') {
+            if (!dokladyState.ostatniPodklady) dokladyState.ostatniPodklady = [];
+            dokladyState.ostatniConfirmed = false;
+        }
+    });
+
+    // ── 3. Render sekce ───────────────────────────────────────────────
+    function renderOstatniPodklady() {
+        var items    = (typeof dokladyState !== 'undefined') ? (dokladyState.ostatniPodklady || []) : [];
+        var confirmed = (typeof dokladyState !== 'undefined') ? !!dokladyState.ostatniConfirmed : false;
+        var total    = items.length;
+        var ok       = items.filter(function(d){ return d.vysledek === 'ok'; }).length;
+        var chybi    = items.filter(function(d){ return d.vysledek === 'chybi'; }).length;
+
+        var secceCls = confirmed ? (chybi > 0 ? 'sekce-confirmed-warning' : 'sekce-confirmed') : '';
+        var nextCls  = !confirmed ? 'doc-section-next' : '';
+        var badgeHtml = confirmed
+            ? '<span class="doklady-sekce-confirmed-badge" style="color:' + (chybi > 0 ? '#b06000' : '#137333') + '"><span class="material-icons-outlined" style="font-size:13px;">' + (chybi > 0 ? 'warning' : 'check_circle') + '</span> ' + (chybi > 0 ? 'Chybí doklady' : 'Potvrzeno') + '</span>'
+            : '';
+
+        var html = '<div class="doklady-sekce-panel ' + secceCls + ' ' + nextCls + '" id="sekcepanel_ostatni" style="margin-bottom:12px;">';
+        // Hlavička
+        html += '<div class="doklady-sekce-panel-header" style="padding:10px 14px;background:#f5f7fa;border-bottom:1px solid #e8eaed;display:flex;align-items:center;gap:8px;">'
+            + '<span class="material-icons-outlined" style="color:#6a0dad;">folder_special</span>'
+            + '<div style="flex:1;"><div style="font-size:13px;font-weight:600;color:#202124;">Ostatní podklady</div>'
+            + '<div style="font-size:10px;color:#5f6368;margin-top:1px;">Další doklady podle charakteru stavby (§ 185 odst. 3 SZ)</div></div>'
+            + '<span class="doklady-sekce-panel-count" style="background:#f3e8ff;color:#6a0dad;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;">' + ok + '/' + total + ' ✓</span>'
+            + '</div>';
+
+        // Položky
+        html += '<div class="doklady-sekce-body">';
+        if (total === 0) {
+            html += '<div style="padding:14px;font-size:12px;color:#9aa0a6;display:flex;align-items:center;gap:8px;">'
+                + '<span class="material-icons-outlined" style="font-size:18px;color:#dadce0;">inbox</span>'
+                + 'Zatím žádné doklady — přidejte z oblíbených nebo ručně</div>';
+        } else {
+            items.forEach(function(d) { html += renderOstatniRow(d); });
+        }
+        html += '</div>';
+
+        // Add panel — stejný styl jako DO/VTI
+        if (!confirmed) {
+            var oblHTML = ostatniOblibeneDB.map(function(o) {
+                var already = items.some(function(d){ return d.oblId === o.id; });
+                return '<div style="padding:7px 12px;cursor:pointer;border-bottom:1px solid #f8f9fa;display:flex;align-items:center;gap:8px;text-align:left;'
+                    + (already ? 'opacity:0.4;pointer-events:none;' : '')
+                    + '" onclick="pridatOstatniDoklad(null,\'' + o.id + '\')"'
+                    + ' onmouseenter="this.style.background=\'#f1f3f4\'" onmouseleave="this.style.background=\'\'">'
+                    + '<span class="material-icons-outlined" style="font-size:14px;color:#f6b900;flex-shrink:0;">star</span>'
+                    + '<div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:500;white-space:normal;">' + o.nazev + '</div></div>'
+                    + '</div>';
+            }).join('');
+
+            html += '<div style="padding:8px 12px 10px;border-top:1px solid #e8eaed;background:#fafbfc;overflow:visible;">'
+                + '<div style="font-size:11px;font-weight:500;color:#5f6368;margin-bottom:6px;">Přidat doklad</div>'
+                + '<div style="display:flex;gap:6px;align-items:flex-start;">'
+                + '<div style="flex:1;position:relative;">'
+                + '<input type="text" id="ostatniSearch" placeholder="Název dokladu…" autocomplete="off"'
+                + ' style="width:100%;padding:6px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;box-sizing:border-box;">'
+                + '</div>'
+                + '<button onclick="pridatOstatniDokladZInputu()" style="display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;background:#fff;cursor:pointer;white-space:nowrap;">'
+                + '<span class="material-icons-outlined" style="font-size:14px;">add</span>Přidat</button>'
+                + '<div style="position:relative;flex-shrink:0;">'
+                + '<button onclick="toggleOstatniOblibene()" style="display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;background:#fff;cursor:pointer;white-space:nowrap;">'
+                + '<span class="material-icons-outlined" style="font-size:14px;color:#f6b900;">star</span>Z oblíbených</button>'
+                + '<div id="ostatniOblibeneDropdown" style="display:none;position:absolute;top:100%;right:0;min-width:340px;max-height:280px;overflow-y:auto;background:#fff;border:1px solid #e0e0e0;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.12);z-index:200;margin-top:2px;text-align:left;">'
+                + oblHTML
+                + '</div></div></div></div>';
+        }
+
+        // Patička
+        html += '<div class="doklady-sekce-footer"><div>' + badgeHtml + '</div><div style="display:flex;gap:6px;align-items:center;">';
+        if (confirmed) {
+            html += '<button class="btn-reopen-sekce" onclick="dokladyState.ostatniConfirmed=false;rerenderOstatni()"><span class="material-icons-outlined" style="font-size:13px;">edit</span>Upravit</button>';
+        } else {
+            html += '<button class="btn-confirm-sekce" onclick="dokladyState.ostatniConfirmed=true;rerenderOstatni()"><span class="material-icons-outlined">check</span>Potvrdit sekci</button>';
+        }
+        html += '</div></div></div>';
+        return html;
+    }
+
+    function renderOstatniRow(d) {
+        var statusIcon  = !d.vysledek ? 'radio_button_unchecked' : d.vysledek === 'ok' ? 'check_circle' : 'help_outline';
+        var statusColor = !d.vysledek ? '#9aa0a6' : d.vysledek === 'ok' ? '#137333' : '#e37400';
+        var docs = (typeof dokladyDocs !== 'undefined') ? dokladyDocs : [];
+        var doc  = d.docId ? docs.find(function(x){ return x.id === d.docId; }) : null;
+
+        var html = '<div class="doklady-subjekt-row" id="oprow_' + d.id + '">'
+            + '<div class="doklady-subjekt-top" onclick="toggleOstatniBody(\'' + d.id + '\')">'
+            + '<span class="material-icons-outlined" style="font-size:15px;color:#6a0dad;flex-shrink:0;margin-right:4px;">description</span>'
+            + '<div style="flex:1;min-width:0;"><div class="doklady-subjekt-name" style="font-size:12px;">' + d.nazev + '</div></div>'
+            + '<span style="flex-shrink:0;margin:0 4px;"><span class="material-icons-outlined" style="font-size:16px;color:' + statusColor + ';">' + statusIcon + '</span></span>'
+            + '<span class="material-icons-outlined" style="font-size:14px;color:#9aa0a6;">expand_more</span>'
+            + '</div>'
+            + '<div id="opbody_' + d.id + '" style="display:none;">'
+            // Assign area — stejný styl jako DO/VTI
+            + '<div id="opassign_' + d.id + '">';
+
+        if (doc) {
+            html += '<div class="doklady-assign-area has-doc" onclick="openOstatniDocPicker(\'' + d.id + '\')">'
+                + '<span class="material-icons-outlined">check_circle</span>'
+                + '<span style="flex:1">' + doc.subsekce + ' ' + doc.nazev + (doc.cj && doc.cj !== '—' ? ' · ' + doc.cj : '') + '</span>'
+                + '<span class="material-icons-outlined" style="font-size:12px;color:#9aa0a6;">edit</span>'
+                + '</div>';
+        } else {
+            html += '<div class="doklady-assign-area" onclick="openOstatniDocPicker(\'' + d.id + '\')">'
+                + '<span class="material-icons-outlined">attach_file</span>'
+                + '<span>Přiřadit dokument z dokladové části</span>'
+                + '</div>';
+        }
+        html += '</div>';
+
+        // Výsledková tlačítka — otevírají boční panel
+        html += '<div class="doklady-result-btns">'
+            + '<button class="doklady-result-btn souhlasne' + (d.vysledek==='ok'?' active':'') + '" onclick="openOstatniPanel(\'' + d.id + '\',\'ok\')">'
+            + '<span class="material-icons-outlined">check_circle</span> Předloženo</button>'
+            + '<button class="doklady-result-btn chybi' + (d.vysledek==='chybi'?' active':'') + '" onclick="openOstatniPanel(\'' + d.id + '\',\'chybi\')">'
+            + '<span class="material-icons-outlined">help_outline</span> Chybí</button>'
+            + '</div>';
+
+        // Odebrat
+        html += '<div style="display:flex;justify-content:flex-end;margin-top:4px;">'
+            + '<button style="border:none;background:none;font-size:11px;color:#9aa0a6;cursor:pointer;padding:2px 6px;border-radius:3px;" '
+            + 'onmouseenter="this.style.color=\'#c5221f\'" onmouseleave="this.style.color=\'#9aa0a6\'" '
+            + 'onclick="odebratOstatniDoklad(\'' + d.id + '\')">Odebrat</button>'
+            + '</div>';
+
+        html += '</div></div>';
+        return html;
+    }
+
+    // ── 4. Akce ──────────────────────────────────────────────────────
+
+    window.pridatOstatniDokladZInputu = function() {
+        var inp = document.getElementById('ostatniSearch');
+        if (inp) window.pridatOstatniDoklad(inp.value, null);
+    };
+
+    window.pridatOstatniDoklad = function(nazev, oblId) {
+        if (!dokladyState.ostatniPodklady) dokladyState.ostatniPodklady = [];
+        var finalNazev = nazev;
+        if (oblId) {
+            var obl = ostatniOblibeneDB.find(function(o){ return o.id === oblId; });
+            if (obl) finalNazev = obl.nazev;
+        }
+        if (!finalNazev || !finalNazev.trim()) return;
+        var newId = 'op_' + Date.now();
+        dokladyState.ostatniPodklady.push({ id: newId, nazev: finalNazev.trim(), oblId: oblId||null, vysledek: null, docId: null, poznamka: '' });
+        var drop = document.getElementById('ostatniOblibeneDropdown');
+        if (drop) drop.style.display = 'none';
+        var inp = document.getElementById('ostatniSearch');
+        if (inp) inp.value = '';
+        rerenderOstatni();
+        // Nechej sbalenou (jako DO/VTI patch)
+    };
+
+    window.odebratOstatniDoklad = function(id) {
+        if (!dokladyState.ostatniPodklady) return;
+        dokladyState.ostatniPodklady = dokladyState.ostatniPodklady.filter(function(d){ return d.id !== id; });
+        rerenderOstatni();
+    };
+
+    window.toggleOstatniOblibene = function() {
+        var drop = document.getElementById('ostatniOblibeneDropdown');
+        if (drop) drop.style.display = drop.style.display === 'none' ? 'block' : 'none';
+    };
+
+    window.toggleOstatniBody = function(id) {
+        var body = document.getElementById('opbody_' + id);
+        var row  = document.getElementById('oprow_' + id);
+        if (!body) return;
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : 'block';
+        var chevron = row ? row.querySelector('.doklady-subjekt-top .material-icons-outlined:last-child') : null;
+        if (chevron) chevron.textContent = open ? 'expand_more' : 'expand_less';
+    };
+
+    // Doc picker — stejný styl jako openInlineDocPicker
+    window.openOstatniDocPicker = function(id) {
+        var assignEl = document.getElementById('opassign_' + id);
+        if (!assignEl) return;
+        var docs = (typeof dokladyDocs !== 'undefined') ? dokladyDocs : [];
+        var sekce = (typeof dokladySekce !== 'undefined') ? dokladySekce : [];
+        var typColor = { zs:'#fce8e6;color:#c5221f', stan:'#e6f4ea;color:#137333', vyj:'#e8f0fe;color:#1558d6', exist:'#f1f3f4;color:#5f6368' };
+
+        var html = '<div style="border:1px solid #1a73e8;border-radius:6px;overflow:hidden;background:#fff;margin-bottom:6px;">'
+            + '<div style="padding:5px 10px;background:#f0f4ff;font-size:11px;font-weight:500;color:#1a73e8;display:flex;align-items:center;gap:6px;">'
+            + '<span class="material-icons-outlined" style="font-size:13px;">attach_file</span>'
+            + 'Vyberte dokument ze seznamu dokladů'
+            + '<button onclick="closeOstatniDocPicker(\'' + id + '\')" style="margin-left:auto;border:none;background:none;cursor:pointer;color:#5f6368;padding:2px;display:flex;">'
+            + '<span class="material-icons-outlined" style="font-size:16px;">close</span></button>'
+            + '</div>';
+
+        sekce.forEach(function(s) {
+            var sdocs = docs.filter(function(d){ return d.sekce === s.id; });
+            if (!sdocs.length) return;
+            html += '<div style="padding:3px 10px 1px;font-size:10px;font-weight:600;color:#80868b;background:#fafbfc;border-top:1px solid #f0f0f0;">' + s.label + '</div>';
+            sdocs.forEach(function(doc) {
+                var tc = typColor[doc.typ] || '#f1f3f4;color:#5f6368';
+                html += '<div onclick="pickOstatniDoc(\'' + id + '\',\'' + doc.id + '\')"'
+                    + ' style="padding:5px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid #f8f9fa;"'
+                    + ' onmouseenter="this.style.background=\'#f1f3f4\'" onmouseleave="this.style.background=\'\'">'
+                    + '<span style="font-size:9px;padding:1px 5px;border-radius:3px;background:' + tc + ';flex-shrink:0;">' + (doc.typLabel||doc.typ) + '</span>'
+                    + '<div style="flex:1;min-width:0;"><div style="font-weight:500;font-size:12px;">' + doc.subsekce + ' ' + doc.nazev + '</div>'
+                    + '<div style="color:#80868b;font-size:10px;">' + (doc.cj && doc.cj !== '—' ? doc.cj + ' · ' : '') + (doc.datum||'') + '</div></div>'
+                    + '</div>';
+            });
+        });
+        html += '</div>';
+        assignEl.innerHTML = html;
+    };
+
+    window.closeOstatniDocPicker = function(id) {
+        var d = (dokladyState.ostatniPodklady||[]).find(function(x){ return x.id === id; });
+        var assignEl = document.getElementById('opassign_' + id);
+        if (!assignEl) return;
+        var docs = (typeof dokladyDocs !== 'undefined') ? dokladyDocs : [];
+        var doc  = d && d.docId ? docs.find(function(x){ return x.id === d.docId; }) : null;
+        if (doc) {
+            assignEl.innerHTML = '<div class="doklady-assign-area has-doc" onclick="openOstatniDocPicker(\'' + id + '\')">'
+                + '<span class="material-icons-outlined">check_circle</span>'
+                + '<span style="flex:1">' + doc.subsekce + ' ' + doc.nazev + '</span>'
+                + '<span class="material-icons-outlined" style="font-size:12px;color:#9aa0a6;">edit</span></div>';
+        } else {
+            assignEl.innerHTML = '<div class="doklady-assign-area" onclick="openOstatniDocPicker(\'' + id + '\')">'
+                + '<span class="material-icons-outlined">attach_file</span>'
+                + '<span>Přiřadit dokument z dokladové části</span></div>';
+        }
+    };
+
+    window.pickOstatniDoc = function(dokladId, docId) {
+        var d = (dokladyState.ostatniPodklady||[]).find(function(x){ return x.id === dokladId; });
+        if (d) d.docId = docId;
+        rerenderOstatni();
+        requestAnimationFrame(function() {
+            var body = document.getElementById('opbody_' + dokladId);
+            if (body) body.style.display = 'block';
+            var row = document.getElementById('oprow_' + dokladId);
+            var chevron = row ? row.querySelector('.doklady-subjekt-top .material-icons-outlined:last-child') : null;
+            if (chevron) chevron.textContent = 'expand_less';
+        });
+    };
+
+    // Boční panel — použije existující podminkyDrawer
+    window.openOstatniPanel = function(id, typ) {
+        var d = (dokladyState.ostatniPodklady||[]).find(function(x){ return x.id === id; });
+        if (!d) return;
+        d.vysledek = typ;
+        d._drawerTyp = 'ostatni_' + typ;
+        window._podminkySubjektId = id;
+        rerenderOstatni();
+        requestAnimationFrame(function() {
+            var body = document.getElementById('opbody_' + id);
+            if (body) body.style.display = 'block';
+        });
+
+        setTimeout(function() {
+            // Nastav drawer
+            var cfg = typ === 'ok'
+                ? { title: 'Předložený doklad', icon: 'check_circle', color: '#137333' }
+                : { title: 'Chybějící doklad', icon: 'help_outline', color: '#e37400' };
+            var titleEl = document.getElementById('podminkyDrawerTitle');
+            var subtitleEl = document.getElementById('podminkyDrawerSubtitle');
+            var iconEl  = document.getElementById('pdDrawerIcon');
+            if (titleEl) titleEl.textContent = cfg.title;
+            if (subtitleEl) subtitleEl.textContent = d.nazev;
+            if (iconEl) { iconEl.textContent = cfg.icon; iconEl.style.color = cfg.color; }
+
+            // Pro OK: zobraz č.j. + datum + souhlasne sekce
+            // Pro Chybí: zobraz info + poznamka
+            ['souhlasne','podminky','zaporne','chybi','vti_chybi'].forEach(function(t) {
+                var el = document.getElementById('pdSekce_' + t);
+                if (el) el.style.display = 'none';
+            });
+            var infoGrid = (function(){
+                var dr = document.getElementById('podminkyDrawer');
+                return dr ? dr.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+
+            if (typ === 'ok') {
+                if (infoGrid) infoGrid.style.display = '';
+                var sekSouhlasne = document.getElementById('pdSekce_souhlasne');
+                if (sekSouhlasne) sekSouhlasne.style.display = 'flex';
+                var cjEl  = document.getElementById('pdDokCj');
+                var datEl = document.getElementById('pdDokDatum');
+                if (cjEl)  cjEl.value  = d.cj    || '';
+                if (datEl) datEl.value = d.datum  || '';
+            } else {
+                if (infoGrid) infoGrid.style.display = 'none';
+                // Použij sekci zaporne pro poznámku (Chybí)
+                var sekZap = document.getElementById('pdSekce_zaporne');
+                if (sekZap) {
+                    sekZap.style.display = 'block';
+                    var ta = sekZap.querySelector('textarea');
+                    if (ta) {
+                        if (ta.placeholder) ta.placeholder = 'Poznámka — co chybí, jak postupovat...';
+                        ta.value = d.oduvodneniText || '';
+                    }
+                }
+            }
+            var pnEl = document.getElementById('pdPoznamka');
+            if (pnEl) pnEl.value = d.poznamka || '';
+
+            var drawer = document.getElementById('podminkyDrawer');
+            if (drawer) drawer.style.display = 'flex';
+        }, 60);
+    };
+
+    // Přepsat savePodminkyDrawer — přidat ostatni typy
+    var origSave3 = window.savePodminkyDrawer;
+    window.savePodminkyDrawer = function() {
+        var sid = (typeof _podminkySubjektId !== 'undefined') ? _podminkySubjektId : null;
+        // Zkus najít v ostatniPodklady
+        var d = sid && dokladyState.ostatniPodklady
+            ? dokladyState.ostatniPodklady.find(function(x){ return x.id === sid; }) : null;
+        if (d) {
+            if (d._drawerTyp === 'ostatni_ok') {
+                d.cj    = (document.getElementById('pdDokCj')||{}).value || '';
+                d.datum = (document.getElementById('pdDokDatum')||{}).value || '';
+            } else if (d._drawerTyp === 'ostatni_chybi') {
+                var ta = document.getElementById('pdSekce_zaporne') ? document.getElementById('pdSekce_zaporne').querySelector('textarea') : null;
+                if (ta) d.oduvodneniText = ta.value;
+            }
+            var pn = document.getElementById('pdPoznamka');
+            if (pn) d.poznamka = pn.value;
+            // Obnov grid pro ostatní typy
+            var infoGrid2 = (function(){
+                var dr = document.getElementById('podminkyDrawer');
+                return dr ? dr.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+            if (infoGrid2) infoGrid2.style.display = '';
+            if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+            rerenderOstatni();
+            return;
+        }
+        if (typeof origSave3 === 'function') origSave3();
+    };
+
+    // ── 5. Zavěsit do renderDokladyForm ──────────────────────────────
+    var origRenderForm = window.renderDokladyForm;
+    window.renderDokladyForm = function() {
+        if (typeof origRenderForm === 'function') origRenderForm();
+        var body = document.getElementById('dokladyFormBody');
+        if (!body) return;
+        if (!dokladyState.ostatniPodklady) dokladyState.ostatniPodklady = [];
+        if (!document.getElementById('sekcepanel_ostatni')) {
+            var wrapper = document.createElement('div');
+            wrapper.innerHTML = renderOstatniPodklady();
+            body.appendChild(wrapper.firstChild);
+        }
+    };
+
+    function rerenderOstatni() {
+        var existing = document.getElementById('sekcepanel_ostatni');
+        if (!existing) return;
+        var tmp = document.createElement('div');
+        tmp.innerHTML = renderOstatniPodklady();
+        existing.parentNode.replaceChild(tmp.firstChild, existing);
+    }
+    window.rerenderOstatni = rerenderOstatni;
+
+    })();
+    </script>
+
+<script>
+/* PATCH: Ostatní podklady — úprava drawerů pro Předloženo a Chybí */
+(function() {
+
+    /* ----------------------------------------------------------------
+       Pomocná funkce: injektuj extra pole do draweru (jednou)
+    ---------------------------------------------------------------- */
+    function ensureOstatniFields() {
+        if (document.getElementById('pdOstatniNazev')) return; // už existuje
+
+        var dr = document.getElementById('podminkyDrawer');
+        if (!dr) return;
+        var scrollDiv = dr.querySelector('[style*="overflow-y:auto"]') || dr.querySelector('[style*="overflow-y: auto"]');
+        if (!scrollDiv) return;
+
+        // --- Blok pro PŘEDLOŽENO (ok) ---
+        var blokOk = document.createElement('div');
+        blokOk.id = 'pdOstatniBlokOk';
+        blokOk.style.cssText = 'display:none;margin-bottom:16px;';
+        blokOk.innerHTML =
+            '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Informace o dokladu</div>' +
+            '<div style="margin-bottom:10px;">' +
+                '<div style="font-size:10px;color:#9aa0a6;margin-bottom:3px;">Název dokumentu</div>' +
+                '<input type="text" id="pdOstatniNazev" placeholder="Název dokumentu…" style="width:100%;padding:5px 8px;border:1px solid #dadce0;border-radius:5px;font-size:12px;font-family:inherit;box-sizing:border-box;">' +
+            '</div>' +
+            '<div>' +
+                '<div style="font-size:10px;color:#9aa0a6;margin-bottom:3px;">Vydal</div>' +
+                '<input type="text" id="pdOstatniVydal" placeholder="Název subjektu, který dokument vydal…" style="width:100%;padding:5px 8px;border:1px solid #dadce0;border-radius:5px;font-size:12px;font-family:inherit;box-sizing:border-box;">' +
+            '</div>';
+
+        // --- Blok pro CHYBÍ ---
+        var blokChybi = document.createElement('div');
+        blokChybi.id = 'pdOstatniBlokChybi';
+        blokChybi.style.cssText = 'display:none;margin-bottom:16px;';
+        blokChybi.innerHTML =
+            '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Informace o dokladu</div>' +
+            '<div style="margin-bottom:10px;">' +
+                '<div style="font-size:10px;color:#9aa0a6;margin-bottom:3px;">Název dokladu</div>' +
+                '<input type="text" id="pdOstatniChybiNazev" placeholder="Název dokladu…" style="width:100%;padding:5px 8px;border:1px solid #dadce0;border-radius:5px;font-size:12px;font-family:inherit;box-sizing:border-box;">' +
+            '</div>' +
+            '<div style="font-size:10px;color:#9aa0a6;margin-bottom:3px;">Odůvodnění požadavku na dokument</div>' +
+            '<textarea id="pdOstatniChybiOduv" style="width:100%;padding:8px 10px;border:1px solid #fdd663;border-radius:6px;font-size:12px;font-family:inherit;resize:vertical;min-height:120px;box-sizing:border-box;" placeholder="Odůvodnění požadavku na dokument…"></textarea>';
+
+        // Vlož obě sekce na začátek scrollDiv (před ostatní sekce)
+        scrollDiv.insertBefore(blokChybi, scrollDiv.firstChild);
+        scrollDiv.insertBefore(blokOk, scrollDiv.firstChild);
+    }
+
+    /* ----------------------------------------------------------------
+       Přepsat openOstatniPanel
+    ---------------------------------------------------------------- */
+    var origOpen = window.openOstatniPanel;
+    window.openOstatniPanel = function(id, typ) {
+        var d = (dokladyState.ostatniPodklady||[]).find(function(x){ return x.id === id; });
+        if (!d) return;
+        d.vysledek = typ;
+        d._drawerTyp = 'ostatni_' + typ;
+        window._podminkySubjektId = id;
+        rerenderOstatni();
+        requestAnimationFrame(function() {
+            var body = document.getElementById('opbody_' + id);
+            if (body) body.style.display = 'block';
+        });
+
+        setTimeout(function() {
+            ensureOstatniFields();
+
+            var cfg = typ === 'ok'
+                ? { title: 'Předložený doklad', icon: 'check_circle', color: '#137333' }
+                : { title: 'Chybějící doklad', icon: 'help_outline', color: '#e37400' };
+
+            var titleEl    = document.getElementById('podminkyDrawerTitle');
+            var subtitleEl = document.getElementById('podminkyDrawerSubtitle');
+            var iconEl     = document.getElementById('pdDrawerIcon');
+            if (titleEl)    titleEl.textContent    = cfg.title;
+            if (subtitleEl) subtitleEl.textContent = d.nazev;
+            if (iconEl)     { iconEl.textContent = cfg.icon; iconEl.style.color = cfg.color; }
+
+            // Skrýt všechny standardní sekce
+            ['souhlasne','podminky','zaporne','chybi','vti_chybi'].forEach(function(t) {
+                var el = document.getElementById('pdSekce_' + t);
+                if (el) el.style.display = 'none';
+            });
+
+            // Skrýt info grid (Typ dokladu / Soubor / č.j. / datum)
+            var infoGrid = (function(){
+                var dr = document.getElementById('podminkyDrawer');
+                return dr ? dr.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+            if (infoGrid) infoGrid.style.display = 'none';
+
+            // Skrýt oba naše bloky
+            var blokOk    = document.getElementById('pdOstatniBlokOk');
+            var blokChybi = document.getElementById('pdOstatniBlokChybi');
+            if (blokOk)    blokOk.style.display    = 'none';
+            if (blokChybi) blokChybi.style.display = 'none';
+
+            if (typ === 'ok') {
+                if (blokOk) {
+                    blokOk.style.display = 'block';
+                    var nazevEl = document.getElementById('pdOstatniNazev');
+                    var vydalEl = document.getElementById('pdOstatniVydal');
+                    if (nazevEl) nazevEl.value = d.nazev   || '';
+                    if (vydalEl) vydalEl.value = d.vydal   || '';
+                }
+            } else {
+                if (blokChybi) {
+                    blokChybi.style.display = 'block';
+                    var chybiNazevEl = document.getElementById('pdOstatniChybiNazev');
+                    var chybiOduvEl  = document.getElementById('pdOstatniChybiOduv');
+                    if (chybiNazevEl) chybiNazevEl.value = d.nazev        || '';
+                    if (chybiOduvEl)  chybiOduvEl.value  = d.oduvodneniText || '';
+                }
+            }
+
+            var pnEl = document.getElementById('pdPoznamka');
+            if (pnEl) pnEl.value = d.poznamka || '';
+
+            var drawer = document.getElementById('podminkyDrawer');
+            if (drawer) drawer.style.display = 'flex';
+        }, 60);
+    };
+
+    /* ----------------------------------------------------------------
+       Přepsat savePodminkyDrawer — uložit nová pole
+    ---------------------------------------------------------------- */
+    var origSave = window.savePodminkyDrawer;
+    window.savePodminkyDrawer = function() {
+        var sid = (typeof _podminkySubjektId !== 'undefined') ? _podminkySubjektId : null;
+        var d = sid && dokladyState.ostatniPodklady
+            ? dokladyState.ostatniPodklady.find(function(x){ return x.id === sid; }) : null;
+
+        if (d && d._drawerTyp === 'ostatni_ok') {
+            var nazevEl = document.getElementById('pdOstatniNazev');
+            var vydalEl = document.getElementById('pdOstatniVydal');
+            if (nazevEl && nazevEl.value.trim()) d.nazev = nazevEl.value.trim();
+            if (vydalEl) d.vydal = vydalEl.value.trim();
+            var pn = document.getElementById('pdPoznamka');
+            if (pn) d.poznamka = pn.value;
+            var infoGrid2 = (function(){
+                var dr = document.getElementById('podminkyDrawer');
+                return dr ? dr.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+            if (infoGrid2) infoGrid2.style.display = '';
+            if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+            rerenderOstatni();
+            return;
+        }
+
+        if (d && d._drawerTyp === 'ostatni_chybi') {
+            var chybiNazevEl = document.getElementById('pdOstatniChybiNazev');
+            var chybiOduvEl  = document.getElementById('pdOstatniChybiOduv');
+            if (chybiNazevEl && chybiNazevEl.value.trim()) d.nazev = chybiNazevEl.value.trim();
+            if (chybiOduvEl) d.oduvodneniText = chybiOduvEl.value;
+            var pn2 = document.getElementById('pdPoznamka');
+            if (pn2) d.poznamka = pn2.value;
+            var infoGrid3 = (function(){
+                var dr = document.getElementById('podminkyDrawer');
+                return dr ? dr.querySelector('div[style*="grid-template-columns"]') : null;
+            })();
+            if (infoGrid3) infoGrid3.style.display = '';
+            if (typeof closePodminkyDrawer === 'function') closePodminkyDrawer();
+            rerenderOstatni();
+            return;
+        }
+
+        // Fallback na původní logiku pro DO/VTI
+        if (typeof origSave === 'function') origSave();
+    };
+
+})();
+</script>
 </body>
 </html>
