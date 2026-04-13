@@ -131,10 +131,6 @@
             text-align: left !important;
         }
 
-        * {
-            text-align: left !important;
-        }
-
         .btn, .btn-primary, .btn-secondary, .btn-back, .control-card-action {
             text-align: center !important;
         }
@@ -910,23 +906,28 @@
         .ve-sidebar-legend { padding:12px 16px; border-top:1px solid #dadce0; margin-top:auto; }
         .ve-legend-item { display:flex; align-items:center; gap:8px; font-size:11px; color:#5f6368; margin-bottom:4px; }
         .ve-legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
-        .ve-main { flex:1; overflow-y:auto; padding:24px 32px; background:#eef1f5; }
-        .ve-paper { background:#fff; border-radius:8px; padding:32px 40px; box-shadow:0 1px 3px rgba(60,64,67,.15),0 4px 8px rgba(60,64,67,.1); font-family:'Roboto',sans-serif; font-size:12px; line-height:1.6; color:#333; }
-        .ve-block { position:relative; padding:12px 16px; border-radius:6px; margin-bottom:8px; border-left:3px solid transparent; transition:background .15s; }
-        .ve-block.auto { border-left-color:#dadce0; background:#f8f9fa; }
-        .ve-block.semi { border-left-color:#1a73e8; background:#f0f6ff; cursor:pointer; }
-        .ve-block.semi:hover { background:#e8f0fe; }
-        .ve-block.free { border-left-color:#f9ab00; background:#fffdf5; }
-        .ve-blk-label { position:absolute; top:4px; right:4px; display:none; align-items:center; gap:3px; font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; padding:2px 6px; border-radius:3px; opacity:.7; }
-        .ve-block.auto:hover .ve-blk-label { display:flex; }
-        .ve-block.semi .ve-blk-label, .ve-block.free .ve-blk-label { display:flex; }
-        .ve-blk-label.auto { background:#f1f3f4; color:#5f6368; }
+        .ve-main { flex:1; overflow-y:auto; padding:20px 24px; background:#e8eaed; }
+        .ve-paper { background:#fff; width:100%; max-width:780px; margin:0 auto; border-radius:2px; padding:44px 52px; box-shadow:0 1px 3px rgba(60,64,67,.3),0 4px 8px 3px rgba(60,64,67,.15); font-family:'Times New Roman',serif; font-size:11px; line-height:1.7; color:#333; }
+        .ve-block { position:relative; padding:8px 0; border-radius:0; margin-bottom:0; border-left:3px solid transparent; border-right:3px solid transparent; transition:background .15s; }
+        .ve-block.auto { border-left-color:transparent; background:transparent; }
+        .ve-block.auto:hover { border-left-color:#dadce0; background:#fafafa; }
+        .ve-block.semi { border-left-color:transparent; background:transparent; cursor:pointer; }
+        .ve-block.semi:hover { border-left-color:#a8c7fa; background:#f8faff; }
+        .ve-block.free { border-left-color:transparent; background:transparent; }
+        .ve-block.free:hover { border-left-color:#f9ab00; background:#fffdf5; }
+        .ve-blk-label { position:absolute; top:2px; right:4px; display:none; align-items:center; gap:3px; font-size:8px; font-weight:600; text-transform:uppercase; letter-spacing:.4px; padding:1px 5px; border-radius:3px; opacity:.6; font-family:'Roboto',sans-serif; }
+        .ve-block:hover .ve-blk-label { display:flex; }
+        .ve-blk-label.auto { background:#f1f3f4; color:#9aa0a6; }
         .ve-blk-label.semi { background:#e8f0fe; color:#1a73e8; }
         .ve-blk-label.free { background:#fef7e0; color:#e37400; }
-        .ve-blk-label .material-icons-outlined { font-size:11px; }
-        .ve-block .blk-urad { text-align:center; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:#202124; }
-        .ve-block .blk-sub { text-align:center; font-size:11px; color:#555; margin-top:2px; }
-        .ve-block .blk-body { font-size:12px; line-height:1.6; color:#333; }
+        .ve-blk-label .material-icons-outlined { font-size:10px; }
+        .ve-block.semi.ve-selected { border-left-color:#1a73e8; background:#fafcff; }
+        .ve-block.free.ve-selected { border-left-color:#f9ab00; background:#fffdf5; }
+        [contenteditable][data-placeholder]:empty:before { content:attr(data-placeholder); color:#bbb; font-style:italic; pointer-events:none; }
+        [contenteditable]:focus { outline:none; }
+        .ve-block .blk-urad { text-align:center; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px; color:#202124; font-family:'Roboto',sans-serif; }
+        .ve-block .blk-sub { text-align:center; font-size:10px; color:#555; margin-top:2px; font-family:'Roboto',sans-serif; }
+        .ve-block .blk-body { font-size:11px; line-height:1.7; color:#333; }
         .ve-block .blk-body p { margin-bottom:6px; text-align:justify; }
         .ve-props { width:240px; flex-shrink:0; border-left:1px solid #dadce0; background:#fff; overflow-y:auto; padding:16px; }
         .ve-props-section { margin-bottom:20px; }
@@ -941,8 +942,8 @@
         .ve-btn-secondary:hover { background:#e8eaed; }
         .ve-btn-primary { background:#1a73e8; color:white; }
         .ve-btn-primary:hover { background:#1557b0; }
-        .vyzva-free-area { min-height:80px; padding:10px 12px; border:1px solid #f9ab00; border-radius:6px; background:white; font-family:'Roboto',sans-serif; font-size:12px; line-height:1.6; color:#333; outline:none; width:100%; }
-        .vyzva-free-area:focus { border-color:#1a73e8; box-shadow:0 0 0 3px #e8f0fe; }
+        .vyzva-free-area { min-height:60px; padding:8px 0; border:none; border-bottom:1px dashed #f9ab00; border-radius:0; background:transparent; font-family:'Times New Roman',serif; font-size:11px; line-height:1.7; color:#333; outline:none; width:100%; }
+        .vyzva-free-area:focus { border-bottom-color:#1a73e8; box-shadow:none; background:#fffdf5; }
         .vyzva-free-area[placeholder]:empty:before { content:attr(placeholder); color:#999; }
 
         /* Rich editor */
@@ -968,7 +969,8 @@
         .re-btn-cancel:hover { background:#f1f3f4; }
         .re-btn-save { background:#1a73e8; color:#fff; border:none; }
         .re-btn-save:hover { background:#1557b0; }
-        .vdef-edit-btn { width:28px; height:28px; border:none; background:transparent; border-radius:4px; cursor:pointer; color:#5f6368; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .vdef-edit-btn { width:24px; height:24px; border:none; background:transparent; border-radius:4px; cursor:pointer; color:#5f6368; display:none; align-items:center; justify-content:center; flex-shrink:0; }
+        .ve-block:hover .vdef-edit-btn { display:flex; }
         .vdef-edit-btn:hover { color:#1a73e8; background:#e8f0fe; }
 
         /* Auto-save */
@@ -1911,11 +1913,6 @@
                     <span class="material-icons-outlined">arrow_back</span>
                     Zpět na kontrolu
                 </a>
-                <button class="btn" id="btnGeneratVyzva" onclick="openVyzvaEditor()"
-                    style="background:#e8710a;color:#fff;border:none;margin-left:8px;display:flex;align-items:center;gap:6px;">
-                    <span class="material-icons-outlined" style="font-size:18px;">mail</span>
-                    Generovat výzvu
-                </button>
             </div>
             <div class="actions-right">
                 <button class="btn btn-primary" id="btnPokracovat" disabled onclick="prejitNaRozhodnuti()">
@@ -2095,7 +2092,7 @@
                     </div>
                 </div>
 
-                <div class="control-section">
+                <div class="control-section" id="sekce-lhuta-namitky">
                     <div class="control-section-title">Lhůta pro námitky</div>
                     <div class="form-group">
                         <label class="form-label">Délka lhůty (dny)</label>
@@ -2145,8 +2142,8 @@
                 <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;background:#e6f4ea;border:1px solid #a8d5b5;border-radius:8px;">
                     <span class="material-icons-outlined" style="color:#137333;font-size:24px;">check_circle</span>
                     <div>
-                        <div style="font-size:13px;font-weight:600;color:#137333;">Výzva odeslána do datové schránky</div>
-                        <div style="font-size:12px;color:#5f6368;margin-top:2px;">Odesláno do DS uccchjm (Správa železnic, s.o.) · <span id="poplatekCasOdeslani"></span></div>
+                        <div style="font-size:13px;font-weight:600;color:#137333;">Předpis předán k podpisu</div>
+                        <div style="font-size:12px;color:#5f6368;margin-top:2px;">Předáno k podpisu · <span id="poplatekCasOdeslani"></span></div>
                     </div>
                 </div>
             </div>
@@ -2204,10 +2201,40 @@
                 <p style="text-align:center;font-weight:600;font-style:italic;margin:10px 0 14px;font-size:12px;">„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</p>
                 <p style="text-align:justify;margin-bottom:10px;">Dopravní a energetický stavební úřad (dále jen „DESÚ") vyzývá žadatele, aby ve lhůtě <strong>15 dnů</strong> ode dne doručení této výzvy zaplatil správní poplatek za podání žádosti o povolení záměru podle položky 18 odst. 1 písm. h) sazebníku správních poplatků, přílohy zákona č. 634/2004 Sb., ve znění pozdějších předpisů, se slevou podle § 9 odst. 6 téhož zákona (podání prostřednictvím Portálu stavebníka, tj. elektronicky — sleva 20 %, nejvýše 1 000 Kč):</p>
 
-                <div style="text-align:center;font-size:22px;font-weight:700;color:#004289;margin:18px 0;padding:12px 20px;background:#e8f0fe;border-radius:6px;font-family:'Roboto',sans-serif;">
-                    9 000 Kč
-                    <div style="font-size:11px;font-weight:400;color:#555;margin-top:4px;">( slovy: <em>devět tisíc korun českých</em> )</div>
-                    <div style="font-size:9px;color:#888;margin-top:3px;">Základní sazba 10 000 Kč − sleva 1 000 Kč</div>
+                <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:18px 0;padding:14px 20px;background:#e8f0fe;border-radius:6px;font-family:'Roboto',sans-serif;">
+                    <div style="text-align:center;flex:1;">
+                        <div style="font-size:22px;font-weight:700;color:#004289;">9 000 Kč</div>
+                        <div style="font-size:11px;font-weight:400;color:#555;margin-top:4px;">( slovy: <em>devět tisíc korun českých</em> )</div>
+                        <div style="font-size:9px;color:#888;margin-top:3px;">Základní sazba 10 000 Kč − sleva 1 000 Kč</div>
+                    </div>
+                    <div style="flex-shrink:0;text-align:center;">
+                        <svg width="80" height="80" viewBox="0 0 21 21" style="border:2px solid #e0e0e0;border-radius:4px;background:white;padding:2px;">
+                            <!-- Position patterns -->
+                            <rect x="0" y="0" width="7" height="7" fill="#222"/><rect x="1" y="1" width="5" height="5" fill="#fff"/><rect x="2" y="2" width="3" height="3" fill="#222"/>
+                            <rect x="14" y="0" width="7" height="7" fill="#222"/><rect x="15" y="1" width="5" height="5" fill="#fff"/><rect x="16" y="2" width="3" height="3" fill="#222"/>
+                            <rect x="0" y="14" width="7" height="7" fill="#222"/><rect x="1" y="15" width="5" height="5" fill="#fff"/><rect x="2" y="16" width="3" height="3" fill="#222"/>
+                            <!-- Data modules -->
+                            <rect x="8" y="0" width="1" height="1" fill="#222"/><rect x="10" y="0" width="1" height="1" fill="#222"/><rect x="12" y="0" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="2" width="1" height="1" fill="#222"/><rect x="11" y="2" width="1" height="1" fill="#222"/>
+                            <rect x="9" y="3" width="1" height="1" fill="#222"/><rect x="11" y="3" width="1" height="1" fill="#222"/><rect x="12" y="3" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="4" width="1" height="1" fill="#222"/><rect x="10" y="4" width="1" height="1" fill="#222"/><rect x="12" y="4" width="1" height="1" fill="#222"/>
+                            <rect x="9" y="5" width="1" height="1" fill="#222"/><rect x="11" y="5" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="6" width="1" height="1" fill="#222"/><rect x="10" y="6" width="1" height="1" fill="#222"/><rect x="12" y="6" width="1" height="1" fill="#222"/>
+                            <rect x="0" y="8" width="1" height="1" fill="#222"/><rect x="2" y="8" width="1" height="1" fill="#222"/><rect x="4" y="8" width="1" height="1" fill="#222"/><rect x="8" y="8" width="1" height="1" fill="#222"/><rect x="10" y="8" width="1" height="1" fill="#222"/><rect x="14" y="8" width="1" height="1" fill="#222"/><rect x="16" y="8" width="1" height="1" fill="#222"/><rect x="18" y="8" width="1" height="1" fill="#222"/><rect x="20" y="8" width="1" height="1" fill="#222"/>
+                            <rect x="1" y="9" width="1" height="1" fill="#222"/><rect x="3" y="9" width="1" height="1" fill="#222"/><rect x="9" y="9" width="1" height="1" fill="#222"/><rect x="11" y="9" width="1" height="1" fill="#222"/><rect x="15" y="9" width="1" height="1" fill="#222"/><rect x="17" y="9" width="1" height="1" fill="#222"/>
+                            <rect x="0" y="10" width="1" height="1" fill="#222"/><rect x="4" y="10" width="1" height="1" fill="#222"/><rect x="8" y="10" width="1" height="1" fill="#222"/><rect x="10" y="10" width="1" height="1" fill="#222"/><rect x="12" y="10" width="1" height="1" fill="#222"/><rect x="14" y="10" width="1" height="1" fill="#222"/><rect x="18" y="10" width="1" height="1" fill="#222"/><rect x="20" y="10" width="1" height="1" fill="#222"/>
+                            <rect x="1" y="11" width="1" height="1" fill="#222"/><rect x="5" y="11" width="1" height="1" fill="#222"/><rect x="9" y="11" width="1" height="1" fill="#222"/><rect x="11" y="11" width="1" height="1" fill="#222"/><rect x="15" y="11" width="1" height="1" fill="#222"/><rect x="19" y="11" width="1" height="1" fill="#222"/>
+                            <rect x="0" y="12" width="1" height="1" fill="#222"/><rect x="2" y="12" width="1" height="1" fill="#222"/><rect x="4" y="12" width="1" height="1" fill="#222"/><rect x="8" y="12" width="1" height="1" fill="#222"/><rect x="12" y="12" width="1" height="1" fill="#222"/><rect x="14" y="12" width="1" height="1" fill="#222"/><rect x="16" y="12" width="1" height="1" fill="#222"/><rect x="20" y="12" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="14" width="1" height="1" fill="#222"/><rect x="9" y="14" width="1" height="1" fill="#222"/><rect x="11" y="14" width="1" height="1" fill="#222"/><rect x="15" y="14" width="1" height="1" fill="#222"/><rect x="17" y="14" width="1" height="1" fill="#222"/><rect x="20" y="14" width="1" height="1" fill="#222"/>
+                            <rect x="9" y="15" width="1" height="1" fill="#222"/><rect x="12" y="15" width="1" height="1" fill="#222"/><rect x="14" y="15" width="1" height="1" fill="#222"/><rect x="16" y="15" width="1" height="1" fill="#222"/><rect x="19" y="15" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="16" width="1" height="1" fill="#222"/><rect x="10" y="16" width="1" height="1" fill="#222"/><rect x="15" y="16" width="1" height="1" fill="#222"/><rect x="17" y="16" width="1" height="1" fill="#222"/><rect x="20" y="16" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="17" width="1" height="1" fill="#222"/><rect x="11" y="17" width="1" height="1" fill="#222"/><rect x="14" y="17" width="1" height="1" fill="#222"/><rect x="16" y="17" width="1" height="1" fill="#222"/><rect x="18" y="17" width="1" height="1" fill="#222"/>
+                            <rect x="9" y="18" width="1" height="1" fill="#222"/><rect x="12" y="18" width="1" height="1" fill="#222"/><rect x="15" y="18" width="1" height="1" fill="#222"/><rect x="17" y="18" width="1" height="1" fill="#222"/><rect x="19" y="18" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="19" width="1" height="1" fill="#222"/><rect x="10" y="19" width="1" height="1" fill="#222"/><rect x="14" y="19" width="1" height="1" fill="#222"/><rect x="16" y="19" width="1" height="1" fill="#222"/><rect x="20" y="19" width="1" height="1" fill="#222"/>
+                            <rect x="8" y="20" width="1" height="1" fill="#222"/><rect x="11" y="20" width="1" height="1" fill="#222"/><rect x="15" y="20" width="1" height="1" fill="#222"/><rect x="18" y="20" width="1" height="1" fill="#222"/><rect x="20" y="20" width="1" height="1" fill="#222"/>
+                        </svg>
+                        <div style="font-size:8px;color:#888;margin-top:3px;">QR platba</div>
+                    </div>
                 </div>
 
                 <p style="margin-bottom:6px;">Poplatek zašlete na účet DESÚ vedený u České národní banky:</p>
@@ -2236,13 +2263,13 @@
             </div>
             <div class="control-form-footer-right">
                 <button class="btn btn-secondary" onclick="closeControl('controlPoplatek')">Zavřít</button>
-                <button class="btn btn-secondary" onclick="showToast('PDF otevřeno v novém okně')">
-                    <span class="material-icons-outlined">visibility</span>
-                    Náhled PDF
+                <button class="btn btn-secondary" onclick="showToast('PDF staženo')">
+                    <span class="material-icons-outlined">download</span>
+                    Stáhnout PDF
                 </button>
                 <button class="btn btn-primary" id="btnGeneratPoplatek" onclick="odeslatPoplatek()" style="background:#137333;">
                     <span class="material-icons-outlined">send</span>
-                    Generovat a odeslat
+                    Generovat a předat k podpisu
                 </button>
             </div>
         </div>
@@ -2263,7 +2290,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:6px;background:#e8f0fe;padding:5px 12px;border-radius:14px;font-size:11px;color:#004289;font-weight:500;">
                 <span class="material-icons-outlined" style="font-size:16px;">edit_document</span>
-                Blokový editor dokumentu
+                WYSIWYG editor
             </div>
         </div>
         <!-- Editor fullscreen layout — 3 sloupce jako výzva -->
@@ -2327,9 +2354,10 @@
                     </div>
                 </div>
                 <div class="ve-sidebar-legend">
-                    <div class="ve-legend-item"><div class="ve-legend-dot" style="background:#dadce0"></div> Automatický</div>
-                    <div class="ve-legend-item"><div class="ve-legend-dot" style="background:#a8c7fa"></div> Semi-auto (upravitelný)</div>
+                    <div class="ve-legend-item"><div class="ve-legend-dot" style="background:#dadce0"></div> Automatický (jen čtení)</div>
+                    <div class="ve-legend-item"><div class="ve-legend-dot" style="background:#a8c7fa"></div> Předvyplněný (upravitelný)</div>
                     <div class="ve-legend-item"><div class="ve-legend-dot" style="background:#f9ab00"></div> Volný text</div>
+                    <div style="font-size:10px;color:#9aa0a6;margin-top:6px;font-style:italic;">Najeďte na blok pro zobrazení typu</div>
                 </div>
             </div>
 
@@ -2338,17 +2366,17 @@
                 <div class="ve-paper">
 
                     <!-- Hlavička -->
-                    <div class="ve-block auto" id="vyr-hlavicka">
+                    <div class="ve-block auto" id="vyr-hlavicka" style="padding-bottom:12px;margin-bottom:12px;border-bottom:2px solid #004289;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto</span>
-                        <div class="blk-urad">Dopravní a energetický stavební úřad</div>
-                        <div class="blk-sub">Odbor staveb drah · Pracoviště Olomouc</div>
-                        <div class="blk-sub">Jeremenkova 40b, 779 00 Olomouc</div>
+                        <div class="blk-urad" style="text-align:center;">Dopravní a energetický stavební úřad</div>
+                        <div class="blk-sub" style="text-align:center;">Odbor staveb drah · Pracoviště Olomouc</div>
+                        <div class="blk-sub" style="text-align:center;">Jeremenkova 40b, 779 00 Olomouc</div>
                     </div>
 
                     <!-- Spisové údaje -->
                     <div class="ve-block auto" id="vyr-spis" style="margin-top:16px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · spis</span>
-                        <div class="blk-body" style="display:flex;justify-content:space-between;font-size:11px;">
+                        <div class="blk-body" style="display:flex;justify-content:space-between;font-size:10px;font-family:'Roboto',sans-serif;color:#555;">
                             <div>
                                 <div>Spis. zn.: <strong>SZ DESU/000612/26</strong></div>
                                 <div>Č.j.: <strong>DESU/000618/26/OSD</strong></div>
@@ -2364,12 +2392,12 @@
                     <!-- Adresát -->
                     <div class="ve-block auto" id="vyr-adresat" style="margin-top:16px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · účastníci</span>
-                        <div class="blk-body" style="font-size:12px;">
+                        <div class="blk-body" style="font-size:11px;">
                             <div style="font-weight:600;">Správa železnic, státní organizace</div>
                             <div>IČO: 70994234</div>
                             <div>Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
                             <div style="color:#5f6368;margin-top:2px;">zastoupena: Signal Projekt s.r.o., DS: signal01</div>
-                            <div style="margin-top:6px;display:flex;gap:12px;font-size:11px;color:#5f6368;">
+                            <div style="margin-top:6px;display:flex;gap:12px;font-size:10px;color:#5f6368;">
                                 <span>+ Městys Doudleby n.O. (obec)</span>
                                 <span>+ Obec Záměl</span>
                                 <span>+ Město Vamberk</span>
@@ -2381,8 +2409,9 @@
                     <!-- Věc -->
                     <div class="ve-block auto" id="vyr-vec" style="margin-top:20px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
-                        <div class="blk-body" style="font-size:12px;">
-                            <div style="font-weight:700;margin-bottom:4px;">Věc: Oznámení o zahájení řízení — povolení záměru</div>
+                        <div class="blk-body">
+                            <div style="text-align:center;font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:1px;font-family:'Roboto',sans-serif;">OZNÁMENÍ</div>
+                            <div style="text-align:center;font-size:11px;font-weight:600;margin-bottom:12px;letter-spacing:.5px;font-family:'Roboto',sans-serif;">O ZAHÁJENÍ ŘÍZENÍ — POVOLENÍ ZÁMĚRU</div>
                             <p>Dopravní a energetický stavební úřad (dále jen „DESÚ") oznamuje zahájení řízení o žádosti o povolení záměru podané dne <strong>6. 1. 2026</strong> stavebníkem <strong>Správa železnic, státní organizace</strong>, IČO: 70994234, zastoupenou Signal Projekt s.r.o. na základě plné moci.</p>
                         </div>
                     </div>
@@ -2391,7 +2420,7 @@
                     <div class="ve-block auto" id="vyr-zamer" style="margin-top:12px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · záměr</span>
                         <div class="blk-body">
-                            <p style="text-align:center;font-weight:600;font-style:italic;font-size:13px;">„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</p>
+                            <p style="text-align:center;font-weight:600;font-style:italic;font-size:12px;">„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</p>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:11px;margin-top:8px;">
                                 <div><span style="color:#5f6368;">Č. záměru:</span> <strong>Z/2026/1596</strong></div>
                                 <div><span style="color:#5f6368;">Druh stavby:</span> <strong>Vyhrazená stavba — dráha</strong></div>
@@ -2404,89 +2433,10 @@
                         </div>
                     </div>
 
-                    <!-- POPIS ZÁMĚRU — sdílený artefakt -->
-                    <!-- POPIS ZÁMĚRU — sdílený artefakt ze systému -->
-                    <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;padding:0;overflow:hidden;">
-
-                        <!-- STAV A: Prázdný -->
-                        <div id="vyrPopisEmpty" style="padding:14px 16px;">
-                            <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
-                            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;padding:10px 12px;background:#fffbea;border:1px dashed #f6b900;border-radius:6px;">
-                                <span class="material-icons-outlined" style="font-size:18px;color:#b06000;flex-shrink:0;margin-top:1px;">warning_amber</span>
-                                <div>
-                                    <div style="font-size:12px;font-weight:600;color:#b06000;">Popis záměru nebyl dosud uložen do systému</div>
-                                    <div style="font-size:11px;color:#7a4200;margin-top:2px;">Popis se použije ve vyrozumění, rozhodnutí a dalších dokumentech. Vytvořte ho níže nebo v <strong>Kontrole žádosti</strong>, kde jsou přímo dostupné podklady (žádost, STZ).</div>
-                                </div>
-                            </div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
-                                <button onclick="vyrozPopisNacist('zadost')" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
-                                    <span class="material-icons-outlined" style="font-size:15px;">list_alt</span> Ze žádosti (stručně)
-                                </button>
-                                <button onclick="vyrozPopisNacist('stz')" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:5px;">
-                                    <span class="material-icons-outlined" style="font-size:15px;">description</span> Ze STZ (podrobněji)
-                                </button>
-                            </div>
-                            <textarea id="vyrPopisTA" rows="5" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;line-height:1.6;resize:vertical;outline:none;" placeholder="Nebo napište popis ručně..."></textarea>
-                            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
-                                <button onclick="vyrozPopisUlozit(false)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Text se použije jen v tomto dokumentu, do systému se neuloží">
-                                    <span class="material-icons-outlined" style="font-size:14px;">article</span> Jen do tohoto dokumentu
-                                </button>
-                                <button onclick="vyrozPopisUlozit(true)" class="ve-btn ve-btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Text se uloží do systému a použije se ve všech budoucích dokumentech">
-                                    <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span> Uložit do systému
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- STAV B: Editace uloženého textu -->
-                        <div id="vyrPopisEditor" style="display:none;">
-                            <div style="padding:10px 16px 0;display:flex;align-items:center;justify-content:space-between;">
-                                <div style="font-size:11px;font-weight:600;color:#1a73e8;text-transform:uppercase;letter-spacing:.4px;">Popis záměru — editace</div>
-                                <div style="display:flex;gap:6px;">
-                                    <button onclick="vyrozPopisNacist('zadost')" style="font-size:11px;padding:3px 9px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:4px;">
-                                        <span class="material-icons-outlined" style="font-size:12px;">list_alt</span>Ze žádosti
-                                    </button>
-                                    <button onclick="vyrozPopisNacist('stz')" style="font-size:11px;padding:3px 9px;background:#e8f0fe;color:#1a73e8;border:1px solid #a8c7fa;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:4px;">
-                                        <span class="material-icons-outlined" style="font-size:12px;">description</span>Ze STZ
-                                    </button>
-                                </div>
-                            </div>
-                            <textarea id="vyrPopisEditTA" rows="6" style="width:100%;box-sizing:border-box;padding:10px 16px;border:none;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0;font-family:inherit;font-size:12px;line-height:1.7;color:#202124;resize:vertical;outline:none;margin-top:8px;background:#f0f6ff;"></textarea>
-                            <div style="padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:#f8f9fa;gap:8px;flex-wrap:wrap;">
-                                <button onclick="vyrozPopisZrusitEdit()" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;">Zrušit</button>
-                                <div style="display:flex;gap:8px;">
-                                    <button onclick="vyrozPopisUlozit(false)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Jen do tohoto dokumentu, systém se nemění">
-                                        <span class="material-icons-outlined" style="font-size:14px;">article</span> Jen do tohoto dokumentu
-                                    </button>
-                                    <button onclick="vyrozPopisUlozit(true)" class="ve-btn ve-btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;" title="Přepíše kanonický text v systému">
-                                        <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span> Uložit do systému
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- STAV C: Zobrazení uloženého textu -->
-                        <div id="vyrPopisSaved" style="display:none;padding:14px 16px;">
-                            <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
-                            <div id="vyrPopisSavedMeta" style="font-size:10px;color:#5f6368;margin-bottom:8px;display:flex;align-items:center;gap:5px;"></div>
-                            <div id="vyrPopisSavedText" class="blk-body" style="font-size:12px;line-height:1.7;white-space:pre-wrap;"></div>
-                            <div style="margin-top:10px;position:relative;display:inline-block;">
-                                <button onclick="vyrozPopisToggleMenu(event)" class="ve-btn ve-btn-secondary" style="font-size:12px;padding:5px 12px;border-radius:6px;display:flex;align-items:center;gap:5px;">
-                                    <span class="material-icons-outlined" style="font-size:15px;">edit</span>
-                                    Upravit
-                                    <span class="material-icons-outlined" style="font-size:14px;">expand_more</span>
-                                </button>
-                                <div id="vyrPopisMenu" style="display:none;position:absolute;left:0;top:calc(100% + 4px);min-width:280px;background:#fff;border:1px solid #dadce0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.18);z-index:200;overflow:hidden;">
-                                    <div onclick="vyrozPopisSpustitEdit(false)" style="padding:11px 14px;cursor:pointer;font-size:12px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid #f0f0f0;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">
-                                        <span class="material-icons-outlined" style="font-size:17px;color:#5f6368;margin-top:1px;flex-shrink:0;">article</span>
-                                        <div><div style="font-weight:500;color:#202124;">Jen do tohoto dokumentu</div><div style="font-size:11px;color:#5f6368;margin-top:2px;">Kanonický text v systému zůstane nezměněn.</div></div>
-                                    </div>
-                                    <div onclick="vyrozPopisSpustitEdit(true)" style="padding:11px 14px;cursor:pointer;font-size:12px;display:flex;align-items:flex-start;gap:10px;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background=''">
-                                        <span class="material-icons-outlined" style="font-size:17px;color:#1a73e8;margin-top:1px;flex-shrink:0;">cloud_done</span>
-                                        <div><div style="font-weight:500;color:#1a73e8;">Upravit a uložit do systému</div><div style="font-size:11px;color:#5f6368;margin-top:2px;">Přepíše kanonický text — projeví se ve všech budoucích dokumentech.</div></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- POPIS ZÁMĚRU — contenteditable v dokumentu -->
+                    <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;" onclick="veSelectBlock('popis')">
+                        <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
+                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="white-space:pre-wrap;outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"></div>
                     </div>
 
                     <!-- VYMEZENÍ ÚZEMÍ (AUTO) -->
@@ -2498,7 +2448,7 @@
                     </div>
 
                     <!-- ÚSTNÍ JEDNÁNÍ (SEMI) -->
-                    <div class="ve-block semi" id="vyr-ustni" style="margin-top:12px;">
+                    <div class="ve-block semi" id="vyr-ustni" style="margin-top:12px;" onclick="veSelectBlock('ustni')">
                         <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · z nastavení</span>
                         <div class="blk-body" id="vyrUstniText">
                             <p><strong>Ústní jednání:</strong> DESÚ nenařizuje ústní jednání. Účastníci řízení mohou nahlédnout do podkladů a uplatnit námitky a připomínky písemně.</p>
@@ -2509,11 +2459,11 @@
                     </div>
 
                     <!-- NÁMITKY A LHŮTA (SEMI) -->
-                    <div class="ve-block semi" id="vyr-namitky" style="margin-top:12px;">
+                    <div class="ve-block semi" id="vyr-namitky" style="margin-top:12px;" onclick="veSelectBlock('namitky')">
                         <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · lhůta z nastavení</span>
                         <div class="blk-body" id="vyrNamitkyText">
                             <p><strong>Námitky účastníků řízení</strong> mohou být uplatněny nejpozději do <strong id="vyrLhutaDatum">22. 1. 2026</strong> (lhůta 15 dnů od doručení). K námitkám podaným po stanovené lhůtě DESÚ nepřihlíží.</p>
-                            <p style="margin-top:6px;font-size:11px;color:#5f6368;">Právní základ: § 189 odst. 1 zákona č. 283/2021 Sb., stavební zákon</p>
+                            <p style="margin-top:6px;font-size:11px;color:#666;">Právní základ: § 189 odst. 1 zákona č. 283/2021 Sb., stavební zákon</p>
                         </div>
                         <button class="vdef-edit-btn" onclick="openRichEditor({title:'Námitky a lhůta — upravit text',targetId:'vyrNamitkyText'})" title="Upravit" style="position:absolute;top:4px;right:4px;">
                             <span class="material-icons-outlined" style="font-size:15px;">edit</span>
@@ -2529,10 +2479,9 @@
                     </div>
 
                     <!-- POZNÁMKA (FREE) -->
-                    <div class="ve-block free" id="vyr-poznamka" style="margin-top:12px;">
+                    <div class="ve-block free" id="vyr-poznamka" style="margin-top:12px;" onclick="veSelectBlock('poznamka')">
                         <span class="ve-blk-label free"><span class="material-icons-outlined">edit</span> volný text</span>
-                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#e37400;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
-                            <span class="material-icons-outlined" style="font-size:16px;">edit_note</span>
+                        <div style="font-size:9px;font-weight:500;letter-spacing:.3px;color:#b8860b;margin-bottom:4px;font-family:'Roboto',sans-serif;">
                             Doplňující pokyny (nepovinné)
                         </div>
                         <div contenteditable="true" class="vyzva-free-area" id="vyrPoznamkaText"
@@ -2548,14 +2497,14 @@
                     </div>
 
                     <!-- Podpis -->
-                    <div class="ve-block auto" id="vyr-podpis" style="margin-top:20px;">
+                    <div class="ve-block auto" id="vyr-podpis" style="margin-top:28px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · org. struktura</span>
-                        <div class="blk-body" style="text-align:right;margin-top:16px;">
+                        <div class="blk-body" style="text-align:right;margin-top:16px;font-size:11px;">
                             <strong>Ing. Jitka Kotásková</strong><br>
                             ředitelka odboru staveb drah<br>
-                            <span style="color:#555;font-size:11px;">Dopravní a energetický stavební úřad</span>
+                            <span style="color:#888;font-size:9px;">(elektronicky podepsáno)</span>
                         </div>
-                        <div class="blk-body" style="margin-top:16px;padding-top:10px;border-top:1px solid #ddd;font-size:11px;color:#666;">
+                        <div class="blk-body" style="margin-top:18px;padding-top:10px;border-top:1px solid #ddd;font-size:10px;color:#666;">
                             <strong>Obdrží (DS):</strong><br>
                             Signal Projekt s.r.o., DS: signal01 (za stavebníka Správa železnic, s.o.)<br>
                             Městys Doudleby nad Orlicí, DS: ycmaebe<br>
@@ -2608,6 +2557,75 @@
                         <span style="font-size:10px;padding:3px 8px;background:#f8f9fa;border-radius:10px;color:#5f6368;">Org. struktura</span>
                     </div>
                 </div>
+
+                <!-- Kontextový panel — mění se podle vybraného bloku -->
+                <div id="veContextPanel" style="display:none;">
+                    <!-- Popis záměru -->
+                    <div id="veCtx-popis" class="ve-props-section" style="display:none;">
+                        <div class="ve-props-title" style="color:#1a73e8;">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">tune</span>
+                            Popis záměru
+                        </div>
+                        <div id="veCtxPopisBanner" style="padding:8px 10px;background:#fffbea;border:1px dashed #f6b900;border-radius:6px;margin-bottom:10px;">
+                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                                <span class="material-icons-outlined" style="font-size:14px;color:#b06000;">warning_amber</span>
+                                <span style="font-size:11px;font-weight:600;color:#b06000;">Popis nebyl uložen</span>
+                            </div>
+                            <div style="font-size:10px;color:#7a4200;line-height:1.4;">Vytvořte popis v dokumentu nebo načtěte z podkladů.</div>
+                        </div>
+                        <div style="font-size:10px;font-weight:600;color:#5f6368;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;">Načíst z podkladů</div>
+                        <button onclick="vyrozPopisNacist('zadost')" style="width:100%;text-align:left;padding:7px 10px;margin-bottom:4px;background:#f8f9fa;border:1px solid #e8eaed;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;">
+                            <span class="material-icons-outlined" style="font-size:14px;color:#5f6368;">list_alt</span>
+                            <div><div style="font-weight:500;">Ze žádosti</div><div style="font-size:10px;color:#9aa0a6;">Stručný popis</div></div>
+                        </button>
+                        <button onclick="vyrozPopisNacist('stz')" style="width:100%;text-align:left;padding:7px 10px;margin-bottom:10px;background:#f8f9fa;border:1px solid #e8eaed;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;">
+                            <span class="material-icons-outlined" style="font-size:14px;color:#5f6368;">description</span>
+                            <div><div style="font-weight:500;">Ze STZ</div><div style="font-size:10px;color:#9aa0a6;">Podrobnější technický popis</div></div>
+                        </button>
+                        <div style="font-size:10px;font-weight:600;color:#5f6368;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;">Uložení</div>
+                        <div id="veCtxPopisMeta" style="font-size:10px;color:#5f6368;margin-bottom:6px;display:flex;align-items:center;gap:4px;flex-wrap:wrap;"></div>
+                        <button onclick="vyrozPopisUlozit(false)" style="width:100%;padding:7px 10px;margin-bottom:4px;background:#fff;border:1px solid #dadce0;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;">
+                            <span class="material-icons-outlined" style="font-size:14px;color:#5f6368;">article</span>
+                            Jen do tohoto dokumentu
+                        </button>
+                        <button onclick="vyrozPopisUlozit(true)" style="width:100%;padding:7px 10px;background:#004289;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:500;">
+                            <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span>
+                            Uložit do systému
+                        </button>
+                    </div>
+
+                    <!-- Ústní jednání -->
+                    <div id="veCtx-ustni" class="ve-props-section" style="display:none;">
+                        <div class="ve-props-title" style="color:#1a73e8;">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">tune</span>
+                            Ústní jednání
+                        </div>
+                        <div style="font-size:11px;color:#5f6368;line-height:1.4;margin-bottom:8px;">Text je předvyplněný z nastavení projednání. Můžete ho upravit přímo v dokumentu.</div>
+                        <div class="ve-props-stat"><span class="lbl">Stav</span><span class="val" id="veCtxUstniStav">Nenařízeno</span></div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-top:8px;">Zdroj: Nastavení projednání</div>
+                    </div>
+
+                    <!-- Námitky a lhůta -->
+                    <div id="veCtx-namitky" class="ve-props-section" style="display:none;">
+                        <div class="ve-props-title" style="color:#1a73e8;">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">tune</span>
+                            Námitky a lhůta
+                        </div>
+                        <div style="font-size:11px;color:#5f6368;line-height:1.4;margin-bottom:8px;">Text je předvyplněný z nastavení. Lhůta a datum se doplní automaticky.</div>
+                        <div class="ve-props-stat"><span class="lbl">Lhůta</span><span class="val" id="veCtxNamitkyLhuta">15 dnů</span></div>
+                        <div class="ve-props-stat"><span class="lbl">Do</span><span class="val" id="veCtxNamitkyDatum">22. 1. 2026</span></div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-top:8px;">Zdroj: Nastavení projednání</div>
+                    </div>
+
+                    <!-- Poznámka (free) -->
+                    <div id="veCtx-poznamka" class="ve-props-section" style="display:none;">
+                        <div class="ve-props-title" style="color:#e37400;">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">edit</span>
+                            Volný text
+                        </div>
+                        <div style="font-size:11px;color:#5f6368;line-height:1.4;">Tato sekce je zcela volná. Slouží pro doplňující pokyny specifické pro toto řízení. Není povinná.</div>
+                    </div>
+                </div>
             </div>
 
         </div><!-- /flex body -->
@@ -2618,14 +2636,14 @@
                 <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">info</span>
                 Šedé bloky jsou automatické. Modré bloky jsou předvyplněné z nastavení projednání — lze upravit.
             </div>
-            <button class="ve-btn ve-btn-secondary" onclick="closeControl('controlVyrozumeni')">Zavřít</button>
-            <button class="ve-btn ve-btn-secondary" onclick="showToast('Koncept uložen')">
+            <button class="btn btn-secondary" onclick="closeControl('controlVyrozumeni')">Zavřít</button>
+            <button class="btn btn-secondary" onclick="showToast('Koncept uložen')">
                 <span class="material-icons-outlined">save</span>Uložit koncept
             </button>
-            <button class="ve-btn ve-btn-secondary" onclick="vyrozNahledPDF()">
+            <button class="btn btn-secondary" onclick="vyrozNahledPDF()">
                 <span class="material-icons-outlined">visibility</span>Náhled PDF
             </button>
-            <button class="ve-btn ve-btn-primary" onclick="vyrozOdeslat()">
+            <button class="btn btn-primary" onclick="vyrozOdeslat()">
                 <span class="material-icons-outlined">check_circle</span>Dokončit a odeslat
             </button>
         </div>
@@ -3714,56 +3732,72 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
         }
 
         function vyrozNahledPDF() {
-            // Sestavit HTML dokumentu pro tiskové okno
-            var ustniText = document.getElementById('vyrUstniText') ? document.getElementById('vyrUstniText').innerText : '';
-            var namitkyText = document.getElementById('vyrNamitkyText') ? document.getElementById('vyrNamitkyText').innerText : '';
-            var poznamka = document.getElementById('vyrPoznamkaText') ? document.getElementById('vyrPoznamkaText').innerText.trim() : '';
+            // Přečíst aktuální obsah ze všech bloků editoru
+            var paper = document.querySelector('#controlVyrozumeni .ve-paper');
+            if (!paper) { showToast('Editor není otevřen'); return; }
 
-            var docHtml = '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Vyrozumění o zahájení řízení — SZ DESU/000612/26</title><style>' +
-                '* { margin:0;padding:0;box-sizing:border-box; } body { font-family:Arial,Helvetica,sans-serif;font-size:9.5pt;color:#000;background:#f4f4f4; }' +
-                '.page { width:210mm;min-height:297mm;margin:0 auto;padding:18mm 20mm 20mm 20mm;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.15); }' +
-                '.header { border-bottom:2.5px solid #004289;padding-bottom:8pt;margin-bottom:10pt; }' +
-                '.organ { font-size:11pt;font-weight:bold;color:#004289; }' +
-                '.meta { display:flex;justify-content:space-between;font-size:8.5pt;color:#444;margin-bottom:14pt; }' +
-                '.vec { font-weight:bold;font-size:10pt;margin-bottom:8pt;color:#004289; }' +
-                '.zamer { background:#f0f4fa;border-left:3pt solid #004289;padding:8pt 10pt;margin:10pt 0;font-size:9pt; }' +
-                '.text { font-size:9.5pt;line-height:1.6;margin-bottom:8pt;text-align:justify; }' +
-                '.pouceni { font-size:9pt;line-height:1.6;text-align:justify;color:#333; }' +
-                '.podpis { text-align:right;margin-top:24pt; }' +
-                '.obdrzi { margin-top:18pt;font-size:8.5pt;border-top:1pt dashed #ccc;padding-top:8pt; }' +
-                '.print-toolbar { position:fixed;top:0;left:0;right:0;background:#004289;color:#fff;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;z-index:1000; }' +
-                'body.with-toolbar .page { margin-top:56px; }' +
-                '.btn-print { padding:7px 18px;border:none;border-radius:6px;cursor:pointer;font-size:13px;background:#fff;color:#004289; }' +
-                '.btn-close-win { padding:7px 18px;border:none;border-radius:6px;cursor:pointer;font-size:13px;background:rgba(255,255,255,.15);color:#fff;margin-left:8px; }' +
-                '@media print { body { background:white; } .page { margin:0;box-shadow:none; } .no-print { display:none!important; } @page { size:A4;margin:0; } }' +
-                '</style></head><body class="with-toolbar">' +
-                '<div class="print-toolbar no-print"><h3>Vyrozumění o zahájení řízení — SZ DESU/000612/26</h3><div>' +
-                '<button class="btn-print" onclick="window.print()">Tisknout / Uložit PDF</button>' +
-                '<button class="btn-close-win" onclick="window.close()">Zavřít</button></div></div>' +
-                '<div class="page">' +
-                '<div class="header"><div class="organ">Dopravní a energetický stavební úřad</div><div style="font-size:8.5pt;color:#555;">Odbor staveb drah · Pracoviště Olomouc</div></div>' +
-                '<div class="meta"><div><div>Spis. zn.: <strong>SZ DESU/000612/26</strong></div><div>Č.j.: <strong>DESU/000618/26/OSD</strong></div></div>' +
-                '<div style="text-align:right;"><div>Vyřizuje: <strong>Ing. et Ing. M. Homolová Dubová, Ph.D.</strong></div><div>Datum: <strong>8. 1. 2026</strong></div></div></div>' +
-                '<div style="margin-bottom:12pt;font-size:8.5pt;"><strong>Správa železnic, státní organizace</strong>, IČO: 70994234<br>Dlážděná 1003/7, 110 00 Praha 1<br>zastoupena: Signal Projekt s.r.o., DS: signal01</div>' +
-                '<div class="vec">Věc: Oznámení o zahájení řízení — povolení záměru</div>' +
-                '<div class="zamer"><strong>„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</strong><br><span style="font-size:8.5pt;color:#555;">Č. záměru: Z/2026/1596 · Vyhrazená stavba dráhy · Zahájení: 7. 1. 2026</span></div>' +
-                '<div class="text">Dopravní a energetický stavební úřad oznamuje zahájení řízení o žádosti o povolení záměru podané dne 6. 1. 2026 stavebníkem Správa železnic, státní organizace.</div>' +
-                '<div class="text">' + ustniText + '</div>' +
-                '<div class="text">' + namitkyText + '</div>' +
-                '<div class="text">Nahlížení do spisu: Účastníci řízení mohou nahlédnout do podkladů v sídle DESÚ, pracoviště Olomouc, v úředních hodinách, nebo elektronicky prostřednictvím Portálu stavebníka (spis č. Z/2026/1596).</div>' +
-                (poznamka ? '<div class="text" style="font-style:italic;color:#555;">' + poznamka + '</div>' : '') +
-                '<div class="pouceni"><strong>Poučení:</strong> Toto oznámení není rozhodnutím ve smyslu správního řádu. Účastníci řízení jsou oprávněni navrhovat důkazy, činit návrhy a uplatňovat námitky ve stanovené lhůtě.</div>' +
-                '<div class="podpis"><strong>Ing. Jitka Kotásková</strong><br>ředitelka odboru staveb drah</div>' +
-                '<div class="obdrzi"><strong>Obdrží:</strong><br>Signal Projekt s.r.o. (DS: signal01) · Městys Doudleby n.O. (DS: ycmaebe) · Obec Záměl (DS: zy6bsxb) · Město Vamberk (DS: k8jbduv) · 5 vlastníků pozemků</div>' +
-                '</div></body></html>';
+            // Klonovat papír a vyčistit editor-only prvky
+            var clone = paper.cloneNode(true);
+            // Odebrat labely, edit buttony, placeholdery
+            clone.querySelectorAll('.ve-blk-label, .vdef-edit-btn').forEach(function(el) { el.remove(); });
+            // Odebrat border-left z bloků
+            clone.querySelectorAll('.ve-block').forEach(function(b) {
+                b.style.borderLeft = 'none';
+                b.style.padding = '0';
+                b.style.margin = '0';
+                b.style.marginBottom = '0';
+                b.style.background = 'transparent';
+            });
+            // Contenteditable → statický
+            clone.querySelectorAll('[contenteditable]').forEach(function(el) {
+                el.removeAttribute('contenteditable');
+                el.removeAttribute('data-placeholder');
+            });
+            // Odstranit prázdné bloky (poznámka bez textu)
+            clone.querySelectorAll('.ve-block.free').forEach(function(b) {
+                var txt = b.textContent.trim();
+                if (!txt || txt === 'Doplňující pokyny (nepovinné)') b.remove();
+            });
 
-            var win = window.open('', '_blank', 'width=900,height=750,scrollbars=yes');
+            var pageContent = clone.innerHTML;
+
+            var docHtml = '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/title>' +
+                '<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">' +
+                '<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">' +
+                '<style>' +
+                '* { margin:0; padding:0; box-sizing:border-box; }' +
+                'body { background:#e8eaed; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
+                '.toolbar { position:fixed; top:0; left:0; right:0; background:#004289; color:#fff; padding:10px 24px; display:flex; align-items:center; justify-content:space-between; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,.3); }' +
+                '.toolbar h3 { font-size:14px; font-weight:500; font-family:Roboto,sans-serif; }' +
+                '.toolbar-btns { display:flex; gap:8px; }' +
+                '.tb-btn { padding:8px 20px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family:Roboto,sans-serif; font-weight:500; display:flex; align-items:center; gap:6px; }' +
+                '.tb-btn-primary { background:#fff; color:#004289; }' +
+                '.tb-btn-primary:hover { background:#e8f0fe; }' +
+                '.tb-btn-secondary { background:rgba(255,255,255,.15); color:#fff; }' +
+                '.tb-btn-secondary:hover { background:rgba(255,255,255,.25); }' +
+                '.page { width:210mm; min-height:297mm; margin:68px auto 24px; padding:44px 52px; background:#fff; box-shadow:0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15); border-radius:2px; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
+                '.blk-urad { text-align:center; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px; color:#202124; font-family:Roboto,sans-serif; }' +
+                '.blk-sub { text-align:center; font-size:10px; color:#555; margin-top:2px; font-family:Roboto,sans-serif; }' +
+                '.blk-body { font-size:11px; line-height:1.7; color:#333; }' +
+                '.blk-body p { margin-bottom:6px; text-align:justify; }' +
+                '@media print { body { background:#fff; } .toolbar { display:none!important; } .page { margin:0; box-shadow:none; width:auto; min-height:auto; padding:18mm 20mm; } @page { size:A4; margin:0; } }' +
+                '<\/style><\/head><body>' +
+                '<div class="toolbar">' +
+                '<h3>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/h3>' +
+                '<div class="toolbar-btns">' +
+                '<button class="tb-btn tb-btn-primary" onclick="window.print()"><span class="material-icons-outlined" style="font-size:18px;">download<\/span>Stáhnout PDF<\/button>' +
+                '<button class="tb-btn tb-btn-secondary" onclick="window.close()"><span class="material-icons-outlined" style="font-size:18px;">close<\/span>Zavřít<\/button>' +
+                '<\/div><\/div>' +
+                '<div class="page">' + pageContent + '<\/div>' +
+                '<\/body><\/html>';
+
+            var win = window.open('', '_blank', 'width=960,height=800,scrollbars=yes');
             if (win) { win.document.write(docHtml); win.document.close(); }
             else { showToast('Povolte prosím pop-up okna'); }
         }
 
         function vyrozOdeslat() {
-            var btn = document.querySelector('#controlVyrozumeni .ve-btn-primary');
+            var btn = document.querySelector('#controlVyrozumeni .btn-primary');
             if (btn) {
                 btn.disabled = true;
                 btn.innerHTML = '<span class="material-icons-outlined" style="animation:spin 1s linear infinite;">sync</span> Odesílám…';
@@ -3841,6 +3875,9 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             // Zobrazit/skrýt záložku Kalendář
             var kalTab = document.querySelector('#nastaveniViewerTabs .tab-kalendar');
             if (kalTab) kalTab.style.display = show ? '' : 'none';
+            // Skrýt/zobrazit Lhůtu pro námitky (u ústního jednání nedává smysl)
+            var sekceLhuta = document.getElementById('sekce-lhuta-namitky');
+            if (sekceLhuta) sekceLhuta.style.display = show ? 'none' : '';
             // Pokud schováváme, přepni zpět na Žádost
             if (!show) {
                 var firstTab = document.querySelector('#nastaveniViewerTabs .viewer-tab');
@@ -4036,10 +4073,14 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             var btn = document.getElementById('btnGeneratPoplatek');
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '<span class="material-icons-outlined" style="animation:spin 1s linear infinite;">sync</span> Odesílám…';
+                btn.innerHTML = '<span class="material-icons-outlined" style="animation:spin 1s linear infinite;">sync</span> Generuji…';
             }
+            // Naplánuj zavření overlay jako první — proběhne vždy
             setTimeout(function() {
-                // Zobraz banner odeslaní uvnitř modálu
+                closeControl('controlPoplatek');
+            }, 3200);
+            setTimeout(function() {
+                // Zobraz banner uvnitř modálu
                 var banner = document.getElementById('poplatekOdeslanBanner');
                 var cas = document.getElementById('poplatekCasOdeslani');
                 var now = new Date();
@@ -4047,23 +4088,14 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 if (banner) banner.style.display = 'block';
                 // Aktualizuj tlačítko
                 if (btn) {
-                    btn.innerHTML = '<span class="material-icons-outlined">check</span> Odesláno';
+                    btn.innerHTML = '<span class="material-icons-outlined">check</span> Předáno k podpisu';
                     btn.style.background = '#137333';
                 }
                 // Označ poplatek jako hotový
                 state.poplatek.done = true;
-                updateUI();
+                try { updateUI(); } catch(e) { console.warn('updateUI error:', e); }
                 // Toast
-                showToast('Výzva k zaplacení poplatku odeslána do DS uccchjm');
-                // Za 2s zavři overlay a přejdi na fázi 2
-                setTimeout(function() {
-                    closeControl('controlPoplatek');
-                    // Scroll na fázi 2 s mírným zpožděním
-                    setTimeout(function() {
-                        var ph2 = document.getElementById('phase2');
-                        if (ph2) ph2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 300);
-                }, 2000);
+                showToast('Předpis poplatku předán k podpisu');
             }, 1200);
         }
 
@@ -4362,7 +4394,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             // ── Fáze 1b: Předpis poplatku — nezávislý na nastavení ──
             setPipelineGroupCard('card-poplatek',
                 s.poplatek.done ? 'done' : 'active',
-                s.poplatek.done ? 'Odesláno — zobrazit' : 'Generovat',
+                s.poplatek.done ? 'Předáno k podpisu' : 'Generovat',
                 s.poplatek.done ? 'visibility' : 'picture_as_pdf',
                 false, 'controlPoplatek');
 
@@ -4950,8 +4982,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
         <div style="margin-top:4pt;">DESÚ — spis</div>
     </div>
 </div>
-</body>
-</html>`;
+<\/body>
+<\/html>`;
 
             const printWin = window.open('', '_blank', 'width=960,height=780,scrollbars=yes,resizable=yes');
             if (!printWin) {
@@ -4969,5 +5001,512 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     </script>
     <script src="doc-modals.js"></script>
     <script>initDocModals({ basePath: '../docs/' });</script>
+
+    <!-- PATCH: Kontextový pravý panel + contenteditable popis záměru -->
+    <script>
+    (function() {
+        // === Kontextový panel ===
+        var _activeCtx = null;
+
+        window.veSelectBlock = function(blockKey) {
+            var panel = document.getElementById('veContextPanel');
+            if (!panel) return;
+
+            // Odznač předchozí
+            document.querySelectorAll('.ve-block.ve-selected').forEach(function(b) { b.classList.remove('ve-selected'); });
+
+            // Skryj všechny kontexty
+            panel.querySelectorAll('[id^="veCtx-"]').forEach(function(c) { c.style.display = 'none'; });
+
+            var ctx = document.getElementById('veCtx-' + blockKey);
+            var block = document.getElementById('vyr-' + blockKey);
+
+            if (_activeCtx === blockKey) {
+                // Klik na stejný = deselect
+                _activeCtx = null;
+                panel.style.display = 'none';
+                return;
+            }
+
+            _activeCtx = blockKey;
+            if (block) block.classList.add('ve-selected');
+            if (ctx) {
+                ctx.style.display = 'block';
+                panel.style.display = 'block';
+            }
+        };
+
+        // Klik mimo semi/free blok = deselect
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.ve-block.semi') && !e.target.closest('.ve-block.free') && !e.target.closest('.ve-props') && !e.target.closest('.modal-overlay')) {
+                if (_activeCtx) {
+                    _activeCtx = null;
+                    document.querySelectorAll('.ve-block.ve-selected').forEach(function(b) { b.classList.remove('ve-selected'); });
+                    var panel = document.getElementById('veContextPanel');
+                    if (panel) {
+                        panel.style.display = 'none';
+                        panel.querySelectorAll('[id^="veCtx-"]').forEach(function(c) { c.style.display = 'none'; });
+                    }
+                }
+            }
+        });
+
+        // === Popis záměru — přepracované funkce pro contenteditable ===
+        var ce = document.getElementById('vyrPopisCE');
+
+        // Načíst z podkladů — vloží text do contenteditable
+        window.vyrozPopisNacist = function(zdroj) {
+            var text = zdroj === 'stz' ? POPIS_STZ : POPIS_ZADOST;
+            if (ce) {
+                ce.textContent = text;
+                ce.focus();
+                veUpdatePopisBanner();
+            }
+        };
+
+        // Uložit — přečte text z contenteditable
+        window.vyrozPopisUlozit = function(doSystemu) {
+            if (!ce) return;
+            var text = ce.textContent.trim();
+            if (!text) { showToast('Zadejte text popisu'); return; }
+            if (doSystemu) {
+                _vyrPopisLocalText = null;
+                vyrPopisLSSave(text, 'manual');
+                showToast('Popis záměru uložen do systému');
+            } else {
+                _vyrPopisLocalText = text;
+                showToast('Popis použit jen pro toto Vyrozumění');
+            }
+            veUpdatePopisBanner();
+        };
+
+        // Aktualizace banneru v pravém panelu
+        function veUpdatePopisBanner() {
+            var banner = document.getElementById('veCtxPopisBanner');
+            var meta = document.getElementById('veCtxPopisMeta');
+            var rec = vyrPopisLS();
+            var text = ce ? ce.textContent.trim() : '';
+
+            if (banner) {
+                banner.style.display = (!text && !rec) ? 'block' : 'none';
+            }
+            if (meta) {
+                if (_vyrPopisLocalText !== null) {
+                    meta.innerHTML = '<span style="background:#fef7e0;color:#b06000;border:1px solid #f6b900;padding:1px 6px;border-radius:8px;font-size:9px;">Jen pro tento dokument</span>';
+                } else if (rec && rec.upraveno) {
+                    var zdrojLabel = rec.zdroj === 'stz' ? 'STZ' : (rec.zdroj === 'zadost' ? 'žádost' : 'ručně');
+                    meta.innerHTML = '<span class="material-icons-outlined" style="font-size:12px;color:#137333;">cloud_done</span> V systému · ' + zdrojLabel;
+                } else {
+                    meta.innerHTML = '';
+                }
+            }
+        }
+
+        // Inicializace — načti uložený text do contenteditable
+        var origRender = window.vyrPopisRender;
+        window.vyrPopisRender = function() {
+            var rec = vyrPopisLS();
+            var text = _vyrPopisLocalText !== null ? _vyrPopisLocalText : (rec ? rec.text : '');
+            if (ce && text) {
+                ce.textContent = text;
+            }
+            veUpdatePopisBanner();
+        };
+
+        // Spusť inicializaci
+        if (typeof vyrPopisRender === 'function') vyrPopisRender();
+
+        // Listener na změny v CE pro live aktualizaci
+        if (ce) {
+            ce.addEventListener('input', function() {
+                veUpdatePopisBanner();
+            });
+        }
+    })();
+    </script>
+
+    <!-- PATCH: Indikátor konce stránky PDF (v3) — absolutně pozicované, mid-block, draggable -->
+    <style>
+        .ve-paper { position: relative; }
+        .ve-page-break {
+            position: absolute;
+            left: -8px;
+            right: -8px;
+            height: 0;
+            z-index: 10;
+            user-select: none;
+        }
+        .ve-page-break-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            border-top: 2px dashed #c62828;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .ve-page-break-handle {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -10px;
+            height: 20px;
+            cursor: ns-resize;
+            z-index: 11;
+        }
+        .ve-page-break-label {
+            position: absolute;
+            left: 50%;
+            top: -11px;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 10px;
+            background: #c62828;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            border-radius: 10px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            cursor: ns-resize;
+            z-index: 12;
+        }
+        .ve-page-break-label .material-icons-outlined { font-size: 12px; }
+        .ve-page-break-controls {
+            position: absolute;
+            right: 0;
+            top: -12px;
+            display: flex;
+            gap: 2px;
+            z-index: 12;
+        }
+        .ve-page-break-btn {
+            width: 22px;
+            height: 22px;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            font-size: 14px;
+            padding: 0;
+            transition: all 0.15s;
+        }
+        .ve-page-break-btn:hover { background: #f8f9fa; color: #c62828; border-color: #c62828; }
+    </style>
+    <script>
+    (function() {
+        // Absolutně pozicované break indikátory, mid-block, draggable
+        // Paper (max-width:780px) ≈ A4 (210mm). Content výška = 261mm * scale.
+        // Bloky v editoru mají padding 8px top+bottom → odečítáme pro tiskový výpočet.
+        var LINE_HEIGHT = 19; // 11px * 1.7 ≈ 18.7px
+
+        var paper = null;
+        var indicators = []; // { element, pageNum, baseY }
+        var manualOffsets = {}; // pageNum → px offset (záporné = nahoru)
+        var dragging = null;
+
+        function getPaper() {
+            if (!paper) paper = document.querySelector('#controlVyrozumeni .ve-paper');
+            return paper;
+        }
+
+        function getBlocks() {
+            var p = getPaper();
+            if (!p) return [];
+            return Array.from(p.querySelectorAll(':scope > .ve-block'));
+        }
+
+        function getPageContentHeight() {
+            var p = getPaper();
+            if (!p) return 950;
+            var pxPerMm = p.offsetWidth / 210;
+            return 261 * pxPerMm;
+        }
+
+        function removeAllIndicators() {
+            indicators.forEach(function(ind) {
+                if (ind.element && ind.element.parentNode) ind.element.parentNode.removeChild(ind.element);
+            });
+            indicators = [];
+        }
+
+        function createIndicator(pageNum, yPos) {
+            var el = document.createElement('div');
+            el.className = 've-page-break';
+            el.style.top = yPos + 'px';
+            el.innerHTML =
+                '<div class="ve-page-break-line"><\/div>' +
+                '<div class="ve-page-break-handle"><\/div>' +
+                '<div class="ve-page-break-label">' +
+                    '<span class="material-icons-outlined" style="font-size:11px;">drag_handle<\/span>' +
+                    'Konec strany ' + pageNum +
+                '<\/div>' +
+                '<div class="ve-page-break-controls">' +
+                    '<button class="ve-page-break-btn" title="Řádek nahoru" data-dir="up" data-page="' + pageNum + '">' +
+                        '<span class="material-icons-outlined" style="font-size:14px;">keyboard_arrow_up<\/span>' +
+                    '<\/button>' +
+                    '<button class="ve-page-break-btn" title="Řádek dolů" data-dir="down" data-page="' + pageNum + '">' +
+                        '<span class="material-icons-outlined" style="font-size:14px;">keyboard_arrow_down<\/span>' +
+                    '<\/button>' +
+                    '<button class="ve-page-break-btn" title="Vrátit na původní pozici" data-dir="reset" data-page="' + pageNum + '">' +
+                        '<span class="material-icons-outlined" style="font-size:14px;">restart_alt<\/span>' +
+                    '<\/button>' +
+                '<\/div>';
+
+            // Kliknutí na tlačítka
+            el.querySelectorAll('.ve-page-break-btn').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var dir = btn.getAttribute('data-dir');
+                    var pg = parseInt(btn.getAttribute('data-page'));
+                    handleStep(dir, pg);
+                });
+            });
+
+            // Drag na handle a label
+            var handle = el.querySelector('.ve-page-break-handle');
+            var label = el.querySelector('.ve-page-break-label');
+            [handle, label].forEach(function(grip) {
+                grip.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    startDrag(e, pageNum, el);
+                });
+            });
+
+            return el;
+        }
+
+        function handleStep(dir, pageNum) {
+            if (dir === 'reset') {
+                delete manualOffsets[pageNum];
+            } else if (dir === 'up') {
+                manualOffsets[pageNum] = (manualOffsets[pageNum] || 0) - LINE_HEIGHT;
+            } else if (dir === 'down') {
+                manualOffsets[pageNum] = (manualOffsets[pageNum] || 0) + LINE_HEIGHT;
+            }
+            recalcPageBreaks();
+        }
+
+        function startDrag(e, pageNum, el) {
+            var startMouseY = e.clientY;
+            var startTop = parseFloat(el.style.top) || 0;
+            var baseY = null;
+            indicators.forEach(function(ind) { if (ind.pageNum === pageNum) baseY = ind.baseY; });
+
+            dragging = { pageNum: pageNum, el: el };
+
+            function onMove(ev) {
+                var dy = ev.clientY - startMouseY;
+                var newTop = startTop + dy;
+                el.style.top = newTop + 'px';
+            }
+
+            function onUp(ev) {
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onUp);
+                var finalTop = parseFloat(el.style.top) || 0;
+                if (baseY !== null) {
+                    manualOffsets[pageNum] = finalTop - baseY;
+                }
+                dragging = null;
+                recalcPageBreaks();
+            }
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onUp);
+        }
+
+        // Hlavní výpočet: projdi bloky, akumuluj "tiskovou výšku" obsahu,
+        // a zjisti kde přesně (v px od vrchu papíru) by stránka končila.
+        function recalcPageBreaks() {
+            if (dragging) return; // nepřepočítávat při tahu
+
+            var p = getPaper();
+            var blks = getBlocks();
+            if (!p || blks.length === 0) return;
+
+            removeAllIndicators();
+
+            var pageH = getPageContentHeight();
+
+            // Sesbírat data o blocích: editor pozice a tiskové výšky
+            var blockData = [];
+            var printH = 0;
+            var paperPadTop = 44; // paper padding-top
+
+            blks.forEach(function(b) {
+                var cs = window.getComputedStyle(b);
+                var padT = parseFloat(cs.paddingTop) || 0;
+                var padB = parseFloat(cs.paddingBottom) || 0;
+                var contentH = b.offsetHeight - padT - padB;
+                if (contentH < 0) contentH = 0;
+                var editorContentTop = b.offsetTop + padT;
+
+                blockData.push({
+                    editorContentTop: editorContentTop,
+                    editorContentBottom: editorContentTop + contentH,
+                    contentH: contentH,
+                    printStart: printH,
+                    printEnd: printH + contentH
+                });
+                printH += contentH + 2; // +2 minimální gap v tisku
+            });
+
+            var totalPrintH = printH;
+            var numPages = Math.ceil(totalPrintH / pageH);
+
+            for (var pg = 1; pg < numPages; pg++) {
+                var printBreakY = pageH * pg; // tiskový bod zlomu
+                var offset = manualOffsets[pg] || 0;
+
+                // Převést printBreakY na editorovou Y souřadnici
+                var editorY = paperPadTop; // fallback
+                for (var j = 0; j < blockData.length; j++) {
+                    var bd = blockData[j];
+                    if (printBreakY >= bd.printStart && printBreakY <= bd.printEnd) {
+                        // Break padne uvnitř tohoto bloku
+                        var ratio = bd.contentH > 0 ? (printBreakY - bd.printStart) / bd.contentH : 0;
+                        editorY = bd.editorContentTop + ratio * (bd.editorContentBottom - bd.editorContentTop);
+                        break;
+                    } else if (printBreakY < bd.printStart && j > 0) {
+                        // Break padne do mezery před tímto blokem
+                        editorY = blockData[j - 1].editorContentBottom;
+                        break;
+                    }
+                }
+                // Pokud jsme prošli vše a nenašli, dej na konec
+                if (j >= blockData.length) {
+                    editorY = blockData[blockData.length - 1].editorContentBottom;
+                }
+
+                var finalY = editorY + offset;
+                // Clamp: nesmí jít před paperPadTop ani za konec obsahu
+                finalY = Math.max(paperPadTop + 40, Math.min(finalY, p.scrollHeight - 40));
+
+                var el = createIndicator(pg, finalY);
+                p.appendChild(el);
+                indicators.push({ element: el, pageNum: pg, baseY: editorY, currentY: finalY });
+            }
+
+            // Uložit break Y pozice globálně pro vyrozNahledPDF
+            window._pageBreakPositions = indicators.map(function(ind) {
+                return { pageNum: ind.pageNum, y: ind.currentY };
+            });
+        }
+
+        // Spustit po otevření overlay
+        var origOpen = window.openControl;
+        window.openControl = function(id) {
+            origOpen(id);
+            if (id === 'controlVyrozumeni') {
+                paper = null;
+                setTimeout(recalcPageBreaks, 250);
+            }
+        };
+
+        // Přepočítat při změně obsahu
+        var observer = null;
+        var recalcTimer = null;
+        function startObserving() {
+            var p = getPaper();
+            if (!p || observer) return;
+            observer = new MutationObserver(function(mutations) {
+                var dominated = mutations.every(function(m) {
+                    return m.target.closest && m.target.closest('.ve-page-break');
+                });
+                if (dominated) return;
+                if (recalcTimer) clearTimeout(recalcTimer);
+                recalcTimer = setTimeout(recalcPageBreaks, 150);
+            });
+            observer.observe(p, { childList: true, subtree: true, characterData: true });
+        }
+
+        window.addEventListener('resize', function() {
+            if (getPaper()) setTimeout(recalcPageBreaks, 200);
+        });
+
+        var checkInterval = setInterval(function() {
+            if (getPaper() && getPaper().offsetHeight > 0) {
+                startObserving();
+                clearInterval(checkInterval);
+            }
+        }, 500);
+    })();
+    </script>
+
+    <!-- PATCH: vyrozNahledPDF — plynulý dokument, stránkování přes @page CSS -->
+    <script>
+    (function() {
+        window.vyrozNahledPDF = function() {
+            var paper = document.querySelector('#controlVyrozumeni .ve-paper');
+            if (!paper) { showToast('Editor není otevřen'); return; }
+
+            // Klonovat a vyčistit
+            var clone = paper.cloneNode(true);
+            clone.querySelectorAll('.ve-blk-label, .vdef-edit-btn, .ve-page-break').forEach(function(el) { el.remove(); });
+            clone.querySelectorAll('.ve-block').forEach(function(b) {
+                b.style.borderLeft = 'none';
+                b.style.borderRight = 'none';
+                b.style.padding = '0';
+                b.style.margin = '0';
+                b.style.background = 'transparent';
+            });
+            clone.querySelectorAll('[contenteditable]').forEach(function(el) {
+                el.removeAttribute('contenteditable');
+                el.removeAttribute('data-placeholder');
+            });
+            clone.querySelectorAll('.ve-block.free').forEach(function(b) {
+                var txt = b.textContent.trim();
+                if (!txt || txt === 'Doplňující pokyny (nepovinné)') b.remove();
+            });
+
+            var pageContent = clone.innerHTML;
+
+            // Plynulý dokument — browser pagination přes @page
+            var docHtml = '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/title>' +
+                '<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">' +
+                '<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">' +
+                '<style>' +
+                '* { margin:0; padding:0; box-sizing:border-box; }' +
+                'body { background:#e8eaed; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
+                '.toolbar { position:fixed; top:0; left:0; right:0; background:#004289; color:#fff; padding:10px 24px; display:flex; align-items:center; justify-content:space-between; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,.3); }' +
+                '.toolbar h3 { font-size:14px; font-weight:500; font-family:Roboto,sans-serif; }' +
+                '.toolbar-btns { display:flex; gap:8px; }' +
+                '.tb-btn { padding:8px 20px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family:Roboto,sans-serif; font-weight:500; display:flex; align-items:center; gap:6px; }' +
+                '.tb-btn-primary { background:#fff; color:#004289; }' +
+                '.tb-btn-primary:hover { background:#e8f0fe; }' +
+                '.tb-btn-secondary { background:rgba(255,255,255,.15); color:#fff; }' +
+                '.tb-btn-secondary:hover { background:rgba(255,255,255,.25); }' +
+                '.page { width:210mm; margin:68px auto 24px; padding:18mm 20mm; background:#fff; box-shadow:0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15); border-radius:2px; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
+                '.blk-urad { text-align:center; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px; color:#202124; font-family:Roboto,sans-serif; }' +
+                '.blk-sub { text-align:center; font-size:10px; color:#555; margin-top:2px; font-family:Roboto,sans-serif; }' +
+                '.blk-body { font-size:11px; line-height:1.7; color:#333; }' +
+                '.blk-body p { margin-bottom:6px; text-align:justify; }' +
+                '@media print { body { background:#fff; } .toolbar { display:none!important; } .page { margin:0; padding:0; box-shadow:none; width:auto; border-radius:0; } @page { size:A4; margin:18mm 20mm; } }' +
+                '<\/style><\/head><body>' +
+                '<div class="toolbar">' +
+                '<h3>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/h3>' +
+                '<div class="toolbar-btns">' +
+                '<button class="tb-btn tb-btn-primary" onclick="window.print()"><span class="material-icons-outlined" style="font-size:18px;">download<\/span>Stáhnout PDF<\/button>' +
+                '<button class="tb-btn tb-btn-secondary" onclick="window.close()"><span class="material-icons-outlined" style="font-size:18px;">close<\/span>Zavřít<\/button>' +
+                '<\/div><\/div>' +
+                '<div class="page">' + pageContent + '<\/div>' +
+                '<\/body><\/html>';
+
+            var win = window.open('', '_blank', 'width=960,height=800,scrollbars=yes');
+            if (win) { win.document.write(docHtml); win.document.close(); }
+            else { showToast('Povolte prosím pop-up okna'); }
+        };
+    })();
+    </script>
 </body>
 </html>
