@@ -2640,10 +2640,7 @@
             <button class="btn btn-secondary" onclick="showToast('Koncept uložen')">
                 <span class="material-icons-outlined">save</span>Uložit koncept
             </button>
-            <button class="btn btn-secondary" onclick="vyrozNahledPDF()">
-                <span class="material-icons-outlined">visibility</span>Náhled PDF
-            </button>
-            <button class="btn btn-primary" onclick="vyrozOdeslat()">
+<button class="btn btn-primary" onclick="vyrozOdeslat()">
                 <span class="material-icons-outlined">check_circle</span>Dokončit a odeslat
             </button>
         </div>
@@ -3729,71 +3726,6 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 block.style.background = block.classList.contains('semi') ? '#c5d8fc' : '#e2e5e9';
                 setTimeout(function() { block.style.background = origBg || ''; }, 1200);
             }
-        }
-
-        function vyrozNahledPDF() {
-            // Přečíst aktuální obsah ze všech bloků editoru
-            var paper = document.querySelector('#controlVyrozumeni .ve-paper');
-            if (!paper) { showToast('Editor není otevřen'); return; }
-
-            // Klonovat papír a vyčistit editor-only prvky
-            var clone = paper.cloneNode(true);
-            // Odebrat labely, edit buttony, placeholdery
-            clone.querySelectorAll('.ve-blk-label, .vdef-edit-btn').forEach(function(el) { el.remove(); });
-            // Odebrat border-left z bloků
-            clone.querySelectorAll('.ve-block').forEach(function(b) {
-                b.style.borderLeft = 'none';
-                b.style.padding = '0';
-                b.style.margin = '0';
-                b.style.marginBottom = '0';
-                b.style.background = 'transparent';
-            });
-            // Contenteditable → statický
-            clone.querySelectorAll('[contenteditable]').forEach(function(el) {
-                el.removeAttribute('contenteditable');
-                el.removeAttribute('data-placeholder');
-            });
-            // Odstranit prázdné bloky (poznámka bez textu)
-            clone.querySelectorAll('.ve-block.free').forEach(function(b) {
-                var txt = b.textContent.trim();
-                if (!txt || txt === 'Doplňující pokyny (nepovinné)') b.remove();
-            });
-
-            var pageContent = clone.innerHTML;
-
-            var docHtml = '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/title>' +
-                '<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">' +
-                '<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">' +
-                '<style>' +
-                '* { margin:0; padding:0; box-sizing:border-box; }' +
-                'body { background:#e8eaed; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
-                '.toolbar { position:fixed; top:0; left:0; right:0; background:#004289; color:#fff; padding:10px 24px; display:flex; align-items:center; justify-content:space-between; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,.3); }' +
-                '.toolbar h3 { font-size:14px; font-weight:500; font-family:Roboto,sans-serif; }' +
-                '.toolbar-btns { display:flex; gap:8px; }' +
-                '.tb-btn { padding:8px 20px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family:Roboto,sans-serif; font-weight:500; display:flex; align-items:center; gap:6px; }' +
-                '.tb-btn-primary { background:#fff; color:#004289; }' +
-                '.tb-btn-primary:hover { background:#e8f0fe; }' +
-                '.tb-btn-secondary { background:rgba(255,255,255,.15); color:#fff; }' +
-                '.tb-btn-secondary:hover { background:rgba(255,255,255,.25); }' +
-                '.page { width:210mm; min-height:297mm; margin:68px auto 24px; padding:44px 52px; background:#fff; box-shadow:0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15); border-radius:2px; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
-                '.blk-urad { text-align:center; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px; color:#202124; font-family:Roboto,sans-serif; }' +
-                '.blk-sub { text-align:center; font-size:10px; color:#555; margin-top:2px; font-family:Roboto,sans-serif; }' +
-                '.blk-body { font-size:11px; line-height:1.7; color:#333; }' +
-                '.blk-body p { margin-bottom:6px; text-align:justify; }' +
-                '@media print { body { background:#fff; } .toolbar { display:none!important; } .page { margin:0; box-shadow:none; width:auto; min-height:auto; padding:18mm 20mm; } @page { size:A4; margin:0; } }' +
-                '<\/style><\/head><body>' +
-                '<div class="toolbar">' +
-                '<h3>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/h3>' +
-                '<div class="toolbar-btns">' +
-                '<button class="tb-btn tb-btn-primary" onclick="window.print()"><span class="material-icons-outlined" style="font-size:18px;">download<\/span>Stáhnout PDF<\/button>' +
-                '<button class="tb-btn tb-btn-secondary" onclick="window.close()"><span class="material-icons-outlined" style="font-size:18px;">close<\/span>Zavřít<\/button>' +
-                '<\/div><\/div>' +
-                '<div class="page">' + pageContent + '<\/div>' +
-                '<\/body><\/html>';
-
-            var win = window.open('', '_blank', 'width=960,height=800,scrollbars=yes');
-            if (win) { win.document.write(docHtml); win.document.close(); }
-            else { showToast('Povolte prosím pop-up okna'); }
         }
 
         function vyrozOdeslat() {
@@ -5397,10 +5329,6 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 indicators.push({ element: el, pageNum: pg, baseY: editorY, currentY: finalY });
             }
 
-            // Uložit break Y pozice globálně pro vyrozNahledPDF
-            window._pageBreakPositions = indicators.map(function(ind) {
-                return { pageNum: ind.pageNum, y: ind.currentY };
-            });
         }
 
         // Spustit po otevření overlay
@@ -5443,69 +5371,82 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     })();
     </script>
 
-    <!-- PATCH: vyrozNahledPDF — plynulý dokument, stránkování přes @page CSS -->
+    <!-- PATCH: Dev-skip ikony na kartách pro rychlé testování -->
+    <style>
+        .dev-skip {
+            display: none;
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            color: #137333;
+            z-index: 5;
+            opacity: 0.7;
+            transition: opacity 0.15s;
+            padding: 0;
+            line-height: 1;
+        }
+        .dev-skip:hover { opacity: 1; }
+        /* Zobrazit jen při hoveru nad kartou */
+        .pipeline-group-card:hover .dev-skip,
+        .pipeline-card-single:hover .dev-skip,
+        .pipeline-phase-conditional:hover .dev-skip { display: flex; }
+        /* Karty potřebují position:relative pro absolutní pozicování ikony */
+        .pipeline-group-card, .pipeline-card-single, .pipeline-phase-conditional { position: relative; }
+    </style>
     <script>
     (function() {
-        window.vyrozNahledPDF = function() {
-            var paper = document.querySelector('#controlVyrozumeni .ve-paper');
-            if (!paper) { showToast('Editor není otevřen'); return; }
+        // Dev-skip: kliknutím přeskočit kontrolu jako "hotovo"
+        window.devSkip = function(key) {
+            if (!state[key]) return;
+            state[key].done = true;
 
-            // Klonovat a vyčistit
-            var clone = paper.cloneNode(true);
-            clone.querySelectorAll('.ve-blk-label, .vdef-edit-btn, .ve-page-break').forEach(function(el) { el.remove(); });
-            clone.querySelectorAll('.ve-block').forEach(function(b) {
-                b.style.borderLeft = 'none';
-                b.style.borderRight = 'none';
-                b.style.padding = '0';
-                b.style.margin = '0';
-                b.style.background = 'transparent';
-            });
-            clone.querySelectorAll('[contenteditable]').forEach(function(el) {
-                el.removeAttribute('contenteditable');
-                el.removeAttribute('data-placeholder');
-            });
-            clone.querySelectorAll('.ve-block.free').forEach(function(b) {
-                var txt = b.textContent.trim();
-                if (!txt || txt === 'Doplňující pokyny (nepovinné)') b.remove();
-            });
+            // Speciální případy
+            if (key === 'seznameni') {
+                state.seznameni.required = true;
+            }
+            if (key === 'namitky' && state.namitky.list.length === 0) {
+                // Přidat dummy námitku, aby statistiky nebyly prázdné
+                state.namitky.list.push({
+                    name: 'DEV: Testovací námitka',
+                    status: 'resolved',
+                    hodnoceni: 'neduvodna',
+                    oduvodneni: 'Automaticky přeskočeno (dev-skip)'
+                });
+            }
 
-            var pageContent = clone.innerHTML;
-
-            // Plynulý dokument — browser pagination přes @page
-            var docHtml = '<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/title>' +
-                '<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">' +
-                '<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">' +
-                '<style>' +
-                '* { margin:0; padding:0; box-sizing:border-box; }' +
-                'body { background:#e8eaed; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
-                '.toolbar { position:fixed; top:0; left:0; right:0; background:#004289; color:#fff; padding:10px 24px; display:flex; align-items:center; justify-content:space-between; z-index:1000; box-shadow:0 2px 8px rgba(0,0,0,.3); }' +
-                '.toolbar h3 { font-size:14px; font-weight:500; font-family:Roboto,sans-serif; }' +
-                '.toolbar-btns { display:flex; gap:8px; }' +
-                '.tb-btn { padding:8px 20px; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-family:Roboto,sans-serif; font-weight:500; display:flex; align-items:center; gap:6px; }' +
-                '.tb-btn-primary { background:#fff; color:#004289; }' +
-                '.tb-btn-primary:hover { background:#e8f0fe; }' +
-                '.tb-btn-secondary { background:rgba(255,255,255,.15); color:#fff; }' +
-                '.tb-btn-secondary:hover { background:rgba(255,255,255,.25); }' +
-                '.page { width:210mm; margin:68px auto 24px; padding:18mm 20mm; background:#fff; box-shadow:0 1px 3px rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15); border-radius:2px; font-family:"Times New Roman",serif; font-size:11px; line-height:1.7; color:#333; }' +
-                '.blk-urad { text-align:center; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:1px; color:#202124; font-family:Roboto,sans-serif; }' +
-                '.blk-sub { text-align:center; font-size:10px; color:#555; margin-top:2px; font-family:Roboto,sans-serif; }' +
-                '.blk-body { font-size:11px; line-height:1.7; color:#333; }' +
-                '.blk-body p { margin-bottom:6px; text-align:justify; }' +
-                '@media print { body { background:#fff; } .toolbar { display:none!important; } .page { margin:0; padding:0; box-shadow:none; width:auto; border-radius:0; } @page { size:A4; margin:18mm 20mm; } }' +
-                '<\/style><\/head><body>' +
-                '<div class="toolbar">' +
-                '<h3>Vyrozumění o zahájení řízení — SZ DESU/000612/26<\/h3>' +
-                '<div class="toolbar-btns">' +
-                '<button class="tb-btn tb-btn-primary" onclick="window.print()"><span class="material-icons-outlined" style="font-size:18px;">download<\/span>Stáhnout PDF<\/button>' +
-                '<button class="tb-btn tb-btn-secondary" onclick="window.close()"><span class="material-icons-outlined" style="font-size:18px;">close<\/span>Zavřít<\/button>' +
-                '<\/div><\/div>' +
-                '<div class="page">' + pageContent + '<\/div>' +
-                '<\/body><\/html>';
-
-            var win = window.open('', '_blank', 'width=960,height=800,scrollbars=yes');
-            if (win) { win.document.write(docHtml); win.document.close(); }
-            else { showToast('Povolte prosím pop-up okna'); }
+            updateUI();
         };
+
+        // Injektovat dev-skip ikony do všech karet
+        var cards = {
+            'card-nastaveni': 'nastaveni',
+            'card-poplatek': 'poplatek',
+            'card-vyrozumeni': 'vyrozumeni',
+            'card-lhuta': 'lhuta',
+            'card-namitky': 'namitky',
+            'card-seznameni': 'seznameni',
+            'card-shrnuti': 'shrnuti'
+        };
+
+        Object.keys(cards).forEach(function(cardId) {
+            var card = document.getElementById(cardId);
+            if (!card) return;
+            var btn = document.createElement('button');
+            btn.className = 'dev-skip';
+            btn.title = 'Dev: přeskočit (' + cards[cardId] + ')';
+            btn.innerHTML = '<span class="material-icons-outlined" style="font-size:22px;">check_circle</span>';
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                devSkip(cards[cardId]);
+            });
+            card.appendChild(btn);
+        });
     })();
     </script>
 </body>
