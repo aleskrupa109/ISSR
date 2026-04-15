@@ -1643,8 +1643,7 @@
 
         /* ── Pipeline ── */
         .pipeline-phase { display:flex; flex-direction:column; gap:0; position:relative; }
-        .pipeline-phase:not(:last-child)::after { content:''; position:absolute; left:23px; bottom:-20px; width:2px; height:20px; background:#e0e0e0; z-index:1; }
-        .pipeline-phase.phase-done:not(:last-child)::after { background:#a8d5b5; }
+        .pipeline-phase:not(:last-child)::after { display:none; }
         .pipeline-phase-label { display:flex; align-items:center; gap:10px; padding:0 0 10px 0; }
         .pipeline-phase-number { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; flex-shrink:0; border:2px solid #e0e0e0; background:#fff; color:#9aa0a6; position:relative; z-index:2; }
         .pipeline-phase.phase-active .pipeline-phase-number { border-color:#004289; background:#004289; color:#fff; }
@@ -1654,7 +1653,7 @@
         .pipeline-phase.phase-done .pipeline-phase-title { color:#34a853; }
         .pipeline-phase-hint { font-size:11px; color:#b0b8c1; margin-left:auto; }
         .pipeline-phase.phase-active .pipeline-phase-hint, .pipeline-phase.phase-done .pipeline-phase-hint { color:#5f6368; }
-        .pipeline-phase-body { padding:0 0 24px 0; }
+        .pipeline-phase-body { padding:0 0 12px 0; }
         .pipeline-card-single { background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:18px 20px; display:flex; align-items:center; gap:16px; transition:all .15s; max-width:680px; }
         .pipeline-card-single.phase-active { border-color:#004289; box-shadow:0 2px 8px rgba(0,66,137,.08); }
         .pipeline-card-single.phase-done { border-color:#a8d5b5; background:#f6fef8; }
@@ -1838,27 +1837,17 @@
                         <span class="pipeline-phase-hint">Po odeslání vyrozumění</span>
                     </div>
                     <div class="pipeline-phase-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:680px;margin-bottom:10px;">
-                            <!-- 3a: Lhůta -->
-                            <div class="pipeline-group-card phase-locked" id="card-lhuta">
-                                <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;">
-                                    <span class="material-icons-outlined" style="font-size:18px;">hourglass_top</span>
-                                </div>
-                                <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Lhůta pro námitky</div>
-                                <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Sledování lhůty · vzdání se práva na námitky</div>
-                                <button class="control-card-action status-waiting" id="btn-lhuta" disabled style="width:100%;justify-content:center;">
-                                    <span class="material-icons-outlined">lock</span>Nejprve vyrozumění
-                                </button>
+                        <div class="pipeline-card-single phase-locked" id="card-lhutaNamitky">
+                            <div class="pipeline-card-icon">
+                                <span class="material-icons-outlined">hourglass_top</span>
                             </div>
-                            <!-- 3b: Námitky -->
-                            <div class="pipeline-group-card phase-locked" id="card-namitky">
-                                <div class="pipeline-card-icon" style="width:36px;height:36px;border-radius:8px;margin-bottom:12px;">
-                                    <span class="material-icons-outlined" style="font-size:18px;">feedback</span>
-                                </div>
-                                <div class="pipeline-card-title" style="font-size:13px;font-weight:500;margin-bottom:4px;">Námitky a připomínky</div>
-                                <div class="pipeline-card-desc" style="font-size:11px;line-height:1.4;margin-bottom:12px;">Evidence a vypořádání námitek účastníků řízení</div>
-                                <button class="control-card-action status-waiting" id="btn-namitky" disabled style="width:100%;justify-content:center;">
-                                    <span class="material-icons-outlined">lock</span>Nejprve lhůta
+                            <div class="pipeline-card-info">
+                                <div class="pipeline-card-title">Lhůta a námitky</div>
+                                <div class="pipeline-card-desc">Sledování doručení a lhůt · evidence a vypořádání námitek účastníků řízení</div>
+                            </div>
+                            <div class="pipeline-card-action">
+                                <button class="control-card-action status-waiting" id="btn-lhutaNamitky" disabled>
+                                    <span class="material-icons-outlined">lock</span>Nejprve vyrozumění
                                 </button>
                             </div>
                         </div>
@@ -2436,7 +2425,7 @@
                     <!-- POPIS ZÁMĚRU — contenteditable v dokumentu -->
                     <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;" onclick="veSelectBlock('popis')">
                         <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
-                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="white-space:pre-wrap;outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"></div>
+                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"></div>
                     </div>
 
                     <!-- VYMEZENÍ ÚZEMÍ (AUTO) -->
@@ -2648,201 +2637,64 @@
 
 
     <!-- Control Overlay: Lhůta pro námitky -->
-    <div class="control-overlay" id="controlLhuta">
+    <!-- Control Overlay: Lhůta a námitky (sloučený) -->
+    <div class="control-overlay" id="controlLhutaNamitky">
         <div class="control-header">
             <div class="control-header-left">
-                <button class="control-close" onclick="closeControl('controlLhuta')">
+                <button class="control-close" onclick="closeControl('controlLhutaNamitky')">
                     <span class="material-icons-outlined">close</span>
                 </button>
-                <h2 class="control-title">Lhůta pro námitky</h2>
+                <h2 class="control-title">Lhůta a námitky</h2>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="text-align:right;">
+                    <div style="font-size:11px;color:#5f6368;">Celková lhůta</div>
+                    <div id="lnOverallCountdown" style="font-size:16px;font-weight:600;color:#004289;">— dnů</div>
+                </div>
             </div>
         </div>
         <div class="control-content">
             <div class="control-form-panel">
                 <div class="control-section">
-                    <div class="lhuta-display">
-                        <div class="lhuta-header">
-                            <div class="lhuta-title">Zbývá do konce lhůty</div>
-                            <div class="lhuta-countdown">12 dnů</div>
-                        </div>
-                        <div class="lhuta-bar">
-                            <div class="lhuta-bar-fill" style="width: 20%;"></div>
-                        </div>
-                        <div class="lhuta-dates">
-                            <span>Začátek: 8. 1. 2026</span>
-                            <span>Konec: 23. 1. 2026</span>
-                        </div>
+                    <!-- Souhrnný panel -->
+                    <div id="lnSummaryBar" style="display:flex;gap:16px;margin-bottom:16px;padding:12px 16px;background:#f8f9fa;border-radius:8px;font-size:12px;color:#5f6368;flex-wrap:wrap;">
+                        <span>Doručeno: <strong id="lnSumDoruceno">0/5</strong></span>
+                        <span>Lhůta uplynula: <strong id="lnSumUplynula">0/5</strong></span>
+                        <span>Námitky: <strong id="lnSumNamitky">0</strong></span>
+                        <span>Vypořádáno: <strong id="lnSumVyporadano">0</strong></span>
                     </div>
-                </div>
 
-                <div class="control-section">
-                    <div class="control-section-title">Vzdání se práva na námitky</div>
-                    <p class="form-hint" style="margin-bottom: 12px;">Pokud se všichni účastníci vzdají práva podat námitky, lhůta končí předčasně.</p>
-                    
-                    <div class="participant-list">
-                        <div class="participant-item" id="participant-1">
-                            <div class="participant-icon">
-                                <span class="material-icons-outlined">person</span>
-                            </div>
-                            <div class="participant-info">
-                                <div class="participant-name">Jan Novák</div>
-                                <div class="participant-role">Stavebník</div>
-                            </div>
-                            <div class="participant-actions">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" onchange="checkVzdaliSe()">
-                                    Vzdal se
-                                </label>
-                            </div>
-                        </div>
-                        <div class="participant-item" id="participant-2">
-                            <div class="participant-icon">
-                                <span class="material-icons-outlined">location_city</span>
-                            </div>
-                            <div class="participant-info">
-                                <div class="participant-name">Městská část Praha 5</div>
-                                <div class="participant-role">Obec</div>
-                            </div>
-                            <div class="participant-actions">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" onchange="checkVzdaliSe()">
-                                    Vzdal se
-                                </label>
-                            </div>
-                        </div>
-                        <div class="participant-item" id="participant-3">
-                            <div class="participant-icon">
-                                <span class="material-icons-outlined">person</span>
-                            </div>
-                            <div class="participant-info">
-                                <div class="participant-name">Marie Svobodová</div>
-                                <div class="participant-role">Soused</div>
-                            </div>
-                            <div class="participant-actions">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" onchange="checkVzdaliSe()">
-                                    Vzdal se
-                                </label>
-                            </div>
-                        </div>
-                        <div class="participant-item" id="participant-4">
-                            <div class="participant-icon">
-                                <span class="material-icons-outlined">person</span>
-                            </div>
-                            <div class="participant-info">
-                                <div class="participant-name">Petr Dvořák</div>
-                                <div class="participant-role">Soused</div>
-                            </div>
-                            <div class="participant-actions">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" onchange="checkVzdaliSe()">
-                                    Vzdal se
-                                </label>
-                            </div>
-                        </div>
-                        <div class="participant-item" id="participant-5">
-                            <div class="participant-icon">
-                                <span class="material-icons-outlined">business</span>
-                            </div>
-                            <div class="participant-info">
-                                <div class="participant-name">SVJ Příčná 125-127</div>
-                                <div class="participant-role">Soused</div>
-                            </div>
-                            <div class="participant-actions">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" onchange="checkVzdaliSe()">
-                                    Vzdal se
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 16px; padding: 12px; background: #f8f9fa; border-radius: 8px;">
-                        <label class="checkbox-label" style="font-weight: 500;">
-                            <input type="checkbox" id="vzdaliSeVsichni" onchange="toggleVzdaliSeVsichni()" disabled>
-                            Vzdali se všichni účastníci
-                        </label>
-                    </div>
+                    <!-- Tabulka účastníků -->
+                    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                        <thead>
+                            <tr style="border-bottom:2px solid #e0e0e0;text-align:left;">
+                                <th style="padding:8px 8px 8px 0;font-weight:500;color:#5f6368;">Účastník</th>
+                                <th style="padding:8px;font-weight:500;color:#5f6368;">Doručení</th>
+                                <th style="padding:8px;font-weight:500;color:#5f6368;">Doručeno</th>
+                                <th style="padding:8px;font-weight:500;color:#5f6368;">Lhůta do</th>
+                                <th style="padding:8px 0 8px 8px;font-weight:500;color:#5f6368;">Námitka</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lnTableBody"></tbody>
+                    </table>
                 </div>
             </div>
             <div class="control-viewer-panel">
-                <div class="viewer-content">
+                <div class="viewer-content" id="lnDetail">
                     <div class="viewer-placeholder">
-                        <span class="material-icons-outlined">hourglass_empty</span>
-                        <p>Lhůta pro podání námitek běží.<br>Po jejím uplynutí nebo vzdání se všech účastníků<br>bude možné pokračovat.</p>
+                        <span class="material-icons-outlined">person_search</span>
+                        <p>Vyberte účastníka ze seznamu<br>pro zobrazení detailu doručení a námitek</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="control-form-footer">
             <div class="control-form-footer-left">
-                <span id="lhutaStatus" style="color: #5f6368; font-size: 13px;">Vzdalo se: 0 z 5 účastníků</span>
+                <span id="lnStatus" style="color:#5f6368;font-size:13px;">Lhůta běží</span>
             </div>
             <div class="control-form-footer-right">
-                <button class="btn btn-secondary" onclick="closeControl('controlLhuta')">Zavřít</button>
-                <button class="btn btn-primary" id="btnUkoncitLhutu" onclick="completeLhuta()" disabled>
-                    <span class="material-icons-outlined">check</span>
-                    Ukončit lhůtu
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Control Overlay: Námitky a připomínky -->
-    <div class="control-overlay" id="controlNamitky">
-        <div class="control-header">
-            <div class="control-header-left">
-                <button class="control-close" onclick="closeControl('controlNamitky')">
-                    <span class="material-icons-outlined">close</span>
-                </button>
-                <h2 class="control-title">Námitky a připomínky</h2>
-            </div>
-            <button class="btn btn-primary" onclick="openModal('addNamitkaModal')">
-                <span class="material-icons-outlined">add</span>
-                Přidat námitku
-            </button>
-        </div>
-        <div class="control-content">
-            <div class="control-form-panel">
-                <div class="control-section">
-                    <div class="control-section-title">Evidence námitek</div>
-                    
-                    <div id="namitkyList">
-                        <div class="empty-state">
-                            <span class="material-icons-outlined">speaker_notes_off</span>
-                            <p class="empty-state-text">Žádné námitky nebyly podány</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="control-viewer-panel">
-                <div class="viewer-content">
-                    <div class="summary-card">
-                        <div class="summary-card-title">
-                            <span class="material-icons-outlined">analytics</span>
-                            Přehled námitek
-                        </div>
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">Celkem námitek</span>
-                            <span class="summary-stat-value" id="namitkyCount">0</span>
-                        </div>
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">K vypořádání</span>
-                            <span class="summary-stat-value" id="namitkyOpen">0</span>
-                        </div>
-                        <div class="summary-stat">
-                            <span class="summary-stat-label">Vypořádáno</span>
-                            <span class="summary-stat-value" id="namitkyResolved">0</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="control-form-footer">
-            <div class="control-form-footer-left"></div>
-            <div class="control-form-footer-right">
-                <button class="btn btn-secondary" onclick="closeControl('controlNamitky')">Zavřít</button>
-                <button class="btn btn-primary" id="btnCompleteNamitky" onclick="completeNamitky()">
+                <button class="btn btn-secondary" onclick="closeControl('controlLhutaNamitky')">Zavřít</button>
+                <button class="btn btn-primary" id="btnCompleteLN" onclick="completeLhutaNamitky()" disabled>
                     <span class="material-icons-outlined">check</span>
                     Potvrdit vypořádání
                 </button>
@@ -2939,67 +2791,51 @@
     </div>
 
     <!-- Modal: Přidat námitku -->
-    <div class="modal-overlay" id="addNamitkaModal" onclick="closeModal('addNamitkaModal', event)">
+    <!-- Modal: Evidovat námitku účastníka -->
+    <div class="modal-overlay" id="addNamitkaModal2" onclick="closeModal('addNamitkaModal2', event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">add_comment</span>
-                    Přidat námitku / připomínku
+                    Evidovat námitku
                 </div>
-                <button class="modal-close" onclick="closeModal('addNamitkaModal')">
+                <button class="modal-close" onclick="closeModal('addNamitkaModal2')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">Typ</label>
-                    <select class="form-select" id="namitkaTyp">
-                        <option value="namitka">Námitka účastníka řízení</option>
-                        <option value="pripominka">Připomínka veřejnosti</option>
-                    </select>
+                    <label class="form-label">Datum podání námitky</label>
+                    <input type="date" class="form-input" id="namDatum2" value="2026-01-15">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Podatel</label>
-                    <select class="form-select" id="namitkaPodatel">
-                        <option value="">-- Vyberte --</option>
-                        <option value="Marie Svobodová">Marie Svobodová (soused)</option>
-                        <option value="Petr Dvořák">Petr Dvořák (soused)</option>
-                        <option value="SVJ Příčná 125-127">SVJ Příčná 125-127 (soused)</option>
-                        <option value="jiny">Jiný (veřejnost)</option>
-                    </select>
-                </div>
-                <div class="form-group" id="jinyPodatelGroup" style="display: none;">
-                    <label class="form-label">Jméno podatele</label>
-                    <input type="text" class="form-input" id="jinyPodatel" placeholder="Jméno a příjmení">
+                    <label class="form-label">Číslo jednací (dokument účastníka)</label>
+                    <input type="text" class="form-input" id="namCJ2" placeholder="např. DSU/123/2026">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Datum podání</label>
-                    <input type="date" class="form-input" id="namitkaDatum" value="2026-01-15">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Obsah námitky / připomínky</label>
-                    <textarea class="form-textarea" id="namitkaObsah" rows="4" placeholder="Popište obsah námitky..."></textarea>
+                    <label class="form-label">Text námitky</label>
+                    <textarea class="form-textarea" id="namText2" rows="4" placeholder="Obsah námitky účastníka..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('addNamitkaModal')">Zrušit</button>
-                <button class="btn btn-primary" onclick="addNamitka()">
+                <button class="btn btn-secondary" onclick="closeModal('addNamitkaModal2')">Zrušit</button>
+                <button class="btn btn-primary" onclick="addNamitkaForUcastnik()">
                     <span class="material-icons-outlined">add</span>
-                    Přidat
+                    Evidovat
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Vypořádat námitku -->
-    <div class="modal-overlay" id="resolveNamitkaModal" onclick="closeModal('resolveNamitkaModal', event)">
+    <!-- Modal: Vypořádat námitku účastníka -->
+    <div class="modal-overlay" id="resolveNamitkaModal2" onclick="closeModal('resolveNamitkaModal2', event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">rate_review</span>
                     Vypořádání námitky
                 </div>
-                <button class="modal-close" onclick="closeModal('resolveNamitkaModal')">
+                <button class="modal-close" onclick="closeModal('resolveNamitkaModal2')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
@@ -3007,14 +2843,14 @@
                 <div class="form-group">
                     <label class="form-label">Hodnocení námitky</label>
                     <label class="control-option selected" onclick="selectOption(this)">
-                        <input type="radio" name="namitka_hodnoceni" value="neduvodna" checked>
+                        <input type="radio" name="nam_hodnoceni2" value="neduvodna" checked>
                         <div class="control-option-content">
                             <div class="control-option-title">Nedůvodná</div>
                             <div class="control-option-desc">Námitka se zamítá</div>
                         </div>
                     </label>
                     <label class="control-option" onclick="selectOption(this)">
-                        <input type="radio" name="namitka_hodnoceni" value="duvodna">
+                        <input type="radio" name="nam_hodnoceni2" value="duvodna">
                         <div class="control-option-content">
                             <div class="control-option-title">Důvodná</div>
                             <div class="control-option-desc">Námitce se vyhovuje</div>
@@ -3023,19 +2859,12 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Odůvodnění</label>
-                    <textarea class="form-textarea" id="namitkaOduvodneni" rows="4" placeholder="Odůvodněte rozhodnutí o námitce..."></textarea>
-                </div>
-                <div class="form-group" id="upravitZadostGroup" style="display: none;">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="upravitZadost">
-                        Vyžaduje úpravu žádosti (přerušení řízení)
-                    </label>
-                    <p class="form-hint">Pokud důvodná námitka vyžaduje úpravu žádosti, řízení bude přerušeno.</p>
+                    <textarea class="form-textarea" id="namOduvodneni2" rows="4" placeholder="Odůvodněte rozhodnutí o námitce..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('resolveNamitkaModal')">Zrušit</button>
-                <button class="btn btn-primary" onclick="resolveNamitka()">
+                <button class="btn btn-secondary" onclick="closeModal('resolveNamitkaModal2')">Zrušit</button>
+                <button class="btn btn-primary" onclick="resolveNamitkaForUcastnik()">
                     <span class="material-icons-outlined">check</span>
                     Potvrdit
                 </button>
@@ -4966,6 +4795,14 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 ctx.style.display = 'block';
                 panel.style.display = 'block';
             }
+
+            // Auto-scroll pravý sloupec dolů, aby byla tlačítka vidět
+            var propsCol = panel ? panel.closest('.ve-props') : null;
+            if (propsCol) {
+                requestAnimationFrame(function() {
+                    propsCol.scrollTo({ top: propsCol.scrollHeight, behavior: 'smooth' });
+                });
+            }
         };
 
         // Klik mimo semi/free blok = deselect
@@ -5371,6 +5208,431 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
     })();
     </script>
 
+    <!-- PATCH: Sloučená kontrola Lhůta a námitky — state, render, updateUI -->
+    <script>
+    (function() {
+        // ── Nový datový model ──
+        state.lhutaNamitky = {
+            done: false,
+            selectedIdx: null,
+            _addingForIdx: null,
+            _resolvingForIdx: null,
+            ucastnici: [
+                { name:'Jan Novák', role:'Stavebník', icon:'person', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitka:null },
+                { name:'Městská část Praha 5', role:'Obec', icon:'location_city', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitka:null },
+                { name:'Marie Svobodová', role:'Soused', icon:'person', zpusob:'posta', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null },
+                { name:'Petr Dvořák', role:'Soused', icon:'person', zpusob:'osobne', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null },
+                { name:'SVJ Příčná 125-127', role:'Soused', icon:'business', zpusob:'hkp', vypraveno:'2026-01-08', doruceno:'2026-01-12', auto:true, vzdaliSe:false, namitka:null }
+            ]
+        };
+        // Starý stav ponecháme pro zpětnou kompatibilitu, přidáme aliasy
+        if (!state.lhuta) state.lhuta = { done: false };
+        if (!state.namitky) state.namitky = { done: false, list: [], currentResolveIndex: null };
+
+        // ── Pomocné funkce ──
+        function getLhutaDny() { return state.nastaveni.lhutaDny || 15; }
+
+        function addDays(ds, n) { var d = new Date(ds); d.setDate(d.getDate() + n); return d; }
+
+        function fmtCZ(ds) {
+            if (!ds) return '—';
+            var d = (ds instanceof Date) ? ds : new Date(ds);
+            return d.getDate() + '. ' + (d.getMonth()+1) + '. ' + d.getFullYear();
+        }
+
+        function fmtISO(d) {
+            return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+        }
+
+        function lhutaDo(u) { return u.doruceno ? addDays(u.doruceno, getLhutaDny()) : null; }
+
+        function isExpired(u) { var ld = lhutaDo(u); return ld ? (new Date() > ld) : false; }
+
+        function zpusobLabel(z) { return {ds:'DS',hkp:'HKP',posta:'Pošta',osobne:'Osobně'}[z] || z; }
+        function zpusobFull(z) { return {ds:'Datová schránka',hkp:'Hybridní konverzní pošta',posta:'Poštou',osobne:'Osobně'}[z] || z; }
+
+        // ── Renderování tabulky ──
+        function renderTable() {
+            var tbody = document.getElementById('lnTableBody');
+            if (!tbody) return;
+            var uu = state.lhutaNamitky.ucastnici;
+            var sel = state.lhutaNamitky.selectedIdx;
+            var html = '';
+
+            uu.forEach(function(u, i) {
+                var ld = lhutaDo(u);
+                var exp = isExpired(u);
+                var hasN = u.namitka !== null;
+                var resolved = hasN && u.namitka.status === 'resolved';
+
+                var nbadge;
+                if (resolved) nbadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#e6f4ea;color:#137333;"><span class="material-icons-outlined" style="font-size:12px;">check_circle<\/span>Vypořádána<\/span>';
+                else if (hasN) nbadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#fce8e6;color:#c5221f;"><span class="material-icons-outlined" style="font-size:12px;">error<\/span>Podána<\/span>';
+                else if (exp || u.vzdaliSe) nbadge = '<span style="color:#9aa0a6;font-size:11px;">—<\/span>';
+                else nbadge = '<span style="color:#9aa0a6;font-size:11px;">Čeká<\/span>';
+
+                var dorBadge = u.doruceno
+                    ? fmtCZ(u.doruceno) + (u.auto ? ' <span style="font-size:9px;color:#137333;font-weight:500;">auto<\/span>' : '')
+                    : '<span style="color:#e37400;font-weight:500;">Nezadáno<\/span>';
+
+                html += '<tr onclick="lnSelect(' + i + ')" style="border-bottom:1px solid #f1f3f4;cursor:pointer;' + (sel===i ? 'background:#e8f0fe;' : '') + 'transition:background .1s;">' +
+                    '<td style="padding:10px 8px 10px 0;"><div style="display:flex;align-items:center;gap:8px;">' +
+                        '<span class="material-icons-outlined" style="font-size:18px;color:#5f6368;">' + u.icon + '<\/span>' +
+                        '<div><div style="font-weight:500;color:#202124;">' + u.name + '<\/div><div style="font-size:11px;color:#5f6368;">' + u.role + '<\/div><\/div>' +
+                    '<\/div><\/td>' +
+                    '<td style="padding:10px 8px;"><span style="padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;background:#f1f3f4;color:#5f6368;">' + zpusobLabel(u.zpusob) + '<\/span><\/td>' +
+                    '<td style="padding:10px 8px;">' + dorBadge + '<\/td>' +
+                    '<td style="padding:10px 8px;">' + (ld ? fmtCZ(fmtISO(ld)) : '—') + '<\/td>' +
+                    '<td style="padding:10px 0 10px 8px;">' + nbadge + '<\/td>' +
+                '<\/tr>';
+            });
+
+            tbody.innerHTML = html;
+            updateSummary();
+        }
+
+        function updateSummary() {
+            var uu = state.lhutaNamitky.ucastnici;
+            var dor = uu.filter(function(u){return u.doruceno;}).length;
+            var upl = uu.filter(function(u){return isExpired(u)||u.vzdaliSe;}).length;
+            var nam = uu.filter(function(u){return u.namitka;}).length;
+            var vyp = uu.filter(function(u){return u.namitka&&u.namitka.status==='resolved';}).length;
+            var el;
+            el=document.getElementById('lnSumDoruceno'); if(el) el.textContent=dor+'/'+uu.length;
+            el=document.getElementById('lnSumUplynula'); if(el) el.textContent=upl+'/'+uu.length;
+            el=document.getElementById('lnSumNamitky'); if(el) el.textContent=nam;
+            el=document.getElementById('lnSumVyporadano'); if(el) el.textContent=vyp;
+
+            var allDor = uu.every(function(u){return u.doruceno;});
+            var allDone = uu.every(function(u){return isExpired(u)||u.vzdaliSe;});
+            var allNamRes = uu.every(function(u){return !u.namitka||u.namitka.status==='resolved';});
+            var openN = uu.filter(function(u){return u.namitka&&u.namitka.status!=='resolved';}).length;
+
+            var cdEl = document.getElementById('lnOverallCountdown');
+            var stEl = document.getElementById('lnStatus');
+            var btnEl = document.getElementById('btnCompleteLN');
+
+            if (allDone && allNamRes) {
+                if(cdEl){cdEl.textContent='Ukončena';cdEl.style.color='#137333';}
+                if(stEl) stEl.textContent='Všechny lhůty uplynuly'+(nam>0?', námitky vypořádány':'');
+                if(btnEl) btnEl.disabled=false;
+            } else if (allDor) {
+                var maxLd = null;
+                uu.forEach(function(u){var ld2=lhutaDo(u);if(ld2&&(!maxLd||ld2>maxLd))maxLd=ld2;});
+                if (maxLd) {
+                    var rem = Math.ceil((maxLd - new Date())/(864e5));
+                    if(cdEl){cdEl.textContent=(rem>0?rem+' dnů':'Uplynula');cdEl.style.color=rem>0?'#004289':'#137333';}
+                }
+                if(stEl) stEl.textContent = openN>0 ? 'K vypořádání: '+openN+' námit'+(openN===1?'ka':openN<5?'ky':'ek') : 'Lhůta běží';
+                if(btnEl) btnEl.disabled=true;
+            } else {
+                var missing = uu.length - dor;
+                if(cdEl){cdEl.textContent='Doručení '+dor+'/'+uu.length;cdEl.style.color='#e37400';}
+                if(stEl) stEl.textContent='Čeká na doručení '+missing+' účastník'+(missing===1?'ovi':'ům');
+                if(btnEl) btnEl.disabled=true;
+            }
+        }
+
+        // ── Detail účastníka (pravý panel) — vertical stepper ──
+        function renderDetail(idx) {
+            var c = document.getElementById('lnDetail');
+            if (!c) return;
+            var u = state.lhutaNamitky.ucastnici[idx];
+            if (!u) return;
+            var ld = lhutaDo(u);
+            var exp = isExpired(u);
+            var hasN = u.namitka !== null;
+            var resolved = hasN && u.namitka.status === 'resolved';
+
+            // Determine step states: 'done' | 'active' | 'waiting'
+            var s1 = 'done'; // vypraveno — always done
+            var s2 = u.doruceno ? 'done' : 'active'; // doručeno
+            var s3, s4;
+            if (!u.doruceno) { s3 = 'waiting'; s4 = 'waiting'; }
+            else if (u.vzdaliSe) { s3 = 'done'; s4 = 'done'; }
+            else if (exp) { s3 = 'done'; s4 = hasN ? (resolved ? 'done' : 'active') : 'done'; }
+            else { s3 = 'active'; s4 = hasN ? (resolved ? 'done' : 'active') : 'waiting'; }
+
+            function stepColor(st) { return st==='done'?'#137333':st==='active'?'#004289':'#dadce0'; }
+            function stepBg(st) { return st==='done'?'#e6f4ea':st==='active'?'#e8f0fe':'#f8f9fa'; }
+            function stepIcon(st, icon) { return st==='done'?'check_circle':icon; }
+            function lineColor(st) { return st==='done'?'#137333':'#dadce0'; }
+
+            // Padding-top aligns the header divider with the table header underline in the left panel
+            // Left: 24px panel-pad + summaryBar(~40px+16mb) + thead(~32px+2px border) = ~114px
+            // Right: top-pad + header(~36px icon) + 16px pb + 2px border ≈ top-pad + 54px → need ~60px top
+            var h = '<div style="padding:58px 16px 4px 24px;">';
+
+            // ── Header s celkovým stavem ──
+            var statusBadge;
+            if (u.vzdaliSe) statusBadge = '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;background:#e8f0fe;color:#004289;">Vzdal se práva<\/span>';
+            else if (exp && !hasN) statusBadge = '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;background:#e6f4ea;color:#137333;">Bez námitky<\/span>';
+            else if (resolved) statusBadge = '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;background:#e6f4ea;color:#137333;">Vypořádáno<\/span>';
+            else if (hasN) statusBadge = '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;background:#fce8e6;color:#c5221f;">Námitka<\/span>';
+            else if (u.doruceno) statusBadge = '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;background:#fff3e0;color:#e37400;">Lhůta běží<\/span>';
+            else statusBadge = '<span style="padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;background:#f1f3f4;color:#5f6368;">Čeká na doručení<\/span>';
+
+            h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #e0e0e0;">' +
+                '<div style="width:36px;height:36px;border-radius:50%;background:#e8f0fe;display:flex;align-items:center;justify-content:center;color:#004289;flex-shrink:0;">' +
+                    '<span class="material-icons-outlined" style="font-size:20px;">' + u.icon + '<\/span><\/div>' +
+                '<div><div style="font-size:14px;font-weight:600;color:#202124;">' + u.name + '<\/div>' +
+                '<div style="display:flex;align-items:center;gap:8px;margin-top:2px;">' +
+                '<span style="font-size:12px;color:#5f6368;">' + u.role + '<\/span>' +
+                statusBadge + '<\/div><\/div><\/div>';
+
+            // ── Stepper ──
+            // Each step: flex row [icon-col | content-col]
+            // icon-col has circle + connecting line below
+
+            function stepRow(st, icon, titleHtml, bodyHtml, isLast) {
+                var col = st==='done'?'#137333':st==='active'?'#004289':'#9aa0a6';
+                var bg = st==='done'?'#e6f4ea':st==='active'?'#e8f0fe':'#f8f9fa';
+                var ic = st==='done'?'check_circle':icon;
+                var r = '<div style="display:flex;gap:14px;'+(isLast?'':'')+ '">';
+                // Icon column — circle + line
+                r += '<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:24px;">';
+                r += '<div style="width:24px;height:24px;border-radius:50%;background:'+bg+';display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+                    '<span class="material-icons-outlined" style="font-size:16px;color:'+col+';">'+ic+'<\/span><\/div>';
+                if (!isLast) {
+                    var lineCol = st==='done'?'#137333':'#dadce0';
+                    r += '<div style="flex:1;width:2px;background:'+lineCol+';min-height:12px;"><\/div>';
+                }
+                r += '<\/div>';
+                // Content column
+                r += '<div style="flex:1;min-width:0;padding-bottom:'+(isLast?'4':'18')+'px;padding-top:2px;">';
+                r += '<div style="font-size:13px;font-weight:500;color:'+(st==='waiting'?'#9aa0a6':'#202124')+';">' + titleHtml + '<\/div>';
+                if (bodyHtml) r += bodyHtml;
+                r += '<\/div>';
+                r += '<\/div>';
+                return r;
+            }
+
+            // Step 1: Vypraveno
+            h += stepRow(s1, 'send',
+                'Vypraveno',
+                '<div style="font-size:12px;color:#5f6368;margin-top:3px;">' + fmtCZ(u.vypraveno) + ' · ' + zpusobFull(u.zpusob) + '<\/div>',
+                false);
+
+            // Step 2: Doručeno
+            var s2body = '';
+            if (u.doruceno) {
+                s2body = '<div style="font-size:12px;color:#5f6368;margin-top:3px;">' + fmtCZ(u.doruceno);
+                if (u.auto) s2body += ' <span style="font-size:10px;padding:1px 6px;background:#e6f4ea;color:#137333;border-radius:4px;vertical-align:1px;">auto<\/span>';
+                s2body += '<\/div>';
+            } else {
+                s2body = '<div style="margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
+                    '<input type="date" value="" style="padding:5px 8px;border:1px solid #004289;border-radius:6px;font-size:12px;color:#004289;background:#f8fbff;" onchange="lnSetDoruceni('+idx+',this.value)">' +
+                    '<span style="font-size:11px;color:#004289;font-weight:500;"><span class="material-icons-outlined" style="font-size:13px;vertical-align:-2px;">edit_calendar<\/span> Zadat datum<\/span>' +
+                    '<\/div>';
+            }
+            h += stepRow(s2, 'markunread_mailbox', 'Doručeno', s2body, false);
+
+            // Step 3: Lhůta
+            var s3body = '';
+            if (!u.doruceno) {
+                s3body = '<div style="font-size:12px;color:#9aa0a6;margin-top:3px;">Čeká na doručení<\/div>';
+            } else if (u.vzdaliSe) {
+                s3body = '<div style="font-size:12px;color:#004289;margin-top:3px;">Účastník se vzdal práva na námitky<\/div>';
+            } else if (exp) {
+                s3body = '<div style="font-size:12px;color:#137333;margin-top:3px;">Uplynula ' + fmtCZ(fmtISO(ld)) + '<\/div>';
+            } else {
+                var total = getLhutaDny();
+                var elapsed = Math.floor((new Date() - new Date(u.doruceno)) / 864e5);
+                var remaining = total - elapsed;
+                if (remaining < 0) remaining = 0;
+                var pct = Math.min(100, Math.round((elapsed / total) * 100));
+                s3body = '<div style="font-size:12px;color:#e37400;margin-top:3px;">Zbývá ' + remaining + ' z ' + total + ' dnů · do ' + fmtCZ(fmtISO(ld)) + '<\/div>';
+                s3body += '<div style="margin-top:6px;height:4px;background:#f1f3f4;border-radius:2px;overflow:hidden;">' +
+                    '<div style="height:100%;width:'+pct+'%;background:' + (remaining<=3?'#e37400':'#004289') + ';border-radius:2px;transition:width .3s;"><\/div><\/div>';
+                s3body += '<label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;cursor:pointer;color:#5f6368;">' +
+                    '<input type="checkbox" onchange="lnToggleVzdali('+idx+',this.checked)" style="accent-color:#004289;"> Vzdal se práva na námitky<\/label>';
+            }
+            h += stepRow(s3, 'hourglass_top',
+                'Lhůta pro námitky <span style="font-weight:400;color:#5f6368;">(' + getLhutaDny() + ' dnů)<\/span>',
+                s3body, false);
+
+            // Step 4: Námitka
+            var s4body = '';
+            if (u.namitka) {
+                var n = u.namitka;
+                s4body = '<div style="margin-top:8px;background:#fafafa;border:1px solid #e0e0e0;border-radius:8px;padding:12px;">' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+                    '<span style="font-size:12px;color:#5f6368;">' + fmtCZ(n.datum) + (n.cisloJednaci ? ' · <span style="font-weight:500;color:#202124;">' + n.cisloJednaci + '<\/span>' : '') + '<\/span>';
+                if (n.status==='resolved') {
+                    s4body += '<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;'+(n.hodnoceni==='duvodna'?'background:#fff3e0;color:#e37400;':'background:#f1f3f4;color:#5f6368;')+'">'+(n.hodnoceni==='duvodna'?'Důvodná':'Nedůvodná')+'<\/span>';
+                }
+                s4body += '<\/div>';
+                s4body += '<div style="font-size:12px;color:#202124;line-height:1.6;">' + n.text + '<\/div>';
+                if (n.status === 'resolved') {
+                    s4body += '<div style="margin-top:8px;padding:8px 10px;border-radius:6px;background:#f8f9fa;border-left:3px solid '+(n.hodnoceni==='duvodna'?'#e37400':'#5f6368')+';">' +
+                        '<div style="font-size:12px;color:#5f6368;line-height:1.5;">' + n.oduvodneni + '<\/div><\/div>';
+                } else {
+                    s4body += '<div style="margin-top:10px;"><button class="btn btn-primary" onclick="lnOpenResolve('+idx+')" style="font-size:12px;">' +
+                        '<span class="material-icons-outlined" style="font-size:14px;">rate_review<\/span> Vypořádat námitku<\/button><\/div>';
+                }
+                s4body += '<\/div>';
+            } else if (u.doruceno && !exp && !u.vzdaliSe) {
+                s4body = '<div style="font-size:12px;color:#5f6368;margin-top:3px;">Dosud nepodána · lhůta běží<\/div>' +
+                    '<div style="margin-top:8px;"><button class="btn btn-secondary" onclick="lnOpenAdd('+idx+')" style="font-size:12px;">' +
+                    '<span class="material-icons-outlined" style="font-size:14px;">add_comment<\/span> Evidovat námitku<\/button><\/div>';
+            } else if (exp || u.vzdaliSe) {
+                s4body = '<div style="font-size:12px;color:#137333;margin-top:3px;">Nepodána<\/div>';
+            } else {
+                s4body = '<div style="font-size:12px;color:#9aa0a6;margin-top:3px;">Čeká na předchozí kroky<\/div>';
+            }
+            h += stepRow(s4, 'feedback', 'Námitka', s4body, true);
+
+            h += '<\/div>'; // end padding wrapper
+            c.innerHTML = h;
+        }
+
+        // ── Globální funkce ──
+        window.lnSelect = function(i) {
+            state.lhutaNamitky.selectedIdx = i;
+            renderTable();
+            renderDetail(i);
+        };
+
+        window.lnSetDoruceni = function(i, v) {
+            state.lhutaNamitky.ucastnici[i].doruceno = v || null;
+            renderTable();
+            renderDetail(i);
+        };
+
+        window.lnToggleVzdali = function(i, checked) {
+            state.lhutaNamitky.ucastnici[i].vzdaliSe = checked;
+            renderTable();
+            renderDetail(i);
+        };
+
+        window.lnOpenAdd = function(i) {
+            state.lhutaNamitky._addingForIdx = i;
+            document.getElementById('namDatum2').value = '2026-01-15';
+            document.getElementById('namCJ2').value = '';
+            document.getElementById('namText2').value = '';
+            openModal('addNamitkaModal2');
+        };
+
+        window.addNamitkaForUcastnik = function() {
+            var i = state.lhutaNamitky._addingForIdx;
+            var datum = document.getElementById('namDatum2').value;
+            var cj = document.getElementById('namCJ2').value;
+            var txt = document.getElementById('namText2').value;
+            if (!txt) { alert('Vyplňte text námitky.'); return; }
+            state.lhutaNamitky.ucastnici[i].namitka = { datum:datum, cisloJednaci:cj, text:txt, status:'new', hodnoceni:null, oduvodneni:null };
+            closeModal('addNamitkaModal2');
+            renderTable();
+            renderDetail(i);
+        };
+
+        window.lnOpenResolve = function(i) {
+            state.lhutaNamitky._resolvingForIdx = i;
+            document.getElementById('namOduvodneni2').value = '';
+            var radios = document.querySelectorAll('input[name="nam_hodnoceni2"]');
+            radios.forEach(function(r){ r.checked = r.value === 'neduvodna'; });
+            openModal('resolveNamitkaModal2');
+        };
+
+        window.resolveNamitkaForUcastnik = function() {
+            var i = state.lhutaNamitky._resolvingForIdx;
+            var hod = document.querySelector('input[name="nam_hodnoceni2"]:checked');
+            var odu = document.getElementById('namOduvodneni2').value;
+            if (!hod || !odu) { alert('Vyplňte hodnocení a odůvodnění.'); return; }
+            state.lhutaNamitky.ucastnici[i].namitka.status = 'resolved';
+            state.lhutaNamitky.ucastnici[i].namitka.hodnoceni = hod.value;
+            state.lhutaNamitky.ucastnici[i].namitka.oduvodneni = odu;
+            if (hod.value === 'duvodna') state.seznameni.required = true;
+            closeModal('resolveNamitkaModal2');
+            renderTable();
+            renderDetail(i);
+        };
+
+        window.completeLhutaNamitky = function() {
+            state.lhutaNamitky.done = true;
+            // Sync starý stav pro kompatibilitu
+            state.lhuta.done = true;
+            state.namitky.done = true;
+            closeControl('controlLhutaNamitky');
+            updateUI();
+        };
+
+        // ── Override updateUI — nahradit sekce pro lhůta a námitky ──
+        var _origUpdateUI = window.updateUI;
+        window.updateUI = function() {
+            var s = state;
+
+            // Fáze 1: beze změny — zavoláme originál pro nastavení+poplatek+vyrozumení
+            // Ale musíme přeskočit staré lhuta/namitky reference
+            // Zavoláme originál a pak opravíme fázi 3
+
+            // Dočasně nastavit staré flagy
+            s.lhuta.done = s.lhutaNamitky.done;
+            s.namitky.done = s.lhutaNamitky.done;
+
+            _origUpdateUI();
+
+            // ── Přepsat fázi 3: sloučená karta ──
+            var phase1Done = s.nastaveni.done && s.poplatek.done;
+            var lnState = s.lhutaNamitky.done ? 'done' : (s.vyrozumeni.done ? 'active' : 'locked');
+            var lnLabel = s.lhutaNamitky.done ? 'Hotovo — zobrazit' : (s.vyrozumeni.done ? 'Spravovat' : 'Nejprve vyrozumění');
+            var lnIcon = s.lhutaNamitky.done ? 'visibility' : (s.vyrozumeni.done ? 'hourglass_top' : 'lock');
+            var lnDisabled = !s.vyrozumeni.done;
+
+            // Použít setPipelineCard pro sloučenou kartu
+            if (typeof setPipelineCard === 'function') {
+                setPipelineCard('card-lhutaNamitky', lnState, lnLabel, lnIcon, lnDisabled, 'controlLhutaNamitky');
+            }
+
+            // Opravit fázi 3 stav — záleží na lhutaNamitky.done
+            var canRozhodnuti = s.lhutaNamitky.done && (!s.seznameni.required || s.seznameni.done);
+            setPhaseState('phase3', canRozhodnuti ? 'done' : (s.vyrozumeni.done ? 'active' : ''));
+
+            // Fáze 4
+            setPipelineCard('card-shrnuti',
+                s.shrnuti.done ? 'done' : (canRozhodnuti ? 'active' : 'locked'),
+                s.shrnuti.done ? 'Vydáno — zobrazit' : (canRozhodnuti ? 'Připravit rozhodnutí' : 'Nejprve námitky'),
+                s.shrnuti.done ? 'visibility' : (canRozhodnuti ? 'gavel' : 'lock'),
+                !canRozhodnuti, 'controlShrnuti');
+
+            setPhaseState('phase4', s.shrnuti.done ? 'done' : (canRozhodnuti ? 'active' : ''));
+            document.getElementById('btnPokracovat').disabled = !s.shrnuti.done;
+
+            // Seznámení
+            var seznEl = document.getElementById('card-seznameni');
+            if (s.lhutaNamitky.done) {
+                seznEl.style.display = 'flex';
+                if (s.seznameni.done) {
+                    seznEl.className = 'pipeline-phase-conditional status-done';
+                    var btn = document.getElementById('btn-seznameni');
+                    if(btn) btn.innerHTML = '<span class="material-icons-outlined">visibility<\/span>Hotovo';
+                }
+            } else {
+                seznEl.style.display = 'none';
+            }
+
+            // Statistiky v shrnutí
+            if (document.getElementById('shrnutiNamitky')) {
+                var namList = s.lhutaNamitky.ucastnici.filter(function(u){return u.namitka;});
+                document.getElementById('shrnutiNamitky').textContent = namList.length;
+                document.getElementById('shrnutiDuvodne').textContent = namList.filter(function(u){return u.namitka.hodnoceni==='duvodna';}).length;
+                document.getElementById('shrnutiNeduvodne').textContent = namList.filter(function(u){return u.namitka.hodnoceni==='neduvodna';}).length;
+            }
+        };
+
+        // ── Hook do openControl pro renderování tabulky ──
+        var _origOpen3 = window.openControl;
+        window.openControl = function(id) {
+            _origOpen3(id);
+            if (id === 'controlLhutaNamitky') {
+                state.lhutaNamitky.selectedIdx = null;
+                renderTable();
+                var det = document.getElementById('lnDetail');
+                if (det) det.innerHTML = '<div class="viewer-placeholder"><span class="material-icons-outlined">person_search<\/span><p>Vyberte účastníka ze seznamu<br>pro zobrazení detailu doručení a námitek<\/p><\/div>';
+            }
+        };
+    })();
+    </script>
+
     <!-- PATCH: Dev-skip ikony na kartách pro rychlé testování -->
     <style>
         .dev-skip {
@@ -5409,14 +5671,15 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             if (key === 'seznameni') {
                 state.seznameni.required = true;
             }
-            if (key === 'namitky' && state.namitky.list.length === 0) {
-                // Přidat dummy námitku, aby statistiky nebyly prázdné
-                state.namitky.list.push({
-                    name: 'DEV: Testovací námitka',
-                    status: 'resolved',
-                    hodnoceni: 'neduvodna',
-                    oduvodneni: 'Automaticky přeskočeno (dev-skip)'
-                });
+            if (key === 'lhutaNamitky') {
+                // Nastavit všechny účastníky jako doručené + lhůty uplynulé
+                var u = state.lhutaNamitky.ucastnici;
+                for (var i = 0; i < u.length; i++) {
+                    if (!u[i].doruceno) u[i].doruceno = '2026-01-10';
+                }
+                // Sync starý stav
+                state.lhuta.done = true;
+                state.namitky.done = true;
             }
 
             updateUI();
@@ -5427,8 +5690,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             'card-nastaveni': 'nastaveni',
             'card-poplatek': 'poplatek',
             'card-vyrozumeni': 'vyrozumeni',
-            'card-lhuta': 'lhuta',
-            'card-namitky': 'namitky',
+            'card-lhutaNamitky': 'lhutaNamitky',
             'card-seznameni': 'seznameni',
             'card-shrnuti': 'shrnuti'
         };
@@ -5446,6 +5708,162 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
                 devSkip(cards[cardId]);
             });
             card.appendChild(btn);
+        });
+    })();
+    </script>
+
+    <!-- PATCH: Formátovací toolbary pro editovatelné bloky -->
+    <style>
+        /* ── Seznamy uvnitř contenteditable bloků ── */
+        .ve-block [contenteditable] ul,
+        .ve-block [contenteditable] ol {
+            list-style-position: inside;
+            padding-left: 8px;
+            margin: 4px 0;
+        }
+        .ve-block [contenteditable] li {
+            margin-bottom: 2px;
+        }
+        .ve-block .blk-body ul,
+        .ve-block .blk-body ol {
+            list-style-position: inside;
+            padding-left: 8px;
+            margin: 4px 0;
+        }
+        .ve-block .blk-body li {
+            margin-bottom: 2px;
+            text-align: left;
+        }
+        .vyzva-free-area ul,
+        .vyzva-free-area ol {
+            list-style-position: inside;
+            padding-left: 8px;
+            margin: 4px 0;
+        }
+        .vyzva-free-area li {
+            margin-bottom: 2px;
+        }
+
+        /* ── Floating toolbar: nad textovým výběrem ── */
+        .ve-float-toolbar {
+            display: none;
+            position: fixed;
+            background: #303134;
+            border-radius: 8px;
+            padding: 4px 6px;
+            align-items: center;
+            gap: 2px;
+            z-index: 9999;
+            box-shadow: 0 4px 16px rgba(0,0,0,.24);
+            animation: veFtFadeIn .12s ease-out;
+        }
+        @keyframes veFtFadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+        .ve-float-toolbar .ve-ft-btn {
+            width: 30px; height: 28px;
+            border: none; background: transparent; border-radius: 4px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: #e8eaed; padding: 0;
+        }
+        .ve-float-toolbar .ve-ft-btn:hover { background: rgba(255,255,255,.12); color: #fff; }
+        .ve-float-toolbar .ve-ft-btn.active { background: rgba(138,180,248,.24); color: #8ab4f8; }
+        .ve-float-toolbar .ve-ft-btn .material-icons-outlined { font-size: 18px; }
+        .ve-float-toolbar .ve-ft-sep { width: 1px; height: 18px; background: rgba(255,255,255,.15); margin: 0 2px; flex-shrink: 0; }
+    </style>
+    <script>
+    (function() {
+        // ── Floating toolbar ──
+        var floatTb = document.createElement('div');
+        floatTb.className = 've-float-toolbar';
+        floatTb.innerHTML =
+            '<button class="ve-ft-btn" data-cmd="bold" title="Tučné"><span class="material-icons-outlined">format_bold<\/span><\/button>' +
+            '<button class="ve-ft-btn" data-cmd="italic" title="Kurzíva"><span class="material-icons-outlined">format_italic<\/span><\/button>' +
+            '<button class="ve-ft-btn" data-cmd="underline" title="Podtržení"><span class="material-icons-outlined">format_underlined<\/span><\/button>' +
+            '<button class="ve-ft-btn" data-cmd="strikeThrough" title="Přeškrtnutí"><span class="material-icons-outlined">strikethrough_s<\/span><\/button>' +
+            '<div class="ve-ft-sep"><\/div>' +
+            '<button class="ve-ft-btn" data-cmd="insertUnorderedList" title="Odrážkový seznam"><span class="material-icons-outlined">format_list_bulleted<\/span><\/button>' +
+            '<button class="ve-ft-btn" data-cmd="insertOrderedList" title="Číslovaný seznam"><span class="material-icons-outlined">format_list_numbered<\/span><\/button>' +
+            '<div class="ve-ft-sep"><\/div>' +
+            '<button class="ve-ft-btn" data-cmd="superscript" title="Horní index"><span class="material-icons-outlined" style="font-size:16px;">superscript<\/span><\/button>' +
+            '<button class="ve-ft-btn" data-cmd="subscript" title="Dolní index"><span class="material-icons-outlined" style="font-size:16px;">subscript<\/span><\/button>' +
+            '<div class="ve-ft-sep"><\/div>' +
+            '<button class="ve-ft-btn" data-cmd="removeFormat" title="Vyčistit"><span class="material-icons-outlined">format_clear<\/span><\/button>';
+        document.body.appendChild(floatTb);
+
+        // Float toolbar click
+        floatTb.addEventListener('mousedown', function(e) {
+            e.preventDefault(); // Keep text selection alive
+        });
+        floatTb.addEventListener('click', function(e) {
+            var btn = e.target.closest('.ve-ft-btn');
+            if (!btn) return;
+            e.preventDefault();
+            var cmd = btn.getAttribute('data-cmd');
+            if (cmd) {
+                document.execCommand(cmd, false, null);
+                updateFloatState();
+            }
+        });
+
+        // Show/hide floating toolbar on selection change
+        var _ftHideTimer = null;
+        document.addEventListener('selectionchange', function() {
+            clearTimeout(_ftHideTimer);
+            _ftHideTimer = setTimeout(checkSelection, 80);
+        });
+
+        function checkSelection() {
+            var sel = window.getSelection();
+            if (!sel || sel.isCollapsed || sel.rangeCount === 0) {
+                floatTb.style.display = 'none';
+                return;
+            }
+
+            // Only show inside editable blocks
+            var anchor = sel.anchorNode;
+            var editable = anchor && (anchor.nodeType === 3 ? anchor.parentElement : anchor);
+            if (!editable) { floatTb.style.display = 'none'; return; }
+            // Must be inside a contenteditable element within a block
+            var inCE = editable.closest('[contenteditable="true"]');
+            if (!inCE) { floatTb.style.display = 'none'; return; }
+            var inBlock = inCE.closest('.ve-block.semi, .ve-block.free');
+            if (!inBlock) { floatTb.style.display = 'none'; return; }
+
+            var range = sel.getRangeAt(0);
+            var rect = range.getBoundingClientRect();
+            if (rect.width < 2) { floatTb.style.display = 'none'; return; }
+
+            // Position above selection
+            floatTb.style.display = 'flex';
+            var tbW = floatTb.offsetWidth;
+            var tbH = floatTb.offsetHeight;
+            var left = rect.left + (rect.width / 2) - (tbW / 2);
+            var top = rect.top - tbH - 8;
+
+            // Keep in viewport
+            if (left < 8) left = 8;
+            if (left + tbW > window.innerWidth - 8) left = window.innerWidth - tbW - 8;
+            if (top < 8) { top = rect.bottom + 8; } // flip below if no room above
+
+            floatTb.style.left = left + 'px';
+            floatTb.style.top = top + 'px';
+
+            updateFloatState();
+        }
+
+        function updateFloatState() {
+            floatTb.querySelectorAll('.ve-ft-btn[data-cmd]').forEach(function(btn) {
+                var cmd = btn.getAttribute('data-cmd');
+                try {
+                    btn.classList.toggle('active', document.queryCommandState(cmd));
+                } catch(e) {}
+            });
+        }
+
+        // Hide float toolbar on click outside editable
+        document.addEventListener('mousedown', function(e) {
+            if (!e.target.closest('.ve-float-toolbar') && !e.target.closest('.ve-block.semi') && !e.target.closest('.ve-block.free')) {
+                floatTb.style.display = 'none';
+            }
         });
     })();
     </script>
