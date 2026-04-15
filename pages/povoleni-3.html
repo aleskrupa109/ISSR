@@ -2425,7 +2425,7 @@
                     <!-- POPIS ZÁMĚRU — contenteditable v dokumentu -->
                     <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;" onclick="veSelectBlock('popis')">
                         <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
-                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"></div>
+                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="white-space:pre-line;outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"></div>
                     </div>
 
                     <!-- VYMEZENÍ ÚZEMÍ (AUTO) -->
@@ -3466,10 +3466,20 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
             }
         }
 
-        // Načíst text ze zdroje do aktivního textarea
+        // Načíst text ze zdroje do contenteditable (odstavce přes <p>)
         function vyrozPopisNacist(zdroj) {
             var text = zdroj === 'stz' ? POPIS_STZ : POPIS_ZADOST;
-            // Najít aktivní textarea
+            var ce = document.getElementById('vyrPopisCE');
+            if (ce) {
+                var paragraphs = text.split(/\n\n+/);
+                ce.innerHTML = paragraphs.map(function(p) {
+                    return '<p>' + p.replace(/\n/g, '<br>') + '<\/p>';
+                }).join('');
+                ce.focus();
+                if (typeof veUpdatePopisBanner === 'function') veUpdatePopisBanner();
+                return;
+            }
+            // Fallback pro textarea
             var editorShown = document.getElementById('vyrPopisEditor') && document.getElementById('vyrPopisEditor').style.display !== 'none';
             var taId = editorShown ? 'vyrPopisEditTA' : 'vyrPopisTA';
             var ta = document.getElementById(taId);
@@ -4823,15 +4833,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var n,r,i,a,
         // === Popis záměru — přepracované funkce pro contenteditable ===
         var ce = document.getElementById('vyrPopisCE');
 
-        // Načíst z podkladů — vloží text do contenteditable
-        window.vyrozPopisNacist = function(zdroj) {
-            var text = zdroj === 'stz' ? POPIS_STZ : POPIS_ZADOST;
-            if (ce) {
-                ce.textContent = text;
-                ce.focus();
-                veUpdatePopisBanner();
-            }
-        };
+        // Načíst z podkladů — delegujeme na originální funkci (opravena v hlavním skriptu)
 
         // Uložit — přečte text z contenteditable
         window.vyrozPopisUlozit = function(doSystemu) {
