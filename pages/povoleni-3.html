@@ -2985,8 +2985,26 @@
         }
 
         function closeControl(controlId) {
-            document.getElementById(controlId).classList.remove('open');
+            var el = document.getElementById(controlId);
+            if (el) el.classList.remove('open');
             document.body.style.overflow = '';
+        }
+
+        // Toast notification
+        function showToast(message, duration) {
+            duration = duration || 3000;
+            var existing = document.getElementById('appToast');
+            if (existing) existing.remove();
+            var toast = document.createElement('div');
+            toast.id = 'appToast';
+            toast.textContent = message;
+            toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:12px 24px;border-radius:8px;font-size:14px;z-index:100000;box-shadow:0 4px 12px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;';
+            document.body.appendChild(toast);
+            requestAnimationFrame(function() { toast.style.opacity = '1'; });
+            setTimeout(function() {
+                toast.style.opacity = '0';
+                setTimeout(function() { toast.remove(); }, 300);
+            }, duration);
         }
 
         // Modal functions
@@ -3619,10 +3637,13 @@
             updateUI();
         }
 
-        // Námitky functions
-        document.getElementById('namitkaPodatel').addEventListener('change', function() {
-            document.getElementById('jinyPodatelGroup').style.display = this.value === 'jiny' ? 'block' : 'none';
-        });
+        // Námitky functions (elementy odstraněny po sloučení do lhutaNamitky)
+        var _namitkaPodatel = document.getElementById('namitkaPodatel');
+        if (_namitkaPodatel) {
+            _namitkaPodatel.addEventListener('change', function() {
+                document.getElementById('jinyPodatelGroup').style.display = this.value === 'jiny' ? 'block' : 'none';
+            });
+        }
 
         function addNamitka() {
             const typ = document.getElementById('namitkaTyp').value;
@@ -3656,6 +3677,7 @@
 
         function renderNamitky() {
             const container = document.getElementById('namitkyList');
+            if (!container) return;
             
             if (state.namitky.list.length === 0) {
                 container.innerHTML = `
@@ -4721,6 +4743,7 @@
         // a zjisti kde přesně (v px od vrchu papíru) by stránka končila.
         function recalcPageBreaks() {
             if (dragging) return; // nepřepočítávat při tahu
+            _recalcRunning = true;
 
             var p = getPaper();
             var blks = getBlocks();
@@ -4789,6 +4812,7 @@
                 indicators.push({ element: el, pageNum: pg, baseY: editorY, currentY: finalY });
             }
 
+            _recalcRunning = false;
         }
 
         // Spustit po otevření overlay
@@ -4804,12 +4828,29 @@
         // Přepočítat při změně obsahu
         var observer = null;
         var recalcTimer = null;
+        var _recalcRunning = false;
         function startObserving() {
             var p = getPaper();
             if (!p || observer) return;
             observer = new MutationObserver(function(mutations) {
+                // Ignorovat mutace vyvolané samotným recalcPageBreaks
+                if (_recalcRunning) return;
+                // Ignorovat mutace uvnitř page-break elementů NEBO přidání/odebrání page-break elementů
                 var dominated = mutations.every(function(m) {
-                    return m.target.closest && m.target.closest('.ve-page-break');
+                    // Mutace uvnitř page-break
+                    if (m.target.closest && m.target.closest('.ve-page-break')) return true;
+                    // childList: přidání nebo odebrání page-break elementů
+                    if (m.type === 'childList') {
+                        var allPB = true;
+                        for (var i = 0; i < m.addedNodes.length; i++) {
+                            if (m.addedNodes[i].nodeType === 1 && !m.addedNodes[i].classList.contains('ve-page-break')) allPB = false;
+                        }
+                        for (var i = 0; i < m.removedNodes.length; i++) {
+                            if (m.removedNodes[i].nodeType === 1 && !m.removedNodes[i].classList.contains('ve-page-break')) allPB = false;
+                        }
+                        if ((m.addedNodes.length > 0 || m.removedNodes.length > 0) && allPB) return true;
+                    }
+                    return false;
                 });
                 if (dominated) return;
                 if (recalcTimer) clearTimeout(recalcTimer);
