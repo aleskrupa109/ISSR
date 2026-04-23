@@ -2297,16 +2297,12 @@
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Spisové údaje</span>
                     </div>
-                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-adresat',this)">
-                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
-                        <span class="ve-si-label">Adresát</span>
-                    </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-vec',this)">
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Věc — zahájení</span>
                     </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-zamer',this)">
-                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <div class="ve-si-icon semi"><span class="material-icons-outlined">tune</span></div>
                         <span class="ve-si-label">Identifikace záměru</span>
                     </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-popis',this)">
@@ -2337,8 +2333,8 @@
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Účastníci řízení</span>
                     </div>
-                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-poznamka',this)">
-                        <div class="ve-si-icon free"><span class="material-icons-outlined">edit</span></div>
+                    <div class="ve-sidebar-item" id="vyrSidebarPoznamka" onclick="vyrozPoznamkaToggle()" style="opacity:.55;">
+                        <div class="ve-si-icon" style="background:#fff;border:1px dashed #f9ab00;color:#f9ab00;"><span class="material-icons-outlined">add</span></div>
                         <span class="ve-si-label">Poznámka (volná)</span>
                     </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-pouceni',this)">
@@ -2390,23 +2386,6 @@
                         </div>
                     </div>
 
-                    <!-- Adresát -->
-                    <div class="ve-block auto" id="vyr-adresat" style="margin-top:16px;">
-                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · účastníci</span>
-                        <div class="blk-body" style="font-size:11px;">
-                            <div style="font-weight:600;">Správa železnic, státní organizace</div>
-                            <div>IČO: 70994234</div>
-                            <div>Dlážděná 1003/7, 110 00 Praha 1-Nové Město</div>
-                            <div style="color:#5f6368;margin-top:2px;">zastoupena: Signal Projekt s.r.o., DS: signal01</div>
-                            <div style="margin-top:6px;display:flex;gap:12px;font-size:10px;color:#5f6368;">
-                                <span>+ Městys Doudleby n.O. (obec)</span>
-                                <span>+ Obec Záměl</span>
-                                <span>+ Město Vamberk</span>
-                                <span>+ 5 vlastníků pozemků</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Věc -->
                     <div class="ve-block auto" id="vyr-vec" style="margin-top:20px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
@@ -2418,21 +2397,20 @@
                     </div>
 
                     <!-- Záměr — rozšířeno o parcely -->
-                    <div class="ve-block auto" id="vyr-zamer" style="margin-top:12px;">
-                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · záměr</span>
+                    <div class="ve-block semi" id="vyr-zamer" style="margin-top:12px;position:relative;" onclick="veSelectBlock('zamer')">
+                        <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · záměr</span>
                         <div class="blk-body">
-                            <p style="text-align:center;font-weight:700;font-size:12px;margin-bottom:2px;border-top:1px solid #333;border-bottom:1px solid #333;padding:6px 0;">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</p>
-                            <p style="font-size:11px;margin-top:8px;"><strong>v rozsahu:</strong></p>
-                            <ul style="font-size:11px;margin:4px 0 8px 18px;line-height:1.6;">
-                                <li>PS 01-01-31 Zabezpečení PZS v km 64,580</li>
-                                <li>PS 01-02-11 Sdělovací zařízení</li>
-                                <li>PS 01-03-21 Zabezpečovací zařízení v žst. Doudleby n.O.</li>
-                                <li>SO 01-86-01 Napájení PZS a SZZ</li>
-                            </ul>
-                            <p style="font-size:11px;color:#5f6368;">(dále jen „stavba").</p>
+                            <!-- Název záměru — editovatelný -->
+                            <div id="vyrNazevCE" contenteditable="true" style="text-align:center;font-weight:700;font-size:12px;margin-bottom:2px;border-top:1px solid #333;border-bottom:1px solid #333;padding:6px 0;outline:none;min-height:1.4em;" data-placeholder="Zadejte název stavby…">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</div>
+                            <p style="font-size:11px;color:#5f6368;margin-top:4px;">(dále jen „stavba").</p>
 
                             <p style="font-size:11px;margin-top:10px;"><strong>Umístění stavby:</strong></p>
-                            <p style="font-size:11px;line-height:1.6;">Stavba je navržena na pozemcích parc. č. 1284/1, 1284/5, 1285, 1310/2 v katastrálním území Doudleby nad Orlicí, st. p. 462, parc. č. 502/1, 502/3 v katastrálním území Záměl, parc. č. 2108, 2109/1 v katastrálním území Vamberk — trati Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580).</p>
+                            <div id="vyrPozemkyWrap" style="position:relative;" onmouseenter="document.getElementById('vyrPozemkyEditIcon').style.opacity='1'" onmouseleave="document.getElementById('vyrPozemkyEditIcon').style.opacity='0'">
+                                <a id="vyrPozemkyEditIcon" href="povoleni-2.html#kontrola-pozemky" title="Upravit pozemky v Kontrole záměru" style="position:absolute;top:-2px;right:0;opacity:0;transition:opacity .2s;display:flex;align-items:center;gap:3px;padding:3px 8px;background:#e8f0fe;border-radius:4px;font-size:10px;color:#1a73e8;text-decoration:none;font-family:'Roboto',sans-serif;font-weight:500;z-index:1;">
+                                    <span class="material-icons-outlined" style="font-size:14px;">open_in_new</span>Upravit
+                                </a>
+                                <p id="vyrPozemkyText" style="font-size:11px;line-height:1.6;">Stavba je navržena na pozemcích parc. č. 1284/1, 1284/5, 1285, 1310/2 v katastrálním území Doudleby nad Orlicí, st. p. 462, parc. č. 502/1, 502/3 v katastrálním území Záměl, parc. č. 2108, 2109/1 v katastrálním území Vamberk — trati Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580).</p>
+                            </div>
                         </div>
                     </div>
 
@@ -2514,22 +2492,45 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                             <div style="margin-top:6px;">
                                 <p>a) stavebník,</p>
                                 <p style="margin-left:16px;"><strong>Správa železnic, státní organizace, Dlážděná č.p. 1003/7, 110 00 Praha 1, IČ 70994234</strong></p>
-                                <p style="margin-left:16px;">zastoupená <strong>Stavební správou východ, Nerudova 773/1, 779 00 Olomouc</strong>, zastoupenou na základě plné moci společností <strong>Signal Projekt s.r.o., IČO 25525441, Vídeňská č.p. 546/55, 639 00 Brno 39</strong></p>
                             </div>
                             <div style="margin-top:6px;">
-                                <p>b) – e) viz rozdělovník</p>
+                                <p>b) obec, na jejímž území má být záměr uskutečněn:</p>
+                                <p style="margin-left:16px;">Městys Doudleby nad Orlicí, Dukelská č.p. 68, 517 42 Doudleby n.O., IČ 00274844</p>
+                                <p style="margin-left:16px;">Obec Záměl, Záměl č.p. 1, 517 41, IČ 00275212</p>
+                            </div>
+                            <div style="margin-top:6px;">
+                                <p>c) vlastník pozemku nebo stavby, na kterých má být záměr uskutečněn, nebo ten, kdo má jiné věcné právo k tomuto pozemku nebo stavbě:</p>
+                                <p style="margin-left:16px;">České dráhy, a.s., nábřeží Ludvíka Svobody č.p. 1222/12, 110 00 Praha 1, IČ 70994226</p>
+                                <p style="margin-left:16px;">CETIN a.s., Českomoravská č.p. 2510/19, 190 00 Praha 9, IČ 04084063</p>
+                                <p style="margin-left:16px;">ČEZ Distribuce, a.s., Guldenerova č.p. 2577/19, 326 00 Plzeň, IČ 24729035</p>
+                            </div>
+                            <div style="margin-top:6px;">
+                                <p>d) osoby, jejichž vlastnické nebo jiné věcné právo k sousedním stavbám nebo sousedním pozemkům může být rozhodnutím o povolení záměru přímo dotčeno,</p>
+                                <p style="margin-left:16px;color:#5f6368;">Vzhledem k charakteru stavby se nevyskytují.</p>
+                            </div>
+                            <div style="margin-top:6px;">
+                                <p>e) osoby, o kterých tak stanoví jiný zákon</p>
+                                <p style="margin-left:16px;color:#5f6368;">Vzhledem k charakteru stavby se nevyskytují.</p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- POZNÁMKA (FREE) -->
-                    <div class="ve-block free" id="vyr-poznamka" style="margin-top:12px;" onclick="veSelectBlock('poznamka')">
+                    <!-- POZNÁMKA (FREE) — skrytá, vloží se na vyžádání -->
+                    <div class="ve-block free" id="vyr-poznamka" style="margin-top:12px;display:none;" onclick="veSelectBlock('poznamka')">
                         <span class="ve-blk-label free"><span class="material-icons-outlined">edit</span> volný text</span>
-                        <div style="font-size:9px;font-weight:500;letter-spacing:.3px;color:#b8860b;margin-bottom:4px;font-family:'Roboto',sans-serif;">
-                            Doplňující pokyny (nepovinné)
-                        </div>
+                        <button onclick="event.stopPropagation();vyrozPoznamkaRemove()" title="Odebrat poznámku" style="position:absolute;top:4px;right:4px;background:none;border:none;cursor:pointer;color:#d93025;padding:2px;">
+                            <span class="material-icons-outlined" style="font-size:16px;">delete_outline</span>
+                        </button>
                         <div contenteditable="true" class="vyzva-free-area" id="vyrPoznamkaText"
-                             placeholder="Doplňte případné specifické pokyny, upozornění nebo podmínky pro toto řízení..."></div>
+                             placeholder="Doplňte případné specifické pokyny, upozornění nebo podmínky pro toto řízení..." oninput="vyrozPoznamkaCheckEmpty()"></div>
+                    </div>
+
+                    <!-- Inserter: přidat poznámku -->
+                    <div id="vyrPoznamkaInserter" style="margin:4px 0;position:relative;height:20px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;cursor:pointer;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0'" onclick="vyrozPoznamkaToggle()">
+                        <div style="position:absolute;left:0;right:0;top:50%;border-top:1px dashed #f9ab00;"></div>
+                        <span style="position:relative;display:inline-flex;align-items:center;gap:3px;padding:1px 10px;background:#fff;font-size:10px;color:#b8860b;font-family:'Roboto',sans-serif;font-weight:500;border-radius:3px;">
+                            <span class="material-icons-outlined" style="font-size:13px;">add</span>Přidat poznámku
+                        </span>
                     </div>
 
                     <!-- Poučení -->
@@ -2615,12 +2616,12 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                 <div class="ve-props-section">
                     <div class="ve-props-title">Složení dokumentu</div>
                     <div style="display:flex;gap:2px;margin-bottom:8px;">
-                        <div style="flex:14;height:8px;background:#1e8e3e;border-radius:3px 0 0 3px;" title="Auto bloky"></div>
-                        <div style="flex:3;height:8px;background:#1a73e8;" title="Semi-auto bloky"></div>
+                        <div style="flex:10;height:8px;background:#1e8e3e;border-radius:3px 0 0 3px;" title="Auto bloky"></div>
+                        <div style="flex:4;height:8px;background:#1a73e8;" title="Semi-auto bloky"></div>
                         <div style="flex:1;height:8px;background:#f9ab00;border-radius:0 3px 3px 0;" title="Volné bloky"></div>
                     </div>
                     <div style="font-size:11px;color:#5f6368;display:flex;justify-content:space-between;">
-                        <span>14 auto</span><span>3 semi</span><span>1 volný</span>
+                        <span>10 auto</span><span>4 semi</span><span>1 volný</span>
                     </div>
                 </div>
                 <div class="ve-props-section">
@@ -2707,6 +2708,42 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                     </div>
 
                     <!-- Poznámka (free) -->
+                    <!-- Záměr — název -->
+                    <div id="veCtx-zamer" class="ve-props-section" style="display:none;">
+                        <div class="ve-props-title" style="color:#1a73e8;">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">tune</span>
+                            Identifikace záměru
+                        </div>
+                        <div style="font-size:11px;color:#5f6368;line-height:1.4;margin-bottom:10px;">Název stavby je předvyplněn ze žádosti. Můžete ho upravit přímo v dokumentu.</div>
+
+                        <div id="veCtxZamerBanner" style="padding:8px 10px;background:#e6f4ea;border:1px solid #ceead6;border-radius:6px;margin-bottom:10px;">
+                            <div style="display:flex;align-items:center;gap:6px;">
+                                <span class="material-icons-outlined" style="font-size:14px;color:#137333;">check_circle</span>
+                                <span style="font-size:11px;font-weight:600;color:#137333;">Název načten ze žádosti</span>
+                            </div>
+                        </div>
+
+                        <div style="font-size:10px;font-weight:600;color:#5f6368;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;">Uložení názvu</div>
+                        <button onclick="vyrozNazevUlozit(false)" style="width:100%;padding:7px 10px;margin-bottom:4px;background:#fff;border:1px solid #dadce0;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;">
+                            <span class="material-icons-outlined" style="font-size:14px;color:#5f6368;">article</span>
+                            Jen do tohoto dokumentu
+                        </button>
+                        <button onclick="vyrozNazevUlozit(true)" style="width:100%;padding:7px 10px;background:#004289;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:500;">
+                            <span class="material-icons-outlined" style="font-size:14px;">cloud_done</span>
+                            Uložit do systému
+                        </button>
+
+                        <div style="margin-top:14px;padding-top:10px;border-top:1px solid #e8eaed;">
+                            <div style="font-size:10px;font-weight:600;color:#5f6368;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px;">Pozemky</div>
+                            <div style="font-size:11px;color:#5f6368;line-height:1.4;margin-bottom:8px;">Seznam pozemků je načten z modulu Kontrola záměru. Pro úpravu přejděte do detailu.</div>
+                            <button onclick="window.location.href='povoleni-2.html#kontrola-pozemky'" style="width:100%;padding:7px 10px;background:#f8f9fa;border:1px solid #dadce0;border-radius:6px;cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;font-family:inherit;font-weight:500;color:#1a73e8;">
+                                <span class="material-icons-outlined" style="font-size:14px;">open_in_new</span>
+                                Otevřít Kontrolu záměru — Pozemky
+                            </button>
+                        </div>
+                        <div style="font-size:10px;color:#9aa0a6;margin-top:10px;">Zdroj: Žádost · Modul kontroly záměru</div>
+                    </div>
+
                     <div id="veCtx-poznamka" class="ve-props-section" style="display:none;">
                         <div class="ve-props-title" style="color:#e37400;">
                             <span class="material-icons-outlined" style="font-size:14px;vertical-align:-2px;">edit</span>
@@ -3258,6 +3295,77 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                 showToast('Popis použit jen pro toto Vyrozumění');
             }
             vyrPopisRender();
+        }
+
+        // ── Název záměru — uložení ──
+        var NAZEV_KEY = 'issr_nazev_000612';
+        function vyrozNazevUlozit(doSystemu) {
+            var ce = document.getElementById('vyrNazevCE');
+            var text = ce ? ce.textContent.trim() : '';
+            if (!text) { showToast('Zadejte název stavby'); return; }
+            var banner = document.getElementById('veCtxZamerBanner');
+            if (doSystemu) {
+                try { localStorage.setItem(NAZEV_KEY, text); } catch(e) {}
+                showToast('Název záměru uložen do systému');
+                if (banner) {
+                    banner.style.background = '#e6f4ea';
+                    banner.style.borderColor = '#ceead6';
+                    banner.innerHTML = '<div style="display:flex;align-items:center;gap:6px;"><span class="material-icons-outlined" style="font-size:14px;color:#137333;">cloud_done</span><span style="font-size:11px;font-weight:600;color:#137333;">Uloženo do systému</span></div>';
+                }
+            } else {
+                showToast('Název použit jen pro tento dokument');
+                if (banner) {
+                    banner.style.background = '#e8f0fe';
+                    banner.style.borderColor = '#a8c7fa';
+                    banner.innerHTML = '<div style="display:flex;align-items:center;gap:6px;"><span class="material-icons-outlined" style="font-size:14px;color:#1a73e8;">article</span><span style="font-size:11px;font-weight:600;color:#1a73e8;">Lokální úprava</span></div>';
+                }
+            }
+        }
+
+        // ── Poznámka — toggle, remove, auto-hide ──
+        function vyrozPoznamkaToggle() {
+            var block = document.getElementById('vyr-poznamka');
+            var inserter = document.getElementById('vyrPoznamkaInserter');
+            var sideItem = document.getElementById('vyrSidebarPoznamka');
+            if (!block) return;
+            var visible = block.style.display !== 'none';
+            if (visible) {
+                // skrýt
+                block.style.display = 'none';
+                if (inserter) inserter.style.display = 'flex';
+                if (sideItem) {
+                    sideItem.style.opacity = '.55';
+                    sideItem.querySelector('.ve-si-icon').style.background = '#fff';
+                    sideItem.querySelector('.ve-si-icon').style.border = '1px dashed #f9ab00';
+                    sideItem.querySelector('.ve-si-icon').style.color = '#f9ab00';
+                    sideItem.querySelector('.material-icons-outlined').textContent = 'add';
+                }
+            } else {
+                // zobrazit
+                block.style.display = 'block';
+                if (inserter) inserter.style.display = 'none';
+                if (sideItem) {
+                    sideItem.style.opacity = '1';
+                    sideItem.querySelector('.ve-si-icon').style.background = '';
+                    sideItem.querySelector('.ve-si-icon').style.border = '';
+                    sideItem.querySelector('.ve-si-icon').style.color = '';
+                    sideItem.querySelector('.ve-si-icon').className = 've-si-icon free';
+                    sideItem.querySelector('.material-icons-outlined').textContent = 'edit';
+                }
+                var ta = document.getElementById('vyrPoznamkaText');
+                if (ta) ta.focus();
+            }
+        }
+
+        function vyrozPoznamkaRemove() {
+            var ta = document.getElementById('vyrPoznamkaText');
+            if (ta) ta.innerHTML = '';
+            vyrozPoznamkaToggle(); // skryje blok
+        }
+
+        function vyrozPoznamkaCheckEmpty() {
+            // pokud uživatel smaže veškerý obsah a odejde, blok zůstane — to je ok
+            // mazání se řeší ikonou koše
         }
 
         // Zrušit editaci (stav B → stav C nebo A)
