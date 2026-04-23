@@ -2317,6 +2317,10 @@
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Vymezení území</span>
                     </div>
+                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-pravni',this)">
+                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span class="ve-si-label">Právní základ</span>
+                    </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-ustni',this)">
                         <div class="ve-si-icon semi"><span class="material-icons-outlined">tune</span></div>
                         <span class="ve-si-label">Ústní jednání</span>
@@ -2329,6 +2333,10 @@
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Nahlížení do spisu</span>
                     </div>
+                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-ucastnici',this)">
+                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span class="ve-si-label">Účastníci řízení</span>
+                    </div>
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-poznamka',this)">
                         <div class="ve-si-icon free"><span class="material-icons-outlined">edit</span></div>
                         <span class="ve-si-label">Poznámka (volná)</span>
@@ -2340,6 +2348,10 @@
                     <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-podpis',this)">
                         <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
                         <span class="ve-si-label">Podpis + doručení</span>
+                    </div>
+                    <div class="ve-sidebar-item" onclick="vyrozScrollTo('vyr-vyveseni',this)">
+                        <div class="ve-si-icon auto"><span class="material-icons-outlined">lock</span></div>
+                        <span class="ve-si-label">Vyvěšení na úř. desce</span>
                     </div>
                 </div>
                 <div class="ve-sidebar-legend">
@@ -2399,9 +2411,9 @@
                     <div class="ve-block auto" id="vyr-vec" style="margin-top:20px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
                         <div class="blk-body">
-                            <div style="text-align:center;font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:1px;font-family:'Roboto',sans-serif;">OZNÁMENÍ</div>
-                            <div style="text-align:center;font-size:11px;font-weight:600;margin-bottom:12px;letter-spacing:.5px;font-family:'Roboto',sans-serif;">O ZAHÁJENÍ ŘÍZENÍ — POVOLENÍ ZÁMĚRU</div>
-                            <p>Dopravní a energetický stavební úřad (dále jen „DESÚ") oznamuje zahájení řízení o žádosti o povolení záměru podané dne <strong>6. 1. 2026</strong> stavebníkem <strong>Správa železnic, státní organizace</strong>, IČO: 70994234, zastoupenou Signal Projekt s.r.o. na základě plné moci.</p>
+                            <div style="text-align:center;font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:1px;font-family:'Roboto',sans-serif;">VYROZUMĚNÍ</div>
+                            <div style="text-align:center;font-size:11px;font-weight:600;margin-bottom:12px;letter-spacing:.5px;font-family:'Roboto',sans-serif;">O ZAHÁJENÍ ŘÍZENÍ</div>
+                            <p><strong>Správa železnic, státní organizace, Dlážděná 1003/7, 110 00 Praha 1</strong> zastoupená <strong>Stavební správou východ, Nerudova 773/1, 779 00 Olomouc</strong> zastoupenou na základě plné moci společností <strong>Signal Projekt s.r.o., IČO 25525441, Vídeňská č.p. 546/55, Štýřice, 639 00 Brno 39</strong> (dále jen „stavebník") podal dne <strong>6. 1. 2026</strong> žádost o povolení níže uvedeného záměru. Stavební úřad zjistil, že žádost neobsahuje požadované náležitosti a stavebníka proto vyzval (výzva č.j.: DESU/000615/26/OSD ze dne 7. 1. 2026) k doplnění žádosti a odstranění vad a současně rozhodl o přerušení řízení. Dne 20. 1. 2026 byly doplněny požadované doklady.</p>
                         </div>
                     </div>
 
@@ -2409,23 +2421,39 @@
                     <div class="ve-block auto" id="vyr-zamer" style="margin-top:12px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · záměr</span>
                         <div class="blk-body">
-                            <p style="text-align:center;font-weight:600;font-style:italic;font-size:12px;">„Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí"</p>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:11px;margin-top:8px;">
-                                <div><span style="color:#5f6368;">Č. záměru:</span> <strong>Z/2026/1596</strong></div>
-                                <div><span style="color:#5f6368;">Druh stavby:</span> <strong>Vyhrazená stavba — dráha</strong></div>
-                                <div><span style="color:#5f6368;">Zahájení řízení:</span> <strong>7. 1. 2026</strong></div>
-                                <div><span style="color:#5f6368;">Právní základ:</span> <strong>§ 189 SZ, § 7 zák. č. 266/1994 Sb.</strong></div>
-                            </div>
-                            <div style="margin-top:8px;font-size:11px;">
-                                <span style="color:#5f6368;">Umístění stavby:</span> pozemky v k.ú. Doudleby nad Orlicí, k.ú. Záměl, k.ú. Vamberk, k.ú. Kostelec nad Orlicí — trati Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580).
-                            </div>
+                            <p style="text-align:center;font-weight:700;font-size:12px;margin-bottom:2px;border-top:1px solid #333;border-bottom:1px solid #333;padding:6px 0;">Oprava zabezpečovacího zařízení v žst. Doudleby nad Orlicí</p>
+                            <p style="font-size:11px;margin-top:8px;"><strong>v rozsahu:</strong></p>
+                            <ul style="font-size:11px;margin:4px 0 8px 18px;line-height:1.6;">
+                                <li>PS 01-01-31 Zabezpečení PZS v km 64,580</li>
+                                <li>PS 01-02-11 Sdělovací zařízení</li>
+                                <li>PS 01-03-21 Zabezpečovací zařízení v žst. Doudleby n.O.</li>
+                                <li>SO 01-86-01 Napájení PZS a SZZ</li>
+                            </ul>
+                            <p style="font-size:11px;color:#5f6368;">(dále jen „stavba").</p>
+
+                            <p style="font-size:11px;margin-top:10px;"><strong>Umístění stavby:</strong></p>
+                            <p style="font-size:11px;line-height:1.6;">Stavba je navržena na pozemcích parc. č. 1284/1, 1284/5, 1285, 1310/2 v katastrálním území Doudleby nad Orlicí, st. p. 462, parc. č. 502/1, 502/3 v katastrálním území Záměl, parc. č. 2108, 2109/1 v katastrálním území Vamberk — trati Týniště n.O.–Letohrad (km 62,871–66,060) a Doudleby n.O.–Rokytnice v Orl. horách (km 0,000–2,580).</p>
                         </div>
                     </div>
 
                     <!-- POPIS ZÁMĚRU — contenteditable v dokumentu -->
                     <div class="ve-block semi" id="vyr-popis" style="margin-top:12px;" onclick="veSelectBlock('popis')">
                         <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · popis záměru</span>
-                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="white-space:pre-line;outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"></div>
+                        <div id="vyrPopisCE" contenteditable="true" class="blk-body" style="white-space:pre-line;outline:none;min-height:2em;font-size:11px;line-height:1.7;" data-placeholder="Klikněte a napište popis záměru, nebo použijte načtení z podkladů v pravém panelu…"><strong>Popis stavby:</strong>
+
+<strong>PS 01-01-31 Zabezpečení PZS v km 64,580</strong>
+Na přejezdu budou instalovány celkem dva nové závorové stožáry vždy vpravo komunikace ve směru jízdy silničních vozidel na přejezd a dva samostatné výstražné stožáry. Oba závorové stožáry budou osazeny celou závorou. Budou instalovány žárovkové výstražníky v plastovém provedení. Závory kompozitové s kontrolou celistvosti. Břevna závor budou navíc osazena břevnovými LED svítilnami. Kategorie PZS bude nově 3ZNI dle ČSN 34 2650 ed.2. Na přejezdu bude instalována signalizace pro nevidomé a slabozraké dle TS 3/2007-Z.
+
+Vnitřní technologie přejezdu bude umístěna v novém reléovém domku (RD). RD o velikosti 2x3 m bude ocelové konstrukce sendvičového typu se zesílenými stěnami s minerální vatou a s valbovou střechou a bude umístěn na drážním pozemku v blízkosti křižovatky tak, aby byly splněny rozhledové poměry na přejezdu při jízdě vlaku rychlostí 10 km/h.
+
+<strong>PS 01-02-11 Sdělovací zařízení</strong>
+V rámci sdělovacího zařízení budou do výkopu, který řeší PS 01-01-31 připoloženy 3x HDPE trubky. TK se pokládat nebude. Do sdělovacího racku bude doplněna 3U vana pro zakončení MK z VTO u přejezdu.
+
+<strong>PS 01-03-21 Zabezpečovací zařízení v žst. Doudleby n.O.</strong>
+Stávající počítač náprav typu Frauscher AZF bude demontován a bude nasazen počítačem náprav nového typu. Stávající počítací body PB1–PB4 typu RSR180 budou v kolejišti ponechány a budou nově označeny. Vnitřní výstroj počítacích bodů bude umístěna v reléovém stojanu.
+
+<strong>SO 01-86-01 Napájení PZS a SZZ</strong>
+Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávajícího RD-SU bude provedena výměna stávajícího rozvaděče, z něhož bude provedeno napájení nového RD PZS. Záložní napájení přejezdu bude realizováno pomocí 24 V baterie.</div>
                     </div>
 
                     <!-- VYMEZENÍ ÚZEMÍ (AUTO) -->
@@ -2433,6 +2461,15 @@
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
                         <div class="blk-body">
                             <p><strong>Vymezení území dotčeného vlivem stavby:</strong> Území dotčené vlivem záměru je vymezeno pozemky, na nichž má být záměr realizován, a dále sousedními pozemky. Účastníky řízení jsou vedle stavebníka a dotčených obcí vlastníci pozemků, na nichž má být záměr uskutečněn, jakož i osoby, jejichž vlastnické nebo jiné věcné právo k sousedním stavbám nebo sousedním pozemkům může být přímo dotčeno (§ 190 zákona č. 283/2021 Sb.).</p>
+                        </div>
+                    </div>
+
+                    <!-- PRÁVNÍ ZÁKLAD (AUTO) -->
+                    <div class="ve-block auto" id="vyr-pravni" style="margin-top:12px;">
+                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
+                        <div class="blk-body">
+                            <p>Dnem podání žádosti bylo podle § 44 odst. 1 zákona č. 500/2004 Sb., správní řád, ve znění pozdějších předpisů (dále jen „správní řád") zahájeno řízení o povolení záměru ve výše uvedené věci.</p>
+                            <p style="margin-top:6px;">Dopravní a energetický stavební úřad (dále jen „stavební úřad"), jako stavební úřad příslušný podle § 30 odst. 1 písm. d) a § 33 odst. 2 zákona č. 283/2021 Sb., stavební zákon, ve znění pozdějších předpisů (dále jen „stavební zákon"), vyrozumívá podle § 188 stavebního zákona účastníky řízení, dotčené orgány a hlavního projektanta o zahájení řízení a podle § 189 odst. 1 stavebního zákona určuje lhůtu, do které mohou účastníci řízení podat námitky, a to <strong>do 15 dnů od doručení tohoto vyrozumění</strong>, podáním na adresu sídla stavebního úřadu (tj. Jeremenkova 40b, 779 00 Olomouc) nebo případně do datové schránky stavebního úřadu (IDDS: 7mnrnuu). K později uplatněným námitkám nebude přihlédnuto.</p>
                         </div>
                     </div>
 
@@ -2451,8 +2488,9 @@
                     <div class="ve-block semi" id="vyr-namitky" style="margin-top:12px;" onclick="veSelectBlock('namitky')">
                         <span class="ve-blk-label semi"><span class="material-icons-outlined">tune</span> semi · lhůta z nastavení</span>
                         <div class="blk-body" id="vyrNamitkyText">
-                            <p><strong>Námitky účastníků řízení</strong> mohou být uplatněny nejpozději do <strong id="vyrLhutaDatum">22. 1. 2026</strong> (lhůta 15 dnů od doručení). K námitkám podaným po stanovené lhůtě DESÚ nepřihlíží.</p>
-                            <p style="margin-top:6px;font-size:11px;color:#666;">Právní základ: § 189 odst. 1 zákona č. 283/2021 Sb., stavební zákon</p>
+                            <p><strong>Námitky účastníků řízení</strong> mohou být uplatněny nejpozději do <strong id="vyrLhutaDatum">22. 1. 2026</strong> (lhůta 15 dnů od doručení tohoto vyrozumění). K námitkám podaným po stanovené lhůtě stavební úřad nepřihlíží.</p>
+                            <p style="margin-top:8px;">Se záměrem a podklady rozhodnutí se mohou účastníci řízení seznámit na stavebním úřadu, na adrese uvedené výše, nejlépe po předchozí telefonické dohodě či emailové domluvě s oprávněnou úřední osobou (viz záhlaví).</p>
+                            <p style="margin-top:8px;">Stavební úřad současně upozorňuje, že po uplynutí lhůty pro uplatnění námitek bude v souladu s § 36 odst. 3 správního řádu ukončeno dokazování a účastníci řízení o povolení stavby budou mít možnost vyjádřit se k podkladům rozhodnutí pro vydání rozhodnutí ve věci před jeho vydáním, a to <strong>ve lhůtě 5 dnů</strong> počítáno ode dne uplynutí lhůty k uplatnění námitek účastníků.</p>
                         </div>
                         <button class="vdef-edit-btn" onclick="openRichEditor({title:'Námitky a lhůta — upravit text',targetId:'vyrNamitkyText'})" title="Upravit" style="position:absolute;top:4px;right:4px;">
                             <span class="material-icons-outlined" style="font-size:15px;">edit</span>
@@ -2463,7 +2501,24 @@
                     <div class="ve-block auto" id="vyr-nahlizeni" style="margin-top:12px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
                         <div class="blk-body">
-                            <p><strong>Nahlížení do spisu:</strong> Účastníci řízení mohou nahlédnout do podkladů pro rozhodnutí v sídle DESÚ, pracoviště Olomouc, Jeremenkova 40b, v úředních hodinách, nebo elektronicky prostřednictvím Portálu stavebníka po ověření totožnosti (spis č. Z/2026/1596).</p>
+                            <p><strong>Nahlížení do spisu:</strong> Účastníci řízení mohou před vydáním rozhodnutí nahlížet do podkladů rozhodnutí na stavebním úřadu, na adrese: Jeremenkova 40b, 779 00 Olomouc, nejlépe po předchozí telefonické dohodě či emailové domluvě s oprávněnou úřední osobou (viz záhlaví vyřizuje). Jedná se o lhůtu pro seznámení se spisem před vydáním rozhodnutí ve věci, nikoliv o další lhůtu pro podání námitek. Po uplynutí této lhůty bude vydáno rozhodnutí ve věci.</p>
+                            <p style="margin-top:6px;">Účastníci řízení mohou rovněž nahlédnout do spisu elektronicky prostřednictvím Portálu stavebníka po ověření totožnosti (spis č. Z/2026/1596).</p>
+                        </div>
+                    </div>
+
+                    <!-- ÚČASTNÍCI ŘÍZENÍ (AUTO) -->
+                    <div class="ve-block auto" id="vyr-ucastnici" style="margin-top:12px;">
+                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · účastníci</span>
+                        <div class="blk-body">
+                            <p><strong>Účastníkem řízení o povolení záměru podle § 182 stavebního zákona jsou:</strong></p>
+                            <div style="margin-top:6px;">
+                                <p>a) stavebník,</p>
+                                <p style="margin-left:16px;"><strong>Správa železnic, státní organizace, Dlážděná č.p. 1003/7, 110 00 Praha 1, IČ 70994234</strong></p>
+                                <p style="margin-left:16px;">zastoupená <strong>Stavební správou východ, Nerudova 773/1, 779 00 Olomouc</strong>, zastoupenou na základě plné moci společností <strong>Signal Projekt s.r.o., IČO 25525441, Vídeňská č.p. 546/55, 639 00 Brno 39</strong></p>
+                            </div>
+                            <div style="margin-top:6px;">
+                                <p>b) – e) viz rozdělovník</p>
+                            </div>
                         </div>
                     </div>
 
@@ -2481,7 +2536,13 @@
                     <div class="ve-block auto" id="vyr-pouceni" style="margin-top:16px;">
                         <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
                         <div class="blk-body">
-                            <p><strong>Poučení:</strong> Toto oznámení není rozhodnutím ve smyslu správního řádu. Řízení je zahájeno dnem doručení žádosti splňující zákonné náležitosti. Účastníci řízení jsou oprávněni navrhovat důkazy a činit jiné návrhy po celou dobu řízení až do vydání rozhodnutí, uplatňovat námitky ve lhůtě stanovené v tomto vyrozumění a vyjádřit se k podkladům rozhodnutí.</p>
+                            <p><strong>Poučení:</strong></p>
+                            <p style="margin-top:6px;">Účastníci řízení mohou uplatňovat námitky směřující k hájení jejich procesních práv. Účastník řízení je povinen v námitce uvést důvody podání námitky. Stavební úřad nepřihlíží k námitkám účastníka řízení, které jsou v rozporu s uzavřenou plánovací smlouvou, jejíž smluvní stranou je tento účastník řízení. K námitkám o věcech, o kterých bylo rozhodnuto při vydání územně plánovací dokumentace, se nepřihlíží.</p>
+                            <p style="margin-top:6px;">Obec jako účastník řízení může uplatňovat námitky pouze v rozsahu své samostatné působnosti.</p>
+                            <p style="margin-top:6px;">Vlastník pozemku nebo stavby, na kterých má být záměr uskutečněn, nebo ten, kdo má jiné věcné právo k tomuto pozemku nebo stavbě, nebo osoby, jejichž vlastnické nebo jiné věcné právo k sousedním stavbám nebo sousedním pozemkům může být rozhodnutím o povolení záměru přímo dotčeno, může jako účastník řízení uplatňovat námitky pouze v rozsahu možného přímého dotčení svých práv.</p>
+                            <p style="margin-top:6px;">Účastníci řízení mohou podle § 14 odst. 2 správního řádu namítat podjatost úřední osoby, jakmile se o ní dozví. K námitce se nepřihlédne, pokud účastník řízení o důvodu vyloučení prokazatelně věděl, ale bez zbytečného odkladu námitku neuplatnil.</p>
+                            <p style="margin-top:6px;">Účastníci řízení mají dále v souladu s § 38 správního řádu právo nahlížet do správního spisu. S právem nahlížet do spisu je spojeno právo činit si výpisy a právo na to, aby stavební úřad pořídil kopie spisu nebo jeho částí.</p>
+                            <p style="margin-top:6px;">Nechá-li se některý z účastníků zastupovat, předloží jeho zástupce písemnou plnou moc. Každý, kdo činí úkony jménem právnické osoby, musí prokázat své oprávnění. V téže věci může za právnickou osobu současně činit úkony jen jedna osoba.</p>
                         </div>
                     </div>
 
@@ -2494,12 +2555,49 @@
                             <span style="color:#888;font-size:9px;">(elektronicky podepsáno)</span>
                         </div>
                         <div class="blk-body" style="margin-top:18px;padding-top:10px;border-top:1px solid #ddd;font-size:10px;color:#666;">
-                            <strong>Obdrží (DS):</strong><br>
-                            Signal Projekt s.r.o., DS: signal01 (za stavebníka Správa železnic, s.o.)<br>
-                            Městys Doudleby nad Orlicí, DS: ycmaebe<br>
-                            Obec Záměl, DS: zy6bsxb<br>
-                            Město Vamberk, DS: k8jbduv<br>
-                            <span style="color:#9aa0a6;">+ 5 vlastníků pozemků (doručení do vlastních rukou)</span>
+                            <strong>Obdrží:</strong><br><br>
+                            <em>účastníci (dodejky)</em><br>
+                            <strong>Správa železnic, s.o.</strong>, zastoupená Stavební správou východ zastoupenou na základě plné moci společností <strong>Signal Projekt s.r.o., Vídeňská č.p. 546/55, 639 00 Brno 39</strong><br>
+                            CETIN a.s., IDDS: qa7425t<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Českomoravská č.p. 2510/19, 190 00 Praha 9<br>
+                            České dráhy, a.s., IDDS: e52cdsf<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: nábřeží Ludvíka Svobody č.p. 1222/12, 110 00 Praha 1<br>
+                            ČEZ Distribuce, a.s., IDDS: v95uqfy<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Guldenerova č.p. 2577/19, 326 00 Plzeň<br>
+                            Městys Doudleby nad Orlicí, IDDS: ycmaebe<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Dukelská č.p. 68, 517 42 Doudleby n.O.<br>
+                            Obec Záměl, IDDS: zy6bsxb<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Záměl č.p. 1, 517 41<br>
+                            <br>
+                            <em>dotčené správní úřady</em><br>
+                            Drážní úřad, IDDS: 5mjaatd<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Bělehradská č.p. 222/128, 120 00 Praha 2<br>
+                            Krajský úřad Královéhradeckého kraje, odbor životního prostředí, IDDS: gcgbp3q<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Pivovarské náměstí č.p. 1245/2, 500 03 Hradec Králové 3<br>
+                            Městský úřad Vamberk, Odbor životního prostředí, IDDS: z48bkv5<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: Husovo náměstí č.p. 1, 517 54 Vamberk<br>
+                            <br>
+                            <em>ostatní</em><br>
+                            Správa železnic, s.o., Oblastní ředitelství Hradec Králové<br>
+                            &nbsp;&nbsp;&nbsp;sídlo: U Fotochemy 259, 501 01 Hradec Králové
+                        </div>
+                    </div>
+
+                    <!-- VYVĚŠENÍ NA ÚŘEDNÍ DESCE (AUTO) -->
+                    <div class="ve-block auto" id="vyr-vyveseni" style="margin-top:20px;padding-top:14px;border-top:2px solid #333;">
+                        <span class="ve-blk-label auto"><span class="material-icons-outlined">lock</span> auto · šablona</span>
+                        <div class="blk-body">
+                            <p><strong>Jelikož se jedná o záměr zasahující do území několika obcí, musí toto oznámení být v souladu s § 188 odst. 5</strong> stavebního zákona <strong>vyvěšeno po dobu 15 dnů na úředních deskách těchto obcí</strong>. Po uplynutí zákonné lhůty bude vráceno zpět stavebnímu úřadu s vyznačením doby vyvěšení a sejmutí.</p>
+                            <p style="margin-top:8px;text-decoration:underline;">Toto vyrozumění se doručuje k vyvěšení takto:</p>
+                            <ul style="margin:4px 0 0 18px;line-height:1.6;">
+                                <li>Městys Doudleby nad Orlicí, Dukelská č.p. 68, 517 42 Doudleby n.O.</li>
+                                <li>Obec Záměl, Záměl č.p. 1, 517 41</li>
+                            </ul>
+                            <div style="margin-top:16px;display:flex;justify-content:space-between;font-size:11px;">
+                                <div>Vyvěšeno dne: ................................</div>
+                                <div>Sejmuto dne: ................................</div>
+                            </div>
+                            <p style="margin-top:12px;font-size:10px;color:#5f6368;">Razítko, podpis orgánu, který potvrzuje vyvěšení a sejmutí oznámení.</p>
                         </div>
                     </div>
 
@@ -2517,19 +2615,21 @@
                 <div class="ve-props-section">
                     <div class="ve-props-title">Složení dokumentu</div>
                     <div style="display:flex;gap:2px;margin-bottom:8px;">
-                        <div style="flex:9;height:8px;background:#1e8e3e;border-radius:3px 0 0 3px;" title="Auto bloky"></div>
+                        <div style="flex:14;height:8px;background:#1e8e3e;border-radius:3px 0 0 3px;" title="Auto bloky"></div>
                         <div style="flex:3;height:8px;background:#1a73e8;" title="Semi-auto bloky"></div>
                         <div style="flex:1;height:8px;background:#f9ab00;border-radius:0 3px 3px 0;" title="Volné bloky"></div>
                     </div>
                     <div style="font-size:11px;color:#5f6368;display:flex;justify-content:space-between;">
-                        <span>11 auto</span><span>3 semi</span><span>1 volný</span>
+                        <span>14 auto</span><span>3 semi</span><span>1 volný</span>
                     </div>
                 </div>
                 <div class="ve-props-section">
                     <div class="ve-props-title">Příjemci</div>
-                    <div class="ve-props-stat"><span class="lbl">DS (elektronicky)</span><span class="val">4 DS</span></div>
-                    <div class="ve-props-stat"><span class="lbl">Poštou</span><span class="val">5 vlastníků</span></div>
-                    <div class="ve-props-stat" style="font-weight:600;"><span class="lbl">Celkem</span><span class="val" style="color:#1a73e8;">9 účastníků</span></div>
+                    <div class="ve-props-stat"><span class="lbl">DS (účastníci)</span><span class="val">6 DS</span></div>
+                    <div class="ve-props-stat"><span class="lbl">DS (dotčené orgány)</span><span class="val">3 DS</span></div>
+                    <div class="ve-props-stat"><span class="lbl">Ostatní</span><span class="val">1 DS</span></div>
+                    <div class="ve-props-stat"><span class="lbl">Úřední desky</span><span class="val">2 obce</span></div>
+                    <div class="ve-props-stat" style="font-weight:600;"><span class="lbl">Celkem</span><span class="val" style="color:#1a73e8;">12 příjemců</span></div>
                 </div>
                 <div class="ve-props-section">
                     <div class="ve-props-title">Parametry řízení</div>
