@@ -2799,6 +2799,7 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                     <span>Lhůta uplynula: <strong id="lnSumUplynula">0/5</strong></span>
                     <span>Námitky: <strong id="lnSumNamitky">0</strong></span>
                     <span>Vypořádáno: <strong id="lnSumVyporadano">0</strong></span>
+                    <span style="border-left:1px solid #dadce0;padding-left:16px;" id="lnSumRozhodnuti"></span>
                 </div>
                 <!-- Akční lišta -->
                 <div id="lnActionBar" style="display:none;margin-bottom:14px;"></div>
@@ -2931,49 +2932,90 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
         </div>
     </div>
 
-    <!-- Modal: Přidat námitku -->
-    <!-- Modal: Evidovat námitku účastníka -->
+    <!-- Modal: Evidovat námitky z dokumentu účastníka -->
     <div class="modal-overlay" id="addNamitkaModal2" onclick="closeModal('addNamitkaModal2', event)">
-        <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width:640px;">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">add_comment</span>
-                    Evidovat námitku
+                    Evidovat námitky
                 </div>
                 <button class="modal-close" onclick="closeModal('addNamitkaModal2')">
                     <span class="material-icons-outlined">close</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="max-height:70vh;overflow-y:auto;">
+                <!-- Účastník -->
                 <div style="padding:10px 14px;background:#e8f0fe;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
                     <span class="material-icons-outlined" style="font-size:18px;color:#004289;">person</span>
                     <span id="namUcastnikName2" style="font-size:13px;font-weight:600;color:#004289;"></span>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Datum podání námitky</label>
-                    <input type="date" class="form-input" id="namDatum2" value="2026-01-15">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Dokument účastníka</label>
-                    <div style="display:flex;gap:8px;align-items:stretch;">
-                        <input type="text" class="form-input" id="namCJ2" placeholder="Číslo jednací, např. DSU/123/2026" style="flex:1;">
-                        <button onclick="document.getElementById('namFile2').click()" class="btn btn-secondary" style="flex-shrink:0;font-size:12px;white-space:nowrap;">
-                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span>Připojit
-                        </button>
-                        <input type="file" id="namFile2" style="display:none" accept=".pdf,.doc,.docx" onchange="document.getElementById('namFileName2').textContent=this.files[0]?this.files[0].name:''">
+
+                <!-- Sekce: Dokument -->
+                <div style="padding:14px;background:#f8f9fa;border:1px solid #e8eaed;border-radius:8px;margin-bottom:16px;">
+                    <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:.3px;margin-bottom:10px;">Dokument účastníka</div>
+                    <div style="display:flex;gap:12px;margin-bottom:10px;">
+                        <div class="form-group" style="flex:1;margin:0;">
+                            <label class="form-label" style="font-size:11px;">Datum podání</label>
+                            <input type="date" class="form-input" id="namDatum2" value="2026-01-15" style="font-size:12px;">
+                        </div>
+                        <div class="form-group" style="flex:2;margin:0;">
+                            <label class="form-label" style="font-size:11px;">Číslo jednací</label>
+                            <input type="text" class="form-input" id="namCJ2" placeholder="např. DESU/021/010833/26" style="font-size:12px;">
+                        </div>
                     </div>
-                    <div id="namFileName2" style="font-size:11px;color:#137333;margin-top:4px;"></div>
+                    <div style="display:flex;gap:8px;">
+                        <button onclick="document.getElementById('namFileNamitka2').click()" style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 12px;background:#fff;border:1px dashed #dadce0;border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit;color:#5f6368;">
+                            <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">description</span>
+                            <div><div style="font-weight:500;color:#202124;">Námitka</div><div id="namFileNameNamitka2" style="font-size:10px;color:#137333;"></div></div>
+                        </button>
+                        <input type="file" id="namFileNamitka2" style="display:none" accept=".pdf,.jpg,.png" onchange="namOnFileUploaded(this)">
+                        <button onclick="document.getElementById('namFileDorucenka2').click()" style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 12px;background:#fff;border:1px dashed #dadce0;border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit;color:#5f6368;">
+                            <span class="material-icons-outlined" style="font-size:16px;color:#e37400;">local_post_office</span>
+                            <div><div style="font-weight:500;color:#202124;">Doručenka</div><div id="namFileNameDorucenka2" style="font-size:10px;color:#137333;"></div></div>
+                        </button>
+                        <input type="file" id="namFileDorucenka2" style="display:none" accept=".pdf,.jpg,.png" onchange="document.getElementById('namFileNameDorucenka2').textContent=this.files[0]?this.files[0].name:''">
+                    </div>
+                    <!-- AI vytěžení -->
+                    <div id="namAiBar" style="display:none;margin-top:10px;">
+                        <button id="namAiBtn" onclick="namAiExtract()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:linear-gradient(135deg,#e8f0fe,#f3e8ff);border:1px solid #c4b0f0;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;color:#5e35b1;transition:all .2s;">
+                            <span class="material-icons-outlined" style="font-size:18px;">auto_awesome</span>
+                            Vytěžit námitky z dokumentu pomocí AI
+                        </button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Text námitky <span style="font-weight:400;color:#9aa0a6;">(zkopírujte z dokumentu)</span></label>
-                    <textarea class="form-textarea" id="namText2" rows="5" placeholder="Vložte text námitky z dokumentu účastníka..."></textarea>
+
+                <!-- Sekce: Námitky z dokumentu -->
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+                    <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:.3px;">Námitky obsažené v dokumentu</div>
+                    <div id="namAiTag" style="display:none;font-size:9px;padding:2px 8px;background:#f3e8ff;color:#5e35b1;border-radius:10px;font-weight:500;">vytěženo AI</div>
                 </div>
+                <div id="namTextyContainer">
+                    <!-- Defaultně jedna námitka -->
+                    <div class="nam-text-entry" style="margin-bottom:12px;position:relative;padding:10px;background:#fff;border:1px solid #e8eaed;border-radius:8px;">
+                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                            <span class="nam-entry-label" style="font-size:11px;font-weight:600;color:#004289;">Námitka 1</span>
+                        </div>
+                        <div style="margin-bottom:6px;">
+                            <div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Text námitky</div>
+                            <textarea class="form-textarea nam-text-input" rows="3" placeholder="Vložte nebo zkopírujte text námitky…" style="font-size:12px;"></textarea>
+                        </div>
+                        <div>
+                            <div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Shrnutí <span style="color:#9aa0a6;">(stručná podstata námitky)</span></div>
+                            <textarea class="form-textarea nam-shrnuti-input" rows="2" placeholder="Stručné shrnutí podstaty námitky…" style="font-size:11px;background:#fafbfc;"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="namPridatText()" style="display:flex;align-items:center;gap:5px;padding:6px 12px;background:none;border:1px dashed #a8c7fa;border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit;color:#004289;font-weight:500;margin-bottom:8px;">
+                    <span class="material-icons-outlined" style="font-size:14px;">add</span>
+                    Přidat další námitku z dokumentu
+                </button>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('addNamitkaModal2')">Zrušit</button>
                 <button class="btn btn-primary" onclick="addNamitkaForUcastnik()">
-                    <span class="material-icons-outlined">add</span>
-                    Evidovat námitku
+                    <span class="material-icons-outlined">check</span>
+                    <span id="namSubmitLabel">Evidovat 1 námitku</span>
                 </button>
             </div>
         </div>
@@ -2981,7 +3023,7 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
 
     <!-- Modal: Vypořádat námitku účastníka -->
     <div class="modal-overlay" id="resolveNamitkaModal2" onclick="closeModal('resolveNamitkaModal2', event)">
-        <div class="modal" onclick="event.stopPropagation()">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width:560px;">
             <div class="modal-header">
                 <div class="modal-title">
                     <span class="material-icons-outlined">rate_review</span>
@@ -2992,20 +3034,26 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                 </button>
             </div>
             <div class="modal-body">
+                <!-- Info o námitce -->
+                <div id="resolveNamInfo" style="padding:10px 14px;background:#f8f9fa;border:1px solid #e8eaed;border-radius:8px;margin-bottom:16px;font-size:12px;color:#5f6368;"></div>
+
+                <!-- Včasnost badge -->
+                <div id="resolveVcasnostBadge" style="margin-bottom:14px;"></div>
+
                 <div class="form-group">
                     <label class="form-label">Hodnocení námitky</label>
                     <label class="control-option selected" onclick="selectOption(this)">
                         <input type="radio" name="nam_hodnoceni2" value="neduvodna" checked>
                         <div class="control-option-content">
                             <div class="control-option-title">Nedůvodná</div>
-                            <div class="control-option-desc">Námitka se zamítá</div>
+                            <div class="control-option-desc">Námitka se zamítá — pokračuje se k rozhodnutí</div>
                         </div>
                     </label>
                     <label class="control-option" onclick="selectOption(this)">
                         <input type="radio" name="nam_hodnoceni2" value="duvodna">
                         <div class="control-option-content">
                             <div class="control-option-title">Důvodná</div>
-                            <div class="control-option-desc">Námitce se vyhovuje</div>
+                            <div class="control-option-desc">Námitce se vyhovuje — usnesení o přerušení řízení, úprava dokumentace</div>
                         </div>
                     </label>
                 </div>
@@ -3018,7 +3066,7 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                 <button class="btn btn-secondary" onclick="closeModal('resolveNamitkaModal2')">Zrušit</button>
                 <button class="btn btn-primary" onclick="resolveNamitkaForUcastnik()">
                     <span class="material-icons-outlined">check</span>
-                    Potvrdit
+                    Potvrdit vypořádání
                 </button>
             </div>
         </div>
@@ -5104,26 +5152,26 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             selectedIdx: null,
             _addingForIdx: null,
             _resolvingForIdx: null,
-            vyhleseniDne: null, // datum vyvěšení veřejné vyhlášky
+            vyhleseniDne: '2026-01-08', // datum vyvěšení veřejné vyhlášky — ze systému
             filter: 'all',
             search: '',
             sortCol: null,
             sortAsc: true,
             ucastnici: [
-                { name:'Signal Projekt s.r.o.', role:'Zástupce stavebníka', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitka:null },
-                { name:'Městys Doudleby n.O.', role:'Obec', icon:'location_city', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitka:null },
-                { name:'Obec Záměl', role:'Obec', icon:'location_city', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitka:null },
-                { name:'České dráhy, a.s.', role:'Vlastník pozemku', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitka:null },
-                { name:'CETIN a.s.', role:'Vlastník sítí', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitka:null },
-                { name:'ČEZ Distribuce, a.s.', role:'Vlastník sítí', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitka:null },
-                { name:'Marie Svobodová', role:'Vlastník pozemku', icon:'person', zpusob:'posta', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null },
-                { name:'Petr Dvořák', role:'Vlastník pozemku', icon:'person', zpusob:'posta', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null },
-                { name:'Drážní úřad', role:'Dotčený orgán', icon:'account_balance', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitka:null },
-                { name:'KÚ Královéhradeckého kr.', role:'Dotčený orgán', icon:'account_balance', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitka:null },
-                { name:'MÚ Vamberk, OŽP', role:'Dotčený orgán', icon:'account_balance', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitka:null },
-                { name:'Povodí Labe, s.p.', role:'Vlastník sítí', icon:'business', zpusob:'vyhlaska', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null },
-                { name:'GasNet Služby, s.r.o.', role:'Vlastník sítí', icon:'business', zpusob:'vyhlaska', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null },
-                { name:'Lesy ČR, s.p.', role:'Vlastník pozemku', icon:'business', zpusob:'vyhlaska', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitka:null }
+                { name:'Signal Projekt s.r.o.', role:'Zástupce stavebníka', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'Městys Doudleby n.O.', role:'Obec', icon:'location_city', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'Obec Záměl', role:'Obec', icon:'location_city', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'České dráhy, a.s.', role:'Vlastník pozemku', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'CETIN a.s.', role:'Vlastník sítí', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'ČEZ Distribuce, a.s.', role:'Vlastník sítí', icon:'business', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'Marie Svobodová', role:'Vlastník pozemku', icon:'person', zpusob:'posta', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitky:[] },
+                { name:'Petr Dvořák', role:'Vlastník pozemku', icon:'person', zpusob:'posta', vypraveno:'2026-01-08', doruceno:null, auto:false, vzdaliSe:false, namitky:[] },
+                { name:'Drážní úřad', role:'Dotčený orgán', icon:'account_balance', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-08', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'KÚ Královéhradeckého kr.', role:'Dotčený orgán', icon:'account_balance', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'MÚ Vamberk, OŽP', role:'Dotčený orgán', icon:'account_balance', zpusob:'ds', vypraveno:'2026-01-08', doruceno:'2026-01-09', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'Povodí Labe, s.p.', role:'Vlastník sítí', icon:'business', zpusob:'vyhlaska', vypraveno:'2026-01-08', doruceno:'2026-01-23', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'GasNet Služby, s.r.o.', role:'Vlastník sítí', icon:'business', zpusob:'vyhlaska', vypraveno:'2026-01-08', doruceno:'2026-01-23', auto:true, vzdaliSe:false, namitky:[] },
+                { name:'Lesy ČR, s.p.', role:'Vlastník pozemku', icon:'business', zpusob:'vyhlaska', vypraveno:'2026-01-08', doruceno:'2026-01-23', auto:true, vzdaliSe:false, namitky:[] }
             ]
         };
         // Starý stav ponecháme pro zpětnou kompatibilitu, přidáme aliasy
@@ -5163,8 +5211,8 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             // Počty pro badge
             var cNezadane = uu.filter(function(u){return !u.doruceno;}).length;
             var cLhuta = uu.filter(function(u){return u.doruceno && !isExpired(u) && !u.vzdaliSe;}).length;
-            var cNamitka = uu.filter(function(u){return u.namitka;}).length;
-            var cVyporadat = uu.filter(function(u){return u.namitka && u.namitka.status!=='resolved';}).length;
+            var cNamitka = uu.filter(function(u){return u.namitky.length>0;}).length;
+            var cVyporadat = uu.filter(function(u){return u.namitky.some(function(n){return n.status!=='resolved';});}).length;
             var cVyhlaska = uu.filter(function(u){return u.zpusob==='vyhlaska';}).length;
 
             function chip(key, label, count, color) {
@@ -5192,15 +5240,16 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             h += '</div>';
             h += '</div>';
 
-            // Veřejná vyhláška — hromadné datum vyvěšení
+            // Veřejná vyhláška — info banner (datum ze systému)
             if (cVyhlaska > 0) {
                 var vd = state.lhutaNamitky.vyhleseniDne;
                 h += '<div style="display:flex;align-items:center;gap:10px;margin-top:8px;padding:8px 12px;background:#f5f0ff;border:1px solid #d9ccf0;border-radius:8px;font-size:11px;">';
                 h += '<span class="material-icons-outlined" style="font-size:16px;color:#7b61a6;">campaign</span>';
-                h += '<span style="color:#5f6368;"><strong style="color:#7b61a6;">Veřejná vyhláška</strong> · '+cVyhlaska+' účastníků · doručeno 15. dnem vyvěšení</span>';
-                h += '<span style="margin-left:auto;font-size:11px;color:#5f6368;">Vyvěšeno dne:</span>';
-                h += '<input type="date" value="'+(vd||'')+'" style="padding:3px 6px;border:1px solid #d9ccf0;border-radius:5px;font-size:11px;color:#7b61a6;background:#fff;" onchange="lnSetVyhlaska(this.value)">';
-                if (vd) h += '<span style="font-size:10px;color:#137333;">→ doručeno ' + fmtCZ(fmtISO(addDays(vd,15))) + '</span>';
+                h += '<span style="color:#5f6368;"><strong style="color:#7b61a6;">Veřejná vyhláška</strong> · '+cVyhlaska+' účastníků</span>';
+                if (vd) {
+                    h += '<span style="margin-left:auto;font-size:11px;color:#5f6368;">Vyvěšeno: <strong>' + fmtCZ(vd) + '</strong></span>';
+                    h += '<span style="font-size:11px;color:#137333;">Doručeno: <strong>' + fmtCZ(fmtISO(addDays(vd,15))) + '</strong></span>';
+                }
                 h += '</div>';
             }
 
@@ -5255,43 +5304,43 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                 var u = uu[i];
                 var ld = lhutaDo(u);
                 var exp = isExpired(u);
-                var hasN = u.namitka !== null;
-                var resolved = hasN && u.namitka.status === 'resolved';
+                var hasN = u.namitky.length > 0;
+                var allResolved = hasN && u.namitky.every(function(n){return n.status==='resolved';});
+                var someUnresolved = hasN && u.namitky.some(function(n){return n.status!=='resolved';});
+                var unresCount = u.namitky.filter(function(n){return n.status!=='resolved';}).length;
                 var isSel = sel === i;
 
                 // Stav badge
                 var statusBadge;
-                if (resolved) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#e6f4ea;color:#137333;"><span class="material-icons-outlined" style="font-size:12px;">check_circle<\/span>Vypořádána<\/span>';
-                else if (hasN) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#fce8e6;color:#c5221f;"><span class="material-icons-outlined" style="font-size:12px;">error<\/span>K vypořádání<\/span>';
+                if (allResolved) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#e6f4ea;color:#137333;"><span class="material-icons-outlined" style="font-size:12px;">check_circle<\/span>Vypořádán'+(u.namitky.length>1?'y':'a')+' ('+u.namitky.length+')<\/span>';
+                else if (someUnresolved) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#fce8e6;color:#c5221f;"><span class="material-icons-outlined" style="font-size:12px;">error<\/span>K vypořádání ('+unresCount+')<\/span>';
                 else if (u.vzdaliSe) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#e8f0fe;color:#004289;">Vzdal se<\/span>';
                 else if (exp) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#e6f4ea;color:#137333;">Bez námitky<\/span>';
                 else if (u.doruceno) statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#fff3e0;color:#e37400;">Lhůta běží<\/span>';
                 else statusBadge = '<span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#f1f3f4;color:#9aa0a6;">Čeká<\/span>';
 
-                // Doručeno — inline datum input nebo zobrazení
+                // Doručeno — inline
                 var dorCell;
                 if (u.doruceno) {
                     dorCell = '<span style="font-size:12px;">' + fmtCZ(u.doruceno) + '<\/span>';
                     if (u.auto) dorCell += ' <span style="font-size:9px;padding:1px 5px;background:#e6f4ea;color:#137333;border-radius:3px;">auto<\/span>';
                 } else if (u.zpusob === 'vyhlaska') {
-                    dorCell = '<span style="font-size:11px;color:#7b61a6;font-style:italic;">viz vyhláška ↑<\/span>';
+                    dorCell = '<span style="font-size:11px;color:#7b61a6;">—<\/span>';
                 } else {
                     dorCell = '<input type="date" value="" style="padding:3px 6px;border:1px solid #dadce0;border-radius:5px;font-size:11px;width:120px;color:#004289;background:#fff;" onchange="lnSetDoruceni('+i+',this.value)" onclick="event.stopPropagation()">';
                 }
 
-                // Akce — inline tlačítka
+                // Akce — inline tlačítka (vždy možnost přidat další námitku pokud doručeno)
                 var actionCell = '';
-                if (hasN && !resolved) {
-                    actionCell = '<button onclick="event.stopPropagation();lnOpenResolve('+i+')" style="display:inline-flex;align-items:center;gap:3px;padding:3px 10px;background:#004289;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:10px;font-family:inherit;font-weight:500;">' +
-                        '<span class="material-icons-outlined" style="font-size:13px;">rate_review<\/span>Vypořádat<\/button>';
-                } else if (u.doruceno && !exp && !u.vzdaliSe && !hasN) {
-                    actionCell = '<button onclick="event.stopPropagation();lnOpenAdd('+i+')" style="display:inline-flex;align-items:center;gap:3px;padding:3px 10px;background:#fff;border:1px solid #dadce0;border-radius:5px;cursor:pointer;font-size:10px;font-family:inherit;font-weight:500;color:#202124;">' +
-                        '<span class="material-icons-outlined" style="font-size:13px;">add_comment<\/span>Námitka<\/button>';
-                    if (!u.vzdaliSe) {
+                if (u.doruceno && (!exp || hasN) && !u.vzdaliSe) {
+                    // Přidat námitku — vždy dostupné pokud doručeno
+                    actionCell = '<button onclick="event.stopPropagation();lnOpenAdd('+i+')" style="display:inline-flex;align-items:center;gap:3px;padding:3px 10px;background:#fff;border:1px solid #dadce0;border-radius:5px;cursor:pointer;font-size:10px;font-family:inherit;font-weight:500;color:#202124;" title="Přidat námitku">' +
+                        '<span class="material-icons-outlined" style="font-size:13px;">add_comment<\/span>'+(hasN?'+':'Námitka')+'<\/button>';
+                    if (!hasN && !u.vzdaliSe && !exp) {
                         actionCell += ' <button onclick="event.stopPropagation();lnToggleVzdali('+i+',true)" title="Vzdal se práva" style="padding:3px 6px;background:none;border:1px solid #dadce0;border-radius:5px;cursor:pointer;color:#5f6368;">' +
                             '<span class="material-icons-outlined" style="font-size:13px;">fast_forward<\/span><\/button>';
                     }
-                } else if (exp && !hasN && !u.vzdaliSe) {
+                } else if (u.doruceno && exp && !hasN && !u.vzdaliSe) {
                     actionCell = '<button onclick="event.stopPropagation();lnOpenAdd('+i+')" style="display:inline-flex;align-items:center;gap:3px;padding:3px 10px;background:none;border:1px solid #dadce0;border-radius:5px;cursor:pointer;font-size:10px;font-family:inherit;color:#9aa0a6;">' +
                         '<span class="material-icons-outlined" style="font-size:13px;">add_comment<\/span>Opožděná<\/button>';
                 } else if (u.vzdaliSe && !hasN) {
@@ -5309,28 +5358,104 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                     '<td style="padding:8px 0 8px 6px;">' + actionCell + '<\/td>' +
                 '<\/tr>';
 
-                // Accordion — rozbalený detail námitky pod řádkem
+                // Accordion — rozbalený seznam námitek seskupený pod dokumenty
                 if (isSel && hasN) {
-                    var n = u.namitka;
                     html += '<tr><td colspan="7" style="padding:0;"><div style="padding:12px 16px 16px 42px;background:#f8f9fa;border-bottom:2px solid #a8c7fa;">';
-                    // Dokument
-                    if (n.dokument || n.cisloJednaci) {
-                        html += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;padding:6px 10px;background:#f0f4ff;border-radius:6px;border:1px solid #d2e3fc;font-size:11px;">' +
-                            '<span class="material-icons-outlined" style="font-size:15px;color:#1a73e8;">description<\/span>';
-                        if (n.cisloJednaci) html += '<span style="font-weight:500;color:#202124;">' + n.cisloJednaci + '<\/span>';
-                        if (n.dokument) html += '<span style="color:#1a73e8;margin-left:4px;">' + n.dokument + '<\/span>';
-                        html += '<span style="color:#5f6368;margin-left:auto;cursor:pointer;">Otevřít<\/span><\/div>';
-                    }
-                    // Text námitky
-                    html += '<div style="font-size:10px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;">Text námitky<\/div>';
-                    html += '<div style="font-size:12px;color:#202124;line-height:1.6;white-space:pre-line;padding:8px 10px;background:#fff;border:1px solid #e8eaed;border-radius:6px;">' + n.text + '<\/div>';
-                    // Vypořádání
-                    if (n.status === 'resolved') {
-                        html += '<div style="margin-top:10px;">';
-                        html += '<div style="font-size:10px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;">Vypořádání · <span style="color:'+(n.hodnoceni==='duvodna'?'#e37400':'#137333')+';text-transform:none;">'+(n.hodnoceni==='duvodna'?'Důvodná':'Nedůvodná')+'<\/span><\/div>';
-                        html += '<div style="padding:8px 10px;border-radius:6px;background:#fff;border-left:3px solid '+(n.hodnoceni==='duvodna'?'#e37400':'#137333')+';border:1px solid #e8eaed;font-size:12px;color:#5f6368;line-height:1.5;">' + n.oduvodneni + '<\/div>';
-                        html += '<\/div>';
-                    }
+
+                    // Seskupit námitky podle dokumentu
+                    var groups = [];
+                    var groupMap = {};
+                    u.namitky.forEach(function(n, ni) {
+                        var docKey = (n.dokument && n.dokument.id) ? n.dokument.id : ('legacy_' + ni);
+                        if (!groupMap[docKey]) {
+                            groupMap[docKey] = { doc: n.dokument, items: [] };
+                            groups.push(groupMap[docKey]);
+                        }
+                        groupMap[docKey].items.push({ n: n, ni: ni });
+                    });
+
+                    groups.forEach(function(g, gi) {
+                        if (gi > 0) html += '<div style="border-top:2px solid #dadce0;margin:14px 0;"><\/div>';
+                        var doc = g.doc;
+                        var isObj = doc && typeof doc === 'object' && doc.id;
+
+                        // Záhlaví dokumentu
+                        html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">';
+                        html += '<span class="material-icons-outlined" style="font-size:18px;color:#5f6368;">folder_open<\/span>';
+                        html += '<div style="font-size:12px;font-weight:600;color:#202124;">';
+                        if (isObj && doc.cisloJednaci) html += doc.cisloJednaci + ' · ';
+                        html += fmtCZ(g.items[0].n.datum);
+                        html += ' <span style="font-weight:400;color:#5f6368;">(' + g.items.length + ' námit' + (g.items.length===1?'ka':'ky') + ')<\/span>';
+                        html += '<\/div><\/div>';
+
+                        // Scany dokumentu
+                        if (isObj && (doc.scanNamitky || doc.scanDorucenky)) {
+                            html += '<div style="display:flex;gap:8px;margin-bottom:10px;">';
+                            if (doc.scanNamitky) {
+                                html += '<div style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:#f0f4ff;border-radius:5px;border:1px solid #d2e3fc;font-size:10px;cursor:pointer;">' +
+                                    '<span class="material-icons-outlined" style="font-size:13px;color:#1a73e8;">description<\/span>' +
+                                    '<span style="color:#1a73e8;font-weight:500;">' + doc.scanNamitky + '<\/span><\/div>';
+                            }
+                            if (doc.scanDorucenky) {
+                                html += '<div style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:#fff8f0;border-radius:5px;border:1px solid #fce0c2;font-size:10px;cursor:pointer;">' +
+                                    '<span class="material-icons-outlined" style="font-size:13px;color:#e37400;">local_post_office<\/span>' +
+                                    '<span style="color:#e37400;font-weight:500;">' + doc.scanDorucenky + '<\/span><\/div>';
+                            }
+                            html += '<\/div>';
+                        }
+                        // Legacy string dokument
+                        if (!isObj && doc) {
+                            html += '<div style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:#f0f4ff;border-radius:5px;border:1px solid #d2e3fc;font-size:10px;margin-bottom:10px;">' +
+                                '<span class="material-icons-outlined" style="font-size:13px;color:#1a73e8;">description<\/span>' +
+                                '<span style="color:#1a73e8;font-weight:500;">' + doc + '<\/span><\/div>';
+                        }
+
+                        // Jednotlivé námitky z dokumentu
+                        g.items.forEach(function(item, idx) {
+                            var n = item.n;
+                            var ni = item.ni;
+                            if (idx > 0) html += '<div style="border-top:1px dashed #e8eaed;margin:8px 0;"><\/div>';
+
+                            html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">';
+                            html += '<span style="font-size:10px;font-weight:600;color:#004289;">Námitka ' + (idx+1) + (g.items.length>1?' z '+g.items.length:'') + '<\/span>';
+                            html += '<div style="display:flex;gap:4px;align-items:center;">';
+                            // Včasnost badge
+                            if (n.vcasna === false) {
+                                html += '<span style="padding:2px 6px;border-radius:10px;font-size:9px;font-weight:500;background:#fff3e0;color:#e37400;">Opožděná<\/span>';
+                            }
+                            // Status badge
+                            var nBadge;
+                            if (n.hodnoceni === 'opozdena') nBadge = '<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#f1f3f4;color:#9aa0a6;">Nepřihlédnuto<\/span>';
+                            else if (n.status==='resolved') nBadge = '<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;'+(n.hodnoceni==='duvodna'?'background:#fff3e0;color:#e37400;':'background:#e6f4ea;color:#137333;')+'">'+(n.hodnoceni==='duvodna'?'Důvodná':'Nedůvodná')+'<\/span>';
+                            else nBadge = '<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:#fce8e6;color:#c5221f;">K vypořádání<\/span>';
+                            html += nBadge;
+                            html += '<\/div><\/div>';
+
+                            html += '<div style="font-size:12px;color:#202124;line-height:1.6;white-space:pre-line;padding:8px 10px;background:#fff;border:1px solid #e8eaed;border-radius:6px;font-style:italic;">' + n.text + '<\/div>';
+                            // Shrnutí
+                            if (n.shrnuti) {
+                                html += '<div style="margin-top:5px;display:flex;align-items:flex-start;gap:5px;padding:6px 10px;background:#f5f0ff;border-radius:5px;border:1px solid #e8ddf5;font-size:11px;color:#5e35b1;line-height:1.4;">' +
+                                    '<span class="material-icons-outlined" style="font-size:13px;flex-shrink:0;margin-top:1px;">auto_awesome<\/span>' +
+                                    '<span>' + n.shrnuti + '<\/span><\/div>';
+                            }
+
+                            if (n.hodnoceni === 'opozdena') {
+                                html += '<div style="margin-top:6px;padding:6px 10px;border-radius:6px;background:#f8f9fa;border-left:3px solid #9aa0a6;border:1px solid #e8eaed;font-size:11px;color:#9aa0a6;line-height:1.5;font-style:italic;">' + n.oduvodneni + '<\/div>';
+                            } else if (n.status === 'resolved') {
+                                var borderCol = n.hodnoceni==='duvodna'?'#e37400':'#137333';
+                                html += '<div style="margin-top:6px;padding:6px 10px;border-radius:6px;background:#fff;border-left:3px solid '+borderCol+';border:1px solid #e8eaed;font-size:11px;color:#5f6368;line-height:1.5;">' +
+                                    '<span style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;">Vypořádání:<\/span> ' + n.oduvodneni;
+                                if (n.hodnoceni === 'duvodna') {
+                                    html += '<div style="margin-top:6px;display:flex;align-items:center;gap:5px;font-size:10px;color:#e37400;font-weight:500;"><span class="material-icons-outlined" style="font-size:13px;">pause_circle<\/span>Řízení bude přerušeno — úprava dokumentace<\/div>';
+                                }
+                                html += '<\/div>';
+                            } else {
+                                html += '<div style="margin-top:6px;"><button class="btn btn-primary" onclick="event.stopPropagation();lnOpenResolve('+i+','+ni+')" style="font-size:11px;padding:4px 12px;">' +
+                                    '<span class="material-icons-outlined" style="font-size:13px;">rate_review<\/span> Vypořádat<\/button><\/div>';
+                            }
+                        });
+                    });
+
                     html += '<\/div><\/td><\/tr>';
                 }
             });
@@ -5343,9 +5468,9 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             var uu = state.lhutaNamitky.ucastnici;
             var dor = uu.filter(function(u){return u.doruceno;}).length;
             var upl = uu.filter(function(u){return isExpired(u)||u.vzdaliSe;}).length;
-            var nam = uu.filter(function(u){return u.namitka;}).length;
-            var vyp = uu.filter(function(u){return u.namitka&&u.namitka.status==='resolved';}).length;
-            var openN = uu.filter(function(u){return u.namitka&&u.namitka.status!=='resolved';}).length;
+            var nam = uu.filter(function(u){return u.namitky.length>0;}).length;
+            var vyp = uu.filter(function(u){return u.namitky.length>0&&u.namitky.every(function(n){return n.status==='resolved';});}).length;
+            var totalOpen = 0; uu.forEach(function(u){u.namitky.forEach(function(n){if(n.status!=='resolved')totalOpen++;});}); var openN = totalOpen;
             var el;
             el=document.getElementById('lnSumDoruceno'); if(el) el.textContent=dor+'/'+uu.length;
             el=document.getElementById('lnSumUplynula'); if(el) el.textContent=upl+'/'+uu.length;
@@ -5354,12 +5479,7 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
 
             var allDor = uu.every(function(u){return u.doruceno;});
             var allDone = uu.every(function(u){return isExpired(u)||u.vzdaliSe;});
-            var allNamRes = uu.every(function(u){return !u.namitka||u.namitka.status==='resolved';});
-            var anyVzdali = uu.some(function(u){return u.vzdaliSe;});
-            var allVzdali = uu.every(function(u){return u.vzdaliSe;});
-            // Kolik účastníků nemá námitku a lhůta dosud neuplynula a nevzdali se
-            var canVzdatSe = uu.filter(function(u){return u.doruceno && !isExpired(u) && !u.vzdaliSe && !u.namitka;}).length;
-
+            var allNamRes = uu.every(function(u){return u.namitky.every(function(n){return n.status==='resolved';});});
             var cdEl = document.getElementById('lnOverallCountdown');
             var stEl = document.getElementById('lnStatus');
             var btnEl = document.getElementById('btnCompleteLN');
@@ -5369,20 +5489,6 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
 
             // ── Akční lišta ──
             var actionHtml = '';
-
-            // Tlačítko "Všichni se vzdali námitek" nebo undo
-            var hasUndo = state.lhutaNamitky._vzdaliUndo && state.lhutaNamitky._vzdaliUndo.length > 0;
-            if (hasUndo && allVzdali && nam === 0) {
-                actionHtml += '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#e8f0fe;border:1px solid #a8c7fa;border-radius:8px;">' +
-                    '<span class="material-icons-outlined" style="font-size:18px;color:#004289;">info</span>' +
-                    '<div style="flex:1;"><div style="font-size:12px;font-weight:500;color:#004289;">Všichni účastníci se vzdali práva na námitky</div></div>' +
-                    '<button onclick="lnVzdatUndo()" style="display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:#fff;border:1px solid #a8c7fa;border-radius:6px;cursor:pointer;font-size:11px;color:#004289;font-family:inherit;font-weight:500;">' +
-                    '<span class="material-icons-outlined" style="font-size:14px;">undo</span>Vrátit zpět</button></div>';
-            } else if (allDor && !allDone && canVzdatSe > 0 && nam === 0) {
-                actionHtml += '<button onclick="lnVzdatVsichni()" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#e8f0fe;border:1px solid #a8c7fa;border-radius:8px;cursor:pointer;font-size:12px;color:#004289;font-family:inherit;font-weight:500;">' +
-                    '<span class="material-icons-outlined" style="font-size:16px;">fast_forward</span>' +
-                    'Všichni se vzdali práva na námitky</button>';
-            }
 
             // Tlačítko "Žádné námitky" — když lhůty uplynuly a nikdo nepodal námitku
             if (allDone && nam === 0) {
@@ -5400,12 +5506,25 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                     '<div style="font-size:11px;color:#5f6368;">Před pokračováním je nutné vypořádat všechny námitky.</div></div></div>';
             }
 
-            // Vše vypořádáno
+            // Vše vypořádáno — rozlišit důvodné
             if (nam > 0 && allNamRes && allDone) {
-                actionHtml += '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#e6f4ea;border:1px solid #ceead6;border-radius:8px;">' +
-                    '<span class="material-icons-outlined" style="font-size:20px;color:#137333;">verified</span>' +
-                    '<div><div style="font-size:13px;font-weight:600;color:#137333;">Všechny námitky vypořádány</div>' +
-                    '<div style="font-size:11px;color:#5f6368;">Celkem ' + nam + ' námit' + (nam===1?'ka':nam<5?'ky':'ek') + ' (' + vyp + ' vypořádán' + (vyp===1?'a':'o') + '). Lze pokračovat.</div></div></div>';
+                var totalNam = 0; var duvodne = 0; var opozdene = 0;
+                uu.forEach(function(u){u.namitky.forEach(function(n){
+                    totalNam++;
+                    if (n.hodnoceni==='duvodna') duvodne++;
+                    if (n.hodnoceni==='opozdena') opozdene++;
+                });});
+                if (duvodne > 0) {
+                    actionHtml += '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff3e0;border:1px solid #fce0c2;border-radius:8px;">' +
+                        '<span class="material-icons-outlined" style="font-size:20px;color:#e37400;">pause_circle</span>' +
+                        '<div><div style="font-size:13px;font-weight:600;color:#e37400;">Důvodné námitky — přerušení řízení</div>' +
+                        '<div style="font-size:11px;color:#5f6368;">' + duvodne + ' důvodn' + (duvodne===1?'á námitka':'é námitky') + ' z celkového počtu ' + totalNam + '. Bude vydáno usnesení o přerušení řízení a úpravě dokumentace.</div></div></div>';
+                } else {
+                    actionHtml += '<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#e6f4ea;border:1px solid #ceead6;border-radius:8px;">' +
+                        '<span class="material-icons-outlined" style="font-size:20px;color:#137333;">verified</span>' +
+                        '<div><div style="font-size:13px;font-weight:600;color:#137333;">Všechny námitky vypořádány</div>' +
+                        '<div style="font-size:11px;color:#5f6368;">Celkem ' + totalNam + ' námit' + (totalNam===1?'ka':'ek') + (opozdene>0?' (z toho '+opozdene+' opožděn'+(opozdene===1?'á':'é')+')':'') + '. Lze pokračovat k rozhodnutí.</div></div></div>';
+                }
             }
 
             if (abEl) {
@@ -5433,6 +5552,27 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                 if(stEl) stEl.textContent='Čeká na doručení '+missing+' účastník'+(missing===1?'ovi':'ům');
             }
 
+            // ── Datum možného vydání rozhodnutí ──
+            var rozEl = document.getElementById('lnSumRozhodnuti');
+            if (rozEl) {
+                if (allDor) {
+                    // Všem doručeno — najít nejpozdější konec lhůty + 5 dnů na vyjádření k podkladům
+                    var maxLhuta = null;
+                    uu.forEach(function(u) {
+                        var ld2 = lhutaDo(u);
+                        if (ld2 && (!maxLhuta || ld2 > maxLhuta)) maxLhuta = ld2;
+                    });
+                    if (maxLhuta) {
+                        var rozDatum = addDays(fmtISO(maxLhuta), 5); // + 5 dnů na vyjádření k podkladům
+                        var isPast = new Date() >= rozDatum;
+                        rozEl.innerHTML = 'Rozhodnutí od: <strong style="color:' + (isPast ? '#137333' : '#004289') + ';">' + fmtCZ(fmtISO(rozDatum)) + '</strong>';
+                    }
+                } else {
+                    var missingDor = uu.filter(function(u) { return !u.doruceno; }).length;
+                    rozEl.innerHTML = 'Rozhodnutí od: <span style="color:#e37400;">nelze určit</span> <span style="font-size:10px;">(nedoručeno ' + missingDor + ' úč.)</span>';
+                }
+            }
+
             // ── Footer tlačítko ──
             if (btnEl) {
                 if (allDone && allNamRes && nam === 0) {
@@ -5441,10 +5581,17 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
                     if(btnLbl) btnLbl.textContent = 'Pokračovat bez námitek';
                     if(btnIcn) btnIcn.textContent = 'arrow_forward';
                 } else if (allDone && allNamRes && nam > 0) {
-                    // Námitky vypořádány
+                    // Námitky vypořádány — zjistit zda jsou důvodné
+                    var anyDuvodna = false;
+                    uu.forEach(function(u){u.namitky.forEach(function(n){if(n.hodnoceni==='duvodna')anyDuvodna=true;});});
                     btnEl.disabled = false;
-                    if(btnLbl) btnLbl.textContent = 'Potvrdit vypořádání';
-                    if(btnIcn) btnIcn.textContent = 'check';
+                    if (anyDuvodna) {
+                        if(btnLbl) btnLbl.textContent = 'Usnesení o přerušení řízení';
+                        if(btnIcn) btnIcn.textContent = 'pause_circle';
+                    } else {
+                        if(btnLbl) btnLbl.textContent = 'Pokračovat k rozhodnutí';
+                        if(btnIcn) btnIcn.textContent = 'arrow_forward';
+                    }
                 } else {
                     btnEl.disabled = true;
                     if (openN > 0) {
@@ -5466,8 +5613,8 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             if (!u) return;
             var ld = lhutaDo(u);
             var exp = isExpired(u);
-            var hasN = u.namitka !== null;
-            var resolved = hasN && u.namitka.status === 'resolved';
+            var hasN = u.namitky.length > 0;
+            var resolved = hasN && u.namitky.every(function(n){return n.status==='resolved';});
 
             var s1 = 'done';
             var s2 = u.doruceno ? 'done' : 'active';
@@ -5525,8 +5672,13 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             h += miniStep(s3, 'hourglass_top', 'Lhůta (' + getLhutaDny() + ' dnů)', s3det, false);
 
             var s4det;
-            if (resolved) s4det = (u.namitka.hodnoceni==='duvodna'?'Důvodná':'Nedůvodná') + ' \u2014 vypořádáno';
-            else if (hasN) s4det = 'Podána ' + fmtCZ(u.namitka.datum) + ' \u2014 k vypořádání';
+            if (resolved) {
+                var nDuv = u.namitky.filter(function(n){return n.hodnoceni==='duvodna';}).length;
+                s4det = u.namitky.length + ' námit' + (u.namitky.length===1?'ka':'ky') + ' \u2014 vypořádáno' + (nDuv > 0 ? ' ('+nDuv+' důvodná)' : '');
+            } else if (hasN) {
+                var nOpen = u.namitky.filter(function(n){return n.status!=='resolved';}).length;
+                s4det = u.namitky.length + ' námit' + (u.namitky.length===1?'ka':'ky') + ' \u2014 ' + nOpen + ' k vypořádání';
+            }
             else if (u.vzdaliSe) s4det = 'Vzdal se práva';
             else if (exp) s4det = 'Nepodána';
             else if (u.doruceno) s4det = 'Lhůta běží';
@@ -5556,21 +5708,6 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             renderDetail(i);
         };
 
-        // ── Veřejná vyhláška — hromadné doručení ──
-        window.lnSetVyhlaska = function(dateStr) {
-            state.lhutaNamitky.vyhleseniDne = dateStr || null;
-            var doruceniDate = dateStr ? fmtISO(addDays(dateStr, 15)) : null;
-            state.lhutaNamitky.ucastnici.forEach(function(u) {
-                if (u.zpusob === 'vyhlaska') {
-                    u.doruceno = doruceniDate;
-                    u.auto = !!doruceniDate;
-                }
-            });
-            renderTable();
-            var sel = state.lhutaNamitky.selectedIdx;
-            if (sel !== null) renderDetail(sel);
-        };
-
         // ── Filtrování ──
         window.lnSetFilter = function(f) {
             state.lhutaNamitky.filter = f;
@@ -5584,16 +5721,14 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
 
         function matchesFilter(u, filter) {
             var exp = isExpired(u);
-            var hasN = u.namitka !== null;
-            var resolved = hasN && u.namitka.status === 'resolved';
             switch(filter) {
                 case 'all': return true;
                 case 'nezadane': return !u.doruceno;
                 case 'lhuta': return u.doruceno && !exp && !u.vzdaliSe;
-                case 'namitka': return hasN;
-                case 'vyporadat': return hasN && !resolved;
+                case 'namitka': return u.namitky.length>0;
+                case 'vyporadat': return u.namitky.some(function(n){return n.status!=='resolved';});
                 case 'vyhlaska': return u.zpusob === 'vyhlaska';
-                case 'hotovo': return (exp || u.vzdaliSe) && (!hasN || resolved);
+                case 'hotovo': return (exp || u.vzdaliSe) && (u.namitky.length===0 || u.namitky.every(function(n){return n.status==='resolved';}));
                 default: return true;
             }
         }
@@ -5636,8 +5771,8 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
         }
 
         function lnSortStav(u) {
-            var hasN = u.namitka !== null;
-            var resolved = hasN && u.namitka && u.namitka.status === 'resolved';
+            var hasN = u.namitky.length > 0;
+            var resolved = hasN && u.namitky.every(function(n){return n.status==='resolved';});
             if (hasN && !resolved) return 1; // k vypořádání — nahoře
             if (!u.doruceno) return 2;
             if (u.doruceno && !isExpired(u) && !u.vzdaliSe) return 3;
@@ -5656,33 +5791,124 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             renderTable();
         };
 
-        window.lnVzdatVsichni = function() {
-            var uu = state.lhutaNamitky.ucastnici;
-            // Zapamatovat kdo byl hromadně změněn pro možnost vrácení
-            var changed = [];
-            uu.forEach(function(u, i) {
-                if (u.doruceno && !isExpired(u) && !u.vzdaliSe && !u.namitka) {
-                    u.vzdaliSe = true;
-                    changed.push(i);
-                }
-            });
-            state.lhutaNamitky._vzdaliUndo = changed;
-            renderTable();
-            var sel = state.lhutaNamitky.selectedIdx;
-            if (sel !== null) renderDetail(sel);
+        // ── Modál evidence námitek ──
+
+        // Upload souboru — zobrazit AI tlačítko
+        window.namOnFileUploaded = function(input) {
+            var nameEl = document.getElementById('namFileNameNamitka2');
+            if (nameEl) nameEl.textContent = input.files[0] ? input.files[0].name : '';
+            var aiBar = document.getElementById('namAiBar');
+            if (aiBar) aiBar.style.display = input.files[0] ? 'block' : 'none';
         };
 
-        window.lnVzdatUndo = function() {
-            var indices = state.lhutaNamitky._vzdaliUndo || [];
-            indices.forEach(function(i) {
-                state.lhutaNamitky.ucastnici[i].vzdaliSe = false;
-            });
-            state.lhutaNamitky._vzdaliUndo = null;
-            renderTable();
-            var sel = state.lhutaNamitky.selectedIdx;
-            if (sel !== null) renderDetail(sel);
-            showToast('Vzdání se námitek zrušeno');
+        // Simulace AI vytěžení
+        window.namAiExtract = function() {
+            var btn = document.getElementById('namAiBtn');
+            if (!btn) return;
+            // Spinner stav
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-icons-outlined" style="font-size:18px;animation:spin 1s linear infinite;">autorenew</span> Analyzuji dokument…';
+            btn.style.opacity = '0.7';
+
+            setTimeout(function() {
+                // Simulovaná data — odpovídají dokumentu Ing. Hanela
+                var extracted = [
+                    {
+                        text: 'Záměr není v souladu s platným územním plánem Obce Rataje u Vlašimi, nebyl projednán ani ve změně č. 1. územního plánu Obce Rataje u Vlašimi (11/2025).',
+                        shrnuti: 'Rozpor s územním plánem — záměr nebyl zahrnut do ÚP ani do jeho změny č. 1.'
+                    },
+                    {
+                        text: 'Realizací a provozem VTE dojde k přímému ovlivnění mých vlastnických práv na uvedeném pozemku a omezí se jeho možné využití, včetně případného prodeje. Týká se to zejména vlivu hluku, stroboskopického efektu a flicker efektu. Tímto dojde k poklesu ceny mého pozemku, což nikde není specifikováno.',
+                        shrnuti: 'Dotčení vlastnických práv — hluk, stroboskopický/flicker efekt, pokles hodnoty sousedního pozemku parc. č. 1645.'
+                    },
+                    {
+                        text: 'S uvedeným záměrem jsem nikdy písemný souhlas nedal, a to ani Obci Rataje u Vlašimi, ani stavebníkovi.',
+                        shrnuti: 'Absence souhlasu — vlastník sousedního pozemku nedal souhlas se záměrem.'
+                    }
+                ];
+
+                // Vyplnit do modálu
+                var container = document.getElementById('namTextyContainer');
+                if (!container) return;
+                container.innerHTML = '';
+
+                extracted.forEach(function(item, idx) {
+                    var entry = document.createElement('div');
+                    entry.className = 'nam-text-entry';
+                    entry.style.cssText = 'margin-bottom:12px;position:relative;padding:10px;background:#fff;border:1px solid #e8eaed;border-radius:8px;';
+                    entry.innerHTML = '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
+                        '<span class="nam-entry-label" style="font-size:11px;font-weight:600;color:#004289;">Námitka ' + (idx+1) + '</span>' +
+                        (idx > 0 ? '<button onclick="namOdebratText(this)" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#d93025;padding:2px;" title="Odebrat"><span class="material-icons-outlined" style="font-size:14px;">close</span></button>' : '') +
+                        '</div>' +
+                        '<div style="margin-bottom:6px;">' +
+                        '<div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Text námitky</div>' +
+                        '<textarea class="form-textarea nam-text-input" rows="3" style="font-size:12px;">' + item.text + '</textarea>' +
+                        '</div>' +
+                        '<div>' +
+                        '<div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Shrnutí <span style="color:#9aa0a6;">(stručná podstata námitky)</span></div>' +
+                        '<textarea class="form-textarea nam-shrnuti-input" rows="2" style="font-size:11px;background:#fafbfc;">' + item.shrnuti + '</textarea>' +
+                        '</div>';
+                    container.appendChild(entry);
+                });
+
+                namUpdateLabels();
+
+                // Aktualizovat AI bar
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-icons-outlined" style="font-size:18px;">check_circle</span> Vytěženo ' + extracted.length + ' námit' + (extracted.length < 5 ? 'ky' : 'ek');
+                btn.style.opacity = '1';
+                btn.style.background = 'linear-gradient(135deg,#e6f4ea,#f3e8ff)';
+                btn.style.color = '#137333';
+                btn.style.borderColor = '#ceead6';
+
+                // Zobrazit AI tag
+                var tag = document.getElementById('namAiTag');
+                if (tag) tag.style.display = 'inline-block';
+            }, 2000);
         };
+
+        window.namPridatText = function() {
+            var container = document.getElementById('namTextyContainer');
+            if (!container) return;
+            var count = container.querySelectorAll('.nam-text-entry').length + 1;
+            var entry = document.createElement('div');
+            entry.className = 'nam-text-entry';
+            entry.style.cssText = 'margin-bottom:12px;position:relative;padding:10px;background:#fff;border:1px solid #e8eaed;border-radius:8px;';
+            entry.innerHTML = '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
+                '<span class="nam-entry-label" style="font-size:11px;font-weight:600;color:#004289;">Námitka ' + count + '</span>' +
+                '<button onclick="namOdebratText(this)" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#d93025;padding:2px;" title="Odebrat">' +
+                '<span class="material-icons-outlined" style="font-size:14px;">close</span></button>' +
+                '</div>' +
+                '<div style="margin-bottom:6px;">' +
+                '<div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Text námitky</div>' +
+                '<textarea class="form-textarea nam-text-input" rows="3" placeholder="Vložte text námitky ' + count + '…" style="font-size:12px;"></textarea>' +
+                '</div>' +
+                '<div>' +
+                '<div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Shrnutí <span style="color:#9aa0a6;">(stručná podstata námitky)</span></div>' +
+                '<textarea class="form-textarea nam-shrnuti-input" rows="2" placeholder="Stručné shrnutí…" style="font-size:11px;background:#fafbfc;"></textarea>' +
+                '</div>';
+            container.appendChild(entry);
+            namUpdateLabels();
+        };
+
+        window.namOdebratText = function(btn) {
+            var entry = btn.closest('.nam-text-entry');
+            if (entry) entry.remove();
+            namUpdateLabels();
+        };
+
+        function namUpdateLabels() {
+            var entries = document.querySelectorAll('#namTextyContainer .nam-text-entry');
+            entries.forEach(function(e, idx) {
+                var label = e.querySelector('.nam-entry-label');
+                if (label) label.textContent = 'Námitka ' + (idx + 1);
+            });
+            var submitLabel = document.getElementById('namSubmitLabel');
+            if (submitLabel) {
+                var n = entries.length;
+                submitLabel.textContent = 'Evidovat ' + n + ' námit' + (n === 1 ? 'ku' : n < 5 ? 'ky' : 'ek');
+            }
+        }
 
         window.lnOpenAdd = function(i) {
             state.lhutaNamitky._addingForIdx = i;
@@ -5691,10 +5917,36 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             if (nameEl) nameEl.textContent = u.name + ' · ' + u.role;
             document.getElementById('namDatum2').value = fmtISO(new Date());
             document.getElementById('namCJ2').value = '';
-            document.getElementById('namText2').value = '';
-            document.getElementById('namFileName2').textContent = '';
-            var fileEl = document.getElementById('namFile2');
-            if (fileEl) fileEl.value = '';
+            // Reset soubory
+            ['namFileNamitka2', 'namFileDorucenka2'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('namFileNameNamitka2').textContent = '';
+            document.getElementById('namFileNameDorucenka2').textContent = '';
+            // Reset texty námitek — vrátit na jednu
+            var container = document.getElementById('namTextyContainer');
+            if (container) {
+                container.innerHTML = '<div class="nam-text-entry" style="margin-bottom:12px;position:relative;padding:10px;background:#fff;border:1px solid #e8eaed;border-radius:8px;">' +
+                    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">' +
+                    '<span class="nam-entry-label" style="font-size:11px;font-weight:600;color:#004289;">Námitka 1</span>' +
+                    '</div>' +
+                    '<div style="margin-bottom:6px;">' +
+                    '<div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Text námitky</div>' +
+                    '<textarea class="form-textarea nam-text-input" rows="3" placeholder="Vložte nebo zkopírujte text námitky…" style="font-size:12px;"></textarea>' +
+                    '</div>' +
+                    '<div>' +
+                    '<div style="font-size:10px;color:#5f6368;margin-bottom:2px;">Shrnutí <span style="color:#9aa0a6;">(stručná podstata námitky)</span></div>' +
+                    '<textarea class="form-textarea nam-shrnuti-input" rows="2" placeholder="Stručné shrnutí podstaty námitky…" style="font-size:11px;background:#fafbfc;"></textarea>' +
+                    '</div></div>';
+            }
+            // Reset AI stav
+            var aiBar = document.getElementById('namAiBar');
+            if (aiBar) aiBar.style.display = 'none';
+            var aiTag = document.getElementById('namAiTag');
+            if (aiTag) aiTag.style.display = 'none';
+            var submitLabel = document.getElementById('namSubmitLabel');
+            if (submitLabel) submitLabel.textContent = 'Evidovat 1 námitku';
             openModal('addNamitkaModal2');
         };
 
@@ -5702,40 +5954,123 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
             var i = state.lhutaNamitky._addingForIdx;
             var datum = document.getElementById('namDatum2').value;
             var cj = document.getElementById('namCJ2').value;
-            var txt = document.getElementById('namText2').value;
-            var fileName = document.getElementById('namFileName2').textContent || '';
-            if (!txt) { alert('Vyplňte text námitky.'); return; }
-            state.lhutaNamitky.ucastnici[i].namitka = {
-                datum: datum,
+            var fileNamitka = document.getElementById('namFileNameNamitka2').textContent || '';
+            var fileDorucenka = document.getElementById('namFileNameDorucenka2').textContent || '';
+
+            // Sebrat texty a shrnutí všech námitek
+            var entries = document.querySelectorAll('#namTextyContainer .nam-text-entry');
+            var namitkyData = [];
+            entries.forEach(function(entry) {
+                var textTA = entry.querySelector('.nam-text-input');
+                var shrnuTI = entry.querySelector('.nam-shrnuti-input');
+                var t = textTA ? textTA.value.trim() : '';
+                var s = shrnuTI ? shrnuTI.value.trim() : '';
+                if (t) namitkyData.push({ text: t, shrnuti: s });
+            });
+            if (namitkyData.length === 0) { alert('Vyplňte alespoň jednu námitku.'); return; }
+
+            // Vytvořit sdílený identifikátor dokumentu
+            var docId = 'doc_' + Date.now();
+            var dokument = {
+                id: docId,
                 cisloJednaci: cj,
-                text: txt,
-                dokument: fileName,
-                status: 'new',
-                hodnoceni: null,
-                oduvodneni: null
+                datum: datum,
+                scanNamitky: fileNamitka,
+                scanDorucenky: fileDorucenka
             };
+
+            // Vyhodnotit včasnost — porovnat datum podání s lhůtou účastníka
+            var u = state.lhutaNamitky.ucastnici[i];
+            var ld = lhutaDo(u);
+            var vcasna = ld ? (new Date(datum) <= ld) : true; // pokud lhůta neexistuje, považovat za včasnou
+
+            // Přidat každou námitku jako samostatný záznam se sdíleným dokumentem
+            namitkyData.forEach(function(nd) {
+                if (vcasna) {
+                    state.lhutaNamitky.ucastnici[i].namitky.push({
+                        datum: datum,
+                        cisloJednaci: cj,
+                        dokument: dokument,
+                        text: nd.text,
+                        shrnuti: nd.shrnuti,
+                        vcasna: true,
+                        status: 'new',
+                        hodnoceni: null,
+                        oduvodneni: null
+                    });
+                } else {
+                    state.lhutaNamitky.ucastnici[i].namitky.push({
+                        datum: datum,
+                        cisloJednaci: cj,
+                        dokument: dokument,
+                        text: nd.text,
+                        shrnuti: nd.shrnuti,
+                        vcasna: false,
+                        status: 'resolved',
+                        hodnoceni: 'opozdena',
+                        oduvodneni: 'K námitce se nepřihlíží — podána po uplynutí zákonné lhůty (§ 189 odst. 1 stavebního zákona).'
+                    });
+                }
+            });
+
             closeModal('addNamitkaModal2');
+            state.lhutaNamitky.selectedIdx = i;
             renderTable();
             renderDetail(i);
-            showToast('Námitka evidována — ' + state.lhutaNamitky.ucastnici[i].name);
+            var toastMsg = namitkyData.length + ' námit' + (namitkyData.length === 1 ? 'ka evidována' : 'ky evidovány');
+            if (!vcasna) toastMsg += ' (opožděné — nepřihlédnuto)';
+            showToast(toastMsg + ' — ' + state.lhutaNamitky.ucastnici[i].name);
         };
 
-        window.lnOpenResolve = function(i) {
+        window.lnOpenResolve = function(i, ni) {
             state.lhutaNamitky._resolvingForIdx = i;
+            state.lhutaNamitky._resolvingNamIdx = ni !== undefined ? ni : 0;
+            var u = state.lhutaNamitky.ucastnici[i];
+            var n = u.namitky[ni];
+
+            // Info o námitce
+            var infoEl = document.getElementById('resolveNamInfo');
+            if (infoEl) {
+                infoEl.innerHTML = '<div style="font-weight:600;color:#202124;margin-bottom:4px;">' + u.name + ' · ' + u.role + '</div>' +
+                    '<div style="font-size:11px;">Podána: ' + fmtCZ(n.datum) + (n.cisloJednaci ? ' · ' + n.cisloJednaci : '') + '</div>' +
+                    '<div style="margin-top:6px;font-size:12px;color:#202124;line-height:1.5;max-height:60px;overflow:hidden;text-overflow:ellipsis;">' + n.text.substring(0, 200) + (n.text.length > 200 ? '…' : '') + '</div>';
+            }
+
+            // Včasnost badge
+            var vcasEl = document.getElementById('resolveVcasnostBadge');
+            if (vcasEl) {
+                if (n.vcasna === false) {
+                    vcasEl.innerHTML = '<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff3e0;border:1px solid #fce0c2;border-radius:8px;">' +
+                        '<span class="material-icons-outlined" style="font-size:18px;color:#e37400;">schedule</span>' +
+                        '<div><div style="font-size:12px;font-weight:600;color:#e37400;">Opožděná námitka</div>' +
+                        '<div style="font-size:11px;color:#5f6368;">Podána po uplynutí zákonné lhůty — nepřihlíží se k ní.</div></div></div>';
+                } else {
+                    vcasEl.innerHTML = '<div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:#e8f0fe;border:1px solid #a8c7fa;border-radius:8px;">' +
+                        '<span class="material-icons-outlined" style="font-size:18px;color:#004289;">verified</span>' +
+                        '<div><div style="font-size:12px;font-weight:600;color:#004289;">Včasná námitka</div>' +
+                        '<div style="font-size:11px;color:#5f6368;">Podána v zákonné lhůtě — je třeba ji vypořádat.</div></div></div>';
+                }
+            }
+
             document.getElementById('namOduvodneni2').value = '';
             var radios = document.querySelectorAll('input[name="nam_hodnoceni2"]');
             radios.forEach(function(r){ r.checked = r.value === 'neduvodna'; });
+            // Reset option selection UI
+            document.querySelectorAll('#resolveNamitkaModal2 .control-option').forEach(function(opt) {
+                opt.classList.toggle('selected', opt.querySelector('input').value === 'neduvodna');
+            });
             openModal('resolveNamitkaModal2');
         };
 
         window.resolveNamitkaForUcastnik = function() {
             var i = state.lhutaNamitky._resolvingForIdx;
+            var ni = state.lhutaNamitky._resolvingNamIdx || 0;
             var hod = document.querySelector('input[name="nam_hodnoceni2"]:checked');
             var odu = document.getElementById('namOduvodneni2').value;
             if (!hod || !odu) { alert('Vyplňte hodnocení a odůvodnění.'); return; }
-            state.lhutaNamitky.ucastnici[i].namitka.status = 'resolved';
-            state.lhutaNamitky.ucastnici[i].namitka.hodnoceni = hod.value;
-            state.lhutaNamitky.ucastnici[i].namitka.oduvodneni = odu;
+            state.lhutaNamitky.ucastnici[i].namitky[ni].status = 'resolved';
+            state.lhutaNamitky.ucastnici[i].namitky[ni].hodnoceni = hod.value;
+            state.lhutaNamitky.ucastnici[i].namitky[ni].oduvodneni = odu;
             if (hod.value === 'duvodna') state.seznameni.required = true;
             closeModal('resolveNamitkaModal2');
             renderTable();
@@ -5807,10 +6142,10 @@ Napájení RD PZS bude provedeno ze stávajícího rozvodu NN stanice. U stávaj
 
             // Statistiky v shrnutí
             if (document.getElementById('shrnutiNamitky')) {
-                var namList = s.lhutaNamitky.ucastnici.filter(function(u){return u.namitka;});
+                var namList = []; s.lhutaNamitky.ucastnici.forEach(function(u){u.namitky.forEach(function(n){namList.push(n);});});
                 document.getElementById('shrnutiNamitky').textContent = namList.length;
-                document.getElementById('shrnutiDuvodne').textContent = namList.filter(function(u){return u.namitka.hodnoceni==='duvodna';}).length;
-                document.getElementById('shrnutiNeduvodne').textContent = namList.filter(function(u){return u.namitka.hodnoceni==='neduvodna';}).length;
+                document.getElementById('shrnutiDuvodne').textContent = namList.filter(function(n){return n.hodnoceni==='duvodna';}).length;
+                document.getElementById('shrnutiNeduvodne').textContent = namList.filter(function(n){return n.hodnoceni==='neduvodna';}).length;
             }
         };
 
