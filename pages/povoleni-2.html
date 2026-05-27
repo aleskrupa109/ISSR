@@ -21430,6 +21430,10 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         
         // Generuje HTML pro strukturovaná data žádosti (read-only verze)
         function generateZadostDataReadOnly() {
+            var is2026 = window.ISSR_SCENAR === 'sz2026';
+            var organLabel = is2026 ? 'Určení příslušnosti' : 'Správní orgán';
+            var organValue = is2026 ? 'Automaticky systémem dle lokality a druhu stavby' : 'Dopravní a energetický stavební úřad';
+            var organOpacity = is2026 ? ' style="opacity:0.7"' : '';
             return `
                 <div class="zadost-readonly-content">
                     <!-- 1. Údaje o podání -->
@@ -21454,9 +21458,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                                 <div class="zadost-readonly-label">Věc podání</div>
                                 <div class="zadost-readonly-value">Žádost o povolení stavby</div>
                             </div>
-                            <div class="zadost-readonly-item" id="readonlyOrganRow2">
-                                <div class="zadost-readonly-label" id="readonlyOrganLabel2">Správní orgán</div>
-                                <div class="zadost-readonly-value" id="readonlyOrganValue2">Dopravní a energetický stavební úřad</div>
+                            <div class="zadost-readonly-item" id="readonlyOrganRow2"${organOpacity}>
+                                <div class="zadost-readonly-label" id="readonlyOrganLabel2">${organLabel}</div>
+                                <div class="zadost-readonly-value" id="readonlyOrganValue2">${organValue}</div>
                             </div>
                         </div>
                     </div>
@@ -25391,6 +25395,20 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 : 'Ověření věcné a místní příslušnosti stavebního úřadu';
             if (overlayTitle) overlayTitle.textContent = is2026 ? 'Ověření přidělení pracoviště' : 'Kontrola příslušnosti';
             if (overlayIcon) overlayIcon.textContent = is2026 ? 'verified' : 'account_balance';
+
+            // Invalidovat cache read-only žádosti ve všech viewerech —
+            // generateZadostDataReadOnly() nyní respektuje ISSR_SCENAR
+            if (typeof _prislusnostCache !== 'undefined') _prislusnostCache.zadost = null;
+            if (window._dokCache) window._dokCache.zadost = null;
+
+            // Pokud je příslušnostní viewer právě otevřený na záložce žádost, překreslit
+            if (typeof _prislusnostCurrentTab !== 'undefined' && _prislusnostCurrentTab === 'zadost') {
+                var inner = document.getElementById('prislusnostViewerInner');
+                if (inner && inner.innerHTML.length > 0) {
+                    inner.innerHTML = generateZadostDataReadOnly();
+                    _prislusnostCache.zadost = inner.innerHTML;
+                }
+            }
         });
 
         // Zobrazení modálu pro postoupení řízení
