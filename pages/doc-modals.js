@@ -731,6 +731,11 @@
         // Fix parent .viewer-content — remove padding when showing embedded viewer
         var parent = el.closest('.viewer-content');
         if (parent) parent.classList.add('ev-active');
+
+        // Apply current scenario to newly rendered viewer (lazy-load fix)
+        if (window.ISSR_SCENAR === 'sz2026') {
+            applyDmScenario(true);
+        }
     };
 
     // ── PUBLIC API ──────────────────────────────────────────────────────
