@@ -184,6 +184,21 @@
     .data-list-item { display:flex; align-items:center; gap:8px; padding:6px 10px; background:#f8f9fa; border-radius:4px; font-size:12px; }
     .data-list-item .material-icons-outlined { font-size:16px; color:#5f6368; }
 
+    /* Scenario toggle */
+    .sz-toggle {
+      display: flex; align-items: center; gap: 2px;
+      background: rgba(255,255,255,0.1); padding: 3px 4px;
+      border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); margin-right: 6px;
+    }
+    .sz-toggle__btn {
+      padding: 3px 10px; font-size: 10px; font-weight: 600;
+      font-family: 'Roboto', sans-serif; border: none; cursor: pointer;
+      border-radius: 4px; background: transparent;
+      color: rgba(255,255,255,0.45); transition: all 0.2s; white-space: nowrap;
+    }
+    .sz-toggle__btn.active { background: rgba(255,255,255,0.2); color: #fff; }
+    .sz-toggle__sep { width: 1px; height: 16px; background: rgba(255,255,255,0.12); margin-left: 6px; }
+
     /* Nedostatky */
     .issues-group { margin-bottom:24px; }
     .issues-group-header { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#f1f3f4; border-radius:6px; margin-bottom:12px; }
@@ -328,6 +343,11 @@
           <input type="text" class="issr-header__search-input" placeholder="Hledat">
         </div>
         <div class="issr-header__actions">
+          <div class="sz-toggle" id="szToggle">
+            <button class="sz-toggle__btn" id="szBtn2024" onclick="szSwitch('sz2024')">SZ 2024</button>
+            <button class="sz-toggle__btn active" id="szBtn2026" onclick="szSwitch('sz2026')">SZ 2026</button>
+          </div>
+          <div class="sz-toggle__sep"></div>
           <div class="issr-header__notification">
             <svg class="issr-header__notification-icon" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
@@ -528,7 +548,26 @@
       tmp.innerHTML = html;
       document.body.insertBefore(tmp, document.body.firstChild);
     }
+
+    // Activate scenario toggle to match persisted state
+    szSwitch(window.ISSR_SCENAR);
   }
+
+  // ─── Scenario toggle ────────────────────────────────────────────────────
+
+  window.ISSR_SCENAR = localStorage.getItem('issr_scenar') || 'sz2026';
+
+  window.szSwitch = function(mode) {
+    window.ISSR_SCENAR = mode;
+    localStorage.setItem('issr_scenar', mode);
+    var b24 = document.getElementById('szBtn2024');
+    var b26 = document.getElementById('szBtn2026');
+    if (b24 && b26) {
+      b24.className = 'sz-toggle__btn' + (mode === 'sz2024' ? ' active' : '');
+      b26.className = 'sz-toggle__btn' + (mode === 'sz2026' ? ' active' : '');
+    }
+    document.dispatchEvent(new CustomEvent('scenar-change', { detail: { scenar: mode } }));
+  };
 
   // ─── Public API ───────────────────────────────────────────────────────────
 
