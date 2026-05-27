@@ -210,6 +210,22 @@
     .issues-group-badge.info { background:#e8f4fd; color:#004289; }
   `;
 
+  // ─── Scenario toggle ────────────────────────────────────────────────────
+
+  window.ISSR_SCENAR = localStorage.getItem('issr_scenar') || 'sz2026';
+
+  window.szSwitch = function(mode) {
+    window.ISSR_SCENAR = mode;
+    localStorage.setItem('issr_scenar', mode);
+    var b24 = document.getElementById('szBtn2024');
+    var b26 = document.getElementById('szBtn2026');
+    if (b24 && b26) {
+      b24.className = 'sz-toggle__btn' + (mode === 'sz2024' ? ' active' : '');
+      b26.className = 'sz-toggle__btn' + (mode === 'sz2026' ? ' active' : '');
+    }
+    document.dispatchEvent(new CustomEvent('scenar-change', { detail: { scenar: mode } }));
+  };
+
   // ─── Stepper helper ───────────────────────────────────────────────────────
 
   const STEPS = [
@@ -550,24 +566,8 @@
     }
 
     // Activate scenario toggle to match persisted state
-    szSwitch(window.ISSR_SCENAR);
+    window.szSwitch(window.ISSR_SCENAR);
   }
-
-  // ─── Scenario toggle ────────────────────────────────────────────────────
-
-  window.ISSR_SCENAR = localStorage.getItem('issr_scenar') || 'sz2026';
-
-  window.szSwitch = function(mode) {
-    window.ISSR_SCENAR = mode;
-    localStorage.setItem('issr_scenar', mode);
-    var b24 = document.getElementById('szBtn2024');
-    var b26 = document.getElementById('szBtn2026');
-    if (b24 && b26) {
-      b24.className = 'sz-toggle__btn' + (mode === 'sz2024' ? ' active' : '');
-      b26.className = 'sz-toggle__btn' + (mode === 'sz2026' ? ' active' : '');
-    }
-    document.dispatchEvent(new CustomEvent('scenar-change', { detail: { scenar: mode } }));
-  };
 
   // ─── Public API ───────────────────────────────────────────────────────────
 
