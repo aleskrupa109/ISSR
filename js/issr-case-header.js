@@ -212,7 +212,7 @@
 
   // ─── Scenario toggle ────────────────────────────────────────────────────
 
-  window.ISSR_SCENAR = localStorage.getItem('issr_scenar') || 'sz2026';
+  window.ISSR_SCENAR = localStorage.getItem('issr_scenar') || 'sz2024';
 
   window.szSwitch = function(mode) {
     window.ISSR_SCENAR = mode;
@@ -360,8 +360,8 @@
         </div>
         <div class="issr-header__actions">
           <div class="sz-toggle" id="szToggle">
-            <button class="sz-toggle__btn" id="szBtn2024" onclick="szSwitch('sz2024')">SZ 2024</button>
-            <button class="sz-toggle__btn active" id="szBtn2026" onclick="szSwitch('sz2026')">SZ 2026</button>
+            <button class="sz-toggle__btn active" id="szBtn2024">SZ 2024</button>
+            <button class="sz-toggle__btn" id="szBtn2026">SZ 2026</button>
           </div>
           <div class="sz-toggle__sep"></div>
           <div class="issr-header__notification">
@@ -565,7 +565,11 @@
       document.body.insertBefore(tmp, document.body.firstChild);
     }
 
-    // Activate scenario toggle to match persisted state
+    // Activate scenario toggle — event listeners (robustnější než onclick v innerHTML)
+    var _b24 = document.getElementById('szBtn2024');
+    var _b26 = document.getElementById('szBtn2026');
+    if (_b24) _b24.addEventListener('click', function() { window.szSwitch('sz2024'); });
+    if (_b26) _b26.addEventListener('click', function() { window.szSwitch('sz2026'); });
     window.szSwitch(window.ISSR_SCENAR);
   }
 
