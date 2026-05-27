@@ -195,10 +195,10 @@
                 <div class="dm-zadost-section">
                     <div class="dm-zadost-header"><span class="material-icons-outlined">info</span>Údaje o podání</div>
                     <div class="dm-zadost-grid">
-                        <div class="dm-zadost-item"><div class="dm-zadost-label">Číslo jednací</div><div class="dm-zadost-val">DESÚ/Z-2026/1596</div></div>
+                        <div class="dm-zadost-item"><div class="dm-zadost-label">Číslo jednací</div><div class="dm-zadost-val" id="dm-zadost-cj">DESÚ/Z-2026/1596</div></div>
                         <div class="dm-zadost-item"><div class="dm-zadost-label">Datum podání</div><div class="dm-zadost-val">6. 1. 2026, 09:16</div></div>
                         <div class="dm-zadost-item"><div class="dm-zadost-label">Typ podání</div><div class="dm-zadost-val">Žádost o povolení stavby</div></div>
-                        <div class="dm-zadost-item"><div class="dm-zadost-label">Správní orgán</div><div class="dm-zadost-val">Dopravní a energetický stavební úřad</div></div>
+                        <div class="dm-zadost-item" id="dm-zadost-organ-row"><div class="dm-zadost-label" id="dm-zadost-organ-label">Správní orgán</div><div class="dm-zadost-val" id="dm-zadost-organ-val">Dopravní a energetický stavební úřad</div></div>
                     </div>
                 </div>
                 <div class="dm-zadost-section">
@@ -388,13 +388,13 @@
     <div class="dm-overlay" id="dm-dokladyModal" onclick="closeDocModal('dm-dokladyModal',event)">
         <div class="dm-modal" onclick="event.stopPropagation()">
             <div class="dm-header">
-                <div class="dm-header-title"><span class="material-icons-outlined">fact_check</span>Dokladová část (63 dokumentů)</div>
+                <div class="dm-header-title"><span class="material-icons-outlined">fact_check</span><span id="dm-doklady-title">Dokladová část (63 dokumentů)</span></div>
                 <button class="dm-close" onclick="closeDocModal('dm-dokladyModal')"><span class="material-icons-outlined">close</span></button>
             </div>
             <div class="dm-body dm-body-split">
                 <div class="dm-list-panel" id="dm-dokladyList" style="padding:12px 16px">
 
-                    <div class="dm-category">
+                    <div class="dm-category" id="dm-doklady-cat1">
                         <div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display==='none'?'flex':'none'">
                             <span class="material-icons-outlined">gavel</span>1. Závazná stanoviska a rozhodnutí<span class="dm-cat-count">8</span>
                         </div>
@@ -410,7 +410,7 @@
                         </div>
                     </div>
 
-                    <div class="dm-category">
+                    <div class="dm-category" id="dm-doklady-cat3">
                         <div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display==='none'?'flex':'none'">
                             <span class="material-icons-outlined">eco</span>3. Posouzení NATURA 2000<span class="dm-cat-count">2</span>
                         </div>
@@ -447,7 +447,7 @@
                         </div>
                     </div>
 
-                    <div class="dm-category">
+                    <div class="dm-category" id="dm-doklady-cat6">
                         <div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display==='none'?'flex':'none'">
                             <span class="material-icons-outlined">handshake</span>6. Souhlasy, SBVB, další<span class="dm-cat-count">18</span>
                         </div>
@@ -465,7 +465,7 @@
                         </div>
                     </div>
 
-                    <div class="dm-category">
+                    <div class="dm-category" id="dm-doklady-cat9">
                         <div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display==='none'?'flex':'none'">
                             <span class="material-icons-outlined">more_horiz</span>9. Ostatní<span class="dm-cat-count">2</span>
                         </div>
@@ -657,8 +657,8 @@
     }
 
     function embeddedDoklady(prefix) {
-        function cat(icon, title, count, items) {
-            return '<div class="dm-category"><div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display===\'none\'?\'flex\':\'none\'">' +
+        function cat(icon, title, count, items, group) {
+            return '<div class="dm-category"' + (group ? ' data-doklad-group="' + group + '"' : '') + '><div class="dm-cat-header" onclick="var l=this.nextElementSibling;l.style.display=l.style.display===\'none\'?\'flex\':\'none\'">' +
                 '<span class="material-icons-outlined">' + icon + '</span>' + title + '<span class="dm-cat-count">' + count + '</span></div>' +
                 '<div class="dm-cat-list">' + items + '</div></div>';
         }
@@ -672,10 +672,12 @@
             f('1.5._Obec Potstejn-vyj.-souhlas.pdf','1.5. Obec Potštejn') +
             f('1.6._Mesto Vamberk_Souhlas se stavbou.pdf','1.6. Město Vamberk') +
             f('1.7._PCR-vyj.k PD.pdf','1.7. PČR — vyj. k PD') +
-            f('1.8._DU-Rozhodnuti-zmena zab..pdf','1.8. DÚ — Rozhodnutí')
+            f('1.8._DU-Rozhodnuti-zmena zab..pdf','1.8. DÚ — Rozhodnutí'),
+            'do-integrated'
         ) + cat('eco', '3. NATURA 2000', 2,
             f('3.1._KUKHK-NATURA 100.pdf','3.1. KÚKHK — NATURA 100') +
-            f('3.2._KUKHK-NATURA 114.pdf','3.2. KÚKHK — NATURA 114')
+            f('3.2._KUKHK-NATURA 114.pdf','3.2. KÚKHK — NATURA 114'),
+            'do-integrated'
         ) + cat('electrical_services', '4.2. Vyjádření VTI/VDI', 33,
             f('4.2.1._CETIN-vyj.exist..pdf','4.2.1. CETIN') +
             f('4.2.3._CEZ DSO-vyj.exist..pdf','4.2.3. ČEZ DSO — exist.') +
@@ -692,10 +694,12 @@
             f('6.8._SSKHK-stanovisko k PD.pdf','6.8. SSKHK') +
             f('6.9._Povodi Labe-stan.spravce povodi.pdf','6.9. Povodí Labe') +
             f('6.20._Biologicky a dendrologicky pruzkum.pdf','6.20. Bio+dendro průzkum') +
-            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 9</div>'
+            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 9</div>',
+            'do-integrated'
         ) + cat('more_horiz', '9. Ostatní', 2,
             f('9.1._VUZ.pdf','9.1. VÚŽ') +
-            f('Doklady seznam-DESU-227.pdf','Doklady seznam DESÚ-227')
+            f('Doklady seznam-DESU-227.pdf','Doklady seznam DESÚ-227'),
+            'do-integrated'
         );
 
         return '<div class="ev-split"><div class="ev-list" style="padding:8px 10px">' + html + '</div>' + evPreviewPanel(prefix) + '</div>';
@@ -824,5 +828,61 @@
             if (overlays.length) overlays[overlays.length - 1].classList.remove('open');
         }
     });
+
+    // ── SCÉNÁŘ SZ 2024 / SZ 2026 ───────────────────────────────────────
+    // Přepíná obsah modálů podle aktuálního scénáře
+
+    function applyDmScenario(is2026) {
+        // Žádost — číslo jednací
+        var cj = document.getElementById('dm-zadost-cj');
+        if (cj) cj.textContent = is2026 ? 'URU-KHK/Z-2026/1596' : 'DESÚ/Z-2026/1596';
+
+        // Žádost — správní orgán: v SZ 2026 žadatel neadresuje konkrétnímu úřadu
+        var organRow = document.getElementById('dm-zadost-organ-row');
+        var organLabel = document.getElementById('dm-zadost-organ-label');
+        var organVal = document.getElementById('dm-zadost-organ-val');
+        if (is2026) {
+            if (organLabel) organLabel.textContent = 'Určení příslušnosti';
+            if (organVal) organVal.textContent = 'Automaticky systémem dle lokality a druhu stavby';
+            if (organRow) organRow.style.opacity = '0.7';
+        } else {
+            if (organLabel) organLabel.textContent = 'Správní orgán';
+            if (organVal) organVal.textContent = 'Dopravní a energetický stavební úřad';
+            if (organRow) organRow.style.opacity = '';
+        }
+
+        // Doklady — v SZ 2026 ponechat jen VTI/VDI, skrýt integrované DO
+        var hideCats = ['dm-doklady-cat1', 'dm-doklady-cat3', 'dm-doklady-cat6', 'dm-doklady-cat9'];
+        for (var i = 0; i < hideCats.length; i++) {
+            var cat = document.getElementById(hideCats[i]);
+            if (cat) cat.style.display = is2026 ? 'none' : '';
+        }
+
+        // Doklady — titulek
+        var dokladyTitle = document.getElementById('dm-doklady-title');
+        if (dokladyTitle) dokladyTitle.textContent = is2026
+            ? 'Dokladová část (33 dokumentů)'
+            : 'Dokladová část (63 dokumentů)';
+
+        // Embedded doklady viewery — skrýt integrované kategorie (data-doklad-group)
+        var embeddedIntegrated = document.querySelectorAll('[data-doklad-group="do-integrated"]');
+        for (var j = 0; j < embeddedIntegrated.length; j++) {
+            embeddedIntegrated[j].style.display = is2026 ? 'none' : '';
+        }
+    }
+
+    // Reagovat na změnu scénáře
+    document.addEventListener('scenar-change', function(e) {
+        applyDmScenario(e.detail.scenar === 'sz2026');
+    });
+
+    // Inicializace po vložení modálů — aplikovat aktuální scénář
+    var _origInit = window.initDocModals;
+    window.initDocModals = function(config) {
+        _origInit(config);
+        if (window.ISSR_SCENAR === 'sz2026') {
+            applyDmScenario(true);
+        }
+    };
 
 })();
