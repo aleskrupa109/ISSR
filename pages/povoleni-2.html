@@ -13790,7 +13790,7 @@
                 <div class="pipeline-phase" id="phase1">
                     <div class="pipeline-phase-label">
                         <div class="pipeline-phase-number">1</div>
-                        <span class="pipeline-phase-title">Příslušnost</span>
+                        <span class="pipeline-phase-title" id="phaseTitle1">Příslušnost</span>
                         <span class="pipeline-phase-hint">Dostupné po založení řízení</span>
                     </div>
                     <div class="pipeline-phase-body">
@@ -13802,8 +13802,8 @@
                                 <span class="material-icons-outlined">account_balance</span>
                             </div>
                             <div class="pipeline-card-info">
-                                <div class="pipeline-card-title">Kontrola příslušnosti</div>
-                                <div class="pipeline-card-desc">Ověření věcné a místní příslušnosti stavebního úřadu</div>
+                                <div class="pipeline-card-title" id="cardTitlePrislusnost">Kontrola příslušnosti</div>
+                                <div class="pipeline-card-desc" id="cardDescPrislusnost">Ověření věcné a místní příslušnosti stavebního úřadu</div>
                             </div>
                             <div class="pipeline-card-action">
                                 <button class="control-card-action status-waiting" style="width:auto;" disabled>
@@ -14015,8 +14015,8 @@
                     <span class="material-icons-outlined">close</span>
                 </button>
                 <div class="control-title">
-                    <span class="material-icons-outlined">account_balance</span>
-                    Kontrola příslušnosti
+                    <span class="material-icons-outlined" id="controlPrislusnostIcon">account_balance</span>
+                    <span id="controlPrislusnostTitle">Kontrola příslušnosti</span>
                 </div>
             </div>
         </div>
@@ -14060,6 +14060,78 @@
             </div>
             <div class="control-form">
                 <div class="control-form-body">
+
+                    <!-- ═══ SZ 2026: Ověření přidělení pracoviště ═══ -->
+                    <div id="prislusnostBlock2026" style="display:none;">
+                    <div class="control-section">
+                        <div class="control-section-title">Ověření přidělení pracoviště</div>
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 10px;">
+                            Systém automaticky přidělil spis tomuto územnímu pracovišti na základě lokality a druhu stavby. Ověřte, zda je přidělení správné.
+                        </p>
+                        <div style="background:#f0f7ff;border:1px solid #c2dbf4;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;">
+                            <span class="material-icons-outlined" style="font-size:18px;color:#1a73e8;margin-top:1px;">info</span>
+                            <div style="font-size:12px;color:#3c4043;line-height:1.5;">
+                                <strong>Aktuální přidělení:</strong> Krajské ÚRÚ Královéhradeckého kraje → ÚP Rychnov nad Kněžnou<br>
+                                <span style="color:#5f6368;">Druh stavby: Stavba dráhy (nevyhrazená) · ORP Rychnov nad Kněžnou</span>
+                            </div>
+                        </div>
+
+                        <!-- Možnost 1: Přidělení je správné -->
+                        <label class="control-option selected" id="optionPrideleniOk" onclick="selectOption(this); updatePrideleniResult()">
+                            <input type="radio" name="prideleni" value="ok" checked>
+                            <div class="control-option-content">
+                                <div class="control-option-label">
+                                    <span class="material-icons-outlined" style="font-size: 18px; color: #137333; vertical-align: middle; margin-right: 6px;">check_circle</span>
+                                    Přidělení je správné
+                                </div>
+                                <div class="control-option-desc">Spis je správně zařazen na tomto územním pracovišti</div>
+                            </div>
+                        </label>
+
+                        <!-- Možnost 2: Navrhnout přeřazení -->
+                        <label class="control-option" id="optionPrerazeni" onclick="selectOption(this, true); updatePrideleniResult()">
+                            <input type="radio" name="prideleni" value="prerazeni">
+                            <div class="control-option-content">
+                                <div class="control-option-label">
+                                    <span class="material-icons-outlined" style="font-size: 18px; color: #b06000; vertical-align: middle; margin-right: 6px;">swap_horiz</span>
+                                    Navrhnout přeřazení
+                                </div>
+                                <div class="control-option-desc">Podat podnět krajskému ÚRÚ k přeřazení spisu na jiné pracoviště nebo do jiného kraje</div>
+                            </div>
+                        </label>
+
+                        <!-- Důvod přeřazení — zobrazí se při volbě přeřazení -->
+                        <div id="prerazeniDetailSection" style="display:none;margin-top:16px;padding:16px;background:#fef7e0;border:1px solid #fdd835;border-radius:8px;">
+                            <div style="font-size:13px;font-weight:600;color:#202124;margin-bottom:12px;">
+                                <span class="material-icons-outlined" style="font-size:16px;vertical-align:middle;margin-right:4px;">swap_horiz</span>
+                                Podnět k přeřazení
+                            </div>
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:12px;font-weight:500;color:#5f6368;display:block;margin-bottom:4px;">Důvod přeřazení</label>
+                                <select id="prerazeniDuvod" style="width:100%;padding:8px 12px;border:1px solid #dadce0;border-radius:6px;font-size:13px;font-family:inherit;background:#fff;" onchange="updatePrerazeniDetail()">
+                                    <option value="">— vyberte důvod —</option>
+                                    <option value="vyhrazena">Vyhrazená stavba — spadá pod ÚRÚ ČR</option>
+                                    <option value="jine_up">Jiné územní pracoviště v rámci kraje</option>
+                                    <option value="jiny_kraj">Jiný kraj — stavba zasahuje do jiného kraje</option>
+                                    <option value="jiny_duvod">Jiný důvod</option>
+                                </select>
+                            </div>
+                            <div style="margin-bottom:12px;">
+                                <label style="font-size:12px;font-weight:500;color:#5f6368;display:block;margin-bottom:4px;">Zdůvodnění</label>
+                                <textarea id="prerazeniZduvodneni" rows="4" placeholder="Popište důvod, proč by měl být spis přeřazen..."
+                                    style="width:100%;padding:10px 12px;border:1px solid #dadce0;border-radius:6px;font-size:13px;font-family:inherit;resize:vertical;line-height:1.5;"></textarea>
+                            </div>
+                            <div style="font-size:11px;color:#5f6368;display:flex;align-items:center;gap:6px;">
+                                <span class="material-icons-outlined" style="font-size:14px;">info</span>
+                                Podnět bude odeslán ke schválení Krajskému ÚRÚ Královéhradeckého kraje. Do rozhodnutí krajského ÚRÚ zůstává spis na tomto pracovišti.
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- ═══ /SZ 2026 ═══ -->
+
+                    <!-- ═══ SZ 2024: Kontrola příslušnosti (původní) ═══ -->
+                    <div id="prislusnostBlock2024">
                     <div class="control-section">
                         <div class="control-section-title">Kontrola příslušnosti stavebního úřadu</div>
                         <p style="font-size: 12px; color: #5f6368; margin-bottom: 16px;">
@@ -14310,15 +14382,26 @@
                             oninput="updatePrislusnostButton()"
                             style="width: 100%; padding: 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
                     </div>
+                    </div>
+                    <!-- ═══ /SZ 2024 ═══ -->
 
                 </div>
                 <div class="control-form-footer" style="flex-direction:column;gap:10px;align-items:stretch;">
+                    <!-- SZ 2024 result -->
                     <div id="resultPrislusnost" class="result-preview positive">
                         <div class="result-preview-title">
                             <span class="material-icons-outlined">check_circle</span>
                             Příslušnost potvrzena
                         </div>
                         <div class="result-preview-text">Stavební úřad je věcně i místně příslušný k projednání této žádosti.</div>
+                    </div>
+                    <!-- SZ 2026 result -->
+                    <div id="resultPrideleni" class="result-preview positive" style="display:none;">
+                        <div class="result-preview-title" id="resultPrideleniTitle">
+                            <span class="material-icons-outlined">check_circle</span>
+                            Přidělení potvrzeno
+                        </div>
+                        <div class="result-preview-text" id="resultPrideleniText">Spis je správně zařazen na ÚP Rychnov nad Kněžnou.</div>
                     </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div class="auto-save-indicator saved" id="autoSavePrislusnost">
@@ -14331,7 +14414,7 @@
                                 <span class="material-icons-outlined">save</span>
                                 Uložit
                             </button>
-                            <button class="btn btn-primary" onclick="completePrislusnost()">
+                            <button class="btn btn-primary" onclick="window.ISSR_SCENAR === 'sz2026' ? completePrideleni() : completePrislusnost()">
                                 <span class="material-icons-outlined">check</span>
                                 Potvrdit kontrolu
                             </button>
@@ -14413,9 +14496,9 @@
                                     <div class="zadost-data-label">Věc podání</div>
                                     <div class="zadost-data-value">Žádost o povolení stavby</div>
                                 </div>
-                                <div class="zadost-data-item">
-                                    <div class="zadost-data-label">Správní orgán</div>
-                                    <div class="zadost-data-value">Dopravní a energetický stavební úřad</div>
+                                <div class="zadost-data-item" id="zadostOrganRow">
+                                    <div class="zadost-data-label" id="zadostOrganLabel">Správní orgán</div>
+                                    <div class="zadost-data-value" id="zadostOrganValue">Dopravní a energetický stavební úřad</div>
                                 </div>
                             </div>
                             <!-- Akční tlačítka pro ověření (dynamicky zobrazované) -->
@@ -20099,9 +20182,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                             <div class="zadost-readonly-label">Datum doručení</div>
                             <div class="zadost-readonly-value">3. 2. 2026</div>
                         </div>
-                        <div class="zadost-readonly-item">
-                            <div class="zadost-readonly-label">Správní orgán</div>
-                            <div class="zadost-readonly-value">DESÚ — Dopravní a energetický stavební úřad</div>
+                        <div class="zadost-readonly-item" id="readonlyOrganRow1">
+                            <div class="zadost-readonly-label" id="readonlyOrganLabel1">Správní orgán</div>
+                            <div class="zadost-readonly-value" id="readonlyOrganValue1">DESÚ — Dopravní a energetický stavební úřad</div>
                         </div>
                     </div>
                 </div>
@@ -21371,9 +21454,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                                 <div class="zadost-readonly-label">Věc podání</div>
                                 <div class="zadost-readonly-value">Žádost o povolení stavby</div>
                             </div>
-                            <div class="zadost-readonly-item">
-                                <div class="zadost-readonly-label">Správní orgán</div>
-                                <div class="zadost-readonly-value">Dopravní a energetický stavební úřad</div>
+                            <div class="zadost-readonly-item" id="readonlyOrganRow2">
+                                <div class="zadost-readonly-label" id="readonlyOrganLabel2">Správní orgán</div>
+                                <div class="zadost-readonly-value" id="readonlyOrganValue2">Dopravní a energetický stavební úřad</div>
                             </div>
                         </div>
                     </div>
@@ -22742,7 +22825,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             } else {
                 btnConfirm.disabled = false;
                 btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
-                btnConfirm.onclick = function() { completePrislusnost(); };
+                btnConfirm.onclick = function() { window.ISSR_SCENAR === 'sz2026' ? completePrideleni() : completePrislusnost(); };
             }
         }
         
@@ -25198,7 +25281,118 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             closeControl('controlPrislusnost');
             updateUI();
         }
-        
+
+        // ==========================================
+        // SZ 2026: OVĚŘENÍ PŘIDĚLENÍ PRACOVIŠTĚ
+        // ==========================================
+        function updatePrideleniResult() {
+            const val = document.querySelector('input[name="prideleni"]:checked');
+            if (!val) return;
+            const isPrerazeni = val.value === 'prerazeni';
+
+            // Zobrazit/skrýt detail přeřazení
+            var detailSection = document.getElementById('prerazeniDetailSection');
+            if (detailSection) detailSection.style.display = isPrerazeni ? '' : 'none';
+
+            // Aktualizovat result box
+            var titleEl = document.getElementById('resultPrideleniTitle');
+            var textEl = document.getElementById('resultPrideleniText');
+            var resultBox = document.getElementById('resultPrideleni');
+            if (isPrerazeni) {
+                if (resultBox) { resultBox.className = 'result-preview warning'; }
+                if (titleEl) titleEl.innerHTML = '<span class="material-icons-outlined">swap_horiz</span> Podnět k přeřazení';
+                if (textEl) textEl.textContent = 'Podnět bude odeslán ke schválení Krajskému ÚRÚ Královéhradeckého kraje.';
+            } else {
+                if (resultBox) { resultBox.className = 'result-preview positive'; }
+                if (titleEl) titleEl.innerHTML = '<span class="material-icons-outlined">check_circle</span> Přidělení potvrzeno';
+                if (textEl) textEl.textContent = 'Spis je správně zařazen na ÚP Rychnov nad Kněžnou.';
+            }
+        }
+
+        function updatePrerazeniDetail() {
+            // Placeholder pro případnou logiku při změně důvodu
+        }
+
+        function completePrideleni() {
+            const val = document.querySelector('input[name="prideleni"]:checked');
+            if (!val) return;
+
+            controls.prislusnost.done = true;
+
+            if (val.value === 'prerazeni') {
+                controls.prislusnost.result = 'warning';
+                controls.prislusnost.postoupit = {
+                    nazev: 'Krajské ÚRÚ Královéhradeckého kraje',
+                    duvod: (document.getElementById('prerazeniDuvod') || {}).value || '',
+                    zduvodneni: (document.getElementById('prerazeniZduvodneni') || {}).value || ''
+                };
+            } else {
+                controls.prislusnost.result = 'ok';
+                controls.prislusnost.postoupit = null;
+            }
+
+            closeControl('controlPrislusnost');
+            updateUI();
+        }
+
+        // ==========================================
+        // SZ 2026: SCÉNÁŘ PŘEPÍNÁNÍ
+        // ==========================================
+        document.addEventListener('scenar-change', function(e) {
+            var is2026 = e.detail.scenar === 'sz2026';
+
+            // Přepnout bloky příslušnosti
+            var b24 = document.getElementById('prislusnostBlock2024');
+            var b26 = document.getElementById('prislusnostBlock2026');
+            if (b24) b24.style.display = is2026 ? 'none' : '';
+            if (b26) b26.style.display = is2026 ? '' : 'none';
+
+            // Přepnout result boxy
+            var r24 = document.getElementById('resultPrislusnost');
+            var r26 = document.getElementById('resultPrideleni');
+            if (r24) r24.style.display = is2026 ? 'none' : '';
+            if (r26) r26.style.display = is2026 ? '' : 'none';
+
+            // Přepnout pole „Správní orgán" v žádosti (editační i readonly)
+            var organIds = [
+                ['zadostOrganLabel', 'zadostOrganValue'],
+                ['readonlyOrganLabel1', 'readonlyOrganValue1'],
+                ['readonlyOrganLabel2', 'readonlyOrganValue2']
+            ];
+            for (var i = 0; i < organIds.length; i++) {
+                var lbl = document.getElementById(organIds[i][0]);
+                var val = document.getElementById(organIds[i][1]);
+                if (lbl) lbl.textContent = is2026 ? 'Určení příslušnosti' : 'Správní orgán';
+                if (val) val.textContent = is2026
+                    ? 'Automaticky systémem dle lokality a druhu stavby'
+                    : (i === 1 ? 'DESÚ — Dopravní a energetický stavební úřad' : 'Dopravní a energetický stavební úřad');
+            }
+
+            // SU dropdown v postoupení — v SZ 2026 skrýt DESÚ + obecné SÚ skupiny
+            var desuGroup = document.querySelector('[data-group="desu"]');
+            var prahaGroup = document.querySelector('[data-group="praha"]');
+            var stredoceskyGroup = document.querySelector('[data-group="stredocesky"]');
+            var kralovehradeckyGroup = document.querySelector('[data-group="kralovehradecky"]');
+            if (desuGroup) desuGroup.style.display = is2026 ? 'none' : '';
+            if (prahaGroup) prahaGroup.style.display = is2026 ? 'none' : '';
+            if (stredoceskyGroup) stredoceskyGroup.style.display = is2026 ? 'none' : '';
+            if (kralovehradeckyGroup) kralovehradeckyGroup.style.display = is2026 ? 'none' : '';
+
+            // Přejmenovat fázi, dlaždici, overlay titulek
+            var phaseTitle = document.getElementById('phaseTitle1');
+            var cardTitle = document.getElementById('cardTitlePrislusnost');
+            var cardDesc = document.getElementById('cardDescPrislusnost');
+            var overlayTitle = document.getElementById('controlPrislusnostTitle');
+            var overlayIcon = document.getElementById('controlPrislusnostIcon');
+            if (phaseTitle) phaseTitle.textContent = is2026 ? 'Přidělení' : 'Příslušnost';
+            if (cardTitle) cardTitle.textContent = is2026 ? 'Ověření přidělení' : 'Kontrola příslušnosti';
+            if (cardDesc) cardDesc.textContent = is2026
+                ? 'Ověření správnosti automatického přidělení pracovišti'
+                : 'Ověření věcné a místní příslušnosti stavebního úřadu';
+            if (overlayTitle) overlayTitle.textContent = is2026 ? 'Ověření přidělení pracoviště' : 'Kontrola příslušnosti';
+            if (overlayIcon) overlayIcon.textContent = is2026 ? 'verified' : 'account_balance';
+        });
+
         // Zobrazení modálu pro postoupení řízení
         function showPostoupeniModal() {
             const zduvodneni = document.getElementById('zduvodneniNeprislusnosti').value.trim();
