@@ -2294,6 +2294,77 @@
                 flex: 1;
             }
         }
+
+        /* ── Směrovací karta SZ 2026 ── */
+        .routing-card {
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+        }
+        .routing-card.visible { display: block; }
+        .routing-card-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 16px; border-bottom: 1px solid #f0f0f0;
+            font-size: 14px; font-weight: 500; color: #202124;
+        }
+        .routing-card-header .material-icons-outlined { font-size: 20px; color: #004289; }
+        .routing-badge-auto {
+            font-size: 11px; background: #e6f4ea; color: #137333;
+            padding: 2px 8px; border-radius: 10px; margin-left: auto; font-weight: 500;
+        }
+        .routing-phase {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .routing-phase:last-child { border-bottom: none; }
+        .routing-phase-label {
+            font-size: 10px; color: #9aa0a6; text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 500;
+        }
+        .routing-grid {
+            display: grid; grid-template-columns: 110px 1fr;
+            gap: 5px 12px; font-size: 13px;
+        }
+        .routing-grid-label { color: #5f6368; }
+        .routing-grid-value { color: #202124; }
+        .routing-grid-value.bold { font-weight: 500; }
+        .routing-grid-reason { color: #9aa0a6; font-size: 12px; grid-column: 1 / -1; margin-top: 2px; }
+        .btn-change-workplace {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 11px; padding: 2px 8px; border-radius: 4px;
+            background: transparent; border: 1px solid #dadce0;
+            color: #1a73e8; cursor: pointer; margin-left: 8px;
+            transition: all 0.15s;
+        }
+        .btn-change-workplace:hover { background: #e8f0fe; border-color: #1a73e8; }
+        .routing-assign-phase {
+            padding: 12px 16px; background: #f8f9fa;
+        }
+        .routing-assign-row {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .routing-avatars { display: flex; gap: -4px; }
+        .routing-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 600; border: 2px solid #fff;
+            cursor: pointer; transition: transform 0.15s;
+        }
+        .routing-avatar:hover { transform: scale(1.1); }
+        .routing-avatar.primary { background: #e8f0fe; color: #004289; }
+        .routing-avatar.neutral { background: #f1f3f4; color: #5f6368; }
+        .routing-assign-info { flex: 1; }
+        .routing-assign-title { font-size: 13px; font-weight: 500; color: #202124; }
+        .routing-assign-meta { font-size: 12px; color: #9aa0a6; margin-top: 1px; }
+        .routing-recommend {
+            margin-top: 10px; padding: 8px 12px;
+            background: #e8f0fe; border-radius: 8px;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; color: #004289;
+        }
+        .routing-recommend .material-icons-outlined { font-size: 16px; }
     </style>
 </head>
 <body>
@@ -2345,6 +2416,83 @@
             b26.className = 'sz-toggle__btn' + (mode === 'sz2026' ? ' active' : '');
         }
         document.dispatchEvent(new CustomEvent('scenar-change', { detail: { scenar: mode } }));
+    }
+
+    // ── Reakce na změnu scénáře ──
+    document.addEventListener('scenar-change', function(e) {
+        var is2026 = e.detail.scenar === 'sz2026';
+
+        // Přepnout bloky Zpracování v sidebaru
+        var block2024 = document.getElementById('processingBlock2024');
+        var block2026 = document.getElementById('processingBlock2026');
+        if (block2024) block2024.style.display = is2026 ? 'none' : '';
+        if (block2026) block2026.style.display = is2026 ? '' : 'none';
+
+        // Assignee dropdown v headeru — skrýt v SZ 2026
+        var assigneeDropdown = document.querySelector('.assignee-dropdown');
+        if (assigneeDropdown) assigneeDropdown.style.display = is2026 ? 'none' : '';
+
+        // Související řízení — v SZ 2026 skrýt integrovaná řízení (2 a 3)
+        var rp2 = document.getElementById('relatedProceeding2');
+        var rp3 = document.getElementById('relatedProceeding3');
+        if (rp2) rp2.style.display = is2026 ? 'none' : '';
+        if (rp3) rp3.style.display = is2026 ? 'none' : '';
+
+        // Počet souvisejících řízení
+        var rpCount = document.getElementById('relatedProceedingsCount');
+        if (rpCount) rpCount.textContent = is2026 ? '1' : '3';
+
+        // Meta prvního řízení — přizpůsobit spisovou značku
+        var rpMeta1 = document.getElementById('relatedProceedingMeta1');
+        if (rpMeta1) rpMeta1.textContent = is2026
+            ? 'SZ URU-KHK/000412/25 • Vydáno 18. 12. 2024 • Zpracoval: Jan Novák'
+            : 'SZ DESU/000412/25 • Vydáno 18. 12. 2024 • Zpracoval: Jan Novák';
+
+        // Drawer: stavební úřad a pracoviště
+        var drawerUrad = document.getElementById('drawerUradValue');
+        var drawerUradLbl = document.getElementById('drawerUradLabel');
+        var drawerPracov = document.getElementById('drawerPracovValue');
+        var drawerPracovLbl = document.getElementById('drawerPracovLabel');
+        if (drawerUrad) drawerUrad.textContent = is2026
+            ? 'Krajské ÚRÚ Královéhradeckého kraje'
+            : 'Dopravní a energetický stavební úřad';
+        if (drawerUradLbl) drawerUradLbl.textContent = is2026 ? 'Krajské ÚRÚ' : 'Úřad';
+        if (drawerPracov) drawerPracov.textContent = is2026
+            ? 'ÚP Rychnov nad Kněžnou'
+            : 'Územní pracoviště Hradec Králové';
+        if (drawerPracovLbl) drawerPracovLbl.textContent = is2026 ? 'Územní pracoviště' : 'Pracoviště';
+
+        // Drawer: spisová značka a číslo jednací
+        var drawerSub = document.getElementById('drawerSubtitle');
+        var drawerSZ = document.getElementById('drawerSZValue');
+        var drawerCJ = document.getElementById('drawerCJValue');
+        if (drawerSub) drawerSub.textContent = is2026 ? 'SZ URU-KHK/000412/25' : 'SZ DESU/000412/25';
+        if (drawerSZ) drawerSZ.textContent = is2026 ? 'SZ URU-KHK/000412/25' : 'SZ DESU/000412/25';
+        if (drawerCJ) drawerCJ.textContent = is2026 ? 'URU-KHK-1247/2024-PI' : 'DESU-1247/2024-PI';
+
+        // Duplicity — přepnout názvy úřadů
+        var dupM1 = document.getElementById('dupMeta1');
+        var dupM2 = document.getElementById('dupMeta2');
+        if (dupM1) dupM1.textContent = is2026
+            ? 'Zpracovatel: Marie Svobodová · Krajské ÚRÚ Pardubického kraje, ÚP Pardubice'
+            : 'Zpracovatel: Marie Svobodová · DESÚ, Územní pracoviště Pardubice';
+        if (dupM2) dupM2.textContent = is2026
+            ? 'Zpracovatel: Lucie Horáková · ÚRÚ ČR'
+            : 'Zpracovatel: Lucie Horáková · Drážní úřad Praha';
+    });
+
+    // Přidělení doporučeného zpracovatele (SZ 2026)
+    function routingAssignRecommended() {
+        assignTo('Aleš Krupa', 'AK', 'Referent');
+    }
+
+    // Přidělení zpracovatele z routing karty
+    function routingAssignTo(name, initials) {
+        assignTo(name, initials, 'Referent');
+    }
+
+    function showChangeWorkplaceModal() {
+        alert('Požadavek na změnu územního pracoviště — bude implementováno');
     }
 
     // Inicializace při načtení
@@ -2467,7 +2615,7 @@
                             <div class="related-proceedings-header-left">
                                 <span class="material-icons-outlined">account_tree</span>
                                 <span class="related-proceedings-title">Související řízení v záměru</span>
-                                <span class="related-proceedings-count">3</span>
+                                <span class="related-proceedings-count" id="relatedProceedingsCount">3</span>
                             </div>
                             <span class="material-icons-outlined expand-icon">expand_more</span>
                         </div>
@@ -2482,7 +2630,7 @@
                                         <span class="related-proceeding-name">Předběžná informace</span>
                                         <span class="related-proceeding-status completed">Ukončeno</span>
                                     </div>
-                                    <div class="related-proceeding-meta">
+                                    <div class="related-proceeding-meta" id="relatedProceedingMeta1">
                                         SZ DESU/000412/25 • Vydáno 18. 12. 2024 • Zpracoval: Jan Novák
                                     </div>
                                     <div class="related-proceeding-actions">
@@ -2499,7 +2647,7 @@
                             </div>
                             
                             <!-- Koordinované závazné stanovisko - MěÚ Rychnov -->
-                            <div class="related-proceeding-item">
+                            <div class="related-proceeding-item" id="relatedProceeding2">
                                 <div class="related-proceeding-icon completed">
                                     <span class="material-icons-outlined">check_circle</span>
                                 </div>
@@ -2521,7 +2669,7 @@
                             </div>
                             
                             <!-- Rozhodnutí Drážního úřadu -->
-                            <div class="related-proceeding-item">
+                            <div class="related-proceeding-item" id="relatedProceeding3">
                                 <div class="related-proceeding-icon completed">
                                     <span class="material-icons-outlined">check_circle</span>
                                 </div>
@@ -2563,7 +2711,7 @@
                                         <span class="match-tag match-strong"><span class="material-icons-outlined">domain</span>Shodný stavebník</span>
                                         <span class="match-tag match-strong"><span class="material-icons-outlined">title</span>Shodný název</span>
                                     </div>
-                                    <div class="duplicate-meta">Zpracovatel: Marie Svobodová · DESÚ, Územní pracoviště Pardubice</div>
+                                    <div class="duplicate-meta" id="dupMeta1">Zpracovatel: Marie Svobodová · DESÚ, Územní pracoviště Pardubice</div>
                                     <div class="duplicate-actions" id="dupActions1">
                                         <button class="btn btn-secondary btn-sm" onclick="openZamerDetail(1)">
                                             <span class="material-icons-outlined">open_in_new</span>Zobrazit detail
@@ -2590,7 +2738,7 @@
                                         <span class="match-tag match-no"><span class="material-icons-outlined">domain</span>Jiný stavebník</span>
                                         <span class="match-tag match-weak"><span class="material-icons-outlined">title</span>Částečně shodný název</span>
                                     </div>
-                                    <div class="duplicate-meta">Zpracovatel: Lucie Horáková · Drážní úřad Praha</div>
+                                    <div class="duplicate-meta" id="dupMeta2">Zpracovatel: Lucie Horáková · Drážní úřad Praha</div>
                                     <div class="duplicate-actions" id="dupActions2">
                                         <button class="btn btn-secondary btn-sm" onclick="openZamerDetail(2)">
                                             <span class="material-icons-outlined">open_in_new</span>Zobrazit detail
@@ -2788,42 +2936,104 @@
                                 <div class="processing-status">
                                     <span class="pending status-badge">Ke zpracování</span>
                                 </div>
-                                <div class="processing-details">
-                                    <div class="processing-row">
-                                        <span class="material-icons-outlined">account_balance</span>
-                                        <span>Dopravní a energetický stavební úřad</span>
+
+                                <!-- === SZ 2024 varianta === -->
+                                <div id="processingBlock2024">
+                                    <div class="processing-details">
+                                        <div class="processing-row">
+                                            <span class="material-icons-outlined">account_balance</span>
+                                            <span>Dopravní a energetický stavební úřad</span>
+                                        </div>
+                                        <div class="processing-row podatelna" id="assigneeRow">
+                                            <span class="material-icons-outlined" id="assigneeRowIcon">local_post_office</span>
+                                            <span id="sidebarAssignee">Petra Nováčková (podatelna)</span>
+                                        </div>
+                                        <div class="processing-row">
+                                            <span class="material-icons-outlined">schedule</span>
+                                            <span>Evidováno: 6. 1. 2026 9:22</span>
+                                        </div>
                                     </div>
-                                    <div class="processing-row podatelna" id="assigneeRow">
-                                        <span class="material-icons-outlined" id="assigneeRowIcon">local_post_office</span>
-                                        <span id="sidebarAssignee">Petra Nováčková (podatelna)</span>
-                                    </div>
-                                    <div class="processing-row">
-                                        <span class="material-icons-outlined">schedule</span>
-                                        <span>Evidováno: 6. 1. 2026 9:22</span>
+                                    <!-- Doporučený zpracovatel -->
+                                    <div class="recommended-assignee" id="recommendedAssigneeBox">
+                                        <div class="recommended-assignee-header">
+                                            <span class="material-icons-outlined">lightbulb</span>
+                                            <span>Doporučený zpracovatel</span>
+                                            <button onclick="dismissRecommendedAssignee()" title="Nezobrazovat" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:2px;border-radius:4px;display:flex;align-items:center;color:#5f6368;transition:color 0.15s;" onmouseenter="this.style.color='#c5221f'" onmouseleave="this.style.color='#5f6368'">
+                                                <span class="material-icons-outlined" style="font-size:16px;">visibility_off</span>
+                                            </button>
+                                        </div>
+                                        <div class="recommended-assignee-person">
+                                            <div class="person-avatar small">JN</div>
+                                            <div class="recommended-assignee-info">
+                                                <div class="recommended-assignee-name">Jan Novák</div>
+                                                <div class="recommended-assignee-reason">Zpracoval Předběžnou informaci v tomto záměru</div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm btn-full" onclick="assignRecommended()">
+                                            <span class="material-icons-outlined">person_add</span>
+                                            Přidělit Janu Novákovi
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <!-- Doporučený zpracovatel -->
-                            <div class="recommended-assignee" id="recommendedAssigneeBox">
-                                <div class="recommended-assignee-header">
-                                    <span class="material-icons-outlined">lightbulb</span>
-                                    <span>Doporučený zpracovatel</span>
-                                    <button onclick="dismissRecommendedAssignee()" title="Nezobrazovat doporučeného zpracovatele" style="margin-left:auto;background:none;border:none;cursor:pointer;padding:2px;border-radius:4px;display:flex;align-items:center;color:#5f6368;transition:color 0.15s;" onmouseenter="this.style.color='#c5221f'" onmouseleave="this.style.color='#5f6368'">
-                                        <span class="material-icons-outlined" style="font-size:16px;">visibility_off</span>
-                                    </button>
-                                </div>
-                                <div class="recommended-assignee-person">
-                                    <div class="person-avatar small">JN</div>
-                                    <div class="recommended-assignee-info">
-                                        <div class="recommended-assignee-name">Jan Novák</div>
-                                        <div class="recommended-assignee-reason">Zpracoval Předběžnou informaci v tomto záměru</div>
+
+                                <!-- === SZ 2026 varianta === -->
+                                <div id="processingBlock2026" style="display:none;">
+                                    <!-- Směrování — kompaktní -->
+                                    <div style="background:#f8f9fa;border-radius:8px;padding:10px 12px;margin-top:10px;">
+                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                                            <span class="material-icons-outlined" style="font-size:16px;color:#004289;">route</span>
+                                            <span style="font-size:12px;font-weight:500;color:#004289;">Automatické směrování</span>
+                                        </div>
+                                        <div style="font-size:12px;color:#5f6368;display:flex;flex-direction:column;gap:4px;">
+                                            <div style="display:flex;align-items:flex-start;gap:6px;">
+                                                <span class="material-icons-outlined" style="font-size:14px;color:#9aa0a6;margin-top:1px;">account_balance</span>
+                                                <span>Krajské ÚRÚ Královéhradeckého kraje</span>
+                                            </div>
+                                            <div style="display:flex;align-items:flex-start;gap:6px;">
+                                                <span class="material-icons-outlined" style="font-size:14px;color:#9aa0a6;margin-top:1px;">place</span>
+                                                <div>
+                                                    <span style="font-weight:500;color:#202124;">ÚP Rychnov nad Kněžnou</span>
+                                                    <div style="font-size:11px;color:#9aa0a6;margin-top:2px;">Stavba dráhy (nevyhrazená) v ORP Rychnov n. K.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button onclick="showChangeWorkplaceModal()" style="display:flex;align-items:center;gap:4px;margin-top:8px;padding:4px 10px;font-size:11px;color:#5f6368;background:#fff;border:1px solid #dadce0;border-radius:4px;cursor:pointer;width:100%;justify-content:center;transition:all 0.15s;" onmouseenter="this.style.borderColor='#1a73e8';this.style.color='#1a73e8'" onmouseleave="this.style.borderColor='#dadce0';this.style.color='#5f6368'">
+                                            <span class="material-icons-outlined" style="font-size:13px;">swap_horiz</span>
+                                            Požádat o změnu pracoviště
+                                        </button>
+                                    </div>
+
+                                    <!-- Zpracovatel -->
+                                    <div class="processing-details" style="margin-top:10px;">
+                                        <div class="processing-row podatelna" id="assigneeRow2026">
+                                            <span class="material-icons-outlined" id="assigneeRowIcon2026">local_post_office</span>
+                                            <span id="sidebarAssignee2026">Petra Nováčková (podatelna)</span>
+                                        </div>
+                                        <div class="processing-row">
+                                            <span class="material-icons-outlined">schedule</span>
+                                            <span>Evidováno: 6. 1. 2026 9:22</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Doporučení -->
+                                    <div class="recommended-assignee" id="recommendedAssigneeBox2026">
+                                        <div class="recommended-assignee-header">
+                                            <span class="material-icons-outlined">lightbulb</span>
+                                            <span>Doporučený zpracovatel</span>
+                                        </div>
+                                        <div class="recommended-assignee-person">
+                                            <div class="person-avatar small">AK</div>
+                                            <div class="recommended-assignee-info">
+                                                <div class="recommended-assignee-name">Aleš Krupa</div>
+                                                <div class="recommended-assignee-reason">Nejnižší vytížení, zkušenost s dráhovými stavbami</div>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-sm btn-full" onclick="routingAssignRecommended()">
+                                            <span class="material-icons-outlined">person_add</span>
+                                            Přidělit Aleši Krupovi
+                                        </button>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-sm btn-full" onclick="assignRecommended()">
-                                    <span class="material-icons-outlined">person_add</span>
-                                    Přidělit Janu Novákovi
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -2968,7 +3178,7 @@
                     <span class="material-icons-outlined drawer-icon">assignment</span>
                     <div>
                         <h3 class="drawer-title">Předběžná informace</h3>
-                        <span class="drawer-subtitle">SZ DESU/000412/25</span>
+                        <span class="drawer-subtitle" id="drawerSubtitle">SZ DESU/000412/25</span>
                     </div>
                 </div>
                 <button class="drawer-close" onclick="closeRizeniDrawer()">
@@ -2996,11 +3206,11 @@
                         </div>
                         <div class="rizeni-item">
                             <span class="rizeni-label">Spisová značka</span>
-                            <span class="rizeni-value">SZ DESU/000412/25</span>
+                            <span class="rizeni-value" id="drawerSZValue">SZ DESU/000412/25</span>
                         </div>
                         <div class="rizeni-item">
                             <span class="rizeni-label">Číslo jednací</span>
-                            <span class="rizeni-value">DESU-1247/2024-PI</span>
+                            <span class="rizeni-value" id="drawerCJValue">DESU-1247/2024-PI</span>
                         </div>
                         <div class="rizeni-item">
                             <span class="rizeni-label">Datum zahájení</span>
@@ -3024,12 +3234,12 @@
                     </h4>
                     <div class="rizeni-grid">
                         <div class="rizeni-item full">
-                            <span class="rizeni-label">Úřad</span>
-                            <span class="rizeni-value">Dopravní a energetický stavební úřad</span>
+                            <span class="rizeni-label" id="drawerUradLabel">Úřad</span>
+                            <span class="rizeni-value" id="drawerUradValue">Dopravní a energetický stavební úřad</span>
                         </div>
                         <div class="rizeni-item full">
-                            <span class="rizeni-label">Pracoviště</span>
-                            <span class="rizeni-value">Územní pracoviště Hradec Králové</span>
+                            <span class="rizeni-label" id="drawerPracovLabel">Pracoviště</span>
+                            <span class="rizeni-value" id="drawerPracovValue">Územní pracoviště Hradec Králové</span>
                         </div>
                     </div>
                 </div>
