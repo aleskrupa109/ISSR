@@ -457,7 +457,7 @@
         if (!actions[phase]) return '';
         var a = actions[phase];
         return '<div style="text-align:' + (phase === 'ready' ? 'center' : 'right') + ';margin-top:12px;">' +
-            '<button class="vz-phase-action" style="' + style + '" onclick="advanceBroadcastPhase(\'' + a.next + '\')">' +
+            '<button class="vz-phase-action" onclick="advanceBroadcastPhase(\'' + a.next + '\')">' +
                 '<span class="material-icons-outlined">' + a.icon + '</span> ' + a.label +
             '</button></div>';
     }
