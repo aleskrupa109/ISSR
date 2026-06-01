@@ -10419,48 +10419,10 @@
         .vz-catalog-item:hover {
             background: #f0f7ff !important;
         }
-        .vz-method-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .vz-method-row {
-            display: flex;
-            gap: 6px;
-        }
-        .vz-method-option {
-            transition: all 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
-            font-size: 11px;
-            cursor: pointer;
-            background: #fff;
-            color: #5f6368;
-            justify-content: center;
-            white-space: nowrap;
-        }
-        .vz-method-row-ext .vz-method-option {
-            flex: 1;
-        }
-        .vz-method-option.selected {
-            border-color: #1a73e8 !important;
-            background: #e8f0fe !important;
-            color: #1a73e8 !important;
-            font-weight: 500;
-        }
-        .vz-method-option:hover:not(.selected) {
+        /* VZ method styles are now in verejne-zajmy-shared.js */
+        .vz-mode-card:hover:not(.selected) {
             border-color: #9aa0a6 !important;
-            background: #f8f9fa !important;
-        }
-        .vz-ident-item {
-            transition: all 0.2s;
-        }
-        .vz-remove-btn:hover {
-            color: #d32f2f !important;
+            background: #fafafa !important;
         }
 
         .control-option {
@@ -13415,6 +13377,7 @@
         </div>
     </header>
 
+    <script src="verejne-zajmy-shared.js"></script>
     <script>
     // ── Přepínač scénářů SZ 2024 / SZ 2026 ──
     window.ISSR_SCENAR = localStorage.getItem('issr_scenar') || 'sz2024';
@@ -16946,458 +16909,117 @@
                 </div>
                 <div class="control-form-body" id="vzFormBody" style="overflow-y:auto;">
 
-                    <!-- ============ FÁZE A: IDENTIFIKACE ============ -->
-                    <div id="vzPhaseA">
-                        <!-- Info banner -->
-                        <div style="padding:10px 12px;background:#e8f0fe;border:1px solid #c2dbf4;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">
-                            <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;margin-top:1px;">info</span>
-                            <div style="font-size:11px;color:#3c4043;line-height:1.5;">
-                                Systém předvyplnil veřejné zájmy na základě lokality a druhu záměru. U každého zvolte způsob posouzení. Další zájmy můžete přidat z katalogu.
-                            </div>
-                        </div>
-
-                        <!-- VZ items list -->
-                        <div id="vzIdentifikaceList">
-
-                            <!-- 1. Ochrana přírody a krajiny -->
-                            <div class="vz-ident-item" data-vz-id="opk" data-vz-method="interni" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#2e7d32;margin-right:4px;">eco</span>
-                                            Ochrana přírody a krajiny
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:3px;">Kácení 2 dřevin na pozemku parc. č. 981/31 — § 8 zák. č. 114/1992 Sb.</div>
-                                        <div style="font-size:10px;color:#9aa0a6;margin-top:2px;">Dříve: koordinované ZS MěÚ Kostelec n. O., úsek OPK</div>
-                                    </div>
-                                    <button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">
-                                        <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                    </button>
+                    <!-- ============ VOLBA REŽIMU KOORDINACE ============ -->
+                    <div id="vzModeSelector" style="margin-bottom:16px;">
+                        <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Režim koordinace veřejných zájmů</div>
+                        <div style="display:flex;gap:8px;">
+                            <!-- Varianta 1: Zpracovatel -->
+                            <div class="vz-mode-card selected" id="vzModeZpracovatel" onclick="setVZMode('zpracovatel')" style="flex:1;padding:12px;border:2px solid #1a73e8;border-radius:8px;cursor:pointer;background:#f0f7ff;transition:all 0.15s;">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">person</span>
+                                    </span>
+                                    <div style="font-size:13px;font-weight:600;color:#1a73e8;">Zpracovatel sám</div>
                                 </div>
-                                <div class="vz-method-grid">
-                                    <div class="vz-method-row">
-                                        <label class="vz-method-option selected" onclick="setVZMethod(this,'opk','interni')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel
-                                        </label>
-                                    </div>
-                                    <div class="vz-method-row vz-method-row-ext">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'opk','externi')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'opk','zs-vyzadat')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'opk','zs-prilozeno')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo
-                                        </label>
-                                    </div>
+                                <div style="font-size:11px;color:#3c4043;line-height:1.5;">
+                                    Úředník stavebního úřadu sám koordinuje vyjádření dotčených orgánů, sleduje plnění a řeší rozpory.
                                 </div>
                             </div>
-
-                            <!-- 2. Ochrana lesa -->
-                            <div class="vz-ident-item" data-vz-id="les" data-vz-method="externi" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#558b2f;margin-right:4px;">park</span>
-                                            Ochrana lesa
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:3px;">Ochranné pásmo lesa parc. č. 981/31 — § 14 odst. 2 zák. č. 289/1995 Sb.</div>
-                                        <div style="font-size:10px;color:#9aa0a6;margin-top:2px;">Dříve: koordinované ZS MěÚ Kostelec n. O., úsek SSL + ZS MěÚ Rychnov n. K. (JES)</div>
-                                    </div>
-                                    <button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">
-                                        <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                    </button>
+                            <!-- Varianta 2: Koordinátor -->
+                            <div class="vz-mode-card" id="vzModeKoordinator" onclick="setVZMode('koordinator')" style="flex:1;padding:12px;border:2px solid #dadce0;border-radius:8px;cursor:pointer;background:#fff;transition:all 0.15s;">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#f3e5f5;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#7b1fa2;">groups</span>
+                                    </span>
+                                    <div style="font-size:13px;font-weight:600;color:#202124;">Samostatný koordinátor</div>
                                 </div>
-                                <div class="vz-method-grid">
-                                    <div class="vz-method-row">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'les','interni')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel
-                                        </label>
-                                    </div>
-                                    <div class="vz-method-row vz-method-row-ext">
-                                        <label class="vz-method-option selected" onclick="setVZMethod(this,'les','externi')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'les','zs-vyzadat')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'les','zs-prilozeno')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo
-                                        </label>
-                                    </div>
+                                <div style="font-size:11px;color:#5f6368;line-height:1.5;">
+                                    Koordinátor VZ dostane přístup k řízení (bez editace) a sám administruje proces. Výstupem je koordinované vyjádření.
                                 </div>
-                            </div>
-
-                            <!-- 3. Ochrana vod -->
-                            <div class="vz-ident-item" data-vz-id="voda" data-vz-method="externi" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#0277bd;margin-right:4px;">water_drop</span>
-                                            Ochrana vod
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:3px;">Záplavové území Divoká Orlice, podmínky Povodí Labe — § 17 zák. č. 254/2001 Sb.</div>
-                                        <div style="font-size:10px;color:#9aa0a6;margin-top:2px;">Dříve: koordinované ZS MěÚ Kostelec n. O., úsek vodoprávní + souhlasné ZS MěÚ Rychnov (JES)</div>
-                                    </div>
-                                    <button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">
-                                        <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                    </button>
-                                </div>
-                                <div class="vz-method-grid">
-                                    <div class="vz-method-row">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'voda','interni')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel
-                                        </label>
-                                    </div>
-                                    <div class="vz-method-row vz-method-row-ext">
-                                        <label class="vz-method-option selected" onclick="setVZMethod(this,'voda','externi')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'voda','zs-vyzadat')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'voda','zs-prilozeno')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 4. Památková péče -->
-                            <div class="vz-ident-item" data-vz-id="pamatky" data-vz-method="interni" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#6d4c41;margin-right:4px;">account_balance</span>
-                                            Památková péče
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:3px;">Ochranné pásmo zámku Doudleby n. O., archeologické nálezy — § 14 zák. č. 20/1987 Sb.</div>
-                                        <div style="font-size:10px;color:#9aa0a6;margin-top:2px;">Dříve: koordinované ZS MěÚ Kostelec n. O., úsek PP + sdělení MěÚ Rychnov (parcely mimo KP)</div>
-                                    </div>
-                                    <button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">
-                                        <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                    </button>
-                                </div>
-                                <div class="vz-method-grid">
-                                    <div class="vz-method-row">
-                                        <label class="vz-method-option selected" onclick="setVZMethod(this,'pamatky','interni')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel
-                                        </label>
-                                    </div>
-                                    <div class="vz-method-row vz-method-row-ext">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'pamatky','externi')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'pamatky','zs-vyzadat')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'pamatky','zs-prilozeno')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 5. Odpadové hospodářství -->
-                            <div class="vz-ident-item" data-vz-id="odpady" data-vz-method="interni" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#ef6c00;margin-right:4px;">delete_outline</span>
-                                            Odpadové hospodářství
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:3px;">Nakládání s odpady ze stavby — zák. č. 541/2020 Sb.</div>
-                                        <div style="font-size:10px;color:#9aa0a6;margin-top:2px;">Dříve: součást JES MěÚ Rychnov n. K.</div>
-                                    </div>
-                                    <button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">
-                                        <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                    </button>
-                                </div>
-                                <div class="vz-method-grid">
-                                    <div class="vz-method-row">
-                                        <label class="vz-method-option selected" onclick="setVZMethod(this,'odpady','interni')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel
-                                        </label>
-                                    </div>
-                                    <div class="vz-method-row vz-method-row-ext">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'odpady','externi')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'odpady','zs-vyzadat')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'odpady','zs-prilozeno')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 6. Obrana státu -->
-                            <div class="vz-ident-item" data-vz-id="obrana" data-vz-method="zs-prilozeno" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                    <div style="flex:1;">
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#37474f;margin-right:4px;">security</span>
-                                            Obrana státu
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:3px;">Území vymezené MO — § 175 zák. č. 283/2021 Sb. (ZS zachováno, MO zůstává samostatný DOSS)</div>
-                                        <div style="font-size:10px;color:#9aa0a6;margin-top:2px;">Dříve: souhlasné ZS Ministerstva obrany č.j. MO 103826/2024-1282</div>
-                                    </div>
-                                    <button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">
-                                        <span class="material-icons-outlined" style="font-size:16px;">close</span>
-                                    </button>
-                                </div>
-                                <div class="vz-method-grid">
-                                    <div class="vz-method-row">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'obrana','interni')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel
-                                        </label>
-                                    </div>
-                                    <div class="vz-method-row vz-method-row-ext">
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'obrana','externi')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření
-                                        </label>
-                                        <label class="vz-method-option" onclick="setVZMethod(this,'obrana','zs-vyzadat')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS
-                                        </label>
-                                        <label class="vz-method-option selected" onclick="setVZMethod(this,'obrana','zs-prilozeno')">
-                                            <span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Add from catalog -->
-                        <div style="margin-top:12px;">
-                            <button class="btn btn-secondary" onclick="openVZCatalog()" id="vzAddBtn" style="width:100%;justify-content:center;gap:6px;border-style:dashed;">
-                                <span class="material-icons-outlined" style="font-size:16px;">add_circle_outline</span>
-                                Přidat další veřejný zájem z katalogu
-                            </button>
-                        </div>
-
-                        <!-- Catalog dropdown (hidden by default) -->
-                        <div id="vzCatalog" style="display:none;margin-top:8px;border:1px solid #dadce0;border-radius:8px;background:#fff;max-height:200px;overflow-y:auto;">
-                            <div style="padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:11px;font-weight:600;color:#5f6368;">Katalog veřejných zájmů</div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('pozarni','Požární ochrana','HZS kraje — § 31 zák. č. 133/1985 Sb.','local_fire_department','#d32f2f')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #f8f8f8;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#d32f2f;">local_fire_department</span> Požární ochrana
-                            </div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('zpf','Ochrana ZPF','Odnětí ze ZPF — § 9 zák. č. 334/1992 Sb.','grass','#33691e')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #f8f8f8;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#33691e;">grass</span> Ochrana ZPF
-                            </div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('ovzdusi','Ochrana ovzduší','Zdroj znečišťování — zák. č. 201/2012 Sb.','air','#546e7a')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #f8f8f8;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#546e7a;">air</span> Ochrana ovzduší
-                            </div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('khs','Ochrana veřejného zdraví','Hluk, vibrace — zák. č. 258/2000 Sb.','health_and_safety','#00838f')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #f8f8f8;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#00838f;">health_and_safety</span> Ochrana veřejného zdraví
-                            </div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('geologie','Ochrana nerostného bohatství','Ložisková území — zák. č. 44/1988 Sb.','diamond','#4e342e')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #f8f8f8;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#4e342e;">diamond</span> Ochrana nerostného bohatství
-                            </div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('doprava','Ochrana pozemních komunikací','Připojení, ochranná pásma — zák. č. 13/1997 Sb.','directions_car','#1565c0')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #f8f8f8;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#1565c0;">directions_car</span> Ochrana pozemních komunikací
-                            </div>
-                            <div class="vz-catalog-item" onclick="addVZFromCatalog('energetika','Energetika','Ochranná pásma energetické infrastruktury — zák. č. 458/2000 Sb.','bolt','#f57f17')" style="padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px;">
-                                <span class="material-icons-outlined" style="font-size:15px;color:#f57f17;">bolt</span> Energetika
-                            </div>
-                        </div>
-
-                        <!-- Summary -->
-                        <div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;margin-top:16px;">
-                            <div style="font-size:11px;color:#3c4043;line-height:1.6;" id="vzIdentSummary">
-                                <strong>Identifikováno 6 veřejných zájmů:</strong> 3× interní přispěvatel · 2× vyžádat vyjádření · 0× vyžádat ZS · 1× ZS přiloženo
                             </div>
                         </div>
                     </div>
 
-                    <!-- ============ FÁZE B: VYPOŘÁDÁNÍ ============ -->
-                    <div id="vzPhaseB" style="display:none;">
+                    <!-- ============ OBSAH PRO REŽIM "ZPRACOVATEL" ============ -->
+                    <div id="vzModeZpracovatelContent">
 
-                        <!-- Interní posouzení section -->
-                        <div class="control-section" style="margin-bottom:20px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                                <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#e8f0fe;"><span class="material-icons-outlined" style="font-size:14px;color:#1a73e8;">person_add</span></span>
-                                <div class="control-section-title" style="margin:0;">Interní posouzení (přispěvatel)</div>
-                                <span style="font-size:10px;color:#5f6368;background:#f1f3f4;padding:2px 8px;border-radius:10px;">3 oblasti</span>
-                            </div>
+                    <!-- Obsah generován ze sdíleného modulu verejne-zajmy-shared.js -->
+                    <div id="vzSharedContent"></div>
 
-                            <!-- OPK - assigned, done -->
-                            <div class="vz-vyp-item" style="border:1px solid #c8e6c9;border-radius:8px;padding:12px;margin-bottom:8px;background:#f9fdf9;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                                    <div>
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#2e7d32;margin-right:4px;">eco</span>
-                                            Ochrana přírody a krajiny
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:2px;">
-                                            Přispěvatel: <strong>Ing. Jana Nováková</strong> (ÚP Kostelec n. O., ref. OPK)
-                                        </div>
-                                    </div>
-                                    <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:#e8f5e9;color:#2e7d32;">
-                                        <span class="material-icons-outlined" style="font-size:14px;">check_circle</span> Posouzeno
-                                    </span>
-                                </div>
-                                <div style="margin-top:8px;padding:8px;background:#e8f5e9;border-radius:4px;font-size:11px;color:#2e7d32;">
-                                    <strong>Interní posudek ze dne 10. 2. 2026</strong> — Kácení 2 ks dřevin povoleno s podmínkou náhradní výsadby 4 ks. Záměr je v souladu s § 8 ZOPK.
+                    <!-- Starý inline obsah Phase A + Phase B odstraněn, generuje se z verejne-zajmy-shared.js -->
+
+                    </div><!-- /vzModeZpracovatelContent -->
+
+                    <!-- ============ OBSAH PRO REŽIM "KOORDINÁTOR" ============ -->
+                    <div id="vzModeKoordinatorContent" style="display:none;">
+                        <div style="padding:16px;background:#f9f0ff;border:1px solid #e1bee7;border-radius:8px;margin-bottom:16px;">
+                            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                                <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#f3e5f5;">
+                                    <span class="material-icons-outlined" style="font-size:20px;color:#7b1fa2;">groups</span>
+                                </span>
+                                <div>
+                                    <div style="font-size:14px;font-weight:600;color:#4a148c;">Režim samostatného koordinátora</div>
+                                    <div style="font-size:11px;color:#6a1b9a;margin-top:2px;">Koordinátor VZ převezme administraci procesu vyjadřování</div>
                                 </div>
                             </div>
-
-                            <!-- Památky - assigned, pending -->
-                            <div class="vz-vyp-item" style="border:1px solid #bbdefb;border-radius:8px;padding:12px;margin-bottom:8px;background:#f5f9ff;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                                    <div>
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#6d4c41;margin-right:4px;">account_balance</span>
-                                            Památková péče
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:2px;">
-                                            Přispěvatel: <strong>Mgr. Petr Dvořák</strong> (ÚP Kostelec n. O., ref. PP)
-                                        </div>
-                                    </div>
-                                    <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:#e3f2fd;color:#1565c0;">
-                                        <span class="material-icons-outlined" style="font-size:14px;">edit_note</span> Přiděleno
-                                    </span>
-                                </div>
-                                <div style="margin-top:8px;padding:8px;background:#e3f2fd;border:1px solid #bbdefb;border-radius:4px;font-size:11px;color:#1565c0;">
-                                    Přiděleno 5. 2. 2026 — čeká na interní posouzení (ochranné pásmo zámku Doudleby, archeologické nálezy)
-                                </div>
+                            <div style="font-size:12px;color:#3c4043;line-height:1.6;margin-bottom:12px;">
+                                V tomto režimu předáte koordinaci veřejných zájmů samostatnému koordinátorovi. Koordinátor:
                             </div>
+                            <ul style="font-size:11px;color:#3c4043;line-height:1.8;margin:0 0 12px 16px;padding:0;">
+                                <li>Dostane přístup k řízení <strong>pouze pro čtení</strong></li>
+                                <li>Identifikuje dotčené veřejné zájmy a zvolí způsob posouzení</li>
+                                <li>Administruje proces — oslovuje DO, sleduje lhůty, řeší rozpory</li>
+                                <li>Výstupem je <strong>koordinované vyjádření</strong> jako podklad pro vaše rozhodnutí</li>
+                            </ul>
 
-                            <!-- Odpady - assigned, done -->
-                            <div class="vz-vyp-item" style="border:1px solid #c8e6c9;border-radius:8px;padding:12px;margin-bottom:8px;background:#f9fdf9;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                                    <div>
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#ef6c00;margin-right:4px;">delete_outline</span>
-                                            Odpadové hospodářství
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:2px;">
-                                            Přispěvatel: <strong>Ing. Tomáš Veselý</strong> (ÚP Rychnov n. K., ref. ŽP)
-                                        </div>
+                            <!-- Přiřazení koordinátora -->
+                            <div style="background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:12px;">
+                                <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Přiřazení koordinátora</div>
+                                <div style="display:flex;gap:8px;align-items:flex-end;">
+                                    <div style="flex:1;">
+                                        <label style="font-size:11px;color:#5f6368;display:block;margin-bottom:4px;">Koordinátor VZ</label>
+                                        <select id="vzKoordinatorSelect" style="width:100%;padding:8px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;background:#fff;">
+                                            <option value="">— Vyberte koordinátora —</option>
+                                            <option value="k1">Ing. Martin Horák (Krajské ÚRÚ Královéhradeckého kraje)</option>
+                                            <option value="k2">Mgr. Lenka Svobodová (ÚP Rychnov n. K., koordinátor VZ)</option>
+                                            <option value="k3" selected>Ing. Radek Procházka (ÚP Kostelec n. O., koordinátor VZ)</option>
+                                        </select>
                                     </div>
-                                    <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:#e8f5e9;color:#2e7d32;">
-                                        <span class="material-icons-outlined" style="font-size:14px;">check_circle</span> Posouzeno
-                                    </span>
                                 </div>
-                                <div style="margin-top:8px;padding:8px;background:#e8f5e9;border-radius:4px;font-size:11px;color:#2e7d32;">
-                                    <strong>Interní posudek ze dne 8. 2. 2026</strong> — Nakládání s odpady v souladu s plánem. Podmínka: stavební odpad předat oprávněné osobě.
+                                <div style="margin-top:8px;padding:8px;background:#f8f9fa;border-radius:4px;font-size:11px;color:#5f6368;display:flex;align-items:center;gap:6px;">
+                                    <span class="material-icons-outlined" style="font-size:14px;">info</span>
+                                    Koordinátor obdrží notifikaci a přístup k řízení č. SZ-2026/00142.
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Vyžádat vyjádření section -->
-                        <div class="control-section" style="margin-bottom:20px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                                <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#fff3e0;"><span class="material-icons-outlined" style="font-size:14px;color:#e65100;">outgoing_mail</span></span>
-                                <div class="control-section-title" style="margin:0;">Vyžádaná vyjádření (externí DOSS)</div>
-                                <span style="font-size:10px;color:#5f6368;background:#f1f3f4;padding:2px 8px;border-radius:10px;">2 oblasti</span>
+                        <!-- Stav koordinace (demo) -->
+                        <div style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:16px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                                <div style="font-size:12px;font-weight:600;color:#202124;">Stav koordinace</div>
+                                <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:500;background:#fff3e0;color:#e65100;">
+                                    <span class="material-icons-outlined" style="font-size:14px;">schedule</span> Probíhá
+                                </span>
                             </div>
-
-                            <!-- Les - vyjádření doručeno -->
-                            <div class="vz-vyp-item" style="border:1px solid #c8e6c9;border-radius:8px;padding:12px;margin-bottom:8px;background:#f9fdf9;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                                    <div>
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#558b2f;margin-right:4px;">park</span>
-                                            Ochrana lesa
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:2px;">Orgán státní správy lesů ORP Rychnov n. K.</div>
-                                    </div>
-                                    <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:#e8f5e9;color:#2e7d32;">
-                                        <span class="material-icons-outlined" style="font-size:14px;">check_circle</span> Vyjádření doručeno
-                                    </span>
-                                </div>
-                                <div style="margin-top:8px;padding:8px;background:#e8f5e9;border-radius:4px;font-size:11px;color:#2e7d32;">
-                                    <strong>Vyjádření č. SSL-RK/2026/034</strong> ze dne 18. 1. 2026 — souhlas v ochranném pásmu lesa s podmínkou kompenzační výsadby 0,12 ha
-                                </div>
-                                <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
-                                    <span style="font-size:11px;font-weight:500;color:#5f6368;">Vlastní posouzení zpracovatele:</span>
-                                    <label style="display:inline-flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;">
-                                        <input type="checkbox" id="vzVypCheckLes" checked onchange="updateVZVyporadani()"> Podmínky splněny
-                                    </label>
-                                </div>
+                            <div style="font-size:11px;color:#5f6368;line-height:1.6;margin-bottom:10px;">
+                                Koordinátor <strong>Ing. Radek Procházka</strong> převzal dne 3. 2. 2026. Identifikováno 6 veřejných zájmů, 4 z 6 vypořádáno.
                             </div>
-
-                            <!-- Voda - čeká -->
-                            <div class="vz-vyp-item" style="border:1px solid #ffe0b2;border-radius:8px;padding:12px;margin-bottom:8px;background:#fffaf5;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                                    <div>
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#0277bd;margin-right:4px;">water_drop</span>
-                                            Ochrana vod
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:2px;">Vodoprávní úřad ORP Kostelec n. O. / Povodí Labe, s.p.</div>
-                                    </div>
-                                    <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:#fff3e0;color:#e65100;">
-                                        <span class="material-icons-outlined" style="font-size:14px;">schedule</span> Čeká na vyjádření
-                                    </span>
-                                </div>
-                                <div style="margin-top:8px;padding:8px;background:#fff8e1;border-radius:4px;font-size:11px;color:#795548;">
-                                    Požadavek na vyjádření odeslán 3. 2. 2026 — lhůta do 5. 3. 2026 (zbývá 5 dnů)
-                                </div>
+                            <div style="display:flex;gap:16px;font-size:11px;margin-bottom:12px;">
+                                <div><span style="color:#2e7d32;font-weight:600;">4</span> <span style="color:#5f6368;">vypořádáno</span></div>
+                                <div><span style="color:#e65100;font-weight:600;">1</span> <span style="color:#5f6368;">probíhá</span></div>
+                                <div><span style="color:#1565c0;font-weight:600;">1</span> <span style="color:#5f6368;">čeká</span></div>
+                            </div>
+                            <!-- Progress bar -->
+                            <div style="height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;">
+                                <div style="height:100%;width:67%;background:linear-gradient(90deg,#2e7d32 0%,#2e7d32 80%,#e65100 80%,#e65100 100%);border-radius:3px;"></div>
                             </div>
                         </div>
 
-                        <!-- ZS přiloženo section -->
-                        <div class="control-section" style="margin-bottom:20px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                                <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#e8f5e9;"><span class="material-icons-outlined" style="font-size:14px;color:#2e7d32;">attach_file</span></span>
-                                <div class="control-section-title" style="margin:0;">ZS přiloženo k žádosti (DOSS zachován)</div>
-                                <span style="font-size:10px;color:#5f6368;background:#f1f3f4;padding:2px 8px;border-radius:10px;">1 oblast</span>
-                            </div>
-                            <p style="font-size:11px;color:#5f6368;margin:-6px 0 12px 30px;">Žadatel přiložil ZS k žádosti — zpracovatel ověří platnost a úplnost.</p>
-
-                            <!-- MO - ZS přiloženo -->
-                            <div class="vz-vyp-item" style="border:1px solid #c8e6c9;border-radius:8px;padding:12px;margin-bottom:8px;background:#f9fdf9;">
-                                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                                    <div>
-                                        <div style="font-size:13px;font-weight:600;color:#202124;">
-                                            <span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:#37474f;margin-right:4px;">security</span>
-                                            Obrana státu
-                                        </div>
-                                        <div style="font-size:11px;color:#5f6368;margin-top:2px;">Ministerstvo obrany ČR</div>
-                                    </div>
-                                    <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:#e8f5e9;color:#2e7d32;">
-                                        <span class="material-icons-outlined" style="font-size:14px;">check_circle</span> ZS ověřeno
-                                    </span>
-                                </div>
-                                <div style="margin-top:8px;padding:8px;background:#e8f5e9;border-radius:4px;font-size:11px;color:#2e7d32;">
-                                    <strong>Souhlasné ZS č.j. MO 103826/2024-1282</strong> — záměr v území vymezeném MO, bez rozporu se zájmy obrany státu.
-                                </div>
-                                <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
-                                    <span style="font-size:11px;font-weight:500;color:#5f6368;">Ověření zpracovatele:</span>
-                                    <label style="display:inline-flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;">
-                                        <input type="checkbox" checked onchange="updateVZVyporadani()"> ZS je platné a úplné
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- ZS vyžádáno section (empty for this case, shown as placeholder) -->
-                        <!--
-                        <div class="control-section" style="margin-bottom:20px;">
-                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-                                <span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#e8f5e9;"><span class="material-icons-outlined" style="font-size:14px;color:#2e7d32;">send</span></span>
-                                <div class="control-section-title" style="margin:0;">Vyžádaná ZS (DOSS zachován)</div>
-                                <span style="font-size:10px;color:#5f6368;background:#f1f3f4;padding:2px 8px;border-radius:10px;">0 oblastí</span>
-                            </div>
-                            <p style="font-size:11px;color:#5f6368;margin:-6px 0 12px 30px;">Žádný veřejný zájem nebyl zařazen do této kategorie.</p>
-                        </div>
-                        -->
-
-                        <!-- Summary -->
-                        <div style="padding:12px;background:#f0f7ff;border:1px solid #c2dbf4;border-radius:8px;margin-top:8px;">
-                            <div style="font-size:12px;color:#1a73e8;font-weight:600;margin-bottom:4px;">
-                                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">summarize</span>
-                                Souhrn vypořádání
-                            </div>
-                            <div style="font-size:11px;color:#3c4043;line-height:1.6;" id="vzVyporadaniSummary">
-                                Interní: 2/3 posouzeno · Vyjádření: 1/2 doručeno · ZS přiloženo: 1/1 ověřeno · <strong style="color:#e65100;">Celkem: 4/6 vypořádáno</strong>
-                            </div>
-                        </div>
+                        <!-- Odkaz na koordinátora -->
+                        <a href="koordinator-1.html" class="btn btn-secondary" id="vzOpenKoordinatorBtn" style="width:100%;justify-content:center;gap:8px;padding:10px 16px;text-decoration:none;font-size:12px;">
+                            <span class="material-icons-outlined" style="font-size:16px;">open_in_new</span>
+                            Otevřít rozhraní koordinátora VZ
+                        </a>
                     </div>
 
                 </div>
@@ -27407,9 +27029,65 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         // ==========================================
         // VEŘEJNÉ ZÁJMY - FUNKCE (SZ 2026)
+        // Sdílené funkce (switchVZPhase, setVZMethod, removeVZItem,
+        // openVZCatalog, addVZFromCatalog, updateVZIdentSummary,
+        // updateVZVyporadani) jsou v souboru verejne-zajmy-shared.js
         // ==========================================
 
-        var _vzCurrentPhase = 'A';
+        var _vzCurrentMode = 'zpracovatel';
+
+        // Inicializace sdíleného VZ obsahu
+        VZShared.init('vzSharedContent', {
+            phaseTabA: 'vzPhaseTabA',
+            phaseTabB: 'vzPhaseTabB',
+            panelTitle: 'vzPanelTitle',
+            panelDesc: 'vzPanelDesc'
+        });
+
+        function setVZMode(mode) {
+            _vzCurrentMode = mode;
+            var cardZ = document.getElementById('vzModeZpracovatel');
+            var cardK = document.getElementById('vzModeKoordinator');
+            var contentZ = document.getElementById('vzModeZpracovatelContent');
+            var contentK = document.getElementById('vzModeKoordinatorContent');
+            var phaseTabs = document.querySelectorAll('#vzPhaseTabA, #vzPhaseTabB');
+            var panelTitle = document.getElementById('vzPanelTitle');
+            var panelDesc = document.getElementById('vzPanelDesc');
+            var confirmBtn = document.getElementById('vzConfirmBtn');
+            if (mode === 'zpracovatel') {
+                cardZ.classList.add('selected');
+                cardZ.style.border = '2px solid #1a73e8';
+                cardZ.style.background = '#f0f7ff';
+                cardZ.querySelector('div[style*="font-size:13px"]').style.color = '#1a73e8';
+                cardK.classList.remove('selected');
+                cardK.style.border = '2px solid #dadce0';
+                cardK.style.background = '#fff';
+                cardK.querySelector('div[style*="font-size:13px"]').style.color = '#202124';
+                contentZ.style.display = '';
+                contentK.style.display = 'none';
+                phaseTabs.forEach(function(t) { t.style.display = ''; });
+                // Restore phase A/B panel title via shared module
+                switchVZPhase(VZShared.getPhase());
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit posouzení';
+                confirmBtn.onclick = function() { completeVerejneZajmy(); };
+            } else {
+                cardK.classList.add('selected');
+                cardK.style.border = '2px solid #7b1fa2';
+                cardK.style.background = '#faf5ff';
+                cardK.querySelector('div[style*="font-size:13px"]').style.color = '#7b1fa2';
+                cardZ.classList.remove('selected');
+                cardZ.style.border = '2px solid #dadce0';
+                cardZ.style.background = '#fff';
+                cardZ.querySelector('div[style*="font-size:13px"]').style.color = '#202124';
+                contentZ.style.display = 'none';
+                contentK.style.display = '';
+                phaseTabs.forEach(function(t) { t.style.display = 'none'; });
+                panelTitle.textContent = 'Koordinace veřejných zájmů';
+                panelDesc.textContent = 'Přiřaďte koordinátora, který převezme administraci procesu vyjadřování.';
+                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit předání koordinátorovi';
+                confirmBtn.onclick = function() { completeVerejneZajmy(); };
+            }
+        }
 
         function switchVZViewerTab(btn, tabName) {
             document.querySelectorAll('#vzViewerTabs .viewer-tab').forEach(t => t.classList.remove('active'));
@@ -27427,123 +27105,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             inner.style.height = '';
             inner.className = 'reusable-zadost-data active';
             inner.innerHTML = generateZadostDataReadOnly();
-        }
-
-        function switchVZPhase(phase) {
-            _vzCurrentPhase = phase;
-            var tabA = document.getElementById('vzPhaseTabA');
-            var tabB = document.getElementById('vzPhaseTabB');
-            var panelA = document.getElementById('vzPhaseA');
-            var panelB = document.getElementById('vzPhaseB');
-            var title = document.getElementById('vzPanelTitle');
-            var desc = document.getElementById('vzPanelDesc');
-            if (phase === 'A') {
-                tabA.classList.add('active');
-                tabB.classList.remove('active');
-                panelA.style.display = '';
-                panelB.style.display = 'none';
-                title.textContent = 'Identifikace dotčených veřejných zájmů';
-                desc.textContent = 'Určete, které veřejné zájmy jsou záměrem dotčeny a jakým způsobem budou posouzeny.';
-            } else {
-                tabA.classList.remove('active');
-                tabB.classList.add('active');
-                panelA.style.display = 'none';
-                panelB.style.display = '';
-                title.textContent = 'Vypořádání veřejných zájmů';
-                desc.textContent = 'Sledujte stav posouzení u jednotlivých veřejných zájmů.';
-            }
-        }
-
-        function setVZMethod(labelEl, vzId, method) {
-            var item = labelEl.closest('.vz-ident-item');
-            if (!item) return;
-            item.setAttribute('data-vz-method', method);
-            item.querySelectorAll('.vz-method-option').forEach(function(opt) {
-                opt.classList.remove('selected');
-            });
-            labelEl.classList.add('selected');
-            updateVZIdentSummary();
-        }
-
-        function removeVZItem(btn) {
-            var item = btn.closest('.vz-ident-item');
-            if (item) {
-                item.style.transition = 'opacity 0.2s, max-height 0.3s';
-                item.style.opacity = '0';
-                item.style.maxHeight = '0';
-                item.style.overflow = 'hidden';
-                item.style.marginBottom = '0';
-                item.style.padding = '0 12px';
-                setTimeout(function() { item.remove(); updateVZIdentSummary(); }, 300);
-            }
-        }
-
-        function openVZCatalog() {
-            var cat = document.getElementById('vzCatalog');
-            cat.style.display = cat.style.display === 'none' ? '' : 'none';
-        }
-
-        function addVZFromCatalog(id, name, desc, icon, color) {
-            // Check if already exists
-            var existing = document.querySelector('.vz-ident-item[data-vz-id="' + id + '"]');
-            if (existing) return;
-            var list = document.getElementById('vzIdentifikaceList');
-            var html = '<div class="vz-ident-item" data-vz-id="' + id + '" data-vz-method="interni" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">' +
-                '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">' +
-                    '<div style="flex:1;">' +
-                        '<div style="font-size:13px;font-weight:600;color:#202124;">' +
-                            '<span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:' + color + ';margin-right:4px;">' + icon + '</span> ' +
-                            name +
-                        '</div>' +
-                        '<div style="font-size:11px;color:#5f6368;margin-top:3px;">' + desc + '</div>' +
-                    '</div>' +
-                    '<button class="vz-remove-btn" onclick="removeVZItem(this)" title="Odebrat" style="background:none;border:none;cursor:pointer;padding:4px;color:#9aa0a6;">' +
-                        '<span class="material-icons-outlined" style="font-size:16px;">close</span>' +
-                    '</button>' +
-                '</div>' +
-                '<div class="vz-method-grid">' +
-                    '<div class="vz-method-row">' +
-                        '<label class="vz-method-option selected" onclick="setVZMethod(this,\'' + id + '\',\'interni\')">' +
-                            '<span class="material-icons-outlined" style="font-size:14px;">person_add</span> Interní přispěvatel</label>' +
-                    '</div>' +
-                    '<div class="vz-method-row vz-method-row-ext">' +
-                        '<label class="vz-method-option" onclick="setVZMethod(this,\'' + id + '\',\'externi\')">' +
-                            '<span class="material-icons-outlined" style="font-size:14px;">outgoing_mail</span> Vyjádření</label>' +
-                        '<label class="vz-method-option" onclick="setVZMethod(this,\'' + id + '\',\'zs-vyzadat\')">' +
-                            '<span class="material-icons-outlined" style="font-size:14px;">send</span> Vyžádat ZS</label>' +
-                        '<label class="vz-method-option" onclick="setVZMethod(this,\'' + id + '\',\'zs-prilozeno\')">' +
-                            '<span class="material-icons-outlined" style="font-size:14px;">attach_file</span> ZS přiloženo</label>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-            list.insertAdjacentHTML('beforeend', html);
-            // Hide catalog item
-            var catItem = document.querySelector('.vz-catalog-item[onclick*="' + id + '"]');
-            if (catItem) catItem.style.display = 'none';
-            updateVZIdentSummary();
-        }
-
-        function updateVZIdentSummary() {
-            var items = document.querySelectorAll('.vz-ident-item');
-            var counts = { interni: 0, externi: 0, 'zs-vyzadat': 0, 'zs-prilozeno': 0 };
-            items.forEach(function(item) {
-                var m = item.getAttribute('data-vz-method');
-                if (counts[m] !== undefined) counts[m]++;
-            });
-            var total = items.length;
-            var el = document.getElementById('vzIdentSummary');
-            if (el) {
-                el.innerHTML = '<strong>Identifikováno ' + total + ' veřejných zájmů:</strong> ' +
-                    counts.interni + '× interní přispěvatel · ' +
-                    counts.externi + '× vyžádat vyjádření · ' +
-                    counts['zs-vyzadat'] + '× vyžádat ZS · ' +
-                    counts['zs-prilozeno'] + '× ZS přiloženo';
-            }
-        }
-
-        function updateVZVyporadani() {
-            // Updates summary in phase B based on checkbox states
-            // (demo only — in real app this would track actual statuses)
         }
 
         function completeVerejneZajmy() {
