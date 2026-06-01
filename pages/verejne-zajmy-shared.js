@@ -92,25 +92,36 @@
         { id: 'energetika', name: 'Energetika', desc: 'Ochranná pásma energetické infrastruktury — zák. č. 458/2000 Sb.', icon: 'bolt', color: '#f57f17' }
     ];
 
-    /** Integrované DO pro režim „rozeslat" (demo stav) */
+    /** Integrované DO pro režim „rozeslat" */
     var VZ_BROADCAST_DOS = [
         { name: 'Ochrana přírody a krajiny', org: 'ÚP Kostelec nad Orlicí', icon: 'eco', color: '#2e7d32',
-          status: 'dotcen', note: 'Kácení 2 dřevin — vyjádření zpracováno interně' },
+          kontrola: 'dotcen', kontrolaNote: 'Dotčen — kácení 2 dřevin', kontrolaForma: 'interni',
+          vyjadreni: 'hotovo', vyjadreniNote: 'Interní posouzení — bez námitek, podmínky stanoveny' },
         { name: 'Ochrana lesa', org: 'ÚP Kostelec nad Orlicí', icon: 'park', color: '#558b2f',
-          status: 'ceka', note: '' },
+          kontrola: 'dotcen', kontrolaNote: 'Dotčen — ochranné pásmo lesa', kontrolaForma: 'externi',
+          vyjadreni: 'hotovo', vyjadreniNote: 'Vyžádáno ext. vyjádření → doručeno, bez námitek' },
         { name: 'Ochrana vod', org: 'ÚP Kostelec nad Orlicí', icon: 'water_drop', color: '#0277bd',
-          status: 'dotcen', note: 'Záplavové území — vyžádáno vyjádření Povodí Labe' },
+          kontrola: 'dotcen', kontrolaNote: 'Dotčen — záplavové území Q100', kontrolaForma: 'externi',
+          vyjadreni: 'ceka', vyjadreniNote: '' },
         { name: 'Památková péče', org: 'ÚP Kostelec nad Orlicí', icon: 'account_balance', color: '#6d4c41',
-          status: 'nedotcen', note: 'Záměr mimo ochranné pásmo' },
+          kontrola: 'nedotcen', kontrolaNote: 'Záměr mimo ochranné pásmo',
+          vyjadreni: null, vyjadreniNote: '' },
         { name: 'Odpadové hospodářství', org: 'ÚP Kostelec nad Orlicí', icon: 'delete_outline', color: '#ef6c00',
-          status: 'ceka', note: '' },
+          kontrola: 'ceka', kontrolaNote: '',
+          vyjadreni: null, vyjadreniNote: '' },
         { name: 'Požární ochrana', org: 'HZS Královéhradeckého kraje', icon: 'local_fire_department', color: '#d32f2f',
-          status: 'nedotcen', note: 'Bez požadavků na stavbu' },
+          kontrola: 'nedotcen', kontrolaNote: 'Bez požadavků na stavbu',
+          vyjadreni: null, vyjadreniNote: '' },
         { name: 'Ochrana veřejného zdraví', org: 'KHS Královéhradeckého kraje', icon: 'health_and_safety', color: '#00838f',
-          status: 'ceka', note: '' },
+          kontrola: 'dotcen', kontrolaNote: 'Dotčen — hluk ze stavby', kontrolaForma: 'interni',
+          vyjadreni: 'ceka', vyjadreniNote: '' },
         { name: 'Obrana státu', org: 'Ministerstvo obrany', icon: 'security', color: '#37474f',
-          status: 'dotcen', note: 'ZS přiloženo stavebníkem k žádosti' }
+          kontrola: 'dotcen', kontrolaNote: 'ZS přiloženo stavebníkem', kontrolaForma: 'prilozeno',
+          vyjadreni: 'hotovo', vyjadreniNote: 'ZS přiloženo k žádosti — bez dalších požadavků' }
     ];
+
+    /** Aktuální fáze workflow rozeslání */
+    var _broadcastPhase = 'ready'; // ready → sent → kontrola → vyjadreni → done
 
     // ======================================================================
     // CSS INJECTION
@@ -147,7 +158,27 @@
             '.vz-do-status { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600; white-space:nowrap; }\n' +
             '.vz-do-status.s-dotcen { background:#e6f4ea; color:#1e8e3e; }\n' +
             '.vz-do-status.s-nedotcen { background:#f1f3f4; color:#9aa0a6; }\n' +
-            '.vz-do-status.s-ceka { background:#fef7e0; color:#e37400; }\n';
+            '.vz-do-status.s-ceka { background:#fef7e0; color:#e37400; }\n' +
+            '.vz-do-status.s-kontrola { background:#e8f0fe; color:#1a73e8; }\n' +
+            '.vz-do-status.s-hotovo { background:#e6f4ea; color:#1e8e3e; }\n' +
+            '.vz-do-status.s-doplnit { background:#fce8e6; color:#d93025; }\n' +
+            '.vz-do-status.s-interni { background:#f3e8fd; color:#7b1fa2; }\n' +
+            '.vz-do-status.s-externi { background:#e8f0fe; color:#1a73e8; }\n' +
+            '.vz-do-status.s-prilozeno { background:#f1f3f4; color:#5f6368; }\n' +
+            /* Phase stepper */
+            '.vz-phase-stepper { display:flex; gap:0; margin-bottom:16px; background:#f8f9fa; border:1px solid #e0e0e0; border-radius:8px; overflow:hidden; }\n' +
+            '.vz-phase-step { flex:1; padding:8px 6px; text-align:center; font-size:10px; color:#9aa0a6; border-right:1px solid #e0e0e0; position:relative; }\n' +
+            '.vz-phase-step:last-child { border-right:none; }\n' +
+            '.vz-phase-step.active { background:#e8f0fe; color:#1a73e8; font-weight:600; }\n' +
+            '.vz-phase-step.done { background:#e6f4ea; color:#1e8e3e; font-weight:500; }\n' +
+            '.vz-phase-step .material-icons-outlined { display:block; font-size:16px; margin:0 auto 2px; }\n' +
+            /* Phase action button */
+            '.vz-phase-action { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:6px; border:none; font-family:inherit; font-size:12px; font-weight:500; cursor:pointer; color:#fff; background:#1a73e8; transition:all 0.15s; }\n' +
+            '.vz-phase-action:hover { background:#1967d2; }\n' +
+            '.vz-phase-action .material-icons-outlined { font-size:16px; }\n' +
+            /* Deadline bar */
+            '.vz-deadline-bar { display:flex; align-items:center; gap:8px; padding:8px 12px; background:#fef7e0; border:1px solid #fdd835; border-radius:6px; margin-bottom:12px; font-size:11px; color:#e37400; }\n' +
+            '.vz-deadline-bar .material-icons-outlined { font-size:16px; }\n';
         document.head.appendChild(style);
     }
 
@@ -165,11 +196,11 @@
 
     function generateSubModeSelector() {
         return '<div class="vz-submode-bar">' +
-            '<button class="vz-submode-btn active" id="vzSubBtnRucni" onclick="switchVZSubMode(\'rucni\')">' +
-                '<span class="material-icons-outlined">edit_note</span> Ruční identifikace' +
-            '</button>' +
-            '<button class="vz-submode-btn" id="vzSubBtnRozeslat" onclick="switchVZSubMode(\'rozeslat\')">' +
+            '<button class="vz-submode-btn active" id="vzSubBtnRozeslat" onclick="switchVZSubMode(\'rozeslat\')">' +
                 '<span class="material-icons-outlined">campaign</span> Rozeslat integrovaným DO' +
+            '</button>' +
+            '<button class="vz-submode-btn" id="vzSubBtnRucni" onclick="switchVZSubMode(\'rucni\')">' +
+                '<span class="material-icons-outlined">edit_note</span> Ruční identifikace' +
             '</button>' +
         '</div>';
     }
@@ -264,14 +295,64 @@
     // HTML GENERATORS — ROZESLAT INTEGROVANÝM DO
     // ======================================================================
 
-    function generateBroadcastDOItem(doItem) {
-        var statusCls, statusIcon, statusLabel;
-        if (doItem.status === 'dotcen') {
-            statusCls = 's-dotcen'; statusIcon = 'check_circle'; statusLabel = 'Dotčen';
-        } else if (doItem.status === 'nedotcen') {
-            statusCls = 's-nedotcen'; statusIcon = 'remove_circle_outline'; statusLabel = 'Nedotčen';
-        } else {
-            statusCls = 's-ceka'; statusIcon = 'schedule'; statusLabel = 'Čeká';
+    /** Generuje stepper fází workflow */
+    function generatePhaseStepper(activePhase) {
+        var phases = [
+            { id: 'ready',     icon: 'edit_note',     label: 'Příprava' },
+            { id: 'sent',      icon: 'send',          label: 'Rozesláno' },
+            { id: 'kontrola',  icon: 'fact_check',    label: 'Kontrola podkladů' },
+            { id: 'vyjadreni', icon: 'rate_review',   label: 'Vyjádření DO' },
+            { id: 'done',      icon: 'verified',      label: 'Koordinované vyj.' }
+        ];
+        var phaseOrder = ['ready','sent','kontrola','vyjadreni','done'];
+        var activeIdx = phaseOrder.indexOf(activePhase);
+        var html = '<div class="vz-phase-stepper">';
+        phases.forEach(function (p, i) {
+            var cls = '';
+            if (i < activeIdx) cls = ' done';
+            else if (i === activeIdx) cls = ' active';
+            html += '<div class="vz-phase-step' + cls + '">' +
+                '<span class="material-icons-outlined">' + p.icon + '</span>' + p.label + '</div>';
+        });
+        html += '</div>';
+        return html;
+    }
+
+    /** Generuje položku DO podle aktuální fáze */
+    function generateBroadcastDOItem(doItem, phase) {
+        var statusHtml = '';
+
+        if (phase === 'sent') {
+            statusHtml = '<span class="vz-do-status s-kontrola"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Čeká na kontrolu</span>';
+        } else if (phase === 'kontrola') {
+            if (doItem.kontrola === 'dotcen') {
+                var formaLabel = doItem.kontrolaForma === 'externi' ? 'externí vyj.' : doItem.kontrolaForma === 'prilozeno' ? 'přiloženo' : 'interní';
+                statusHtml = '<span class="vz-do-status s-dotcen"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span> Dotčen</span>' +
+                    ' <span class="vz-do-status s-' + doItem.kontrolaForma + '" style="margin-left:4px;"><span class="material-icons-outlined" style="font-size:12px;">' +
+                    (doItem.kontrolaForma === 'interni' ? 'person' : doItem.kontrolaForma === 'externi' ? 'send' : 'attach_file') +
+                    '</span> ' + formaLabel + '</span>';
+            } else if (doItem.kontrola === 'nedotcen') {
+                statusHtml = '<span class="vz-do-status s-nedotcen"><span class="material-icons-outlined" style="font-size:12px;">remove_circle_outline</span> Nedotčen</span>';
+            } else {
+                statusHtml = '<span class="vz-do-status s-ceka"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Čeká</span>';
+            }
+        } else if (phase === 'vyjadreni' || phase === 'done') {
+            if (doItem.kontrola === 'nedotcen') {
+                statusHtml = '<span class="vz-do-status s-nedotcen"><span class="material-icons-outlined" style="font-size:12px;">remove_circle_outline</span> Nedotčen</span>';
+            } else if (doItem.kontrola === 'ceka') {
+                statusHtml = '<span class="vz-do-status s-ceka"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Čeká na kontrolu</span>';
+            } else if (doItem.vyjadreni === 'hotovo') {
+                statusHtml = '<span class="vz-do-status s-hotovo"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span> Vyjádření doručeno</span>';
+            } else {
+                statusHtml = '<span class="vz-do-status s-ceka"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Zpracovává vyjádření</span>';
+            }
+        }
+        // phase === 'ready': no status badges
+
+        var noteText = '';
+        if (phase === 'kontrola' && doItem.kontrolaNote) noteText = doItem.kontrolaNote;
+        else if ((phase === 'vyjadreni' || phase === 'done') && doItem.kontrola === 'dotcen') {
+            noteText = doItem.vyjadreniNote || doItem.kontrolaNote || '';
         }
 
         return '<div class="vz-do-item">' +
@@ -279,47 +360,131 @@
             '<div style="flex:1;min-width:0;">' +
                 '<div style="font-weight:600;color:#202124;font-size:12px;">' + doItem.name + '</div>' +
                 '<div style="font-size:10px;color:#9aa0a6;margin-top:1px;">' + doItem.org + '</div>' +
-                (doItem.note ? '<div style="font-size:10px;color:#5f6368;margin-top:3px;">' + doItem.note + '</div>' : '') +
+                (noteText ? '<div style="font-size:10px;color:#5f6368;margin-top:3px;">' + noteText + '</div>' : '') +
             '</div>' +
-            '<span class="vz-do-status ' + statusCls + '">' +
-                '<span class="material-icons-outlined" style="font-size:12px;">' + statusIcon + '</span> ' + statusLabel +
-            '</span>' +
+            '<div style="display:flex;flex-wrap:wrap;gap:4px;align-items:flex-start;flex-shrink:0;">' + statusHtml + '</div>' +
         '</div>';
     }
 
-    function generateBroadcastContent() {
-        var html = '';
-        // Info banner
-        html += '<div style="padding:10px 12px;background:#e8f0fe;border:1px solid #c2dbf4;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">' +
-            '<span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;margin-top:1px;">campaign</span>' +
-            '<div style="font-size:11px;color:#3c4043;line-height:1.5;">' +
-                'Systém rozešle podklady záměru všem integrovaným dotčeným orgánům v působnosti. ' +
-                'Každý DO sám posoudí, zda je záměrem dotčen, a zvolí formu vyjádření (interní posouzení nebo externí stanovisko).' +
+    /** Info banner pro každou fázi */
+    function generateBroadcastBanner(phase) {
+        var banners = {
+            ready: { icon: 'campaign', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
+                text: 'Systém rozešle podklady záměru všem integrovaným dotčeným orgánům v působnosti. Každý DO posoudí, zda je záměrem dotčen, a zvolí formu vyjádření.' },
+            sent: { icon: 'mark_email_read', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
+                text: 'Podklady byly rozeslány. Čeká se na kontrolu podkladů dotčenými orgány.' },
+            kontrola: { icon: 'fact_check', bg: '#fef7e0', border: '#fdd835', color: '#e37400', textColor: '#3c4043',
+                text: 'Běží lhůta pro kontrolu podkladů. DO posuzují dotčenost a úplnost podkladů. Po uplynutí lhůty může referent vydat vyrozumění o zahájení řízení.' },
+            vyjadreni: { icon: 'rate_review', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
+                text: 'Běží lhůta pro vyjádření. Dotčené DO zpracovávají svá vyjádření. Koordinátor sleduje plnění a může urgovat.' },
+            done: { icon: 'verified', bg: '#e6f4ea', border: '#a8dab5', color: '#1e8e3e', textColor: '#3c4043',
+                text: 'Všechna vyjádření jsou doručena. Koordinátor posoudil, že nejsou v rozporu. Koordinované vyjádření je připraveno k odeslání.' }
+        };
+        var b = banners[phase];
+        return '<div style="padding:10px 12px;background:' + b.bg + ';border:1px solid ' + b.border + ';border-radius:8px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">' +
+            '<span class="material-icons-outlined" style="font-size:16px;color:' + b.color + ';margin-top:1px;">' + b.icon + '</span>' +
+            '<div style="font-size:11px;color:' + b.textColor + ';line-height:1.5;">' + b.text + '</div></div>';
+    }
+
+    /** Lhůta bar pro fáze kontrola a vyjadreni */
+    function generateDeadlineBar(phase) {
+        if (phase === 'kontrola') {
+            return '<div class="vz-deadline-bar"><span class="material-icons-outlined">timer</span>' +
+                '<strong>Lhůta pro kontrolu podkladů:</strong> zbývá 12 dní (do 28. 6. 2026)' +
+                '<span style="margin-left:auto;font-weight:600;">⏱ 12 d</span></div>';
+        } else if (phase === 'vyjadreni') {
+            return '<div class="vz-deadline-bar"><span class="material-icons-outlined">timer</span>' +
+                '<strong>Lhůta pro vyjádření:</strong> zbývá 24 dní (do 10. 7. 2026)' +
+                '<span style="margin-left:auto;font-weight:600;">⏱ 24 d</span></div>';
+        }
+        return '';
+    }
+
+    /** Summary bar — počty podle fáze */
+    function generateBroadcastSummary(phase) {
+        if (phase === 'ready') {
+            return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
+                '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
+                    '<strong>' + VZ_BROADCAST_DOS.length + ' integrovaných DO</strong> v působnosti — připraveno k rozeslání' +
+                '</div></div>';
+        }
+        if (phase === 'sent') {
+            return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
+                '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
+                    '<strong>Rozesláno ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
+                    '<span style="color:#1a73e8;font-weight:500;">' + VZ_BROADCAST_DOS.length + ' čeká na kontrolu</span>' +
+                '</div></div>';
+        }
+        var cDotcen = 0, cNedotcen = 0, cCeka = 0;
+        VZ_BROADCAST_DOS.forEach(function (d) {
+            if (d.kontrola === 'dotcen') cDotcen++;
+            else if (d.kontrola === 'nedotcen') cNedotcen++;
+            else cCeka++;
+        });
+        if (phase === 'kontrola') {
+            return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
+                '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
+                    '<strong>Kontrola podkladů ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
+                    '<span style="color:#1e8e3e;font-weight:500;">' + cDotcen + ' dotčen</span> · ' +
+                    '<span style="color:#9aa0a6;">' + cNedotcen + ' nedotčen</span>' +
+                    (cCeka > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cCeka + ' čeká</span>' : '') +
+                '</div></div>';
+        }
+        // vyjadreni / done
+        var cHotovo = 0, cZpracovava = 0;
+        VZ_BROADCAST_DOS.forEach(function (d) {
+            if (d.kontrola !== 'dotcen') return;
+            if (d.vyjadreni === 'hotovo') cHotovo++;
+            else cZpracovava++;
+        });
+        return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
+            '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
+                '<strong>Vyjádření: ' + cDotcen + ' dotčených DO</strong> · ' +
+                '<span style="color:#1e8e3e;font-weight:500;">' + cHotovo + ' doručeno</span>' +
+                (cZpracovava > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cZpracovava + ' zpracovává</span>' : '') +
+                ' · <span style="color:#9aa0a6;">' + cNedotcen + ' nedotčen</span>' +
             '</div></div>';
+    }
+
+    /** Akční tlačítko pro přechod do další fáze */
+    function generatePhaseAction(phase) {
+        var actions = {
+            ready:     { icon: 'send',        label: 'Rozeslat podklady všem DO',         next: 'sent' },
+            sent:      { icon: 'fast_forward', label: 'Simulovat: DO provedou kontrolu',   next: 'kontrola' },
+            kontrola:  { icon: 'fast_forward', label: 'Simulovat: DO zpracují vyjádření',  next: 'vyjadreni' },
+            vyjadreni: { icon: 'fast_forward', label: 'Simulovat: vyjádření doručena',     next: 'done' }
+        };
+        if (!actions[phase]) return '';
+        var a = actions[phase];
+        return '<div style="text-align:' + (phase === 'ready' ? 'center' : 'right') + ';margin-top:12px;">' +
+            '<button class="vz-phase-action" style="' + style + '" onclick="advanceBroadcastPhase(\'' + a.next + '\')">' +
+                '<span class="material-icons-outlined">' + a.icon + '</span> ' + a.label +
+            '</button></div>';
+    }
+
+    function generateBroadcastContent() {
+        var phase = _broadcastPhase;
+        var html = '';
+        // Phase stepper
+        html += generatePhaseStepper(phase);
+        // Banner
+        html += generateBroadcastBanner(phase);
+        // Deadline bar
+        html += generateDeadlineBar(phase);
         // DO list
-        html += '<div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:16px;">' +
+        html += '<div id="vzBroadcastDOList" style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:12px;">' +
             '<div style="padding:8px 12px;background:#fafafa;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;">' +
                 '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.3px;">Integrované DO v působnosti</div>' +
                 '<div style="font-size:10px;color:#9aa0a6;">' + VZ_BROADCAST_DOS.length + ' orgánů</div>' +
             '</div>';
         VZ_BROADCAST_DOS.forEach(function (doItem) {
-            html += generateBroadcastDOItem(doItem);
+            html += generateBroadcastDOItem(doItem, phase);
         });
         html += '</div>';
         // Summary
-        var cDotcen = 0, cNedotcen = 0, cCeka = 0;
-        VZ_BROADCAST_DOS.forEach(function (d) {
-            if (d.status === 'dotcen') cDotcen++;
-            else if (d.status === 'nedotcen') cNedotcen++;
-            else cCeka++;
-        });
-        html += '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
-            '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
-                '<strong>Osloveno ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
-                '<span style="color:#1e8e3e;font-weight:500;">' + cDotcen + ' dotčen</span> · ' +
-                '<span style="color:#9aa0a6;">' + cNedotcen + ' nedotčen</span>' +
-                (cCeka > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cCeka + ' čeká na odpověď</span>' : '') +
-            '</div></div>';
+        html += generateBroadcastSummary(phase);
+        // Action button
+        html += generatePhaseAction(phase);
         return html;
     }
 
@@ -331,13 +496,13 @@
         var html = '';
         // Submode selector
         html += generateSubModeSelector();
-        // Ruční identifikace (default visible)
-        html += '<div id="vzSubModeRucni">';
-        html += generateRucniContent();
-        html += '</div>';
-        // Rozeslat DO (initially hidden)
-        html += '<div id="vzSubModeRozeslat" style="display:none;">';
+        // Rozeslat DO (default visible)
+        html += '<div id="vzSubModeRozeslat">';
         html += generateBroadcastContent();
+        html += '</div>';
+        // Ruční identifikace (initially hidden)
+        html += '<div id="vzSubModeRucni" style="display:none;">';
+        html += generateRucniContent();
         html += '</div>';
         return html;
     }
@@ -364,6 +529,15 @@
             btnB.classList.remove('active');
             panelR.style.display = '';
             panelB.style.display = 'none';
+        }
+    };
+
+    /** Přechod do další fáze workflow rozeslání */
+    window.advanceBroadcastPhase = function (nextPhase) {
+        _broadcastPhase = nextPhase;
+        var panel = document.getElementById('vzSubModeRozeslat');
+        if (panel) {
+            panel.innerHTML = generateBroadcastContent();
         }
     };
 
