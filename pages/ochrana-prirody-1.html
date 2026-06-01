@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISSŘ 2.0 — Ochrana přírody a krajiny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+            color: #202124;
+            min-height: 100vh;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .topbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        .topbar-logo .material-icons-outlined { font-size: 22px; }
+        .topbar-sep { width: 1px; height: 24px; background: #e0e0e0; }
+        .topbar-title { font-size: 13px; color: #5f6368; }
+        .topbar-title strong { color: #202124; }
+        .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+        .topbar-user { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #5f6368; }
+        .topbar-avatar {
+            width: 28px; height: 28px; border-radius: 50%; background: #e8f5e9;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600; color: #2e7d32;
+        }
+        .topbar-badge {
+            padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .topbar-badge.do-badge { background: #e8f5e9; color: #2e7d32; }
+
+        /* Main layout */
+        .main-layout {
+            display: flex;
+            height: calc(100vh - 56px);
+        }
+
+        /* Left viewer panel */
+        .viewer-panel {
+            flex: 0 0 60%;
+            background: #f5f5f5;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .viewer-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            flex-shrink: 0;
+            align-items: center;
+        }
+        .viewer-tabs-left {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+        .viewer-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #5f6368;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .viewer-tab:hover { background: #f1f3f4; }
+        .viewer-tab.active { background: #e8f0fe; color: #1a73e8; }
+        .viewer-tab .material-icons-outlined { font-size: 16px; }
+        .viewer-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        /* Right form panel */
+        .form-panel {
+            flex: 0 0 40%;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+        .form-panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+        .form-panel-header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #202124;
+        }
+        .form-panel-header-title .material-icons-outlined { font-size: 18px; color: #2e7d32; }
+        .form-panel-header-desc {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 4px;
+            padding-left: 26px;
+        }
+        .form-panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+        }
+        .form-panel-footer {
+            padding: 12px 20px;
+            border-top: 1px solid #e0e0e0;
+            background: #fafafa;
+            flex-shrink: 0;
+        }
+
+        /* Phase tabs */
+        .do-phase-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .do-phase-tab {
+            flex: 1;
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 500;
+            color: #5f6368;
+            background: #fafafa;
+            border: none;
+            border-right: 1px solid #e0e0e0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+        .do-phase-tab:last-child { border-right: none; }
+        .do-phase-tab:hover { background: #f1f3f4; }
+        .do-phase-tab.active { background: #e8f0fe; color: #1a73e8; font-weight: 600; }
+        .do-phase-tab.done { background: #e6f4ea; color: #1e8e3e; }
+        .do-phase-tab .material-icons-outlined { font-size: 16px; }
+
+        /* Form elements */
+        .do-section {
+            margin-bottom: 20px;
+        }
+        .do-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .do-section-title .material-icons-outlined { font-size: 16px; color: #5f6368; }
+        .do-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .do-radio-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .do-radio-option:hover { border-color: #9aa0a6; background: #fafafa; }
+        .do-radio-option.selected { border-color: #1a73e8; background: #e8f0fe; }
+        .do-radio-option.selected-red { border-color: #d93025; background: #fce8e6; }
+        .do-radio-dot {
+            width: 16px; height: 16px;
+            border: 2px solid #dadce0;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .do-radio-option.selected .do-radio-dot {
+            border-color: #1a73e8;
+        }
+        .do-radio-option.selected .do-radio-dot::after {
+            content: '';
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #1a73e8;
+        }
+        .do-radio-option.selected-red .do-radio-dot {
+            border-color: #d93025;
+        }
+        .do-radio-option.selected-red .do-radio-dot::after {
+            content: '';
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #d93025;
+        }
+        .do-radio-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #202124;
+        }
+        .do-radio-desc {
+            font-size: 11px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+        .do-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 12px;
+            color: #202124;
+            resize: vertical;
+            transition: border-color 0.15s;
+        }
+        .do-textarea:focus { outline: none; border-color: #1a73e8; }
+        .do-textarea::placeholder { color: #9aa0a6; }
+        .do-missing-detail {
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: #fce8e6;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            display: none;
+        }
+        .do-missing-detail.visible { display: block; }
+
+        /* Forma vyjádření */
+        .do-forma-group {
+            display: flex;
+            gap: 8px;
+        }
+        .do-forma-option {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+            font-size: 10px;
+            color: #5f6368;
+        }
+        .do-forma-option:hover { border-color: #9aa0a6; background: #fafafa; }
+        .do-forma-option.selected { border-color: #1a73e8; background: #e8f0fe; color: #1a73e8; font-weight: 600; }
+        .do-forma-option .material-icons-outlined { font-size: 20px; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #dadce0;
+            background: #fff;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #3c4043;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .btn:hover { background: #f8f9fa; }
+        .btn-primary {
+            background: #1a73e8;
+            color: #fff;
+            border-color: #1a73e8;
+        }
+        .btn-primary:hover { background: #1967d2; }
+        .btn-secondary { color: #5f6368; }
+        .btn-success {
+            background: #1e8e3e;
+            color: #fff;
+            border-color: #1e8e3e;
+        }
+        .btn-success:hover { background: #188038; }
+
+        /* Info banner */
+        .do-info-banner {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        .do-info-banner .material-icons-outlined { font-size: 16px; margin-top: 1px; }
+
+        /* Result summary */
+        .do-result {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 12px;
+        }
+        .do-result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 12px;
+        }
+        .do-result-row + .do-result-row { border-top: 1px solid #f0f0f0; }
+        .do-result-label { color: #5f6368; }
+        .do-result-value { font-weight: 600; color: #202124; }
+        .do-result-value.green { color: #1e8e3e; }
+        .do-result-value.orange { color: #e37400; }
+        .do-result-value.red { color: #d93025; }
+        .do-result-value.gray { color: #9aa0a6; }
+
+        /* Žádost readonly styles */
+        .zadost-readonly-content { padding: 16px; overflow-y: auto; max-height: 100%; }
+        .zadost-readonly-section { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+        .zadost-readonly-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #f8f9fa; border-bottom: 1px solid #e0e0e0; font-size: 13px; font-weight: 600; color: #202124; }
+        .zadost-readonly-header .material-icons-outlined { font-size: 18px; color: #5f6368; }
+        .zadost-readonly-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: #e0e0e0; }
+        .zadost-readonly-item { background: #fff; padding: 10px 14px; }
+        .zadost-readonly-item.full-width { grid-column: 1 / -1; }
+        .zadost-readonly-label { font-size: 11px; color: #5f6368; margin-bottom: 3px; }
+        .zadost-readonly-value { font-size: 13px; color: #202124; font-weight: 500; }
+        .zadost-readonly-value .material-icons-outlined { font-size: 16px; margin-right: 4px; }
+        .zadost-readonly-table { padding: 12px 14px; }
+        .zadost-readonly-table table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .zadost-readonly-table th { text-align: left; padding: 8px 10px; background: #f8f9fa; border: 1px solid #e0e0e0; font-weight: 600; color: #5f6368; }
+        .zadost-readonly-table td { padding: 8px 10px; border: 1px solid #e0e0e0; color: #202124; }
+
+        /* Podmínky list */
+        .do-podminky-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .do-podminka-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px 10px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #3c4043;
+            line-height: 1.5;
+        }
+        .do-podminka-item .material-icons-outlined { font-size: 14px; color: #1e8e3e; margin-top: 2px; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+    <!-- Top bar -->
+    <div class="topbar">
+        <div class="topbar-logo">
+            <span class="material-icons-outlined">eco</span>
+            ISSŘ 2.0 — Ochrana přírody a krajiny
+        </div>
+        <div class="topbar-sep"></div>
+        <div class="topbar-title">
+            Řízení: <strong>SZ-2026/00142</strong> · Oprava zabezpečovacího zařízení železničního přejezdu P7263
+        </div>
+        <div class="topbar-right">
+            <span class="topbar-badge do-badge">Integrovaný DO</span>
+            <div class="topbar-user">
+                <div class="topbar-avatar">JN</div>
+                Ing. Jana Nováková
+            </div>
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="main-layout">
+        <!-- Left viewer (60%) -->
+        <div class="viewer-panel">
+            <div class="viewer-tabs" id="doViewerTabs">
+                <div class="viewer-tabs-left">
+                    <button class="viewer-tab active" onclick="switchDOTab(this, 'zadost')">
+                        <span class="material-icons-outlined">list_alt</span> Žádost
+                    </button>
+                    <button class="viewer-tab" onclick="switchDOTab(this, 'doklady')">
+                        <span class="material-icons-outlined">fact_check</span> Dokladová část
+                    </button>
+                    <button class="viewer-tab" onclick="switchDOTab(this, 'dokumentace')">
+                        <span class="material-icons-outlined">folder</span> Dokumentace
+                    </button>
+                </div>
+            </div>
+            <div class="viewer-content" id="doViewerContent">
+                <div id="doViewerInner"></div>
+            </div>
+        </div>
+
+        <!-- Right form panel (40%) -->
+        <div class="form-panel">
+            <div class="form-panel-header">
+                <div class="form-panel-header-title">
+                    <span class="material-icons-outlined">eco</span>
+                    <span>Ochrana přírody a krajiny</span>
+                </div>
+                <div class="form-panel-header-desc">
+                    ÚP Kostelec nad Orlicí · § 8 zák. č. 114/1992 Sb.
+                </div>
+            </div>
+            <div class="form-panel-body" id="doFormBody">
+                <!-- Phase tabs -->
+                <div class="do-phase-tabs">
+                    <button class="do-phase-tab active" id="doPhaseKontrola" onclick="switchDOPhase('kontrola')">
+                        <span class="material-icons-outlined">fact_check</span> Kontrola podkladů
+                    </button>
+                    <button class="do-phase-tab" id="doPhaseVyjadreni" onclick="switchDOPhase('vyjadreni')">
+                        <span class="material-icons-outlined">rate_review</span> Vyjádření
+                    </button>
+                </div>
+
+                <!-- PHASE: Kontrola podkladů -->
+                <div id="doKontrolaPanel">
+                    <div class="do-info-banner" style="background:#e8f0fe;border:1px solid #c2dbf4;color:#3c4043;">
+                        <span class="material-icons-outlined" style="color:#1a73e8;">info</span>
+                        <div>Zkontrolujte, zda jsou podklady záměru kompletní z hlediska ochrany přírody a krajiny, a určete, zda je veřejný zájem dotčen.</div>
+                    </div>
+
+                    <!-- 1. Úplnost podkladů -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">checklist</span> Úplnost podkladů
+                        </div>
+                        <div class="do-radio-group">
+                            <div class="do-radio-option" onclick="selectRadio(this, 'podklady', 'kompletni')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Podklady kompletní</div>
+                                    <div class="do-radio-desc">Vše potřebné pro posouzení je k dispozici</div>
+                                </div>
+                            </div>
+                            <div class="do-radio-option" onclick="selectRadio(this, 'podklady', 'chybi')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Chybí podklady</div>
+                                    <div class="do-radio-desc">Pro posouzení je nutné doplnit dokumenty</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="do-missing-detail" id="doMissingDetail">
+                            <div class="do-section-title" style="color:#d93025;">
+                                <span class="material-icons-outlined" style="color:#d93025;">warning</span> Co chybí?
+                            </div>
+                            <textarea class="do-textarea" placeholder="Popište, jaké podklady chybí nebo jsou neúplné…" id="doMissingText">Chybí dendrologický průzkum dřevin navržených ke kácení dle § 8 odst. 5 zák. č. 114/1992 Sb.</textarea>
+                        </div>
+                    </div>
+
+                    <!-- 2. Dotčenost -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">gps_fixed</span> Dotčenost veřejného zájmu
+                        </div>
+                        <div class="do-radio-group">
+                            <div class="do-radio-option" onclick="selectRadio(this, 'dotcenost', 'dotcen')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Dotčen</div>
+                                    <div class="do-radio-desc">Záměr se dotýká veřejného zájmu ochrany přírody a krajiny</div>
+                                </div>
+                            </div>
+                            <div class="do-radio-option" onclick="selectRadio(this, 'dotcenost', 'nedotcen')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Nedotčen</div>
+                                    <div class="do-radio-desc">Záměr se ochrany přírody a krajiny netýká</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Forma (zobrazí se jen při dotčen) -->
+                    <div class="do-section" id="doFormaSection" style="display:none;">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">assignment</span> Forma vyjádření
+                        </div>
+                        <div class="do-forma-group">
+                            <div class="do-forma-option" onclick="selectForma(this, 'interni')">
+                                <span class="material-icons-outlined">person</span>
+                                Interní posouzení
+                            </div>
+                            <div class="do-forma-option" onclick="selectForma(this, 'externi')">
+                                <span class="material-icons-outlined">send</span>
+                                Vyžádat ext. vyjádření
+                            </div>
+                            <div class="do-forma-option" onclick="selectForma(this, 'prilozeno')">
+                                <span class="material-icons-outlined">attach_file</span>
+                                Přiloženo k žádosti
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Poznámka -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">edit_note</span> Poznámka ke kontrole
+                        </div>
+                        <textarea class="do-textarea" placeholder="Volitelná poznámka…" id="doKontrolaNote">Kácení 2 dřevin na pozemku parc. č. 981/31 — nutné posouzení dle § 8 zák. č. 114/1992 Sb.</textarea>
+                    </div>
+                </div>
+
+                <!-- PHASE: Vyjádření -->
+                <div id="doVyjadreniPanel" style="display:none;">
+                    <div class="do-info-banner" style="background:#e8f0fe;border:1px solid #c2dbf4;color:#3c4043;">
+                        <span class="material-icons-outlined" style="color:#1a73e8;">rate_review</span>
+                        <div>Zpracujte vyjádření k dotčenému veřejnému zájmu. Uveďte výrok, podmínky a odůvodnění.</div>
+                    </div>
+
+                    <!-- Výrok -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">gavel</span> Výrok vyjádření
+                        </div>
+                        <div class="do-radio-group">
+                            <div class="do-radio-option" onclick="selectRadio(this, 'vyrok', 'souhlas')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Souhlasné vyjádření</div>
+                                    <div class="do-radio-desc">Záměr je z hlediska ochrany přírody přípustný (případně s podmínkami)</div>
+                                </div>
+                            </div>
+                            <div class="do-radio-option" onclick="selectRadio(this, 'vyrok', 'nesouhlas')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Nesouhlasné vyjádření</div>
+                                    <div class="do-radio-desc">Záměr nelze z hlediska ochrany přírody připustit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Podmínky -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">rule</span> Podmínky vyjádření
+                        </div>
+                        <div class="do-podminky-list" id="doPodminkyList">
+                            <div class="do-podminka-item">
+                                <span class="material-icons-outlined">check_circle</span>
+                                Kácení provést mimo vegetační období (1. 10. – 31. 3.) dle § 8 odst. 5 zák. č. 114/1992 Sb.
+                            </div>
+                            <div class="do-podminka-item">
+                                <span class="material-icons-outlined">check_circle</span>
+                                Náhradní výsadba 4 ks listnatých dřevin domácích druhů na pozemku stavebníka dle § 9 odst. 1 zák. č. 114/1992 Sb.
+                            </div>
+                        </div>
+                        <textarea class="do-textarea" style="margin-top:8px;" placeholder="Přidat další podmínku…" id="doPodminkaNew"></textarea>
+                    </div>
+
+                    <!-- Odůvodnění -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">description</span> Odůvodnění
+                        </div>
+                        <textarea class="do-textarea" style="min-height:100px;" placeholder="Odůvodnění vyjádření…" id="doOduvodneni">Záměr vyžaduje kácení 2 vzrostlých stromů (1× lípa srdčitá, obvod kmene 145 cm, 1× javor mléč, obvod kmene 98 cm). Stromy nejsou součástí významného krajinného prvku ani zvláště chráněného území. S ohledem na charakter stavby a stanovené podmínky náhradní výsadby je záměr z hlediska ochrany přírody přípustný.</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-panel-footer">
+                <div id="doResultSummary"></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <a href="koordinator-1.html" class="btn btn-secondary" style="font-size:11px;">
+                        <span class="material-icons-outlined" style="font-size:14px;">arrow_back</span>
+                        Zpět na koordinátora
+                    </a>
+                    <button class="btn btn-primary" id="doSubmitBtn" onclick="submitDOKontrola()">
+                        <span class="material-icons-outlined">check</span>
+                        Odeslat kontrolu
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sdílené skripty -->
+    <script>window.ISSR_SCENAR = 'sz2026';</script>
+    <script src="doc-modals.js"></script>
+    <script>initDocModals({ basePath: '../docs/' });</script>
+    <script>
+        // ── Žádost readonly data ──
+        function generateZadostDataReadOnly() {
+            return '<div class="zadost-readonly-content">' +
+                '<div style="padding:10px 12px;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">' +
+                    '<span class="material-icons-outlined" style="font-size:16px;color:#2e7d32;margin-top:1px;">eco</span>' +
+                    '<div style="font-size:11px;color:#1b5e20;line-height:1.5;">' +
+                        '<strong>Pohled: Ochrana přírody a krajiny</strong> — Máte přístup k podkladům záměru pro posouzení dotčenosti.' +
+                    '</div>' +
+                '</div>' +
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header"><span class="material-icons-outlined">assignment_ind</span>Údaje o podání</div>' +
+                    '<div class="zadost-readonly-grid">' +
+                        '<div class="zadost-readonly-item"><div class="zadost-readonly-label">Podatel</div><div class="zadost-readonly-value">Správa železnic, s.o.</div></div>' +
+                        '<div class="zadost-readonly-item"><div class="zadost-readonly-label">Věc podání</div><div class="zadost-readonly-value">Žádost o povolení stavby</div></div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header"><span class="material-icons-outlined">domain</span>Identifikace záměru</div>' +
+                    '<div class="zadost-readonly-grid">' +
+                        '<div class="zadost-readonly-item full-width"><div class="zadost-readonly-label">Název záměru</div><div class="zadost-readonly-value">Oprava ZZ v žst. Doudleby n. Orlicí</div></div>' +
+                        '<div class="zadost-readonly-item"><div class="zadost-readonly-label">Druh stavby</div><div class="zadost-readonly-value">Stavba dráhy</div></div>' +
+                        '<div class="zadost-readonly-item"><div class="zadost-readonly-label">Místo stavby</div><div class="zadost-readonly-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div></div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header"><span class="material-icons-outlined">grid_on</span>Pozemky záměru</div>' +
+                    '<div class="zadost-readonly-table"><table>' +
+                        '<thead><tr><th>Parcela</th><th>Katastrální území</th><th>Druh pozemku</th></tr></thead>' +
+                        '<tbody>' +
+                            '<tr><td><strong>st. 321</strong></td><td>Doudleby n.O. [631761]</td><td>Zastavěná plocha</td></tr>' +
+                            '<tr><td><strong>1549</strong></td><td>Doudleby n.O. [631761]</td><td>Ostatní plocha — dráha</td></tr>' +
+                            '<tr><td colspan="3" style="text-align:center;color:#5f6368;font-style:italic;">… a dalších 36 pozemků ve 4 k.ú.</td></tr>' +
+                        '</tbody>' +
+                    '</table></div>' +
+                '</div>' +
+            '</div>';
+        }
+
+        // ── Viewer tab switching ──
+        function switchDOTab(btn, tabName) {
+            document.querySelectorAll('#doViewerTabs .viewer-tab').forEach(function(t) { t.classList.remove('active'); });
+            btn.classList.add('active');
+            var vc = document.getElementById('doViewerContent');
+            var inner = document.getElementById('doViewerInner');
+            if (tabName === 'doklady' || tabName === 'dokumentace') {
+                vc.classList.add('ev-active');
+                inner.style.height = '100%';
+                inner.innerHTML = '';
+                renderEmbeddedViewer('doViewerInner', tabName, 'do_opk_' + tabName);
+                return;
+            }
+            vc.classList.remove('ev-active');
+            inner.style.height = '';
+            inner.innerHTML = generateZadostDataReadOnly();
+        }
+
+        // Init viewer
+        document.getElementById('doViewerInner').innerHTML = generateZadostDataReadOnly();
+
+        // ── State ──
+        var doState = { podklady: null, dotcenost: null, forma: null, vyrok: null };
+
+        // ── Phase switching ──
+        function switchDOPhase(phase) {
+            var tabK = document.getElementById('doPhaseKontrola');
+            var tabV = document.getElementById('doPhaseVyjadreni');
+            var panelK = document.getElementById('doKontrolaPanel');
+            var panelV = document.getElementById('doVyjadreniPanel');
+            var submitBtn = document.getElementById('doSubmitBtn');
+            if (phase === 'vyjadreni') {
+                tabV.classList.add('active');
+                tabK.classList.remove('active');
+                tabK.classList.add('done');
+                panelV.style.display = '';
+                panelK.style.display = 'none';
+                submitBtn.innerHTML = '<span class="material-icons-outlined">check</span> Odeslat vyjádření';
+                submitBtn.onclick = submitDOVyjadreni;
+            } else {
+                tabK.classList.add('active');
+                tabK.classList.remove('done');
+                tabV.classList.remove('active');
+                panelK.style.display = '';
+                panelV.style.display = 'none';
+                submitBtn.innerHTML = '<span class="material-icons-outlined">check</span> Odeslat kontrolu';
+                submitBtn.onclick = submitDOKontrola;
+            }
+            updateResultSummary();
+        }
+
+        // ── Radio / forma selection ──
+        function selectRadio(el, group, value) {
+            var parent = el.closest('.do-radio-group');
+            parent.querySelectorAll('.do-radio-option').forEach(function(opt) {
+                opt.classList.remove('selected', 'selected-red');
+            });
+            el.classList.add(value === 'chybi' || value === 'nesouhlas' ? 'selected-red' : 'selected');
+            doState[group] = value;
+
+            // Show/hide missing detail
+            if (group === 'podklady') {
+                var detail = document.getElementById('doMissingDetail');
+                detail.classList.toggle('visible', value === 'chybi');
+            }
+            // Show/hide forma section
+            if (group === 'dotcenost') {
+                document.getElementById('doFormaSection').style.display = value === 'dotcen' ? '' : 'none';
+            }
+            updateResultSummary();
+        }
+
+        function selectForma(el, value) {
+            el.parentElement.querySelectorAll('.do-forma-option').forEach(function(opt) {
+                opt.classList.remove('selected');
+            });
+            el.classList.add('selected');
+            doState.forma = value;
+            updateResultSummary();
+        }
+
+        // ── Result summary ──
+        function updateResultSummary() {
+            var el = document.getElementById('doResultSummary');
+            var html = '<div class="do-result">';
+            if (doState.podklady) {
+                html += '<div class="do-result-row"><span class="do-result-label">Podklady</span>' +
+                    '<span class="do-result-value ' + (doState.podklady === 'kompletni' ? 'green' : 'red') + '">' +
+                    (doState.podklady === 'kompletni' ? '✓ Kompletní' : '✗ Chybí') + '</span></div>';
+            }
+            if (doState.dotcenost) {
+                html += '<div class="do-result-row"><span class="do-result-label">Dotčenost</span>' +
+                    '<span class="do-result-value ' + (doState.dotcenost === 'dotcen' ? 'orange' : 'gray') + '">' +
+                    (doState.dotcenost === 'dotcen' ? 'Dotčen' : 'Nedotčen') + '</span></div>';
+            }
+            if (doState.forma) {
+                var formaLabels = { interni: 'Interní posouzení', externi: 'Ext. vyjádření', prilozeno: 'Přiloženo' };
+                html += '<div class="do-result-row"><span class="do-result-label">Forma</span>' +
+                    '<span class="do-result-value">' + (formaLabels[doState.forma] || '') + '</span></div>';
+            }
+            if (doState.vyrok) {
+                html += '<div class="do-result-row"><span class="do-result-label">Výrok</span>' +
+                    '<span class="do-result-value ' + (doState.vyrok === 'souhlas' ? 'green' : 'red') + '">' +
+                    (doState.vyrok === 'souhlas' ? '✓ Souhlasné' : '✗ Nesouhlasné') + '</span></div>';
+            }
+            html += '</div>';
+            el.innerHTML = (doState.podklady || doState.dotcenost || doState.vyrok) ? html : '';
+        }
+
+        // ── Submit handlers ──
+        function submitDOKontrola() {
+            if (!doState.podklady || !doState.dotcenost) {
+                alert('Vyplňte prosím úplnost podkladů a dotčenost.');
+                return;
+            }
+            alert('Kontrola podkladů odeslána koordinátorovi.\n\n' +
+                'Podklady: ' + (doState.podklady === 'kompletni' ? 'kompletní' : 'chybí') + '\n' +
+                'Dotčenost: ' + doState.dotcenost + '\n' +
+                (doState.forma ? 'Forma: ' + doState.forma : '') +
+                '\n\n(demo — v produkci by se informace propsala do řízení)');
+            if (doState.dotcenost === 'dotcen') {
+                switchDOPhase('vyjadreni');
+            }
+        }
+
+        function submitDOVyjadreni() {
+            if (!doState.vyrok) {
+                alert('Zvolte prosím výrok vyjádření.');
+                return;
+            }
+            alert('Vyjádření odesláno koordinátorovi.\n\n' +
+                'Výrok: ' + (doState.vyrok === 'souhlas' ? 'souhlasné' : 'nesouhlasné') +
+                '\n\n(demo — v produkci by se vyjádření propsalo do řízení a koordinátor by byl notifikován)');
+        }
+    </script>
+</body>
+</html>

@@ -96,10 +96,12 @@
     var VZ_BROADCAST_DOS = [
         { name: 'Ochrana přírody a krajiny', org: 'ÚP Kostelec nad Orlicí', icon: 'eco', color: '#2e7d32',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — kácení 2 dřevin', kontrolaForma: 'interni',
-          vyjadreni: 'hotovo', vyjadreniNote: 'Interní posouzení — bez námitek, podmínky stanoveny' },
+          vyjadreni: 'hotovo', vyjadreniNote: 'Interní posouzení — bez námitek, podmínky stanoveny',
+          page: 'ochrana-prirody-1.html' },
         { name: 'Ochrana lesa', org: 'ÚP Kostelec nad Orlicí', icon: 'park', color: '#558b2f',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — ochranné pásmo lesa', kontrolaForma: 'externi',
-          vyjadreni: 'hotovo', vyjadreniNote: 'Vyžádáno ext. vyjádření → doručeno, bez námitek' },
+          vyjadreni: 'hotovo', vyjadreniNote: 'Vyžádáno ext. vyjádření → doručeno, bez námitek',
+          page: 'ochrana-lesa-1.html' },
         { name: 'Ochrana vod', org: 'ÚP Kostelec nad Orlicí', icon: 'water_drop', color: '#0277bd',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — záplavové území Q100', kontrolaForma: 'externi',
           vyjadreni: 'ceka', vyjadreniNote: '' },
@@ -355,6 +357,15 @@
             noteText = doItem.vyjadreniNote || doItem.kontrolaNote || '';
         }
 
+        var linkBtn = '';
+        if (doItem.page) {
+            linkBtn = '<a href="' + doItem.page + '" target="_blank" title="Otevřít stránku DO" ' +
+                'style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:4px;color:#9aa0a6;text-decoration:none;flex-shrink:0;transition:background .15s,color .15s;" ' +
+                'onmouseenter="this.style.background=\'#f1f3f4\';this.style.color=\'#1a73e8\';" ' +
+                'onmouseleave="this.style.background=\'transparent\';this.style.color=\'#9aa0a6\';">' +
+                '<span class="material-icons-outlined" style="font-size:14px;">open_in_new</span></a>';
+        }
+
         return '<div class="vz-do-item">' +
             '<span class="material-icons-outlined" style="font-size:18px;color:' + doItem.color + ';margin-top:1px;">' + doItem.icon + '</span>' +
             '<div style="flex:1;min-width:0;">' +
@@ -362,7 +373,7 @@
                 '<div style="font-size:10px;color:#9aa0a6;margin-top:1px;">' + doItem.org + '</div>' +
                 (noteText ? '<div style="font-size:10px;color:#5f6368;margin-top:3px;">' + noteText + '</div>' : '') +
             '</div>' +
-            '<div style="display:flex;flex-wrap:wrap;gap:4px;align-items:flex-start;flex-shrink:0;">' + statusHtml + '</div>' +
+            '<div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;flex-shrink:0;">' + statusHtml + linkBtn + '</div>' +
         '</div>';
     }
 
