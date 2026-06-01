@@ -16910,7 +16910,7 @@
                                     <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
                                         <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">person</span>
                                     </span>
-                                    <div style="font-size:13px;font-weight:600;color:#1a73e8;">Zpracovatel sám</div>
+                                    <div id="vzModeTitleZ" style="font-size:13px;font-weight:600;color:#1a73e8;">Zpracovatel sám</div>
                                 </div>
                                 <div style="font-size:11px;color:#3c4043;line-height:1.5;">
                                     Úředník stavebního úřadu sám koordinuje vyjádření dotčených orgánů, sleduje plnění a řeší rozpory.
@@ -16919,10 +16919,10 @@
                             <!-- Varianta 2: Koordinátor -->
                             <div class="vz-mode-card" id="vzModeKoordinator" onclick="setVZMode('koordinator')" style="flex:1;padding:12px;border:2px solid #dadce0;border-radius:8px;cursor:pointer;background:#fff;transition:all 0.15s;">
                                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#f3e5f5;">
-                                        <span class="material-icons-outlined" style="font-size:16px;color:#7b1fa2;">groups</span>
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">groups</span>
                                     </span>
-                                    <div style="font-size:13px;font-weight:600;color:#202124;">Samostatný koordinátor</div>
+                                    <div id="vzModeTitleK" style="font-size:13px;font-weight:600;color:#202124;">Samostatný koordinátor</div>
                                 </div>
                                 <div style="font-size:11px;color:#5f6368;line-height:1.5;">
                                     Koordinátor VZ dostane přístup k řízení (bez editace) a sám administruje proces. Výstupem je koordinované vyjádření.
@@ -16943,14 +16943,14 @@
 
                     <!-- ============ OBSAH PRO REŽIM "KOORDINÁTOR" ============ -->
                     <div id="vzModeKoordinatorContent" style="display:none;">
-                        <div style="padding:16px;background:#f9f0ff;border:1px solid #e1bee7;border-radius:8px;margin-bottom:16px;">
+                        <div style="padding:16px;background:#f0f7ff;border:1px solid #c2dbf4;border-radius:8px;margin-bottom:16px;">
                             <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                                <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#f3e5f5;">
-                                    <span class="material-icons-outlined" style="font-size:20px;color:#7b1fa2;">groups</span>
+                                <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#e8f0fe;">
+                                    <span class="material-icons-outlined" style="font-size:20px;color:#1a73e8;">groups</span>
                                 </span>
                                 <div>
-                                    <div style="font-size:14px;font-weight:600;color:#4a148c;">Režim samostatného koordinátora</div>
-                                    <div style="font-size:11px;color:#6a1b9a;margin-top:2px;">Koordinátor VZ převezme administraci procesu vyjadřování</div>
+                                    <div style="font-size:14px;font-weight:600;color:#174ea6;">Režim samostatného koordinátora</div>
+                                    <div style="font-size:11px;color:#1967d2;margin-top:2px;">Koordinátor VZ převezme administraci procesu vyjadřování</div>
                                 </div>
                             </div>
                             <div style="font-size:12px;color:#3c4043;line-height:1.6;margin-bottom:12px;">
@@ -27033,20 +27033,20 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             _vzCurrentMode = mode;
             var cardZ = document.getElementById('vzModeZpracovatel');
             var cardK = document.getElementById('vzModeKoordinator');
+            var titleZ = document.getElementById('vzModeTitleZ');
+            var titleK = document.getElementById('vzModeTitleK');
             var contentZ = document.getElementById('vzModeZpracovatelContent');
             var contentK = document.getElementById('vzModeKoordinatorContent');
             var panelTitle = document.getElementById('vzPanelTitle');
             var panelDesc = document.getElementById('vzPanelDesc');
             var confirmBtn = document.getElementById('vzConfirmBtn');
             if (mode === 'zpracovatel') {
-                cardZ.classList.add('selected');
                 cardZ.style.border = '2px solid #1a73e8';
                 cardZ.style.background = '#f0f7ff';
-                cardZ.querySelector('div[style*="font-size:13px"]').style.color = '#1a73e8';
-                cardK.classList.remove('selected');
+                titleZ.style.color = '#1a73e8';
                 cardK.style.border = '2px solid #dadce0';
                 cardK.style.background = '#fff';
-                cardK.querySelector('div[style*="font-size:13px"]').style.color = '#202124';
+                titleK.style.color = '#202124';
                 contentZ.style.display = '';
                 contentK.style.display = 'none';
                 panelTitle.textContent = 'Identifikace dotčených veřejných zájmů';
@@ -27054,14 +27054,12 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit posouzení';
                 confirmBtn.onclick = function() { completeVerejneZajmy(); };
             } else {
-                cardK.classList.add('selected');
-                cardK.style.border = '2px solid #7b1fa2';
-                cardK.style.background = '#faf5ff';
-                cardK.querySelector('div[style*="font-size:13px"]').style.color = '#7b1fa2';
-                cardZ.classList.remove('selected');
+                cardK.style.border = '2px solid #1a73e8';
+                cardK.style.background = '#f0f7ff';
+                titleK.style.color = '#1a73e8';
                 cardZ.style.border = '2px solid #dadce0';
                 cardZ.style.background = '#fff';
-                cardZ.querySelector('div[style*="font-size:13px"]').style.color = '#202124';
+                titleZ.style.color = '#202124';
                 contentZ.style.display = 'none';
                 contentK.style.display = '';
                 panelTitle.textContent = 'Koordinace veřejných zájmů';
