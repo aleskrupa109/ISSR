@@ -34,7 +34,7 @@
             gap: 8px;
             font-size: 14px;
             font-weight: 600;
-            color: #7b1fa2;
+            color: #1a73e8;
         }
         .topbar-logo .material-icons-outlined { font-size: 22px; }
         .topbar-sep { width: 1px; height: 24px; background: #e0e0e0; }
@@ -43,13 +43,13 @@
         .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
         .topbar-user { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #5f6368; }
         .topbar-avatar {
-            width: 28px; height: 28px; border-radius: 50%; background: #f3e5f5;
+            width: 28px; height: 28px; border-radius: 50%; background: #e8f0fe;
             display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 600; color: #7b1fa2;
+            font-size: 12px; font-weight: 600; color: #1a73e8;
         }
         .topbar-badge {
             padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.5px; background: #f3e5f5; color: #7b1fa2;
+            text-transform: uppercase; letter-spacing: 0.5px; background: #e8f0fe; color: #1a73e8;
         }
 
         /* Main layout */
@@ -60,8 +60,8 @@
 
         /* Left viewer panel */
         .viewer-panel {
-            flex: 1;
-            background: #fff;
+            flex: 0 0 60%;
+            background: #f5f5f5;
             border-right: 1px solid #e0e0e0;
             display: flex;
             flex-direction: column;
@@ -69,31 +69,36 @@
         }
         .viewer-tabs {
             display: flex;
-            align-items: center;
-            padding: 0 16px;
-            height: 40px;
+            gap: 4px;
+            padding: 12px 16px;
+            background: #fff;
             border-bottom: 1px solid #e0e0e0;
-            background: #fafafa;
-            gap: 2px;
             flex-shrink: 0;
+            align-items: center;
+        }
+        .viewer-tabs-left {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            flex-wrap: wrap;
         }
         .viewer-tab {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            padding: 6px 12px;
-            font-size: 11px;
+            gap: 6px;
+            padding: 8px 14px;
+            font-size: 12px;
             font-weight: 500;
             color: #5f6368;
             background: transparent;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s;
         }
         .viewer-tab:hover { background: #f1f3f4; }
         .viewer-tab.active { background: #e8f0fe; color: #1a73e8; }
-        .viewer-tab .material-icons-outlined { font-size: 14px; }
+        .viewer-tab .material-icons-outlined { font-size: 16px; }
         .viewer-content {
             flex: 1;
             overflow-y: auto;
@@ -102,8 +107,7 @@
 
         /* Right form panel */
         .form-panel {
-            width: 480px;
-            flex-shrink: 0;
+            flex: 0 0 40%;
             display: flex;
             flex-direction: column;
             background: #fff;
@@ -121,7 +125,7 @@
             font-weight: 600;
             color: #202124;
         }
-        .form-panel-header-title .material-icons-outlined { font-size: 18px; color: #7b1fa2; }
+        .form-panel-header-title .material-icons-outlined { font-size: 18px; color: #1a73e8; }
         .form-panel-header-desc {
             font-size: 12px;
             color: #5f6368;
@@ -159,11 +163,11 @@
         }
         .btn:hover { background: #f8f9fa; }
         .btn-primary {
-            background: #7b1fa2;
+            background: #1a73e8;
             color: #fff;
-            border-color: #7b1fa2;
+            border-color: #1a73e8;
         }
-        .btn-primary:hover { background: #6a1b9a; }
+        .btn-primary:hover { background: #1967d2; }
         .btn-secondary { color: #5f6368; }
 
         /* Result preview */
@@ -184,16 +188,95 @@
         .result-preview-title .material-icons-outlined { font-size: 16px; }
         .result-preview-text { font-size: 11px; color: #5f6368; margin-top: 4px; padding-left: 22px; }
 
-        /* Viewer content - žádost data */
-        .zadost-info { margin-bottom: 16px; }
-        .zadost-row {
+        /* Žádost readonly viewer styles */
+        .zadost-readonly-content {
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .zadost-readonly-section {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .zadost-readonly-header {
             display: flex;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 13px;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .zadost-readonly-header .material-icons-outlined {
+            font-size: 18px;
+            color: #5f6368;
+        }
+
+        .zadost-readonly-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: #e0e0e0;
+        }
+
+        .zadost-readonly-item {
+            background: #fff;
+            padding: 10px 14px;
+        }
+
+        .zadost-readonly-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .zadost-readonly-label {
+            font-size: 11px;
+            color: #5f6368;
+            margin-bottom: 3px;
+        }
+
+        .zadost-readonly-value {
+            font-size: 13px;
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .zadost-readonly-value .material-icons-outlined {
+            font-size: 16px;
+            margin-right: 4px;
+        }
+
+        .zadost-readonly-table {
+            padding: 12px 14px;
+        }
+
+        .zadost-readonly-table table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 12px;
         }
-        .zadost-label { width: 160px; color: #5f6368; flex-shrink: 0; }
-        .zadost-value { color: #202124; font-weight: 500; }
+
+        .zadost-readonly-table th {
+            text-align: left;
+            padding: 8px 10px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #5f6368;
+        }
+
+        .zadost-readonly-table td {
+            padding: 8px 10px;
+            border: 1px solid #e0e0e0;
+            color: #202124;
+        }
 
     </style>
 </head>
@@ -219,101 +302,27 @@
 
     <!-- Main layout: viewer + form -->
     <div class="main-layout">
-        <!-- Left viewer -->
+        <!-- Left viewer (60%) -->
         <div class="viewer-panel">
-            <div class="viewer-tabs">
-                <button class="viewer-tab active" id="kvTabZadost" onclick="switchKVTab(this, 'zadost')">
-                    <span class="material-icons-outlined">list_alt</span> Žádost
-                </button>
-                <button class="viewer-tab" id="kvTabDoklady" onclick="switchKVTab(this, 'doklady')">
-                    <span class="material-icons-outlined">fact_check</span> Dokladová část
-                </button>
-                <button class="viewer-tab" id="kvTabDokumentace" onclick="switchKVTab(this, 'dokumentace')">
-                    <span class="material-icons-outlined">folder</span> Dokumentace
-                </button>
+            <div class="viewer-tabs" id="kvViewerTabs">
+                <div class="viewer-tabs-left">
+                    <button class="viewer-tab active" onclick="switchKVTab(this, 'zadost')">
+                        <span class="material-icons-outlined">list_alt</span> Žádost
+                    </button>
+                    <button class="viewer-tab" onclick="switchKVTab(this, 'doklady')">
+                        <span class="material-icons-outlined">fact_check</span> Dokladová část
+                    </button>
+                    <button class="viewer-tab" onclick="switchKVTab(this, 'dokumentace')">
+                        <span class="material-icons-outlined">folder</span> Dokumentace
+                    </button>
+                </div>
             </div>
             <div class="viewer-content" id="kvViewerContent">
-                <!-- Default: žádost data -->
-                <div id="kvViewerZadost">
-                    <div style="padding:10px 12px;background:#f3e5f5;border:1px solid #e1bee7;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">
-                        <span class="material-icons-outlined" style="font-size:16px;color:#7b1fa2;margin-top:1px;">visibility</span>
-                        <div style="font-size:11px;color:#4a148c;line-height:1.5;">
-                            <strong>Režim: Pouze čtení</strong> — Máte přístup k žádosti, dokladové části a dokumentaci. Nemůžete měnit údaje v žádosti.
-                        </div>
-                    </div>
-                    <div class="zadost-info">
-                        <div style="font-size:13px;font-weight:600;color:#202124;margin-bottom:12px;">Údaje z žádosti</div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Spisová značka</div>
-                            <div class="zadost-value">SZ-2026/00142</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Stavební záměr</div>
-                            <div class="zadost-value">Oprava zabezpečovacího zařízení železničního přejezdu P7263</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Stavebník</div>
-                            <div class="zadost-value">Správa železnic, státní organizace</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Typ stavby</div>
-                            <div class="zadost-value">Dopravní infrastruktura — dráha</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Lokalita</div>
-                            <div class="zadost-value">Doudleby nad Orlicí, parc. č. 981/31, 981/32, 982/1</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">k. ú.</div>
-                            <div class="zadost-value">Doudleby nad Orlicí [631281]</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Zpracovatel SÚ</div>
-                            <div class="zadost-value">Ing. Bc. Aleš Krupa (ÚP Kostelec n. O.)</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Datum podání</div>
-                            <div class="zadost-value">15. 1. 2026</div>
-                        </div>
-                        <div class="zadost-row">
-                            <div class="zadost-label">Přiděleno koordinátorovi</div>
-                            <div class="zadost-value">3. 2. 2026</div>
-                        </div>
-                    </div>
-                    <div style="font-size:13px;font-weight:600;color:#202124;margin-bottom:12px;">Popis záměru</div>
-                    <div style="font-size:12px;color:#3c4043;line-height:1.7;padding:12px;background:#f8f9fa;border-radius:8px;border:1px solid #e0e0e0;">
-                        Oprava zabezpečovacího zařízení na železničním přejezdu P7263 na trati č. 021 (Ústí n. O. – Letohrad)
-                        v km 4,231 v k. ú. Doudleby nad Orlicí. Jedná se o výměnu reléového zabezpečovacího zařízení typu AŽD 71
-                        za nové elektronické zařízení typu PZS-RE s LED návěstidly. Součástí stavby je úprava kabelových tras
-                        v délce cca 85 m a instalace nového ovládacího stojanu. Přejezd bude po dobu stavby uzavřen (předpoklad 14 dnů).
-                    </div>
-                </div>
-                <!-- Doklady placeholder -->
-                <div id="kvViewerDoklady" style="display:none;">
-                    <div style="padding:32px;text-align:center;">
-                        <span class="material-icons-outlined" style="font-size:48px;color:#dadce0;">fact_check</span>
-                        <div style="font-size:14px;font-weight:500;color:#5f6368;margin-top:12px;">Dokladová část</div>
-                        <div style="font-size:12px;color:#9aa0a6;margin-top:4px;">
-                            Doklady přiložené k žádosti — plné moci, stanoviska, souhlas vlastníků atd.<br>
-                            <em>(V prototypu: propojení na prohlížeč dokumentů)</em>
-                        </div>
-                    </div>
-                </div>
-                <!-- Dokumentace placeholder -->
-                <div id="kvViewerDokumentace" style="display:none;">
-                    <div style="padding:32px;text-align:center;">
-                        <span class="material-icons-outlined" style="font-size:48px;color:#dadce0;">folder</span>
-                        <div style="font-size:14px;font-weight:500;color:#5f6368;margin-top:12px;">Projektová dokumentace</div>
-                        <div style="font-size:12px;color:#9aa0a6;margin-top:4px;">
-                            Výkresy, technické zprávy, situace, řezy — dokumentace pro povolení stavby.<br>
-                            <em>(V prototypu: propojení na prohlížeč dokumentů)</em>
-                        </div>
-                    </div>
-                </div>
+                <div id="kvViewerInner"></div>
             </div>
         </div>
 
-        <!-- Right form panel -->
+        <!-- Right form panel (40%) -->
         <div class="form-panel">
             <div class="form-panel-header">
                 <div class="form-panel-header-title">
@@ -350,20 +359,174 @@
         </div>
     </div>
 
-    <!-- Sdílený modul veřejných zájmů -->
+    <!-- Sdílené skripty -->
+    <script src="doc-modals.js"></script>
+    <script>initDocModals({ basePath: '../docs/' });</script>
     <script src="verejne-zajmy-shared.js"></script>
     <script>
+        // Generuje strukturovaná data žádosti (readonly) — stejná struktura jako v povoleni-2.html
+        function generateZadostDataReadOnly() {
+            return '<div class="zadost-readonly-content">' +
+                // Banner "Pouze čtení"
+                '<div style="padding:10px 12px;background:#e8f0fe;border:1px solid #c2dbf4;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">' +
+                    '<span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;margin-top:1px;">visibility</span>' +
+                    '<div style="font-size:11px;color:#174ea6;line-height:1.5;">' +
+                        '<strong>Režim: Pouze čtení</strong> — Máte přístup k žádosti, dokladové části a dokumentaci. Nemůžete měnit údaje v žádosti.' +
+                    '</div>' +
+                '</div>' +
+                // 1. Údaje o podání
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header">' +
+                        '<span class="material-icons-outlined">assignment_ind</span>' +
+                        'Údaje o podání' +
+                    '</div>' +
+                    '<div class="zadost-readonly-grid">' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Podatel (kdo činí podání)</div>' +
+                            '<div class="zadost-readonly-value">Správa železnic, s.o.</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Vztah k žadateli</div>' +
+                            '<div class="zadost-readonly-value">' +
+                                '<span class="material-icons-outlined" style="font-size:16px;color:#34a853;vertical-align:middle;">check_circle</span> ' +
+                                'Podatel je sám žadatel' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Věc podání</div>' +
+                            '<div class="zadost-readonly-value">Žádost o povolení stavby</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Správní orgán</div>' +
+                            '<div class="zadost-readonly-value">Dopravní a energetický stavební úřad</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                // 2. Žadatel
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header">' +
+                        '<span class="material-icons-outlined">person</span>' +
+                        'Žadatel — Fyzická osoba' +
+                    '</div>' +
+                    '<div class="zadost-readonly-grid">' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Jméno a příjmení</div>' +
+                            '<div class="zadost-readonly-value">Správa železnic, s.o.</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Datum narození</div>' +
+                            '<div class="zadost-readonly-value">15. 3. 1985</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Místo trvalého pobytu</div>' +
+                            '<div class="zadost-readonly-value">Dlážděná 1003/7, 110 00 Praha 1</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Datová schránka</div>' +
+                            '<div class="zadost-readonly-value">uccchjm</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                // 3. Identifikace záměru
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header">' +
+                        '<span class="material-icons-outlined">domain</span>' +
+                        'Identifikace záměru' +
+                    '</div>' +
+                    '<div class="zadost-readonly-grid">' +
+                        '<div class="zadost-readonly-item full-width">' +
+                            '<div class="zadost-readonly-label">Název záměru</div>' +
+                            '<div class="zadost-readonly-value">Oprava ZZ v žst. Doudleby n. Orlicí</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Druh stavby</div>' +
+                            '<div class="zadost-readonly-value">Stavba dráhy</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Účel stavby</div>' +
+                            '<div class="zadost-readonly-value">Stavba dráhy — zabezpečovací zařízení</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item full-width">' +
+                            '<div class="zadost-readonly-label">Místo stavby</div>' +
+                            '<div class="zadost-readonly-value">Doudleby n.O., Vamberk, Záměl, Kostelec n.O.</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                // 4. Pozemky záměru
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header">' +
+                        '<span class="material-icons-outlined">grid_on</span>' +
+                        'Pozemky záměru' +
+                    '</div>' +
+                    '<div class="zadost-readonly-table">' +
+                        '<table>' +
+                            '<thead><tr>' +
+                                '<th>Parcela</th><th>Katastrální území</th><th>Výměra</th><th>Druh pozemku</th>' +
+                            '</tr></thead>' +
+                            '<tbody>' +
+                                '<tr><td><strong>st. 321</strong></td><td>Doudleby n.O. [631761]</td><td>—</td><td>Zastavěná plocha</td></tr>' +
+                                '<tr><td><strong>1549</strong></td><td>Doudleby n.O. [631761]</td><td>—</td><td>Ostatní plocha — dráha</td></tr>' +
+                                '<tr><td colspan="4" style="text-align:center;color:#5f6368;font-style:italic;">… a dalších 36 pozemků ve 4 k.ú.</td></tr>' +
+                            '</tbody>' +
+                        '</table>' +
+                    '</div>' +
+                '</div>' +
+                // 5. Charakteristika záměru
+                '<div class="zadost-readonly-section">' +
+                    '<div class="zadost-readonly-header">' +
+                        '<span class="material-icons-outlined">architecture</span>' +
+                        'Charakteristika záměru' +
+                    '</div>' +
+                    '<div class="zadost-readonly-grid">' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Zastavěná plocha</div>' +
+                            '<div class="zadost-readonly-value">—</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Obestavěný prostor</div>' +
+                            '<div class="zadost-readonly-value">—</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Počet podlaží</div>' +
+                            '<div class="zadost-readonly-value">—</div>' +
+                        '</div>' +
+                        '<div class="zadost-readonly-item">' +
+                            '<div class="zadost-readonly-label">Počet bytů</div>' +
+                            '<div class="zadost-readonly-value">—</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }
+
         // Inicializace sdíleného VZ obsahu
         VZShared.init('vzSharedContent');
 
-        // Přepínání záložek vieweru
+        // Přepínání záložek vieweru — stejná logika jako switchVZViewerTab v povoleni-2.html
         function switchKVTab(btn, tabName) {
-            document.querySelectorAll('.viewer-tabs .viewer-tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('#kvViewerTabs .viewer-tab').forEach(function(t) { t.classList.remove('active'); });
             btn.classList.add('active');
-            document.getElementById('kvViewerZadost').style.display = tabName === 'zadost' ? '' : 'none';
-            document.getElementById('kvViewerDoklady').style.display = tabName === 'doklady' ? '' : 'none';
-            document.getElementById('kvViewerDokumentace').style.display = tabName === 'dokumentace' ? '' : 'none';
+
+            var vc = document.getElementById('kvViewerContent');
+            var inner = document.getElementById('kvViewerInner');
+
+            if (tabName === 'doklady' || tabName === 'dokumentace') {
+                vc.classList.add('ev-active');
+                inner.style.height = '100%';
+                inner.innerHTML = '';
+                renderEmbeddedViewer('kvViewerInner', tabName, 'kv_' + tabName);
+                return;
+            }
+            // Žádost
+            vc.classList.remove('ev-active');
+            inner.style.height = '';
+            inner.innerHTML = generateZadostDataReadOnly();
         }
+
+        // Inicializace — zobrazit žádost
+        (function() {
+            document.getElementById('kvViewerInner').innerHTML = generateZadostDataReadOnly();
+        })();
 
         // Odeslání koordinovaného vyjádření (demo)
         function submitKoordinovaneVyjadreni() {
