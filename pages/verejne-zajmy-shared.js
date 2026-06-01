@@ -3,6 +3,16 @@
  * Sdílený modul pro obsah Veřejné zájmy — Identifikace dotčených VZ.
  * Používá se v povoleni-2.html (kontrola VZ) i koordinator-1.html (rozhraní koordinátora).
  *
+ * Způsoby posouzení (multi-select):
+ *   interni    — Interní přispěvatel
+ *   prilozeno  — Stanovisko DO přiloženo
+ *   vyzadat    — Vyžádat od DO
+ *
+ * Stavy tlačítek:
+ *   suggested (modrá) — systém navrhl, úředník ještě nepotvrdil
+ *   confirmed (zelená) — úředník vědomě potvrdil kliknutím
+ *   neutral   (šedá)   — bez výběru
+ *
  * Použití:
  *   <script src="verejne-zajmy-shared.js"></script>
  *   ...
@@ -24,7 +34,7 @@
             color: '#2e7d32',
             desc: 'Kácení 2 dřevin na pozemku parc. č. 981/31 — § 8 zák. č. 114/1992 Sb.',
             history: 'Dříve: koordinované ZS MěÚ Kostelec n. O., úsek OPK',
-            defaultMethod: 'interni'
+            defaultMethods: ['interni']
         },
         {
             id: 'les',
@@ -33,7 +43,7 @@
             color: '#558b2f',
             desc: 'Ochranné pásmo lesa parc. č. 981/31 — § 14 odst. 2 zák. č. 289/1995 Sb.',
             history: 'Dříve: koordinované ZS MěÚ Kostelec n. O., úsek SSL + ZS MěÚ Rychnov n. K. (JES)',
-            defaultMethod: 'externi'
+            defaultMethods: ['vyzadat']
         },
         {
             id: 'voda',
@@ -42,7 +52,7 @@
             color: '#0277bd',
             desc: 'Záplavové území Divoká Orlice, podmínky Povodí Labe — § 17 zák. č. 254/2001 Sb.',
             history: 'Dříve: koordinované ZS MěÚ Kostelec n. O., úsek vodoprávní + souhlasné ZS MěÚ Rychnov (JES)',
-            defaultMethod: 'externi'
+            defaultMethods: ['vyzadat']
         },
         {
             id: 'pamatky',
@@ -51,7 +61,7 @@
             color: '#6d4c41',
             desc: 'Ochranné pásmo zámku Doudleby n. O., archeologické nálezy — § 14 zák. č. 20/1987 Sb.',
             history: 'Dříve: koordinované ZS MěÚ Kostelec n. O., úsek PP + sdělení MěÚ Rychnov (parcely mimo KP)',
-            defaultMethod: 'interni'
+            defaultMethods: ['interni']
         },
         {
             id: 'odpady',
@@ -60,7 +70,7 @@
             color: '#ef6c00',
             desc: 'Nakládání s odpady ze stavby — zák. č. 541/2020 Sb.',
             history: 'Dříve: součást JES MěÚ Rychnov n. K.',
-            defaultMethod: 'interni'
+            defaultMethods: ['interni']
         },
         {
             id: 'obrana',
@@ -69,7 +79,7 @@
             color: '#37474f',
             desc: 'Území vymezené MO — § 175 zák. č. 283/2021 Sb. (ZS zachováno, MO zůstává samostatný DOSS)',
             history: 'Dříve: souhlasné ZS Ministerstva obrany č.j. MO 103826/2024-1282',
-            defaultMethod: 'zs-prilozeno'
+            defaultMethods: ['prilozeno']
         }
     ];
 
@@ -97,32 +107,42 @@
         style.textContent =
             '.vz-method-grid { display:flex; flex-direction:column; gap:6px; }\n' +
             '.vz-method-row { display:flex; gap:6px; }\n' +
-            '.vz-method-option { transition:all 0.15s; display:inline-flex; align-items:center; gap:5px; padding:5px 10px; border:1px solid #dadce0; border-radius:6px; font-size:11px; cursor:pointer; background:#fff; color:#5f6368; justify-content:center; white-space:nowrap; }\n' +
             '.vz-method-row-ext .vz-method-option { flex:1; }\n' +
-            '.vz-method-option.selected { border-color:#1a73e8 !important; background:#e8f0fe !important; color:#1a73e8 !important; font-weight:500; }\n' +
-            '.vz-method-option:hover:not(.selected) { border-color:#9aa0a6 !important; background:#f8f9fa !important; }\n' +
+            '.vz-method-option { transition:all 0.15s; display:inline-flex; align-items:center; gap:5px; padding:5px 10px; border:1px solid #dadce0; border-radius:6px; font-size:11px; font-family:inherit; cursor:pointer; background:#fff; color:#5f6368; justify-content:center; white-space:nowrap; }\n' +
+            '.vz-method-option.suggested { border-color:#1a73e8; background:#e8f0fe; color:#1a73e8; font-weight:500; }\n' +
+            '.vz-method-option.confirmed { border-color:#1e8e3e; background:#e6f4ea; color:#1e8e3e; font-weight:500; }\n' +
+            '.vz-method-option:hover:not(.confirmed):not(.suggested) { border-color:#9aa0a6; background:#f8f9fa; }\n' +
+            '.vz-method-option.suggested:hover { border-color:#1557b0; background:#d2e3fc; }\n' +
+            '.vz-method-option.confirmed:hover { border-color:#137333; background:#ceead6; }\n' +
             '.vz-ident-item { transition:all 0.2s; }\n' +
             '.vz-remove-btn:hover { color:#d32f2f !important; }\n';
         document.head.appendChild(style);
     }
 
     // ======================================================================
+    // HELPERS
+    // ======================================================================
+
+    function parseList(str) {
+        return str ? str.split(',').filter(Boolean) : [];
+    }
+
+    // ======================================================================
     // HTML GENERATORS
     // ======================================================================
 
-    function generateMethodGrid(id, selectedMethod) {
+    function generateMethodGrid(id, defaultMethods) {
         var methods = [
-            { key: 'interni', icon: 'person_add', label: 'Interní přispěvatel', row: 1 },
-            { key: 'externi', icon: 'outgoing_mail', label: 'Vyjádření', row: 2 },
-            { key: 'zs-vyzadat', icon: 'send', label: 'Vyžádat ZS', row: 2 },
-            { key: 'zs-prilozeno', icon: 'attach_file', label: 'ZS přiloženo', row: 2 }
+            { key: 'interni',   icon: 'person_add',  label: 'Interní přispěvatel', row: 1 },
+            { key: 'prilozeno', icon: 'attach_file',  label: 'Přiloženo',           row: 2 },
+            { key: 'vyzadat',   icon: 'send',         label: 'Vyžádat',             row: 2 }
         ];
         var row1 = '', row2 = '';
         methods.forEach(function (m) {
-            var sel = m.key === selectedMethod ? ' selected' : '';
-            var html = '<label class="vz-method-option' + sel + '" onclick="setVZMethod(this,\'' + id + '\',\'' + m.key + '\')">' +
+            var cls = defaultMethods.indexOf(m.key) >= 0 ? ' suggested' : '';
+            var html = '<button class="vz-method-option' + cls + '" data-method="' + m.key + '" onclick="toggleVZMethod(this,\'' + id + '\',\'' + m.key + '\')">' +
                 '<span class="material-icons-outlined" style="font-size:14px;">' + m.icon + '</span> ' + m.label +
-                '</label>';
+                '</button>';
             if (m.row === 1) row1 += html;
             else row2 += html;
         });
@@ -133,7 +153,8 @@
     }
 
     function generateItem(item) {
-        return '<div class="vz-ident-item" data-vz-id="' + item.id + '" data-vz-method="' + item.defaultMethod + '" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">' +
+        var defs = item.defaultMethods ? item.defaultMethods.join(',') : '';
+        return '<div class="vz-ident-item" data-vz-id="' + item.id + '" data-vz-defaults="' + defs + '" data-vz-confirmed="" data-vz-touched="" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">' +
             '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">' +
                 '<div style="flex:1;">' +
                     '<div style="font-size:13px;font-weight:600;color:#202124;">' +
@@ -147,7 +168,7 @@
                     '<span class="material-icons-outlined" style="font-size:16px;">close</span>' +
                 '</button>' +
             '</div>' +
-            generateMethodGrid(item.id, item.defaultMethod) +
+            generateMethodGrid(item.id, item.defaultMethods || []) +
         '</div>';
     }
 
@@ -170,7 +191,10 @@
         html += '<div style="padding:10px 12px;background:#e8f0fe;border:1px solid #c2dbf4;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">' +
             '<span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;margin-top:1px;">info</span>' +
             '<div style="font-size:11px;color:#3c4043;line-height:1.5;">' +
-                'Systém předvyplnil veřejné zájmy na základě lokality a druhu záměru. U každého zvolte způsob posouzení. Další zájmy můžete přidat z katalogu.' +
+                'Systém předvyplnil veřejné zájmy na základě lokality a druhu záměru. ' +
+                '<span style="color:#1a73e8;font-weight:500;">Modře</span> zvýrazněné návrhy potvrďte kliknutím ' +
+                '(<span style="color:#1e8e3e;font-weight:500;">zelená</span> = potvrzeno). ' +
+                'U každého zájmu lze zvolit i více způsobů posouzení současně.' +
             '</div></div>';
         // Items list
         html += '<div id="vzIdentifikaceList">';
@@ -187,9 +211,7 @@
         html += generateCatalog();
         // Summary
         html += '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;margin-top:16px;">' +
-            '<div style="font-size:11px;color:#3c4043;line-height:1.6;" id="vzIdentSummary">' +
-                '<strong>Identifikováno 6 veřejných zájmů:</strong> 3× interní přispěvatel · 2× vyžádat vyjádření · 0× vyžádat ZS · 1× ZS přiloženo' +
-            '</div></div>';
+            '<div style="font-size:11px;color:#3c4043;line-height:1.6;" id="vzIdentSummary"></div></div>';
         return html;
     }
 
@@ -197,14 +219,46 @@
     // INTERACTIVE FUNCTIONS (exposed globally for onclick handlers)
     // ======================================================================
 
-    window.setVZMethod = function (labelEl, vzId, method) {
-        var item = labelEl.closest('.vz-ident-item');
+    /**
+     * Přepínání způsobu posouzení (toggle):
+     *   suggested (modrá) → klik → confirmed (zelená)
+     *   confirmed (zelená) → klik → neutral (šedá)
+     *   neutral   (šedá)   → klik → confirmed (zelená)
+     * Multi-select: lze potvrdit více způsobů současně.
+     */
+    window.toggleVZMethod = function (btn, vzId, method) {
+        var item = btn.closest('.vz-ident-item');
         if (!item) return;
-        item.setAttribute('data-vz-method', method);
+
+        var confirmed = parseList(item.getAttribute('data-vz-confirmed'));
+        var touched   = parseList(item.getAttribute('data-vz-touched'));
+        var defaults  = parseList(item.getAttribute('data-vz-defaults'));
+
+        // Označit jako interagované
+        if (touched.indexOf(method) < 0) touched.push(method);
+
+        // Toggle potvrzení
+        var idx = confirmed.indexOf(method);
+        if (idx >= 0) {
+            confirmed.splice(idx, 1);   // byl confirmed → odebrat
+        } else {
+            confirmed.push(method);      // nebyl confirmed → přidat
+        }
+
+        item.setAttribute('data-vz-confirmed', confirmed.join(','));
+        item.setAttribute('data-vz-touched', touched.join(','));
+
+        // Aktualizovat CSS třídy všech tlačítek v této položce
         item.querySelectorAll('.vz-method-option').forEach(function (opt) {
-            opt.classList.remove('selected');
+            var m = opt.getAttribute('data-method');
+            opt.classList.remove('suggested', 'confirmed');
+            if (confirmed.indexOf(m) >= 0) {
+                opt.classList.add('confirmed');
+            } else if (defaults.indexOf(m) >= 0 && touched.indexOf(m) < 0) {
+                opt.classList.add('suggested');
+            }
         });
-        labelEl.classList.add('selected');
+
         updateVZIdentSummary();
     };
 
@@ -231,9 +285,9 @@
         if (existing) return;
         var list = document.getElementById('vzIdentifikaceList');
         if (!list) return;
-        var item = { id: id, name: name, icon: icon, color: color, desc: desc, history: '', defaultMethod: 'interni' };
+        var item = { id: id, name: name, icon: icon, color: color, desc: desc, history: '', defaultMethods: [] };
         list.insertAdjacentHTML('beforeend', generateItem(item));
-        // Hide catalog item
+        // Skrýt v katalogu
         var catItem = document.querySelector('.vz-catalog-item[onclick*="\'' + id + '\'"]');
         if (catItem) catItem.style.display = 'none';
         updateVZIdentSummary();
@@ -241,20 +295,40 @@
 
     function updateVZIdentSummary() {
         var items = document.querySelectorAll('.vz-ident-item');
-        var counts = { interni: 0, externi: 0, 'zs-vyzadat': 0, 'zs-prilozeno': 0 };
-        items.forEach(function (item) {
-            var m = item.getAttribute('data-vz-method');
-            if (counts[m] !== undefined) counts[m]++;
-        });
         var total = items.length;
+        var confirmedItems = 0;
+        var counts = { interni: 0, prilozeno: 0, vyzadat: 0 };
+
+        items.forEach(function (item) {
+            var confirmed = parseList(item.getAttribute('data-vz-confirmed'));
+            if (confirmed.length > 0) {
+                confirmedItems++;
+                confirmed.forEach(function (m) {
+                    if (counts[m] !== undefined) counts[m]++;
+                });
+            }
+        });
+
         var el = document.getElementById('vzIdentSummary');
-        if (el) {
-            el.innerHTML = '<strong>Identifikováno ' + total + ' veřejných zájmů:</strong> ' +
-                counts.interni + '× interní přispěvatel · ' +
-                counts.externi + '× vyžádat vyjádření · ' +
-                counts['zs-vyzadat'] + '× vyžádat ZS · ' +
-                counts['zs-prilozeno'] + '× ZS přiloženo';
+        if (!el) return;
+
+        var unconfirmed = total - confirmedItems;
+        var html = '<strong>Identifikováno ' + total + ' veřejných zájmů</strong>';
+
+        if (confirmedItems > 0) {
+            var parts = [];
+            if (counts.interni)   parts.push(counts.interni + '× interní');
+            if (counts.prilozeno) parts.push(counts.prilozeno + '× přiloženo');
+            if (counts.vyzadat)   parts.push(counts.vyzadat + '× vyžádat');
+            html += ' · potvrzeno ' + confirmedItems + '/' + total;
+            if (parts.length) html += ': ' + parts.join(' · ');
         }
+
+        if (unconfirmed > 0) {
+            html += ' · <span style="color:#1a73e8;">' + unconfirmed + ' čeká na potvrzení</span>';
+        }
+
+        el.innerHTML = html;
     }
     window.updateVZIdentSummary = updateVZIdentSummary;
 
@@ -272,6 +346,7 @@
             var container = document.getElementById(containerId);
             if (!container) { console.error('VZShared: container #' + containerId + ' not found'); return; }
             container.innerHTML = generateContent();
+            updateVZIdentSummary();
         }
     };
 
