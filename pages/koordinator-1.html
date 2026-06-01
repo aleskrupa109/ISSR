@@ -140,24 +140,6 @@
             flex-shrink: 0;
         }
 
-        /* Phase tabs bar */
-        .phase-bar {
-            display: flex;
-            align-items: center;
-            padding: 8px 24px;
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-            gap: 2px;
-        }
-        .phase-bar-label {
-            font-size: 11px;
-            color: #9aa0a6;
-            margin-right: 12px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
         /* Buttons */
         .btn {
             display: inline-flex;
@@ -213,12 +195,6 @@
         .zadost-label { width: 160px; color: #5f6368; flex-shrink: 0; }
         .zadost-value { color: #202124; font-weight: 500; }
 
-        /* Control section title (used in Phase B) */
-        .control-section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #202124;
-        }
     </style>
 </head>
 <body>
@@ -238,23 +214,6 @@
                 <div class="topbar-avatar">RP</div>
                 Ing. Radek Procházka
             </div>
-        </div>
-    </div>
-
-    <!-- Phase tabs bar -->
-    <div class="phase-bar">
-        <span class="phase-bar-label">Fáze:</span>
-        <button class="viewer-tab active" id="vzPhaseTabA" onclick="switchVZPhase('A')" style="font-size:12px;padding:6px 14px;">
-            <span class="material-icons-outlined" style="font-size:16px;">search</span> Fáze A — Identifikace
-        </button>
-        <button class="viewer-tab" id="vzPhaseTabB" onclick="switchVZPhase('B')" style="font-size:12px;padding:6px 14px;">
-            <span class="material-icons-outlined" style="font-size:16px;">task_alt</span> Fáze B — Vypořádání
-        </button>
-        <div style="margin-left:auto;">
-            <a href="povoleni-2.html" class="btn btn-secondary" style="font-size:11px;padding:5px 12px;">
-                <span class="material-icons-outlined" style="font-size:14px;">arrow_back</span>
-                Zpět na kontrolu žádosti
-            </a>
         </div>
     </div>
 
@@ -395,12 +354,7 @@
     <script src="verejne-zajmy-shared.js"></script>
     <script>
         // Inicializace sdíleného VZ obsahu
-        VZShared.init('vzSharedContent', {
-            phaseTabA: 'vzPhaseTabA',
-            phaseTabB: 'vzPhaseTabB',
-            panelTitle: 'vzPanelTitle',
-            panelDesc: 'vzPanelDesc'
-        });
+        VZShared.init('vzSharedContent');
 
         // Přepínání záložek vieweru
         function switchKVTab(btn, tabName) {

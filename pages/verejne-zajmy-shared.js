@@ -1,12 +1,12 @@
 /**
  * verejne-zajmy-shared.js
- * Sdílený modul pro obsah Veřejné zájmy (Fáze A: Identifikace + Fáze B: Vypořádání).
+ * Sdílený modul pro obsah Veřejné zájmy — Identifikace dotčených VZ.
  * Používá se v povoleni-2.html (kontrola VZ) i koordinator-1.html (rozhraní koordinátora).
  *
  * Použití:
  *   <script src="verejne-zajmy-shared.js"></script>
  *   ...
- *   VZShared.init('containerId', { phaseTabA: '...', phaseTabB: '...', panelTitle: '...', panelDesc: '...' });
+ *   VZShared.init('containerId');
  */
 (function () {
     'use strict';
@@ -84,107 +84,6 @@
         { id: 'energetika', name: 'Energetika', desc: 'Ochranná pásma energetické infrastruktury — zák. č. 458/2000 Sb.', icon: 'bolt', color: '#f57f17' }
     ];
 
-    /** Demo data pro Fázi B — Vypořádání */
-    var VZ_PHASE_B_SECTIONS = [
-        {
-            key: 'interni',
-            title: 'Interní posouzení (přispěvatel)',
-            icon: 'person_add',
-            iconColor: '#1a73e8',
-            iconBg: '#e8f0fe',
-            items: [
-                {
-                    name: 'Ochrana přírody a krajiny', icon: 'eco', color: '#2e7d32',
-                    assigneeLabel: 'Přispěvatel',
-                    assignee: 'Ing. Jana Nováková (ÚP Kostelec n. O., ref. OPK)',
-                    status: 'done', statusIcon: 'check_circle', statusLabel: 'Posouzeno',
-                    statusBg: '#e8f5e9', statusColor: '#2e7d32',
-                    borderColor: '#c8e6c9', bgColor: '#f9fdf9',
-                    detail: '<strong>Interní posudek ze dne 10. 2. 2026</strong> — Kácení 2 ks dřevin povoleno s podmínkou náhradní výsadby 4 ks. Záměr je v souladu s § 8 ZOPK.',
-                    detailBg: '#e8f5e9', detailColor: '#2e7d32'
-                },
-                {
-                    name: 'Památková péče', icon: 'account_balance', color: '#6d4c41',
-                    assigneeLabel: 'Přispěvatel',
-                    assignee: 'Mgr. Petr Dvořák (ÚP Kostelec n. O., ref. PP)',
-                    status: 'pending', statusIcon: 'edit_note', statusLabel: 'Přiděleno',
-                    statusBg: '#e3f2fd', statusColor: '#1565c0',
-                    borderColor: '#bbdefb', bgColor: '#f5f9ff',
-                    detail: 'Přiděleno 5. 2. 2026 — čeká na interní posouzení (ochranné pásmo zámku Doudleby, archeologické nálezy)',
-                    detailBg: '#e3f2fd', detailColor: '#1565c0',
-                    detailBorder: '#bbdefb'
-                },
-                {
-                    name: 'Odpadové hospodářství', icon: 'delete_outline', color: '#ef6c00',
-                    assigneeLabel: 'Přispěvatel',
-                    assignee: 'Ing. Tomáš Veselý (ÚP Rychnov n. K., ref. ŽP)',
-                    status: 'done', statusIcon: 'check_circle', statusLabel: 'Posouzeno',
-                    statusBg: '#e8f5e9', statusColor: '#2e7d32',
-                    borderColor: '#c8e6c9', bgColor: '#f9fdf9',
-                    detail: '<strong>Interní posudek ze dne 8. 2. 2026</strong> — Nakládání s odpady v souladu s plánem. Podmínka: stavební odpad předat oprávněné osobě.',
-                    detailBg: '#e8f5e9', detailColor: '#2e7d32'
-                }
-            ]
-        },
-        {
-            key: 'externi',
-            title: 'Vyžádaná vyjádření (externí DOSS)',
-            icon: 'outgoing_mail',
-            iconColor: '#e65100',
-            iconBg: '#fff3e0',
-            items: [
-                {
-                    name: 'Ochrana lesa', icon: 'park', color: '#558b2f',
-                    assigneeLabel: null,
-                    assignee: 'Orgán státní správy lesů ORP Rychnov n. K.',
-                    status: 'done', statusIcon: 'check_circle', statusLabel: 'Vyjádření doručeno',
-                    statusBg: '#e8f5e9', statusColor: '#2e7d32',
-                    borderColor: '#c8e6c9', bgColor: '#f9fdf9',
-                    detail: '<strong>Vyjádření č. SSL-RK/2026/034</strong> ze dne 18. 1. 2026 — souhlas v ochranném pásmu lesa s podmínkou kompenzační výsadby 0,12 ha',
-                    detailBg: '#e8f5e9', detailColor: '#2e7d32',
-                    checkboxId: 'vzVypCheckLes',
-                    checkboxLabel: 'Podmínky splněny',
-                    checkboxChecked: true,
-                    ownAssessmentLabel: 'Vlastní posouzení zpracovatele:'
-                },
-                {
-                    name: 'Ochrana vod', icon: 'water_drop', color: '#0277bd',
-                    assigneeLabel: null,
-                    assignee: 'Vodoprávní úřad ORP Kostelec n. O. / Povodí Labe, s.p.',
-                    status: 'waiting', statusIcon: 'schedule', statusLabel: 'Čeká na vyjádření',
-                    statusBg: '#fff3e0', statusColor: '#e65100',
-                    borderColor: '#ffe0b2', bgColor: '#fffaf5',
-                    detail: 'Požadavek na vyjádření odeslán 3. 2. 2026 — lhůta do 5. 3. 2026 (zbývá 5 dnů)',
-                    detailBg: '#fff8e1', detailColor: '#795548'
-                }
-            ]
-        },
-        {
-            key: 'zs-prilozeno',
-            title: 'ZS přiloženo k žádosti (DOSS zachován)',
-            icon: 'attach_file',
-            iconColor: '#2e7d32',
-            iconBg: '#e8f5e9',
-            subtitle: 'Žadatel přiložil ZS k žádosti — zpracovatel ověří platnost a úplnost.',
-            items: [
-                {
-                    name: 'Obrana státu', icon: 'security', color: '#37474f',
-                    assigneeLabel: null,
-                    assignee: 'Ministerstvo obrany ČR',
-                    status: 'done', statusIcon: 'check_circle', statusLabel: 'ZS ověřeno',
-                    statusBg: '#e8f5e9', statusColor: '#2e7d32',
-                    borderColor: '#c8e6c9', bgColor: '#f9fdf9',
-                    detail: '<strong>Souhlasné ZS č.j. MO 103826/2024-1282</strong> — záměr v území vymezeném MO, bez rozporu se zájmy obrany státu.',
-                    detailBg: '#e8f5e9', detailColor: '#2e7d32',
-                    checkboxId: 'vzVypCheckObrana',
-                    checkboxLabel: 'ZS je platné a úplné',
-                    checkboxChecked: true,
-                    ownAssessmentLabel: 'Ověření zpracovatele:'
-                }
-            ]
-        }
-    ];
-
     // ======================================================================
     // CSS INJECTION
     // ======================================================================
@@ -233,7 +132,7 @@
             '</div>';
     }
 
-    function generatePhaseAItem(item) {
+    function generateItem(item) {
         return '<div class="vz-ident-item" data-vz-id="' + item.id + '" data-vz-method="' + item.defaultMethod + '" style="border:1px solid #e0e0e0;border-radius:8px;padding:12px;margin-bottom:8px;">' +
             '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">' +
                 '<div style="flex:1;">' +
@@ -265,8 +164,8 @@
         return html;
     }
 
-    function generatePhaseA() {
-        var html = '<div id="vzPhaseA">';
+    function generateContent() {
+        var html = '';
         // Info banner
         html += '<div style="padding:10px 12px;background:#e8f0fe;border:1px solid #c2dbf4;border-radius:8px;margin-bottom:16px;display:flex;align-items:flex-start;gap:8px;">' +
             '<span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;margin-top:1px;">info</span>' +
@@ -276,7 +175,7 @@
         // Items list
         html += '<div id="vzIdentifikaceList">';
         VZ_ITEMS.forEach(function (item) {
-            html += generatePhaseAItem(item);
+            html += generateItem(item);
         });
         html += '</div>';
         // Add from catalog button
@@ -291,111 +190,12 @@
             '<div style="font-size:11px;color:#3c4043;line-height:1.6;" id="vzIdentSummary">' +
                 '<strong>Identifikováno 6 veřejných zájmů:</strong> 3× interní přispěvatel · 2× vyžádat vyjádření · 0× vyžádat ZS · 1× ZS přiloženo' +
             '</div></div>';
-        html += '</div>';
-        return html;
-    }
-
-    function generatePhaseBItem(item) {
-        var html = '<div class="vz-vyp-item" style="border:1px solid ' + item.borderColor + ';border-radius:8px;padding:12px;margin-bottom:8px;background:' + item.bgColor + ';">';
-        html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;">';
-        html += '<div>';
-        html += '<div style="font-size:13px;font-weight:600;color:#202124;">' +
-            '<span class="material-icons-outlined" style="font-size:15px;vertical-align:middle;color:' + item.color + ';margin-right:4px;">' + item.icon + '</span> ' +
-            item.name + '</div>';
-        html += '<div style="font-size:11px;color:#5f6368;margin-top:2px;">';
-        if (item.assigneeLabel) html += item.assigneeLabel + ': ';
-        html += '<strong>' + item.assignee + '</strong></div>';
-        html += '</div>';
-        html += '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;background:' + item.statusBg + ';color:' + item.statusColor + ';">' +
-            '<span class="material-icons-outlined" style="font-size:14px;">' + item.statusIcon + '</span> ' + item.statusLabel + '</span>';
-        html += '</div>';
-        // Detail
-        var detailBorder = item.detailBorder ? 'border:1px solid ' + item.detailBorder + ';' : '';
-        html += '<div style="margin-top:8px;padding:8px;background:' + item.detailBg + ';' + detailBorder + 'border-radius:4px;font-size:11px;color:' + item.detailColor + ';">' + item.detail + '</div>';
-        // Checkbox
-        if (item.checkboxId) {
-            html += '<div style="margin-top:8px;display:flex;align-items:center;gap:8px;">';
-            html += '<span style="font-size:11px;font-weight:500;color:#5f6368;">' + item.ownAssessmentLabel + '</span>';
-            html += '<label style="display:inline-flex;align-items:center;gap:4px;font-size:11px;cursor:pointer;">';
-            html += '<input type="checkbox" id="' + item.checkboxId + '"' + (item.checkboxChecked ? ' checked' : '') + ' onchange="updateVZVyporadani()"> ' + item.checkboxLabel;
-            html += '</label></div>';
-        }
-        html += '</div>';
-        return html;
-    }
-
-    function generatePhaseB() {
-        var html = '<div id="vzPhaseB" style="display:none;">';
-        VZ_PHASE_B_SECTIONS.forEach(function (section) {
-            html += '<div class="control-section" style="margin-bottom:20px;">';
-            // Section header
-            html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">';
-            html += '<span style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:' + section.iconBg + ';"><span class="material-icons-outlined" style="font-size:14px;color:' + section.iconColor + ';">' + section.icon + '</span></span>';
-            html += '<div class="control-section-title" style="margin:0;">' + section.title + '</div>';
-            html += '<span style="font-size:10px;color:#5f6368;background:#f1f3f4;padding:2px 8px;border-radius:10px;">' + section.items.length + ' oblast' + (section.items.length === 1 ? '' : section.items.length < 5 ? 'i' : 'í') + '</span>';
-            html += '</div>';
-            // Subtitle
-            if (section.subtitle) {
-                html += '<p style="font-size:11px;color:#5f6368;margin:-6px 0 12px 30px;">' + section.subtitle + '</p>';
-            }
-            // Items
-            section.items.forEach(function (item) {
-                html += generatePhaseBItem(item);
-            });
-            html += '</div>';
-        });
-        // Summary
-        html += '<div style="padding:12px;background:#f0f7ff;border:1px solid #c2dbf4;border-radius:8px;margin-top:8px;">';
-        html += '<div style="font-size:12px;color:#1a73e8;font-weight:600;margin-bottom:4px;">';
-        html += '<span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">summarize</span> Souhrn vypořádání</div>';
-        html += '<div style="font-size:11px;color:#3c4043;line-height:1.6;" id="vzVyporadaniSummary">';
-        html += 'Interní: 2/3 posouzeno · Vyjádření: 1/2 doručeno · ZS přiloženo: 1/1 ověřeno · <strong style="color:#e65100;">Celkem: 4/6 vypořádáno</strong>';
-        html += '</div></div>';
-        html += '</div>';
         return html;
     }
 
     // ======================================================================
     // INTERACTIVE FUNCTIONS (exposed globally for onclick handlers)
     // ======================================================================
-
-    var _vzCurrentPhase = 'A';
-    var _vzOptions = {};
-
-    window.switchVZPhase = function (phase) {
-        _vzCurrentPhase = phase;
-        var panelA = document.getElementById('vzPhaseA');
-        var panelB = document.getElementById('vzPhaseB');
-        if (panelA) panelA.style.display = phase === 'A' ? '' : 'none';
-        if (panelB) panelB.style.display = phase === 'B' ? '' : 'none';
-
-        // Update external phase tab buttons if configured
-        if (_vzOptions.phaseTabA) {
-            var tabA = document.getElementById(_vzOptions.phaseTabA);
-            if (tabA) { tabA.classList.toggle('active', phase === 'A'); }
-        }
-        if (_vzOptions.phaseTabB) {
-            var tabB = document.getElementById(_vzOptions.phaseTabB);
-            if (tabB) { tabB.classList.toggle('active', phase === 'B'); }
-        }
-        // Update external panel title/desc if configured
-        if (_vzOptions.panelTitle) {
-            var title = document.getElementById(_vzOptions.panelTitle);
-            if (title) {
-                title.textContent = phase === 'A'
-                    ? 'Identifikace dotčených veřejných zájmů'
-                    : 'Vypořádání veřejných zájmů';
-            }
-        }
-        if (_vzOptions.panelDesc) {
-            var desc = document.getElementById(_vzOptions.panelDesc);
-            if (desc) {
-                desc.textContent = phase === 'A'
-                    ? 'Určete, které veřejné zájmy jsou záměrem dotčeny a jakým způsobem budou posouzeny.'
-                    : 'Sledujte stav posouzení u jednotlivých veřejných zájmů.';
-            }
-        }
-    };
 
     window.setVZMethod = function (labelEl, vzId, method) {
         var item = labelEl.closest('.vz-ident-item');
@@ -432,7 +232,7 @@
         var list = document.getElementById('vzIdentifikaceList');
         if (!list) return;
         var item = { id: id, name: name, icon: icon, color: color, desc: desc, history: '', defaultMethod: 'interni' };
-        list.insertAdjacentHTML('beforeend', generatePhaseAItem(item));
+        list.insertAdjacentHTML('beforeend', generateItem(item));
         // Hide catalog item
         var catItem = document.querySelector('.vz-catalog-item[onclick*="\'' + id + '\'"]');
         if (catItem) catItem.style.display = 'none';
@@ -458,36 +258,21 @@
     }
     window.updateVZIdentSummary = updateVZIdentSummary;
 
-    window.updateVZVyporadani = function () {
-        // Demo only — in real app this would track actual statuses
-    };
-
     // ======================================================================
     // INIT
     // ======================================================================
 
     /**
      * Inicializace sdíleného VZ obsahu.
-     * @param {string} containerId - ID kontejneru, do kterého se vloží Phase A + Phase B
-     * @param {object} [options] - Volitelné napojení na vnější prvky stránky:
-     *   phaseTabA, phaseTabB  — ID tlačítek záložek fází (pro toggle active třídy)
-     *   panelTitle, panelDesc — ID prvků nadpisu a popisu panelu
+     * @param {string} containerId - ID kontejneru, do kterého se vloží identifikace VZ
      */
     window.VZShared = {
-        init: function (containerId, options) {
-            _vzOptions = options || {};
+        init: function (containerId) {
             injectCSS();
             var container = document.getElementById(containerId);
             if (!container) { console.error('VZShared: container #' + containerId + ' not found'); return; }
-            container.innerHTML = generatePhaseA() + generatePhaseB();
-            _vzCurrentPhase = 'A';
-        },
-        /** Vrátí aktuální fázi ('A' | 'B') */
-        getPhase: function () { return _vzCurrentPhase; },
-        /** Přepne fázi programově */
-        switchPhase: function (phase) { window.switchVZPhase(phase); },
-        /** Aktualizuje options (např. po přestavbě stránky) */
-        setOptions: function (opts) { _vzOptions = opts || {}; }
+            container.innerHTML = generateContent();
+        }
     };
 
 })();

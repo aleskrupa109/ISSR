@@ -16866,15 +16866,6 @@
                     Veřejné zájmy
                 </div>
             </div>
-            <!-- Phase tabs -->
-            <div style="display:flex;gap:2px;margin-left:24px;">
-                <button class="viewer-tab active" id="vzPhaseTabA" onclick="switchVZPhase('A')" style="font-size:12px;padding:6px 14px;">
-                    <span class="material-icons-outlined" style="font-size:16px;">search</span> Fáze A — Identifikace
-                </button>
-                <button class="viewer-tab" id="vzPhaseTabB" onclick="switchVZPhase('B')" style="font-size:12px;padding:6px 14px;">
-                    <span class="material-icons-outlined" style="font-size:16px;">task_alt</span> Fáze B — Vypořádání
-                </button>
-            </div>
         </div>
         <div class="control-body">
             <!-- Left viewer -->
@@ -27029,20 +27020,14 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 
         // ==========================================
         // VEŘEJNÉ ZÁJMY - FUNKCE (SZ 2026)
-        // Sdílené funkce (switchVZPhase, setVZMethod, removeVZItem,
-        // openVZCatalog, addVZFromCatalog, updateVZIdentSummary,
-        // updateVZVyporadani) jsou v souboru verejne-zajmy-shared.js
+        // Sdílené funkce (setVZMethod, removeVZItem, openVZCatalog,
+        // addVZFromCatalog, updateVZIdentSummary) jsou v verejne-zajmy-shared.js
         // ==========================================
 
         var _vzCurrentMode = 'zpracovatel';
 
         // Inicializace sdíleného VZ obsahu
-        VZShared.init('vzSharedContent', {
-            phaseTabA: 'vzPhaseTabA',
-            phaseTabB: 'vzPhaseTabB',
-            panelTitle: 'vzPanelTitle',
-            panelDesc: 'vzPanelDesc'
-        });
+        VZShared.init('vzSharedContent');
 
         function setVZMode(mode) {
             _vzCurrentMode = mode;
@@ -27050,7 +27035,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             var cardK = document.getElementById('vzModeKoordinator');
             var contentZ = document.getElementById('vzModeZpracovatelContent');
             var contentK = document.getElementById('vzModeKoordinatorContent');
-            var phaseTabs = document.querySelectorAll('#vzPhaseTabA, #vzPhaseTabB');
             var panelTitle = document.getElementById('vzPanelTitle');
             var panelDesc = document.getElementById('vzPanelDesc');
             var confirmBtn = document.getElementById('vzConfirmBtn');
@@ -27065,9 +27049,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 cardK.querySelector('div[style*="font-size:13px"]').style.color = '#202124';
                 contentZ.style.display = '';
                 contentK.style.display = 'none';
-                phaseTabs.forEach(function(t) { t.style.display = ''; });
-                // Restore phase A/B panel title via shared module
-                switchVZPhase(VZShared.getPhase());
+                panelTitle.textContent = 'Identifikace dotčených veřejných zájmů';
+                panelDesc.textContent = 'Určete, které veřejné zájmy jsou záměrem dotčeny a jakým způsobem budou posouzeny.';
                 confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit posouzení';
                 confirmBtn.onclick = function() { completeVerejneZajmy(); };
             } else {
@@ -27081,7 +27064,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 cardZ.querySelector('div[style*="font-size:13px"]').style.color = '#202124';
                 contentZ.style.display = 'none';
                 contentK.style.display = '';
-                phaseTabs.forEach(function(t) { t.style.display = 'none'; });
                 panelTitle.textContent = 'Koordinace veřejných zájmů';
                 panelDesc.textContent = 'Přiřaďte koordinátora, který převezme administraci procesu vyjadřování.';
                 confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit předání koordinátorovi';
