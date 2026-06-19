@@ -25287,10 +25287,318 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
         }
 
+        // ── Reorganizace pipeline pro SZ 2026 ──────────────────────────
+        // SZ 2024: fáze 1–4 (příslušnost, žádost, věcné kontroly [skupina], osoby)
+        // SZ 2026: fáze 1–6 (přidělení, žádost, pozemky, veřejné zájmy, věcné kontroly [skupina], osoby)
+        var _pipelineLayout = 'sz2024'; // sleduje aktuální layout
+
+        function reorganizePipeline(scenar) {
+            if (scenar === _pipelineLayout) return;
+            _pipelineLayout = scenar;
+            var pipeline = document.querySelector('.pipeline');
+            if (!pipeline) return;
+
+            if (scenar === 'sz2026') {
+                // --- Přepnout na SZ 2026 layout ---
+
+                // Aktualizovat závislosti
+                controls.verejnezajmy.depends = ['zadost', 'pozemky'];
+                controls.pozemky.depends = ['zadost'];
+
+                // 1) Vytvořit fázi 3 — Pozemky (solo)
+                var phase3sz26 = document.createElement('div');
+                phase3sz26.className = 'pipeline-phase';
+                phase3sz26.id = 'phase3';
+                phase3sz26.innerHTML =
+                    '<div class="pipeline-phase-label">' +
+                        '<div class="pipeline-phase-number">3</div>' +
+                        '<span class="pipeline-phase-title">Pozemky</span>' +
+                        '<span class="pipeline-phase-hint">Po dokončení kontroly žádosti</span>' +
+                    '</div>' +
+                    '<div class="pipeline-phase-body">' +
+                        '<div class="pipeline-card-single phase-locked" id="phase3-solo-wrap">' +
+                        '</div>' +
+                    '</div>';
+
+                // 2) Vytvořit fázi 4 — Veřejné zájmy (solo)
+                var phase4sz26 = document.createElement('div');
+                phase4sz26.className = 'pipeline-phase';
+                phase4sz26.id = 'phase4';
+                phase4sz26.innerHTML =
+                    '<div class="pipeline-phase-label">' +
+                        '<div class="pipeline-phase-number">4</div>' +
+                        '<span class="pipeline-phase-title">Veřejné zájmy</span>' +
+                        '<span class="pipeline-phase-hint">Po identifikaci pozemků</span>' +
+                    '</div>' +
+                    '<div class="pipeline-phase-body">' +
+                        '<div class="pipeline-card-single phase-locked" id="phase4-solo-wrap">' +
+                        '</div>' +
+                    '</div>';
+
+                // 3) Vytvořit fázi 5 — Věcné kontroly (skupina)
+                var phase5sz26 = document.createElement('div');
+                phase5sz26.className = 'pipeline-phase';
+                phase5sz26.id = 'phase5';
+                phase5sz26.innerHTML =
+                    '<div class="pipeline-phase-label">' +
+                        '<div class="pipeline-phase-number">5</div>' +
+                        '<span class="pipeline-phase-title">Věcné kontroly</span>' +
+                        '<span class="pipeline-phase-hint">Libovolné pořadí — po dokončení kontroly žádosti</span>' +
+                    '</div>' +
+                    '<div class="pipeline-phase-body">' +
+                        '<div class="pipeline-group" id="phase5-group"></div>' +
+                    '</div>';
+
+                // 4) Vytvořit fázi 6 — Osoby
+                var phase6sz26 = document.createElement('div');
+                phase6sz26.className = 'pipeline-phase';
+                phase6sz26.id = 'phase6';
+                phase6sz26.innerHTML =
+                    '<div class="pipeline-phase-label">' +
+                        '<div class="pipeline-phase-number">6</div>' +
+                        '<span class="pipeline-phase-title">Osoby v řízení</span>' +
+                        '<span class="pipeline-phase-hint">Po dokončení pozemků a technické infrastruktury</span>' +
+                    '</div>' +
+                    '<div class="pipeline-phase-body">' +
+                        '<div class="pipeline-card-single phase-locked" id="phase6-solo-wrap">' +
+                        '</div>' +
+                    '</div>';
+
+                // Uložit reference na původní fáze
+                var oldPhase3 = document.getElementById('phase3');
+                var oldPhase4 = document.getElementById('phase4');
+
+                // Uschovat karty
+                var cardPozemky = document.getElementById('card-pozemky');
+                var cardVZ = document.getElementById('card-verejnezajmy');
+                var cardDok = document.getElementById('card-dokumentace');
+                var cardUP = document.getElementById('card-up');
+                var cardIdent = document.getElementById('card-identifikace');
+                var cardUcast = document.getElementById('card-ucastnici');
+
+                // Odstranit staré fáze 3 a 4
+                if (oldPhase3) oldPhase3.remove();
+                if (oldPhase4) oldPhase4.remove();
+
+                // Vložit nové fáze za phase2
+                var phase2 = document.getElementById('phase2');
+                phase2.after(phase3sz26);
+                phase3sz26.after(phase4sz26);
+                phase4sz26.after(phase5sz26);
+                phase5sz26.after(phase6sz26);
+
+                // Přesunout karty do nových wrapperů
+                // Pozemky — přetvořit na solo card layout
+                if (cardPozemky) {
+                    var soloWrap3 = document.getElementById('phase3-solo-wrap');
+                    // Převzít dev-skip, icon, info, button z group-card do single-card layoutu
+                    soloWrap3.innerHTML =
+                        '<div class="dev-skip-btns">' + (cardPozemky.querySelector('.dev-skip-btns') ? cardPozemky.querySelector('.dev-skip-btns').innerHTML : '') + '</div>' +
+                        '<div class="pipeline-card-icon"><span class="material-icons-outlined">terrain</span></div>' +
+                        '<div class="pipeline-card-info">' +
+                            '<div class="pipeline-card-title">Pozemky</div>' +
+                            '<div class="pipeline-card-desc">Identifikace pozemků záměru a sousedních parcel</div>' +
+                        '</div>' +
+                        '<div class="pipeline-card-action">' +
+                            '<button class="control-card-action status-waiting" style="width:auto;" disabled>' +
+                                '<span class="material-icons-outlined">lock</span> Nejprve žádost' +
+                            '</button>' +
+                        '</div>';
+                    soloWrap3.id = 'card-pozemky';
+                    soloWrap3.onclick = cardPozemky.onclick;
+                    // Přenést dev-skip handler
+                    var devBtn3 = soloWrap3.querySelector('.dev-skip-btn');
+                    if (devBtn3) devBtn3.onclick = function(e) { e.stopPropagation(); devSkip('pozemky','ok'); };
+                }
+
+                // VZ — přetvořit na solo card
+                if (cardVZ) {
+                    var soloWrap4 = document.getElementById('phase4-solo-wrap');
+                    soloWrap4.innerHTML =
+                        '<div class="dev-skip-btns">' +
+                            '<button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip(\'verejnezajmy\',\'ok\')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>' +
+                        '</div>' +
+                        '<div class="pipeline-card-icon"><span class="material-icons-outlined">shield</span></div>' +
+                        '<div class="pipeline-card-info">' +
+                            '<div class="pipeline-card-title">Veřejné zájmy</div>' +
+                            '<div class="pipeline-card-desc">Posouzení dotčených veřejných zájmů a koordinace DO</div>' +
+                        '</div>' +
+                        '<div class="pipeline-card-action">' +
+                            '<button class="control-card-action status-waiting" style="width:auto;" disabled>' +
+                                '<span class="material-icons-outlined">lock</span> Nejprve pozemky' +
+                            '</button>' +
+                        '</div>';
+                    soloWrap4.id = 'card-verejnezajmy';
+                }
+
+                // Věcné kontroly — přesunout zbylé group-cards
+                var group5 = document.getElementById('phase5-group');
+                if (cardDok) group5.appendChild(cardDok);
+                if (cardUP) group5.appendChild(cardUP);
+                if (cardIdent) {
+                    // Přejmenovat Dokladová část → Technická a dopravní infrastruktura
+                    var identTitle = cardIdent.querySelector('.pipeline-card-title');
+                    var identDesc = cardIdent.querySelector('.pipeline-card-desc');
+                    if (identTitle) identTitle.textContent = 'Technická a dopravní infrastruktura';
+                    if (identDesc) identDesc.textContent = 'Vyjádření vlastníků a správců technické a dopravní infrastruktury';
+                    group5.appendChild(cardIdent);
+                }
+
+                // Osoby — přetvořit na solo card ve fázi 6
+                if (cardUcast) {
+                    var soloWrap6 = document.getElementById('phase6-solo-wrap');
+                    soloWrap6.innerHTML =
+                        '<div class="dev-skip-btns">' +
+                            '<button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip(\'ucastnici\',\'ok\')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>' +
+                        '</div>' +
+                        '<div class="pipeline-card-icon"><span class="material-icons-outlined">groups</span></div>' +
+                        '<div class="pipeline-card-info">' +
+                            '<div class="pipeline-card-title">Osoby</div>' +
+                            '<div class="pipeline-card-desc">Ověření vlastníků pozemků a definice osob v řízení</div>' +
+                        '</div>' +
+                        '<div class="pipeline-card-action">' +
+                            '<button class="control-card-action status-waiting" style="width:auto;" disabled>' +
+                                '<span class="material-icons-outlined">lock</span> Nejprve pozemky a infrastruktura' +
+                            '</button>' +
+                        '</div>';
+                    soloWrap6.id = 'card-ucastnici';
+                }
+
+                // Skrýt card-verejnezajmy hack — je teď vlastní fáze, vždy viditelná
+                var vzCard = document.getElementById('card-verejnezajmy');
+                if (vzCard) vzCard.style.display = '';
+
+            } else {
+                // --- Vrátit na SZ 2024 layout ---
+
+                controls.verejnezajmy.depends = ['zadost', 'pozemky', 'dokumentace'];
+                controls.pozemky.depends = ['zadost'];
+
+                // Odstranit SZ2026 fáze
+                var p3 = document.getElementById('phase3');
+                var p4 = document.getElementById('phase4');
+                var p5 = document.getElementById('phase5');
+                var p6 = document.getElementById('phase6');
+
+                // Uschovat group-cards z fáze 5 (dokumentace, up, identifikace)
+                var cardDok2 = document.getElementById('card-dokumentace');
+                var cardUP2 = document.getElementById('card-up');
+                var cardIdent2 = document.getElementById('card-identifikace');
+
+                if (p3) p3.remove();
+                if (p4) p4.remove();
+                if (p5) p5.remove();
+                if (p6) p6.remove();
+
+                // Obnovit fázi 3 — Věcné kontroly (skupina)
+                var restoredPhase3 = document.createElement('div');
+                restoredPhase3.className = 'pipeline-phase';
+                restoredPhase3.id = 'phase3';
+                restoredPhase3.innerHTML =
+                    '<div class="pipeline-phase-label">' +
+                        '<div class="pipeline-phase-number">3</div>' +
+                        '<span class="pipeline-phase-title">Věcné kontroly</span>' +
+                        '<span class="pipeline-phase-hint">Libovolné pořadí — po dokončení kontroly žádosti</span>' +
+                    '</div>' +
+                    '<div class="pipeline-phase-body">' +
+                        '<div class="pipeline-group" id="restored-group3"></div>' +
+                    '</div>';
+
+                // Obnovit fázi 4 — Osoby
+                var restoredPhase4 = document.createElement('div');
+                restoredPhase4.className = 'pipeline-phase';
+                restoredPhase4.id = 'phase4';
+                restoredPhase4.innerHTML =
+                    '<div class="pipeline-phase-label">' +
+                        '<div class="pipeline-phase-number">4</div>' +
+                        '<span class="pipeline-phase-title">Osoby v řízení</span>' +
+                        '<span class="pipeline-phase-hint">Po dokončení pozemků a dokladové části</span>' +
+                    '</div>' +
+                    '<div class="pipeline-phase-body">' +
+                        '<div class="pipeline-card-single phase-locked" id="restored-osoby-wrap"></div>' +
+                    '</div>';
+
+                var phase2b = document.getElementById('phase2');
+                phase2b.after(restoredPhase3);
+                restoredPhase3.after(restoredPhase4);
+
+                // Obnovit group-cards v původním pořadí
+                var group3 = document.getElementById('restored-group3');
+                function makeGroupCard(id, icon, title, desc) {
+                    var gc = document.createElement('div');
+                    gc.className = 'pipeline-group-card phase-locked';
+                    gc.id = id;
+                    gc.innerHTML =
+                        '<div class="dev-skip-btns">' +
+                            '<button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip(\'' + id.replace('card-','') + '\',\'ok\')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>' +
+                        '</div>' +
+                        '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">' +
+                            '<div class="pipeline-card-icon"><span class="material-icons-outlined">' + icon + '</span></div>' +
+                            '<span class="drag-handle" draggable="true" title="Přesunout"><span class="material-icons-outlined">drag_indicator</span></span>' +
+                        '</div>' +
+                        '<div class="pipeline-card-title">' + title + '</div>' +
+                        '<div class="pipeline-card-desc">' + desc + '</div>' +
+                        '<button class="control-card-action status-waiting" disabled>' +
+                            '<span class="material-icons-outlined">lock</span> Nejprve žádost' +
+                        '</button>';
+                    return gc;
+                }
+                // Pokud existující card stále v DOM, použít ho; jinak vytvořit nový
+                if (cardDok2) {
+                    group3.appendChild(cardDok2);
+                } else {
+                    group3.appendChild(makeGroupCard('card-dokumentace', 'architecture', 'Dokumentace', 'Úplnost, podpisy a formát projektové dokumentace'));
+                }
+                group3.appendChild(makeGroupCard('card-pozemky', 'terrain', 'Pozemky', 'Ověření pozemků záměru a sousedních parcel'));
+                if (cardUP2) {
+                    group3.appendChild(cardUP2);
+                } else {
+                    group3.appendChild(makeGroupCard('card-up', 'map', 'Soulad s ÚPD', 'Soulad záměru s územně plánovací dokumentací'));
+                }
+                // Vrátit název identifikace
+                if (cardIdent2) {
+                    var identTitle2 = cardIdent2.querySelector('.pipeline-card-title');
+                    var identDesc2 = cardIdent2.querySelector('.pipeline-card-desc');
+                    if (identTitle2) identTitle2.textContent = 'Dokladová část';
+                    if (identDesc2) identDesc2.textContent = 'Stanoviska DO a vyjádření vlastníků sítí';
+                    group3.appendChild(cardIdent2);
+                } else {
+                    group3.appendChild(makeGroupCard('card-identifikace', 'rule_folder', 'Dokladová část', 'Stanoviska DO a vyjádření vlastníků sítí'));
+                }
+                // VZ karta — skrytá v SZ2024
+                group3.appendChild(makeGroupCard('card-verejnezajmy', 'shield', 'Veřejné zájmy', 'Posouzení dotčených veřejných zájmů a integrace stanovisek'));
+                var vzCard2 = document.getElementById('card-verejnezajmy');
+                if (vzCard2) vzCard2.style.display = 'none';
+
+                // Osoby
+                var osobyWrap = document.getElementById('restored-osoby-wrap');
+                osobyWrap.id = 'card-ucastnici';
+                osobyWrap.innerHTML =
+                    '<div class="dev-skip-btns">' +
+                        '<button class="dev-skip-btn dev-skip-ok" onclick="event.stopPropagation();devSkip(\'ucastnici\',\'ok\')" title="Projít bez vad"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span></button>' +
+                    '</div>' +
+                    '<div class="pipeline-card-icon"><span class="material-icons-outlined">groups</span></div>' +
+                    '<div class="pipeline-card-info">' +
+                        '<div class="pipeline-card-title">Osoby</div>' +
+                        '<div class="pipeline-card-desc">Ověření vlastníků pozemků a definice osob v řízení — přebírá data z pozemků a dokladové části</div>' +
+                    '</div>' +
+                    '<div class="pipeline-card-action">' +
+                        '<button class="control-card-action status-waiting" style="width:auto;" disabled>' +
+                            '<span class="material-icons-outlined">lock</span> Nejprve pozemky a doklady' +
+                        '</button>' +
+                    '</div>';
+            }
+
+            // Po reorganizaci překreslit UI
+            updateUI();
+        }
+        // ── /Reorganizace ────────────────────────────────────────────────
+
         function updatePipelinePhases() {
             const c = controls;
+            const is2026 = window.ISSR_SCENAR === 'sz2026';
 
-            // Fáze 1 — Příslušnost
+            // Fáze 1 — Příslušnost / Přidělení
             const phase1 = document.getElementById('phase1');
             const card1 = document.getElementById('card-prislusnost');
             if (phase1 && card1) {
@@ -25299,7 +25607,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                     phase1.classList.add('phase-done');
                     card1.classList.remove('phase-active', 'phase-locked');
                     card1.classList.add('phase-done');
-                    // Přepsat akční tlačítko na stav hotovo
                     const btn = card1.querySelector('.control-card-action');
                     if (btn) {
                         btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Příslušný';
@@ -25331,108 +25638,157 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 }
             }
 
-            // Fáze 3 — Věcné kontroly (odemknutí skupiny)
-            const phase3 = document.getElementById('phase3');
-            const groupCards = {
-                dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu' },
-                pozemky:     { controlId: 'controlPozemky',     readyText: 'Identifikovat pozemky' },
-                up:          { controlId: 'controlUP',          readyText: 'Provést kontrolu' },
-                identifikace:{ controlId: 'controlIdentifikace',readyText: 'Provést kontrolu' },
-                verejnezajmy: { controlId: 'controlVerejneZajmy', readyText: 'Posoudit veřejné zájmy' }
-            };
-            const phase3Unlocked = c.zadost.done;
-            var phase3Keys = ['dokumentace','pozemky','up','identifikace'];
-            if (window.ISSR_SCENAR === 'sz2026') phase3Keys.push('verejnezajmy');
-            const phase3AllDone = phase3Unlocked && phase3Keys.every(k => c[k] && c[k].done);
-            if (phase3) {
-                if (phase3AllDone) {
-                    phase3.classList.remove('phase-active');
-                    phase3.classList.add('phase-done');
-                } else if (phase3Unlocked) {
-                    phase3.classList.add('phase-active');
+            if (is2026) {
+                // ── SZ 2026: Fáze 3 (Pozemky), 4 (VZ), 5 (Věcné kontroly), 6 (Osoby) ──
+                updateSoloPhase('phase3', 'card-pozemky', 'pozemky', c.zadost.done,
+                    'controlPozemky', 'Identifikovat pozemky', 'Hotovo', 'Nejprve žádost');
+                updateSoloPhase('phase4', 'card-verejnezajmy', 'verejnezajmy',
+                    c.zadost.done && c.pozemky.done,
+                    'controlVerejneZajmy', 'Posoudit veřejné zájmy', 'Posouzeno', 'Nejprve pozemky');
+
+                // Fáze 5 — Věcné kontroly (skupina: dokumentace, up, identifikace)
+                var phase5 = document.getElementById('phase5');
+                var phase5Keys = ['dokumentace', 'up', 'identifikace'];
+                var phase5Unlocked = c.zadost.done;
+                var phase5AllDone = phase5Unlocked && phase5Keys.every(function(k) { return c[k] && c[k].done; });
+                if (phase5) {
+                    phase5.classList.remove('phase-active', 'phase-done');
+                    if (phase5AllDone) phase5.classList.add('phase-done');
+                    else if (phase5Unlocked) phase5.classList.add('phase-active');
                 }
-            }
-            if (phase3Unlocked) {
-                for (const [key, cfg] of Object.entries(groupCards)) {
-                    const gc = document.getElementById('card-' + key);
-                    if (!gc) continue;
-                    const btn = gc.querySelector('.control-card-action');
-                    if (c[key] && c[key].done) {
-                        gc.classList.remove('phase-locked', 'phase-active', 'phase-done');
-                        // Identifikace s chybějícími doklady → zelená dlaždice + žlutý štítek
-                        if (key === 'identifikace' && c[key].result === 'warning') {
-                            gc.classList.add('phase-done');
-                            if (btn) {
-                                btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Chybí doklady</span>';
-                                btn.style.background = '';
-                                btn.style.borderColor = '';
-                                btn.style.color = '';
-                                btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
-                                btn.disabled = false;
-                            }
-                        } else {
-                            gc.classList.add('phase-done');
-                            if (btn) {
-                                if (key === 'pozemky' && c[key].sousedniChybi) {
-                                    btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Sousední chybí</span>';
-                                } else {
-                                    btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
-                                }
-                                btn.style.background = '';
-                                btn.style.borderColor = '';
-                                btn.style.color = '';
-                                btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
-                                btn.disabled = false;
-                            }
-                        }
-                    } else {
-                        // VZ má rozšířené závislosti — odemknout až po pozemcích a dokumentaci
-                        var extraDepsOk = true;
-                        if (key === 'verejnezajmy') {
-                            extraDepsOk = c.pozemky && c.pozemky.done && c.dokumentace && c.dokumentace.done;
-                        }
-                        if (extraDepsOk) {
-                            gc.classList.remove('phase-locked', 'phase-done');
-                            gc.classList.add('phase-active');
-                            if (btn) {
-                                btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
-                                btn.style.background = '';
-                                btn.style.borderColor = '';
-                                btn.style.color = '';
-                                btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
-                                btn.disabled = false;
-                            }
-                        } else {
-                            // Závislosti nesplněny — ponechat zamčenou
-                            gc.classList.remove('phase-active', 'phase-done');
-                            gc.classList.add('phase-locked');
-                            if (btn) {
-                                btn.innerHTML = '<span class="material-icons-outlined">lock</span>Nejprve pozemky a dokumentace';
-                                btn.disabled = true;
-                            }
+                var groupCards5 = {
+                    dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu' },
+                    up:          { controlId: 'controlUP',          readyText: 'Provést kontrolu' },
+                    identifikace:{ controlId: 'controlIdentifikace',readyText: 'Provést kontrolu' }
+                };
+                if (phase5Unlocked) {
+                    updateGroupCards(groupCards5, c);
+                }
+
+                // Fáze 6 — Osoby
+                updateSoloPhase('phase6', 'card-ucastnici', 'ucastnici',
+                    c.pozemky.done && c.identifikace.done,
+                    'controlUcastnici', 'Definovat osoby', 'Kompletní', 'Nejprve pozemky a infrastruktura');
+
+            } else {
+                // ── SZ 2024: Fáze 3 (Věcné kontroly), 4 (Osoby) ──
+                var phase3 = document.getElementById('phase3');
+                var groupCards = {
+                    dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu' },
+                    pozemky:     { controlId: 'controlPozemky',     readyText: 'Identifikovat pozemky' },
+                    up:          { controlId: 'controlUP',          readyText: 'Provést kontrolu' },
+                    identifikace:{ controlId: 'controlIdentifikace',readyText: 'Provést kontrolu' }
+                };
+                var phase3Unlocked = c.zadost.done;
+                var phase3Keys2024 = ['dokumentace','pozemky','up','identifikace'];
+                var phase3AllDone = phase3Unlocked && phase3Keys2024.every(function(k) { return c[k] && c[k].done; });
+                if (phase3) {
+                    phase3.classList.remove('phase-active', 'phase-done');
+                    if (phase3AllDone) phase3.classList.add('phase-done');
+                    else if (phase3Unlocked) phase3.classList.add('phase-active');
+                }
+                if (phase3Unlocked) {
+                    updateGroupCards(groupCards, c);
+                }
+
+                // Fáze 4 — Osoby
+                var phase4 = document.getElementById('phase4');
+                var card4 = document.getElementById('card-ucastnici');
+                var phase4Unlocked = c.pozemky && c.pozemky.done && c.identifikace && c.identifikace.done;
+                if (phase4 && card4) {
+                    if (c.ucastnici && c.ucastnici.done) {
+                        phase4.classList.remove('phase-active');
+                        phase4.classList.add('phase-done');
+                        card4.classList.remove('phase-locked');
+                        card4.classList.add('phase-done');
+                    } else if (phase4Unlocked) {
+                        phase4.classList.add('phase-active');
+                        card4.classList.remove('phase-locked');
+                        card4.classList.add('phase-active');
+                        var btn = card4.querySelector('.control-card-action');
+                        if (btn) {
+                            btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>Definovat osoby';
+                            btn.onclick = function() { openControl('controlUcastnici'); };
+                            btn.disabled = false;
                         }
                     }
                 }
             }
+        }
 
-            // Fáze 4 — Osoby
-            const phase4 = document.getElementById('phase4');
-            const card4 = document.getElementById('card-ucastnici');
-            const phase4Unlocked = c.pozemky && c.pozemky.done && c.identifikace && c.identifikace.done;
-            if (phase4 && card4) {
-                if (c.ucastnici && c.ucastnici.done) {
-                    phase4.classList.remove('phase-active');
-                    phase4.classList.add('phase-done');
-                    card4.classList.remove('phase-locked');
-                    card4.classList.add('phase-done');
-                } else if (phase4Unlocked) {
-                    phase4.classList.add('phase-active');
-                    card4.classList.remove('phase-locked');
-                    card4.classList.add('phase-active');
-                    const btn = card4.querySelector('.control-card-action');
+        // Pomocná funkce: aktualizace solo-card fáze
+        function updateSoloPhase(phaseId, cardId, controlKey, unlocked, controlOverlayId, readyText, doneText, lockedText) {
+            var phase = document.getElementById(phaseId);
+            var card = document.getElementById(cardId);
+            var c = controls;
+            if (!phase || !card) return;
+            phase.classList.remove('phase-active', 'phase-done');
+            card.classList.remove('phase-locked', 'phase-active', 'phase-done');
+            var btn = card.querySelector('.control-card-action');
+
+            if (c[controlKey] && c[controlKey].done) {
+                phase.classList.add('phase-done');
+                card.classList.add('phase-done');
+                if (btn) {
+                    var resultHtml = '<span class="material-icons-outlined">check_circle</span>' + doneText;
+                    if (controlKey === 'pozemky' && c[controlKey].sousedniChybi) {
+                        resultHtml += ' <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Sousední chybí</span>';
+                    }
+                    btn.innerHTML = resultHtml;
+                    btn.onclick = function() { openControl(controlOverlayId); };
+                    btn.disabled = false;
+                }
+            } else if (unlocked) {
+                phase.classList.add('phase-active');
+                card.classList.add('phase-active');
+                if (btn) {
+                    btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + readyText;
+                    btn.onclick = function() { openControl(controlOverlayId); };
+                    btn.disabled = false;
+                }
+            } else {
+                card.classList.add('phase-locked');
+                if (btn) {
+                    btn.innerHTML = '<span class="material-icons-outlined">lock</span>' + lockedText;
+                    btn.disabled = true;
+                }
+            }
+        }
+
+        // Pomocná funkce: aktualizace group-cards ve skupinové fázi
+        function updateGroupCards(groupCards, c) {
+            for (var key in groupCards) {
+                if (!groupCards.hasOwnProperty(key)) continue;
+                var cfg = groupCards[key];
+                var gc = document.getElementById('card-' + key);
+                if (!gc) continue;
+                var btn = gc.querySelector('.control-card-action');
+                if (c[key] && c[key].done) {
+                    gc.classList.remove('phase-locked', 'phase-active', 'phase-done');
+                    gc.classList.add('phase-done');
                     if (btn) {
-                        btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>Definovat osoby';
-                        btn.onclick = function() { openControl('controlUcastnici'); };
+                        if (key === 'identifikace' && c[key].result === 'warning') {
+                            btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Chybí doklady</span>';
+                        } else if (key === 'pozemky' && c[key].sousedniChybi) {
+                            btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo <span style="display:inline-flex;align-items:center;gap:2px;margin-left:4px;padding:1px 5px;background:#fff3cd;border:1px solid #f6b900;border-radius:3px;font-size:10px;color:#b06000;"><span class="material-icons-outlined" style="font-size:11px;">warning</span>Sousední chybí</span>';
+                        } else {
+                            btn.innerHTML = '<span class="material-icons-outlined">check_circle</span>Hotovo';
+                        }
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                        btn.style.color = '';
+                        btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
+                        btn.disabled = false;
+                    }
+                } else {
+                    gc.classList.remove('phase-locked', 'phase-done');
+                    gc.classList.add('phase-active');
+                    if (btn) {
+                        btn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
+                        btn.style.background = '';
+                        btn.style.borderColor = '';
+                        btn.style.color = '';
+                        btn.onclick = (function(id) { return function() { openControl(id); }; })(cfg.controlId);
                         btn.disabled = false;
                     }
                 }
@@ -25633,9 +25989,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             if (overlayTitle) overlayTitle.textContent = is2026 ? 'Ověření přidělení pracoviště' : 'Kontrola příslušnosti';
             if (overlayIcon) overlayIcon.textContent = is2026 ? 'verified' : 'account_balance';
 
-            // Veřejné zájmy — zobrazit/skrýt dlaždici
-            var cardVZ = document.getElementById('card-verejnezajmy');
-            if (cardVZ) cardVZ.style.display = is2026 ? '' : 'none';
+            // Reorganizovat pipeline pro SZ 2026 / vrátit pro SZ 2024
+            reorganizePipeline(is2026 ? 'sz2026' : 'sz2024');
 
             // Invalidovat cache read-only žádosti ve všech viewerech —
             // generateZadostDataReadOnly() nyní respektuje ISSR_SCENAR
