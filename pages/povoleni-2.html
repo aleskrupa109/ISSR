@@ -14194,7 +14194,99 @@
                             </div>
                         </div>
 
-                        <!-- Výběr koordinátora — zobrazí se jen při volbě "koordinátor" -->
+                        <!-- ── Obsah pro Zpracovatel sám — přehled integrovaných DO ── -->
+                        <div id="prisVzZpracovatelContent" style="margin-top:12px;">
+                            <!-- Switch Předat všem / Vybrat DO -->
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                                <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;">Integrované dotčené orgány</div>
+                                <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
+                                    <span id="prisVzDoSwitchLabel" style="color:#1a73e8;font-weight:600;">Předat všem</span>
+                                    <label style="position:relative;display:inline-block;width:36px;height:20px;cursor:pointer;">
+                                        <input type="checkbox" id="prisVzDoSwitch" onchange="togglePrisVzDoMode()" style="opacity:0;width:0;height:0;">
+                                        <span style="position:absolute;inset:0;background:#1a73e8;border-radius:10px;transition:.2s;"></span>
+                                        <span id="prisVzDoSwitchKnob" style="position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.2s;"></span>
+                                    </label>
+                                    <span id="prisVzDoSwitchLabelR" style="color:#5f6368;">Vybrat DO</span>
+                                </div>
+                            </div>
+                            <!-- Tabulka integrovaných DO -->
+                            <div style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+                                <table style="width:100%;border-collapse:collapse;font-size:11px;">
+                                    <thead>
+                                        <tr style="background:#f8f9fa;">
+                                            <th style="padding:6px 10px;text-align:left;font-weight:600;color:#5f6368;width:50px;">Úsek</th>
+                                            <th style="padding:6px 10px;text-align:left;font-weight:600;color:#5f6368;">Odbor</th>
+                                            <th style="padding:6px 10px;text-align:left;font-weight:600;color:#5f6368;">Přispěvatel</th>
+                                            <th style="padding:6px 8px;text-align:center;font-weight:600;color:#5f6368;width:36px;" class="prisVzDoSelectCol" style="display:none;">
+                                                <span class="material-icons-outlined" style="font-size:14px;">check_box</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="prisVzDoTableBody">
+                                        <tr class="prisVzDoRow" data-do="PAK" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">PAK</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor ŽP — ochrana přírody a krajiny</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Dobisík Ondřej</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="OVZ" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">OVZ</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor ŽP — ochrana ovzduší</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Dobisík Ondřej</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="ZPF" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">ZPF</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor ŽP — ochrana ZPF</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Herbrychová Jarmila</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="LES" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">LES</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor ŽP — ochrana lesa</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Herbrychová Jarmila</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="ODP" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">ODP</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor ŽP — odpadové hospodářství</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Herbrychová Jarmila</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="ZAV" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">ZAV</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor ŽP — prevence závažných havárií</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Dobisík Ondřej</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="PAM" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">PAM</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor památkové péče</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Krupa Aleš</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="HYG" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">HYG</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Samostatné oddělení ochrany veř. zdraví</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Marková Lucie</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                        <tr class="prisVzDoRow" data-do="UUP" style="border-top:1px solid #f0f0f0;">
+                                            <td style="padding:6px 10px;font-weight:600;color:#202124;">UUP</td>
+                                            <td style="padding:6px 10px;color:#3c4043;">Odbor územního plánování</td>
+                                            <td style="padding:6px 10px;color:#5f6368;">Janovský Martin</td>
+                                            <td class="prisVzDoSelectCol" style="padding:6px 8px;text-align:center;display:none;"><input type="checkbox" class="prisVzDoCb" checked onchange="updatePrisVzDoInfo()"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top:8px;padding:8px;background:#f8f9fa;border-radius:4px;font-size:11px;color:#5f6368;display:flex;align-items:center;gap:6px;">
+                                <span class="material-icons-outlined" style="font-size:14px;">info</span>
+                                <span id="prisVzDoInfoText">Řízení bude předáno všem 9 integrovaným DO ihned po potvrzení tohoto kroku.</span>
+                            </div>
+                        </div>
+
+                        <!-- ── Obsah pro Koordinátor — výběr koordinátora ── -->
                         <div id="prisVzKoordSection" style="display:none;margin-top:12px;padding:12px;background:#f0f7ff;border:1px solid #c2dbf4;border-radius:8px;">
                             <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Přiřazení koordinátora</div>
                             <div style="display:flex;gap:8px;align-items:flex-end;">
@@ -14202,9 +14294,10 @@
                                     <label style="font-size:11px;color:#5f6368;display:block;margin-bottom:4px;">Koordinátor VZ</label>
                                     <select id="prisVzKoordinatorSelect" style="width:100%;padding:8px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;background:#fff;">
                                         <option value="">— Vyberte koordinátora —</option>
+                                        <option value="vk" selected>Ing. Petra Nováková — vedoucí koordinátorů (přidělí konkrétního koordinátora)</option>
                                         <option value="k1">Ing. Martin Horák (Krajské ÚRÚ Královéhradeckého kraje)</option>
                                         <option value="k2">Mgr. Lenka Svobodová (ÚP Rychnov n. K., koordinátor VZ)</option>
-                                        <option value="k3" selected>Ing. Radek Procházka (ÚP Kostelec n. O., koordinátor VZ)</option>
+                                        <option value="k3">Ing. Radek Procházka (ÚP Kostelec n. O., koordinátor VZ)</option>
                                     </select>
                                 </div>
                             </div>
@@ -26018,6 +26111,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             var titleZ = document.getElementById('prisVzModeTitleZ');
             var titleK = document.getElementById('prisVzModeTitleK');
             var koordSection = document.getElementById('prisVzKoordSection');
+            var zpracContent = document.getElementById('prisVzZpracovatelContent');
 
             if (mode === 'zpracovatel') {
                 cardZ.style.border = '2px solid #1a73e8';
@@ -26027,6 +26121,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 cardK.style.background = '#fff';
                 titleK.style.color = '#202124';
                 if (koordSection) koordSection.style.display = 'none';
+                if (zpracContent) zpracContent.style.display = '';
             } else {
                 cardK.style.border = '2px solid #1a73e8';
                 cardK.style.background = '#f0f7ff';
@@ -26035,6 +26130,55 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 cardZ.style.background = '#fff';
                 titleZ.style.color = '#202124';
                 if (koordSection) koordSection.style.display = '';
+                if (zpracContent) zpracContent.style.display = 'none';
+            }
+        }
+
+        // ── Toggle Předat všem / Vybrat DO ──────────────────────────────
+        function togglePrisVzDoMode() {
+            var sw = document.getElementById('prisVzDoSwitch');
+            var knob = document.getElementById('prisVzDoSwitchKnob');
+            var labelL = document.getElementById('prisVzDoSwitchLabel');
+            var labelR = document.getElementById('prisVzDoSwitchLabelR');
+            var cols = document.querySelectorAll('.prisVzDoSelectCol');
+            var infoText = document.getElementById('prisVzDoInfoText');
+            var isSelect = sw.checked;
+
+            // Vizuál switche
+            if (isSelect) {
+                knob.style.left = '18px';
+                labelL.style.color = '#5f6368';
+                labelL.style.fontWeight = '400';
+                labelR.style.color = '#1a73e8';
+                labelR.style.fontWeight = '600';
+            } else {
+                knob.style.left = '2px';
+                labelL.style.color = '#1a73e8';
+                labelL.style.fontWeight = '600';
+                labelR.style.color = '#5f6368';
+                labelR.style.fontWeight = '400';
+            }
+
+            // Zobrazit/skrýt sloupec checkboxů
+            for (var i = 0; i < cols.length; i++) {
+                cols[i].style.display = isSelect ? '' : 'none';
+            }
+
+            // Aktualizovat info text
+            updatePrisVzDoInfo();
+        }
+
+        function updatePrisVzDoInfo() {
+            var sw = document.getElementById('prisVzDoSwitch');
+            var infoText = document.getElementById('prisVzDoInfoText');
+            if (!infoText) return;
+
+            if (!sw || !sw.checked) {
+                infoText.textContent = 'Řízení bude předáno všem 9 integrovaným DO ihned po potvrzení tohoto kroku.';
+            } else {
+                var checked = document.querySelectorAll('.prisVzDoCb:checked');
+                var count = checked.length;
+                infoText.textContent = 'Řízení bude předáno ' + count + ' z 9 integrovaným DO ihned po potvrzení tohoto kroku.';
             }
         }
 
@@ -26061,6 +26205,18 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             if (_prisVzMode === 'koordinator') {
                 var sel = document.getElementById('prisVzKoordinatorSelect');
                 controls.prislusnost.vzKoordinator = sel ? sel.options[sel.selectedIndex].text : '';
+            } else {
+                // Uložit vybrané DO
+                var doSwitch = document.getElementById('prisVzDoSwitch');
+                controls.prislusnost.vzDoAll = !doSwitch || !doSwitch.checked;
+                if (!controls.prislusnost.vzDoAll) {
+                    var checked = document.querySelectorAll('.prisVzDoCb:checked');
+                    controls.prislusnost.vzSelectedDO = [];
+                    for (var i = 0; i < checked.length; i++) {
+                        var row = checked[i].closest('.prisVzDoRow');
+                        if (row) controls.prislusnost.vzSelectedDO.push(row.getAttribute('data-do'));
+                    }
+                }
             }
 
             // Synchronizovat režim do VZ panelu
