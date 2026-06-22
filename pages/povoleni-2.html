@@ -15320,6 +15320,29 @@
                     </div>
                     
                     <div class="deficiency-panel-content" id="deficiencyPanelContent">
+
+                        <!-- Průběh kontroly — vždy viditelný -->
+                        <div id="deficiencyEmpty">
+                            <div style="padding: 16px 0 12px;">
+                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                                    <span style="font-size:12px; font-weight:500; color:#202124;">Průběh kontroly</span>
+                                    <span style="font-size:12px; color:#5f6368;"><span id="progressOkCount">0</span> z 9 sekcí</span>
+                                </div>
+                                <div style="height:6px; background:#e0e0e0; border-radius:4px; overflow:hidden;">
+                                    <div id="deficiencyProgressBar" style="height:100%; background:#137333; border-radius:4px; width:0%; transition:width 0.3s;"></div>
+                                </div>
+                            </div>
+                            <div id="deficiencyOkList" style="display:flex; flex-direction:column; gap:4px;"></div>
+                            <div id="deficiencyNoVady" style="display:none; margin-top:12px; padding:10px 12px; background:#e6f4ea; border-radius:8px; font-size:12px; color:#137333; display:flex; align-items:center; gap:6px;">
+                                <span class="material-icons-outlined" style="font-size:16px;">check_circle</span>
+                                Žádné nedostatky
+                            </div>
+                        </div>
+                        
+                        <!-- Seznam nedostatků (dynamicky generovaný) -->
+                        <div class="deficiency-list" id="deficiencyList" style="display: none;">
+                            <!-- Položky budou přidány JavaScriptem -->
+                        </div>
                     <!-- Kategorie stavby -->
                     <div class="control-section stavba-kategorie-section" id="kategorieStavbySection">
                         <div class="control-section-title">
@@ -15523,29 +15546,6 @@
                         <div class="auto-check-results" id="autoCheckResults">
                         </div>
                     </div>
-
-                        <!-- Průběh kontroly — vždy viditelný -->
-                        <div id="deficiencyEmpty">
-                            <div style="padding: 16px 0 12px;">
-                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                                    <span style="font-size:12px; font-weight:500; color:#202124;">Průběh kontroly</span>
-                                    <span style="font-size:12px; color:#5f6368;"><span id="progressOkCount">0</span> z 9 sekcí</span>
-                                </div>
-                                <div style="height:6px; background:#e0e0e0; border-radius:4px; overflow:hidden;">
-                                    <div id="deficiencyProgressBar" style="height:100%; background:#137333; border-radius:4px; width:0%; transition:width 0.3s;"></div>
-                                </div>
-                            </div>
-                            <div id="deficiencyOkList" style="display:flex; flex-direction:column; gap:4px;"></div>
-                            <div id="deficiencyNoVady" style="display:none; margin-top:12px; padding:10px 12px; background:#e6f4ea; border-radius:8px; font-size:12px; color:#137333; display:flex; align-items:center; gap:6px;">
-                                <span class="material-icons-outlined" style="font-size:16px;">check_circle</span>
-                                Žádné nedostatky
-                            </div>
-                        </div>
-                        
-                        <!-- Seznam nedostatků (dynamicky generovaný) -->
-                        <div class="deficiency-list" id="deficiencyList" style="display: none;">
-                            <!-- Položky budou přidány JavaScriptem -->
-                        </div>
                     </div>
                     
                     <div class="deficiency-panel-footer">
