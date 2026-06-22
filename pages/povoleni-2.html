@@ -9171,6 +9171,19 @@
             transform: translateX(18px);
         }
 
+        /* Stylované checkboxy pro DO tabulku */
+        .prisVzDoCb {
+            accent-color: #004289;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Toggle pro Předat všem / Vybrat DO — vždy modrý (obě strany jsou aktivní volby) */
+        #prisVzDoSwitch + .toggle-slider {
+            background-color: #004289;
+        }
+
         /* ==========================================
            OSOBY - DVOUSLOUPCOVÝ LAYOUT
            ========================================== */
@@ -14200,11 +14213,10 @@
                             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
                                 <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;">Integrované dotčené orgány</div>
                                 <div style="display:flex;align-items:center;gap:6px;font-size:11px;">
-                                    <span id="prisVzDoSwitchLabel" style="color:#1a73e8;font-weight:600;">Předat všem</span>
-                                    <label style="position:relative;display:inline-block;width:36px;height:20px;cursor:pointer;">
-                                        <input type="checkbox" id="prisVzDoSwitch" onchange="togglePrisVzDoMode()" style="opacity:0;width:0;height:0;">
-                                        <span style="position:absolute;inset:0;background:#1a73e8;border-radius:10px;transition:.2s;"></span>
-                                        <span id="prisVzDoSwitchKnob" style="position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.2s;"></span>
+                                    <span id="prisVzDoSwitchLabel" style="color:#004289;font-weight:600;">Předat všem</span>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="prisVzDoSwitch" onchange="togglePrisVzDoMode()">
+                                        <span class="toggle-slider"></span>
                                     </label>
                                     <span id="prisVzDoSwitchLabelR" style="color:#5f6368;">Vybrat DO</span>
                                 </div>
@@ -26137,23 +26149,20 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         // ── Toggle Předat všem / Vybrat DO ──────────────────────────────
         function togglePrisVzDoMode() {
             var sw = document.getElementById('prisVzDoSwitch');
-            var knob = document.getElementById('prisVzDoSwitchKnob');
             var labelL = document.getElementById('prisVzDoSwitchLabel');
             var labelR = document.getElementById('prisVzDoSwitchLabelR');
             var cols = document.querySelectorAll('.prisVzDoSelectCol');
             var infoText = document.getElementById('prisVzDoInfoText');
             var isSelect = sw.checked;
 
-            // Vizuál switche
+            // Vizuál popisků
             if (isSelect) {
-                knob.style.left = '18px';
                 labelL.style.color = '#5f6368';
                 labelL.style.fontWeight = '400';
-                labelR.style.color = '#1a73e8';
+                labelR.style.color = '#004289';
                 labelR.style.fontWeight = '600';
             } else {
-                knob.style.left = '2px';
-                labelL.style.color = '#1a73e8';
+                labelL.style.color = '#004289';
                 labelL.style.fontWeight = '600';
                 labelR.style.color = '#5f6368';
                 labelR.style.fontWeight = '400';
