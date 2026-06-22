@@ -14157,6 +14157,64 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ── Předání koordinace veřejných zájmů (jen SZ 2026) ── -->
+                    <div class="control-section" id="prislusnostVzModeSection">
+                        <div class="control-section-title">
+                            <span class="material-icons-outlined" style="font-size:16px;vertical-align:middle;margin-right:4px;color:#1a73e8;">shield</span>
+                            Předání koordinace veřejných zájmů
+                        </div>
+                        <p style="font-size:12px;color:#5f6368;margin-bottom:12px;line-height:1.5;">
+                            Zvolte, jakým způsobem bude probíhat koordinace dotčených orgánů. Tato volba ovlivní další průběh v kroku Veřejné zájmy.
+                        </p>
+                        <div style="display:flex;gap:8px;" id="prislusnostVzModeCards">
+                            <!-- Varianta 1: Zpracovatel -->
+                            <div class="pris-vz-mode-card selected" id="prisVzModeZ" onclick="setPrislusnostVzMode('zpracovatel')" style="flex:1;padding:12px;border:2px solid #1a73e8;border-radius:8px;cursor:pointer;background:#f0f7ff;transition:all 0.15s;">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">person</span>
+                                    </span>
+                                    <div id="prisVzModeTitleZ" style="font-size:13px;font-weight:600;color:#1a73e8;">Zpracovatel sám</div>
+                                </div>
+                                <div style="font-size:11px;color:#3c4043;line-height:1.5;">
+                                    Úředník sám koordinuje vyjádření dotčených orgánů, sleduje plnění a řeší rozpory.
+                                </div>
+                            </div>
+                            <!-- Varianta 2: Koordinátor -->
+                            <div class="pris-vz-mode-card" id="prisVzModeK" onclick="setPrislusnostVzMode('koordinator')" style="flex:1;padding:12px;border:2px solid #dadce0;border-radius:8px;cursor:pointer;background:#fff;transition:all 0.15s;">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">groups</span>
+                                    </span>
+                                    <div id="prisVzModeTitleK" style="font-size:13px;font-weight:600;color:#202124;">Samostatný koordinátor</div>
+                                </div>
+                                <div style="font-size:11px;color:#5f6368;line-height:1.5;">
+                                    Koordinátor VZ dostane přístup k řízení a sám administruje proces vyjadřování DO.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Výběr koordinátora — zobrazí se jen při volbě "koordinátor" -->
+                        <div id="prisVzKoordSection" style="display:none;margin-top:12px;padding:12px;background:#f0f7ff;border:1px solid #c2dbf4;border-radius:8px;">
+                            <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Přiřazení koordinátora</div>
+                            <div style="display:flex;gap:8px;align-items:flex-end;">
+                                <div style="flex:1;">
+                                    <label style="font-size:11px;color:#5f6368;display:block;margin-bottom:4px;">Koordinátor VZ</label>
+                                    <select id="prisVzKoordinatorSelect" style="width:100%;padding:8px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;background:#fff;">
+                                        <option value="">— Vyberte koordinátora —</option>
+                                        <option value="k1">Ing. Martin Horák (Krajské ÚRÚ Královéhradeckého kraje)</option>
+                                        <option value="k2">Mgr. Lenka Svobodová (ÚP Rychnov n. K., koordinátor VZ)</option>
+                                        <option value="k3" selected>Ing. Radek Procházka (ÚP Kostelec n. O., koordinátor VZ)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="margin-top:8px;padding:8px;background:#fff;border-radius:4px;font-size:11px;color:#5f6368;display:flex;align-items:center;gap:6px;">
+                                <span class="material-icons-outlined" style="font-size:14px;">info</span>
+                                Koordinátor obdrží notifikaci a přístup k řízení ihned po potvrzení tohoto kroku.
+                            </div>
+                        </div>
+                    </div>
+
                     </div>
                     <!-- ═══ /SZ 2026 ═══ -->
 
@@ -16900,6 +16958,17 @@
                 </div>
                 <div class="control-form-body" id="vzFormBody" style="overflow-y:auto;">
 
+                    <!-- ============ INFO BANNER — režim zvolen v příslušnosti (SZ 2026) ============ -->
+                    <div id="vzModeBanner" style="display:none;margin-bottom:16px;padding:10px 14px;background:#e8f0fe;border:1px solid #c2dbf4;border-radius:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span class="material-icons-outlined" style="font-size:18px;color:#1a73e8;">info</span>
+                            <div>
+                                <div style="font-size:12px;font-weight:600;color:#174ea6;" id="vzModeBannerTitle">Režim koordinace: Zpracovatel sám</div>
+                                <div style="font-size:11px;color:#1967d2;margin-top:2px;" id="vzModeBannerDesc">Zvoleno v kroku Ověření přidělení pracoviště</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- ============ VOLBA REŽIMU KOORDINACE ============ -->
                     <div id="vzModeSelector" style="margin-bottom:16px;">
                         <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Režim koordinace veřejných zájmů</div>
@@ -18691,6 +18760,35 @@
                 updatePozemkyState();
             }
             
+            // Pro kontrolu VZ - synchronizovat režim z příslušnosti (SZ 2026)
+            if (controlId === 'controlVerejneZajmy') {
+                var is2026 = window.ISSR_SCENAR === 'sz2026';
+                var vzModeSelector = document.getElementById('vzModeSelector');
+                var vzModeBanner = document.getElementById('vzModeBanner');
+                if (is2026 && controls.prislusnost.done && controls.prislusnost.vzMode) {
+                    // Režim byl zvolen v příslušnosti — skrýt přepínač, ukázat banner
+                    if (vzModeSelector) vzModeSelector.style.display = 'none';
+                    if (vzModeBanner) {
+                        vzModeBanner.style.display = '';
+                        var bannerTitle = document.getElementById('vzModeBannerTitle');
+                        var bannerDesc = document.getElementById('vzModeBannerDesc');
+                        if (controls.prislusnost.vzMode === 'koordinator') {
+                            if (bannerTitle) bannerTitle.textContent = 'Režim koordinace: Samostatný koordinátor';
+                            if (bannerDesc) bannerDesc.textContent = 'Koordinátor: ' + (controls.prislusnost.vzKoordinator || 'přiřazen v kroku Ověření přidělení');
+                        } else {
+                            if (bannerTitle) bannerTitle.textContent = 'Režim koordinace: Zpracovatel sám';
+                            if (bannerDesc) bannerDesc.textContent = 'Zvoleno v kroku Ověření přidělení pracoviště';
+                        }
+                    }
+                    // Zajistit správný obsah
+                    setVZMode(controls.prislusnost.vzMode);
+                } else {
+                    // Příslušnost ještě nehotová nebo SZ 2024 — ukázat přepínač normálně
+                    if (vzModeSelector) vzModeSelector.style.display = '';
+                    if (vzModeBanner) vzModeBanner.style.display = 'none';
+                }
+            }
+
             // Pro kontrolu ÚPD - inicializovat image viewery a reset stavu
             if (controlId === 'controlUP') {
                 // Reset stavu pokud kontrola ještě není hotová
@@ -25910,6 +26008,36 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             // Placeholder pro případnou logiku při změně důvodu
         }
 
+        // ── Přepínač režimu VZ v příslušnosti (SZ 2026) ──────────────
+        var _prisVzMode = 'zpracovatel'; // výchozí režim
+
+        function setPrislusnostVzMode(mode) {
+            _prisVzMode = mode;
+            var cardZ = document.getElementById('prisVzModeZ');
+            var cardK = document.getElementById('prisVzModeK');
+            var titleZ = document.getElementById('prisVzModeTitleZ');
+            var titleK = document.getElementById('prisVzModeTitleK');
+            var koordSection = document.getElementById('prisVzKoordSection');
+
+            if (mode === 'zpracovatel') {
+                cardZ.style.border = '2px solid #1a73e8';
+                cardZ.style.background = '#f0f7ff';
+                titleZ.style.color = '#1a73e8';
+                cardK.style.border = '2px solid #dadce0';
+                cardK.style.background = '#fff';
+                titleK.style.color = '#202124';
+                if (koordSection) koordSection.style.display = 'none';
+            } else {
+                cardK.style.border = '2px solid #1a73e8';
+                cardK.style.background = '#f0f7ff';
+                titleK.style.color = '#1a73e8';
+                cardZ.style.border = '2px solid #dadce0';
+                cardZ.style.background = '#fff';
+                titleZ.style.color = '#202124';
+                if (koordSection) koordSection.style.display = '';
+            }
+        }
+
         function completePrideleni() {
             const val = document.querySelector('input[name="prideleni"]:checked');
             if (!val) return;
@@ -25927,6 +26055,16 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 controls.prislusnost.result = 'ok';
                 controls.prislusnost.postoupit = null;
             }
+
+            // Uložit zvolený režim koordinace VZ
+            controls.prislusnost.vzMode = _prisVzMode;
+            if (_prisVzMode === 'koordinator') {
+                var sel = document.getElementById('prisVzKoordinatorSelect');
+                controls.prislusnost.vzKoordinator = sel ? sel.options[sel.selectedIndex].text : '';
+            }
+
+            // Synchronizovat režim do VZ panelu
+            setVZMode(_prisVzMode);
 
             closeControl('controlPrislusnost');
             updateUI();
