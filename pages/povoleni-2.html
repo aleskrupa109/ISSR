@@ -14182,12 +14182,12 @@
                         </p>
                         <div style="display:flex;gap:8px;" id="prislusnostVzModeCards">
                             <!-- Varianta 1: Zpracovatel -->
-                            <div class="pris-vz-mode-card selected" id="prisVzModeZ" onclick="setPrislusnostVzMode('zpracovatel')" style="flex:1;padding:12px;border:2px solid #1a73e8;border-radius:8px;cursor:pointer;background:#f0f7ff;transition:all 0.15s;">
+                            <div class="pris-vz-mode-card selected" id="prisVzModeZ" onclick="setPrislusnostVzMode('zpracovatel')" style="flex:1;padding:12px;border:2px solid #004289;border-radius:8px;cursor:pointer;background:#e8f0fe;transition:all 0.15s;">
                                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
-                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">person</span>
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#d2e3fc;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#004289;">person</span>
                                     </span>
-                                    <div id="prisVzModeTitleZ" style="font-size:13px;font-weight:600;color:#1a73e8;">Zpracovatel sám</div>
+                                    <div id="prisVzModeTitleZ" style="font-size:13px;font-weight:600;color:#004289;">Zpracovatel sám</div>
                                 </div>
                                 <div style="font-size:11px;color:#3c4043;line-height:1.5;">
                                     Úředník sám koordinuje vyjádření dotčených orgánů, sleduje plnění a řeší rozpory.
@@ -14196,8 +14196,8 @@
                             <!-- Varianta 2: Koordinátor -->
                             <div class="pris-vz-mode-card" id="prisVzModeK" onclick="setPrislusnostVzMode('koordinator')" style="flex:1;padding:12px;border:2px solid #dadce0;border-radius:8px;cursor:pointer;background:#fff;transition:all 0.15s;">
                                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
-                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">groups</span>
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#d2e3fc;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#004289;">groups</span>
                                     </span>
                                     <div id="prisVzModeTitleK" style="font-size:13px;font-weight:600;color:#202124;">Samostatný koordinátor</div>
                                 </div>
@@ -14607,9 +14607,9 @@
                                 <span class="material-icons-outlined">save</span>
                                 Uložit
                             </button>
-                            <button class="btn btn-primary" onclick="window.ISSR_SCENAR === 'sz2026' ? completePrideleni() : completePrislusnost()">
+                            <button class="btn btn-primary" id="btnPrislusnostConfirm" onclick="window.ISSR_SCENAR === 'sz2026' ? completePrideleni() : completePrislusnost()">
                                 <span class="material-icons-outlined">check</span>
-                                Potvrdit kontrolu
+                                <span id="btnPrislusnostLabel">Potvrdit kontrolu</span>
                             </button>
                         </div>
                     </div>
@@ -17079,12 +17079,12 @@
                         <div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px;">Režim koordinace veřejných zájmů</div>
                         <div style="display:flex;gap:8px;">
                             <!-- Varianta 1: Zpracovatel -->
-                            <div class="vz-mode-card selected" id="vzModeZpracovatel" onclick="setVZMode('zpracovatel')" style="flex:1;padding:12px;border:2px solid #1a73e8;border-radius:8px;cursor:pointer;background:#f0f7ff;transition:all 0.15s;">
+                            <div class="vz-mode-card selected" id="vzModeZpracovatel" onclick="setVZMode('zpracovatel')" style="flex:1;padding:12px;border:2px solid #004289;border-radius:8px;cursor:pointer;background:#e8f0fe;transition:all 0.15s;">
                                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
-                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">person</span>
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#d2e3fc;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#004289;">person</span>
                                     </span>
-                                    <div id="vzModeTitleZ" style="font-size:13px;font-weight:600;color:#1a73e8;">Zpracovatel sám</div>
+                                    <div id="vzModeTitleZ" style="font-size:13px;font-weight:600;color:#004289;">Zpracovatel sám</div>
                                 </div>
                                 <div style="font-size:11px;color:#3c4043;line-height:1.5;">
                                     Úředník stavebního úřadu sám koordinuje vyjádření dotčených orgánů, sleduje plnění a řeší rozpory.
@@ -17093,8 +17093,8 @@
                             <!-- Varianta 2: Koordinátor -->
                             <div class="vz-mode-card" id="vzModeKoordinator" onclick="setVZMode('koordinator')" style="flex:1;padding:12px;border:2px solid #dadce0;border-radius:8px;cursor:pointer;background:#fff;transition:all 0.15s;">
                                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#e8f0fe;">
-                                        <span class="material-icons-outlined" style="font-size:16px;color:#1a73e8;">groups</span>
+                                    <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#d2e3fc;">
+                                        <span class="material-icons-outlined" style="font-size:16px;color:#004289;">groups</span>
                                     </span>
                                     <div id="vzModeTitleK" style="font-size:13px;font-weight:600;color:#202124;">Samostatný koordinátor</div>
                                 </div>
@@ -18851,6 +18851,11 @@
             // Pro kontrolu příslušnosti - nastavit viewer podle typu podání
             if (controlId === 'controlPrislusnost') {
                 initControlViewer('controlPrislusnost');
+                // Aktualizovat text tlačítka podle scénáře
+                var btnLabel = document.getElementById('btnPrislusnostLabel');
+                if (btnLabel) {
+                    btnLabel.textContent = (window.ISSR_SCENAR === 'sz2026') ? 'Potvrdit kontrolu a přidělit' : 'Potvrdit kontrolu';
+                }
             }
 
             // Pro kontrolu Pozemky - načíst viewer žádosti při prvním otevření
@@ -18879,10 +18884,23 @@
                         var bannerDesc = document.getElementById('vzModeBannerDesc');
                         if (controls.prislusnost.vzMode === 'koordinator') {
                             if (bannerTitle) bannerTitle.textContent = 'Režim koordinace: Samostatný koordinátor';
-                            if (bannerDesc) bannerDesc.textContent = 'Koordinátor: ' + (controls.prislusnost.vzKoordinator || 'přiřazen v kroku Ověření přidělení');
+                            var koordName = controls.prislusnost.vzKoordinator || '';
+                            // Zkrátit jméno koordinátora — odstranit text v závorce pro banner
+                            var shortKoord = koordName.replace(/\s*\(.*\)/, '');
+                            if (bannerDesc) bannerDesc.textContent = 'Koordinátor: ' + (shortKoord || 'přiřazen v kroku Ověření přidělení');
                         } else {
                             if (bannerTitle) bannerTitle.textContent = 'Režim koordinace: Zpracovatel sám';
-                            if (bannerDesc) bannerDesc.textContent = 'Zvoleno v kroku Ověření přidělení pracoviště';
+                            // Zobrazit detail o předání DO
+                            var doDetail = '';
+                            if (controls.prislusnost.vzDoAll) {
+                                doDetail = 'Řízení předáno všem 9 integrovaným DO';
+                            } else if (controls.prislusnost.vzSelectedDO) {
+                                var cnt = controls.prislusnost.vzSelectedDO.length;
+                                doDetail = 'Řízení předáno ' + cnt + ' z 9 integrovaným DO (' + controls.prislusnost.vzSelectedDO.join(', ') + ')';
+                            } else {
+                                doDetail = 'Zvoleno v kroku Ověření přidělení pracoviště';
+                            }
+                            if (bannerDesc) bannerDesc.textContent = doDetail;
                         }
                     }
                     // Zajistit správný obsah
@@ -23249,7 +23267,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 btnConfirm.onclick = function() { showPostoupeniModal(); };
             } else {
                 btnConfirm.disabled = false;
-                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>Potvrdit kontrolu';
+                var confirmLabel = (window.ISSR_SCENAR === 'sz2026') ? 'Potvrdit kontrolu a přidělit' : 'Potvrdit kontrolu';
+                btnConfirm.innerHTML = '<span class="material-icons-outlined">check</span>' + confirmLabel;
                 btnConfirm.onclick = function() { window.ISSR_SCENAR === 'sz2026' ? completePrideleni() : completePrislusnost(); };
             }
         }
@@ -26126,18 +26145,18 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             var zpracContent = document.getElementById('prisVzZpracovatelContent');
 
             if (mode === 'zpracovatel') {
-                cardZ.style.border = '2px solid #1a73e8';
-                cardZ.style.background = '#f0f7ff';
-                titleZ.style.color = '#1a73e8';
+                cardZ.style.border = '2px solid #004289';
+                cardZ.style.background = '#e8f0fe';
+                titleZ.style.color = '#004289';
                 cardK.style.border = '2px solid #dadce0';
                 cardK.style.background = '#fff';
                 titleK.style.color = '#202124';
                 if (koordSection) koordSection.style.display = 'none';
                 if (zpracContent) zpracContent.style.display = '';
             } else {
-                cardK.style.border = '2px solid #1a73e8';
-                cardK.style.background = '#f0f7ff';
-                titleK.style.color = '#1a73e8';
+                cardK.style.border = '2px solid #004289';
+                cardK.style.background = '#e8f0fe';
+                titleK.style.color = '#004289';
                 cardZ.style.border = '2px solid #dadce0';
                 cardZ.style.background = '#fff';
                 titleZ.style.color = '#202124';
@@ -27714,9 +27733,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             var panelDesc = document.getElementById('vzPanelDesc');
             var confirmBtn = document.getElementById('vzConfirmBtn');
             if (mode === 'zpracovatel') {
-                cardZ.style.border = '2px solid #1a73e8';
-                cardZ.style.background = '#f0f7ff';
-                titleZ.style.color = '#1a73e8';
+                cardZ.style.border = '2px solid #004289';
+                cardZ.style.background = '#e8f0fe';
+                titleZ.style.color = '#004289';
                 cardK.style.border = '2px solid #dadce0';
                 cardK.style.background = '#fff';
                 titleK.style.color = '#202124';
@@ -27727,9 +27746,9 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit posouzení';
                 confirmBtn.onclick = function() { completeVerejneZajmy(); };
             } else {
-                cardK.style.border = '2px solid #1a73e8';
-                cardK.style.background = '#f0f7ff';
-                titleK.style.color = '#1a73e8';
+                cardK.style.border = '2px solid #004289';
+                cardK.style.background = '#e8f0fe';
+                titleK.style.color = '#004289';
                 cardZ.style.border = '2px solid #dadce0';
                 cardZ.style.background = '#fff';
                 titleZ.style.color = '#202124';
