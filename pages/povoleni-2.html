@@ -14306,7 +14306,7 @@
                                     <label style="font-size:11px;color:#5f6368;display:block;margin-bottom:4px;">Koordinátor VZ</label>
                                     <select id="prisVzKoordinatorSelect" style="width:100%;padding:8px 10px;border:1px solid #dadce0;border-radius:6px;font-size:12px;font-family:inherit;background:#fff;">
                                         <option value="">— Vyberte koordinátora —</option>
-                                        <option value="vk" selected>Ing. Petra Nováková — vedoucí koordinátorů (přidělí konkrétního koordinátora)</option>
+                                        <option value="vk">Ing. Petra Nováková — vedoucí koordinátorů (přidělí konkrétního koordinátora)</option>
                                         <option value="k1">Ing. Martin Horák (Krajské ÚRÚ Královéhradeckého kraje)</option>
                                         <option value="k2">Mgr. Lenka Svobodová (ÚP Rychnov n. K., koordinátor VZ)</option>
                                         <option value="k3">Ing. Radek Procházka (ÚP Kostelec n. O., koordinátor VZ)</option>
@@ -18757,6 +18757,11 @@
             if (typeof controls === 'undefined' || !controls[key]) return;
             controls[key].done = true;
             controls[key].result = result;
+            // SZ 2026: při přeskočení příslušnosti nastavit VZ režim
+            if (key === 'prislusnost' && window.ISSR_SCENAR === 'sz2026') {
+                controls.prislusnost.vzMode = 'zpracovatel';
+                controls.prislusnost.vzDoAll = true;
+            }
             if (key === 'zrychlene') {
                 if (typeof zrCondState !== 'undefined') {
                     zrCondState.eia      = result === 'ok' ? true : false;
@@ -26025,7 +26030,12 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             if (!actionBtn) return;
 
             const config = {
-                prislusnost: { controlId: 'controlPrislusnost', readyText: 'Provést kontrolu', doneText: 'Příslušný', doneTextNeg: 'Nepříslušný' },
+                prislusnost: {
+                    controlId: 'controlPrislusnost',
+                    readyText: (window.ISSR_SCENAR === 'sz2026') ? 'Ověřit přidělení' : 'Provést kontrolu',
+                    doneText: (window.ISSR_SCENAR === 'sz2026') ? 'Přiděleno' : 'Příslušný',
+                    doneTextNeg: (window.ISSR_SCENAR === 'sz2026') ? 'Přeřazení' : 'Nepříslušný'
+                },
                 zadost: { controlId: 'controlZadost', readyText: 'Zkontrolovat žádost', doneText: 'Úplná', doneTextNeg: 'Odložení' },
                 dokumentace: { controlId: 'controlDokumentace', readyText: 'Provést kontrolu', doneText: 'V pořádku', doneTextNeg: 'Vykazuje vady' },
                 pozemky: { controlId: 'controlPozemky', readyText: 'Identifikovat pozemky', doneText: 'Identifikováno', doneTextNeg: 'Identifikováno' },
@@ -26051,6 +26061,26 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                     actionBtn.innerHTML = '<span class="material-icons-outlined">cancel</span>' + cfg.doneTextNeg;
                 }
                 actionBtn.onclick = function() { openControl(cfg.controlId); };
+                // SZ 2026: aktualizovat popis dlaždice příslušnosti po dokončení
+                if (key === 'prislusnost' && window.ISSR_SCENAR === 'sz2026') {
+                    var descEl = document.getElementById('cardDescPrislusnost');
+                    if (descEl && ctrl.vzMode) {
+                        if (ctrl.result === 'ok') {
+                            if (ctrl.vzMode === 'koordinator') {
+                                var koordShort = (ctrl.vzKoordinator || '').replace(/\s*\(.*\)/, '') || 'koordinátor VZ';
+                                descEl.textContent = 'Koordinace VZ: ' + koordShort;
+                            } else if (ctrl.vzDoAll) {
+                                descEl.textContent = 'Zpracovatel sám — předáno všem 9 DO';
+                            } else if (ctrl.vzSelectedDO) {
+                                descEl.textContent = 'Zpracovatel sám — předáno ' + ctrl.vzSelectedDO.length + ' z 9 DO';
+                            } else {
+                                descEl.textContent = 'Přidělení ověřeno';
+                            }
+                        } else {
+                            descEl.textContent = 'Navrženo přeřazení na jiné pracoviště';
+                        }
+                    }
+                }
             } else if (status === 'ready') {
                 if (statusBadge) statusBadge.textContent = 'K provedení';
                 actionBtn.innerHTML = '<span class="material-icons-outlined">play_arrow</span>' + cfg.readyText;
@@ -27732,32 +27762,32 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             var panelTitle = document.getElementById('vzPanelTitle');
             var panelDesc = document.getElementById('vzPanelDesc');
             var confirmBtn = document.getElementById('vzConfirmBtn');
+            // Null guard — VZ panel nemusí být v DOM přístupný při volání z completePrideleni
+            if (!cardZ || !cardK) return;
             if (mode === 'zpracovatel') {
                 cardZ.style.border = '2px solid #004289';
                 cardZ.style.background = '#e8f0fe';
-                titleZ.style.color = '#004289';
+                if (titleZ) titleZ.style.color = '#004289';
                 cardK.style.border = '2px solid #dadce0';
                 cardK.style.background = '#fff';
-                titleK.style.color = '#202124';
-                contentZ.style.display = '';
-                contentK.style.display = 'none';
-                panelTitle.textContent = 'Identifikace dotčených veřejných zájmů';
-                panelDesc.textContent = 'Určete, které veřejné zájmy jsou záměrem dotčeny a jakým způsobem budou posouzeny.';
-                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit posouzení';
-                confirmBtn.onclick = function() { completeVerejneZajmy(); };
+                if (titleK) titleK.style.color = '#202124';
+                if (contentZ) contentZ.style.display = '';
+                if (contentK) contentK.style.display = 'none';
+                if (panelTitle) panelTitle.textContent = 'Identifikace dotčených veřejných zájmů';
+                if (panelDesc) panelDesc.textContent = 'Určete, které veřejné zájmy jsou záměrem dotčeny a jakým způsobem budou posouzeny.';
+                if (confirmBtn) { confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit posouzení'; confirmBtn.onclick = function() { completeVerejneZajmy(); }; }
             } else {
                 cardK.style.border = '2px solid #004289';
                 cardK.style.background = '#e8f0fe';
-                titleK.style.color = '#004289';
+                if (titleK) titleK.style.color = '#004289';
                 cardZ.style.border = '2px solid #dadce0';
                 cardZ.style.background = '#fff';
-                titleZ.style.color = '#202124';
-                contentZ.style.display = 'none';
-                contentK.style.display = '';
-                panelTitle.textContent = 'Koordinace veřejných zájmů';
-                panelDesc.textContent = 'Přiřaďte koordinátora, který převezme administraci procesu vyjadřování.';
-                confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit předání koordinátorovi';
-                confirmBtn.onclick = function() { completeVerejneZajmy(); };
+                if (titleZ) titleZ.style.color = '#202124';
+                if (contentZ) contentZ.style.display = 'none';
+                if (contentK) contentK.style.display = '';
+                if (panelTitle) panelTitle.textContent = 'Koordinace veřejných zájmů';
+                if (panelDesc) panelDesc.textContent = 'Přiřaďte koordinátora, který převezme administraci procesu vyjadřování.';
+                if (confirmBtn) { confirmBtn.innerHTML = '<span class="material-icons-outlined">check</span> Potvrdit předání koordinátorovi'; confirmBtn.onclick = function() { completeVerejneZajmy(); }; }
             }
         }
 
