@@ -18880,6 +18880,17 @@
                 var is2026 = window.ISSR_SCENAR === 'sz2026';
                 var vzModeSelector = document.getElementById('vzModeSelector');
                 var vzModeBanner = document.getElementById('vzModeBanner');
+                console.log('[VZ Banner Debug]', {
+                    is2026: is2026,
+                    scenar: window.ISSR_SCENAR,
+                    prisDone: controls.prislusnost.done,
+                    vzMode: controls.prislusnost.vzMode,
+                    vzDoAll: controls.prislusnost.vzDoAll,
+                    vzSelectedDO: controls.prislusnost.vzSelectedDO,
+                    vzKoordinator: controls.prislusnost.vzKoordinator,
+                    bannerEl: !!vzModeBanner,
+                    selectorEl: !!vzModeSelector
+                });
                 if (is2026 && controls.prislusnost.done && controls.prislusnost.vzMode) {
                     // Režim byl zvolen v příslušnosti — skrýt přepínač, ukázat banner
                     if (vzModeSelector) vzModeSelector.style.display = 'none';
@@ -26334,11 +26345,11 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             var overlayTitle = document.getElementById('controlPrislusnostTitle');
             var overlayIcon = document.getElementById('controlPrislusnostIcon');
             if (phaseTitle) phaseTitle.textContent = is2026 ? 'Přidělení' : 'Příslušnost';
-            if (cardTitle) cardTitle.textContent = is2026 ? 'Ověření přidělení' : 'Kontrola příslušnosti';
+            if (cardTitle) cardTitle.textContent = is2026 ? 'Ověření přidělení a koordinace' : 'Kontrola příslušnosti';
             if (cardDesc) cardDesc.textContent = is2026
-                ? 'Ověření správnosti automatického přidělení pracovišti'
+                ? 'Ověření správnosti přidělení pracoviště a koordinace interních DO'
                 : 'Ověření věcné a místní příslušnosti stavebního úřadu';
-            if (overlayTitle) overlayTitle.textContent = is2026 ? 'Ověření přidělení pracoviště' : 'Kontrola příslušnosti';
+            if (overlayTitle) overlayTitle.textContent = is2026 ? 'Ověření přidělení a koordinace' : 'Kontrola příslušnosti';
             if (overlayIcon) overlayIcon.textContent = is2026 ? 'verified' : 'account_balance';
 
             // Reorganizovat pipeline pro SZ 2026 / vrátit pro SZ 2024
