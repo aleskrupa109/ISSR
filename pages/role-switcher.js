@@ -58,13 +58,20 @@
     var _currentRole = detectCurrentRole();
     var _menuOpen = false;
 
+    // ── Detekce sim-panelu (povoleni-2) pro úpravu pozice ──────────
+    function hasSimPanel() {
+        return !!document.querySelector('.sim-panel');
+    }
+
     // ── CSS injection ────────────────────────────────────────────────
     function injectCSS() {
+        var fabBottom = hasSimPanel() ? 76 : 24;
+        var menuBottom = fabBottom + 52; // fab height (44) + gap (8)
         var style = document.createElement('style');
         style.textContent =
             /* Plovoucí tlačítko */
             '.rs-fab {' +
-                'position: fixed; bottom: 24px; left: 24px; z-index: 10000;' +
+                'position: fixed; bottom: ' + fabBottom + 'px; left: 24px; z-index: 10000;' +
                 'display: flex; align-items: center; gap: 8px;' +
                 'padding: 0 16px 0 12px; height: 44px;' +
                 'background: #fff; color: #3c4043;' +
@@ -92,7 +99,7 @@
 
             /* Menu */
             '.rs-menu {' +
-                'position: fixed; bottom: 76px; left: 24px; z-index: 10001;' +
+                'position: fixed; bottom: ' + menuBottom + 'px; left: 24px; z-index: 10001;' +
                 'background: #fff; border-radius: 12px;' +
                 'box-shadow: 0 8px 28px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);' +
                 'border: 1px solid #e0e0e0;' +
