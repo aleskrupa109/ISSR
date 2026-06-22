@@ -18880,17 +18880,6 @@
                 var is2026 = window.ISSR_SCENAR === 'sz2026';
                 var vzModeSelector = document.getElementById('vzModeSelector');
                 var vzModeBanner = document.getElementById('vzModeBanner');
-                console.log('[VZ Banner Debug]', {
-                    is2026: is2026,
-                    scenar: window.ISSR_SCENAR,
-                    prisDone: controls.prislusnost.done,
-                    vzMode: controls.prislusnost.vzMode,
-                    vzDoAll: controls.prislusnost.vzDoAll,
-                    vzSelectedDO: controls.prislusnost.vzSelectedDO,
-                    vzKoordinator: controls.prislusnost.vzKoordinator,
-                    bannerEl: !!vzModeBanner,
-                    selectorEl: !!vzModeSelector
-                });
                 if (is2026 && controls.prislusnost.done && controls.prislusnost.vzMode) {
                     // Režim byl zvolen v příslušnosti — skrýt přepínač, ukázat banner
                     if (vzModeSelector) vzModeSelector.style.display = 'none';
@@ -32418,7 +32407,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         // ===== KONEC DRAG & DROP =====
 
         // Inicializace při načtení stránky
-        let _initialLoad = true;
+        var _initialLoad = true;
 
         document.addEventListener('DOMContentLoaded', function() {
             initSimulationPanel();
