@@ -3,6 +3,7 @@
  *
  * Použití: <script src="role-switcher.js"></script>
  * Automaticky detekuje aktuální roli podle URL a zobrazí plovoucí tlačítko vlevo dole.
+ * Na stránkách se simulačním panelem (povoleni-2) se dynamicky pozicuje nad ním.
  *
  * Role:
  *   - urednik   → povoleni-2.html     (Stavební úředník)
@@ -58,20 +59,13 @@
     var _currentRole = detectCurrentRole();
     var _menuOpen = false;
 
-    // ── Detekce sim-panelu (povoleni-2) pro úpravu pozice ──────────
-    function hasSimPanel() {
-        return !!document.querySelector('.sim-panel');
-    }
-
     // ── CSS injection ────────────────────────────────────────────────
     function injectCSS() {
-        var fabBottom = hasSimPanel() ? 76 : 24;
-        var menuBottom = fabBottom + 52; // fab height (44) + gap (8)
         var style = document.createElement('style');
         style.textContent =
-            /* Plovoucí tlačítko */
+            /* Plovoucí tlačítko — pozice se nastaví dynamicky přes JS */
             '.rs-fab {' +
-                'position: fixed; bottom: ' + fabBottom + 'px; left: 24px; z-index: 10000;' +
+                'position: fixed; bottom: 24px; left: 24px; z-index: 10000;' +
                 'display: flex; align-items: center; gap: 8px;' +
                 'padding: 0 16px 0 12px; height: 44px;' +
                 'background: #fff; color: #3c4043;' +
@@ -79,12 +73,11 @@
                 'box-shadow: 0 2px 8px rgba(0,0,0,.15), 0 1px 3px rgba(0,0,0,.08);' +
                 'cursor: pointer; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;' +
                 'font-size: 13px; font-weight: 500;' +
-                'transition: box-shadow .2s, transform .15s;' +
+                'transition: box-shadow .2s, bottom .25s ease;' +
                 'user-select: none;' +
             '}' +
             '.rs-fab:hover {' +
                 'box-shadow: 0 4px 14px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.1);' +
-                'transform: translateY(-1px);' +
             '}' +
             '.rs-fab-icon {' +
                 'width: 28px; height: 28px; border-radius: 50%;' +
@@ -97,16 +90,16 @@
             '}' +
             '.rs-fab.open .rs-fab-arrow { transform: rotate(180deg); }' +
 
-            /* Menu */
+            /* Menu — pozice se nastaví dynamicky přes JS */
             '.rs-menu {' +
-                'position: fixed; bottom: ' + menuBottom + 'px; left: 24px; z-index: 10001;' +
+                'position: fixed; bottom: 76px; left: 24px; z-index: 10001;' +
                 'background: #fff; border-radius: 12px;' +
                 'box-shadow: 0 8px 28px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);' +
                 'border: 1px solid #e0e0e0;' +
                 'padding: 6px; min-width: 260px;' +
                 'opacity: 0; transform: translateY(8px) scale(.97);' +
                 'pointer-events: none;' +
-                'transition: opacity .15s ease, transform .15s ease;' +
+                'transition: opacity .15s ease, transform .15s ease, bottom .25s ease;' +
                 'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;' +
             '}' +
             '.rs-menu.open {' +
@@ -156,9 +149,47 @@
         document.head.appendChild(style);
     }
 
+    // ── Dynamické pozicování nad sim-panelem ─────────────────────────
+    function repositionFab() {
+        var fab = document.getElementById('rsFab');
+        var menu = document.getElementById('rsMenu');
+        if (!fab) return;
+
+        var simPanel = document.querySelector('.sim-panel');
+        var fabBottom = 24; // výchozí pozice bez sim-panelu
+
+        if (simPanel) {
+            var rect = simPanel.getBoundingClientRect();
+            var viewH = window.innerHeight;
+            // sim-panel top od spodku viewport = viewH - rect.top
+            var simTopFromBottom = viewH - rect.top;
+            fabBottom = simTopFromBottom + 12; // 12px mezera nad sim-panelem
+        }
+
+        fab.style.bottom = fabBottom + 'px';
+        if (menu) {
+            menu.style.bottom = (fabBottom + 52) + 'px'; // fab (44) + gap (8)
+        }
+    }
+
+    // ── Sledování změn sim-panelu (minimized ↔ expanded) ─────────────
+    function watchSimPanel() {
+        var simPanel = document.querySelector('.sim-panel');
+        if (!simPanel) return;
+
+        // MutationObserver pro sledování class změn (minimized toggle)
+        var observer = new MutationObserver(function () {
+            // Malé zpoždění, aby se CSS transition dokončil
+            setTimeout(repositionFab, 320);
+        });
+        observer.observe(simPanel, { attributes: true, attributeFilter: ['class'] });
+
+        // Také při resize okna
+        window.addEventListener('resize', repositionFab);
+    }
+
     // ── Sestavení URL se zachováním query parametrů ───────────────────
     function buildUrl(page) {
-        // Zachovat scenar query param pokud existuje
         var basePath = '';
         var currentPath = window.location.pathname;
         var lastSlash = currentPath.lastIndexOf('/');
@@ -167,7 +198,6 @@
         }
         var url = basePath + page;
 
-        // Přenést parametr rychlost/scenar
         var params = new URLSearchParams(window.location.search);
         var keep = [];
         if (params.get('rychlost')) keep.push('rychlost=' + params.get('rychlost'));
@@ -253,6 +283,9 @@
         }
         injectCSS();
         buildDOM();
+        // Dynamické pozicování + sledování sim-panelu
+        repositionFab();
+        watchSimPanel();
     }
 
     // Spustit po DOM ready
