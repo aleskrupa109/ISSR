@@ -15320,6 +15320,210 @@
                     </div>
                     
                     <div class="deficiency-panel-content" id="deficiencyPanelContent">
+                    <!-- Kategorie stavby -->
+                    <div class="control-section stavba-kategorie-section" id="kategorieStavbySection">
+                        <div class="control-section-title">
+                            <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">category</span>
+                            Kategorie stavby
+                        </div>
+
+                        <!-- Soubor staveb -->
+                        <div class="stavba-field">
+                            <div class="stavba-field-label">Jde o soubor staveb?</div>
+                            <div class="stavba-toggle-group">
+                                <label class="stavba-toggle">
+                                    <input type="radio" name="souborStaveb" value="ne" checked onchange="toggleSouborStaveb()">
+                                    <span class="stavba-toggle-label">Ne</span>
+                                </label>
+                                <label class="stavba-toggle">
+                                    <input type="radio" name="souborStaveb" value="ano" onchange="toggleSouborStaveb()">
+                                    <span class="stavba-toggle-label">Ano</span>
+                                </label>
+                            </div>
+                            <div class="stavba-field-hint">
+                                <span class="material-icons-outlined">info</span>
+                                Údaj přenesen ze žádosti — můžete upravit
+                            </div>
+                        </div>
+
+                        <!-- Kategorie stavby - jednoduchá -->
+                        <div class="stavba-field" id="kategorieJednoduchaField">
+                            <div class="stavba-field-label">Kategorie stavby</div>
+                            <div class="stavba-kategorie-options">
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="vyhrazena" checked>
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Vyhrazená</span>
+                                        <span class="kategorie-desc">§ 5 vyhl. č. 600/2006</span>
+                                    </span>
+                                </label>
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="ostatni">
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Ostatní</span>
+                                        <span class="kategorie-desc">Běžné stavby</span>
+                                    </span>
+                                </label>
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="jednoducha">
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Jednoduchá</span>
+                                        <span class="kategorie-desc">§ 171 SZ</span>
+                                    </span>
+                                </label>
+                                <label class="stavba-kategorie-option">
+                                    <input type="radio" name="kategorieStavby" value="drobna">
+                                    <span class="stavba-kategorie-box">
+                                        <span class="kategorie-name">Drobná</span>
+                                        <span class="kategorie-desc">§ 171 SZ</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Kategorie stavby - soubor staveb -->
+                        <div class="stavba-field" id="kategorieSouborField" style="display: none;">
+                            <div class="stavba-soubor-wrapper">
+                                <!-- Hlavní stavba -->
+                                <div class="stavba-soubor-item hlavni">
+                                    <div class="stavba-soubor-header">
+                                        <span class="material-icons-outlined">star</span>
+                                        Hlavní stavba
+                                        <span class="stavba-soubor-badge">určuje kategorii souboru</span>
+                                    </div>
+                                    <div class="stavba-soubor-content">
+                                        <div class="stavba-soubor-nazev">
+                                            <input type="text" class="stavba-input" id="hlavniStavbaNazev" value="Stavba dráhy — zabezpečovací zařízení" placeholder="Název hlavní stavby">
+                                        </div>
+                                        <div class="stavba-kategorie-mini">
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="vyhrazena">
+                                                <span>Vyhrazená</span>
+                                            </label>
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="ostatni" checked>
+                                                <span>Ostatní</span>
+                                            </label>
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="jednoducha">
+                                                <span>Jednoduchá</span>
+                                            </label>
+                                            <label class="kategorie-mini-option">
+                                                <input type="radio" name="kategorieHlavni" value="drobna">
+                                                <span>Drobná</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Vedlejší stavby -->
+                                <div class="stavba-soubor-item vedlejsi">
+                                    <div class="stavba-soubor-header">
+                                        <span class="material-icons-outlined">add_circle_outline</span>
+                                        Vedlejší stavby
+                                    </div>
+                                    <div class="stavba-soubor-content">
+                                        <div class="vedlejsi-stavby-list" id="vedlejsiStavbyList">
+                                            <div class="vedlejsi-stavba-row">
+                                                <input type="text" class="stavba-input" value="Garáž" placeholder="Název stavby">
+                                                <select class="stavba-select">
+                                                    <option value="ostatni">Ostatní</option>
+                                                    <option value="jednoducha" selected>Jednoduchá</option>
+                                                    <option value="drobna">Drobná</option>
+                                                </select>
+                                                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
+                                                    <span class="material-icons-outlined">close</span>
+                                                </button>
+                                            </div>
+                                            <div class="vedlejsi-stavba-row">
+                                                <input type="text" class="stavba-input" value="Přípojky inženýrských sítí" placeholder="Název stavby">
+                                                <select class="stavba-select">
+                                                    <option value="ostatni">Ostatní</option>
+                                                    <option value="jednoducha">Jednoduchá</option>
+                                                    <option value="drobna" selected>Drobná</option>
+                                                </select>
+                                                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
+                                                    <span class="material-icons-outlined">close</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button class="btn-add-vedlejsi" onclick="addVedlejsiStavba()">
+                                            <span class="material-icons-outlined">add</span>
+                                            Přidat vedlejší stavbu
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stavba-soubor-summary" id="souborSummary">
+                                <span class="material-icons-outlined">info</span>
+                                <span>Kategorie souboru staveb: <strong>Ostatní</strong> (podle hlavní stavby)</span>
+                            </div>
+                        </div>
+                        <!-- Potvrdit kategorii -->
+                        <div style="display:flex; justify-content:flex-end; margin-top:14px; padding-top:12px; border-top:1px solid #e8eaed;">
+                            <button class="btn btn-primary" onclick="potvrditKategoriiStavby()" id="btnPotvrditKategorii">
+                                <span class="material-icons-outlined">check</span>
+                                Potvrdit kategorii
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Sbalený stav kategorie -->
+                    <div id="kategorieStavbyCollapsed" style="display:none; align-items:center; gap:10px; padding:10px 14px; background:#e6f4ea; border:1px solid #a8d5b5; border-radius:8px; margin-bottom:16px;">
+                        <span class="material-icons-outlined" style="color:#137333; font-size:20px; flex-shrink:0;">check_circle</span>
+                        <div style="flex:1;">
+                            <div style="font-size:13px; font-weight:500; color:#137333;" id="kategorieSummaryText">Vyhrazená stavba — nejde o soubor staveb</div>
+                        </div>
+                        <button onclick="rozbalitKategoriiStavby()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#1a73e8;padding:4px 8px;border-radius:4px;" onmouseenter="this.style.background='#e8f0fe'" onmouseleave="this.style.background='none'">
+                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">edit</span>
+                            Upravit
+                        </button>
+                    </div>
+
+                    <!-- Liniový zákon -->
+                    <div class="control-section" id="liniovyZakonSection" style="margin-bottom:12px;">
+                        <div class="control-section-title">Zákon o urychlení výstavby (č. 416/2009 Sb.)</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;">
+                            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #137333;border-radius:6px;cursor:pointer;font-size:13px;" id="liniovyNe">
+                                <input type="radio" name="liniovyZakon" value="ne" checked onchange="setLiniovyZakon(false)">
+                                <span class="material-icons-outlined" style="font-size:16px;color:#137333;">check_circle</span>
+                                Nevztahuje se
+                            </label>
+                            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #dadce0;border-radius:6px;cursor:pointer;font-size:13px;" id="liniovyAno">
+                                <input type="radio" name="liniovyZakon" value="ano" onchange="setLiniovyZakon(true)">
+                                <span class="material-icons-outlined" style="font-size:16px;color:#9aa0a6;">cancel</span>
+                                Vztahuje se
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Automatická kontrola -->
+                    <div class="auto-check-section" id="autoCheckSection">
+                        <div class="auto-check-header">
+                            <div class="auto-check-title">
+                                <span class="material-icons-outlined">auto_awesome</span>
+                                Automatická kontrola (validátor)
+                            </div>
+                        </div>
+                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 10px; font-style: normal;">
+                            Automaticky zkontroluje elektronické podpisy, časová razítka, autorizační razítka a formát souborů PD.
+                        </p>
+                        <div style="display:flex; gap:6px; margin-bottom:8px;">
+                            <label style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #e0e0e0; border-radius:6px; cursor:pointer; font-size:13px; background:#fff; transition:all 0.15s;" id="validatorToggleOk">
+                                <input type="radio" name="validatorSimulation" value="ok" onchange="runValidatorSimulation('ok')" style="accent-color:#137333;">
+                                <span class="material-icons-outlined" style="font-size:16px; color:#137333;">check_circle</span>
+                                Vše v pořádku
+                            </label>
+                            <label style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #e0e0e0; border-radius:6px; cursor:pointer; font-size:13px; background:#fff; transition:all 0.15s;" id="validatorToggleVady">
+                                <input type="radio" name="validatorSimulation" value="vady" onchange="runValidatorSimulation('vady')" style="accent-color:#c5221f;">
+                                <span class="material-icons-outlined" style="font-size:16px; color:#c5221f;">warning</span>
+                                Zjistit nedostatky
+                            </label>
+                        </div>
+                        <div class="auto-check-results" id="autoCheckResults">
+                        </div>
+                    </div>
+
                         <!-- Průběh kontroly — vždy viditelný -->
                         <div id="deficiencyEmpty">
                             <div style="padding: 16px 0 12px;">
@@ -16268,213 +16472,9 @@
                         <span class="material-icons-outlined">architecture</span>
                         Kontrola projektové dokumentace
                     </div>
-                    <div class="control-panel-header-desc">Ověřte kategorii stavby, spusťte automatický validátor a zkontrolujte přítomnost a správnost jednotlivých částí PD.</div>
+                    <div class="control-panel-header-desc">Zkontrolujte přítomnost a správnost jednotlivých částí projektové dokumentace.</div>
                 </div>
                 <div class="control-form-body">
-                    <!-- Kategorie stavby -->
-                    <div class="control-section stavba-kategorie-section" id="kategorieStavbySection">
-                        <div class="control-section-title">
-                            <span class="material-icons-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 4px;">category</span>
-                            Kategorie stavby
-                        </div>
-                        
-                        <!-- Soubor staveb -->
-                        <div class="stavba-field">
-                            <div class="stavba-field-label">Jde o soubor staveb?</div>
-                            <div class="stavba-toggle-group">
-                                <label class="stavba-toggle">
-                                    <input type="radio" name="souborStaveb" value="ne" checked onchange="toggleSouborStaveb()">
-                                    <span class="stavba-toggle-label">Ne</span>
-                                </label>
-                                <label class="stavba-toggle">
-                                    <input type="radio" name="souborStaveb" value="ano" onchange="toggleSouborStaveb()">
-                                    <span class="stavba-toggle-label">Ano</span>
-                                </label>
-                            </div>
-                            <div class="stavba-field-hint">
-                                <span class="material-icons-outlined">info</span>
-                                Údaj přenesen ze žádosti — můžete upravit
-                            </div>
-                        </div>
-                        
-                        <!-- Kategorie stavby - jednoduchá -->
-                        <div class="stavba-field" id="kategorieJednoduchaField">
-                            <div class="stavba-field-label">Kategorie stavby</div>
-                            <div class="stavba-kategorie-options">
-                                <label class="stavba-kategorie-option">
-                                    <input type="radio" name="kategorieStavby" value="vyhrazena" checked>
-                                    <span class="stavba-kategorie-box">
-                                        <span class="kategorie-name">Vyhrazená</span>
-                                        <span class="kategorie-desc">§ 5 vyhl. č. 600/2006</span>
-                                    </span>
-                                </label>
-                                <label class="stavba-kategorie-option">
-                                    <input type="radio" name="kategorieStavby" value="ostatni">
-                                    <span class="stavba-kategorie-box">
-                                        <span class="kategorie-name">Ostatní</span>
-                                        <span class="kategorie-desc">Běžné stavby</span>
-                                    </span>
-                                </label>
-                                <label class="stavba-kategorie-option">
-                                    <input type="radio" name="kategorieStavby" value="jednoducha">
-                                    <span class="stavba-kategorie-box">
-                                        <span class="kategorie-name">Jednoduchá</span>
-                                        <span class="kategorie-desc">§ 171 SZ</span>
-                                    </span>
-                                </label>
-                                <label class="stavba-kategorie-option">
-                                    <input type="radio" name="kategorieStavby" value="drobna">
-                                    <span class="stavba-kategorie-box">
-                                        <span class="kategorie-name">Drobná</span>
-                                        <span class="kategorie-desc">§ 171 SZ</span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <!-- Kategorie stavby - soubor staveb -->
-                        <div class="stavba-field" id="kategorieSouborField" style="display: none;">
-                            <div class="stavba-soubor-wrapper">
-                                <!-- Hlavní stavba -->
-                                <div class="stavba-soubor-item hlavni">
-                                    <div class="stavba-soubor-header">
-                                        <span class="material-icons-outlined">star</span>
-                                        Hlavní stavba
-                                        <span class="stavba-soubor-badge">určuje kategorii souboru</span>
-                                    </div>
-                                    <div class="stavba-soubor-content">
-                                        <div class="stavba-soubor-nazev">
-                                            <input type="text" class="stavba-input" id="hlavniStavbaNazev" value="Stavba dráhy — zabezpečovací zařízení" placeholder="Název hlavní stavby">
-                                        </div>
-                                        <div class="stavba-kategorie-mini">
-                                            <label class="kategorie-mini-option">
-                                                <input type="radio" name="kategorieHlavni" value="vyhrazena">
-                                                <span>Vyhrazená</span>
-                                            </label>
-                                            <label class="kategorie-mini-option">
-                                                <input type="radio" name="kategorieHlavni" value="ostatni" checked>
-                                                <span>Ostatní</span>
-                                            </label>
-                                            <label class="kategorie-mini-option">
-                                                <input type="radio" name="kategorieHlavni" value="jednoducha">
-                                                <span>Jednoduchá</span>
-                                            </label>
-                                            <label class="kategorie-mini-option">
-                                                <input type="radio" name="kategorieHlavni" value="drobna">
-                                                <span>Drobná</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Vedlejší stavby -->
-                                <div class="stavba-soubor-item vedlejsi">
-                                    <div class="stavba-soubor-header">
-                                        <span class="material-icons-outlined">add_circle_outline</span>
-                                        Vedlejší stavby
-                                    </div>
-                                    <div class="stavba-soubor-content">
-                                        <div class="vedlejsi-stavby-list" id="vedlejsiStavbyList">
-                                            <div class="vedlejsi-stavba-row">
-                                                <input type="text" class="stavba-input" value="Garáž" placeholder="Název stavby">
-                                                <select class="stavba-select">
-                                                    <option value="ostatni">Ostatní</option>
-                                                    <option value="jednoducha" selected>Jednoduchá</option>
-                                                    <option value="drobna">Drobná</option>
-                                                </select>
-                                                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
-                                                    <span class="material-icons-outlined">close</span>
-                                                </button>
-                                            </div>
-                                            <div class="vedlejsi-stavba-row">
-                                                <input type="text" class="stavba-input" value="Přípojky inženýrských sítí" placeholder="Název stavby">
-                                                <select class="stavba-select">
-                                                    <option value="ostatni">Ostatní</option>
-                                                    <option value="jednoducha">Jednoduchá</option>
-                                                    <option value="drobna" selected>Drobná</option>
-                                                </select>
-                                                <button class="vedlejsi-remove" onclick="removeVedlejsiStavba(this)" title="Odebrat">
-                                                    <span class="material-icons-outlined">close</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <button class="btn-add-vedlejsi" onclick="addVedlejsiStavba()">
-                                            <span class="material-icons-outlined">add</span>
-                                            Přidat vedlejší stavbu
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="stavba-soubor-summary" id="souborSummary">
-                                <span class="material-icons-outlined">info</span>
-                                <span>Kategorie souboru staveb: <strong>Ostatní</strong> (podle hlavní stavby)</span>
-                            </div>
-                        </div>
-                        <!-- Potvrdit kategorii -->
-                        <div style="display:flex; justify-content:flex-end; margin-top:14px; padding-top:12px; border-top:1px solid #e8eaed;">
-                            <button class="btn btn-primary" onclick="potvrditKategoriiStavby()" id="btnPotvrditKategorii">
-                                <span class="material-icons-outlined">check</span>
-                                Potvrdit kategorii
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Sbalený stav kategorie -->
-                    <div id="kategorieStavbyCollapsed" style="display:none; align-items:center; gap:10px; padding:10px 14px; background:#e6f4ea; border:1px solid #a8d5b5; border-radius:8px; margin-bottom:16px;">
-                        <span class="material-icons-outlined" style="color:#137333; font-size:20px; flex-shrink:0;">check_circle</span>
-                        <div style="flex:1;">
-                            <div style="font-size:13px; font-weight:500; color:#137333;" id="kategorieSummaryText">Vyhrazená stavba — nejde o soubor staveb</div>
-                        </div>
-                        <button onclick="rozbalitKategoriiStavby()" style="background:none;border:none;cursor:pointer;font-size:12px;color:#1a73e8;padding:4px 8px;border-radius:4px;" onmouseenter="this.style.background='#e8f0fe'" onmouseleave="this.style.background='none'">
-                            <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle;">edit</span>
-                            Upravit
-                        </button>
-                    </div>
-
-                    <!-- Liniový zákon -->
-                    <div class="control-section" id="liniovyZakonSection" style="margin-bottom:12px;">
-                        <div class="control-section-title">Zákon o urychlení výstavby (č. 416/2009 Sb.)</div>
-                        <div style="display:flex;gap:8px;margin-top:8px;">
-                            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #137333;border-radius:6px;cursor:pointer;font-size:13px;" id="liniovyNe">
-                                <input type="radio" name="liniovyZakon" value="ne" checked onchange="setLiniovyZakon(false)">
-                                <span class="material-icons-outlined" style="font-size:16px;color:#137333;">check_circle</span>
-                                Nevztahuje se
-                            </label>
-                            <label style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid #dadce0;border-radius:6px;cursor:pointer;font-size:13px;" id="liniovyAno">
-                                <input type="radio" name="liniovyZakon" value="ano" onchange="setLiniovyZakon(true)">
-                                <span class="material-icons-outlined" style="font-size:16px;color:#9aa0a6;">cancel</span>
-                                Vztahuje se
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Automatická kontrola -->
-                    <div class="auto-check-section" id="autoCheckSection">
-                        <div class="auto-check-header">
-                            <div class="auto-check-title">
-                                <span class="material-icons-outlined">auto_awesome</span>
-                                Automatická kontrola (validátor)
-                            </div>
-                        </div>
-                        <p style="font-size: 12px; color: #5f6368; margin-bottom: 10px; font-style: normal;">
-                            Automaticky zkontroluje elektronické podpisy, časová razítka, autorizační razítka a formát souborů PD.
-                        </p>
-                        <div style="display:flex; gap:6px; margin-bottom:8px;">
-                            <label style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #e0e0e0; border-radius:6px; cursor:pointer; font-size:13px; background:#fff; transition:all 0.15s;" id="validatorToggleOk">
-                                <input type="radio" name="validatorSimulation" value="ok" onchange="runValidatorSimulation('ok')" style="accent-color:#137333;">
-                                <span class="material-icons-outlined" style="font-size:16px; color:#137333;">check_circle</span>
-                                Vše v pořádku
-                            </label>
-                            <label style="flex:1; display:flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid #e0e0e0; border-radius:6px; cursor:pointer; font-size:13px; background:#fff; transition:all 0.15s;" id="validatorToggleVady">
-                                <input type="radio" name="validatorSimulation" value="vady" onchange="runValidatorSimulation('vady')" style="accent-color:#c5221f;">
-                                <span class="material-icons-outlined" style="font-size:16px; color:#c5221f;">warning</span>
-                                Zjistit nedostatky
-                            </label>
-                        </div>
-                        <div class="auto-check-results" id="autoCheckResults">
-                        </div>
-                    </div>
-
                     <!-- Kontrola přítomnosti částí dokumentace -->
                     <div class="doc-check-section">
                         <div class="doc-check-header">
