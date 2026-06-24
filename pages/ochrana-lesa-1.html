@@ -468,15 +468,22 @@
             </div>
             <div class="form-panel-footer">
                 <div id="doResultSummary"></div>
-                <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div id="doSaveStatus" style="display:none;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:500;margin-bottom:8px;display:none;align-items:center;gap:6px;"></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
                     <a href="koordinator-1.html" class="btn btn-secondary" style="font-size:11px;">
                         <span class="material-icons-outlined" style="font-size:14px;">arrow_back</span>
                         Zpět na koordinátora
                     </a>
-                    <button class="btn btn-primary" id="doSubmitBtn" onclick="submitDOKontrola()">
-                        <span class="material-icons-outlined">check</span>
-                        Odeslat kontrolu
-                    </button>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-secondary" id="doSaveBtn" onclick="saveDOWork()" style="font-size:11px;">
+                            <span class="material-icons-outlined" style="font-size:14px;">save</span>
+                            Uložit rozpracované
+                        </button>
+                        <button class="btn btn-primary" id="doSubmitBtn" onclick="submitDOKontrola()">
+                            <span class="material-icons-outlined">check</span>
+                            Odeslat kontrolu
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -484,6 +491,7 @@
 
     <!-- Sdílené skripty -->
     <script>window.ISSR_SCENAR = 'sz2026';</script>
+    <script src="issr-state.js"></script>
     <script src="doc-modals.js"></script>
     <script>initDocModals({ basePath: '../docs/' });</script>
     <script>
@@ -543,7 +551,48 @@
 
         document.getElementById('doViewerInner').innerHTML = generateZadostDataReadOnly();
 
+        // ── Identifikace DO úseku ──
+        var DO_USEK = 'LES'; // Ochrana lesa
+
+        // ── State ──
         var doState = { podklady: null, dotcenost: null, forma: null, vyrok: null };
+
+        // ── Načtení uloženého stavu z ISSRState ──
+        function loadSavedState() {
+            if (typeof ISSRState === 'undefined') return;
+            var saved = ISSRState.getDO(DO_USEK);
+            if (!saved) return;
+            if (saved.dotcenost) { doState.dotcenost = saved.dotcenost; simulateRadioSelect('dotcenost', saved.dotcenost); }
+            if (saved.podklady) { doState.podklady = saved.podklady; simulateRadioSelect('podklady', saved.podklady); }
+            if (saved.podkladyMissing) { var mt = document.getElementById('doMissingText'); if (mt) mt.value = saved.podkladyMissing; }
+            if (saved.forma) {
+                doState.forma = saved.forma;
+                document.querySelectorAll('#doFormaSection .do-forma-option').forEach(function(opt) {
+                    if ((opt.getAttribute('onclick') || '').indexOf("'" + saved.forma + "'") >= 0) opt.classList.add('selected');
+                });
+                if (saved.dotcenost === 'dotcen') document.getElementById('doFormaSection').style.display = '';
+            }
+            if (saved.kontrolaNote) { var kn = document.getElementById('doKontrolaNote'); if (kn) kn.value = saved.kontrolaNote; }
+            if (saved.vyrok) { doState.vyrok = saved.vyrok; simulateRadioSelect('vyrok', saved.vyrok); }
+            if (saved.podminky) { var pn = document.getElementById('doPodminkaNew'); if (pn) pn.value = saved.podminky; }
+            if (saved.oduvodneni) { var od = document.getElementById('doOduvodneni'); if (od) od.value = saved.oduvodneni; }
+            if (saved.kontrolaSubmitted && saved.dotcenost === 'dotcen') switchDOPhase('vyjadreni');
+            if (saved.kontrolaSubmitted) showSaveStatus('Kontrola odeslána', 'submitted');
+            else if (saved.kontrolaSaved) showSaveStatus('Rozpracováno — uloženo', 'saved');
+            if (saved.vyjadreniSubmitted) showSaveStatus('Vyjádření odesláno', 'submitted');
+            updateResultSummary();
+        }
+
+        function simulateRadioSelect(group, value) {
+            var options = document.querySelectorAll('[onclick*="selectRadio(this, \'' + group + '\'"]');
+            options.forEach(function(opt) {
+                opt.classList.remove('selected', 'selected-red');
+                if ((opt.getAttribute('onclick') || '').indexOf("'" + value + "'") >= 0)
+                    opt.classList.add(value === 'chybi' || value === 'nesouhlas' ? 'selected-red' : 'selected');
+            });
+            if (group === 'podklady') { var d = document.getElementById('doMissingDetail'); if (d) d.classList.toggle('visible', value === 'chybi'); }
+            if (group === 'dotcenost') { var f = document.getElementById('doFormaSection'); if (f) f.style.display = value === 'dotcen' ? '' : 'none'; }
+        }
 
         function switchDOPhase(phase) {
             var tabK = document.getElementById('doPhaseKontrola');
@@ -551,6 +600,7 @@
             var panelK = document.getElementById('doKontrolaPanel');
             var panelV = document.getElementById('doVyjadreniPanel');
             var submitBtn = document.getElementById('doSubmitBtn');
+            var saveBtn = document.getElementById('doSaveBtn');
             if (phase === 'vyjadreni') {
                 tabV.classList.add('active'); tabK.classList.remove('active'); tabK.classList.add('done');
                 panelV.style.display = ''; panelK.style.display = 'none';
@@ -570,12 +620,8 @@
             parent.querySelectorAll('.do-radio-option').forEach(function(opt) { opt.classList.remove('selected', 'selected-red'); });
             el.classList.add(value === 'chybi' || value === 'nesouhlas' ? 'selected-red' : 'selected');
             doState[group] = value;
-            if (group === 'podklady') {
-                document.getElementById('doMissingDetail').classList.toggle('visible', value === 'chybi');
-            }
-            if (group === 'dotcenost') {
-                document.getElementById('doFormaSection').style.display = value === 'dotcen' ? '' : 'none';
-            }
+            if (group === 'podklady') document.getElementById('doMissingDetail').classList.toggle('visible', value === 'chybi');
+            if (group === 'dotcenost') document.getElementById('doFormaSection').style.display = value === 'dotcen' ? '' : 'none';
             updateResultSummary();
         }
 
@@ -613,19 +659,72 @@
             el.innerHTML = (doState.podklady || doState.dotcenost || doState.vyrok) ? html : '';
         }
 
+        function showSaveStatus(text, type) {
+            var el = document.getElementById('doSaveStatus');
+            if (!el) return;
+            if (type === 'saved') {
+                el.style.background = '#e8f0fe'; el.style.color = '#1a73e8'; el.style.border = '1px solid #c2dbf4';
+                el.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;">save</span> ' + text;
+            } else if (type === 'submitted') {
+                el.style.background = '#e6f4ea'; el.style.color = '#1e8e3e'; el.style.border = '1px solid #a8dab5';
+                el.innerHTML = '<span class="material-icons-outlined" style="font-size:14px;">check_circle</span> ' + text;
+            }
+            el.style.display = 'flex';
+        }
+
+        function collectFormData() {
+            return {
+                dotcenost: doState.dotcenost, podklady: doState.podklady,
+                podkladyMissing: (document.getElementById('doMissingText') || {}).value || '',
+                forma: doState.forma,
+                kontrolaNote: (document.getElementById('doKontrolaNote') || {}).value || '',
+                vyrok: doState.vyrok,
+                podminky: (document.getElementById('doPodminkaNew') || {}).value || '',
+                oduvodneni: (document.getElementById('doOduvodneni') || {}).value || ''
+            };
+        }
+
+        function saveDOWork() {
+            if (typeof ISSRState === 'undefined') { alert('Stavový modul není k dispozici.'); return; }
+            var data = collectFormData();
+            var saved = ISSRState.getDO(DO_USEK);
+            var isVyjadreniPhase = document.getElementById('doVyjadreniPanel').style.display !== 'none';
+            if (isVyjadreniPhase) {
+                data.vyjadreniSaved = true;
+                data.kontrolaSubmitted = saved.kontrolaSubmitted || false;
+                data.kontrolaSaved = saved.kontrolaSaved || true;
+            } else {
+                data.kontrolaSaved = true;
+            }
+            ISSRState.updateDO(DO_USEK, data);
+            showSaveStatus('Uloženo ' + new Date().toLocaleTimeString('cs'), 'saved');
+        }
+        window.saveDOWork = saveDOWork;
+
         function submitDOKontrola() {
             if (!doState.podklady || !doState.dotcenost) { alert('Vyplňte prosím úplnost podkladů a dotčenost.'); return; }
-            alert('Kontrola podkladů odeslána koordinátorovi.\n\nPodklady: ' + (doState.podklady === 'kompletni' ? 'kompletní' : 'chybí') +
-                '\nDotčenost: ' + doState.dotcenost + (doState.forma ? '\nForma: ' + doState.forma : '') +
-                '\n\n(demo — v produkci by se informace propsala do řízení)');
-            if (doState.dotcenost === 'dotcen') { switchDOPhase('vyjadreni'); }
+            if (typeof ISSRState !== 'undefined') {
+                var data = collectFormData();
+                data.kontrolaSubmitted = true; data.kontrolaSaved = true;
+                ISSRState.updateDO(DO_USEK, data);
+            }
+            showSaveStatus('Kontrola odeslána koordinátorovi', 'submitted');
+            if (doState.dotcenost === 'dotcen') switchDOPhase('vyjadreni');
         }
 
         function submitDOVyjadreni() {
             if (!doState.vyrok) { alert('Zvolte prosím výrok vyjádření.'); return; }
-            alert('Vyjádření odesláno koordinátorovi.\n\nVýrok: ' + (doState.vyrok === 'souhlas' ? 'souhlasné' : 'nesouhlasné') +
-                '\n\n(demo — v produkci by se vyjádření propsalo do řízení)');
+            if (typeof ISSRState !== 'undefined') {
+                var data = collectFormData();
+                data.kontrolaSubmitted = true; data.kontrolaSaved = true;
+                data.vyjadreniSubmitted = true; data.vyjadreniSaved = true;
+                ISSRState.updateDO(DO_USEK, data);
+            }
+            showSaveStatus('Vyjádření odesláno koordinátorovi', 'submitted');
         }
+
+        // Init: načíst uložený stav
+        loadSavedState();
     </script>
     <script src="role-switcher.js"></script>
 </body>

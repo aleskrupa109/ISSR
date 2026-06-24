@@ -137,8 +137,23 @@
           vyjadreni: null, vyjadreniNote: '' }
     ];
 
-    /** Aktuální fáze workflow rozeslání */
+    /** Aktuální fáze workflow rozeslání — čte se z ISSRState pokud je dostupný */
     var _broadcastPhase = 'ready'; // ready → sent → kontrola → vyjadreni → done
+
+    /** Načte fázi z ISSRState (pokud je dostupný) */
+    function _loadPhase() {
+        if (typeof ISSRState !== 'undefined') {
+            _broadcastPhase = ISSRState.getPhase();
+        }
+    }
+
+    /** Vrátí DO data s aplikovaným stavem z ISSRState */
+    function _getEffectiveDOS() {
+        if (typeof ISSRState === 'undefined') return VZ_BROADCAST_DOS;
+        return VZ_BROADCAST_DOS.map(function (doItem) {
+            return ISSRState.applyToEntry(doItem);
+        });
+    }
 
     // ======================================================================
     // CSS INJECTION
@@ -427,22 +442,23 @@
     }
 
     /** Summary bar — počty podle fáze */
-    function generateBroadcastSummary(phase) {
+    function generateBroadcastSummary(phase, dosList) {
+        var dos = dosList || _getEffectiveDOS();
         if (phase === 'ready') {
             return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
                 '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
-                    '<strong>' + VZ_BROADCAST_DOS.length + ' integrovaných DO</strong> v působnosti — připraveno k rozeslání' +
+                    '<strong>' + dos.length + ' integrovaných DO</strong> v působnosti — připraveno k rozeslání' +
                 '</div></div>';
         }
         if (phase === 'sent') {
             return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
                 '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
-                    '<strong>Rozesláno ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
-                    '<span style="color:#1a73e8;font-weight:500;">' + VZ_BROADCAST_DOS.length + ' čeká na posouzení dotčenosti</span>' +
+                    '<strong>Rozesláno ' + dos.length + ' DO</strong> · ' +
+                    '<span style="color:#1a73e8;font-weight:500;">' + dos.length + ' čeká na posouzení dotčenosti</span>' +
                 '</div></div>';
         }
         var cDotcen = 0, cNedotcen = 0, cCeka = 0;
-        VZ_BROADCAST_DOS.forEach(function (d) {
+        dos.forEach(function (d) {
             if (d.kontrola === 'dotcen') cDotcen++;
             else if (d.kontrola === 'nedotcen') cNedotcen++;
             else cCeka++;
@@ -450,7 +466,7 @@
         if (phase === 'kontrola') {
             return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
                 '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
-                    '<strong>Posouzení dotčenosti ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
+                    '<strong>Posouzení dotčenosti ' + dos.length + ' DO</strong> · ' +
                     '<span style="color:#1e8e3e;font-weight:500;">' + cDotcen + ' dotčen</span> · ' +
                     '<span style="color:#9aa0a6;">' + cNedotcen + ' nedotčen</span>' +
                     (cCeka > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cCeka + ' čeká</span>' : '') +
@@ -458,7 +474,7 @@
         }
         // vyjadreni / done
         var cHotovo = 0, cZpracovava = 0;
-        VZ_BROADCAST_DOS.forEach(function (d) {
+        dos.forEach(function (d) {
             if (d.kontrola !== 'dotcen') return;
             if (d.vyjadreni === 'hotovo') cHotovo++;
             else cZpracovava++;
@@ -489,7 +505,9 @@
     }
 
     function generateBroadcastContent() {
+        _loadPhase();
         var phase = _broadcastPhase;
+        var effectiveDOS = _getEffectiveDOS();
         var html = '';
         // Phase stepper
         html += generatePhaseStepper(phase);
@@ -501,14 +519,14 @@
         html += '<div id="vzBroadcastDOList" style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:12px;">' +
             '<div style="padding:8px 12px;background:#fafafa;border-bottom:1px solid #e0e0e0;display:flex;align-items:center;justify-content:space-between;">' +
                 '<div style="font-size:11px;font-weight:600;color:#5f6368;text-transform:uppercase;letter-spacing:0.3px;">Integrované DO v působnosti</div>' +
-                '<div style="font-size:10px;color:#9aa0a6;">' + VZ_BROADCAST_DOS.length + ' orgánů</div>' +
+                '<div style="font-size:10px;color:#9aa0a6;">' + effectiveDOS.length + ' orgánů</div>' +
             '</div>';
-        VZ_BROADCAST_DOS.forEach(function (doItem) {
+        effectiveDOS.forEach(function (doItem) {
             html += generateBroadcastDOItem(doItem, phase);
         });
         html += '</div>';
         // Summary
-        html += generateBroadcastSummary(phase);
+        html += generateBroadcastSummary(phase, effectiveDOS);
         // Action button
         html += generatePhaseAction(phase);
         return html;
@@ -555,6 +573,10 @@
     /** Přechod do další fáze workflow rozeslání */
     window.advanceBroadcastPhase = function (nextPhase) {
         _broadcastPhase = nextPhase;
+        // Uložit fázi do sdíleného stavu
+        if (typeof ISSRState !== 'undefined') {
+            ISSRState.setPhase(nextPhase);
+        }
         var panel = document.getElementById('vzSubModeRozeslat');
         if (panel) {
             panel.innerHTML = generateBroadcastContent();
@@ -848,13 +870,15 @@
     }
 
     function generateDashboardHTML() {
+        _loadPhase();
         var phase = _broadcastPhase;
         var phaseIdx = ['ready','sent','kontrola','vyjadreni','done'].indexOf(phase);
+        var effectiveDOS = _getEffectiveDOS();
 
         // Compute stats
-        var total = VZ_BROADCAST_DOS.length;
+        var total = effectiveDOS.length;
         var cDotcen = 0, cNedotcen = 0, cCeka = 0, cHotovo = 0;
-        VZ_BROADCAST_DOS.forEach(function (d) {
+        effectiveDOS.forEach(function (d) {
             if (d.kontrola === 'dotcen') { cDotcen++; if (d.vyjadreni === 'hotovo') cHotovo++; }
             else if (d.kontrola === 'nedotcen') cNedotcen++;
             else cCeka++;
@@ -894,7 +918,7 @@
 
         // DO cards
         html += '<div class="vz-dash-list">';
-        VZ_BROADCAST_DOS.forEach(function (doItem) {
+        effectiveDOS.forEach(function (doItem) {
             html += generateDashboardCard(doItem, phase);
         });
         html += '</div>';
@@ -927,6 +951,7 @@
     window.VZShared = {
         init: function (containerId) {
             injectCSS();
+            _loadPhase(); // načíst fázi z ISSRState
             var container = document.getElementById(containerId);
             if (!container) { console.error('VZShared: container #' + containerId + ' not found'); return; }
             container.innerHTML = generateContent();
@@ -935,6 +960,13 @@
         /** Vykreslí dashboard přehledu DO do daného kontejneru */
         renderDashboard: function (containerId) {
             renderDashboard(containerId);
+        },
+        /** Obnoví broadcast content i dashboard (volat po změně stavu z jiné stránky) */
+        refresh: function () {
+            _loadPhase();
+            var panel = document.getElementById('vzSubModeRozeslat');
+            if (panel) panel.innerHTML = generateBroadcastContent();
+            refreshDashboard();
         }
     };
 

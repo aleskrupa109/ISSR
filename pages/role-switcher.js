@@ -240,7 +240,34 @@
                     (isActive ? '<span class="material-icons-outlined rs-menu-item-check">check_circle</span>' : '') +
                 '</a>';
         }
+        // Reset tlačítko pro sdílený stav
+        menuHtml += '<div style="border-top:1px solid #e0e0e0;margin-top:4px;padding-top:4px;">' +
+            '<div class="rs-menu-item" id="rsResetBtn" style="cursor:pointer;">' +
+                '<div class="rs-menu-item-icon" style="background:#fce8e6;color:#d93025;">' +
+                    '<span class="material-icons-outlined">restart_alt</span>' +
+                '</div>' +
+                '<div class="rs-menu-item-info">' +
+                    '<div class="rs-menu-item-label" style="color:#d93025;">Reset demo stavu</div>' +
+                    '<div class="rs-menu-item-desc">Smazat uložená data všech rolí</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
         menu.innerHTML = menuHtml;
+
+        // Reset handler
+        var resetBtn = menu.querySelector('#rsResetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (typeof ISSRState !== 'undefined') {
+                    ISSRState.reset();
+                    window.location.reload();
+                } else {
+                    alert('Stavový modul není k dispozici.');
+                }
+            });
+        }
 
         // FAB tlačítko
         var fab = document.createElement('div');
