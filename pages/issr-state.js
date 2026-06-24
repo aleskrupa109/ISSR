@@ -55,7 +55,8 @@
             workflow: {
                 phase: 'ready'  // ready → sent → kontrola → vyjadreni → done
             },
-            dos: {}
+            dos: {},
+            views: {}  // stav jednotlivých pohledů (officer, coordinator, ...)
         };
         DO_USEKY.forEach(function (usek) {
             state.dos[usek] = defaultDOState();
@@ -181,6 +182,28 @@
         }
     }
 
+    /**
+     * Uloží stav pohledu (view) — generické úložiště pro libovolnou stránku.
+     * @param {string} viewId - identifikátor pohledu ('officer', 'coordinator', ...)
+     * @param {object} data - data k uložení
+     */
+    function setView(viewId, data) {
+        var state = getState();
+        if (!state.views) state.views = {};
+        state.views[viewId] = data;
+        saveState(state);
+    }
+
+    /**
+     * Načte stav pohledu.
+     * @param {string} viewId - identifikátor pohledu
+     * @returns {object|null}
+     */
+    function getView(viewId) {
+        var state = getState();
+        return (state.views && state.views[viewId]) || null;
+    }
+
     // Globální API
     window.ISSRState = {
         get: getState,
@@ -193,6 +216,8 @@
         applyToEntry: applyDOStateToEntry,
         hasState: hasState,
         defaultDO: defaultDOState,
+        getView: getView,
+        setView: setView,
         DO_USEKY: DO_USEKY,
         STORAGE_KEY: STORAGE_KEY
     };

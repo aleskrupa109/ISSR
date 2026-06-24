@@ -18737,6 +18737,52 @@
         // Akce hlavního tlačítka: 'zahajit' | 'vyzva' | 'postoupit' | 'disabled'
         let _btnAction = 'disabled';
 
+        // ── Persistence stavu kontrol přes ISSRState ──────────────────
+        /** Uloží aktuální stav controls do ISSRState */
+        function saveControlsState() {
+            if (typeof ISSRState === 'undefined') return;
+            var data = {};
+            for (var key in controls) {
+                if (!controls.hasOwnProperty(key)) continue;
+                var c = controls[key];
+                // Uložit vše kromě 'depends' (strukturální, ne stavové)
+                var entry = {};
+                for (var prop in c) {
+                    if (!c.hasOwnProperty(prop) || prop === 'depends') continue;
+                    entry[prop] = c[prop];
+                }
+                data[key] = entry;
+            }
+            data._isLiniovyZakon = typeof isLiniovyZakon !== 'undefined' ? isLiniovyZakon : false;
+            ISSRState.setView('officer', data);
+        }
+
+        /** Načte uložený stav controls z ISSRState */
+        function loadControlsState() {
+            if (typeof ISSRState === 'undefined') return false;
+            var data = ISSRState.getView('officer');
+            if (!data) return false;
+            var anyLoaded = false;
+            for (var key in controls) {
+                if (!controls.hasOwnProperty(key) || !data[key]) continue;
+                var saved = data[key];
+                if (saved.done) {
+                    // Obnovit vše kromě 'depends'
+                    for (var prop in saved) {
+                        if (!saved.hasOwnProperty(prop) || prop === 'depends') continue;
+                        controls[key][prop] = saved[prop];
+                    }
+                    anyLoaded = true;
+                }
+            }
+            // Liniový zákon
+            if (data._isLiniovyZakon && typeof setLiniovyZakon === 'function') {
+                setLiniovyZakon(data._isLiniovyZakon);
+            }
+            return anyLoaded;
+        }
+        // ──────────────────────────────────────────────────────────────
+
         // Control overlay functions
         // ── Dev: rychlý průchod kontrolou ────────────────────────────
         function devSkip(key, result) {
@@ -18758,6 +18804,7 @@
                     _btnAction = 'standardni';
                 }
             }
+            saveControlsState();
             if (typeof updateUI === 'function') updateUI();
         }
         // ─────────────────────────────────────────────────────────────
@@ -18790,6 +18837,9 @@
 
             // Aktualizovat info o doručování v kontrole Osoby
             if (typeof updateDorucovaniInfo === 'function') updateDorucovaniInfo();
+
+            // Uložit do sdíleného stavu
+            saveControlsState();
         }
 
         function updatePovoleni3Link() {
@@ -21790,6 +21840,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             controls.pozemky.pozemkyZameru = pozemkyState.pozemkyZameru;
             controls.pozemky.sousedniParcely = pozemkyState.sousedniParcely;
             controls.pozemky.sousedniChybi = !hasSousedni;
+            saveControlsState();
             closeControl('controlPozemky');
             updateUI();
         }
@@ -22942,7 +22993,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         // Dokončit kontrolu žádosti
         function completeZadostKontrola() {
             controls.zadost.done = true;
-            
+
             // Spočítat vady z nového stavu sekcí
             let vadaCount = 0;
             const deficiencyNotes = [];
@@ -22977,7 +23028,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             } else {
                 controls.zadost.result = 'ok';
             }
-            
+
+            saveControlsState();
             closeControl('controlZadost');
             updateUI();
         }
@@ -23142,7 +23194,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         // Dokončit kontrolu formuláře
         function completeFormularKontrola() {
             controls.zadost.done = true;
-            
+
             // Spočítat vady
             let vadaCount = 0;
             const deficiencyNotes = [];
@@ -23164,7 +23216,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             } else {
                 controls.zadost.result = 'ok';
             }
-            
+
+            saveControlsState();
             closeControl('controlZadost');
             updateUI();
         }
@@ -25038,7 +25091,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             
             controls.up.done = true;
             controls.up.result = hasNesoulad ? 'warning' : 'ok';
-            
+
             // Přidat nesoulady do globálních issues
             if (hasNesoulad && nesouladTexts.length > 0) {
                 addGlobalIssue('vyzva', {
@@ -25047,7 +25100,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                     controlName: 'Soulad s ÚPD'
                 });
             }
-            
+
+            saveControlsState();
             updateUI();
             closeControl('controlUP');
             
@@ -26116,7 +26170,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 controls.prislusnost.result = 'ok';
                 controls.prislusnost.postoupit = null;
             }
-            
+
+            saveControlsState();
             closeControl('controlPrislusnost');
             updateUI();
         }
@@ -26270,6 +26325,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             // Synchronizovat režim do VZ panelu
             setVZMode(_prisVzMode);
 
+            saveControlsState();
             closeControl('controlPrislusnost');
             updateUI();
         }
@@ -26399,7 +26455,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 source: 'auto',
                 controlName: 'Kontrola příslušnosti'
             });
-            
+
+            saveControlsState();
             closeModal('postoupeniModal', null);
             
             // Zobrazit potvrzení
@@ -26487,7 +26544,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             });
             updateGlobalIssuesBadge();
             renderGlobalIssues();
-            
+
+            saveControlsState();
             closeControl('controlDokumentace');
             updateUI();
         }
@@ -27721,6 +27779,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
                 })
             };
 
+            saveControlsState();
             closeControl('controlIdentifikace');
             updateUI();
         }
@@ -27802,6 +27861,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         function completeVerejneZajmy() {
             controls.verejnezajmy.done = true;
             controls.verejnezajmy.result = 'ok';
+            saveControlsState();
             closeControl('controlVerejneZajmy');
             updateUI();
         }
@@ -29196,6 +29256,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
         function completeUcastnici() {
             controls.ucastnici.done = true;
             controls.ucastnici.result = 'ok';
+            saveControlsState();
             closeControl('controlUcastnici');
             updateUI();
         }
@@ -29204,6 +29265,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             const allSplneno = zrCondState.eia === true && zrCondState.zopk === true && zrCondState.souhlasy === true;
             controls.zrychlene.done = true;
             controls.zrychlene.result = allSplneno ? 'ok' : 'warning';
+            saveControlsState();
             closeControl('controlZrychlene');
             updateUI();
         }
@@ -30364,7 +30426,8 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             }
         }
 
-        // Initialize
+        // Initialize — načíst uložený stav kontrol z localStorage
+        loadControlsState();
         updateUI();
 
         // Force styles after page load (for Nicepage compatibility)
