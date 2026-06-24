@@ -102,29 +102,37 @@
     /** Integrované DO pro režim „rozeslat" */
     var VZ_BROADCAST_DOS = [
         { name: 'Ochrana přírody a krajiny', org: 'ÚP Kostelec nad Orlicí', icon: 'eco', color: '#2e7d32',
+          prispevatel: 'Dobisík Ondřej', usek: 'PAK',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — kácení 2 dřevin', kontrolaForma: 'interni',
           vyjadreni: 'hotovo', vyjadreniNote: 'Interní posouzení — bez námitek, podmínky stanoveny',
           page: 'ochrana-prirody-1.html' },
         { name: 'Ochrana lesa', org: 'ÚP Kostelec nad Orlicí', icon: 'park', color: '#558b2f',
+          prispevatel: 'Herbrychová Jarmila', usek: 'LES',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — ochranné pásmo lesa', kontrolaForma: 'externi',
           vyjadreni: 'hotovo', vyjadreniNote: 'Vyžádáno ext. vyjádření → doručeno, bez námitek',
           page: 'ochrana-lesa-1.html' },
         { name: 'Ochrana vod', org: 'ÚP Kostelec nad Orlicí', icon: 'water_drop', color: '#0277bd',
+          prispevatel: 'Herbrychová Jarmila', usek: 'VOD',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — záplavové území Q100', kontrolaForma: 'externi',
           vyjadreni: 'ceka', vyjadreniNote: '' },
         { name: 'Památková péče', org: 'ÚP Kostelec nad Orlicí', icon: 'account_balance', color: '#6d4c41',
+          prispevatel: 'Krupa Aleš', usek: 'PAM',
           kontrola: 'nedotcen', kontrolaNote: 'Záměr mimo ochranné pásmo',
           vyjadreni: null, vyjadreniNote: '' },
         { name: 'Odpadové hospodářství', org: 'ÚP Kostelec nad Orlicí', icon: 'delete_outline', color: '#ef6c00',
+          prispevatel: 'Herbrychová Jarmila', usek: 'ODP',
           kontrola: 'ceka', kontrolaNote: '',
           vyjadreni: null, vyjadreniNote: '' },
         { name: 'Ochrana veřejného zdraví', org: 'KHS Královéhradeckého kraje', icon: 'health_and_safety', color: '#00838f',
+          prispevatel: 'Marková Lucie', usek: 'HYG',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — hluk ze stavby', kontrolaForma: 'interni',
           vyjadreni: 'ceka', vyjadreniNote: '' },
         { name: 'Územní plánování', org: 'ÚP Kostelec nad Orlicí', icon: 'map', color: '#1565c0',
+          prispevatel: 'Janovský Martin', usek: 'UUP',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — soulad s ÚPD', kontrolaForma: 'interni',
           vyjadreni: 'hotovo', vyjadreniNote: 'Interní posouzení — v souladu s ÚPD' },
         { name: 'Prevence závažných havárií', org: 'ÚP Kostelec nad Orlicí', icon: 'warning_amber', color: '#e65100',
+          prispevatel: 'Dobisík Ondřej', usek: 'ZAV',
           kontrola: 'nedotcen', kontrolaNote: 'Stavba není v zóně havarijního plánování',
           vyjadreni: null, vyjadreniNote: '' }
     ];
@@ -551,6 +559,7 @@
         if (panel) {
             panel.innerHTML = generateBroadcastContent();
         }
+        refreshDashboard();
     };
 
     /**
@@ -667,6 +676,247 @@
     window.updateVZIdentSummary = updateVZIdentSummary;
 
     // ======================================================================
+    // DASHBOARD — levý panel úředníka (přehled stavu DO)
+    // ======================================================================
+
+    var _dashboardCssInjected = false;
+
+    function injectDashboardCSS() {
+        if (_dashboardCssInjected) return;
+        _dashboardCssInjected = true;
+        var s = document.createElement('style');
+        s.textContent =
+            '.vz-dash { font-family: inherit; height:100%; display:flex; flex-direction:column; }\n' +
+            '.vz-dash-header { padding:16px 20px 12px; border-bottom:1px solid #e0e0e0; background:#fafafa; flex-shrink:0; }\n' +
+            '.vz-dash-title { font-size:14px; font-weight:600; color:#202124; display:flex; align-items:center; gap:8px; margin-bottom:10px; }\n' +
+            '.vz-dash-title .material-icons-outlined { font-size:20px; color:#004289; }\n' +
+            '.vz-dash-stats { display:flex; gap:4px; flex-wrap:wrap; }\n' +
+            '.vz-dash-stat { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600; }\n' +
+            '.vz-dash-stat.total { background:#e8f0fe; color:#004289; }\n' +
+            '.vz-dash-stat.dotcen { background:#e6f4ea; color:#1e8e3e; }\n' +
+            '.vz-dash-stat.nedotcen { background:#f1f3f4; color:#9aa0a6; }\n' +
+            '.vz-dash-stat.ceka { background:#fef7e0; color:#e37400; }\n' +
+            '.vz-dash-stat.hotovo { background:#e6f4ea; color:#137333; }\n' +
+            /* Phase mini bar */
+            '.vz-dash-phase { padding:10px 20px; border-bottom:1px solid #e0e0e0; flex-shrink:0; display:flex; gap:0; }\n' +
+            '.vz-dash-phase-step { flex:1; text-align:center; font-size:9px; padding:6px 2px; color:#9aa0a6; position:relative; }\n' +
+            '.vz-dash-phase-step .material-icons-outlined { display:block; font-size:14px; margin:0 auto 1px; }\n' +
+            '.vz-dash-phase-step.active { color:#004289; font-weight:600; }\n' +
+            '.vz-dash-phase-step.done { color:#1e8e3e; }\n' +
+            '.vz-dash-phase-step::after { content:""; position:absolute; top:50%; right:0; width:calc(100% - 24px); height:2px; background:#e0e0e0; transform:translateX(50%); }\n' +
+            '.vz-dash-phase-step:last-child::after { display:none; }\n' +
+            '.vz-dash-phase-step.done::after { background:#1e8e3e; }\n' +
+            '.vz-dash-phase-step.active::after { background:linear-gradient(90deg,#004289 50%,#e0e0e0 50%); }\n' +
+            /* DO list */
+            '.vz-dash-list { flex:1; overflow-y:auto; padding:8px 12px; }\n' +
+            '.vz-dash-card { border:1px solid #e0e0e0; border-radius:10px; padding:10px 12px; margin-bottom:8px; background:#fff; transition:all 0.15s; cursor:default; }\n' +
+            '.vz-dash-card:hover { border-color:#c2dbf4; box-shadow:0 1px 4px rgba(0,66,137,0.08); }\n' +
+            '.vz-dash-card.nedotcen { opacity:0.55; }\n' +
+            '.vz-dash-card-top { display:flex; align-items:center; gap:8px; margin-bottom:6px; }\n' +
+            '.vz-dash-card-icon { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }\n' +
+            '.vz-dash-card-icon .material-icons-outlined { font-size:16px; }\n' +
+            '.vz-dash-card-name { font-size:12px; font-weight:600; color:#202124; flex:1; min-width:0; }\n' +
+            '.vz-dash-card-usek { font-size:10px; font-weight:700; color:#5f6368; background:#f1f3f4; padding:2px 6px; border-radius:3px; flex-shrink:0; }\n' +
+            '.vz-dash-card-mid { display:flex; align-items:center; gap:6px; margin-bottom:5px; }\n' +
+            '.vz-dash-card-person { font-size:10px; color:#5f6368; display:flex; align-items:center; gap:3px; }\n' +
+            '.vz-dash-card-person .material-icons-outlined { font-size:12px; }\n' +
+            '.vz-dash-card-bottom { display:flex; align-items:center; justify-content:space-between; gap:6px; }\n' +
+            /* DO progress dots */
+            '.vz-dash-dots { display:flex; align-items:center; gap:3px; }\n' +
+            '.vz-dash-dot { width:8px; height:8px; border-radius:50%; background:#e0e0e0; flex-shrink:0; }\n' +
+            '.vz-dash-dot.done { background:#1e8e3e; }\n' +
+            '.vz-dash-dot.active { background:#004289; box-shadow:0 0 0 2px rgba(0,66,137,0.2); }\n' +
+            '.vz-dash-dot.skip { background:#e0e0e0; position:relative; }\n' +
+            '.vz-dash-dot.skip::after { content:"—"; position:absolute; top:-7px; left:0; font-size:8px; color:#9aa0a6; }\n' +
+            '.vz-dash-dot-sep { width:10px; height:2px; background:#e0e0e0; flex-shrink:0; }\n' +
+            '.vz-dash-dot-sep.done { background:#1e8e3e; }\n' +
+            /* Status badge in card */
+            '.vz-dash-badge { display:inline-flex; align-items:center; gap:3px; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600; white-space:nowrap; }\n' +
+            '.vz-dash-badge.b-ready { background:#f1f3f4; color:#9aa0a6; }\n' +
+            '.vz-dash-badge.b-sent { background:#e8f0fe; color:#004289; }\n' +
+            '.vz-dash-badge.b-dotcen { background:#e6f4ea; color:#1e8e3e; }\n' +
+            '.vz-dash-badge.b-nedotcen { background:#f1f3f4; color:#9aa0a6; }\n' +
+            '.vz-dash-badge.b-ceka { background:#fef7e0; color:#e37400; }\n' +
+            '.vz-dash-badge.b-komplet { background:#e6f4ea; color:#137333; }\n' +
+            '.vz-dash-badge.b-kontroluje { background:#e8f0fe; color:#004289; }\n' +
+            '.vz-dash-badge.b-done { background:#e6f4ea; color:#137333; }\n' +
+            /* Link button in card */
+            '.vz-dash-link { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:4px; color:#9aa0a6; text-decoration:none; flex-shrink:0; transition:all .15s; }\n' +
+            '.vz-dash-link:hover { background:#e8f0fe; color:#004289; }\n';
+        document.head.appendChild(s);
+    }
+
+    /** Vrátí stav jednoho DO podle globální fáze */
+    function getDOPhaseInfo(doItem, phase) {
+        var phaseIdx = ['ready','sent','kontrola','vyjadreni','done'].indexOf(phase);
+        var badge = '', badgeCls = '', dots = [], note = '';
+
+        // Dot states: 0=future, 1=done, 2=active, 3=skip
+        // Dots: [Rozesláno, Dotčenost, Kontrola podkladů, Hotovo]
+        if (phaseIdx <= 0) {
+            badge = 'Připraveno'; badgeCls = 'b-ready';
+            dots = [0,0,0,0];
+        } else if (phaseIdx === 1) {
+            badge = 'Rozesláno'; badgeCls = 'b-sent';
+            dots = [2,0,0,0];
+        } else if (phaseIdx === 2) {
+            // Dotčenost phase
+            if (doItem.kontrola === 'dotcen') {
+                badge = 'Dotčen'; badgeCls = 'b-dotcen';
+                note = doItem.kontrolaNote || '';
+                dots = [1,2,0,0];
+            } else if (doItem.kontrola === 'nedotcen') {
+                badge = 'Nedotčen'; badgeCls = 'b-nedotcen';
+                note = doItem.kontrolaNote || '';
+                dots = [1,1,3,3]; // skip remaining
+            } else {
+                badge = 'Posuzuje'; badgeCls = 'b-ceka';
+                dots = [1,2,0,0];
+            }
+        } else if (phaseIdx === 3) {
+            // Kontrola podkladů phase
+            if (doItem.kontrola === 'nedotcen') {
+                badge = 'Nedotčen'; badgeCls = 'b-nedotcen';
+                dots = [1,1,3,3];
+            } else if (doItem.kontrola === 'ceka') {
+                badge = 'Čeká na posouzení'; badgeCls = 'b-ceka';
+                dots = [1,2,0,0];
+            } else if (doItem.vyjadreni === 'hotovo') {
+                badge = 'Podklady kompletní'; badgeCls = 'b-komplet';
+                note = doItem.vyjadreniNote || '';
+                dots = [1,1,1,0];
+            } else {
+                badge = 'Kontroluje podklady'; badgeCls = 'b-kontroluje';
+                note = doItem.kontrolaNote || '';
+                dots = [1,1,2,0];
+            }
+        } else {
+            // Done
+            if (doItem.kontrola === 'nedotcen') {
+                badge = 'Nedotčen'; badgeCls = 'b-nedotcen';
+                dots = [1,1,3,3];
+            } else {
+                badge = 'Vypořádáno'; badgeCls = 'b-done';
+                note = doItem.vyjadreniNote || doItem.kontrolaNote || '';
+                dots = [1,1,1,1];
+            }
+        }
+
+        return { badge: badge, badgeCls: badgeCls, dots: dots, note: note };
+    }
+
+    function generateDashboardCard(doItem, phase) {
+        var info = getDOPhaseInfo(doItem, phase);
+        var isNedotcen = info.badgeCls === 'b-nedotcen';
+
+        // Progress dots
+        var dotLabels = ['Rozesl.', 'Dotčen.', 'Podkl.', 'Hotovo'];
+        var dotsHtml = '<div class="vz-dash-dots" title="' + dotLabels.join(' → ') + '">';
+        info.dots.forEach(function (state, i) {
+            if (i > 0) dotsHtml += '<div class="vz-dash-dot-sep' + (state === 1 || info.dots[i-1] === 1 ? ' done' : '') + '"></div>';
+            var cls = state === 1 ? ' done' : state === 2 ? ' active' : state === 3 ? ' skip' : '';
+            dotsHtml += '<div class="vz-dash-dot' + cls + '"></div>';
+        });
+        dotsHtml += '</div>';
+
+        var linkHtml = '';
+        if (doItem.page) {
+            linkHtml = '<a href="' + doItem.page + '" target="_blank" class="vz-dash-link" title="Otevřít detail DO">' +
+                '<span class="material-icons-outlined" style="font-size:14px;">open_in_new</span></a>';
+        }
+
+        return '<div class="vz-dash-card' + (isNedotcen ? ' nedotcen' : '') + '">' +
+            '<div class="vz-dash-card-top">' +
+                '<div class="vz-dash-card-icon" style="background:' + doItem.color + '18;">' +
+                    '<span class="material-icons-outlined" style="color:' + doItem.color + ';">' + doItem.icon + '</span>' +
+                '</div>' +
+                '<div class="vz-dash-card-name">' + doItem.name + '</div>' +
+                '<div class="vz-dash-card-usek">' + (doItem.usek || '') + '</div>' +
+            '</div>' +
+            '<div class="vz-dash-card-mid">' +
+                '<span class="vz-dash-card-person"><span class="material-icons-outlined">person</span> ' + (doItem.prispevatel || doItem.org) + '</span>' +
+            '</div>' +
+            '<div class="vz-dash-card-bottom">' +
+                dotsHtml +
+                '<div style="display:flex;align-items:center;gap:4px;">' +
+                    '<span class="vz-dash-badge ' + info.badgeCls + '">' + info.badge + '</span>' +
+                    linkHtml +
+                '</div>' +
+            '</div>' +
+            (info.note ? '<div style="font-size:10px;color:#5f6368;margin-top:4px;padding-top:4px;border-top:1px solid #f0f0f0;">' + info.note + '</div>' : '') +
+        '</div>';
+    }
+
+    function generateDashboardHTML() {
+        var phase = _broadcastPhase;
+        var phaseIdx = ['ready','sent','kontrola','vyjadreni','done'].indexOf(phase);
+
+        // Compute stats
+        var total = VZ_BROADCAST_DOS.length;
+        var cDotcen = 0, cNedotcen = 0, cCeka = 0, cHotovo = 0;
+        VZ_BROADCAST_DOS.forEach(function (d) {
+            if (d.kontrola === 'dotcen') { cDotcen++; if (d.vyjadreni === 'hotovo') cHotovo++; }
+            else if (d.kontrola === 'nedotcen') cNedotcen++;
+            else cCeka++;
+        });
+
+        var html = '<div class="vz-dash">';
+
+        // Header with stats
+        html += '<div class="vz-dash-header">';
+        html += '<div class="vz-dash-title"><span class="material-icons-outlined">dashboard</span> Přehled interních DO</div>';
+        html += '<div class="vz-dash-stats">';
+        html += '<span class="vz-dash-stat total">' + total + ' DO celkem</span>';
+        if (phaseIdx >= 2) {
+            html += '<span class="vz-dash-stat dotcen">' + cDotcen + ' dotčeno</span>';
+            html += '<span class="vz-dash-stat nedotcen">' + cNedotcen + ' nedotčeno</span>';
+            if (cCeka > 0) html += '<span class="vz-dash-stat ceka">' + cCeka + ' čeká</span>';
+        }
+        if (phaseIdx >= 3 && cHotovo > 0) {
+            html += '<span class="vz-dash-stat hotovo">' + cHotovo + '/' + cDotcen + ' kompletní</span>';
+        }
+        html += '</div></div>';
+
+        // Mini phase bar
+        var phaseLabels = [
+            { icon: 'edit_note',  label: 'Příprava' },
+            { icon: 'send',       label: 'Rozesláno' },
+            { icon: 'gpp_maybe',  label: 'Dotčenost' },
+            { icon: 'fact_check', label: 'Podklady' },
+            { icon: 'verified',   label: 'Hotovo' }
+        ];
+        html += '<div class="vz-dash-phase">';
+        phaseLabels.forEach(function (p, i) {
+            var cls = i < phaseIdx ? ' done' : i === phaseIdx ? ' active' : '';
+            html += '<div class="vz-dash-phase-step' + cls + '"><span class="material-icons-outlined">' + p.icon + '</span>' + p.label + '</div>';
+        });
+        html += '</div>';
+
+        // DO cards
+        html += '<div class="vz-dash-list">';
+        VZ_BROADCAST_DOS.forEach(function (doItem) {
+            html += generateDashboardCard(doItem, phase);
+        });
+        html += '</div>';
+
+        html += '</div>';
+        return html;
+    }
+
+    var _dashboardContainerId = null;
+
+    function renderDashboard(containerId) {
+        injectDashboardCSS();
+        _dashboardContainerId = containerId;
+        var el = document.getElementById(containerId);
+        if (el) el.innerHTML = generateDashboardHTML();
+    }
+
+    function refreshDashboard() {
+        if (_dashboardContainerId) renderDashboard(_dashboardContainerId);
+    }
+
+    // ======================================================================
     // INIT
     // ======================================================================
 
@@ -681,6 +931,10 @@
             if (!container) { console.error('VZShared: container #' + containerId + ' not found'); return; }
             container.innerHTML = generateContent();
             updateVZIdentSummary();
+        },
+        /** Vykreslí dashboard přehledu DO do daného kontejneru */
+        renderDashboard: function (containerId) {
+            renderDashboard(containerId);
         }
     };
 

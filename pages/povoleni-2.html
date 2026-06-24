@@ -17031,24 +17031,9 @@
             </div>
         </div>
         <div class="control-body">
-            <!-- Left viewer -->
-            <div class="control-viewer">
-                <div class="viewer-tabs">
-                    <div class="viewer-tabs-left" id="vzViewerTabs">
-                        <button class="viewer-tab active" onclick="switchVZViewerTab(this, 'zadost')">
-                            <span class="material-icons-outlined">list_alt</span> Žádost
-                        </button>
-                        <button class="viewer-tab" onclick="switchVZViewerTab(this, 'doklady')">
-                            <span class="material-icons-outlined">fact_check</span> Dokladová část
-                        </button>
-                        <button class="viewer-tab" onclick="switchVZViewerTab(this, 'dokumentace')">
-                            <span class="material-icons-outlined">folder</span> Dokumentace
-                        </button>
-                    </div>
-                </div>
-                <div class="viewer-content" id="vzViewerContent">
-                    <div id="vzViewerInner"></div>
-                </div>
+            <!-- Left panel — přehled DO (dashboard) -->
+            <div class="control-viewer" style="overflow:hidden;">
+                <div id="vzDashboardContainer" style="height:100%;"></div>
             </div>
             <!-- Right form panel -->
             <div class="control-form">
@@ -18914,6 +18899,10 @@
                     // Příslušnost ještě nehotová nebo SZ 2024 — ukázat přepínač normálně
                     if (vzModeSelector) vzModeSelector.style.display = '';
                     if (vzModeBanner) vzModeBanner.style.display = 'none';
+                }
+                // Inicializovat dashboard DO v levém panelu
+                if (typeof VZShared !== 'undefined' && VZShared.renderDashboard) {
+                    VZShared.renderDashboard('vzDashboardContainer');
                 }
             }
 
