@@ -72,18 +72,25 @@
             defaultMethods: ['interni']
         },
         {
-            id: 'obrana',
-            name: 'Obrana státu',
-            icon: 'security',
-            color: '#37474f',
-            desc: 'Území vymezené MO — § 175 zák. č. 283/2021 Sb. (ZS zachováno, MO zůstává samostatný DOSS)',
-            defaultMethods: ['prilozeno']
+            id: 'uplan',
+            name: 'Územní plánování',
+            icon: 'map',
+            color: '#1565c0',
+            desc: 'Soulad s územně plánovací dokumentací — § 188 zák. č. 283/2021 Sb.',
+            defaultMethods: ['interni']
+        },
+        {
+            id: 'havarie',
+            name: 'Prevence závažných havárií',
+            icon: 'warning_amber',
+            color: '#e65100',
+            desc: 'Zóna havarijního plánování — zák. č. 224/2015 Sb.',
+            defaultMethods: ['interni']
         }
     ];
 
     /** Katalog dalších VZ (přidání uživatelem) */
     var VZ_CATALOG = [
-        { id: 'pozarni', name: 'Požární ochrana', desc: 'HZS kraje — § 31 zák. č. 133/1985 Sb.', icon: 'local_fire_department', color: '#d32f2f' },
         { id: 'zpf', name: 'Ochrana ZPF', desc: 'Odnětí ze ZPF — § 9 zák. č. 334/1992 Sb.', icon: 'grass', color: '#33691e' },
         { id: 'ovzdusi', name: 'Ochrana ovzduší', desc: 'Zdroj znečišťování — zák. č. 201/2012 Sb.', icon: 'air', color: '#546e7a' },
         { id: 'khs', name: 'Ochrana veřejného zdraví', desc: 'Hluk, vibrace — zák. č. 258/2000 Sb.', icon: 'health_and_safety', color: '#00838f' },
@@ -111,15 +118,15 @@
         { name: 'Odpadové hospodářství', org: 'ÚP Kostelec nad Orlicí', icon: 'delete_outline', color: '#ef6c00',
           kontrola: 'ceka', kontrolaNote: '',
           vyjadreni: null, vyjadreniNote: '' },
-        { name: 'Požární ochrana', org: 'HZS Královéhradeckého kraje', icon: 'local_fire_department', color: '#d32f2f',
-          kontrola: 'nedotcen', kontrolaNote: 'Bez požadavků na stavbu',
-          vyjadreni: null, vyjadreniNote: '' },
         { name: 'Ochrana veřejného zdraví', org: 'KHS Královéhradeckého kraje', icon: 'health_and_safety', color: '#00838f',
           kontrola: 'dotcen', kontrolaNote: 'Dotčen — hluk ze stavby', kontrolaForma: 'interni',
           vyjadreni: 'ceka', vyjadreniNote: '' },
-        { name: 'Obrana státu', org: 'Ministerstvo obrany', icon: 'security', color: '#37474f',
-          kontrola: 'dotcen', kontrolaNote: 'ZS přiloženo stavebníkem', kontrolaForma: 'prilozeno',
-          vyjadreni: 'hotovo', vyjadreniNote: 'ZS přiloženo k žádosti — bez dalších požadavků' }
+        { name: 'Územní plánování', org: 'ÚP Kostelec nad Orlicí', icon: 'map', color: '#1565c0',
+          kontrola: 'dotcen', kontrolaNote: 'Dotčen — soulad s ÚPD', kontrolaForma: 'interni',
+          vyjadreni: 'hotovo', vyjadreniNote: 'Interní posouzení — v souladu s ÚPD' },
+        { name: 'Prevence závažných havárií', org: 'ÚP Kostelec nad Orlicí', icon: 'warning_amber', color: '#e65100',
+          kontrola: 'nedotcen', kontrolaNote: 'Stavba není v zóně havarijního plánování',
+          vyjadreni: null, vyjadreniNote: '' }
     ];
 
     /** Aktuální fáze workflow rozeslání */
@@ -505,15 +512,9 @@
 
     function generateContent() {
         var html = '';
-        // Submode selector
-        html += generateSubModeSelector();
-        // Rozeslat DO (default visible)
+        // Koordinátor rozesílá všem integrovaným DO — ruční identifikace odstraněna
         html += '<div id="vzSubModeRozeslat">';
         html += generateBroadcastContent();
-        html += '</div>';
-        // Ruční identifikace (initially hidden)
-        html += '<div id="vzSubModeRucni" style="display:none;">';
-        html += generateRucniContent();
         html += '</div>';
         return html;
     }
