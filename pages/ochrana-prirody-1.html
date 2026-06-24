@@ -473,7 +473,30 @@
                         <div>Zkontrolujte, zda jsou podklady záměru kompletní z hlediska ochrany přírody a krajiny, a určete, zda je veřejný zájem dotčen.</div>
                     </div>
 
-                    <!-- 1. Úplnost podkladů -->
+                    <!-- 1. Dotčenost -->
+                    <div class="do-section">
+                        <div class="do-section-title">
+                            <span class="material-icons-outlined">gps_fixed</span> Dotčenost veřejného zájmu
+                        </div>
+                        <div class="do-radio-group">
+                            <div class="do-radio-option" onclick="selectRadio(this, 'dotcenost', 'dotcen')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Dotčen</div>
+                                    <div class="do-radio-desc">Záměr se dotýká veřejného zájmu ochrany přírody a krajiny</div>
+                                </div>
+                            </div>
+                            <div class="do-radio-option" onclick="selectRadio(this, 'dotcenost', 'nedotcen')">
+                                <div class="do-radio-dot"></div>
+                                <div>
+                                    <div class="do-radio-label">Nedotčen</div>
+                                    <div class="do-radio-desc">Záměr se ochrany přírody a krajiny netýká</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Úplnost podkladů -->
                     <div class="do-section">
                         <div class="do-section-title">
                             <span class="material-icons-outlined">checklist</span> Úplnost podkladů
@@ -499,29 +522,6 @@
                                 <span class="material-icons-outlined" style="color:#d93025;">warning</span> Co chybí?
                             </div>
                             <textarea class="do-textarea" placeholder="Popište, jaké podklady chybí nebo jsou neúplné…" id="doMissingText">Chybí dendrologický průzkum dřevin navržených ke kácení dle § 8 odst. 5 zák. č. 114/1992 Sb.</textarea>
-                        </div>
-                    </div>
-
-                    <!-- 2. Dotčenost -->
-                    <div class="do-section">
-                        <div class="do-section-title">
-                            <span class="material-icons-outlined">gps_fixed</span> Dotčenost veřejného zájmu
-                        </div>
-                        <div class="do-radio-group">
-                            <div class="do-radio-option" onclick="selectRadio(this, 'dotcenost', 'dotcen')">
-                                <div class="do-radio-dot"></div>
-                                <div>
-                                    <div class="do-radio-label">Dotčen</div>
-                                    <div class="do-radio-desc">Záměr se dotýká veřejného zájmu ochrany přírody a krajiny</div>
-                                </div>
-                            </div>
-                            <div class="do-radio-option" onclick="selectRadio(this, 'dotcenost', 'nedotcen')">
-                                <div class="do-radio-dot"></div>
-                                <div>
-                                    <div class="do-radio-label">Nedotčen</div>
-                                    <div class="do-radio-desc">Záměr se ochrany přírody a krajiny netýká</div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
