@@ -30426,8 +30426,7 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             }
         }
 
-        // Initialize — načíst uložený stav kontrol z localStorage
-        loadControlsState();
+        // Initialize
         updateUI();
 
         // Force styles after page load (for Nicepage compatibility)
@@ -32466,8 +32465,13 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             initSimulationPanel();
             // Řízení se zakládá automaticky — přeskočit mezikrok
             zalozitRizeni();
-            // Vždy začít od vrchu stránky (zelený banner)
-            window.scrollTo(0, 0);
+            // Obnovit uložený stav kontrol z localStorage (přepíše výchozí zalozitRizeni stav)
+            var hasRestoredState = loadControlsState();
+            updateUI();
+            // Scroll na vrch jen pokud nemáme uložený stav (první návštěva)
+            if (!hasRestoredState) {
+                window.scrollTo(0, 0);
+            }
             // Po prvním renderu označit jako initialized
             setTimeout(() => { _initialLoad = false; }, 300);
         });
