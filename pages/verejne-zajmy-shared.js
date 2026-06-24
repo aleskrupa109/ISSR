@@ -309,8 +309,8 @@
         var phases = [
             { id: 'ready',     icon: 'edit_note',     label: 'Příprava' },
             { id: 'sent',      icon: 'send',          label: 'Rozesláno' },
-            { id: 'kontrola',  icon: 'fact_check',    label: 'Kontrola podkladů' },
-            { id: 'vyjadreni', icon: 'rate_review',   label: 'Vyjádření DO' },
+            { id: 'kontrola',  icon: 'gpp_maybe',     label: 'Posouzení dotčenosti' },
+            { id: 'vyjadreni', icon: 'fact_check',     label: 'Kontrola podkladů' },
             { id: 'done',      icon: 'verified',      label: 'Koordinované vyj.' }
         ];
         var phaseOrder = ['ready','sent','kontrola','vyjadreni','done'];
@@ -332,7 +332,7 @@
         var statusHtml = '';
 
         if (phase === 'sent') {
-            statusHtml = '<span class="vz-do-status s-kontrola"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Čeká na kontrolu</span>';
+            statusHtml = '<span class="vz-do-status s-kontrola"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Čeká na posouzení</span>';
         } else if (phase === 'kontrola') {
             if (doItem.kontrola === 'dotcen') {
                 var formaLabel = doItem.kontrolaForma === 'externi' ? 'externí vyj.' : doItem.kontrolaForma === 'prilozeno' ? 'přiloženo' : 'interní';
@@ -351,9 +351,9 @@
             } else if (doItem.kontrola === 'ceka') {
                 statusHtml = '<span class="vz-do-status s-ceka"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Čeká na kontrolu</span>';
             } else if (doItem.vyjadreni === 'hotovo') {
-                statusHtml = '<span class="vz-do-status s-hotovo"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span> Vyjádření doručeno</span>';
+                statusHtml = '<span class="vz-do-status s-hotovo"><span class="material-icons-outlined" style="font-size:12px;">check_circle</span> Podklady kompletní</span>';
             } else {
-                statusHtml = '<span class="vz-do-status s-ceka"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Zpracovává vyjádření</span>';
+                statusHtml = '<span class="vz-do-status s-ceka"><span class="material-icons-outlined" style="font-size:12px;">schedule</span> Kontroluje podklady</span>';
             }
         }
         // phase === 'ready': no status badges
@@ -390,11 +390,11 @@
             ready: { icon: 'campaign', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
                 text: 'Systém rozešle podklady záměru všem integrovaným dotčeným orgánům v působnosti. Každý DO posoudí, zda je záměrem dotčen, a zvolí formu vyjádření.' },
             sent: { icon: 'mark_email_read', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
-                text: 'Podklady byly rozeslány. Čeká se na kontrolu podkladů dotčenými orgány.' },
-            kontrola: { icon: 'fact_check', bg: '#fef7e0', border: '#fdd835', color: '#e37400', textColor: '#3c4043',
-                text: 'Běží lhůta pro kontrolu podkladů. DO posuzují dotčenost a úplnost podkladů. Po uplynutí lhůty může referent vydat vyrozumění o zahájení řízení.' },
-            vyjadreni: { icon: 'rate_review', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
-                text: 'Běží lhůta pro vyjádření. Dotčené DO zpracovávají svá vyjádření. Koordinátor sleduje plnění a může urgovat.' },
+                text: 'Podklady byly rozeslány. Čeká se na posouzení dotčenosti jednotlivými DO.' },
+            kontrola: { icon: 'gpp_maybe', bg: '#fef7e0', border: '#fdd835', color: '#e37400', textColor: '#3c4043',
+                text: 'Běží lhůta pro posouzení dotčenosti. Každý DO posuzuje, zda je záměrem dotčen, a volí formu vyjádření. Nedotčené DO se z dalšího procesu vyřadí.' },
+            vyjadreni: { icon: 'fact_check', bg: '#e8f0fe', border: '#c2dbf4', color: '#1a73e8', textColor: '#3c4043',
+                text: 'Běží lhůta pro kontrolu podkladů. Dotčené DO kontrolují úplnost a správnost podkladů projektové dokumentace.' },
             done: { icon: 'verified', bg: '#e6f4ea', border: '#a8dab5', color: '#1e8e3e', textColor: '#3c4043',
                 text: 'Všechna vyjádření jsou doručena. Koordinátor posoudil, že nejsou v rozporu. Koordinované vyjádření je připraveno k odeslání.' }
         };
@@ -408,11 +408,11 @@
     function generateDeadlineBar(phase) {
         if (phase === 'kontrola') {
             return '<div class="vz-deadline-bar"><span class="material-icons-outlined">timer</span>' +
-                '<strong>Lhůta pro kontrolu podkladů:</strong> zbývá 12 dní (do 28. 6. 2026)' +
+                '<strong>Lhůta pro posouzení dotčenosti:</strong> zbývá 12 dní (do 28. 6. 2026)' +
                 '<span style="margin-left:auto;font-weight:600;">⏱ 12 d</span></div>';
         } else if (phase === 'vyjadreni') {
             return '<div class="vz-deadline-bar"><span class="material-icons-outlined">timer</span>' +
-                '<strong>Lhůta pro vyjádření:</strong> zbývá 24 dní (do 10. 7. 2026)' +
+                '<strong>Lhůta pro kontrolu podkladů:</strong> zbývá 24 dní (do 10. 7. 2026)' +
                 '<span style="margin-left:auto;font-weight:600;">⏱ 24 d</span></div>';
         }
         return '';
@@ -430,7 +430,7 @@
             return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
                 '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
                     '<strong>Rozesláno ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
-                    '<span style="color:#1a73e8;font-weight:500;">' + VZ_BROADCAST_DOS.length + ' čeká na kontrolu</span>' +
+                    '<span style="color:#1a73e8;font-weight:500;">' + VZ_BROADCAST_DOS.length + ' čeká na posouzení dotčenosti</span>' +
                 '</div></div>';
         }
         var cDotcen = 0, cNedotcen = 0, cCeka = 0;
@@ -442,7 +442,7 @@
         if (phase === 'kontrola') {
             return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
                 '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
-                    '<strong>Kontrola podkladů ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
+                    '<strong>Posouzení dotčenosti ' + VZ_BROADCAST_DOS.length + ' DO</strong> · ' +
                     '<span style="color:#1e8e3e;font-weight:500;">' + cDotcen + ' dotčen</span> · ' +
                     '<span style="color:#9aa0a6;">' + cNedotcen + ' nedotčen</span>' +
                     (cCeka > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cCeka + ' čeká</span>' : '') +
@@ -457,9 +457,9 @@
         });
         return '<div style="padding:10px 12px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:8px;">' +
             '<div style="font-size:11px;color:#3c4043;line-height:1.6;">' +
-                '<strong>Vyjádření: ' + cDotcen + ' dotčených DO</strong> · ' +
-                '<span style="color:#1e8e3e;font-weight:500;">' + cHotovo + ' doručeno</span>' +
-                (cZpracovava > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cZpracovava + ' zpracovává</span>' : '') +
+                '<strong>Kontrola podkladů: ' + cDotcen + ' dotčených DO</strong> · ' +
+                '<span style="color:#1e8e3e;font-weight:500;">' + cHotovo + ' kompletní</span>' +
+                (cZpracovava > 0 ? ' · <span style="color:#e37400;font-weight:500;">' + cZpracovava + ' kontroluje</span>' : '') +
                 ' · <span style="color:#9aa0a6;">' + cNedotcen + ' nedotčen</span>' +
             '</div></div>';
     }
@@ -467,10 +467,10 @@
     /** Akční tlačítko pro přechod do další fáze */
     function generatePhaseAction(phase) {
         var actions = {
-            ready:     { icon: 'send',        label: 'Rozeslat podklady všem DO',         next: 'sent' },
-            sent:      { icon: 'fast_forward', label: 'Simulovat: DO provedou kontrolu',   next: 'kontrola' },
-            kontrola:  { icon: 'fast_forward', label: 'Simulovat: DO zpracují vyjádření',  next: 'vyjadreni' },
-            vyjadreni: { icon: 'fast_forward', label: 'Simulovat: vyjádření doručena',     next: 'done' }
+            ready:     { icon: 'send',        label: 'Rozeslat podklady všem DO',              next: 'sent' },
+            sent:      { icon: 'fast_forward', label: 'Simulovat: DO posoudí dotčenost',    next: 'kontrola' },
+            kontrola:  { icon: 'fast_forward', label: 'Simulovat: DO zkontrolují podklady', next: 'vyjadreni' },
+            vyjadreni: { icon: 'fast_forward', label: 'Simulovat: kontrola dokončena',      next: 'done' }
         };
         if (!actions[phase]) return '';
         var a = actions[phase];
