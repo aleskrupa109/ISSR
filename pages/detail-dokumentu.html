@@ -4229,5 +4229,112 @@
     </script>
     <script src="doc-modals.js"></script>
     <script>initDocModals({ basePath: '../docs/' });</script>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        appPrefix: 'issr',
+
+        controls: [
+            '<strong>Přepínač SZ 2024 / SZ 2026</strong> (pravý horní roh) — přepíná mezi současnou a budoucí právní úpravou. Volba se pamatuje mezi stránkami.',
+            '<strong>Přepínač rolí</strong> (plovoucí tlačítko vlevo dole) — přepíná pohled mezi stavebním úředníkem, koordinátorem DO a přispěvatelem.'
+        ],
+
+        reset: {
+            soft: function () {
+                try { localStorage.removeItem('issr_vz_state'); } catch (e) {}
+            },
+            hard: function () {
+                var keys = Object.keys(localStorage);
+                for (var i = 0; i < keys.length; i++) {
+                    if (keys[i].indexOf('issr') === 0) localStorage.removeItem(keys[i]);
+                }
+            },
+            softNote: 'Smaže uložený stav řízení (provedené kontroly, vyjádření DO). Stránka se znovu načte.',
+            hardNote: 'Smaže veškerá data makety včetně volby scénáře a stavu nápovědy. Stránka se znovu načte.'
+        },
+
+        about: {
+            title: 'O tomto prototypu',
+            html:
+                '<p>Toto je <strong>klikací prototyp</strong> informačního systému ISSŘ 2.0. Neběží proti žádnému reálnému systému a neodesílá žádná data.</p>' +
+                '<h3>Co je na této obrazovce simulované</h3>' +
+                '<ul>' +
+                    '<li><strong>Podání žádosti</strong> — údaje o stavebníkovi, záměru i obsah dokumentů jsou statické ukázkové texty.</li>' +
+                    '<li><strong>Přiřazení zpracovatele</strong> — výběr osoby se projeví jen vizuálně (odemkne akční tlačítka). Nepersistuje se a po refreshi se resetuje.</li>' +
+                    '<li><strong>Detekce duplicit</strong> — shody záměrů jsou předvyplněné (silná/slabá/žádná). Propojení a odmítnutí se projeví jen na této stránce a po refreshi zmizí.</li>' +
+                    '<li><strong>Prohlížeč dokumentů</strong> — tlačítka Žádost, Přílohy, El. dokumentace a Dokladová část otevírají skutečné modální prohlížeče s ukázkovými PDF.</li>' +
+                    '<li><strong>Vložení do spisu</strong> — vyhledávání záměrů filtruje předvyplněný seznam 5 položek. Potvrzení přesměruje na jinou stránku, ale nic neukládá.</li>' +
+                    '<li><strong>SZ 2026 směrování</strong> — informace o automatickém přidělení pracoviště je statická. Tlačítko „Požádat o změnu pracoviště" zatím jen zobrazí upozornění.</li>' +
+                '</ul>' +
+                '<h3>Kde se drží data</h3>' +
+                '<p>Volba scénáře (SZ 2024 / SZ 2026) se ukládá do localStorage. Ostatní interakce na této stránce existují jen v paměti prohlížeče a po refreshi se resetují.</p>'
+        },
+
+        annotations: [
+            {
+                selector: '#szToggle',
+                label: 'Přepínač scénářů',
+                simulace: 'Přepíná rozložení stránky mezi dvěma variantami právní úpravy. Volba se ukládá do localStorage a přenáší na ostatní stránky.',
+                vyznam: '<strong>SZ 2024</strong> = současný stav (krajské stavební úřady, samostatné dotčené orgány). <strong>SZ 2026</strong> = po reformě (jednotná státní stavební správa, automatické směrování).'
+            },
+            {
+                selector: '.assignee-dropdown',
+                label: 'Přiřazení zpracovatele',
+                simulace: 'Výběr osoby je čistě vizuální — uloží se jen do paměti stránky, ne do localStorage. Po refreshi se resetuje. V cílovém systému by šlo o přidělení v DMS.',
+                vyznam: 'Přiřazení zpracovatele je předpoklad pro jakýkoli další úkon s dokumentem. Dokud není přiřazen, akční tlačítka dole zůstávají zamčená.'
+            },
+            {
+                selector: '.document-access-buttons',
+                label: 'Přístup k dokumentům',
+                simulace: 'Tlačítka otevírají skutečné modální prohlížeče s ukázkovými PDF soubory. BIM model zobrazuje statický obrázek.',
+                vyznam: 'Úředník z této lišty přistupuje ke všem částem podání: formuláři žádosti, přílohám, projektové dokumentaci, dokladové části a datovému modelu stavby (BIM).'
+            },
+            {
+                selector: '.duplicates-section',
+                label: 'Detekce duplicitních záměrů',
+                simulace: 'Shody (silná / slabá / žádná) jsou předvyplněné — maketa neprovádí skutečné porovnávání. Propojení a odmítnutí se projeví pouze vizuálně a nepersistují.',
+                vyznam: 'Systém automaticky porovnává nově podaný záměr s existujícími podle lokality, typu stavby a stavebníka. Úředník rozhodne, zda jde o skutečnou duplicitu (propojí záměry), nebo ne.'
+            },
+            {
+                selector: '#recommendedAssigneeBox',
+                label: 'Doporučený zpracovatel',
+                simulace: 'Doporučení je statický text — maketa nepočítá vytížení ani zkušenosti. V SZ 2024 se doporučuje Jan Novák (zpracoval PI), v SZ 2026 Aleš Krupa (nejnižší vytížení).',
+                vyznam: 'Systém navrhuje zpracovatele na základě předchozí práce se záměrem, odbornosti a aktuálního vytížení. Úředník může doporučení přijmout, odmítnout nebo vybrat jiného.'
+            },
+            {
+                selector: '#processingBlock2024',
+                label: 'Zpracování (SZ 2024)',
+                simulace: 'Údaje o úřadu (DESÚ) a zpracovateli jsou statické. Přiřazení se projeví jen na této stránce.',
+                vyznam: 'V současném modelu (do 31. 12. 2027) přijímá dokument podatelna příslušného stavebního úřadu. Vedoucí oddělení ručně přiřadí zpracovatele.'
+            },
+            {
+                selector: '#processingBlock2026',
+                label: 'Automatické směrování (SZ 2026)',
+                simulace: 'Informace o přidělení pracoviště je statická. Tlačítko „Požádat o změnu pracoviště" zobrazí jen upozornění, že funkce bude doimplementována.',
+                vyznam: 'Od roku 2028 systém automaticky směruje podání na územní pracoviště podle lokality a druhu stavby. Pracoviště lze změnit žádostí — rozhoduje nadřízený vedoucí.'
+            },
+            {
+                selector: '.actions-bar',
+                label: 'Akční lišta',
+                simulace: 'Tlačítka jsou zamčená, dokud není přiřazen zpracovatel. „Vzít na vědomí" a „Založit nový spis" přesměrují na další stránky makety. „Vložit do existujícího spisu" otevře dvoustupňový modál.',
+                vyznam: 'Tři základní úkony po převzetí dokumentu: <strong>Vzít na vědomí</strong> = informativní záznam bez dalšího řízení. <strong>Vložit do spisu</strong> = připojit k probíhajícímu řízení. <strong>Založit nový spis</strong> = zahájit nové správní řízení.'
+            },
+            {
+                selector: '.related-proceedings-card',
+                label: 'Propojená řízení a záměr',
+                simulace: 'Seznam řízení je statický. V SZ 2026 se zobrazuje jen 1 řízení (místo 3) — simuluje zjednodušení po reformě. Kliknutí na řízení otevře boční panel s dalšími detaily.',
+                vyznam: 'Záměr může procházet více řízeními (předběžná informace, povolení, kolaudace). Přehled ukazuje, v jakém stadiu se záměr celkově nachází a jaké dokumenty jsou v jednotlivých spisech.'
+            },
+            {
+                selector: '.person-compact',
+                label: 'Stavebník a zástupce',
+                simulace: 'Veškeré osobní údaje jsou fiktivní ukázkové texty.',
+                vyznam: 'Systém zobrazuje údaje o žadateli (stavebníkovi) a jeho případném zástupci. Data se přebírají automaticky z formuláře žádosti a ověřují proti registrům (ISZR, ROB).'
+            }
+        ]
+    };
+    </script>
+    <script src="demo-helper.js"></script>
 </body>
 </html>
