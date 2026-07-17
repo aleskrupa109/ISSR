@@ -80,7 +80,7 @@
             '.ds-hint button{margin-top:8px;background:#fff;color:#111827;border:none;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;}',
             // anotované prvky + značky
             '.ds-help-on .ds-annotated{outline:2px dashed var(--ds-accent);outline-offset:3px;border-radius:4px;}',
-            '.ds-marker{position:absolute;top:-10px;right:-10px;width:24px;height:24px;border-radius:50%;background:var(--ds-accent);color:#fff;font-size:14px;font-weight:700;line-height:24px;text-align:center;cursor:pointer;z-index:15000;box-shadow:0 2px 6px rgba(0,0,0,.3);border:2px solid #fff;user-select:none;}',
+            '.ds-marker{position:absolute;top:-10px;right:-10px;width:24px;height:24px;box-sizing:border-box;border-radius:50%;background:var(--ds-accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:15000;box-shadow:0 2px 6px rgba(0,0,0,.3);border:2px solid #fff;user-select:none;}',
             '.ds-marker:hover{transform:scale(1.12);}',
             'body:not(.ds-help-on) .ds-marker{display:none;}',
             // popover
