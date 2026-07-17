@@ -18,5 +18,24 @@
             <img src="images/Snimekobrazovky2026-01-07v10.04.21.png" alt="MMR ČR" class="login-footer__logo">
         </div>
     </div>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu',
+            html: '<p>Toto je <strong>klikací maketa ISSŘ</strong> — Informačního systému stavebního řízení — z pohledu úředníka stavebního úřadu. Neběží proti žádnému reálnému systému.</p><h3>Co je simulované</h3><ul><li>Přihlášení — tlačítko rovnou otevře nástěnku, žádné ověření neprobíhá.</li><li>Veškerá data řízení, dokumentů i osob jsou testovací.</li><li>Demo dokumenty jsou skutečná PDF přiložená k maketě.</li></ul><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.login-box',
+            label: 'Simulované přihlášení',
+            simulace: 'Tlačítko Přihlásit otevře přímo nástěnku úředníka — žádné ověření identity neprobíhá.',
+            vyznam: 'V ostrém ISSŘ by se úředník přihlašoval prostřednictvím identitního prostoru veřejné správy (JIP/KAAS).'
+        }
+        ]
+    };
+    </script>
+    <script src="js/demo-helper.js"></script>
 </body>
 </html>

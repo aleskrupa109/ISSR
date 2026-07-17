@@ -42,7 +42,7 @@ ISSR/
 - **Sdílené moduly stránek** leží přímo v `pages/` a načítají se relativně (`<script src="doc-modals.js">`), moduly v `js/` cestou `../js/…`.
 - **doc-modals.js** poskytuje modaly a vestavěné prohlížeče PDF; soubory hledá v `../docs/<podsložka>/` podle atributu `data-file`. Názvy v `data-file` musí přesně odpovídat souborům na disku (bez diakritiky — diakritika v názvech rozbíjí URL na GitHub Pages).
 - **issr-state.js** drží stav kontrol a formulářů v localStorage, **role-switcher.js** přepíná pohledy rolí.
-- **demo-helper.js** vykresluje na každé stránce plovoucí tlačítko Nápověda a vysvětlivky z `window.DEMO_CONFIG`.
+- **demo-helper.js** vykresluje na každé stránce (včetně přihlašovací) plovoucí tlačítko Nápověda a vysvětlivky z `window.DEMO_CONFIG`. Anotace pokrývají i detailní funkcionality — dvoupanelové detaily kontrol, modály (REZA, duplicity, námitky, postoupení…) a prohlížeče dokumentů; značky u prvků v modálech se zobrazí po jejich otevření.
 
 ## Lokální testování
 
