@@ -14743,7 +14743,7 @@
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">E-mail</div>
-                                    <div class="zadost-data-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fa909b94d494958c9b91ba9f979b9396d49980">[email&#160;protected]</a></div>
+                                    <div class="zadost-data-value">jan.novak@email.cz</div>
                                 </div>
                                 <div class="zadost-data-item">
                                     <div class="zadost-data-label">Telefon</div>
@@ -15178,7 +15178,7 @@
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">E-mail</div>
-                                            <div class="formular-field-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1a707b743474756c7b715a7f777b7376347960">[email&#160;protected]</a></div>
+                                            <div class="formular-field-value">jan.novak@email.cz</div>
                                         </div>
                                         <div class="formular-field">
                                             <div class="formular-field-label">ID datové schránky</div>
@@ -18588,7 +18588,7 @@
         </div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Globální stav nedostatků - MUSÍ být definován před ostatními funkcemi
         const globalIssues = {
             vyzva: [], // Výzva k doplnění + přerušení
@@ -18756,7 +18756,6 @@
                 if (c.done) doneCount++;
             }
             data._isLiniovyZakon = typeof isLiniovyZakon !== 'undefined' ? isLiniovyZakon : false;
-            console.log('[ISSR] saveControlsState: saving ' + doneCount + ' done controls', JSON.stringify(data));
             ISSRState.setView('officer', data);
         }
 
@@ -18764,8 +18763,7 @@
         function loadControlsState() {
             if (typeof ISSRState === 'undefined') { console.warn('[ISSR] loadControlsState: ISSRState not available'); return false; }
             var data = ISSRState.getView('officer');
-            console.log('[ISSR] loadControlsState: raw data', data);
-            if (!data) { console.log('[ISSR] loadControlsState: no saved data'); return false; }
+            if (!data) { return false; }
             var anyLoaded = false;
             for (var key in controls) {
                 if (!controls.hasOwnProperty(key) || !data[key]) continue;
@@ -18776,7 +18774,6 @@
                         if (!saved.hasOwnProperty(prop) || prop === 'depends') continue;
                         controls[key][prop] = saved[prop];
                     }
-                    console.log('[ISSR] loadControlsState: restored ' + key + ' done=' + saved.done + ' result=' + saved.result);
                     anyLoaded = true;
                 }
             }
@@ -18784,7 +18781,6 @@
             if (data._isLiniovyZakon && typeof setLiniovyZakon === 'function') {
                 setLiniovyZakon(data._isLiniovyZakon);
             }
-            console.log('[ISSR] loadControlsState: anyLoaded=' + anyLoaded);
             return anyLoaded;
         }
         // ──────────────────────────────────────────────────────────────
@@ -21274,7 +21270,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             if (input) input.value = '';
             
             // V reálné aplikaci by se zde načetla data pro nové k.ú.
-            console.log(`Přepnuto na k.ú. ${name} [${kod}]`);
         }
         
         // ==========================================
@@ -22289,7 +22284,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             // Aplikovat změny v UI podle platnosti
             applyPlatnostChanges();
             
-            console.log('Platnost právní úpravy změněna na:', platnost);
         }
         
         // Aplikovat změny v UI podle platnosti právní úpravy
@@ -22421,7 +22415,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             // Aktualizovat zobrazení v simInfo
             updateSimInfo();
             
-            console.log('Typ podání změněn na:', typ);
         }
         
         // Rychlost řízení
@@ -26571,26 +26564,26 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             {
                 id: 'prehled', label: 'Přehled stanovisek a vyjádření', icon: 'list_alt',
                 files: [
-                    { id:'p1', nazev:'Přehled stanovisek a vyjádření', soubor:'prehled-stanovisek.pdf',
+                    { id:'p1', nazev:'Přehled stanovisek a vyjádření', soubor:'Doklady seznam-DESU-227.pdf',
                       typ:'vyj', typLabel:'Přehled', datum:'2025' }
                 ]
             },
             {
                 id: 'zs_do', label: 'Závazná stanoviska DO', icon: 'account_balance',
                 files: [
-                    { id:'zs1', nazev:'MÚ Kostelec n.O. — koordinované záv. stan.', soubor:'1_1-MU-Kostelec-koordinovane-ZS.pdf',
+                    { id:'zs1', nazev:'MÚ Kostelec n.O. — koordinované záv. stan.', soubor:'1.1._MeU Kostelec nO-koord.zav.stan..pdf',
                       typ:'zs', typLabel:'Koord. záv. stan.', cj:'R/2025/18662/4', datum:'4.3.2025',
                       subjekt:'MÚ Kostelec n.O.' },
-                    { id:'zs2', nazev:'MÚ Rychnov n.Kn. — závazné stanovisko', soubor:'1_2-MU-Rychnov-ZS.pdf',
+                    { id:'zs2', nazev:'MÚ Rychnov n.Kn. — závazné stanovisko', soubor:'1.2._MeU Rychnov nK-zav.stan.JES.pdf',
                       typ:'zs', typLabel:'Záv. stanovisko', cj:'R/2025/14716', datum:'20.2.2025',
                       subjekt:'MÚ Rychnov n.Kn.' },
-                    { id:'zs3', nazev:'Drážní úřad Praha — rozhodnutí (změna zabezpečení)', soubor:'1_8-Drazni-urad-rozhodnuti.pdf',
+                    { id:'zs3', nazev:'Drážní úřad Praha — rozhodnutí (změna zabezpečení)', soubor:'1.8._DU-Rozhodnuti-zmena zab..pdf',
                       typ:'zs', typLabel:'Rozhodnutí DÚ', cj:'DUCR-44974/24/Bd', datum:'27.9.2024',
                       subjekt:'Drážní úřad Praha' },
-                    { id:'zs4', nazev:'Policie ČR KŘ KHK — vyjádření k PD', soubor:'1_7-Policie-vyjadreni.pdf',
+                    { id:'zs4', nazev:'Policie ČR KŘ KHK — vyjádření k PD', soubor:'1.7._PCR-vyj.k PD.pdf',
                       typ:'zs', typLabel:'Vyjádření', cj:'KRPH-69305/ČJ-2024-050706', datum:'16.7.2024',
                       subjekt:'Policie ČR KŘ KHK' },
-                    { id:'zs5', nazev:'Ministerstvo obrany — závazné stanovisko', soubor:'4_35-MO-ZS.pdf',
+                    { id:'zs5', nazev:'Ministerstvo obrany — závazné stanovisko', soubor:'4.2.35._MO-zav.stan..pdf',
                       typ:'zs', typLabel:'Záv. stanovisko', cj:'—', datum:'2024',
                       subjekt:'Ministerstvo obrany' },
                 ]
@@ -26598,37 +26591,37 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             {
                 id: 'vyj_vti', label: 'Vyjádření vlastníků infrastruktury', icon: 'electrical_services',
                 files: [
-                    { id:'v1', nazev:'CETIN a.s. — sdělení o existenci sítě', soubor:'4_2_1-CETIN-existence.pdf',
+                    { id:'v1', nazev:'CETIN a.s. — sdělení o existenci sítě', soubor:'4.2.1._CETIN-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'CETIN a.s.' },
                     { id:'v2', nazev:'CETIN a.s. — vyjádření k SZ', soubor:'4_2_2-CETIN-vyjadreni.pdf',
                       typ:'vyj', typLabel:'Vyj. k SZ', cj:'—', datum:'2024', subjekt:'CETIN a.s.' },
-                    { id:'v3', nazev:'ČEZ Distribuce a.s. — sdělení o existenci', soubor:'4_2_3-CEZ-existence.pdf',
+                    { id:'v3', nazev:'ČEZ Distribuce a.s. — sdělení o existenci', soubor:'4.2.3._CEZ DSO-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČEZ Distribuce a.s.' },
-                    { id:'v4', nazev:'ČEZ Distribuce a.s. — vyjádření k PD', soubor:'4_2_4-CEZ-vyjadreni.pdf',
+                    { id:'v4', nazev:'ČEZ Distribuce a.s. — vyjádření k PD', soubor:'4.2.4._CEZ DSO-vyj. k PD.pdf',
                       typ:'vyj', typLabel:'Vyj. k PD', cj:'—', datum:'2024', subjekt:'ČEZ Distribuce a.s.' },
-                    { id:'v5', nazev:'GasNet s.r.o. — sdělení o existenci', soubor:'4_2_8-GasNet-existence.pdf',
+                    { id:'v5', nazev:'GasNet s.r.o. — sdělení o existenci', soubor:'4.2.8._GasNet-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'GasNet s.r.o.' },
-                    { id:'v6', nazev:'GasNet s.r.o. — vyjádření k PD', soubor:'4_2_9-GasNet-vyjadreni.pdf',
+                    { id:'v6', nazev:'GasNet s.r.o. — vyjádření k PD', soubor:'4.2.9._GasNet-vyj. k PD.pdf',
                       typ:'vyj', typLabel:'Vyj. k PD', cj:'—', datum:'2024', subjekt:'GasNet s.r.o.' },
-                    { id:'v7', nazev:'T-Mobile a.s. — sdělení o existenci', soubor:'4_2_10-TMobile-existence.pdf',
+                    { id:'v7', nazev:'T-Mobile a.s. — sdělení o existenci', soubor:'4.2.10._T-Mobile-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'T-Mobile a.s.' },
-                    { id:'v8', nazev:'Vodafone Czech Republic — sdělení o existenci', soubor:'4_2_11-Vodafone-existence.pdf',
+                    { id:'v8', nazev:'Vodafone Czech Republic — sdělení o existenci', soubor:'4.2.11._Vodafone-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'Vodafone Czech Republic a.s.' },
-                    { id:'v9', nazev:'ČEPS a.s. — sdělení o existenci', soubor:'4_2_14-CEPS-existence.pdf',
+                    { id:'v9', nazev:'ČEPS a.s. — sdělení o existenci', soubor:'4.2.14._CEPS-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČEPS a.s.' },
-                    { id:'v10', nazev:'ČEPS a.s. — vyjádření vl. TI + souhlas OP', soubor:'4_2_15-CEPS-vyjadreni.pdf',
+                    { id:'v10', nazev:'ČEPS a.s. — vyjádření vl. TI + souhlas OP', soubor:'4.2.15._CEPS-vyj.vlastnika TI.pdf',
                       typ:'vyj', typLabel:'Vyj. VTI', cj:'—', datum:'2024', subjekt:'ČEPS a.s.' },
                     { id:'v11', nazev:'AQUA Servis a.s. — sdělení o existenci', soubor:'4_2_18-AQUAServis-existence.pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'AQUA Servis a.s.' },
-                    { id:'v12', nazev:'AQUA Servis a.s. — vyjádření k PD', soubor:'4_2_19-AQUAServis-vyjadreni.pdf',
+                    { id:'v12', nazev:'AQUA Servis a.s. — vyjádření k PD', soubor:'4.2.19._Aqua Servis-vyj. k PD.pdf',
                       typ:'vyj', typLabel:'Vyj. k PD', cj:'—', datum:'2024', subjekt:'AQUA Servis a.s.' },
                     { id:'v13', nazev:'ČD Telematika a.s. — sdělení o existenci', soubor:'4_2_29-CDTelematika-existence.pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČD Telematika a.s.' },
-                    { id:'v14', nazev:'ČD Telematika a.s. — souhlas se stavbou', soubor:'4_2_30-CDTelematika-souhlas.pdf',
+                    { id:'v14', nazev:'ČD Telematika a.s. — souhlas se stavbou', soubor:'4.2.30._CDT-souhlas se stavbou.pdf',
                       typ:'stan', typLabel:'Souhlas', cj:'—', datum:'2024', subjekt:'ČD Telematika a.s.' },
-                    { id:'v15', nazev:'ČD RSM Hradec Králové — sdělení o existenci', soubor:'4_2_31-CDRSMHK-existence.pdf',
+                    { id:'v15', nazev:'ČD RSM Hradec Králové — sdělení o existenci', soubor:'4.2.31._CD RSM-vyj.exist..pdf',
                       typ:'exist', typLabel:'Existence', cj:'—', datum:'2024', subjekt:'ČD RSM Hradec Králové' },
-                    { id:'v16', nazev:'ČD RSM Hradec Králové — souhrnné stan. k PD', soubor:'4_2_32-CDRSMHK-souhrnne.pdf',
+                    { id:'v16', nazev:'ČD RSM Hradec Králové — souhrnné stan. k PD', soubor:'4.2.32._CD RSM-vyjadreni k PD.pdf',
                       typ:'vyj', typLabel:'Souhrnné stan.', cj:'561/2025', datum:'12.5.2025', subjekt:'ČD RSM Hradec Králové' },
                     { id:'v17', nazev:'SŽ OŘ Hradec Králové — souhrnné stan. k PD', soubor:'4_2_33-SZ-souhrnne.pdf',
                       typ:'stan', typLabel:'Souhrnné stan.', cj:'—', datum:'2025', subjekt:'SŽ OŘ Hradec Králové' },
@@ -26637,29 +26630,29 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             {
                 id: 'souhlasy', label: 'Souhlasy vlastníků', icon: 'handshake',
                 files: [
-                    { id:'s1', nazev:'Městys Doudleby n.O. — souhlas', soubor:'6_4-Doudleby-souhlas.pdf',
+                    { id:'s1', nazev:'Městys Doudleby n.O. — souhlas', soubor:'6.4._Mestys Doudleby n.O.-souhlas vl..pdf',
                       typ:'stan', typLabel:'Souhlas', cj:'—', datum:'30.1.2025', subjekt:'Městys Doudleby n.O.' },
-                    { id:'s2', nazev:'Město Vamberk — souhlas', soubor:'6_6-Vamberk-souhlas.pdf',
+                    { id:'s2', nazev:'Město Vamberk — souhlas', soubor:'6.6._Mesto Vamberk-souhlas.pdf',
                       typ:'stan', typLabel:'Souhlas', cj:'—', datum:'24.1.2025', subjekt:'Město Vamberk' },
-                    { id:'s3', nazev:'Povodí Labe s.p. — stanovisko a smlouva o věcném břemeni', soubor:'6_9-PovodiLabe-stanovisko.pdf',
+                    { id:'s3', nazev:'Povodí Labe s.p. — stanovisko a smlouva o věcném břemeni', soubor:'6.9._Povodi Labe-stan.spravce povodi.pdf',
                       typ:'stan', typLabel:'Stanovisko', cj:'—', datum:'30.1.2025', subjekt:'Povodí Labe s.p.' },
                 ]
             },
             {
                 id: 'eia', label: 'EIA / zjišťovací řízení', icon: 'eco',
                 files: [
-                    { id:'e1', nazev:'KÚ KHK — stanovisko NATURA 100', soubor:'3_1-KUKHK-NATURA100.pdf',
+                    { id:'e1', nazev:'KÚ KHK — stanovisko NATURA 100', soubor:'3.1._KUKHK-NATURA 100.pdf',
                       typ:'stan', typLabel:'NATURA 100', cj:'KUKHK-23806/ZP/2024', datum:'5.8.2024', subjekt:'KÚ KHK' },
-                    { id:'e2', nazev:'KÚ KHK — stanovisko NATURA 114', soubor:'3_2-KUKHK-NATURA114.pdf',
+                    { id:'e2', nazev:'KÚ KHK — stanovisko NATURA 114', soubor:'3.2._KUKHK-NATURA 114.pdf',
                       typ:'stan', typLabel:'NATURA 114', cj:'KUKHK-23921/ZP/2024', datum:'1.8.2024', subjekt:'KÚ KHK' },
                 ]
             },
             {
                 id: 'ostatni', label: 'Ostatní podklady', icon: 'folder_open',
                 files: [
-                    { id:'o1', nazev:'VÚŽ a.s. — stanovisko ES ověření propojenosti', soubor:'9_1-VUZ-ES-overeni.pdf',
+                    { id:'o1', nazev:'VÚŽ a.s. — stanovisko ES ověření propojenosti', soubor:'9.1._VUZ.pdf',
                       typ:'stan', typLabel:'ES certifikát', cj:'1714/8.6/SG/2025/CCT/CS/6262/V01', datum:'14.4.2025', subjekt:'VÚŽ a.s.' },
-                    { id:'o2', nazev:'Správa železnic OŘ HK — záznam z metodické schůzky', soubor:'6_18-SZ-zaznam-MS.pdf',
+                    { id:'o2', nazev:'Správa železnic OŘ HK — záznam z metodické schůzky', soubor:'6.18._SZ-zaznam z MS.pdf',
                       typ:'vyj', typLabel:'Zápis', cj:'—', datum:'18.6.2024', subjekt:'SŽ OŘ Hradec Králové' },
                 ]
             },
@@ -28446,7 +28439,6 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
             // Simulace otevření v novém okně
             setTimeout(() => {
                 // V reálu by se otevřel odkaz na ČÚZK nebo interní systém
-                console.log(`Otevření LV: parcela=${parcela}, typ=${typ}`);
             }, 500);
         }
         

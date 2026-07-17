@@ -686,15 +686,24 @@
             f('4.2.9._GasNet-vyj. k PD.pdf','4.2.9. GasNet — k PD') +
             f('4.2.10._T-Mobile-vyj.exist..pdf','4.2.10. T-Mobile') +
             f('4.2.11._Vodafone-vyj.exist..pdf','4.2.11. Vodafone') +
-            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 15</div>'
+            f('4.2.14._CEPS-vyj.exist..pdf','4.2.14. ČEPS — exist.') +
+            f('4.2.15._CEPS-vyj.vlastnika TI.pdf','4.2.15. ČEPS — vyj. VTI') +
+            f('4.2.19._Aqua Servis-vyj. k PD.pdf','4.2.19. Aqua Servis — k PD') +
+            f('4.2.30._CDT-souhlas se stavbou.pdf','4.2.30. ČD Telematika — souhlas') +
+            f('4.2.31._CD RSM-vyj.exist..pdf','4.2.31. ČD RSM — exist.') +
+            f('4.2.32._CD RSM-vyjadreni k PD.pdf','4.2.32. ČD RSM — k PD') +
+            f('4.2.35._MO-zav.stan..pdf','4.2.35. MO — záv. stan.') +
+            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 6</div>'
         ) + cat('handshake', '6. Souhlasy, SBVB', 18,
             f('6.2._CD RSM-vyjadreni k PD.pdf','6.2. ČD RSM — vyj. k PD') +
             f('6.3._CD_Podepsana SBVB.pdf','6.3. ČD — SBVB') +
             f('6.4._Mestys Doudleby n.O.-souhlas vl..pdf','6.4. Městys Doudleby') +
             f('6.8._SSKHK-stanovisko k PD.pdf','6.8. SSKHK') +
+            f('6.6._Mesto Vamberk-souhlas.pdf','6.6. Město Vamberk — souhlas') +
             f('6.9._Povodi Labe-stan.spravce povodi.pdf','6.9. Povodí Labe') +
+            f('6.18._SZ-zaznam z MS.pdf','6.18. SŽ — záznam z MS') +
             f('6.20._Biologicky a dendrologicky pruzkum.pdf','6.20. Bio+dendro průzkum') +
-            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 9</div>',
+            '<div style="padding:2px 8px;font-size:10px;color:#5f6368;font-style:italic">… a dalších 7</div>',
             'do-integrated'
         ) + cat('more_horiz', '9. Ostatní', 2,
             f('9.1._VUZ.pdf','9.1. VÚŽ') +
