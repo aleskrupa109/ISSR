@@ -298,5 +298,36 @@
             </a>
         </div>
     </main>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu — Kontrola příslušnosti',
+            html: '<p>Samostatná obrazovka kontroly příslušnosti úřadu k podanému dokumentu. Vyhodnocení je <strong>simulované</strong>.</p><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.kontrola-header',
+            label: 'Hlavička kontroly',
+            simulace: 'Údaje dokumentu jsou testovací.',
+            vyznam: 'Kontext kontroly — jaký dokument a jaké podání se posuzuje.'
+        },
+        {
+            selector: '.kontrola-section',
+            label: 'Vyhodnocení příslušnosti',
+            simulace: 'Volby přepínají výsledek jen v prohlížeči; nic se neodesílá.',
+            vyznam: 'Určení věcné a místní příslušnosti — zda má úřad dokument vyřídit, nebo postoupit.'
+        },
+        {
+            selector: '.actions',
+            label: 'Akce kontroly',
+            simulace: 'Potvrzení a postoupení zobrazují hlášku, případně vrací na předchozí obrazovku.',
+            vyznam: 'Uzavření kontroly — potvrzení příslušnosti, nebo postoupení příslušnému úřadu.'
+        }
+        ]
+    };
+    </script>
+    <script src="../js/demo-helper.js"></script>
 </body>
 </html>

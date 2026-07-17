@@ -2036,5 +2036,36 @@
             }
         });
     </script>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu — Řízení',
+            html: '<p>Přehled řízení vedených úřadem. Seznam, stavy i ukazatele postupu jsou <strong>testovací data</strong>.</p><h3>Co je simulované</h3><ul><li>Filtry podle stavu, typu a pracoviště pracují nad testovacími řádky.</li><li>Ukazatele postupu jsou statické hodnoty.</li></ul><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.filter-panel-header',
+            label: 'Filtry řízení',
+            simulace: 'Filtrování pracuje nad testovacími řádky tabulky; počty u voleb jsou statické.',
+            vyznam: 'Zúžení přehledu podle stavu řízení, typu, pracoviště či zpracovatele.'
+        },
+        {
+            selector: '.progress-bar-container',
+            label: 'Postup řízení',
+            simulace: 'Ukazatel je statická hodnota z testovacích dat.',
+            vyznam: 'Orientační vyjádření, v jaké fázi procesu se řízení nachází — od kontroly žádosti po rozhodnutí.'
+        },
+        {
+            selector: '.data-table',
+            label: 'Seznam řízení',
+            simulace: 'Řádky jsou testovací; detailní pohledy otevírají navazující obrazovky makety.',
+            vyznam: 'Všechna řízení pracoviště s klíčovými údaji — číslo, stavebník, stav, lhůty a zpracovatel.'
+        }
+        ]
+    };
+    </script>
+    <script src="../js/demo-helper.js"></script>
 </body>
 </html>

@@ -4262,5 +4262,48 @@
         }
     }
     </script>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu — Nástěnka',
+            html: '<p>Nástěnka úředníka stavebního úřadu — vstupní přehled dne. Všechna čísla, lhůty i seznamy jsou <strong>testovací data</strong>.</p><h3>Co je simulované</h3><ul><li>Souhrnné ukazatele a karty (upozornění, lhůty, řízení) jsou statické.</li><li>Nastavení nástěnky a přepnutí role vedoucího se ukládá jen v prohlížeči.</li></ul><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.stats-row',
+            label: 'Souhrnné ukazatele',
+            simulace: 'Čísla jsou statická testovací data — nepřepočítávají se podle obsahu makety.',
+            vyznam: 'Rychlý přehled zátěže úředníka — počty běžících řízení, dokumentů k vyřízení a blížících se lhůt.'
+        },
+        {
+            selector: '.card',
+            label: 'Karty nástěnky',
+            simulace: 'Obsah karet je testovací; akční tlačítka vedou na seznamy, nebo zobrazí hlášku.',
+            vyznam: 'Nástěnka skládá nejdůležitější informace dne — upozornění, kalendář lhůt, řízení vyžadující pozornost, aktuality.'
+        },
+        {
+            selector: '.dashboard-settings-btn',
+            label: 'Nastavení nástěnky',
+            simulace: 'Zapínání widgetů a přepnutí role (úředník / vedoucí) se ukládá pouze v prohlížeči.',
+            vyznam: 'Každý uživatel si skladbu nástěnky přizpůsobuje své roli a agendě.'
+        },
+        {
+            selector: '#managerSection',
+            label: 'Manažerský pohled',
+            simulace: 'Sekce se zobrazí po přepnutí role na vedoucího v nastavení nástěnky; data jsou testovací.',
+            vyznam: 'Vedoucí pracoviště sleduje výkonnost a vytížení úředníků a rozděluje práci.'
+        },
+        {
+            selector: '#calendarModal .dashboard-modal',
+            label: 'Kalendář lhůt',
+            simulace: 'Kalendář je statická ukázka nad testovacími lhůtami.',
+            vyznam: 'Přehled procesních lhůt v čase — kterým řízením a kdy končí lhůta pro úkon.'
+        }
+        ]
+    };
+    </script>
+    <script src="../js/demo-helper.js"></script>
 </body>
 </html>

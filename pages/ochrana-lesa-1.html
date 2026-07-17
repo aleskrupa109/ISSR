@@ -801,6 +801,30 @@ window.DEMO_CONFIG = {
             label: 'Uložení a odeslání',
             simulace: 'Tlačítka Uložit a Odeslat zapisují stav pod klíčem LES do localStorage. Koordinátor změnu uvidí až při načtení své stránky — neexistuje žádná real-time synchronizace. Validace povinných polí funguje.',
             vyznam: 'V ostré verzi by odeslání kontroly/vyjádření provedlo zabezpečené API volání, notifikovalo koordinátora a vytvořilo auditní záznam.'
+        },
+        {
+            selector: '#doViewerTabs',
+            label: 'Záložky podkladů',
+            simulace: 'Přepínání mezi žádostí, dokumentací a dokladovou částí; náhledy otevírají skutečná demo PDF.',
+            vyznam: 'Přispěvatel posuzuje záměr přímo nad podklady žádosti — bez papírového oběhu spisu.'
+        },
+        {
+            selector: '.do-radio-group',
+            label: 'Volba výsledku posouzení',
+            simulace: 'Volba souhlas / souhlas s podmínkami / nesouhlas přepíná zobrazené sekce formuláře; vše se ukládá jen lokálně.',
+            vyznam: 'Výsledek posouzení veřejného zájmu určuje obsah vyjádření — bez podmínek, s podmínkami, nebo nesouhlas s odůvodněním.'
+        },
+        {
+            selector: '.do-podminka-item',
+            label: 'Podmínky vyjádření',
+            simulace: 'Podmínky se přidávají a upravují pouze v lokálním seznamu.',
+            vyznam: 'Podmínky přispěvatele se propisují do koordinovaného stanoviska a následně do výroku rozhodnutí stavebního úřadu.'
+        },
+        {
+            selector: '.do-forma-option',
+            label: 'Forma výstupu',
+            simulace: 'Volba formy výstupu je ilustrativní — nic se neodesílá.',
+            vyznam: 'Výstup dotčeného orgánu má podle zákona formu vyjádření, nebo závazného stanoviska — s rozdílnou závazností pro stavební úřad.'
         }
     ]
 };

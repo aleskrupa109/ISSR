@@ -1852,5 +1852,60 @@
             }
         });
     </script>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu — Detail záměru',
+            html: '<p>Detail záměru — nadřazeného obalu stavby, který sdružuje řízení, dokumentaci, doklady a osoby. Vše jsou <strong>testovací data</strong>.</p><h3>Co je simulované</h3><ul><li>Sekce parcel, objektů a lokalizace jsou statické.</li><li>Modály (řízení, dokumentace, doklady, osoby, mapa) zobrazují testovací obsah.</li></ul><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.accordion-section',
+            label: 'Sekce záměru',
+            simulace: 'Rozbalovací sekce (parcely, stavební objekty, lokalizace) zobrazují statická testovací data.',
+            vyznam: 'Věcné vymezení záměru — kterých pozemků se týká a z jakých stavebních objektů se skládá.'
+        },
+        {
+            selector: '.stavebnik-section',
+            label: 'Osoby záměru',
+            simulace: 'Stavebník, zástupce i pověřené osoby jsou testovací.',
+            vyznam: 'Kdo je stavebníkem a kdo za něj jedná — základ pro doručování a účastenství v navazujících řízeních.'
+        },
+        {
+            selector: '#rizeniModal .modal',
+            label: 'Řízení v záměru',
+            simulace: 'Seznam řízení je testovací; odkazy vedou na obrazovky makety.',
+            vyznam: 'Všechna řízení vedená k témuž záměru — od předběžné informace po povolení a kolaudaci.'
+        },
+        {
+            selector: '#dokumentaceModal .modal',
+            label: 'Dokumentace záměru',
+            simulace: 'Strom dokumentace zobrazuje demo dataset.',
+            vyznam: 'Projektová dokumentace sdílená napříč řízeními záměru — vždy v aktuální verzi.'
+        },
+        {
+            selector: '#dokladyModal .modal',
+            label: 'Dokladová část záměru',
+            simulace: 'Seznam dokladů zobrazuje demo dataset.',
+            vyznam: 'Stanoviska a vyjádření doložená k záměru — dostupná všem navazujícím řízením.'
+        },
+        {
+            selector: '#osobyModal .modal',
+            label: 'Osoby záměru — detail',
+            simulace: 'Detailní seznam osob je testovací.',
+            vyznam: 'Úplný výčet osob spojených se záměrem včetně rolí a způsobu doručování.'
+        },
+        {
+            selector: '#mapaModal .modal',
+            label: 'Mapa záměru',
+            simulace: 'Mapa je statický snímek — žádné mapové služby se nevolají.',
+            vyznam: 'Prostorové vymezení záměru nad katastrální mapou.'
+        }
+        ]
+    };
+    </script>
+    <script src="../js/demo-helper.js"></script>
 </body>
 </html>

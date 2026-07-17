@@ -4334,8 +4334,74 @@
                 label: 'Stavebník a zástupce',
                 simulace: 'Veškeré osobní údaje jsou fiktivní ukázkové texty.',
                 vyznam: 'Systém zobrazuje údaje o žadateli (stavebníkovi) a jeho případném zástupci. Data se přebírají automaticky z formuláře žádosti a ověřují proti registrům (ISZR, ROB).'
-            }
-        ]
+            },
+        {
+            selector: '#zamerModal1 .modal-dialog',
+            label: 'Detail možné duplicity',
+            simulace: 'Detail nalezeného záměru je statický; akce Propojit záměry a Není duplicita mění pouze lokální stav a tlačítka modálu.',
+            vyznam: 'Posouzení, zda příchozí dokument patří k již existujícímu záměru — systém porovnává shodu pozemku, stavebníka a názvu.'
+        },
+        {
+            selector: '#zamerModal2 .modal-dialog',
+            label: 'Falešná duplicita',
+            simulace: 'Ukázka záměru, který systém označil jako možnou duplicitu, ale věcně jí není — akce „Není duplicita“ jej vyřadí.',
+            vyznam: 'Ne každá shoda atributů znamená týž záměr; referent posuzuje věcnou souvislost, nejen formální shodu pozemku.'
+        },
+        {
+            selector: '#insertModal .modal-dialog',
+            label: 'Vložení do existujícího řízení',
+            simulace: 'Průvodce vložením dokumentu do spisu je simulovaný — výběr řízení a potvrzení nic neodesílají.',
+            vyznam: 'Příchozí dokument lze místo založení nového řízení vložit do spisu již vedeného řízení, ke kterému věcně patří.'
+        },
+        {
+            selector: '#jesModal .modal-dialog',
+            label: 'Závazné stanovisko (JES)',
+            simulace: 'Náhled otevírá skutečné demo PDF ze složky docs/dokladova-cast.',
+            vyznam: 'Závazné stanovisko dotčeného orgánu vydané v režimu jednotného environmentálního stanoviska, doložené k žádosti.'
+        },
+        {
+            selector: '#duModal .modal-dialog',
+            label: 'Rozhodnutí Drážního úřadu',
+            simulace: 'Náhled otevírá skutečné demo PDF rozhodnutí.',
+            vyznam: 'Podkladové rozhodnutí speciálního úřadu (změna zabezpečení přejezdu) věcně související se záměrem.'
+        },
+        {
+            selector: '#piDocModal .modal-dialog',
+            label: 'Předběžná informace',
+            simulace: 'Náhled otevírá demo PDF (docs/PI.pdf).',
+            vyznam: 'Dříve vydaná předběžná informace k témuž záměru — jeden z důvodů, proč systém dokument propojuje s existujícím záměrem.'
+        },
+        {
+            selector: '#dm-zadostModal .dm-modal',
+            label: 'Náhled žádosti (PDF)',
+            simulace: 'Otevírá skutečné demo PDF podané žádosti ze složky docs/zadost.',
+            vyznam: 'Originál podání tak, jak jej stavebník odeslal z Portálu stavebníka — referent s ním porovnává vytěžená data.'
+        },
+        {
+            selector: '#dm-prilohyModal .dm-modal',
+            label: 'Přílohy žádosti',
+            simulace: 'Seznam příloh s náhledem skutečných demo PDF ze složky docs/prilohy.',
+            vyznam: 'Doklady přiložené k žádosti — plné moci, pověření, souhlasy vlastníků sousedních pozemků.'
+        },
+        {
+            selector: '#dm-eedModal .dm-modal',
+            label: 'Elektronická dokumentace',
+            simulace: 'Strom dokumentace (části A, B, C) s náhledem demo PDF; soubory části D nejsou v datasetu.',
+            vyznam: 'Projektová dokumentace ve strukturované elektronické podobě — jednotlivé části a výkresy s okamžitým náhledem.'
+        },
+        {
+            selector: '#dm-dokladyModal .dm-modal',
+            label: 'Dokladová část',
+            simulace: 'Kategorie dokladů s náhledem skutečných demo PDF ze složky docs/dokladova-cast; položky „a dalších…“ jsou jen ilustrativní.',
+            vyznam: 'Stanoviska dotčených orgánů, vyjádření vlastníků infrastruktury a souhlasy doložené k žádosti, členěné podle typu.'
+        },
+        {
+            selector: '#dm-bimModal .dm-modal',
+            label: 'BIM model',
+            simulace: 'Náhled BIM je statický obrázek — žádný skutečný prohlížeč IFC modelu neběží.',
+            vyznam: 'Informační model stavby (BIM) jako výhled digitální dokumentace — model by nahradil část výkresové dokumentace.'
+        }
+    ]
     };
     </script>
     <script src="../js/demo-helper.js"></script>

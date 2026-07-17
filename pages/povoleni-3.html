@@ -5577,6 +5577,60 @@ window.DEMO_CONFIG = {
             label: 'Navigační lišta',
             simulace: '„Zpět na kontrolu" funguje jako odkaz na povoleni-2.html. „Přejít na rozhodnutí" je aktivní až po uzavření projednání, ale nevede na další stránku (zobrazí alert).',
             vyznam: 'Navigace mezi kroky procesu povolení stavby — zpět na kontroly nebo vpřed na vydání rozhodnutí.'
+        },
+        {
+            selector: '#card-seznameni',
+            label: 'Opakované seznámení s podklady',
+            simulace: 'Podmíněná karta — zobrazí se pouze tehdy, když po podání námitek vznikly nové podklady rozhodnutí.',
+            vyznam: 'Opakované seznámení účastníků s podklady rozhodnutí (§ 191 SZ), pokud se spis po námitkách doplnil o nové dokumenty.'
+        },
+        {
+            selector: '#veContextPanel',
+            label: 'Kontextový panel záměru',
+            simulace: 'Panel zobrazuje vybrané údaje záměru a řízení z testovacích dat pro použití při editaci písemnosti.',
+            vyznam: 'Referent má při psaní vyrozumění po ruce popis záměru, účastníky a lhůty, aniž by opouštěl editor.'
+        },
+        {
+            selector: '#addNamitkaModal2 .modal',
+            label: 'Evidovat námitku',
+            simulace: 'Námitka se přidá pouze do lokálního seznamu v prohlížeči.',
+            vyznam: 'Evidence námitky účastníka — kdo ji uplatnil, kdy a čeho se týká. Námitky se vypořádávají v rozhodnutí.'
+        },
+        {
+            selector: '#resolveNamitkaModal2 .modal',
+            label: 'Vypořádání námitky',
+            simulace: 'Zvolený způsob vypořádání se uloží lokálně a promítne do stavu námitky v přehledu.',
+            vyznam: 'Ke každé námitce se zaznamenává vypořádání — vyhovění, částečné vyhovění, či zamítnutí s odůvodněním; propisuje se do odůvodnění rozhodnutí.'
+        },
+        {
+            selector: '#dm-zadostModal .dm-modal',
+            label: 'Náhled žádosti (PDF)',
+            simulace: 'Otevírá skutečné demo PDF podané žádosti ze složky docs/zadost.',
+            vyznam: 'Originál podání tak, jak jej stavebník odeslal z Portálu stavebníka — referent s ním porovnává vytěžená data.'
+        },
+        {
+            selector: '#dm-prilohyModal .dm-modal',
+            label: 'Přílohy žádosti',
+            simulace: 'Seznam příloh s náhledem skutečných demo PDF ze složky docs/prilohy.',
+            vyznam: 'Doklady přiložené k žádosti — plné moci, pověření, souhlasy vlastníků sousedních pozemků.'
+        },
+        {
+            selector: '#dm-eedModal .dm-modal',
+            label: 'Elektronická dokumentace',
+            simulace: 'Strom dokumentace (části A, B, C) s náhledem demo PDF; soubory části D nejsou v datasetu.',
+            vyznam: 'Projektová dokumentace ve strukturované elektronické podobě — jednotlivé části a výkresy s okamžitým náhledem.'
+        },
+        {
+            selector: '#dm-dokladyModal .dm-modal',
+            label: 'Dokladová část',
+            simulace: 'Kategorie dokladů s náhledem skutečných demo PDF ze složky docs/dokladova-cast; položky „a dalších…“ jsou jen ilustrativní.',
+            vyznam: 'Stanoviska dotčených orgánů, vyjádření vlastníků infrastruktury a souhlasy doložené k žádosti, členěné podle typu.'
+        },
+        {
+            selector: '#dm-bimModal .dm-modal',
+            label: 'BIM model',
+            simulace: 'Náhled BIM je statický obrázek — žádný skutečný prohlížeč IFC modelu neběží.',
+            vyznam: 'Informační model stavby (BIM) jako výhled digitální dokumentace — model by nahradil část výkresové dokumentace.'
         }
     ]
 };

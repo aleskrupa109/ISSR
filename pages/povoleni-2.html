@@ -33578,6 +33578,138 @@ window.DEMO_CONFIG = {
             label: 'Panel simulace',
             simulace: 'Nástroj pro testování prototypu — umožňuje přepnout právní úpravu, typ podání, rychlost řízení a scénář žadatele. Parametry se ukládají do URL a lze je sdílet odkazem.',
             vyznam: 'Tento panel existuje pouze v prototypu. Umožňuje prezentovat různé scénáře bez nutnosti měnit zdrojový kód. V ostré verzi systému nebude přítomen.'
+        },
+        {
+            selector: '#controlZadost .control-header',
+            label: 'Kontrola žádosti — detail',
+            simulace: 'Dvoupanelový detail: vlevo náhled podané žádosti, vpravo formulář kontroly. Hodnoty jsou předvyplněné z demo žádosti; úpravy i výsledek kontroly se ukládají pouze do localStorage.',
+            vyznam: 'Referent porovnává vytěžená data podání s originálem žádosti — typ podání, kategorii stavby a náležitosti — a jednotlivé údaje potvrzuje, nebo opravuje.'
+        },
+        {
+            selector: '#controlPrislusnost .control-header',
+            label: 'Kontrola příslušnosti — detail',
+            simulace: 'Vyhodnocení příslušnosti je simulované. Volba „úřad není příslušný“ zpřístupní zdůvodnění a postoupení; předání koordinace veřejných zájmů je ilustrativní.',
+            vyznam: 'Ověření věcné a místní příslušnosti úřadu k vedení řízení. Při nepříslušnosti se podání usnesením postupuje příslušnému stavebnímu úřadu.'
+        },
+        {
+            selector: '#controlIdentifikace .control-header',
+            label: 'Posouzení dokladové části — detail',
+            simulace: 'Strom dokladů odpovídá demo datasetu; kliknutí na doklad otevře skutečné PDF ze složky docs/dokladova-cast. Hodnocení dokladů a report se ukládají lokálně.',
+            vyznam: 'Kontrola, zda jsou doložena potřebná závazná stanoviska dotčených orgánů, vyjádření vlastníků technické infrastruktury a souhlasy vlastníků nemovitostí.'
+        },
+        {
+            selector: '#controlPozemky .control-header',
+            label: 'Kontrola pozemků — detail',
+            simulace: 'Katastrální podklady jsou statické snímky s ovládáním lupy; identifikace sousedních pozemků i náhled LV pracují nad testovacími daty, nikoli nad skutečným katastrem.',
+            vyznam: 'Ověření pozemků dotčených záměrem a identifikace sousedních parcel — podklad pro vymezení okruhu účastníků řízení.'
+        },
+        {
+            selector: '#controlUP .control-header',
+            label: 'Soulad s ÚPD — detail',
+            simulace: 'Podklady ÚRP a ÚP jsou statické obrázky; přepínání podkladů, zoom i zápis nesouladu fungují, ale vše zůstává jen v prohlížeči.',
+            vyznam: 'Posouzení souladu záměru s územně plánovací dokumentací všech úrovní (ÚRP, ZÚR, ÚP, RP). Zjištěný rozpor brání vydání povolení.'
+        },
+        {
+            selector: '#controlDokumentace .control-header',
+            label: 'Kontrola dokumentace — detail',
+            simulace: 'Struktura dokumentace i výsledky kontroly elektronických podpisů a časových razítek jsou simulované nad demo PDF (části A, B, C).',
+            vyznam: 'Ověření úplnosti projektové dokumentace a platnosti elektronických podpisů a časových razítek autorizovaných osob.'
+        },
+        {
+            selector: '#controlUcastnici .control-header',
+            label: 'Osoby a účastníci — detail',
+            simulace: 'Přidání zástupce, ověření zastoupení v REZA i nastavení doručování jsou simulace nad testovacími osobami; změny zůstávají jen v prohlížeči.',
+            vyznam: 'Stanovení okruhu účastníků řízení, kontrola zastoupení a určení způsobu doručování písemností jednotlivým osobám.'
+        },
+        {
+            selector: '#controlVerejneZajmy .control-header',
+            label: 'Veřejné zájmy — detail',
+            simulace: 'Identifikace dotčených veřejných zájmů, katalog VZ i stav odpovědí dotčených orgánů jsou generovány sdíleným modulem nad testovacími daty.',
+            vyznam: 'Určení, které veřejné zájmy jsou záměrem dotčeny a od kterých dotčených orgánů je třeba vyžádat vyjádření či závazné stanovisko.'
+        },
+        {
+            selector: '#controlZrychlene .control-header',
+            label: 'Podmínky zrychleného řízení — detail',
+            simulace: 'Checklist podmínek se vyhodnocuje lokálně; splnění pouze odemyká akci „zrychlené řízení“ na akční liště.',
+            vyznam: 'Posouzení zákonných podmínek pro vydání povolení ve zrychleném řízení (§ 212 stavebního zákona) — tedy bez standardního projednání.'
+        },
+        {
+            selector: '#rezaModal .modal',
+            label: 'Ověření zastoupení v REZA',
+            simulace: 'Obrazovka registru je věrná statická simulace — záznam zastoupení se nenačítá z žádného skutečného systému.',
+            vyznam: 'Úřad ověřuje plnou moc či pověření dotazem do Registru elektronických zastoupení namísto kontroly listinné plné moci.'
+        },
+        {
+            selector: '#prilohyPMModal .modal',
+            label: 'Přílohy žádosti — doklady zastoupení',
+            simulace: 'Náhledy otevírají skutečná demo PDF ze složky docs/prilohy.',
+            vyznam: 'Listinné doklady zastoupení doložené jako přílohy žádosti — alternativa k elektronickému záznamu v REZA.'
+        },
+        {
+            selector: '#podminkyModal .podminky-modal',
+            label: 'Podmínky subjektu',
+            simulace: 'Editace podmínek převzatých ze stanoviska se ukládá jen lokálně.',
+            vyznam: 'Podmínky ze závazných stanovisek a vyjádření se evidují u subjektu a následně se propisují do výroku rozhodnutí.'
+        },
+        {
+            selector: '#reportModal .report-modal',
+            label: 'Report dokladové části',
+            simulace: 'Souhrnný report je vygenerovaný z testovacích dat kontroly; export nikam neodchází.',
+            vyznam: 'Přehled výsledku posouzení dokladové části — co je doloženo, co chybí a jaké podmínky z dokladů vyplývají.'
+        },
+        {
+            selector: '#postoupeniModal .modal',
+            label: 'Postoupení řízení',
+            simulace: 'Odeslání postoupení je simulované — zobrazí se potvrzení, nic se neodesílá.',
+            vyznam: 'Usnesení o postoupení podání příslušnému stavebnímu úřadu při zjištěné nepříslušnosti; podatel se o postoupení vyrozumí.'
+        },
+        {
+            selector: '#modalPridatZastupce .modal-dialog',
+            label: 'Přidat zástupce',
+            simulace: 'Nový zástupce se přidá pouze do tabulky v prohlížeči; ověření zastoupení je naznačené.',
+            vyznam: 'Evidence zastoupení účastníka — kdo koho zastupuje, v jaké roli a zda se písemnosti doručují zástupci.'
+        },
+        {
+            selector: '#nesouladModal',
+            label: 'Popis nesouladu s ÚPD',
+            simulace: 'Zapsaný rozpor se uloží pouze k výsledku kontroly souladu; žádný výstup se negeneruje.',
+            vyznam: 'Strukturovaný popis rozporu záměru s konkrétní vrstvou územně plánovací dokumentace jako podklad pro další postup v řízení.'
+        },
+        {
+            selector: '#propojenyzamerModal .modal-dialog',
+            label: 'Detail propojeného záměru',
+            simulace: 'Náhled záměru je statický a pracuje s testovacími daty.',
+            vyznam: 'Rychlý náhled záměru propojeného s tímto řízením — souvislosti bez nutnosti opustit rozpracovanou kontrolu.'
+        },
+        {
+            selector: '#dm-zadostModal .dm-modal',
+            label: 'Náhled žádosti (PDF)',
+            simulace: 'Otevírá skutečné demo PDF podané žádosti ze složky docs/zadost.',
+            vyznam: 'Originál podání tak, jak jej stavebník odeslal z Portálu stavebníka — referent s ním porovnává vytěžená data.'
+        },
+        {
+            selector: '#dm-prilohyModal .dm-modal',
+            label: 'Přílohy žádosti',
+            simulace: 'Seznam příloh s náhledem skutečných demo PDF ze složky docs/prilohy.',
+            vyznam: 'Doklady přiložené k žádosti — plné moci, pověření, souhlasy vlastníků sousedních pozemků.'
+        },
+        {
+            selector: '#dm-eedModal .dm-modal',
+            label: 'Elektronická dokumentace',
+            simulace: 'Strom dokumentace (části A, B, C) s náhledem demo PDF; soubory části D nejsou v datasetu.',
+            vyznam: 'Projektová dokumentace ve strukturované elektronické podobě — jednotlivé části a výkresy s okamžitým náhledem.'
+        },
+        {
+            selector: '#dm-dokladyModal .dm-modal',
+            label: 'Dokladová část',
+            simulace: 'Kategorie dokladů s náhledem skutečných demo PDF ze složky docs/dokladova-cast; položky „a dalších…“ jsou jen ilustrativní.',
+            vyznam: 'Stanoviska dotčených orgánů, vyjádření vlastníků infrastruktury a souhlasy doložené k žádosti, členěné podle typu.'
+        },
+        {
+            selector: '#dm-bimModal .dm-modal',
+            label: 'BIM model',
+            simulace: 'Náhled BIM je statický obrázek — žádný skutečný prohlížeč IFC modelu neběží.',
+            vyznam: 'Informační model stavby (BIM) jako výhled digitální dokumentace — model by nahradil část výkresové dokumentace.'
         }
     ]
 };

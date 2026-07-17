@@ -426,5 +426,30 @@
             </div>
         </div>
     </main>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu — Detail řízení',
+            html: '<p>Detail řízení se spisem a kontrolním panelem. Obsah je <strong>testovací</strong>.</p><h3>Co je simulované</h3><ul><li>Záložky spisu i kontrolní panel zobrazují statická data.</li></ul><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.tabs',
+            label: 'Záložky spisu',
+            simulace: 'Aktivní je záložka Přílohy; ostatní záložky jsou ilustrativní.',
+            vyznam: 'Části spisu řízení — žádost, přílohy, dokumenty a úkony v čase.'
+        },
+        {
+            selector: '.kontrolni-panel',
+            label: 'Kontrolní panel',
+            simulace: 'Výsledky kontrol jsou statická ukázka.',
+            vyznam: 'Souhrn kontrol provedených nad řízením — co je ověřeno a kde jsou zjištěny nedostatky.'
+        }
+        ]
+    };
+    </script>
+    <script src="../js/demo-helper.js"></script>
 </body>
 </html>

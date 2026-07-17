@@ -970,5 +970,36 @@
             });
         });
     </script>
+
+    <!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+    <script>
+    window.DEMO_CONFIG = {
+        about: {
+            title: 'O tomto prototypu — Dokumenty',
+            html: '<p>Fronta doručených dokumentů čekajících na zpracování. Seznam i počty jsou <strong>testovací data</strong>.</p><h3>Co je simulované</h3><ul><li>Filtry a fronty v levém panelu pracují nad testovacími řádky.</li><li>Řádek seznamu otevírá detail dokumentu s kontrolou a založením řízení.</li></ul><h3>Kde se drží data</h3><p>Vše je uloženo pouze ve vašem prohlížeči (localStorage) — nic se nikam neodesílá.</p><h3>Jak procházet prototyp</h3><p>Tlačítkem <strong>Nápověda</strong> vpravo dole zapnete vysvětlivky — u klíčových prvků se objeví značky <strong>i</strong> s vysvětlením, co se simuluje a co daný krok znamená.</p>'
+        },
+        annotations: [
+        {
+            selector: '.sidebar',
+            label: 'Fronty dokumentů',
+            simulace: 'Kategorie a počty jsou testovací; přepínání filtruje řádky tabulky v prohlížeči.',
+            vyznam: 'Pracovní fronty podatelny a referenta — nové dokumenty, k převzetí, moje rozpracované, vyřízené.'
+        },
+        {
+            selector: '.toolbar',
+            label: 'Nástrojová lišta',
+            simulace: 'Vyhledávání a hromadné akce pracují jen nad zobrazenou tabulkou.',
+            vyznam: 'Rychlé vyhledání dokumentu a základní operace nad výběrem.'
+        },
+        {
+            selector: '.data-table',
+            label: 'Seznam dokumentů',
+            simulace: 'Řádky jsou testovací; kliknutí otevírá detail dokumentu (detail-dokumentu.html).',
+            vyznam: 'Doručené dokumenty se před založením řízení kontrolují — odkud přišly, čeho se týkají a komu mají připadnout.'
+        }
+        ]
+    };
+    </script>
+    <script src="../js/demo-helper.js"></script>
 </body>
 </html>
