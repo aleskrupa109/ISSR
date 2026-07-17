@@ -67,7 +67,7 @@
         var css = [
             ':root{--ds-accent:var(--gov-primary,#2c5a8c);--ds-sim:#b45309;--ds-mean:#1d4ed8;}',
             // plovoucí ovládání
-            '.ds-fab{position:fixed;right:20px;bottom:20px;z-index:20000;display:flex;flex-direction:column;align-items:flex-end;gap:10px;font-family:"Roboto",-apple-system,sans-serif;}',
+            '.ds-fab{position:fixed;right:20px;bottom:20px;z-index:31000;display:flex;flex-direction:column;align-items:flex-end;gap:10px;font-family:"Roboto",-apple-system,sans-serif;}',
             '.ds-fab-main{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;padding:11px 16px;border-radius:24px;background:var(--ds-accent);color:#fff;font-size:14px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.22);transition:transform .12s,box-shadow .12s;}',
             '.ds-fab-main:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.28);}',
             '.ds-fab-main.ds-active{background:#0f7b3f;}',
@@ -75,16 +75,16 @@
             '.ds-fab-mini{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.5);cursor:pointer;background:#fff;color:var(--ds-accent);font-weight:700;font-size:15px;box-shadow:0 3px 10px rgba(0,0,0,.2);display:inline-flex;align-items:center;justify-content:center;}',
             '.ds-fab-mini:hover{background:var(--ds-accent);color:#fff;}',
             // úvodní tip
-            '.ds-hint{position:fixed;right:20px;bottom:78px;z-index:20001;max-width:250px;background:#111827;color:#fff;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.35);font-family:"Roboto",sans-serif;}',
+            '.ds-hint{position:fixed;right:20px;bottom:78px;z-index:31001;max-width:250px;background:#111827;color:#fff;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.35);font-family:"Roboto",sans-serif;}',
             '.ds-hint:after{content:"";position:absolute;right:26px;bottom:-7px;border:7px solid transparent;border-top-color:#111827;border-bottom:0;}',
             '.ds-hint button{margin-top:8px;background:#fff;color:#111827;border:none;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;}',
             // anotované prvky + značky
             '.ds-help-on .ds-annotated{outline:2px dashed var(--ds-accent);outline-offset:3px;border-radius:4px;}',
-            '.ds-marker{position:absolute;top:-10px;right:-10px;width:24px;height:24px;box-sizing:border-box;border-radius:50%;background:var(--ds-accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:15000;box-shadow:0 2px 6px rgba(0,0,0,.3);border:2px solid #fff;user-select:none;}',
+            '.ds-marker{position:absolute;top:-10px;right:-10px;width:24px;height:24px;box-sizing:border-box;border-radius:50%;background:var(--ds-accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.3);border:2px solid #fff;user-select:none;}',
             '.ds-marker:hover{transform:scale(1.12);}',
             'body:not(.ds-help-on) .ds-marker{display:none;}',
             // popover
-            '.ds-pop{position:fixed;z-index:21000;width:320px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--gov-neutral-200,#e0e0e0);border-radius:10px;box-shadow:0 12px 34px rgba(0,0,0,.22);font-family:"Roboto",sans-serif;color:#1f2937;overflow:hidden;display:none;}',
+            '.ds-pop{position:fixed;z-index:32000;width:320px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--gov-neutral-200,#e0e0e0);border-radius:10px;box-shadow:0 12px 34px rgba(0,0,0,.22);font-family:"Roboto",sans-serif;color:#1f2937;overflow:hidden;display:none;}',
             '.ds-pop.ds-show{display:block;}',
             '.ds-pop-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:var(--ds-accent);color:#fff;}',
             '.ds-pop-head strong{font-size:14px;font-weight:600;}',
@@ -96,9 +96,9 @@
             '.ds-tag-sim{background:#fef3c7;color:var(--ds-sim);}',
             '.ds-tag-mean{background:#dbeafe;color:var(--ds-mean);}',
             // panel "O prototypu"
-            '.ds-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:21500;display:none;}',
+            '.ds-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:32500;display:none;}',
             '.ds-overlay.ds-show{display:block;}',
-            '.ds-panel{position:fixed;top:0;right:0;height:100%;width:400px;max-width:90vw;background:#fff;z-index:22000;box-shadow:-8px 0 30px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column;font-family:"Roboto",sans-serif;color:#1f2937;}',
+            '.ds-panel{position:fixed;top:0;right:0;height:100%;width:400px;max-width:90vw;background:#fff;z-index:33000;box-shadow:-8px 0 30px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column;font-family:"Roboto",sans-serif;color:#1f2937;}',
             '.ds-panel.ds-show{transform:translateX(0);}',
             '.ds-panel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:var(--ds-accent);color:#fff;}',
             '.ds-panel-head h2{font-size:16px;font-weight:600;margin:0;}',
