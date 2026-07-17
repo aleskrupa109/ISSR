@@ -982,5 +982,84 @@
         loadSavedState();
     </script>
     <script src="role-switcher.js"></script>
+<!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+<script>
+window.DEMO_CONFIG = {
+    appPrefix: 'issr',
+    fabPosition: { bottom: '90px' },
+
+    controls: [
+        '<strong>Přepínač rolí</strong> (plovoucí tlačítko vlevo dole) — přepíná pohled mezi stavebním úředníkem, koordinátorem DO a přispěvatelem.'
+    ],
+
+    reset: {
+        soft: function () {
+            try { localStorage.removeItem('issr_vz_state'); } catch (e) {}
+        },
+        hard: function () {
+            var keys = Object.keys(localStorage);
+            for (var i = 0; i < keys.length; i++) {
+                if (keys[i].indexOf('issr') === 0) localStorage.removeItem(keys[i]);
+            }
+        },
+        softNote: 'Smaže uložený stav řízení (provedené kontroly, vyjádření DO). Stránka se znovu načte.',
+        hardNote: 'Smaže veškerá data makety včetně volby scénáře a stavu nápovědy. Stránka se znovu načte.'
+    },
+
+    about: {
+        title: 'O tomto prototypu',
+        html:
+            '<p>Toto je <strong>klikací prototyp</strong> ISSŘ 2.0 — obrazovka <strong>Ochrana přírody a krajiny</strong> z pohledu přispěvatele dotčeného orgánu (integrovaný DO).</p>' +
+            '<h3>Co je na této obrazovce simulované</h3>' +
+            '<ul>' +
+                '<li><strong>Fáze kontrola / vyjádření</strong> — přepínání fází funguje a stav se ukládá do localStorage pod klíčem PAK. Odeslání kontroly koordinátorovi je však pouze lokální simulace — žádná data se neodesílají na server.</li>' +
+                '<li><strong>Formuláře</strong> — posouzení dotčenosti, úplnost podkladů, forma vyjádření, výrok a podmínky jsou interaktivní s předvyplněnými ukázkovými texty.</li>' +
+                '<li><strong>Prohlížeč podkladů</strong> — data žádosti, dokladová část a dokumentace jsou staticky generovaná v JavaScriptu.</li>' +
+            '</ul>' +
+            '<h3>Kde se drží data</h3>' +
+            '<p>Stav formulářů se ukládá do localStorage pod klíčem PAK (ochrana přírody). Data se sdílejí s koordinátorem — změny se projeví při načtení koordinátorovy stránky.</p>'
+    },
+
+    annotations: [
+        {
+            selector: '.topbar',
+            label: 'Hlavička přispěvatele',
+            simulace: 'Jméno uživatele (Ing. Jana Nováková), číslo řízení a badge „Integrovaný DO" jsou natvrdo v HTML. Není napojeno na žádný přihlašovací systém.',
+            vyznam: 'V ostré verzi by se jméno přihlášeného uživatele a číslo spisu načítaly z centrální autentizace a ze spisové služby.'
+        },
+        {
+            selector: '.viewer-panel',
+            label: 'Prohlížeč podkladů',
+            simulace: 'Záložky (Žádost, Dokladová část, Dokumentace) zobrazují statická data generovaná JavaScriptem. Přepínání záložek funguje, ale data se nenačítají z externího zdroje.',
+            vyznam: 'Přispěvatel (DO) má přístup ke všem podkladům řízení v režimu čtení. V ostré verzi by se údaje načítaly v reálném čase z datového úložiště ISSŘ.'
+        },
+        {
+            selector: '.do-phase-tabs',
+            label: 'Fáze kontrola / vyjádření',
+            simulace: 'Přepínání fází funguje a stav se ukládá do localStorage. Odeslání kontroly koordinátorovi je pouze vizuální simulace — žádná data se neodesílají na server ani do centrální databáze.',
+            vyznam: 'V ostré verzi by přechod mezi fázemi odpovídal stavovému automatu řízení. Odeslání kontroly by notifikovalo koordinátora a zablokovalo další editaci.'
+        },
+        {
+            selector: '#doKontrolaPanel',
+            label: 'Kontrola podkladů',
+            simulace: 'Formuláře pro posouzení dotčenosti a úplnosti podkladů jsou interaktivní — výběry se ukládají do localStorage. Předvyplněné texty jsou ukázkové. Podmínka zobrazení sekce Forma (jen při „dotčen") funguje.',
+            vyznam: 'Referent orgánu ochrany přírody posoudí, zda je záměr dotčen z hlediska ochrany přírody a krajiny, a zda jsou podklady úplné. Volba dotčenosti řídí další procesní kroky.'
+        },
+        {
+            selector: '#doVyjadreniPanel',
+            label: 'Vyjádření',
+            simulace: 'Panel obsahuje předvyplněné podmínky a odůvodnění s referencemi na zákon 114/1992 Sb. Existující podmínky jsou statické a nelze je editovat — pouze přidat novou. Výrok (souhlas/nesouhlas) se ukládá lokálně.',
+            vyznam: 'Referent formuluje závazné vyjádření s právní vahou. Podmínky by se v ostré verzi generovaly ze šablon a bylo by možné je editovat, řadit a mazat.'
+        },
+        {
+            selector: '.form-panel-footer',
+            label: 'Uložení a odeslání',
+            simulace: 'Tlačítka Uložit a Odeslat zapisují data do localStorage, odkud je čte stránka koordinátora. Žádná data se neodesílají na server — „odeslání koordinátorovi" znamená pouze změnu flagu v lokální paměti. Validace povinných polí funguje.',
+            vyznam: 'V ostré verzi by „Odeslat" provedlo API volání do backendu ISSŘ, notifikovalo koordinátora a zablokovalo další editaci odeslaných dat.'
+        }
+    ]
+};
+</script>
+<script src="../js/demo-helper.js"></script>
 </body>
 </html>

@@ -18740,8 +18740,9 @@
         // ── Persistence stavu kontrol přes ISSRState ──────────────────
         /** Uloží aktuální stav controls do ISSRState */
         function saveControlsState() {
-            if (typeof ISSRState === 'undefined') return;
+            if (typeof ISSRState === 'undefined') { console.warn('[ISSR] saveControlsState: ISSRState not available'); return; }
             var data = {};
+            var doneCount = 0;
             for (var key in controls) {
                 if (!controls.hasOwnProperty(key)) continue;
                 var c = controls[key];
@@ -18752,16 +18753,19 @@
                     entry[prop] = c[prop];
                 }
                 data[key] = entry;
+                if (c.done) doneCount++;
             }
             data._isLiniovyZakon = typeof isLiniovyZakon !== 'undefined' ? isLiniovyZakon : false;
+            console.log('[ISSR] saveControlsState: saving ' + doneCount + ' done controls', JSON.stringify(data));
             ISSRState.setView('officer', data);
         }
 
         /** Načte uložený stav controls z ISSRState */
         function loadControlsState() {
-            if (typeof ISSRState === 'undefined') return false;
+            if (typeof ISSRState === 'undefined') { console.warn('[ISSR] loadControlsState: ISSRState not available'); return false; }
             var data = ISSRState.getView('officer');
-            if (!data) return false;
+            console.log('[ISSR] loadControlsState: raw data', data);
+            if (!data) { console.log('[ISSR] loadControlsState: no saved data'); return false; }
             var anyLoaded = false;
             for (var key in controls) {
                 if (!controls.hasOwnProperty(key) || !data[key]) continue;
@@ -18772,6 +18776,7 @@
                         if (!saved.hasOwnProperty(prop) || prop === 'depends') continue;
                         controls[key][prop] = saved[prop];
                     }
+                    console.log('[ISSR] loadControlsState: restored ' + key + ' done=' + saved.done + ' result=' + saved.result);
                     anyLoaded = true;
                 }
             }
@@ -18779,6 +18784,7 @@
             if (data._isLiniovyZakon && typeof setLiniovyZakon === 'function') {
                 setLiniovyZakon(data._isLiniovyZakon);
             }
+            console.log('[ISSR] loadControlsState: anyLoaded=' + anyLoaded);
             return anyLoaded;
         }
         // ──────────────────────────────────────────────────────────────
@@ -33484,5 +33490,106 @@ Nová kabelová přípojka VN-35kV, nová topologie rozvodů NN a osvětlení ve
 })();
 </script>
 <script src="role-switcher.js"></script>
+<!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+<script>
+window.DEMO_CONFIG = {
+    appPrefix: 'issr',
+    fabPosition: { bottom: '90px' },
+
+    controls: [
+        '<strong>Přepínač SZ 2024 / SZ 2026</strong> (pravý horní roh) — přepíná mezi současnou a budoucí právní úpravou. Volba se pamatuje mezi stránkami.',
+        '<strong>Přepínač rolí</strong> (plovoucí tlačítko vlevo dole) — přepíná pohled mezi stavebním úředníkem, koordinátorem DO a přispěvatelem.',
+        '<strong>Panel simulace</strong> (pravý dolní roh, sbalitelný) — nastavuje scénáře pro testování (typ podání, rychlost řízení, varianta žadatele). Parametry se ukládají do URL.'
+    ],
+
+    reset: {
+        soft: function () {
+            try { localStorage.removeItem('issr_vz_state'); } catch (e) {}
+        },
+        hard: function () {
+            var keys = Object.keys(localStorage);
+            for (var i = 0; i < keys.length; i++) {
+                if (keys[i].indexOf('issr') === 0) localStorage.removeItem(keys[i]);
+            }
+        },
+        softNote: 'Smaže uložený stav řízení (provedené kontroly, vyjádření DO). Stránka se znovu načte.',
+        hardNote: 'Smaže veškerá data makety včetně volby scénáře a stavu nápovědy. Stránka se znovu načte.'
+    },
+
+    about: {
+        title: 'O tomto prototypu',
+        html:
+            '<p>Toto je <strong>klikací prototyp</strong> informačního systému ISSŘ 2.0 — obrazovka <strong>Kontrola a příprava řízení</strong> z pohledu stavebního úředníka. Neběží proti žádnému reálnému systému.</p>' +
+            '<h3>Co je na této obrazovce simulované</h3>' +
+            '<ul>' +
+                '<li><strong>Kontrolní pipeline</strong> — stavový automat je plně funkční (závislosti, odemykání fází, progress bar). Stav se ukládá do localStorage.</li>' +
+                '<li><strong>Kontrolní overlaye</strong> — dvoupanelové formuláře fungují, ale data v prohlížeči podkladů (žádost, přílohy, dokumentace) jsou pevně zadaná v HTML.</li>' +
+                '<li><strong>Technický přehled (AI)</strong> — „vytěžení z dokumentace" je simulované — po kliknutí se zobrazí předvyplněný obsah s časovou prodlevou imitující zpracování.</li>' +
+                '<li><strong>Tlačítka přístupu k dokumentům</strong> — v pracovní liště nejsou funkční (funkce openDocModal není na této stránce definována).</li>' +
+                '<li><strong>Akce řízení</strong> — rozbalovací nabídka (Přerušit, Postoupit, Předat…) zobrazuje pouze informativní alert.</li>' +
+            '</ul>' +
+            '<h3>Kde se drží data</h3>' +
+            '<p>Stav kontrol, volba scénáře (SZ 2024/SZ 2026) a stav veřejných zájmů se ukládají do localStorage. Parametry simulace (typ podání, scénář žadatele) se ukládají do URL query stringu.</p>'
+    },
+
+    annotations: [
+        {
+            selector: '#szToggle',
+            label: 'Přepínač scénářů',
+            simulace: 'Přepíná rozložení kontrolního panelu mezi SZ 2024 a SZ 2026. Mění závislosti mezi kontrolami, přidává/odebírá kartu Veřejné zájmy a přejmenovává některé kontroly. Volba se ukládá do localStorage.',
+            vyznam: '<strong>SZ 2024</strong> = současný stav (krajské stavební úřady, samostatné dotčené orgány, 4 fáze kontrol). <strong>SZ 2026</strong> = po reformě (územní pracoviště, integrované DO, 6 fází s oddělenými pozemky a veřejnými zájmy).'
+        },
+        {
+            selector: '.case-header',
+            label: 'Hlavička řízení',
+            simulace: 'Metadata řízení (číslo, název, typ) jsou pevně zadaná. Rozbalovací nabídka „Akce řízení" (přerušit, postoupit, předat…) zobrazuje pouze informativní alert bez skutečné funkce.',
+            vyznam: 'Hlavička zobrazuje klíčové identifikační údaje řízení a umožňuje přístup k systémovým akcím. Štítky (Kontrola, Liniový zákon, Zrychlené řízení) informují referenta o aktuálním režimu.'
+        },
+        {
+            selector: '.workflow-bar',
+            label: 'Pracovní lišta',
+            simulace: 'Krokovač fází řízení (Založení → Kontrola → Projednání → Rozhodnutí) je statický bez interakce. Tlačítka pro přístup k dokumentům nejsou na této stránce funkční.',
+            vyznam: 'Pracovní lišta ukazuje aktuální fázi řízení a poskytuje rychlý přístup k dokumentům žádosti. V ostré verzi by tlačítka otevírala náhled dokumentů ze spisu.'
+        },
+        {
+            selector: '#infoPanel',
+            label: 'Informační panel',
+            simulace: 'Panel se dynamicky aktualizuje na základě stavu kontrol. Obsah a barva se mění podle zjištěného stavu (v pořádku, vady, nepříslušnost).',
+            vyznam: 'Informační panel orientuje referenta v aktuálním stavu přípravy řízení — signalizuje problémy (vady, nepříslušnost) nebo potvrzuje připravenost k zahájení.'
+        },
+        {
+            selector: '#techPrehledCard',
+            label: 'Technický přehled (AI)',
+            simulace: 'Funkce „AI vytěžení" je simulovaná — po kliknutí se zobrazí pevně zadaný obsah s časovou prodlevou imitující zpracování. Žádná skutečná analýza dokumentace neprobíhá.',
+            vyznam: 'Technický přehled automaticky vytěží klíčové informace ze Souhrnné technické zprávy (část B projektové dokumentace) a připraví strukturovaný přehled pro referenta.'
+        },
+        {
+            selector: '.pipeline',
+            label: 'Kontrolní pipeline',
+            simulace: 'Stavový automat je plně funkční — závislosti mezi kontrolami, odemykání fází a progress bar fungují. Každá karta otevírá dvoupanelový overlay s formulářem. Stav se ukládá do localStorage. Dev-skip ikonky (zelené/červené) slouží pro rychlé testování.',
+            vyznam: 'Jádro stránky — referent postupně prochází kontroly žádosti ve stanoveném pořadí. Kontroly ve fázi 3 (věcné kontroly) lze provádět v libovolném pořadí. Karty lze přetahovat pro změnu pořadí.'
+        },
+        {
+            selector: '.section-header',
+            label: 'Ukazatel postupu',
+            simulace: 'Ukazatel se automaticky aktualizuje při dokončení každé kontroly. Tlačítko „Upravit uspořádání" otevírá modál pro změnu pořadí kontrol.',
+            vyznam: 'Vizualizuje postup referenta kontrolami — kolik z celkového počtu je dokončeno a kolik zbývá.'
+        },
+        {
+            selector: '.summary-card',
+            label: 'Akční lišta',
+            simulace: 'Hlavní akční tlačítko mění svůj text podle stavu kontrol. Zahájení řízení a zrychlené řízení přesměrují na další krok (povoleni-3.html). Postoupení zobrazuje alert. Vydání výzvy otevírá funkční editor s přehledem nedostatků.',
+            vyznam: 'Shrnuje výsledek všech kontrol a nabízí příslušnou akci — zahájení řízení (vše v pořádku), výzvu k doplnění (zjištěny vady), postoupení (nepříslušnost), nebo přechod na standardní řízení.'
+        },
+        {
+            selector: '#simPanel',
+            label: 'Panel simulace',
+            simulace: 'Nástroj pro testování prototypu — umožňuje přepnout právní úpravu, typ podání, rychlost řízení a scénář žadatele. Parametry se ukládají do URL a lze je sdílet odkazem.',
+            vyznam: 'Tento panel existuje pouze v prototypu. Umožňuje prezentovat různé scénáře bez nutnosti měnit zdrojový kód. V ostré verzi systému nebude přítomen.'
+        }
+    ]
+};
+</script>
+<script src="../js/demo-helper.js"></script>
 </body>
 </html>

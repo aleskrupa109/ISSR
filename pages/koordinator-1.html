@@ -536,5 +536,79 @@
             alert('Koordinované vyjádření bylo odesláno zpracovateli SÚ.\n\n(demo — v produkci by se vygenerovalo koordinované vyjádření a odeslalo do spisové služby)');
         }
     </script>
+<!-- ===== NÁPOVĚDA K PROTOTYPU ===== -->
+<script>
+window.DEMO_CONFIG = {
+    appPrefix: 'issr',
+    fabPosition: { bottom: '90px' },
+
+    controls: [
+        '<strong>Přepínač rolí</strong> (plovoucí tlačítko vlevo dole) — přepíná pohled mezi stavebním úředníkem, koordinátorem DO a přispěvatelem.'
+    ],
+
+    reset: {
+        soft: function () {
+            try { localStorage.removeItem('issr_vz_state'); } catch (e) {}
+        },
+        hard: function () {
+            var keys = Object.keys(localStorage);
+            for (var i = 0; i < keys.length; i++) {
+                if (keys[i].indexOf('issr') === 0) localStorage.removeItem(keys[i]);
+            }
+        },
+        softNote: 'Smaže uložený stav řízení (provedené kontroly, vyjádření DO). Stránka se znovu načte.',
+        hardNote: 'Smaže veškerá data makety včetně volby scénáře a stavu nápovědy. Stránka se znovu načte.'
+    },
+
+    about: {
+        title: 'O tomto prototypu',
+        html:
+            '<p>Toto je <strong>klikací prototyp</strong> ISSŘ 2.0 — obrazovka <strong>Koordinace veřejných zájmů</strong> z pohledu koordinátora dotčených orgánů.</p>' +
+            '<h3>Co je na této obrazovce simulované</h3>' +
+            '<ul>' +
+                '<li><strong>Workflow koordinace</strong> — 5fázový stepper (Příprava → Rozesláno → Posouzení dotčenosti → Kontrola podkladů → Koordinované vyj.) je funkční. Fáze se posouvají tlačítkem „Simulovat" — v produkci by přechody řídily systémové události.</li>' +
+                '<li><strong>Dlaždice DO</strong> — 8 dotčených orgánů s předem definovaným stavem. Stavy se mění podle fáze workflow. Data se sdílejí s ostatními rolemi přes localStorage.</li>' +
+                '<li><strong>Prohlížeč podkladů</strong> — záložky Žádost, Dokladová část, Dokumentace zobrazují statická data.</li>' +
+                '<li><strong>Odeslání koordinovaného vyjádření</strong> — tlačítko zobrazuje pouze informativní alert.</li>' +
+            '</ul>' +
+            '<h3>Kde se drží data</h3>' +
+            '<p>Stav workflow (fáze, posouzení DO) se ukládá do localStorage a sdílí se mezi rolemi — změny provedené přispěvatelem (ochrana přírody, ochrana lesa) se projeví při načtení této stránky.</p>'
+    },
+
+    annotations: [
+        {
+            selector: '.topbar',
+            label: 'Hlavička koordinátora',
+            simulace: 'Jméno uživatele, číslo řízení i badge „Pouze čtení" jsou natvrdo v HTML. Žádná autentizace ani dynamické načítání dat neprobíhají.',
+            vyznam: 'Koordinátor vidí identifikaci řízení, své jméno a roli. Badge „Pouze čtení" signalizuje, že koordinátor nemůže měnit údaje v žádosti — může pouze koordinovat veřejné zájmy.'
+        },
+        {
+            selector: '.viewer-panel',
+            label: 'Prohlížeč podkladů',
+            simulace: 'Záložky přepínají obsah levého panelu. Data žádosti jsou staticky generovaná v JavaScriptu. Dokladová část a dokumentace se načítají z doc-modals.js — rovněž demonstrační data.',
+            vyznam: 'Koordinátor má přístup ke všem podkladům řízení v režimu čtení. Může prohlížet žádost, přiložené doklady i projektovou dokumentaci pro kontext koordinace veřejných zájmů.'
+        },
+        {
+            selector: '.vz-phase-stepper',
+            label: 'Fáze workflow',
+            simulace: 'Stepper zobrazuje 5 fází workflow. Aktivní fáze se čte z localStorage (sdílený stav). Fáze se posouvají dopředu tlačítkem „Simulovat" — v produkci by přechody nastaly automaticky na základě odpovědí od DO.',
+            vyznam: 'Vizualizuje postup koordinačního procesu — od přípravy přes rozeslání, posouzení dotčenosti, kontrolu podkladů až po finální koordinované vyjádření.'
+        },
+        {
+            selector: '#vzSharedContent',
+            label: 'Přehled dotčených orgánů',
+            simulace: 'Data 8 dotčených orgánů jsou definovaná v JS — každý má předdefinovaný stav dotčenosti a vyjádření. Stavy se mění podle fáze workflow. Data se sdílejí přes localStorage — změny z přispěvatelských stránek se projeví při načtení.',
+            vyznam: 'Hlavní pracovní plocha koordinátora. Zobrazuje přehled všech dotčených orgánů, jejich stav posouzení dotčenosti a postup kontroly podkladů. U dotčených DO je odkaz na detail.'
+        },
+        {
+            selector: '.form-panel-footer',
+            label: 'Odeslání koordinovaného vyjádření',
+            simulace: 'Tlačítko „Odeslat koordinované vyjádření" spouští jen alert dialog — žádné vyjádření se negeneruje ani neodesílá. „Zpět na kontrolu" funguje jako odkaz na povoleni-2.html.',
+            vyznam: 'Finální krok koordinátora — po shromáždění všech stanovisek odešle koordinované vyjádření zpracovateli stavebního úřadu. Vyjádření shrnuje závěry všech dotčených orgánů.'
+        }
+    ]
+};
+</script>
+<script src="../js/demo-helper.js"></script>
 </body>
 </html>
