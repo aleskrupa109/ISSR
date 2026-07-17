@@ -129,6 +129,15 @@
         var fab = document.createElement('div');
         fab.className = 'ds-fab';
 
+        // Volitelné přepolohování FAB přes config.fabPosition
+        var pos = config.fabPosition;
+        if (pos) {
+            if (pos.bottom) fab.style.bottom = pos.bottom;
+            if (pos.top)    fab.style.top    = pos.top;
+            if (pos.right)  fab.style.right  = pos.right;
+            if (pos.left)   { fab.style.left = pos.left; fab.style.right = 'auto'; }
+        }
+
         var about = document.createElement('button');
         about.className = 'ds-fab-mini';
         about.type = 'button';
@@ -158,6 +167,16 @@
         if (seen || helpOn) return;
         var hint = document.createElement('div');
         hint.className = 'ds-hint';
+        // Posunutí tipu spolu s FAB
+        var pos = config.fabPosition;
+        if (pos && pos.bottom) {
+            var fabBottom = parseInt(pos.bottom, 10) || 20;
+            hint.style.bottom = (fabBottom + 58) + 'px';
+        }
+        if (pos && pos.left) {
+            hint.style.left = pos.left;
+            hint.style.right = 'auto';
+        }
         hint.innerHTML = 'Toto je klikací prototyp. Tlačítkem <strong>Nápověda</strong> zapnete vysvětlivky, co se simuluje a co jednotlivé kroky znamenají.<br><button type="button">Rozumím</button>';
         hint.querySelector('button').addEventListener('click', function () {
             try { localStorage.setItem(HINT_KEY, '1'); } catch (e) {}
